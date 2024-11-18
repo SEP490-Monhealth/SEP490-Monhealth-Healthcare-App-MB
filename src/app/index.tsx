@@ -1,8 +1,6 @@
-import React, { useEffect } from "react"
+import React from "react"
 
-import { Text, View } from "react-native"
-
-import { useRouter } from "expo-router"
+import { Image, Text, View } from "react-native"
 
 function AppIndex() {
   // const router = useRouter()
@@ -17,7 +15,13 @@ function AppIndex() {
 
   return (
     <View className="flex h-screen items-center justify-center bg-[#fef3c7]">
-      <Text className="text-3xl font-bold text-black">
+      <Image
+        source={require("../../public/images/Monhealth-Logo.png")}
+        resizeMode="cover"
+        style={{ width: 120, height: 120 }}
+      />
+
+      <Text className="text-4xl font-bold text-black">
         Mon<Text className="text-primary">Health</Text>
       </Text>
     </View>

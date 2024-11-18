@@ -39,12 +39,8 @@ function AppLayout() {
     <QueryClientProvider client={queryClient}>
       <SafeAreaProvider>
         <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="index" options={{ animation: "none" }} />
-
-          <Stack.Screen
-            name="(onboarding)/welcome"
-            options={{ animation: "fade" }}
-          />
+          <Stack.Screen name="index" />
+          <Stack.Screen name="(onboarding)/welcome" />
         </Stack>
         <StatusBar style="auto" />
       </SafeAreaProvider>
