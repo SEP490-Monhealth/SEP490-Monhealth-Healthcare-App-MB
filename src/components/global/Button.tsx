@@ -27,19 +27,31 @@ export const Button: React.FC<ButtonProps> = ({
   loading = false,
   disabled = false,
   icon = false,
-  className
+  className = ""
 }) => {
   const variants = {
-    primary: disabled ? "bg-gray-400" : "bg-primary",
-    secondary: disabled ? "bg-gray-300" : "bg-gray-700",
-    ghost: disabled ? "bg-gray-300" : "bg-[#eaeaea]",
-    danger: disabled ? "bg-gray-300" : "bg-red-600"
+    primary: {
+      container: disabled ? "bg-gray-400" : "bg-primary",
+      text: "text-white"
+    },
+    secondary: {
+      container: disabled ? "bg-gray-300" : "bg-gray-700",
+      text: "text-white"
+    },
+    ghost: {
+      container: disabled ? "bg-gray-300" : "bg-[#eaeaea]",
+      text: "text-typography"
+    },
+    danger: {
+      container: disabled ? "bg-gray-300" : "bg-red-600",
+      text: "text-white"
+    }
   }
 
   const sizes = {
-    sm: "px-4 py-2 text-sm",
-    md: "px-5 py-3 text-base",
-    lg: "px-6 py-4 text-lg"
+    sm: { container: "h-10 px-4", text: "text-sm" },
+    md: { container: "h-14 px-5", text: "text-base" },
+    lg: { container: "h-16 px-6", text: "text-lg" }
   }
 
   const variantClass = variants[variant]
@@ -48,15 +60,14 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <TouchableOpacity
       className={cn(
-        "flex flex-row items-center justify-center rounded-[10px]",
-        variantClass,
-        sizeClass,
-        className,
-        icon ? "p-3" : ""
+        "flex flex-row items-center justify-center rounded-2xl",
+        variantClass.container,
+        sizeClass.container,
+        className
       )}
       onPress={onPress}
       disabled={disabled || loading}
-      activeOpacity={0.8}
+      activeOpacity={0.9}
     >
       {loading ? (
         <ActivityIndicator color="#fff" />
@@ -66,7 +77,15 @@ export const Button: React.FC<ButtonProps> = ({
         <View className="flex flex-row items-center">
           {iconStart && <View className="mr-2">{iconStart}</View>}
           {children && (
-            <Text className={cn("font-semibold text-white")}>{children}</Text>
+            <Text
+              className={cn(
+                "font-nsemibold",
+                variantClass.text,
+                sizeClass.text
+              )}
+            >
+              {children}
+            </Text>
           )}
           {iconEnd && <View className="ml-2">{iconEnd}</View>}
         </View>

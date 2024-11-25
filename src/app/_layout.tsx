@@ -1,5 +1,6 @@
 import React, { useEffect } from "react"
 
+import { GestureHandlerRootView } from "react-native-gesture-handler"
 import { SafeAreaProvider } from "react-native-safe-area-context"
 
 import { useFonts } from "expo-font"
@@ -8,7 +9,7 @@ import { StatusBar } from "expo-status-bar"
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
-import { Poppins } from "@/styles/typography"
+import { NotoSans } from "@/styles/typography"
 
 import "../styles/globals.css"
 
@@ -17,7 +18,7 @@ SplashScreen.preventAutoHideAsync()
 function AppLayout() {
   const queryClient = new QueryClient()
 
-  const [fontsLoaded, error] = useFonts(Poppins)
+  const [fontsLoaded, error] = useFonts(NotoSans)
 
   useEffect(() => {
     if (error) throw error
@@ -37,13 +38,19 @@ function AppLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SafeAreaProvider>
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="index" />
-          <Stack.Screen name="(onboarding)/welcome" />
-        </Stack>
-        <StatusBar style="auto" />
-      </SafeAreaProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <SafeAreaProvider>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="index" />
+            <Stack.Screen name="(auth)" />
+            <Stack.Screen name="(onboarding)" />
+            <Stack.Screen name="(setup)" />
+            <Stack.Screen name="(tabs)" />
+            <Stack.Screen name="(errors)" />
+          </Stack>
+          <StatusBar style="auto" />
+        </SafeAreaProvider>
+      </GestureHandlerRootView>
     </QueryClientProvider>
   )
 }

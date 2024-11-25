@@ -5,11 +5,36 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#D97706",
-        background: "F3F4F6",
-        text: "#212121",
-        input: "#FDFDFD",
-        description: "#888"
+        background: "#F5F5F5",
+        foreground: "#0F172A",
+        primary: {
+          DEFAULT: "#FF7043",
+          foreground: "#FFFFFF"
+        },
+        secondary: {
+          DEFAULT: "#EAEAEA",
+          foreground: "#212121"
+        },
+        typography: {
+          DEFAULT: "#212121",
+          foreground: "#FFFFFF",
+          description: "#888888"
+        },
+        destructive: {
+          DEFAULT: "#EF4444", // Red 500
+          foreground: "#FEE2E2" // Red 100
+        }
+      },
+      fontFamily: {
+        nthin: ["NotoSans-Thin", "sans-serif"],
+        nextralight: ["NotoSans-ExtraLight", "sans-serif"],
+        nlight: ["NotoSans-Light", "sans-serif"],
+        nregular: ["NotoSans-Regular", "sans-serif"],
+        nmedium: ["NotoSans-Medium", "sans-serif"],
+        nsemibold: ["NotoSans-SemiBold", "sans-serif"],
+        nbold: ["NotoSans-Bold", "sans-serif"],
+        nextrabold: ["NotoSans-ExtraBold", "sans-serif"],
+        nblack: ["NotoSans-Black", "sans-serif"]
       }
     }
   },

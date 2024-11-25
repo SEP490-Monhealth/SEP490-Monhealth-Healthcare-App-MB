@@ -1,0 +1,58 @@
+import { z } from "zod"
+
+const validateCalories = (data: any, ctx: z.RefinementCtx) => {
+  const totalMacros = data.protein + data.fat + data.carbs
+  if (data.calories < totalMacros) {
+    ctx.addIssue({
+      code: "custom",
+      path: ["calories"],
+      message: `Calories (${data.calories}) phải lớn hơn tổng của protein, fat, và carbs (${totalMacros})`
+    })
+  }
+}
+
+const baseNutritionSchema = z.object({
+  nutritionId: z.string(),
+  foodId: z.string(),
+  calories: z
+    .number()
+    .positive("Calories phải là một số dương")
+    .max(10000, "Calories không được vượt quá 10,000"),
+  protein: z
+    .number()
+    .positive("Protein phải là một số dương")
+    .max(500, "Protein không được vượt quá 500g"),
+  fat: z
+    .number()
+    .positive("Fat phải là một số dương")
+    .max(500, "Fat không được vượt quá 500g"),
+  carbs: z
+    .number()
+    .positive("Carbs phải là một số dương")
+    .max(1000, "Carbs không được vượt quá 1,000g"),
+  fiber: z
+    .number()
+    .positive("Fiber phải là một số dương")
+    .max(100, "Fiber không được vượt quá 100g"),
+  sugar: z
+    .number()
+    .positive("Sugar phải là một số dương")
+    .max(500, "Sugar không được vượt quá 500g"),
+  createdAt: z.string(),
+  updatedAt: z.string()
+})
+
+const nutritionSchema = baseNutritionSchema.superRefine(validateCalories)
+
+const createUpdateNutritionSchema = baseNutritionSchema
+  .omit({
+    nutritionId: true,
+    createdAt: true,
+    updatedAt: true
+  })
+  .superRefine(validateCalories)
+
+export type NutritionType = z.infer<typeof nutritionSchema>
+export type CreateUpdateNutritionType = z.infer<
+  typeof createUpdateNutritionSchema
+>
