@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-const userSchema = z.object({
+export const userSchema = z.object({
   userId: z.string(),
   fullName: z
     .string()
@@ -16,7 +16,7 @@ const userSchema = z.object({
     .string()
     .min(6, { message: "Mật khẩu phải có ít nhất 6 ký tự" })
     .max(128, { message: "Mật khẩu không được dài hơn 128 ký tự" }),
-  avatarUrl: z.string().url({ message: "Avatar không hợp lệ" }).nullable(),
+  avatarUrl: z.string().url({ message: "Avatar không hợp lệ" }).optional(),
   age: z
     .number()
     .int({ message: "Tuổi phải là số nguyên" })
@@ -29,22 +29,18 @@ const userSchema = z.object({
   updatedAt: z.string()
 })
 
-const createUpdateUserSchema = userSchema.omit({
+export const createUpdateUserSchema = userSchema.omit({
   userId: true,
   createdAt: true,
   updatedAt: true
 })
 
-const loginUserSchema = z.object({
-  identifier: z
-    .union([userSchema.shape.phoneNumber, userSchema.shape.email])
-    .refine((val) => val.trim() !== "", {
-      message: "Số điện thoại hoặc email không được để trống"
-    }),
-  password: userSchema.shape.password
+export const loginUserSchema = userSchema.pick({
+  email: true,
+  password: true
 })
 
-const registerUserSchema = userSchema.pick({
+export const registerUserSchema = userSchema.pick({
   fullName: true,
   email: true,
   phoneNumber: true,

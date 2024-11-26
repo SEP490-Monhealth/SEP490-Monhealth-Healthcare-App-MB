@@ -37,9 +37,6 @@ const OnboardingScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isSwiping, setIsSwiping] = useState(false)
 
-  const panRef = useRef(null)
-  const skipButtonRef = useRef(null)
-
   const handleNext = () => {
     if (currentIndex < data.length - 1) {
       setCurrentIndex(currentIndex + 1)
@@ -69,7 +66,7 @@ const OnboardingScreen = () => {
   return (
     <VStack className="flex min-h-screen justify-end px-5">
       <Text
-        className="font-nmedium absolute right-5 top-16 text-lg active:underline"
+        className="absolute right-5 top-16 font-nmedium text-lg active:underline"
         onPress={handleSkip}
       >
         Bỏ qua
@@ -77,7 +74,6 @@ const OnboardingScreen = () => {
 
       <VStack>
         <PanGestureHandler
-          simultaneousHandlers={skipButtonRef}
           onGestureEvent={({ nativeEvent }) => {
             if (nativeEvent.velocityX < -800) {
               handleSwipe("left")
@@ -94,11 +90,11 @@ const OnboardingScreen = () => {
                 style={{ width: 320, height: 320 }}
               />
 
-              <Text className="font-nbold text-center text-2xl">
+              <Text className="text-center font-nbold text-2xl">
                 {data[currentIndex].title}
               </Text>
 
-              <Text className="font-nregular text-center text-lg text-typography-description">
+              <Text className="text-center font-nregular text-lg text-typography-description">
                 {data[currentIndex].description}
               </Text>
 
