@@ -7,10 +7,11 @@ import {
 
 import { Tabs } from "expo-router"
 
+import { COLORS } from "@/constants/appConstants"
 import { Calendar, Flash, Home2, Profile, Sound } from "iconsax-react-native"
 
 function TabLayout() {
-  const primaryColor = "#334155"
+  const primaryColor = COLORS.primary
   const descriptionColor = "#888"
 
   return (

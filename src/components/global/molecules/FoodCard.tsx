@@ -2,6 +2,7 @@ import React from "react"
 
 import { Text } from "react-native"
 
+import { COLORS } from "@/constants/appConstants"
 import { MoreCircle } from "iconsax-react-native"
 
 import { HStack, VStack } from "../atoms"
@@ -31,7 +32,7 @@ function FoodCard({
         </Text>
       </VStack>
 
-      <MoreCircle size="32" color="#1e293b" />
+      <MoreCircle size="32" color={COLORS.primary} />
     </HStack>
   )
 }

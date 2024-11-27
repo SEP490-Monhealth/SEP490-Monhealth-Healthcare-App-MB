@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react"
+import React, { useState } from "react"
 
 import { Image, Text, View } from "react-native"
 import { PanGestureHandler } from "react-native-gesture-handler"
@@ -64,7 +64,7 @@ const OnboardingScreen = () => {
   }
 
   return (
-    <VStack className="flex min-h-screen justify-end bg-background px-5">
+    <VStack className="min-h-screen justify-end bg-background px-5">
       <Text
         onPress={handleSkip}
         className="absolute right-5 top-16 font-nmedium text-lg text-primary active:underline"
@@ -90,7 +90,7 @@ const OnboardingScreen = () => {
                 style={{ width: 320, height: 320 }}
               />
 
-              <Text className="text-center font-nbold text-primary text-2xl">
+              <Text className="text-center font-nbold text-2xl text-primary">
                 {data[currentIndex].title}
               </Text>
 

@@ -4,6 +4,7 @@ import { Text, View } from "react-native"
 
 import { Link, useRouter } from "expo-router"
 
+import { COLORS } from "@/constants/appConstants"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Add, Eye, EyeSlash, Lock1, Sms } from "iconsax-react-native"
 import { Controller, useForm } from "react-hook-form"
@@ -39,10 +40,10 @@ function SignInScreen() {
   }
 
   return (
-    <VStack gap={60} className="px-5 py-16">
+    <VStack gap={60} className="bg-background px-5 py-16">
       <Add
         size="36"
-        color="#334155"
+        color={COLORS.primary}
         style={{ transform: [{ rotate: "45deg" }] }}
         onPress={handleBack}
       />
@@ -62,7 +63,9 @@ function SignInScreen() {
                 value={value}
                 onChangeText={onChange}
                 placeholder="Nhập địa chỉ email"
-                iconStart={<Sms variant="Bold" size={20} color="#334155" />}
+                iconStart={
+                  <Sms variant="Bold" size={20} color={COLORS.primary} />
+                }
                 keyboardType="email-address"
                 errorMessage={errors.email?.message}
               />
@@ -78,7 +81,9 @@ function SignInScreen() {
                 onChangeText={onChange}
                 placeholder="Nhập mật khẩu"
                 secureTextEntry={showPassword}
-                iconStart={<Lock1 variant="Bold" size={20} color="#334155" />}
+                iconStart={
+                  <Lock1 variant="Bold" size={20} color={COLORS.primary} />
+                }
                 iconEnd={
                   showPassword ? (
                     <EyeSlash variant="Bold" size={20} color="#888" />

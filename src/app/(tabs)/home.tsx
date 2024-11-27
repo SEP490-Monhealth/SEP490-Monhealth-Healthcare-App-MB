@@ -1,12 +1,31 @@
 import React from "react"
 
-import { Text, View } from "react-native"
+import { Text } from "react-native"
+
+import { COLORS } from "@/constants/appConstants"
+import { Notification } from "iconsax-react-native"
+
+import { Container, HStack, VStack } from "@/components/global/atoms"
+import { IconButton } from "@/components/global/molecules"
 
 function HomeScreen() {
   return (
-    <View className="flex items-center justify-center bg-blue-500 py-12">
-      <Text className="text-lg text-white">Welcome to the Home Tab!</Text>
-    </View>
+    <Container>
+      <HStack className="mb-4 items-center justify-between">
+        <VStack>
+          <Text className="-mb-1 font-pregular text-lg text-accent">
+            Chào buổi sáng,
+          </Text>
+          <Text className="font-nbold text-2xl text-primary">Van Huu Toan</Text>
+        </VStack>
+
+        <IconButton
+          icon={
+            <Notification variant="Bold" size={24} color={COLORS.primary} />
+          }
+        />
+      </HStack>
+    </Container>
   )
 }
 
