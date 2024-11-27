@@ -1,15 +1,23 @@
-import { TouchableOpacity, TouchableOpacityProps, View } from "react-native"
+import {
+  Text,
+  TouchableOpacity,
+  TouchableOpacityProps,
+  View
+} from "react-native"
 
 import { Tabs } from "expo-router"
 
 import { Calendar, Flash, Home2, Profile, Sound } from "iconsax-react-native"
 
 function TabLayout() {
+  const primaryColor = "#334155"
+  const descriptionColor = "#888"
+
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: "#d97706",
+        tabBarActiveTintColor: primaryColor,
         tabBarStyle: {
           backgroundColor: "#fff",
           height: 80,
@@ -32,11 +40,21 @@ function TabLayout() {
       <Tabs.Screen
         name="home"
         options={{
-          tabBarLabel: "Trang chủ",
+          tabBarLabel: ({ focused }) => (
+            <Text
+              style={{
+                fontFamily: "NotoSans-Medium",
+                fontSize: 10,
+                color: focused ? primaryColor : descriptionColor
+              }}
+            >
+              Trang chủ
+            </Text>
+          ),
           tabBarIcon: ({ focused }) => (
             <Home2
               variant={focused ? "Bold" : "Linear"}
-              color={focused ? "#d97706" : "#555"}
+              color={focused ? primaryColor : descriptionColor}
               size={22}
             />
           )
@@ -46,11 +64,21 @@ function TabLayout() {
       <Tabs.Screen
         name="activity"
         options={{
-          tabBarLabel: "Hoạt động",
+          tabBarLabel: ({ focused }) => (
+            <Text
+              style={{
+                fontFamily: "NotoSans-Medium",
+                fontSize: 10,
+                color: focused ? primaryColor : descriptionColor
+              }}
+            >
+              Hoạt động
+            </Text>
+          ),
           tabBarIcon: ({ focused }) => (
             <Flash
               variant={focused ? "Bold" : "Linear"}
-              color={focused ? "#d97706" : "#555"}
+              color={focused ? primaryColor : descriptionColor}
               size={22}
             />
           )
@@ -72,11 +100,21 @@ function TabLayout() {
       <Tabs.Screen
         name="schedule"
         options={{
-          tabBarLabel: "Lịch trình",
+          tabBarLabel: ({ focused }) => (
+            <Text
+              style={{
+                fontFamily: "NotoSans-Medium",
+                fontSize: 10,
+                color: focused ? primaryColor : descriptionColor
+              }}
+            >
+              Thực đơn
+            </Text>
+          ),
           tabBarIcon: ({ focused }) => (
             <Calendar
               variant={focused ? "Bold" : "Linear"}
-              color={focused ? "#d97706" : "#555"}
+              color={focused ? primaryColor : descriptionColor}
               size={22}
             />
           )
@@ -86,11 +124,21 @@ function TabLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          tabBarLabel: "Thông tin",
+          tabBarLabel: ({ focused }) => (
+            <Text
+              style={{
+                fontFamily: "NotoSans-Medium",
+                fontSize: 10,
+                color: focused ? primaryColor : descriptionColor
+              }}
+            >
+              Hồ sơ
+            </Text>
+          ),
           tabBarIcon: ({ focused }) => (
             <Profile
               variant={focused ? "Bold" : "Linear"}
-              color={focused ? "#d97706" : "#555"}
+              color={focused ? primaryColor : descriptionColor}
               size={22}
             />
           )

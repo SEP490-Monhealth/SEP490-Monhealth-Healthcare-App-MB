@@ -5,7 +5,7 @@ import { PanGestureHandler } from "react-native-gesture-handler"
 
 import { useRouter } from "expo-router"
 
-import { Button, HStack, VStack } from "@/components/global"
+import { Button, HStack, VStack } from "@/components/global/atoms"
 
 const OnboardingScreen = () => {
   const router = useRouter()
@@ -64,10 +64,10 @@ const OnboardingScreen = () => {
   }
 
   return (
-    <VStack className="flex min-h-screen justify-end px-5">
+    <VStack className="flex min-h-screen justify-end bg-background px-5">
       <Text
-        className="absolute right-5 top-16 font-nmedium text-lg active:underline"
         onPress={handleSkip}
+        className="absolute right-5 top-16 font-nmedium text-lg text-primary active:underline"
       >
         Bỏ qua
       </Text>
@@ -90,11 +90,11 @@ const OnboardingScreen = () => {
                 style={{ width: 320, height: 320 }}
               />
 
-              <Text className="text-center font-nbold text-2xl">
+              <Text className="text-center font-nbold text-primary text-2xl">
                 {data[currentIndex].title}
               </Text>
 
-              <Text className="text-center font-nregular text-lg text-typography-description">
+              <Text className="text-center font-nregular text-lg text-slate-400">
                 {data[currentIndex].description}
               </Text>
 
@@ -108,7 +108,7 @@ const OnboardingScreen = () => {
                     className={`h-4 rounded-full ${
                       currentIndex === index
                         ? "w-10 bg-primary"
-                        : "w-4 bg-gray-200"
+                        : "w-4 bg-slate-200"
                     }`}
                   />
                 ))}

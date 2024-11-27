@@ -4,7 +4,7 @@ import { Text } from "react-native"
 
 import { MoreCircle } from "iconsax-react-native"
 
-import { HStack, VStack } from "../global"
+import { HStack, VStack } from "../atoms"
 
 interface FoodCardProps {
   foodName: string
@@ -31,7 +31,7 @@ function FoodCard({
         </Text>
       </VStack>
 
-      <MoreCircle size="32" color="#212121" />
+      <MoreCircle size="32" color="#1e293b" />
     </HStack>
   )
 }

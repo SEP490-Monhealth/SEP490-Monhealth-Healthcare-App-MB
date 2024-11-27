@@ -4,7 +4,6 @@ import { Text, View } from "react-native"
 
 import { Link, useRouter } from "expo-router"
 
-import { Button, Input, VStack } from "@/components/global"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
   Add,
@@ -17,6 +16,8 @@ import {
   User
 } from "iconsax-react-native"
 import { Controller, useForm } from "react-hook-form"
+
+import { Button, Input, VStack } from "@/components/global/atoms"
 
 import { RegisterUserType, registerUserSchema } from "@/schemas/userSchema"
 
@@ -51,15 +52,13 @@ function SignUpScreen() {
     <VStack gap={60} className="px-5 py-16">
       <Add
         size="36"
-        color="#212121"
+        color="#334155"
         style={{ transform: [{ rotate: "45deg" }] }}
         onPress={handleBack}
       />
 
       <View>
-        <Text className="mb-2 font-nbold text-3xl text-typography">
-          Đăng Ký
-        </Text>
+        <Text className="mb-2 font-nbold text-3xl text-primary">Đăng Ký</Text>
         <Text className="text-xl text-typography-description">
           Đăng ký để theo dõi sức khỏe và dinh dưỡng hàng ngày
         </Text>
@@ -73,7 +72,7 @@ function SignUpScreen() {
                 value={value}
                 onChangeText={onChange}
                 placeholder="Nhập họ và tên"
-                iconStart={<Profile variant="Bold" size={20} color="#212121" />}
+                iconStart={<Profile variant="Bold" size={20} color="#334155" />}
                 keyboardType="default"
                 errorMessage={errors.fullName?.message}
               />
@@ -88,7 +87,7 @@ function SignUpScreen() {
                 value={value}
                 onChangeText={onChange}
                 placeholder="Nhập địa chỉ email"
-                iconStart={<Sms variant="Bold" size={20} color="#212121" />}
+                iconStart={<Sms variant="Bold" size={20} color="#334155" />}
                 keyboardType="email-address"
                 errorMessage={errors.email?.message}
               />
@@ -103,7 +102,7 @@ function SignUpScreen() {
                 value={value}
                 onChangeText={onChange}
                 placeholder="Nhập số điện thoại"
-                iconStart={<Call variant="Bold" size={20} color="#212121" />}
+                iconStart={<Call variant="Bold" size={20} color="#334155" />}
                 keyboardType="phone-pad"
                 errorMessage={errors.phoneNumber?.message}
               />
@@ -119,7 +118,7 @@ function SignUpScreen() {
                 onChangeText={onChange}
                 placeholder="Nhập mật khẩu"
                 secureTextEntry={showPassword}
-                iconStart={<Lock1 variant="Bold" size={20} color="#212121" />}
+                iconStart={<Lock1 variant="Bold" size={20} color="#334155" />}
                 iconEnd={
                   showPassword ? (
                     <EyeSlash variant="Bold" size={20} color="#888" />

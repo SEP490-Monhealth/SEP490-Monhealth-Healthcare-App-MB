@@ -4,24 +4,24 @@ import { Text, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
-import { Button, VStack } from "@/components/global"
+import { Button, VStack } from "@/components/global/atoms"
 
 function WelcomeScreen() {
   const router = useRouter()
 
-  const handleContinueWithGoogle = () => {
+  const handleSignInGoogle = () => {
     console.log("Continue with Google")
   }
 
-  const handleContinueWithEmail = () => {
+  const handleSignInEmail = () => {
     console.log("Continue with Email")
     router.replace("/(auth)/sign-in")
   }
 
   return (
-    <View className="flex-1 justify-between px-5 pb-4 pt-24">
+    <View className="flex-1 justify-between bg-background px-5 pb-4 pt-24">
       <VStack gap={12}>
-        <Text className="font-nbold text-3xl">
+        <Text className="font-nbold text-3xl text-primary">
           Hoàn thành {"\n"}
           mục tiêu sức khỏe {"\n"}
           của bạn
@@ -34,10 +34,10 @@ function WelcomeScreen() {
 
       <VStack gap={32}>
         <VStack gap={16}>
-          <Button variant="ghost" onPress={handleContinueWithGoogle}>
+          <Button variant="ghost" onPress={handleSignInGoogle}>
             Tiếp tục với Google
           </Button>
-          <Button onPress={handleContinueWithEmail}>Tiếp tục với Email</Button>
+          <Button onPress={handleSignInEmail}>Tiếp tục với Email</Button>
         </VStack>
 
         <Text className="text-center">

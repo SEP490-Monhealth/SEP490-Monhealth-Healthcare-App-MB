@@ -5,20 +5,27 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "#F8FAFB",
-        foreground: "#0F172A",
+        background: "#F1F5F9", // Slate 50
+        foreground: "#0F172A", // Slate 900
         primary: {
-          DEFAULT: "#FF7043",
-          foreground: "#FFFFFF"
+          DEFAULT: "#1e293b", // Slate 800
+          foreground: "#F1F5F9" // Slate 100
         },
         secondary: {
-          DEFAULT: "#EAEAEA",
-          // foreground: "#212121"
-          foreground: "#111827"
+          DEFAULT: "#E2E8F0", // Slate 200
+          foreground: "#64748B" // Slate 500
+        },
+        card: {
+          DEFAULT: "#F1F5F9", // Slate 100
+          foreground: "#334155" // Slate 700
+        },
+        accent: {
+          DEFAULT: "#64748B", // Slate 500
+          foreground: "#F1F5F9" // Slate 100
         },
         typography: {
-          // DEFAULT: "#212121",
-          DEFAULT: "#111827",
+          DEFAULT: "#0F172A", // Slate 900
+          primary: "#94A3b8", // Slate 400
           foreground: "#FFFFFF",
           description: "#888888"
         },

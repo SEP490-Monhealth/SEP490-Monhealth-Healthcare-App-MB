@@ -4,10 +4,11 @@ import { Text, View } from "react-native"
 
 import { Link, useRouter } from "expo-router"
 
-import { Button, Input, VStack } from "@/components/global"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Add, Eye, EyeSlash, Lock1, Sms } from "iconsax-react-native"
 import { Controller, useForm } from "react-hook-form"
+
+import { Button, Input, VStack } from "@/components/global/atoms"
 
 import { LoginUserType, loginUserSchema } from "@/schemas/userSchema"
 
@@ -41,15 +42,13 @@ function SignInScreen() {
     <VStack gap={60} className="px-5 py-16">
       <Add
         size="36"
-        color="#212121"
+        color="#334155"
         style={{ transform: [{ rotate: "45deg" }] }}
         onPress={handleBack}
       />
 
       <View>
-        <Text className="mb-2 font-nbold text-3xl text-typography">
-          Đăng Nhập
-        </Text>
+        <Text className="mb-2 font-nbold text-3xl text-primary">Đăng Nhập</Text>
         <Text className="text-xl text-typography-description">
           Đăng nhập để tiếp tục theo dõi sức khỏe của bạn
         </Text>
@@ -63,7 +62,7 @@ function SignInScreen() {
                 value={value}
                 onChangeText={onChange}
                 placeholder="Nhập địa chỉ email"
-                iconStart={<Sms variant="Bold" size={20} color="#212121" />}
+                iconStart={<Sms variant="Bold" size={20} color="#334155" />}
                 keyboardType="email-address"
                 errorMessage={errors.email?.message}
               />
@@ -79,7 +78,7 @@ function SignInScreen() {
                 onChangeText={onChange}
                 placeholder="Nhập mật khẩu"
                 secureTextEntry={showPassword}
-                iconStart={<Lock1 variant="Bold" size={20} color="#212121" />}
+                iconStart={<Lock1 variant="Bold" size={20} color="#334155" />}
                 iconEnd={
                   showPassword ? (
                     <EyeSlash variant="Bold" size={20} color="#888" />
@@ -96,7 +95,7 @@ function SignInScreen() {
 
         <Link
           href="(auth)/forgot-password"
-          className="mt-2 text-right font-nsemibold text-primary"
+          className="mt-2 w-fit text-right font-nsemibold text-primary"
         >
           Quên mật khẩu
         </Link>

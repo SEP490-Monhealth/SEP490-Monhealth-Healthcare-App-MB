@@ -36,7 +36,7 @@ export const Input: React.FC<InputProps> = ({
         className={`flex-row items-center rounded-2xl px-4 py-1 ${
           hasError
             ? "border border-red-500 bg-red-50"
-            : "border border-gray-200 bg-white"
+            : "border border-slate-200 bg-white"
         }`}
       >
         {iconStart && (

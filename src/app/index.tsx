@@ -19,7 +19,7 @@ function AppIndex() {
   }, [])
 
   return (
-    <View className="flex h-screen items-center justify-center">
+    <View className="flex h-screen items-center justify-center bg-background">
       <Image
         source={require("../../public/images/splash-background.png")}
         resizeMode="cover"
@@ -32,7 +32,7 @@ function AppIndex() {
         style={{ width: 120, height: 120 }}
       />
 
-      <Text className="font-nbold text-4xl text-typography">
+      <Text className="font-nbold text-4xl text-black">
         Mon<Text className="text-primary">Health</Text>
       </Text>
     </View>
