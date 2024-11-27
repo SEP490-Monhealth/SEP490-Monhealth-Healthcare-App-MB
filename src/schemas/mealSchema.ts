@@ -4,7 +4,10 @@ const mealFoodSchema = z.object({
   mealFoodId: z.string(),
   mealId: z.string(),
   foodId: z.string(),
-  portionSize: z.string().min(1, "Kích cỡ phần ăn không được để trống"),
+  portionSize: z
+    .string()
+    .min(1, { message: "Kích cỡ phần ăn không được để trống" })
+    .max(50, { message: "Kích cỡ phần ăn không được dài hơn 50 ký tự" }),
   createdAt: z.string(),
   updatedAt: z.string()
 })

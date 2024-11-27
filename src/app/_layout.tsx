@@ -9,7 +9,7 @@ import { StatusBar } from "expo-status-bar"
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
-import { NotoSans } from "@/styles/typography"
+import { MonFonts } from "@/styles/typography"
 
 import "../styles/globals.css"
 
@@ -18,7 +18,7 @@ SplashScreen.preventAutoHideAsync()
 function AppLayout() {
   const queryClient = new QueryClient()
 
-  const [fontsLoaded, error] = useFonts(NotoSans)
+  const [fontsLoaded, error] = useFonts(MonFonts)
 
   useEffect(() => {
     if (error) throw error

@@ -5,7 +5,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "#F5F5F5",
+        background: "#F8FAFB",
         foreground: "#0F172A",
         primary: {
           DEFAULT: "#FF7043",
@@ -13,10 +13,12 @@ module.exports = {
         },
         secondary: {
           DEFAULT: "#EAEAEA",
-          foreground: "#212121"
+          // foreground: "#212121"
+          foreground: "#111827"
         },
         typography: {
-          DEFAULT: "#212121",
+          // DEFAULT: "#212121",
+          DEFAULT: "#111827",
           foreground: "#FFFFFF",
           description: "#888888"
         },
@@ -34,7 +36,8 @@ module.exports = {
         nsemibold: ["NotoSans-SemiBold", "sans-serif"],
         nbold: ["NotoSans-Bold", "sans-serif"],
         nextrabold: ["NotoSans-ExtraBold", "sans-serif"],
-        nblack: ["NotoSans-Black", "sans-serif"]
+        nblack: ["NotoSans-Black", "sans-serif"],
+        pregular: ["Pacifico-Regular", "sans-serif"]
       }
     }
   },

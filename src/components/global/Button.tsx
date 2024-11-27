@@ -59,15 +59,15 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <TouchableOpacity
+      disabled={disabled || loading}
+      onPress={onPress}
+      activeOpacity={0.8}
       className={cn(
         "flex flex-row items-center justify-center rounded-2xl",
         variantClass.container,
         sizeClass.container,
         className
       )}
-      onPress={onPress}
-      disabled={disabled || loading}
-      activeOpacity={0.9}
     >
       {loading ? (
         <ActivityIndicator color="#fff" />

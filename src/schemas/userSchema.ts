@@ -5,7 +5,10 @@ export const userSchema = z.object({
   fullName: z
     .string()
     .nonempty({ message: "Tên không được để trống" })
-    .max(50, { message: "Tên không được dài hơn 50 ký tự" }),
+    .max(50, { message: "Tên không được dài hơn 50 ký tự" })
+    .regex(/^[^\d!@#$%^&*()_+=[\]{};':"\\|,.<>/?]*$/, {
+      message: "Tên không được chứa ký tự đặc biệt hoặc số"
+    }),
   email: z.string().email({ message: "Email không hợp lệ" }),
   phoneNumber: z
     .string()
@@ -15,13 +18,26 @@ export const userSchema = z.object({
   password: z
     .string()
     .min(6, { message: "Mật khẩu phải có ít nhất 6 ký tự" })
-    .max(128, { message: "Mật khẩu không được dài hơn 128 ký tự" }),
+    .max(128, { message: "Mật khẩu không được dài hơn 128 ký tự" })
+    .regex(/[A-Z]/, {
+      message: "Mật khẩu phải chứa ít nhất một chữ cái viết hoa"
+    })
+    .regex(/[a-z]/, {
+      message: "Mật khẩu phải chứa ít nhất một chữ cái thường"
+    })
+    .regex(/[0-9]/, { message: "Mật khẩu phải chứa ít nhất một chữ số" })
+    .regex(/[^A-Za-z0-9]/, {
+      message: "Mật khẩu phải chứa ít nhất một ký tự đặc biệt"
+    }),
   avatarUrl: z.string().url({ message: "Avatar không hợp lệ" }).optional(),
-  age: z
-    .number()
-    .int({ message: "Tuổi phải là số nguyên" })
-    .min(0, { message: "Tuổi không được nhỏ hơn 0" })
-    .max(100, { message: "Tuổi không được lớn hơn 100" }),
+  dateOfBirth: z.string().refine(
+    (date) => {
+      const today = new Date()
+      const birthDate = new Date(date)
+      return birthDate <= today
+    },
+    { message: "Ngày sinh không được vượt quá ngày hiện tại" }
+  ),
   gender: z.enum(["Male", "Female"], { message: "Giới tính không hợp lệ" }),
   role: z.enum(["User", "Admin"], { message: "Vai trò không hợp lệ" }),
   status: z.boolean(),

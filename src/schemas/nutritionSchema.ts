@@ -16,28 +16,28 @@ const baseNutritionSchema = z.object({
   foodId: z.string(),
   calories: z
     .number()
-    .positive("Calories phải là một số dương")
-    .max(10000, "Calories không được vượt quá 10,000"),
+    .positive({ message: "Calories phải là một số dương" })
+    .max(10000, { message: "Calories không được vượt quá 10,000" }),
   protein: z
     .number()
-    .positive("Protein phải là một số dương")
-    .max(500, "Protein không được vượt quá 500g"),
+    .positive({ message: "Protein phải là một số dương" })
+    .max(500, { message: "Protein không được vượt quá 500g" }),
   fat: z
     .number()
-    .positive("Fat phải là một số dương")
-    .max(500, "Fat không được vượt quá 500g"),
+    .positive({ message: "Fat phải là một số dương" })
+    .max(500, { message: "Fat không được vượt quá 500g" }),
   carbs: z
     .number()
-    .positive("Carbs phải là một số dương")
-    .max(1000, "Carbs không được vượt quá 1,000g"),
+    .positive({ message: "Carbs phải là một số dương" })
+    .max(1000, { message: "Carbs không được vượt quá 1,000g" }),
   fiber: z
     .number()
-    .positive("Fiber phải là một số dương")
-    .max(100, "Fiber không được vượt quá 100g"),
+    .positive({ message: "Fiber phải là một số dương" })
+    .max(100, { message: "Fiber không được vượt quá 100g" }),
   sugar: z
     .number()
-    .positive("Sugar phải là một số dương")
-    .max(500, "Sugar không được vượt quá 500g"),
+    .positive({ message: "Sugar phải là một số dương" })
+    .max(500, { message: "Sugar không được vượt quá 500g" }),
   createdAt: z.string(),
   updatedAt: z.string()
 })

@@ -34,6 +34,7 @@ function SignInScreen() {
 
   const onSubmit = (data: LoginUserType) => {
     console.log(data)
+    router.replace("/(tabs)/home")
   }
 
   return (

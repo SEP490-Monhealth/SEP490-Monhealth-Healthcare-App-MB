@@ -3,9 +3,20 @@ import { z } from "zod"
 const portionSchema = z.object({
   portionId: z.string(),
   foodId: z.string(),
-  portionSize: z.string().min(1, "Kích cỡ phần ăn không được để trống"),
-  portionWeight: z.number().positive("Khối lượng phần ăn phải là số dương"),
-  measurementUnit: z.string().min(1, "Đơn vị đo lường không được để trống"),
+  portionSize: z
+    .string()
+    .min(1, { message: "Kích cỡ phần ăn không được để trống" })
+    .max(50, { message: "Kích cỡ phần ăn không được dài hơn 50 ký tự" }),
+  portionWeight: z
+    .number()
+    .positive({ message: "Khối lượng phần ăn phải là số dương" })
+    .max(10000, {
+      message: "Khối lượng phần ăn không được vượt quá 10,000 gram"
+    }),
+  measurementUnit: z
+    .string()
+    .min(1, { message: "Đơn vị đo lường không được để trống" })
+    .max(20, { message: "Đơn vị đo lường không được dài hơn 20 ký tự" }),
   createdAt: z.string(),
   updatedAt: z.string()
 })

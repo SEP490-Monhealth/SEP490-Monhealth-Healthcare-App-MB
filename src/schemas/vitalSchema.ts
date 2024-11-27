@@ -5,22 +5,31 @@ const vitalSchema = z.object({
   userId: z.string(),
   bloodPressure: z
     .string()
-    .regex(
-      /^\d{2,3}\/\d{2,3}$/,
-      "Blood pressure must be in the format '120/80'"
+    .regex(/^\d{2,3}\/\d{2,3}$/, {
+      message: "Huyết áp phải có định dạng '120/80' (tâm thu/tâm trương)"
+    })
+    .refine(
+      (bp) => {
+        const [systolic, diastolic] = bp.split("/").map(Number)
+        return systolic > diastolic
+      },
+      { message: "Huyết áp tâm thu phải lớn hơn huyết áp tâm trương" }
     ),
   heartRate: z
     .number()
-    .int("Heart rate must be an integer")
-    .positive("Heart rate must be a positive number")
-    .min(30, "Heart rate must be at least 30 bpm")
-    .max(220, "Heart rate must be at most 220 bpm"),
+    .int({ message: "Nhịp tim phải là số nguyên" })
+    .positive({ message: "Nhịp tim phải là một số dương" })
+    .min(30, { message: "Nhịp tim tối thiểu là 30 bpm" })
+    .max(220, { message: "Nhịp tim tối đa là 220 bpm" }),
   bloodGlucose: z
     .number()
-    .positive("Blood glucose must be a positive number")
-    .min(50, "Blood glucose must be at least 50 mg/dL")
-    .max(500, "Blood glucose must be at most 500 mg/dL"),
-  allergies: z.string().optional(),
+    .positive({ message: "Đường huyết phải là một số dương" })
+    .min(50, { message: "Đường huyết tối thiểu là 50 mg/dL" })
+    .max(500, { message: "Đường huyết tối đa là 500 mg/dL" }),
+  allergies: z
+    .string()
+    .max(500, { message: "Danh sách dị ứng không được dài hơn 500 ký tự" })
+    .optional(),
   createdAt: z.string(),
   updatedAt: z.string()
 })

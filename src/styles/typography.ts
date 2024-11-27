@@ -1,4 +1,4 @@
-const NotoSans = {
+const MonFonts = {
   "NotoSans-Black": require("../../public/fonts/NotoSans-Black.ttf"),
   "NotoSans-Bold": require("../../public/fonts/NotoSans-Bold.ttf"),
   "NotoSans-ExtraBold": require("../../public/fonts/NotoSans-ExtraBold.ttf"),
@@ -7,7 +7,9 @@ const NotoSans = {
   "NotoSans-Medium": require("../../public/fonts/NotoSans-Medium.ttf"),
   "NotoSans-Regular": require("../../public/fonts/NotoSans-Regular.ttf"),
   "NotoSans-SemiBold": require("../../public/fonts/NotoSans-SemiBold.ttf"),
-  "NotoSans-Thin": require("../../public/fonts/NotoSans-Thin.ttf")
+  "NotoSans-Thin": require("../../public/fonts/NotoSans-Thin.ttf"),
+
+  "Pacifico-Regular": require("../../public/fonts/Pacifico-Regular.ttf")
 }
 
-export { NotoSans }
+export { MonFonts }
