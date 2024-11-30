@@ -1,8 +1,19 @@
 import { z } from "zod"
 
+const activityLevels = [1.2, 1.375, 1.55, 1.725]
+
 const metricSchema = z.object({
   metricId: z.string(),
   userId: z.string(),
+  dateOfBirth: z.string().refine(
+    (date) => {
+      const today = new Date()
+      const birthDate = new Date(date)
+      return birthDate <= today
+    },
+    { message: "Ngày sinh không được vượt quá ngày hiện tại" }
+  ),
+  gender: z.enum(["Male", "Female"], { message: "Giới tính không hợp lệ" }),
   height: z
     .number()
     .positive({ message: "Chiều cao phải là số dương" })
@@ -13,6 +24,10 @@ const metricSchema = z.object({
     .positive({ message: "Cân nặng phải là số dương" })
     .min(1, { message: "Cân nặng tối thiểu là 1 kg" })
     .max(500, { message: "Cân nặng tối đa là 500 kg" }),
+  activityLevel: z.number().refine((value) => activityLevels.includes(value), {
+    message:
+      "Hệ số hoạt động không hợp lệ. Các giá trị hợp lệ: 1.2, 1.375, 1.55, 1.725"
+  }),
   bmi: z
     .number()
     .min(10, { message: "BMI phải lớn hơn hoặc bằng 10" })

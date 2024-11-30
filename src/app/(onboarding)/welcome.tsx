@@ -34,7 +34,7 @@ function WelcomeScreen() {
 
       <VStack gap={32}>
         <VStack gap={16}>
-          <Button variant="ghost" onPress={handleSignInGoogle}>
+          <Button variant="secondary" onPress={handleSignInGoogle}>
             Tiếp tục với Google
           </Button>
           <Button onPress={handleSignInEmail}>Tiếp tục với Email</Button>

@@ -5,46 +5,42 @@ import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native"
 import { cn } from "@/lib/utils"
 
 interface ButtonProps {
-  onPress?: () => void
-  children: React.ReactNode
-  iconStart?: React.ReactNode
-  iconEnd?: React.ReactNode
-  variant?: "primary" | "secondary" | "ghost" | "danger"
+  variant?: "primary" | "secondary" | "danger"
   size?: "sm" | "md" | "lg"
   loading?: boolean
   disabled?: boolean
+  iconStart?: React.ReactNode
+  iconEnd?: React.ReactNode
+  children: React.ReactNode
   icon?: boolean
+  onPress?: () => void
   className?: string
 }
 
 export const Button: React.FC<ButtonProps> = ({
-  onPress,
-  children,
-  iconStart,
-  iconEnd,
   variant = "primary",
   size = "md",
   loading = false,
   disabled = false,
+  iconStart,
+  iconEnd,
+  children,
   icon = false,
+  onPress,
   className = ""
 }) => {
   const variants = {
     primary: {
-      container: disabled ? "bg-gray-400" : "bg-primary",
-      text: "text-white"
+      container: disabled ? "bg-gray-300" : "bg-primary",
+      text: "text-primary-foreground"
     },
     secondary: {
-      container: disabled ? "bg-gray-300" : "bg-gray-700",
-      text: "text-white"
-    },
-    ghost: {
-      container: disabled ? "bg-gray-300" : "bg-[#eaeaea]",
-      text: "text-typography"
+      container: disabled ? "bg-gray-300" : "bg-secondary",
+      text: "text-secondary-foreground"
     },
     danger: {
-      container: disabled ? "bg-gray-300" : "bg-red-600",
-      text: "text-white"
+      container: disabled ? "bg-gray-300" : "bg-destructive",
+      text: "text-destructive-foreground"
     }
   }
 

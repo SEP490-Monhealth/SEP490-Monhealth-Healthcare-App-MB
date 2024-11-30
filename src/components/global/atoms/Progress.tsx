@@ -10,11 +10,11 @@ interface ProgressProps {
   color?: string
 }
 
-export const Progress: React.FC<ProgressProps> = ({
+export const Progress = ({
   progress,
   height = 10,
   color = COLORS.primary
-}) => {
+}: ProgressProps) => {
   const animatedProgress = useRef(new Animated.Value(0)).current
   const prevProgress = useRef(progress)
 

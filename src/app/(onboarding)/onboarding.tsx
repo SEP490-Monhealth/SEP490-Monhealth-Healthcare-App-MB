@@ -5,7 +5,7 @@ import { PanGestureHandler } from "react-native-gesture-handler"
 
 import { useRouter } from "expo-router"
 
-import { Button, HStack, VStack } from "@/components/global/atoms"
+import { Button, Container, HStack, VStack } from "@/components/global/atoms"
 
 const OnboardingScreen = () => {
   const router = useRouter()
@@ -64,7 +64,7 @@ const OnboardingScreen = () => {
   }
 
   return (
-    <VStack className="min-h-screen justify-end bg-background px-5">
+    <Container className="justify-end py-0">
       <Text
         onPress={handleSkip}
         className="absolute right-5 top-16 font-nmedium text-lg text-primary active:underline"
@@ -118,15 +118,10 @@ const OnboardingScreen = () => {
         </PanGestureHandler>
       </VStack>
 
-      <Button
-        variant="primary"
-        size="md"
-        onPress={handleNext}
-        className="mt-24"
-      >
+      <Button onPress={handleNext} className="mt-24">
         {currentIndex < data.length - 1 ? "Tiếp tục" : "Hoàn tất"}
       </Button>
-    </VStack>
+    </Container>
   )
 }
 

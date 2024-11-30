@@ -8,7 +8,6 @@ const MonFonts = {
   "NotoSans-Regular": require("../../public/fonts/NotoSans-Regular.ttf"),
   "NotoSans-SemiBold": require("../../public/fonts/NotoSans-SemiBold.ttf"),
   "NotoSans-Thin": require("../../public/fonts/NotoSans-Thin.ttf"),
-
   "Pacifico-Regular": require("../../public/fonts/Pacifico-Regular.ttf")
 }
 

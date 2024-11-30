@@ -7,7 +7,7 @@ interface IconButtonProps {
   onClick?: () => void
 }
 
-export const IconButton: React.FC<IconButtonProps> = ({ icon, onClick }) => {
+export const IconButton = ({ icon, onClick }: IconButtonProps) => {
   return (
     <TouchableOpacity
       onPress={onClick}

@@ -75,3 +75,19 @@ export const formatISODate = (
   const date = parseISO(isoDate)
   return format(date, formatStr)
 }
+
+/**
+ * Lấy chữ cái viết tắt từ tên hoặc chuỗi
+ * @param name Tên hoặc chuỗi cần lấy chữ cái viết tắt
+ * @returns Chữ cái viết tắt (tối đa 2 chữ cái đầu tiên)
+ */
+export const getInitials = (name: string) => {
+  const words = name
+    .trim()
+    .split(" ")
+    .filter((word) => word.length > 0) // Lọc các từ rỗng
+  return words
+    .slice(0, 2) // Lấy tối đa 2 từ đầu tiên
+    .map((word) => word[0].toUpperCase()) // Lấy chữ cái đầu tiên và chuyển thành chữ hoa
+    .join("") // Kết hợp các chữ cái lại với nhau
+}

@@ -4,28 +4,21 @@ import { Text, View } from "react-native"
 
 import { Link, useRouter } from "expo-router"
 
-import { COLORS } from "@/constants/appConstants"
 import { zodResolver } from "@hookform/resolvers/zod"
-import {
-  Add,
-  Call,
-  Eye,
-  EyeSlash,
-  Lock1,
-  Profile,
-  Sms,
-  User
-} from "iconsax-react-native"
+import { Call, Eye, EyeSlash, Lock1, Profile, Sms } from "iconsax-react-native"
+import { X } from "lucide-react-native"
 import { Controller, useForm } from "react-hook-form"
 
 import { Button, Input, VStack } from "@/components/global/atoms"
+
+import { COLORS } from "@/constants/appConstants"
 
 import { RegisterUserType, registerUserSchema } from "@/schemas/userSchema"
 
 function SignUpScreen() {
   const router = useRouter()
 
-  const [showPassword, setShowPassword] = useState(true)
+  const [showPassword, setShowPassword] = useState(false)
 
   const {
     control,
@@ -51,16 +44,11 @@ function SignUpScreen() {
 
   return (
     <VStack gap={60} className="bg-background px-5 py-16">
-      <Add
-        size="36"
-        color={COLORS.primary}
-        style={{ transform: [{ rotate: "45deg" }] }}
-        onPress={handleBack}
-      />
+      <X size="28" color={COLORS.primary} onPress={handleBack} />
 
       <View>
         <Text className="mb-2 font-nbold text-3xl text-primary">Đăng Ký</Text>
-        <Text className="text-xl text-typography-description">
+        <Text className="text-xl text-accent">
           Đăng ký để theo dõi sức khỏe và dinh dưỡng hàng ngày
         </Text>
 
@@ -124,15 +112,15 @@ function SignUpScreen() {
                 value={value}
                 onChangeText={onChange}
                 placeholder="Nhập mật khẩu"
-                secureTextEntry={showPassword}
+                secureTextEntry={!showPassword}
                 iconStart={
                   <Lock1 variant="Bold" size={20} color={COLORS.primary} />
                 }
                 iconEnd={
                   showPassword ? (
-                    <EyeSlash variant="Bold" size={20} color="#888" />
+                    <Eye variant="Bold" size={20} color="#334155" />
                   ) : (
-                    <Eye variant="Bold" size={20} color="#FF7043" />
+                    <EyeSlash variant="Bold" size={20} color="#cbd5e1" />
                   )
                 }
                 toggleSecureTextEntry={() => setShowPassword(!showPassword)}
@@ -142,13 +130,8 @@ function SignUpScreen() {
           />
         </VStack>
 
-        <Button
-          variant="primary"
-          size="md"
-          onPress={handleSubmit(onSubmit)}
-          className="mt-8"
-        >
-          Đăng Ký
+        <Button onPress={handleSubmit(onSubmit)} className="mt-8">
+          Đăng ký
         </Button>
 
         <Text className="mt-4 text-center font-nregular">

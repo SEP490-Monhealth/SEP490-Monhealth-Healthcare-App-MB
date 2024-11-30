@@ -1,8 +1,10 @@
 import React, { useEffect } from "react"
 
-import { Image, Text, View } from "react-native"
+import { Image, Text } from "react-native"
 
 import { useRouter } from "expo-router"
+
+import { Container } from "@/components/global/atoms"
 
 function AppIndex() {
   const router = useRouter()
@@ -19,7 +21,7 @@ function AppIndex() {
   }, [])
 
   return (
-    <View className="flex h-screen items-center justify-center bg-background">
+    <Container className="flex flex-col items-center justify-center">
       <Image
         source={require("../../public/images/splash-background.png")}
         resizeMode="cover"
@@ -35,7 +37,7 @@ function AppIndex() {
       <Text className="font-nbold text-4xl text-black">
         Mon<Text className="text-primary">Health</Text>
       </Text>
-    </View>
+    </Container>
   )
 }
 

@@ -1,12 +1,20 @@
 import React from "react"
 
-import { Text, View } from "react-native"
+import { Avatar, Container } from "@/components/global/atoms"
 
 function ProfileScreen() {
+  const defaultAvatar =
+    ""
+
   return (
-    <View className="flex items-center justify-center bg-blue-500">
-      <Text className="text-lg text-white">Welcome to the Profile Tab!</Text>
-    </View>
+    <Container>
+      <Avatar
+        source={defaultAvatar}
+        alt="Zotaeus"
+        size={120}
+        className="items-center"
+      />
+    </Container>
   )
 }
 

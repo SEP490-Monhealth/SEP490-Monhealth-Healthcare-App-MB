@@ -2,8 +2,9 @@ import React from "react"
 
 import { Text } from "react-native"
 
-import { COLORS } from "@/constants/appConstants"
 import { MoreCircle } from "iconsax-react-native"
+
+import { COLORS } from "@/constants/appConstants"
 
 import { HStack, VStack } from "../atoms"
 
@@ -15,13 +16,13 @@ interface FoodCardProps {
   measurementUnit: string
 }
 
-function FoodCard({
+export const FoodCard = ({
   foodName,
   calories,
   portionSize,
   portionWeight,
   measurementUnit
-}: FoodCardProps) {
+}: FoodCardProps) => {
   return (
     <HStack className="justify-between p-5">
       <VStack gap={2}>
@@ -36,5 +37,3 @@ function FoodCard({
     </HStack>
   )
 }
-
-export default FoodCard

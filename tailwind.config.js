@@ -8,7 +8,7 @@ module.exports = {
         background: "#F1F5F9", // Slate 100
         foreground: "#0F172A", // Slate 900
         primary: {
-          DEFAULT: "#1E293B", // Slate 800
+          DEFAULT: "#334155", // Slate 700
           foreground: "#F1F5F9" // Slate 100
         },
         secondary: {
@@ -23,6 +23,10 @@ module.exports = {
           DEFAULT: "#64748B", // Slate 500
           foreground: "#F1F5F9" // Slate 100
         },
+        muted: {
+          DEFAULT: "#94A3B8", // Slate 400
+          foreground: "#475569" // Slate 600
+        },
         typography: {
           DEFAULT: "#0F172A", // Slate 900
           primary: "#94A3B8", // Slate 400
@@ -30,7 +34,7 @@ module.exports = {
           description: "#888888"
         },
         destructive: {
-          DEFAULT: "#EF4444", // Red 500
+          DEFAULT: "#DC2626", // Red 600
           foreground: "#FEE2E2" // Red 100
         }
       },

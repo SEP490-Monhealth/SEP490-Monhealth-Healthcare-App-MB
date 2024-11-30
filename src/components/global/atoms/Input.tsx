@@ -14,7 +14,7 @@ interface InputProps {
   errorMessage?: string
 }
 
-export const Input: React.FC<InputProps> = ({
+export const Input = ({
   value,
   onChangeText,
   placeholder,
@@ -23,9 +23,8 @@ export const Input: React.FC<InputProps> = ({
   secureTextEntry = false,
   toggleSecureTextEntry,
   keyboardType = "default",
-  errorMessage,
-  ...props
-}) => {
+  errorMessage
+}: InputProps) => {
   const inputRef = useRef<TextInput>(null)
 
   const hasError = !!errorMessage
@@ -33,10 +32,10 @@ export const Input: React.FC<InputProps> = ({
   return (
     <View>
       <View
-        className={`flex-row items-center rounded-2xl px-4 py-1 ${
+        className={`flex-row items-center rounded-2xl border px-4 py-1 ${
           hasError
-            ? "border border-red-500 bg-red-50"
-            : "border border-slate-200 bg-white"
+            ? "border-destructive bg-red-50"
+            : "border-secondary bg-white"
         }`}
       >
         {iconStart && (
@@ -51,15 +50,14 @@ export const Input: React.FC<InputProps> = ({
 
         <TextInput
           ref={inputRef}
-          className={`flex-1 font-nregular ${
-            hasError ? "text-red-500" : "text-typography"
-          }`}
           placeholder={placeholder}
           secureTextEntry={secureTextEntry}
           value={value}
           keyboardType={keyboardType}
           onChangeText={onChangeText}
-          {...props}
+          className={`flex-1 font-nregular ${
+            hasError ? "text-destructive" : "text-typography"
+          }`}
         />
 
         {iconEnd && (
@@ -70,7 +68,7 @@ export const Input: React.FC<InputProps> = ({
       </View>
 
       {hasError && (
-        <Text className="ml-1 mt-1 font-nregular text-sm text-red-500">
+        <Text className="ml-1 mt-1 font-nregular text-sm text-destructive">
           {errorMessage}
         </Text>
       )}
