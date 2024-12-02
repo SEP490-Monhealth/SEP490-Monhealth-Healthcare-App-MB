@@ -20,7 +20,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./public/assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.monapp.monhealth"
     },
     "web": {
       "bundler": "metro",
