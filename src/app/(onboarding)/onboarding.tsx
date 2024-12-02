@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { Text, View } from "react-native"
+import { Image, Text, View } from "react-native"
 import { PanGestureHandler } from "react-native-gesture-handler"
 
 import { useRouter } from "expo-router"
