@@ -16,21 +16,21 @@ const OnboardingScreen = () => {
       title: "Theo dõi lượng calo và nước mỗi ngày",
       description:
         "Ghi lại lượng calo nạp vào và nước uống để đạt mục tiêu sức khỏe",
-      image: "../../../public/images/onboarding-1.png"
+      image: require("../../../public/images/onboarding-1.png")
     },
     {
       id: "2",
       title: "Gợi ý các món ăn dinh dưỡng",
       description:
         "Đưa ra món ăn phù hợp với nhu cầu, kèm thông tin dinh dưỡng chi tiết",
-      image: "../../../public/images/onboarding-2.png"
+      image: require("../../../public/images/onboarding-2.png")
     },
     {
       id: "3",
       title: "Tạo lộ trình luyện tập và ghi lại kết quả",
       description:
         "Lập kế hoạch luyện tập, ghi kết quả giúp theo dõi tiến độ và duy trì động lực",
-      image: "../../../public/images/onboarding-3.png"
+      image: require("../../../public/images/onboarding-3.png")
     }
   ]
 
@@ -85,7 +85,7 @@ const OnboardingScreen = () => {
           <View>
             <VStack gap={8} className="items-center">
               <Image
-                source={require(data[currentIndex].image)}
+                source={data[currentIndex].image}
                 resizeMode="cover"
                 style={{ width: 320, height: 320 }}
               />
