@@ -4,7 +4,7 @@ import { Text, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
-import { Button, VStack } from "@/components/global/atoms"
+import { Button, Container, VStack } from "@/components/global/atoms"
 
 function WelcomeScreen() {
   const router = useRouter()
@@ -19,7 +19,7 @@ function WelcomeScreen() {
   }
 
   return (
-    <View className="flex-1 justify-between bg-background px-5 pb-4 pt-24">
+    <Container className="flex justify-between pb-8">
       <VStack gap={12}>
         <Text className="font-nbold text-3xl text-primary">
           Hoàn thành {"\n"}
@@ -32,7 +32,7 @@ function WelcomeScreen() {
         </Text>
       </VStack>
 
-      <VStack gap={32}>
+      <VStack gap={20}>
         <VStack gap={16}>
           <Button variant="secondary" onPress={handleSignInGoogle}>
             Tiếp tục với Google
@@ -52,7 +52,7 @@ function WelcomeScreen() {
           của chúng tôi.
         </Text>
       </VStack>
-    </View>
+    </Container>
   )
 }
 

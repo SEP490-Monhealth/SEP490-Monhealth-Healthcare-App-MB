@@ -9,7 +9,7 @@ import { Call, Eye, EyeSlash, Lock1, Profile, Sms } from "iconsax-react-native"
 import { X } from "lucide-react-native"
 import { Controller, useForm } from "react-hook-form"
 
-import { Button, Input, VStack } from "@/components/global/atoms"
+import { Button, Container, Input, VStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/appConstants"
 
@@ -43,7 +43,7 @@ function SignUpScreen() {
   }
 
   return (
-    <VStack gap={60} className="bg-background px-5 py-16">
+    <Container className="gap-14">
       <X size="28" color={COLORS.primary} onPress={handleBack} />
 
       <View>
@@ -141,7 +141,7 @@ function SignUpScreen() {
           </Link>
         </Text>
       </View>
-    </VStack>
+    </Container>
   )
 }
 

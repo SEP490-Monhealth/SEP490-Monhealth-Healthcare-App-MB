@@ -64,7 +64,7 @@ const OnboardingScreen = () => {
   }
 
   return (
-    <Container className="justify-end py-0">
+    <Container className="justify-end pb-8">
       <Text
         onPress={handleSkip}
         className="absolute right-5 top-16 font-nmedium text-lg text-primary active:underline"

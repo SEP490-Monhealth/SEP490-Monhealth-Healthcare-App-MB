@@ -11,7 +11,7 @@ function AppIndex() {
 
   useEffect(() => {
     setTimeout(() => {
-      const isLoggedIn = true
+      const isLoggedIn = false
       if (isLoggedIn) {
         router.replace("/(tabs)/home")
       } else {
@@ -21,7 +21,7 @@ function AppIndex() {
   }, [])
 
   return (
-    <Container className="flex flex-col items-center justify-center">
+    <Container className="flex flex-col items-center justify-center bg-primary">
       <Image
         source={require("../../public/images/splash-background.png")}
         resizeMode="cover"
@@ -34,8 +34,8 @@ function AppIndex() {
         style={{ width: 120, height: 120 }}
       />
 
-      <Text className="font-nbold text-4xl text-black">
-        Mon<Text className="text-primary">Health</Text>
+      <Text className="font-nbold text-4xl text-white">
+        Mon<Text className="text-white">Health</Text>
       </Text>
     </Container>
   )
