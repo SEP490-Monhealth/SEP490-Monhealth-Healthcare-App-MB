@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 
-import { Image, Text } from "react-native"
+import { Image, ImageBackground, Text } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -15,28 +15,27 @@ function AppIndex() {
       if (isLoggedIn) {
         router.replace("/(tabs)/home")
       } else {
-        router.replace("/(onboarding)/onboarding")
+        router.replace("/(onboarding)/welcome")
       }
-    }, 500)
+    }, 2000)
   }, [])
 
   return (
     <Container className="flex flex-col items-center justify-center bg-primary">
-      <Image
+      <ImageBackground
         source={require("../../public/images/splash-background.png")}
         resizeMode="cover"
-        className="absolute left-0 top-0 h-full w-full"
-      />
-
-      <Image
+      >
+        {/* <Image
         source={require("../../public/images/monhealth-logo.png")}
         resizeMode="cover"
         style={{ width: 120, height: 120 }}
-      />
+      /> */}
 
-      <Text className="font-dbold text-4xl text-white">
-        Mon<Text className="text-white">Health</Text>
-      </Text>
+        <Text className="font-dbold text-4xl text-white">
+          Mon<Text className="text-white">Health</Text>
+        </Text>
+      </ImageBackground>
     </Container>
   )
 }

@@ -10,7 +10,7 @@ import { IconButton } from "@/components/global/molecules"
 import { COLORS } from "@/constants/appConstants"
 
 function HomeScreen() {
-  const greeting = () => {
+  const getGreeting = () => {
     const date = new Date()
     const hours = date.getHours()
 
@@ -28,7 +28,7 @@ function HomeScreen() {
       <HStack className="mb-4 items-center justify-between">
         <VStack>
           <Text className="-mb-1 font-pregular text-lg text-muted">
-            {greeting()}
+            {getGreeting()}
           </Text>
           <Text className="font-tbold text-2xl text-typography">
             Van Huu Toan

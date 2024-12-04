@@ -15,7 +15,7 @@ export const Container: React.FC<ContainerProps> = ({
 }) => {
   return (
     <View
-      className={cn("h-full min-h-screen bg-background px-5 py-16", className)}
+      className={cn("h-full min-h-screen bg-background px-6 py-16", className)}
     >
       <React.Fragment>{children}</React.Fragment>
     </View>

@@ -2,10 +2,13 @@ import React from "react"
 
 import { Container } from "@/components/global/atoms"
 import { ArcProgress } from "@/components/global/molecules"
+import { Header } from "@/components/global/organisms"
 
 function ActivityScreen() {
   return (
     <Container>
+      <Header title="Hoạt động" />
+
       <ArcProgress
         size={240}
         width={14}
@@ -16,7 +19,6 @@ function ActivityScreen() {
         currentValue={300}
         totalValue={1000}
         label="calories"
-        className="mt-4"
       />
     </Container>
   )

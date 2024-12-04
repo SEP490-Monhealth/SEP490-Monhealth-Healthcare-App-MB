@@ -5,11 +5,11 @@ import { Text, View } from "react-native"
 import { useRouter } from "expo-router"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Call } from "iconsax-react-native"
-import { X } from "lucide-react-native"
+import { ArrowLeft, Call } from "iconsax-react-native"
 import { Controller, useForm } from "react-hook-form"
 
-import { Button, Input, VStack } from "@/components/global/atoms"
+import { Button, Container, Input, VStack } from "@/components/global/atoms"
+import { IconButton } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/appConstants"
 
@@ -39,11 +39,14 @@ function ForgotPasswordScreen() {
   }
 
   return (
-    <VStack gap={60} className="bg-background px-5 py-16">
-      <X size="28" color={COLORS.primary} onPress={handleBack} />
+    <Container className="gap-16">
+      <IconButton
+        icon={<ArrowLeft size={24} color={COLORS.primary} />}
+        onPress={handleBack}
+      />
 
       <View>
-        <Text className="font-dbold mb-2 text-3xl text-primary">
+        <Text className="mb-2 font-dbold text-3xl text-primary">
           Quên Mật Khẩu
         </Text>
         <Text className="font-tregular text-xl text-accent">
@@ -74,7 +77,7 @@ function ForgotPasswordScreen() {
           Gửi mã
         </Button>
       </View>
-    </VStack>
+    </Container>
   )
 }
 

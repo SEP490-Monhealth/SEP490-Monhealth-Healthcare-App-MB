@@ -39,3 +39,6 @@ yarn-error.*
 *.tsbuildinfo
 
 # @end expo-cli
+
+# Jest
+__tests__/

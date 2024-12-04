@@ -5,11 +5,11 @@ import { Text, View } from "react-native"
 import { Link, useRouter } from "expo-router"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Eye, EyeSlash, Lock1, Sms } from "iconsax-react-native"
-import { X } from "lucide-react-native"
+import { ArrowLeft, Eye, EyeSlash, Lock1, Sms } from "iconsax-react-native"
 import { Controller, useForm } from "react-hook-form"
 
 import { Button, Container, Input, VStack } from "@/components/global/atoms"
+import { IconButton } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/appConstants"
 
@@ -42,11 +42,14 @@ function SignInScreen() {
   }
 
   return (
-    <Container className="gap-14">
-      <X size="28" color={COLORS.primary} onPress={handleBack} />
+    <Container className="gap-16">
+      <IconButton
+        icon={<ArrowLeft size={24} color={COLORS.primary} />}
+        onPress={handleBack}
+      />
 
       <View>
-        <Text className="font-dbold mb-2 text-4xl text-primary">Đăng Nhập</Text>
+        <Text className="mb-2 font-dbold text-4xl text-primary">Đăng Nhập</Text>
         <Text className="font-tregular text-xl text-accent">
           Đăng nhập để tiếp tục theo dõi sức khỏe của bạn
         </Text>
@@ -97,7 +100,7 @@ function SignInScreen() {
 
         <Link
           href="/(auth)/forgot-password"
-          className="font-tmedium mt-2 w-fit text-right text-primary"
+          className="mt-2 w-fit text-right font-tmedium text-primary"
         >
           Quên mật khẩu
         </Link>
@@ -106,7 +109,7 @@ function SignInScreen() {
           Đăng nhập
         </Button>
 
-        <Text className="font-tregular mt-4 text-center">
+        <Text className="mt-4 text-center font-tregular">
           Chưa có tài khoản?{" "}
           <Link href="/(auth)/sign-up" className="font-tmedium text-primary">
             Đăng ký

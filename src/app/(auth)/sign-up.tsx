@@ -5,11 +5,19 @@ import { Text, View } from "react-native"
 import { Link, useRouter } from "expo-router"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Call, Eye, EyeSlash, Lock1, Profile, Sms } from "iconsax-react-native"
-import { X } from "lucide-react-native"
+import {
+  ArrowLeft,
+  Call,
+  Eye,
+  EyeSlash,
+  Lock1,
+  Profile,
+  Sms
+} from "iconsax-react-native"
 import { Controller, useForm } from "react-hook-form"
 
 import { Button, Container, Input, VStack } from "@/components/global/atoms"
+import { IconButton } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/appConstants"
 
@@ -43,11 +51,14 @@ function SignUpScreen() {
   }
 
   return (
-    <Container className="gap-14">
-      <X size="28" color={COLORS.primary} onPress={handleBack} />
+    <Container className="gap-16">
+      <IconButton
+        icon={<ArrowLeft size={24} color={COLORS.primary} />}
+        onPress={handleBack}
+      />
 
       <View>
-        <Text className="font-dbold mb-2 text-4xl text-primary">Đăng Ký</Text>
+        <Text className="mb-2 font-dbold text-4xl text-primary">Đăng Ký</Text>
         <Text className="font-tregular text-xl text-accent">
           Đăng ký để theo dõi sức khỏe và dinh dưỡng hàng ngày
         </Text>
@@ -134,7 +145,7 @@ function SignUpScreen() {
           Đăng ký
         </Button>
 
-        <Text className="font-tregular mt-4 text-center">
+        <Text className="mt-4 text-center font-tregular">
           Đã có tài khoản?{" "}
           <Link href="/(auth)/sign-in" className="font-tmedium text-primary">
             Đăng nhập

@@ -1,12 +1,23 @@
 import React from "react"
 
-import { Text, View } from "react-native"
+import { Add } from "iconsax-react-native"
+
+import { Container } from "@/components/global/atoms"
+import { Header } from "@/components/global/organisms"
+
+import { COLORS } from "@/constants/appConstants"
 
 function ScheduleScreen() {
   return (
-    <View className="flex items-center justify-center bg-blue-500">
-      <Text className="text-lg text-white">Welcome to the Schedule Tab!</Text>
-    </View>
+    <Container>
+      <Header
+        title="Thực đơn"
+        action={{
+          icon: <Add size={24} color={COLORS.primary} />,
+          url: "/foods"
+        }}
+      />
+    </Container>
   )
 }
 
