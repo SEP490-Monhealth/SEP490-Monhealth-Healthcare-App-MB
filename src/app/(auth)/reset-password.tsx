@@ -47,10 +47,10 @@ function ForgotPasswordScreen() {
       <X size="28" color={COLORS.primary} onPress={handleBack} />
 
       <View>
-        <Text className="mb-2 font-nbold text-3xl text-primary">
+        <Text className="font-dbold mb-2 text-3xl text-primary">
           Đặt Lại Mật Khẩu
         </Text>
-        <Text className="text-xl text-accent">
+        <Text className="font-tregular text-xl text-accent">
           Vui lòng nhập mật khẩu mới và xác nhận để hoàn tất quá trình đặt lại
           mật khẩu của bạn
         </Text>

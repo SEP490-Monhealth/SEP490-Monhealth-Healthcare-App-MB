@@ -16,12 +16,12 @@ function NotFoundScreen() {
   return (
     <Container>
       <VStack>
-        <Text className="pt-8 font-nbold text-8xl text-primary">404</Text>
-        <Text className="font-nbold text-2xl text-primary">
+        <Text className="font-dbold pt-8 text-8xl text-primary">404</Text>
+        <Text className="font-dbold text-2xl text-primary">
           Không tìm thấy trang
         </Text>
 
-        <Text className="font-nmedium text-lg text-accent">
+        <Text className="font-tmedium text-lg text-accent">
           Trang bạn vừa truy cập không tồn tại hoặc đã bị xóa
         </Text>
       </VStack>

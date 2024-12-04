@@ -46,8 +46,8 @@ function SignInScreen() {
       <X size="28" color={COLORS.primary} onPress={handleBack} />
 
       <View>
-        <Text className="mb-2 font-nbold text-3xl text-primary">Đăng Nhập</Text>
-        <Text className="text-xl text-accent">
+        <Text className="font-dbold mb-2 text-4xl text-primary">Đăng Nhập</Text>
+        <Text className="font-tregular text-xl text-accent">
           Đăng nhập để tiếp tục theo dõi sức khỏe của bạn
         </Text>
 
@@ -97,7 +97,7 @@ function SignInScreen() {
 
         <Link
           href="/(auth)/forgot-password"
-          className="mt-2 w-fit text-right font-nsemibold text-primary"
+          className="font-tmedium mt-2 w-fit text-right text-primary"
         >
           Quên mật khẩu
         </Link>
@@ -106,9 +106,9 @@ function SignInScreen() {
           Đăng nhập
         </Button>
 
-        <Text className="mt-4 text-center font-nregular">
+        <Text className="font-tregular mt-4 text-center">
           Chưa có tài khoản?{" "}
-          <Link href="/(auth)/sign-up" className="font-nsemibold text-primary">
+          <Link href="/(auth)/sign-up" className="font-tmedium text-primary">
             Đăng ký
           </Link>
         </Text>

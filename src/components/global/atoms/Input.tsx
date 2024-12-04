@@ -55,7 +55,7 @@ export const Input = ({
           value={value}
           keyboardType={keyboardType}
           onChangeText={onChangeText}
-          className={`flex-1 font-nregular ${
+          className={`font-tregular flex-1 ${
             hasError ? "text-destructive" : "text-typography"
           }`}
         />
@@ -68,12 +68,10 @@ export const Input = ({
       </View>
 
       {hasError && (
-        <Text className="ml-1 mt-1 font-nregular text-sm text-destructive">
+        <Text className="font-tregular ml-1 mt-1 text-sm text-destructive">
           {errorMessage}
         </Text>
       )}
     </View>
   )
 }
-
-export default Input

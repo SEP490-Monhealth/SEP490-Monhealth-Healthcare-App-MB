@@ -2,12 +2,12 @@ import React from "react"
 
 import { Text, View } from "react-native"
 
-interface TextareaProps {}
+interface TabsProps {}
 
-export const Textarea = ({}: TextareaProps) => {
+export const Tabs = ({}: TabsProps) => {
   return (
     <View>
-      <Text>Textarea</Text>
+      <Text>Tabs</Text>
     </View>
   )
 }

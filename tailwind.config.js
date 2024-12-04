@@ -39,15 +39,14 @@ module.exports = {
         }
       },
       fontFamily: {
-        nthin: ["NotoSans-Thin", "sans-serif"],
-        nextralight: ["NotoSans-ExtraLight", "sans-serif"],
-        nlight: ["NotoSans-Light", "sans-serif"],
-        nregular: ["NotoSans-Regular", "sans-serif"],
-        nmedium: ["NotoSans-Medium", "sans-serif"],
-        nsemibold: ["NotoSans-SemiBold", "sans-serif"],
-        nbold: ["NotoSans-Bold", "sans-serif"],
-        nextrabold: ["NotoSans-ExtraBold", "sans-serif"],
-        nblack: ["NotoSans-Black", "sans-serif"],
+        tregular: ["TikTokText-Regular", "sans-serif"],
+        tmedium: ["TikTokText-Medium", "sans-serif"],
+        tbold: ["TikTokText-Bold", "sans-serif"],
+
+        dregular: ["TikTokDisplay-Regular", "sans-serif"],
+        dmedium: ["TikTokDisplay-Medium", "sans-serif"],
+        dbold: ["TikTokDisplay-Bold", "sans-serif"],
+
         pregular: ["Pacifico-Regular", "sans-serif"]
       }
     }

@@ -70,15 +70,11 @@ export const Button: React.FC<ButtonProps> = ({
       ) : icon ? (
         <View className="flex items-center justify-center">{children}</View>
       ) : (
-        <View className="flex flex-row items-center">
+        <View className="flex flex-row items-center justify-center">
           {iconStart && <View className="mr-2">{iconStart}</View>}
           {children && (
             <Text
-              className={cn(
-                "font-nsemibold",
-                variantClass.text,
-                sizeClass.text
-              )}
+              className={cn("font-dbold", variantClass.text, sizeClass.text)}
             >
               {children}
             </Text>

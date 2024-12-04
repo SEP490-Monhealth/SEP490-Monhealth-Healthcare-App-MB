@@ -17,7 +17,7 @@ function AppIndex() {
       } else {
         router.replace("/(onboarding)/onboarding")
       }
-    }, 2000)
+    }, 500)
   }, [])
 
   return (
@@ -34,7 +34,7 @@ function AppIndex() {
         style={{ width: 120, height: 120 }}
       />
 
-      <Text className="font-nbold text-4xl text-white">
+      <Text className="font-dbold text-4xl text-white">
         Mon<Text className="text-white">Health</Text>
       </Text>
     </Container>

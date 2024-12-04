@@ -13,7 +13,7 @@ import { COLORS } from "@/constants/appConstants"
 
 function TabLayout() {
   const primaryColor = COLORS.primary
-  const descriptionColor = "#888"
+  const descriptionColor = "#64748B"
 
   return (
     <Tabs
@@ -45,8 +45,8 @@ function TabLayout() {
           tabBarLabel: ({ focused }) => (
             <Text
               style={{
-                fontFamily: "NotoSans-Medium",
-                fontSize: 10,
+                fontFamily: "TikTokDisplay-Medium",
+                fontSize: 11,
                 color: focused ? primaryColor : descriptionColor
               }}
             >
@@ -69,8 +69,8 @@ function TabLayout() {
           tabBarLabel: ({ focused }) => (
             <Text
               style={{
-                fontFamily: "NotoSans-Medium",
-                fontSize: 10,
+                fontFamily: "TikTokDisplay-Medium",
+                fontSize: 11,
                 color: focused ? primaryColor : descriptionColor
               }}
             >
@@ -105,8 +105,8 @@ function TabLayout() {
           tabBarLabel: ({ focused }) => (
             <Text
               style={{
-                fontFamily: "NotoSans-Medium",
-                fontSize: 10,
+                fontFamily: "TikTokDisplay-Medium",
+                fontSize: 11,
                 color: focused ? primaryColor : descriptionColor
               }}
             >
@@ -129,8 +129,8 @@ function TabLayout() {
           tabBarLabel: ({ focused }) => (
             <Text
               style={{
-                fontFamily: "NotoSans-Medium",
-                fontSize: 10,
+                fontFamily: "TikTokDisplay-Medium",
+                fontSize: 11,
                 color: focused ? primaryColor : descriptionColor
               }}
             >

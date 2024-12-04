@@ -2,7 +2,7 @@ import React from "react"
 
 import { Text } from "react-native"
 
-import { MoreCircle } from "iconsax-react-native"
+import { MoreHorizontal } from "lucide-react-native"
 
 import { COLORS } from "@/constants/appConstants"
 
@@ -26,14 +26,14 @@ export const FoodCard = ({
   return (
     <HStack className="justify-between p-5">
       <VStack gap={2}>
-        <Text className="font-nmedium text-sm text-typography">{foodName}</Text>
-        <Text className="font-nregular text-xs text-typography-description">
+        <Text className="font-dmedium text-sm text-typography">{foodName}</Text>
+        <Text className="font-tregular text-xs text-accent">
           {portionSize} - {portionWeight} {measurementUnit} - {calories}{" "}
           calories
         </Text>
       </VStack>
 
-      <MoreCircle size="32" color={COLORS.primary} />
+      <MoreHorizontal size="32" color={COLORS.primary} />
     </HStack>
   )
 }

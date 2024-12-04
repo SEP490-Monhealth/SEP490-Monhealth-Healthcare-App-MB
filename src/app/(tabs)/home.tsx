@@ -30,7 +30,7 @@ function HomeScreen() {
           <Text className="-mb-1 font-pregular text-lg text-muted">
             {greeting()}
           </Text>
-          <Text className="font-nbold text-2xl text-typography">
+          <Text className="font-tbold text-2xl text-typography">
             Van Huu Toan
           </Text>
         </VStack>

@@ -1,12 +1,24 @@
 import React from "react"
 
-import { Text, View } from "react-native"
+import { Container } from "@/components/global/atoms"
+import { ArcProgress } from "@/components/global/molecules"
 
 function ActivityScreen() {
   return (
-    <View className="flex items-center justify-center bg-blue-500">
-      <Text className="text-lg text-white">Welcome to the Activity Tab!</Text>
-    </View>
+    <Container>
+      <ArcProgress
+        size={240}
+        width={14}
+        fill={70}
+        arcSweepAngle={260}
+        rotation={230}
+        centerCircle={true}
+        currentValue={300}
+        totalValue={1000}
+        label="calories"
+        className="mt-4"
+      />
+    </Container>
   )
 }
 

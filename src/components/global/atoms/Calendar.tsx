@@ -2,12 +2,12 @@ import React from "react"
 
 import { Text, View } from "react-native"
 
-interface TextareaProps {}
+interface CalendarProps {}
 
-export const Textarea = ({}: TextareaProps) => {
+export const Calendar = ({}: CalendarProps) => {
   return (
     <View>
-      <Text>Textarea</Text>
+      <Text>Calendar</Text>
     </View>
   )
 }

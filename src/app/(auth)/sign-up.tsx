@@ -47,8 +47,8 @@ function SignUpScreen() {
       <X size="28" color={COLORS.primary} onPress={handleBack} />
 
       <View>
-        <Text className="mb-2 font-nbold text-3xl text-primary">Đăng Ký</Text>
-        <Text className="text-xl text-accent">
+        <Text className="font-dbold mb-2 text-4xl text-primary">Đăng Ký</Text>
+        <Text className="font-tregular text-xl text-accent">
           Đăng ký để theo dõi sức khỏe và dinh dưỡng hàng ngày
         </Text>
 
@@ -134,9 +134,9 @@ function SignUpScreen() {
           Đăng ký
         </Button>
 
-        <Text className="mt-4 text-center font-nregular">
+        <Text className="font-tregular mt-4 text-center">
           Đã có tài khoản?{" "}
-          <Link href="/(auth)/sign-in" className="font-nsemibold text-primary">
+          <Link href="/(auth)/sign-in" className="font-tmedium text-primary">
             Đăng nhập
           </Link>
         </Text>

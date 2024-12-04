@@ -26,7 +26,7 @@ export const Avatar = ({
           className="flex items-center justify-center rounded-full border-4 border-white bg-secondary"
           style={{ width: size, height: size }}
         >
-          <Text className="font-nbold text-2xl text-secondary-foreground">
+          <Text className="font-dbold text-2xl text-secondary-foreground">
             {getInitials(alt)}
           </Text>
         </View>

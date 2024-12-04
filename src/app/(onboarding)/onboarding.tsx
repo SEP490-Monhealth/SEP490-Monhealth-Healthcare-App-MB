@@ -67,7 +67,7 @@ const OnboardingScreen = () => {
     <Container className="justify-end pb-8">
       <Text
         onPress={handleSkip}
-        className="absolute right-5 top-16 font-nmedium text-lg text-primary active:underline"
+        className="font-tmedium absolute right-5 top-16 text-lg text-primary active:underline"
       >
         Bỏ qua
       </Text>
@@ -90,11 +90,11 @@ const OnboardingScreen = () => {
                 style={{ width: 320, height: 320 }}
               />
 
-              <Text className="text-center font-nbold text-2xl text-primary">
+              <Text className="font-dbold text-center text-2xl text-primary">
                 {data[currentIndex].title}
               </Text>
 
-              <Text className="text-center font-nregular text-lg text-slate-400">
+              <Text className="font-tregular text-center text-lg text-slate-400">
                 {data[currentIndex].description}
               </Text>
 

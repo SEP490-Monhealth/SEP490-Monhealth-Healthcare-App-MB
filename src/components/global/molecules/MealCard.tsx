@@ -25,11 +25,11 @@ export const MealCard = ({
       <Reserve variant="Bold" size="40" color={COLORS.secondary} />
 
       <VStack gap={2}>
-        <Text className="font-nmedium text-sm text-typography">{mealType}</Text>
+        <Text className="font-dmedium text-sm text-typography">{mealType}</Text>
 
         {progress && <Progress progress={progress || 0} />}
 
-        <Text className="font-nregular text-xs text-typography-description">
+        <Text className="font-tregular text-xs text-accent">
           {totalCalories} calories
         </Text>
       </VStack>
