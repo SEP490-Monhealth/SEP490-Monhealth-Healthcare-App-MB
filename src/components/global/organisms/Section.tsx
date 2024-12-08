@@ -2,10 +2,14 @@ import React from "react"
 
 import { Text, View } from "react-native"
 
-export const Section = () => {
+interface SectionProps {
+  title: string
+}
+
+export const Section = ({ title }: SectionProps) => {
   return (
-    <View>
-      <Text>Section</Text>
+    <View className="mb-4 ml-1 mt-8">
+      <Text className="font-tbold text-xl text-typography">{title}</Text>
     </View>
   )
 }

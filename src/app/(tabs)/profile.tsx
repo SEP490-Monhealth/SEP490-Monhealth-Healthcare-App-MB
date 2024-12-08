@@ -14,7 +14,6 @@ function ProfileScreen() {
     <Container>
       <Header
         title="Hồ sơ"
-        showBackButton
         action={{
           icon: <Setting2 variant="Bold" size={24} color={COLORS.primary} />,
           url: "/users/settings"

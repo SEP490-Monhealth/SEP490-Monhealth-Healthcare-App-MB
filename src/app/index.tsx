@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 
-import { Image, ImageBackground, Text } from "react-native"
+import { ImageBackground, Text } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -11,7 +11,7 @@ function AppIndex() {
 
   useEffect(() => {
     setTimeout(() => {
-      const isLoggedIn = false
+      const isLoggedIn = true
       if (isLoggedIn) {
         router.replace("/(tabs)/home")
       } else {
