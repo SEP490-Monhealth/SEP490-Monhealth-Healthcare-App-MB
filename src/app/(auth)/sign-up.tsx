@@ -58,8 +58,10 @@ function SignUpScreen() {
       />
 
       <View>
-        <Text className="mb-2 font-dbold text-4xl text-primary">Đăng Ký</Text>
-        <Text className="font-tregular text-xl text-accent">
+        <Text className="mb-2 font-tbold text-4xl text-typography">
+          Đăng Ký
+        </Text>
+        <Text className="font-tregular text-xl text-card">
           Đăng ký để theo dõi sức khỏe và dinh dưỡng hàng ngày
         </Text>
 
@@ -147,7 +149,7 @@ function SignUpScreen() {
 
         <Text className="mt-4 text-center font-tregular">
           Đã có tài khoản?{" "}
-          <Link href="/(auth)/sign-in" className="font-tmedium text-primary">
+          <Link href="/(auth)/sign-in" className="font-tmedium text-typography">
             Đăng nhập
           </Link>
         </Text>

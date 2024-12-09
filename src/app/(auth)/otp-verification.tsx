@@ -26,10 +26,10 @@ function OTPVerificationScreen() {
       />
 
       <View>
-        <Text className="mb-2 font-dbold text-3xl text-primary">
+        <Text className="mb-2 font-tbold text-3xl text-typography">
           Xác Nhận Mã OTP
         </Text>
-        <Text className="font-tregular text-xl text-accent">
+        <Text className="font-tregular text-xl text-card">
           Nhập mã OTP đã được gửi đến số điện thoại của bạn để tiếp tục quá
           trình khôi phục mật khẩu
         </Text>

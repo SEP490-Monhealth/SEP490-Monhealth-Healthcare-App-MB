@@ -40,11 +40,13 @@ export const MealCard = ({
       className="flex flex-row items-center justify-between"
       onPress={handleViewMeal}
     >
-      <HStack gap={16} className="items-center">
+      <HStack gap={16} center>
         <Reserve variant="Bold" size="32" color={COLORS.secondary} />
 
         <VStack gap={0}>
-          <Text className="font-dmedium text-lg text-primary">{mealType}</Text>
+          <Text className="font-tmedium text-lg text-typography">
+            {mealType}
+          </Text>
 
           {progress && <Progress progress={progress || 0} />}
 

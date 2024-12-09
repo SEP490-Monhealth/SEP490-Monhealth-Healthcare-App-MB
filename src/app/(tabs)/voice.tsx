@@ -1,12 +1,23 @@
 import React from "react"
 
-import { Text, View } from "react-native"
+import { Microphone } from "iconsax-react-native"
+
+import { Container } from "@/components/global/atoms"
+import { Header } from "@/components/global/organisms"
+
+import { COLORS } from "@/constants/appConstants"
 
 function VoiceScreen() {
   return (
-    <View className="flex items-center justify-center bg-blue-500 py-12">
-      <Text className="text-lg text-white">Welcome to the Voice Tab!</Text>
-    </View>
+    <Container>
+      <Header
+        title="AI Voice"
+        action={{
+          icon: <Microphone variant="Bold" size={24} color={COLORS.primary} />,
+          url: "/(tabs)/home"
+        }}
+      />
+    </Container>
   )
 }
 

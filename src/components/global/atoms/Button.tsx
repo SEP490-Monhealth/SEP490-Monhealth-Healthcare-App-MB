@@ -57,7 +57,7 @@ export const Button: React.FC<ButtonProps> = ({
     <TouchableOpacity
       disabled={disabled || loading}
       onPress={onPress}
-      activeOpacity={0.8}
+      activeOpacity={0.7}
       className={cn(
         "flex flex-row items-center justify-center rounded-2xl",
         variantClass.container,
@@ -74,7 +74,7 @@ export const Button: React.FC<ButtonProps> = ({
           {iconStart && <View className="mr-2">{iconStart}</View>}
           {children && (
             <Text
-              className={cn("font-dbold", variantClass.text, sizeClass.text)}
+              className={cn("font-tbold", variantClass.text, sizeClass.text)}
             >
               {children}
             </Text>

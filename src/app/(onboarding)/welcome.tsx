@@ -21,13 +21,13 @@ function WelcomeScreen() {
   return (
     <Container className="flex justify-between pb-8 pt-24">
       <VStack gap={12}>
-        <Text className="font-dbold text-4xl text-primary">
+        <Text className="font-tbold text-4xl text-typography">
           Hoàn thành {"\n"}
           mục tiêu sức khỏe {"\n"}
           của bạn
         </Text>
 
-        <Text className="font-tregular text-xl text-accent">
+        <Text className="font-tregular text-xl text-card">
           Với công cụ theo dõi dinh dưỡng và bài tập cá nhân hóa
         </Text>
       </VStack>
@@ -40,13 +40,13 @@ function WelcomeScreen() {
           <Button onPress={handleSignInEmail}>Tiếp tục với Email</Button>
         </VStack>
 
-        <Text className="text-center text-accent">
+        <Text className="text-center text-card">
           Khi tiếp tục, bạn đồng ý với{" "}
-          <Text className="font-tmedium text-primary active:underline">
+          <Text className="font-tmedium text-typography active:underline">
             Điều khoản dịch vụ
           </Text>{" "}
           và{" "}
-          <Text className="font-tmedium text-primary active:underline">
+          <Text className="font-tmedium text-typography active:underline">
             Chính sách quyền riêng tư
           </Text>{" "}
           của chúng tôi.

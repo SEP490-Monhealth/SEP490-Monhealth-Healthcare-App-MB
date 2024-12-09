@@ -15,11 +15,11 @@ module.exports = {
           DEFAULT: "#E2E8F0", // Slate 200
           foreground: "#64748B" // Slate 500
         },
-        card: {
+        accent: {
           DEFAULT: "#F1F5F9", // Slate 100
           foreground: "#334155" // Slate 700
         },
-        accent: {
+        card: {
           DEFAULT: "#64748B", // Slate 500
           foreground: "#F1F5F9" // Slate 100
         },

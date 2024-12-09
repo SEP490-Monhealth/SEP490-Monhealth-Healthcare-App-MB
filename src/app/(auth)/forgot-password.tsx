@@ -46,10 +46,10 @@ function ForgotPasswordScreen() {
       />
 
       <View>
-        <Text className="mb-2 font-dbold text-3xl text-primary">
+        <Text className="mb-2 font-tbold text-3xl text-typography">
           Quên Mật Khẩu
         </Text>
-        <Text className="font-tregular text-xl text-accent">
+        <Text className="font-tregular text-xl text-card">
           Xác nhận số điện thoại của bạn để tiếp tục quá trình khôi phục mật
           khẩu
         </Text>

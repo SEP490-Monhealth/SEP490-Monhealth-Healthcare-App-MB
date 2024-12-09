@@ -50,10 +50,10 @@ function ForgotPasswordScreen() {
       />
 
       <View>
-        <Text className="mb-2 font-dbold text-3xl text-primary">
+        <Text className="mb-2 font-tbold text-3xl text-typography">
           Đặt Lại Mật Khẩu
         </Text>
-        <Text className="font-tregular text-xl text-accent">
+        <Text className="font-tregular text-xl text-card">
           Vui lòng nhập mật khẩu mới và xác nhận để hoàn tất quá trình đặt lại
           mật khẩu của bạn
         </Text>

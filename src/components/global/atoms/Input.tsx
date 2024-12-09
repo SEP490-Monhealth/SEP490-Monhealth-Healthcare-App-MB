@@ -37,11 +37,12 @@ export const Input = ({
             ? "border-destructive bg-red-50"
             : "border-secondary bg-white"
         }`}
+        style={{ height: 48 }}
       >
         {iconStart && (
           <TouchableOpacity
             onPress={() => inputRef.current?.focus()}
-            activeOpacity={0.8}
+            activeOpacity={0.7}
             className="mr-2"
           >
             <View>{iconStart}</View>
@@ -55,20 +56,20 @@ export const Input = ({
           value={value}
           keyboardType={keyboardType}
           onChangeText={onChangeText}
-          className={`font-tregular flex-1 ${
+          className={`flex-1 font-tregular ${
             hasError ? "text-destructive" : "text-typography"
           }`}
         />
 
         {iconEnd && (
-          <TouchableOpacity onPress={toggleSecureTextEntry} activeOpacity={0.8}>
-            <View className="-mr-2 p-2">{iconEnd}</View>
+          <TouchableOpacity onPress={toggleSecureTextEntry} activeOpacity={0.7}>
+            <View className="p-4">{iconEnd}</View>
           </TouchableOpacity>
         )}
       </View>
 
       {hasError && (
-        <Text className="font-tregular ml-1 mt-1 text-sm text-destructive">
+        <Text className="ml-1 mt-1 font-tregular text-sm text-destructive">
           {errorMessage}
         </Text>
       )}

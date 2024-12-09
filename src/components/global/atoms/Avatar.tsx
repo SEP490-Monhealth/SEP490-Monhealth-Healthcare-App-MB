@@ -2,7 +2,7 @@ import React, { useState } from "react"
 
 import { Image, Text, View } from "react-native"
 
-import { getInitials } from "@/utils/formatters"
+import { getInitials } from "@/utils/helpers"
 
 interface AvatarProps {
   source: string
@@ -26,7 +26,7 @@ export const Avatar = ({
           className="flex items-center justify-center rounded-full border-4 border-white bg-secondary"
           style={{ width: size, height: size }}
         >
-          <Text className="font-dbold text-2xl text-accent">
+          <Text className="font-tbold text-2xl text-card">
             {getInitials(alt)}
           </Text>
         </View>

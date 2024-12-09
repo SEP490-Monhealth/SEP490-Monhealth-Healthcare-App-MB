@@ -11,7 +11,7 @@ export const IconButton = ({ icon, onPress }: IconButtonProps) => {
   return (
     <TouchableOpacity
       onPress={onPress}
-      activeOpacity={0.8}
+      activeOpacity={0.7}
       className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-200 text-typography"
     >
       <View>{icon}</View>

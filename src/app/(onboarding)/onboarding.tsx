@@ -67,7 +67,7 @@ const OnboardingScreen = () => {
     <Container className="justify-end pb-8">
       <Text
         onPress={handleSkip}
-        className="font-tmedium absolute right-5 top-16 text-lg text-primary active:underline"
+        className="absolute right-5 top-16 font-tmedium text-lg text-typography active:underline"
       >
         Bỏ qua
       </Text>
@@ -83,18 +83,18 @@ const OnboardingScreen = () => {
           }}
         >
           <View>
-            <VStack gap={8} className="items-center">
+            <VStack gap={8} center>
               <Image
                 source={data[currentIndex].image}
                 resizeMode="cover"
                 style={{ width: 320, height: 320 }}
               />
 
-              <Text className="font-dbold text-center text-2xl text-primary">
+              <Text className="text-center font-tbold text-2xl text-typographyF">
                 {data[currentIndex].title}
               </Text>
 
-              <Text className="font-tregular text-center text-lg text-slate-400">
+              <Text className="text-center font-tregular text-lg text-slate-400">
                 {data[currentIndex].description}
               </Text>
 

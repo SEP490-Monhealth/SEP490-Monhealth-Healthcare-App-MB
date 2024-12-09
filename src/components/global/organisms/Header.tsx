@@ -17,15 +17,11 @@ interface ActionProps {
 
 interface HeaderProps {
   title: string
-  showBackButton?: boolean
+  back?: boolean
   action?: ActionProps
 }
 
-export const Header = ({
-  title,
-  showBackButton = false,
-  action
-}: HeaderProps) => {
+export const Header = ({ title, back = false, action }: HeaderProps) => {
   const router = useRouter()
 
   const handleBack = () => {
@@ -40,7 +36,7 @@ export const Header = ({
 
   return (
     <View className="relative mb-4 flex min-h-12 flex-row justify-between">
-      {showBackButton && (
+      {back && (
         <IconButton
           icon={<ArrowLeft size={24} color={COLORS.primary} />}
           onPress={handleBack}
@@ -48,8 +44,8 @@ export const Header = ({
       )}
 
       <Text
-        className={`mt-2 text-left font-dbold text-xl text-typography ${
-          showBackButton && "absolute left-1/2 -translate-x-1/2"
+        className={`mt-2 text-left font-tbold text-xl text-typography ${
+          back && "absolute left-1/2 -translate-x-1/2"
         }`}
       >
         {title}

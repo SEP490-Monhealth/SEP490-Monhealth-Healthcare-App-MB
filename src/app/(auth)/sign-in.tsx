@@ -49,8 +49,10 @@ function SignInScreen() {
       />
 
       <View>
-        <Text className="mb-2 font-dbold text-4xl text-primary">Đăng Nhập</Text>
-        <Text className="font-tregular text-xl text-accent">
+        <Text className="mb-2 font-tbold text-4xl text-typography">
+          Đăng Nhập
+        </Text>
+        <Text className="font-tregular text-xl text-card">
           Đăng nhập để tiếp tục theo dõi sức khỏe của bạn
         </Text>
 
@@ -100,7 +102,7 @@ function SignInScreen() {
 
         <Link
           href="/(auth)/forgot-password"
-          className="mt-2 w-fit text-right font-tmedium text-primary"
+          className="mt-2 w-fit text-right font-tmedium text-typography"
         >
           Quên mật khẩu
         </Link>
@@ -111,7 +113,7 @@ function SignInScreen() {
 
         <Text className="mt-4 text-center font-tregular">
           Chưa có tài khoản?{" "}
-          <Link href="/(auth)/sign-up" className="font-tmedium text-primary">
+          <Link href="/(auth)/sign-up" className="font-tmedium text-typography">
             Đăng ký
           </Link>
         </Text>

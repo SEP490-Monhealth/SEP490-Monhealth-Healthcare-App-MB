@@ -11,7 +11,7 @@ function AppIndex() {
 
   useEffect(() => {
     setTimeout(() => {
-      const isLoggedIn = true
+      const isLoggedIn = false
       if (isLoggedIn) {
         router.replace("/(tabs)/home")
       } else {
@@ -32,7 +32,7 @@ function AppIndex() {
         style={{ width: 120, height: 120 }}
       /> */}
 
-        <Text className="font-dbold text-4xl text-white">
+        <Text className="font-tbold text-4xl text-white">
           Mon<Text className="text-white">Health</Text>
         </Text>
       </ImageBackground>

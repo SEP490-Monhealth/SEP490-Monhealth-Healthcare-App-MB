@@ -10,16 +10,16 @@ import { cn } from "@/lib/utils"
 interface CenterCircleProps {
   size: number
   innerSizeRatio: number
-  currentValue: number
-  totalValue: number
+  calorieValue: number
+  maxCalories: number
   label: string
 }
 
 const CenterCircle = ({
   size,
   innerSizeRatio,
-  currentValue,
-  totalValue,
+  calorieValue,
+  maxCalories,
   label
 }: CenterCircleProps) => {
   return (
@@ -32,10 +32,10 @@ const CenterCircle = ({
         borderColor: "#fcfcfc"
       }}
     >
-      <Text className="font-dbold text-2xl text-primary">
-        {currentValue} / {totalValue}
+      <Text className="font-tbold text-2xl text-typography">
+        {calorieValue} / {maxCalories}
       </Text>
-      <Text className="font-tmedium text-base text-accent">{label}</Text>
+      <Text className="font-tmedium text-base text-card">{label}</Text>
     </View>
   )
 }
@@ -49,8 +49,8 @@ interface ArcProgressProps {
   arcSweepAngle: number
   rotation: number
   centerCircle?: boolean
-  currentValue: number
-  totalValue: number
+  calorieValue: number
+  maxCalories: number
   label: string
   className?: string
 }
@@ -64,8 +64,8 @@ export const ArcProgress = ({
   arcSweepAngle = 360,
   rotation = 0,
   centerCircle = false,
-  currentValue = 0,
-  totalValue = 0,
+  calorieValue = 0,
+  maxCalories = 0,
   label = "",
   className = ""
 }: ArcProgressProps) => {
@@ -86,8 +86,8 @@ export const ArcProgress = ({
         <CenterCircle
           size={size}
           innerSizeRatio={0.77}
-          currentValue={currentValue}
-          totalValue={totalValue}
+          calorieValue={calorieValue}
+          maxCalories={maxCalories}
           label={label}
         />
       )}

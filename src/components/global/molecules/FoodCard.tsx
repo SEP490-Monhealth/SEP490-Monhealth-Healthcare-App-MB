@@ -26,8 +26,8 @@ export const FoodCard = ({
   return (
     <HStack className="justify-between p-5">
       <VStack gap={2}>
-        <Text className="font-dmedium text-sm text-typography">{foodName}</Text>
-        <Text className="font-tregular text-xs text-accent">
+        <Text className="font-tmedium text-sm text-typography">{foodName}</Text>
+        <Text className="text-accecardnt font-tregular text-xs">
           {portionSize} - {portionWeight} {measurementUnit} - {calories}{" "}
           calories
         </Text>

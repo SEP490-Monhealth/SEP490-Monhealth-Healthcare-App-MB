@@ -3,12 +3,17 @@ import React, { useState } from "react"
 import { FlatList, Text, View } from "react-native"
 
 import { Notification } from "iconsax-react-native"
+import LottieView from "lottie-react-native"
 
 import { Container, HStack, VStack } from "@/components/global/atoms"
 import { IconButton, MealCard } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
 
+import { NutrientProgress, NutrientSummary } from "@/components/local/tabs/home"
+
 import { COLORS } from "@/constants/appConstants"
+
+import { getGreeting } from "@/utils/helpers"
 
 function HomeScreen() {
   const [mealsData, setMealsData] = useState<
@@ -38,19 +43,36 @@ function HomeScreen() {
     }, 2000)
   }
 
+  const nutrientsData = [
+    { label: "Calories", value: 438, maxValue: 842 },
+    { label: "Protein", value: 120, maxValue: 220 },
+    { label: "Carbs", value: 160, maxValue: 220 },
+    { label: "Fat", value: 120, maxValue: 187 },
+    { label: "Salt", value: 24, maxValue: 45 },
+    { label: "Sugar", value: 37, maxValue: 60 }
+  ]
+
+  const calories = nutrientsData.find(
+    (nutrient) => nutrient.label === "Calories"
+  ) || { label: "Calories", value: 0, maxValue: 0 }
+
+  const filteredNutrients = nutrientsData.filter((nutrient) =>
+    ["Protein", "Carbs", "Fat", "Salt", "Sugar"].includes(nutrient.label)
+  )
+
   return (
     <Container>
       <FlatList
         data={mealsData}
         ListHeaderComponent={() => (
           <View>
-            <HStack className="items-center justify-between">
+            <HStack className="mb-12 items-center justify-between">
               <VStack>
-                <Text className="-mb-1 font-pregular text-lg text-muted">
-                  Chào buổi sáng,
+                <Text className="font-pregular text-lg text-muted">
+                  {getGreeting()}
                 </Text>
-                <Text className="font-tbold text-2xl text-typography">
-                  Van Huu Toan
+                <Text className="font-tbold text-2xl leading-6 text-typography">
+                  Văn Hữu Toàn
                 </Text>
               </VStack>
 
@@ -63,6 +85,15 @@ function HomeScreen() {
                   />
                 }
               />
+            </HStack>
+
+            <HStack center className="justify-between">
+              <NutrientProgress
+                calories={calories}
+                nutrients={filteredNutrients}
+              />
+
+              <NutrientSummary nutrients={filteredNutrients} />
             </HStack>
 
             <Section title="Bữa ăn hôm nay" />
@@ -85,8 +116,10 @@ function HomeScreen() {
           />
         )}
         ListFooterComponent={
-          <View className="h-[2000px]">
-            <Section title="Bài tập hôm nay" />
+          <View className="mt-8" style={{ paddingBottom: 60 }}>
+            <Text className="text-center font-tmedium text-card">
+              "Bạn đã hoàn thành mục tiêu calo hôm nay. Tuyệt vời!"
+            </Text>
           </View>
         }
         keyExtractor={(item) => item.mealType}

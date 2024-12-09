@@ -16,8 +16,8 @@ function ActivityScreen() {
         arcSweepAngle={260}
         rotation={230}
         centerCircle={true}
-        currentValue={300}
-        totalValue={1000}
+        calorieValue={300}
+        maxCalories={1000}
         label="calories"
       />
     </Container>
