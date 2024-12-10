@@ -1,14 +1,17 @@
 import React from "react"
 
-import { Text } from "react-native"
+import { Text, TouchableOpacity, View } from "react-native"
 
 import { MoreHorizontal } from "lucide-react-native"
 
 import { COLORS } from "@/constants/appConstants"
 
-import { Card, HStack, VStack } from "../atoms"
+import { Card, Checkbox, HStack, VStack } from "../atoms"
 
 interface FoodCardProps {
+  variant?: "more" | "checkbox"
+  checked?: boolean
+  onCheckChange?: (checked: boolean) => void
   foodName: string
   calories: number
   portionSize: string
@@ -17,6 +20,9 @@ interface FoodCardProps {
 }
 
 export const FoodCard = ({
+  variant = "more",
+  checked = false,
+  onCheckChange,
   foodName,
   calories,
   portionSize,
@@ -24,19 +30,27 @@ export const FoodCard = ({
   measurementUnit
 }: FoodCardProps) => {
   return (
-    <Card>
-      <HStack center className="justify-between">
+    <Card
+      onPress={
+        variant === "checkbox" ? () => onCheckChange?.(!checked) : undefined
+      }
+    >
+      <HStack className="items-center justify-between">
         <VStack gap={0}>
           <Text className="font-tmedium text-lg text-typography">
             {foodName}
           </Text>
           <Text className="font-tmedium text-sm text-muted">
-            {calories} calories - {portionSize} - {portionWeight}{" "}
+            {calories} calories • {portionSize} • {portionWeight}
             {measurementUnit}
           </Text>
         </VStack>
 
-        <MoreHorizontal size="20" color={COLORS.primary} />
+        {variant === "more" ? (
+          <MoreHorizontal size={20} color={COLORS.primary} />
+        ) : (
+          <Checkbox size={20} checked={checked} onCheckChange={onCheckChange} />
+        )}
       </HStack>
     </Card>
   )

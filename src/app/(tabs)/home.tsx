@@ -3,10 +3,9 @@ import React, { useState } from "react"
 import { FlatList, Text, View } from "react-native"
 
 import { Notification } from "iconsax-react-native"
-import LottieView from "lottie-react-native"
 
 import { Container, HStack, Progress, VStack } from "@/components/global/atoms"
-import { IconButton, MealCard } from "@/components/global/molecules"
+import { IconButton, ListHeader, MealCard } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
 
 import { NutrientProgress, NutrientSummary } from "@/components/local/tabs/home"
@@ -62,31 +61,27 @@ function HomeScreen() {
 
   return (
     <Container>
+      <HStack className="items-center justify-between pb-4">
+        <VStack>
+          <Text className="font-pregular text-lg text-muted">
+            {getGreeting()}
+          </Text>
+          <Text className="font-tbold text-2xl leading-6 text-typography">
+            Văn Hữu Toàn
+          </Text>
+        </VStack>
+
+        <IconButton
+          icon={
+            <Notification variant="Bold" size={24} color={COLORS.primary} />
+          }
+        />
+      </HStack>
+
       <FlatList
         data={mealsData}
         ListHeaderComponent={() => (
-          <View>
-            <HStack className="mb-12 items-center justify-between">
-              <VStack>
-                <Text className="font-pregular text-lg text-muted">
-                  {getGreeting()}
-                </Text>
-                <Text className="font-tbold text-2xl leading-6 text-typography">
-                  Văn Hữu Toàn
-                </Text>
-              </VStack>
-
-              <IconButton
-                icon={
-                  <Notification
-                    variant="Bold"
-                    size={24}
-                    color={COLORS.primary}
-                  />
-                }
-              />
-            </HStack>
-
+          <ListHeader>
             <VStack gap={24}>
               <HStack center className="justify-between">
                 <NutrientProgress
@@ -106,16 +101,7 @@ function HomeScreen() {
             </VStack>
 
             <Section title="Bữa ăn hôm nay" />
-
-            {/* {isRefreshing && (
-              <LottieView
-                source={require("../../../public/videos/monhealth-data-loading.json")}
-                autoPlay
-                loop
-                style={{ width: "100%", height: 72 }}
-              />
-            )} */}
-          </View>
+          </ListHeader>
         )}
         renderItem={({ item }) => (
           <MealCard

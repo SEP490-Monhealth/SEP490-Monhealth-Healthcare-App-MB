@@ -75,6 +75,7 @@ export const ArcProgress = ({
         size={size}
         width={width}
         fill={fill}
+        prefill={fill}
         tintColor={tintColor}
         backgroundColor={backgroundColor}
         arcSweepAngle={arcSweepAngle}

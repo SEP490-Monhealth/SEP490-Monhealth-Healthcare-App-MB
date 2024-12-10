@@ -2,6 +2,7 @@ import { Avatar } from "./Avatar"
 import { Button } from "./Button"
 import { Calendar } from "./Calendar"
 import { Card } from "./Card"
+import { Checkbox } from "./Checkbox"
 import { Container } from "./Container"
 import { Input } from "./Input"
 import { Progress } from "./Progress"
@@ -15,6 +16,7 @@ export {
   Button,
   Calendar,
   Card,
+  Checkbox,
   Container,
   Input,
   Progress,
