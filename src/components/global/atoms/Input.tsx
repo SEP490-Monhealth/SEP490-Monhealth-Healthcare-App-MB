@@ -37,7 +37,7 @@ export const Input = ({
             ? "border-destructive bg-red-50"
             : "border-secondary bg-white"
         }`}
-        style={{ height: 48 }}
+        style={{ height: 52 }}
       >
         {iconStart && (
           <TouchableOpacity

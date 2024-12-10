@@ -1,50 +1,62 @@
 import React, { useEffect, useRef } from "react"
 
-import { Animated, View } from "react-native"
+import { Animated, Text, View } from "react-native"
 
 import { COLORS } from "@/constants/appConstants"
 
 interface ProgressProps {
-  progress: number
   height?: number
+  progress: number
   color?: string
+  labelStart?: string
+  labelEnd?: string
 }
 
 export const Progress = ({
-  progress,
   height = 10,
-  color = COLORS.primary
+  progress,
+  color = COLORS.primary,
+  labelStart = "",
+  labelEnd = ""
 }: ProgressProps) => {
-  const animatedProgress = useRef(new Animated.Value(0)).current
-  const prevProgress = useRef(progress)
+  const animatedWidth = useRef(new Animated.Value(0)).current
 
   useEffect(() => {
-    if (progress !== prevProgress.current) {
-      const toValue = progress
-
-      Animated.timing(animatedProgress, {
-        toValue,
-        duration: 500,
-        useNativeDriver: false
-      }).start()
-
-      prevProgress.current = progress
-    }
+    const clampedProgress = Math.max(0, Math.min(progress, 100))
+    Animated.timing(animatedWidth, {
+      toValue: clampedProgress,
+      duration: 500,
+      useNativeDriver: false
+    }).start()
   }, [progress])
 
   return (
-    <View className="w-full rounded-full bg-slate-200">
-      <Animated.View
-        className="h-full rounded-full"
-        style={{
-          width: animatedProgress.interpolate({
-            inputRange: [0, 1],
-            outputRange: ["0%", "100%"]
-          }),
-          height: height,
-          backgroundColor: color
-        }}
-      />
+    <View className="w-full">
+      <View className="w-full rounded-full bg-[#E2E8F0]" style={{ height }}>
+        <Animated.View
+          className="h-full rounded-full"
+          style={{
+            backgroundColor: color,
+            width: animatedWidth.interpolate({
+              inputRange: [0, 100],
+              outputRange: ["0%", "100%"]
+            })
+          }}
+        />
+      </View>
+
+      <View className="mt-2 flex flex-row justify-between">
+        {labelStart ? (
+          <Text className="font-tmedium text-base text-typography">
+            {labelStart}
+          </Text>
+        ) : null}
+        {labelEnd ? (
+          <Text className="font-tmedium text-base text-typography">
+            {labelEnd}
+          </Text>
+        ) : null}
+      </View>
     </View>
   )
 }

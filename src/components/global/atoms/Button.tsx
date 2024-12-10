@@ -57,7 +57,7 @@ export const Button: React.FC<ButtonProps> = ({
     <TouchableOpacity
       disabled={disabled || loading}
       onPress={onPress}
-      activeOpacity={0.7}
+      activeOpacity={0.9}
       className={cn(
         "flex flex-row items-center justify-center rounded-2xl",
         variantClass.container,

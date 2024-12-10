@@ -5,7 +5,7 @@ import { FlatList, Text, View } from "react-native"
 import { Notification } from "iconsax-react-native"
 import LottieView from "lottie-react-native"
 
-import { Container, HStack, VStack } from "@/components/global/atoms"
+import { Container, HStack, Progress, VStack } from "@/components/global/atoms"
 import { IconButton, MealCard } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
 
@@ -87,14 +87,23 @@ function HomeScreen() {
               />
             </HStack>
 
-            <HStack center className="justify-between">
-              <NutrientProgress
-                calories={calories}
-                nutrients={filteredNutrients}
-              />
+            <VStack gap={24}>
+              <HStack center className="justify-between">
+                <NutrientProgress
+                  calories={calories}
+                  nutrients={filteredNutrients}
+                />
 
-              <NutrientSummary nutrients={filteredNutrients} />
-            </HStack>
+                <NutrientSummary nutrients={filteredNutrients} />
+              </HStack>
+
+              <Progress
+                height={8}
+                progress={50}
+                labelStart="438 trên 842 calories"
+                labelEnd="50%"
+              />
+            </VStack>
 
             <Section title="Bữa ăn hôm nay" />
 
@@ -116,7 +125,7 @@ function HomeScreen() {
           />
         )}
         ListFooterComponent={
-          <View className="mt-8" style={{ paddingBottom: 60 }}>
+          <View className="mt-8 pb-16">
             <Text className="text-center font-tmedium text-card">
               "Bạn đã hoàn thành mục tiêu calo hôm nay. Tuyệt vời!"
             </Text>
