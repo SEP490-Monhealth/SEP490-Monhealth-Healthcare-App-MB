@@ -18,14 +18,14 @@ import { getGreeting } from "@/utils/helpers"
 function HomeScreen() {
   const [mealsData, setMealsData] = useState<
     {
-      mealType: "Bữa sáng" | "Bữa trưa" | "Bữa tối" | "Bữa phụ"
+      mealType: "Breakfast" | "Lunch" | "Dinner" | "Snack"
       totalCalories: number
     }[]
   >([
-    { mealType: "Bữa sáng", totalCalories: 294 },
-    { mealType: "Bữa trưa", totalCalories: 294 },
-    { mealType: "Bữa tối", totalCalories: 294 },
-    { mealType: "Bữa phụ", totalCalories: 294 }
+    { mealType: "Breakfast", totalCalories: 294 },
+    { mealType: "Lunch", totalCalories: 294 },
+    { mealType: "Dinner", totalCalories: 294 },
+    { mealType: "Snack", totalCalories: 294 }
   ])
 
   const [isRefreshing, setIsRefreshing] = useState(false)
@@ -34,10 +34,10 @@ function HomeScreen() {
     setIsRefreshing(true)
     setTimeout(() => {
       setMealsData([
-        { mealType: "Bữa sáng", totalCalories: 300 },
-        { mealType: "Bữa trưa", totalCalories: 300 },
-        { mealType: "Bữa tối", totalCalories: 300 },
-        { mealType: "Bữa phụ", totalCalories: 300 }
+        { mealType: "Breakfast", totalCalories: 300 },
+        { mealType: "Lunch", totalCalories: 300 },
+        { mealType: "Dinner", totalCalories: 300 },
+        { mealType: "Snack", totalCalories: 300 }
       ])
       setIsRefreshing(false)
     }, 2000)

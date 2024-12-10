@@ -42,13 +42,13 @@ const OnboardingScreen = () => {
       setCurrentIndex(currentIndex + 1)
     } else {
       console.log("Onboarding completed")
-      router.replace("/(onboarding)/welcome")
+      router.push("/(onboarding)/welcome")
     }
   }
 
   const handleSkip = () => {
     console.log("Skipped onboarding")
-    router.replace("/(onboarding)/welcome")
+    router.push("/(onboarding)/welcome")
   }
 
   const handleSwipe = (direction: string) => {
@@ -90,7 +90,7 @@ const OnboardingScreen = () => {
                 style={{ width: 320, height: 320 }}
               />
 
-              <Text className="text-center font-tbold text-2xl text-typographyF">
+              <Text className="text-typographyF text-center font-tbold text-2xl">
                 {data[currentIndex].title}
               </Text>
 

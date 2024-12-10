@@ -35,7 +35,7 @@ const CenterCircle = ({
       <Text className="font-tbold text-2xl text-typography">
         {calorieValue} / {maxCalories}
       </Text>
-      <Text className="font-tmedium text-base text-card">{label}</Text>
+      <Text className="font-tmedium text-base text-muted">{label}</Text>
     </View>
   )
 }
@@ -60,7 +60,7 @@ export const ArcProgress = ({
   width,
   fill = 0,
   tintColor = COLORS.primary,
-  backgroundColor = "#E2E8F0",
+  backgroundColor = "#e2e8f0",
   arcSweepAngle = 360,
   rotation = 0,
   centerCircle = false,
@@ -85,7 +85,7 @@ export const ArcProgress = ({
       {centerCircle && (
         <CenterCircle
           size={size}
-          innerSizeRatio={0.77}
+          innerSizeRatio={0.75}
           calorieValue={calorieValue}
           maxCalories={maxCalories}
           label={label}

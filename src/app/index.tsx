@@ -13,9 +13,9 @@ function AppIndex() {
     setTimeout(() => {
       const isLoggedIn = true
       if (isLoggedIn) {
-        router.replace("/(tabs)/home")
+        router.push("/(tabs)/home")
       } else {
-        router.replace("/(onboarding)/welcome")
+        router.push("/(onboarding)/welcome")
       }
     }, 2000)
   }, [])

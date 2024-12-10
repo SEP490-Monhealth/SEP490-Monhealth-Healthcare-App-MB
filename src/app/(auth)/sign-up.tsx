@@ -43,7 +43,7 @@ function SignUpScreen() {
   })
 
   const handleBack = () => {
-    router.replace("/(onboarding)/welcome")
+    router.push("/(onboarding)/welcome")
   }
 
   const onSubmit = (data: RegisterUserType) => {

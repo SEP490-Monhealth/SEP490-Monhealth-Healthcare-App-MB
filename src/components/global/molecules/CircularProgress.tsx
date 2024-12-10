@@ -22,7 +22,7 @@ export const CircularProgress = ({
   width,
   fill = 0,
   tintColor = COLORS.primary,
-  backgroundColor = "#E2E8F0",
+  backgroundColor = "#e2e8f0",
   rotation = 90,
   className = ""
 }: CircularProgressProps) => {

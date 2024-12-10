@@ -32,6 +32,10 @@ export const getInitials = (name: string) => {
     .join("") // Kết hợp các chữ cái lại với nhau
 }
 
+/**
+ * Lấy lời chào phù hợp dựa trên thời gian hiện tại
+ * @returns Lời chào bằng tiếng Việt (Chào buổi sáng, Chào buổi chiều, Chào buổi tối)
+ */
 export const getGreeting = () => {
   const date = new Date()
   const hours = date.getHours()
@@ -45,6 +49,11 @@ export const getGreeting = () => {
   }
 }
 
+/**
+ * Lấy màu sắc đại diện cho từng chất dinh dưỡng
+ * @param label Tên chất dinh dưỡng (Protein, Carbs, Fat, Salt, Sugar)
+ * @returns Màu sắc đại diện cho chất dinh dưỡng (dùng trong UI)
+ */
 export const getNutrientColor = (label: string) => {
   switch (label) {
     case "Protein":
@@ -60,4 +69,19 @@ export const getNutrientColor = (label: string) => {
     default:
       return COLORS.secondary
   }
+}
+
+/**
+ * Chuyển đổi mealType từ tiếng Anh sang tiếng Việt.
+ * @param mealType - Loại bữa ăn bằng tiếng Anh (Breakfast, Lunch, Dinner, Snack)
+ * @returns Loại bữa ăn bằng tiếng Việt (Bữa sáng, Bữa trưa, Bữa tối, Bữa phụ)
+ */
+export const getMealTypeName = (mealType: string): string => {
+  const translations: Record<string, string> = {
+    Breakfast: "Bữa sáng",
+    Lunch: "Bữa trưa",
+    Dinner: "Bữa tối",
+    Snack: "Bữa phụ"
+  }
+  return translations[mealType] || mealType
 }

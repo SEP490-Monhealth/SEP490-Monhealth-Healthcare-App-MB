@@ -33,12 +33,12 @@ function SignInScreen() {
   })
 
   const handleBack = () => {
-    router.replace("/(onboarding)/welcome")
+    router.push("/(onboarding)/welcome")
   }
 
   const onSubmit = (data: LoginUserType) => {
     console.log(data)
-    router.replace("/(tabs)/home")
+    router.push("/(tabs)/home")
   }
 
   return (

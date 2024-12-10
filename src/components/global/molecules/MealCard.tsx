@@ -9,30 +9,25 @@ import { ChevronRight } from "lucide-react-native"
 
 import { COLORS } from "@/constants/appConstants"
 
+import { getMealTypeName } from "@/utils/helpers"
+
 import { Card, HStack, Progress, VStack } from "../atoms"
 
 interface MealCardProps {
-  mealType: "Bữa sáng" | "Bữa trưa" | "Bữa tối" | "Bữa phụ"
+  mealType: "Breakfast" | "Lunch" | "Dinner" | "Snack"
   totalCalories: number
   progress?: number
 }
 
 export const MealCard = ({
-  mealType = "Bữa sáng",
+  mealType = "Breakfast",
   totalCalories,
   progress
 }: MealCardProps) => {
   const router = useRouter()
 
   const handleViewMeal = () => {
-    const routeMap: Record<string, string> = {
-      "Bữa sáng": "/meals/breakfast",
-      "Bữa trưa": "/meals/lunch",
-      "Bữa tối": "/meals/dinner",
-      "Bữa phụ": "/meals/snack"
-    }
-
-    router.push(routeMap[mealType] || "/meals")
+    router.push(`/meals/details/${mealType}`)
   }
 
   return (
@@ -45,7 +40,7 @@ export const MealCard = ({
 
         <VStack gap={0}>
           <Text className="font-tmedium text-lg text-typography">
-            {mealType}
+            {getMealTypeName(mealType)}
           </Text>
 
           {progress && <Progress progress={progress || 0} />}

@@ -15,7 +15,7 @@ function WelcomeScreen() {
 
   const handleSignInEmail = () => {
     console.log("Continue with Email")
-    router.replace("/(auth)/sign-in")
+    router.push("/(auth)/sign-in")
   }
 
   return (

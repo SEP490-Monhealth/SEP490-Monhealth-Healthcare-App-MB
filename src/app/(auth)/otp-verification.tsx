@@ -15,7 +15,7 @@ function OTPVerificationScreen() {
   const router = useRouter()
 
   const handleBack = () => {
-    router.replace("/(auth)/forgot-password")
+    router.push("/(auth)/forgot-password")
   }
 
   return (

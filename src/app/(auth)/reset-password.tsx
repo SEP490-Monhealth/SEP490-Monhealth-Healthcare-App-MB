@@ -34,12 +34,12 @@ function ForgotPasswordScreen() {
   })
 
   const handleBack = () => {
-    router.replace("/(auth)/forgot-password")
+    router.push("/(auth)/forgot-password")
   }
 
   const onSubmit = (data: ResetPasswordType) => {
     console.log(data)
-    router.replace("/(auth)/otp-verification")
+    router.push("/(auth)/otp-verification")
   }
 
   return (
