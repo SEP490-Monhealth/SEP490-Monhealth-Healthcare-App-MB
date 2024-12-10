@@ -31,7 +31,6 @@ module.exports = {
           DEFAULT: "#0F172A", // Slate 900
           primary: "#94A3B8", // Slate 400
           foreground: "#FFFFFF",
-          description: "#888888"
         },
         destructive: {
           DEFAULT: "#DC2626", // Red 600

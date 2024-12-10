@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils"
 
 interface CardProps {
   children: React.ReactNode
+  activeOpacity?: number
   onPress?: () => void
   className?: string
 }
@@ -13,13 +14,14 @@ interface CardProps {
 export const Card: React.FC<CardProps> = ({
   children,
   onPress,
+  activeOpacity = 0.7,
   className = ""
 }) => {
   return (
     <TouchableOpacity
-      activeOpacity={0.7}
+      activeOpacity={activeOpacity}
       onPress={onPress}
-      className={cn("rounded-2xl bg-[#fafafa] px-6 py-4", className)}
+      className={cn("w-full rounded-2xl bg-[#fafafa] px-6 py-4", className)}
     >
       <React.Fragment>{children}</React.Fragment>
     </TouchableOpacity>

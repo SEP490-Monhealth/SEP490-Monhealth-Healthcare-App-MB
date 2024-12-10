@@ -1,31 +1,61 @@
 import React from "react"
 
-import { Setting2 } from "iconsax-react-native"
+import { Text, View } from "react-native"
 
-import { Avatar, Container } from "@/components/global/atoms"
+import { Crown1 } from "iconsax-react-native"
+
+import {
+  Button,
+  Card,
+  Container,
+  HStack,
+  VStack
+} from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import { COLORS } from "@/constants/appConstants"
+import {
+  AboutInfo,
+  GeneralInfo,
+  HealthStats,
+  UserAvatar
+} from "@/components/local/tabs/profile"
 
 function ProfileScreen() {
-  const defaultAvatar = ""
+  const defaultAvatar =
+    "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Monhealth%2Ftests%2Fangrycat.jpg?alt=media&token=542becf5-173f-47c2-951b-b9f79578fa60"
+
+  const handleLogout = () => {
+    console.log("Logout")
+  }
 
   return (
-    <Container>
-      <Header
-        title="Hồ sơ"
-        action={{
-          icon: <Setting2 variant="Bold" size={24} color={COLORS.primary} />,
-          url: "/users/settings"
-        }}
-      />
+    <Container scroll>
+      <Header title="Hồ sơ" />
 
-      <Avatar
-        size={120}
-        source={defaultAvatar}
-        alt="Zotaeus"
-        className="items-center"
-      />
+      <VStack center gap={20} className="mt-4 pb-16">
+        <UserAvatar avatarUrl={defaultAvatar} />
+
+        <VStack center gap={0} className="mb-2">
+          <Text className="font-tbold text-2xl text-primary">Van Huu Toan</Text>
+
+          <HStack center gap={4}>
+            <Crown1 variant="Bold" size="20" color="#dc2626" />
+            <Text className="font-tmedium text-lg text-destructive">
+              Vip Member
+            </Text>
+          </HStack>
+        </VStack>
+
+        <HealthStats weight={50} height={170} bmi={17.3} />
+
+        <GeneralInfo />
+
+        <AboutInfo />
+
+        <Button variant="danger" onPress={handleLogout} className="w-full">
+          Đăng xuất
+        </Button>
+      </VStack>
     </Container>
   )
 }
