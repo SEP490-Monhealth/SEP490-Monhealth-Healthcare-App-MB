@@ -4,21 +4,21 @@ import { View } from "react-native"
 
 import { cn } from "@/lib/utils"
 
-interface ContainerProps {
+interface ContentProps {
   children: React.ReactNode
+  margin?: boolean
   className?: string
 }
 
-export const Container: React.FC<ContainerProps> = ({
+export const Content: React.FC<ContentProps> = ({
   children,
+  margin = true,
   className = ""
 }) => {
   return (
     <View
-      className={cn(
-        "mb-16 h-full min-h-screen bg-background px-6 pt-16",
-        className
-      )}
+      className={cn("", className)}
+      style={{ marginBottom: margin ? 120 : 40 }}
     >
       <React.Fragment>{children}</React.Fragment>
     </View>

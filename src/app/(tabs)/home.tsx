@@ -4,7 +4,13 @@ import { FlatList, Text, View } from "react-native"
 
 import { Notification } from "iconsax-react-native"
 
-import { Container, HStack, Progress, VStack } from "@/components/global/atoms"
+import {
+  Container,
+  Content,
+  HStack,
+  Progress,
+  VStack
+} from "@/components/global/atoms"
 import { IconButton, ListHeader, MealCard } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
 
@@ -61,7 +67,7 @@ function HomeScreen() {
 
   return (
     <Container>
-      <HStack className="items-center justify-between pb-4">
+      <HStack className="items-center justify-between bg-background pb-4">
         <VStack>
           <Text className="font-pregular text-lg text-muted">
             {getGreeting()}
@@ -78,52 +84,54 @@ function HomeScreen() {
         />
       </HStack>
 
-      <FlatList
-        data={mealsData}
-        ListHeaderComponent={() => (
-          <ListHeader>
-            <VStack gap={24}>
-              <HStack center className="justify-between">
-                <NutrientProgress
-                  calories={calories}
-                  nutrients={filteredNutrients}
+      <Content>
+        <FlatList
+          data={mealsData}
+          ListHeaderComponent={() => (
+            <ListHeader>
+              <VStack gap={24}>
+                <HStack center className="justify-between">
+                  <NutrientProgress
+                    calories={calories}
+                    nutrients={filteredNutrients}
+                  />
+
+                  <NutrientSummary nutrients={filteredNutrients} />
+                </HStack>
+
+                <Progress
+                  height={8}
+                  progress={50}
+                  labelStart="438 trên 842 calories"
+                  labelEnd="50%"
                 />
+              </VStack>
 
-                <NutrientSummary nutrients={filteredNutrients} />
-              </HStack>
-
-              <Progress
-                height={8}
-                progress={50}
-                labelStart="438 trên 842 calories"
-                labelEnd="50%"
-              />
-            </VStack>
-
-            <Section title="Bữa ăn hôm nay" />
-          </ListHeader>
-        )}
-        renderItem={({ item }) => (
-          <MealCard
-            key={item.mealType}
-            mealType={item.mealType}
-            totalCalories={item.totalCalories}
-          />
-        )}
-        ListFooterComponent={
-          <View className="mt-8 pb-16">
-            <Text className="text-center font-tmedium text-card">
-              "Bạn đã hoàn thành mục tiêu calo hôm nay. Tuyệt vời!"
-            </Text>
-          </View>
-        }
-        keyExtractor={(item) => item.mealType}
-        onRefresh={onRefresh}
-        refreshing={isRefreshing}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        ItemSeparatorComponent={() => <View className="h-3" />}
-      />
+              <Section title="Bữa ăn hôm nay" />
+            </ListHeader>
+          )}
+          renderItem={({ item }) => (
+            <MealCard
+              key={item.mealType}
+              mealType={item.mealType}
+              totalCalories={item.totalCalories}
+            />
+          )}
+          ListFooterComponent={
+            <View className="mt-8 pb-16">
+              <Text className="text-center font-tmedium text-card">
+                "Bạn đã hoàn thành mục tiêu calo hôm nay. Tuyệt vời!"
+              </Text>
+            </View>
+          }
+          keyExtractor={(item) => item.mealType}
+          onRefresh={onRefresh}
+          refreshing={isRefreshing}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          ItemSeparatorComponent={() => <View className="h-3" />}
+        />
+      </Content>
     </Container>
   )
 }

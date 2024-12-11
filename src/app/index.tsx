@@ -4,7 +4,7 @@ import { ImageBackground, Text } from "react-native"
 
 import { useRouter } from "expo-router"
 
-import { Container } from "@/components/global/atoms"
+import { Container, Content } from "@/components/global/atoms"
 
 function AppIndex() {
   const router = useRouter()

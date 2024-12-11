@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Text, View } from "react-native"
+import { Text } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -13,8 +13,6 @@ import {
 } from "iconsax-react-native"
 
 import { Card } from "@/components/global/atoms"
-
-import { COLORS } from "@/constants/appConstants"
 
 import { ListItem } from "./ListItem"
 

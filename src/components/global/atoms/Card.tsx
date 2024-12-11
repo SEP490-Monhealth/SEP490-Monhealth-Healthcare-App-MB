@@ -21,7 +21,10 @@ export const Card: React.FC<CardProps> = ({
     <TouchableOpacity
       activeOpacity={activeOpacity}
       onPress={onPress}
-      className={cn("w-full rounded-2xl bg-[#fafafa] px-6 py-4", className)}
+      className={cn(
+        "w-full rounded-2xl border border-secondary bg-[#fafafa] px-6 py-4",
+        className
+      )}
     >
       <React.Fragment>{children}</React.Fragment>
     </TouchableOpacity>

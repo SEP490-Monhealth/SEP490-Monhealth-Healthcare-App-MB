@@ -11,6 +11,7 @@ function WelcomeScreen() {
 
   const handleSignInGoogle = () => {
     console.log("Continue with Google")
+    router.push("/(tabs)/home")
   }
 
   const handleSignInEmail = () => {

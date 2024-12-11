@@ -35,7 +35,7 @@ export const Header = ({ title, back = false, action }: HeaderProps) => {
   }
 
   return (
-    <View className="relative flex min-h-12 flex-row justify-between">
+    <View className="relative flex min-h-14 flex-row justify-between">
       {back && (
         <IconButton
           icon={<ArrowLeft size={24} color={COLORS.primary} />}

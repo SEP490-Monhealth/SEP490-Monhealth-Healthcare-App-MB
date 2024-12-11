@@ -3,8 +3,8 @@ import React, { useRef } from "react"
 import { Text, TextInput, TouchableOpacity, View } from "react-native"
 
 interface InputProps {
-  value: string
-  onChangeText: (text: string) => void
+  value?: string
+  onChangeText?: (text: string) => void
   placeholder?: string
   iconStart?: React.ReactNode
   iconEnd?: React.ReactNode
@@ -63,7 +63,7 @@ export const Input = ({
 
         {iconEnd && (
           <TouchableOpacity onPress={toggleSecureTextEntry} activeOpacity={0.7}>
-            <View className="p-4">{iconEnd}</View>
+            <View className="px-2 py-4">{iconEnd}</View>
           </TouchableOpacity>
         )}
       </View>

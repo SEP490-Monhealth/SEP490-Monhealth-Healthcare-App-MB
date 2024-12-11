@@ -6,7 +6,7 @@ import { useLocalSearchParams } from "expo-router"
 
 import { Setting4 } from "iconsax-react-native"
 
-import { Container } from "@/components/global/atoms"
+import { Container, Content } from "@/components/global/atoms"
 import {
   ArcProgress,
   FoodCard,
@@ -72,50 +72,52 @@ function MealDetailsScreen() {
         }}
       />
 
-      <FlatList
-        data={suggestedFoodsData}
-        ListHeaderComponent={() => (
-          <ListHeader>
-            <ArcProgress
-              size={240}
-              width={14}
-              fill={(totalCalories / maxCalories) * 100}
-              arcSweepAngle={260}
-              rotation={230}
-              centerCircle={true}
-              calorieValue={totalCalories}
-              maxCalories={maxCalories}
-              label="Calories"
-            />
+      <Content margin={false}>
+        <FlatList
+          data={suggestedFoodsData}
+          ListHeaderComponent={() => (
+            <ListHeader>
+              <ArcProgress
+                size={240}
+                width={14}
+                fill={(totalCalories / maxCalories) * 100}
+                arcSweepAngle={260}
+                rotation={230}
+                centerCircle={true}
+                calorieValue={totalCalories}
+                maxCalories={maxCalories}
+                label="Calories"
+              />
 
-            <Section title="Chi tiết bữa ăn" />
-          </ListHeader>
-        )}
-        renderItem={({ item }) => {
-          const isSelected = eatenFoodsData.some(
-            (meal) => meal.foodId === item.foodId
-          )
+              <Section title="Chi tiết bữa ăn" />
+            </ListHeader>
+          )}
+          renderItem={({ item }) => {
+            const isSelected = eatenFoodsData.some(
+              (meal) => meal.foodId === item.foodId
+            )
 
-          return (
-            <FoodCard
-              key={item.foodId}
-              variant="checkbox"
-              checked={isSelected}
-              onCheckChange={() => toggleItemSelection(item.foodId)}
-              foodName={item.foodName}
-              calories={item.calories}
-              portionSize={item.portionSize}
-              portionWeight={item.portionWeight}
-              measurementUnit={item.measurementUnit}
-            />
-          )
-        }}
-        keyExtractor={(item) => item.foodId}
-        onRefresh={onRefresh}
-        refreshing={isRefreshing}
-        showsVerticalScrollIndicator={false}
-        ItemSeparatorComponent={() => <View className="h-3" />}
-      />
+            return (
+              <FoodCard
+                key={item.foodId}
+                variant="checkbox"
+                checked={isSelected}
+                onCheckChange={() => toggleItemSelection(item.foodId)}
+                foodName={item.foodName}
+                calories={item.calories}
+                portionSize={item.portionSize}
+                portionWeight={item.portionWeight}
+                measurementUnit={item.measurementUnit}
+              />
+            )
+          }}
+          keyExtractor={(item) => item.foodId}
+          onRefresh={onRefresh}
+          refreshing={isRefreshing}
+          showsVerticalScrollIndicator={false}
+          ItemSeparatorComponent={() => <View className="h-3" />}
+        />
+      </Content>
     </Container>
   )
 }

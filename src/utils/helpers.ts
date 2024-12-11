@@ -57,15 +57,15 @@ export const getGreeting = () => {
 export const getNutrientColor = (label: string) => {
   switch (label) {
     case "Protein":
-      return COLORS.protein
+      return COLORS.NUTRITION.protein
     case "Carbs":
-      return COLORS.carbs
+      return COLORS.NUTRITION.carbs
     case "Fat":
-      return COLORS.fat
+      return COLORS.NUTRITION.fat
     case "Salt":
-      return COLORS.salt
+      return COLORS.NUTRITION.salt
     case "Sugar":
-      return COLORS.sugar
+      return COLORS.NUTRITION.sugar
     default:
       return COLORS.secondary
   }

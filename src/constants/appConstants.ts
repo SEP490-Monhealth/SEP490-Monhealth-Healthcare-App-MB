@@ -10,9 +10,17 @@ export const COLORS = {
   accent: "#f1f5f9",
   card: "#64748B",
 
-  protein: "#eab308",
-  carbs: "#a855f7",
-  fat: "#ef4444",
-  salt: "#f97316",
-  sugar: "#60a5fa"
+  BMI: {
+    low: "#22c55e",
+    normal: "#eab308",
+    high: "#ef4444"
+  },
+
+  NUTRITION: {
+    protein: "#eab308",
+    carbs: "#a855f7",
+    fat: "#ef4444",
+    salt: "#f97316",
+    sugar: "#60a5fa"
+  }
 }

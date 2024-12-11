@@ -15,7 +15,8 @@ interface ListItemProps {
 export const ListItem = ({ icon, label, onPress }: ListItemProps) => {
   return (
     <TouchableOpacity
-      className="flex-row items-center justify-between border-b border-secondary py-4"
+      activeOpacity={0.7}
+      className="y flex-row items-center justify-between py-4"
       onPress={onPress}
     >
       <View className="flex-row items-center">
