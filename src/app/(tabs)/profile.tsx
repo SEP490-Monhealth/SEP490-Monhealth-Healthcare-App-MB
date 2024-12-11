@@ -4,9 +4,19 @@ import { Text } from "react-native"
 
 import { useRouter } from "expo-router"
 
-import { Crown1 } from "iconsax-react-native"
+import {
+  Chart2,
+  Command,
+  Crown1,
+  I3Dcube,
+  Lock1,
+  NotificationStatus,
+  Profile,
+  Verify
+} from "iconsax-react-native"
 
 import {
+  Avatar,
   Button,
   Container,
   Content,
@@ -16,18 +26,72 @@ import {
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import {
-  AboutInfo,
-  GeneralInfo,
-  HealthStats,
-  UserAvatar
-} from "@/components/local/tabs/profile"
+import { About, General, HealthStats } from "@/components/local/tabs/profile"
+
+import { COLORS } from "@/constants/appConstants"
 
 function ProfileScreen() {
   const router = useRouter()
 
   const defaultAvatar =
     "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Monhealth%2Ftests%2Fangrycat.jpg?alt=media&token=542becf5-173f-47c2-951b-b9f79578fa60"
+
+  const generalItems = [
+    {
+      icon: <Profile variant="Bold" size={24} color={COLORS.primary} />,
+      label: "Hồ sơ cá nhân",
+      onPress: () => {
+        router.push("/users/user-information")
+      }
+    },
+    {
+      icon: <Command variant="Bold" size={24} color={COLORS.primary} />,
+      label: "Theo dõi sức khỏe",
+      onPress: () => {
+        router.push("/users/health-tracking")
+      }
+    },
+    {
+      icon: <Chart2 variant="Bold" size={24} color={COLORS.primary} />,
+      label: "Thống kê sức khỏe",
+      onPress: () => {
+        router.push("/users/health-stats")
+      }
+    },
+    {
+      icon: (
+        <NotificationStatus variant="Bold" size={24} color={COLORS.primary} />
+      ),
+      label: "Nhắc nhở",
+      onPress: () => {
+        router.push("/users/reminders")
+      }
+    },
+    {
+      icon: <Lock1 variant="Bold" size={24} color={COLORS.primary} />,
+      label: "Cài đặt bảo mật",
+      onPress: () => {
+        router.push("/users/security-settings")
+      }
+    }
+  ]
+
+  const aboutItems = [
+    {
+      icon: <I3Dcube variant="Bold" size={24} color={COLORS.primary} />,
+      label: "Thông tin ứng dụng",
+      onPress: () => {
+        router.push("/about")
+      }
+    },
+    {
+      icon: <Verify variant="Bold" size={24} color={COLORS.primary} />,
+      label: "Phản hồi và đánh giá",
+      onPress: () => {
+        router.push("/feedback")
+      }
+    }
+  ]
 
   const handleLogout = () => {
     console.log("Logout")
@@ -41,9 +105,14 @@ function ProfileScreen() {
       <Content>
         <ScrollArea>
           <VStack center gap={20} className="mt-4 pb-16">
-            <UserAvatar avatarUrl={defaultAvatar} />
+            <Avatar
+              size={144}
+              source={defaultAvatar}
+              alt="Zotaeus"
+              className="items-center"
+            />
 
-            <VStack center gap={0} className="mb-2">
+            <VStack center className="mb-2">
               <Text className="font-tbold text-2xl text-typography">
                 Van Huu Toan
               </Text>
@@ -58,9 +127,9 @@ function ProfileScreen() {
 
             <HealthStats weight={50} height={170} bmi={17.3} />
 
-            <GeneralInfo />
+            <General generalItems={generalItems} />
 
-            <AboutInfo />
+            <About aboutItems={aboutItems} />
 
             <Button variant="danger" onPress={handleLogout} className="w-full">
               Đăng xuất

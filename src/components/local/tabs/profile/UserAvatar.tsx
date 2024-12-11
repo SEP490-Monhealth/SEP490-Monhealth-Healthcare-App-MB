@@ -10,13 +10,14 @@ import { IconButton } from "@/components/global/molecules"
 import { COLORS } from "@/constants/appConstants"
 
 interface UserAvatarProps {
+  size: number
   avatarUrl: string
 }
 
-export const UserAvatar = ({ avatarUrl }: UserAvatarProps) => {
+export const UserAvatar = ({ size, avatarUrl }: UserAvatarProps) => {
   return (
     <View>
-      <Avatar size={144} source={avatarUrl} alt="Zotaeus" />
+      <Avatar size={size} source={avatarUrl} alt="Zotaeus" />
 
       <IconButton
         icon={<Edit2 variant="Bold" size={20} color={COLORS.primary} />}

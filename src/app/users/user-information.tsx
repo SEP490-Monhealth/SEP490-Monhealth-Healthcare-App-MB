@@ -1,29 +1,71 @@
 import React from "react"
 
-import { Text, View } from "react-native"
-
-import { Edit, Edit2, Scroll, Setting2 } from "iconsax-react-native"
+import { Text } from "react-native"
 
 import {
-  Avatar,
+  AlignVertically,
+  Calendar,
+  Call,
+  Edit2,
+  Lovely,
+  ProfileCircle,
+  Sms,
+  Weight
+} from "iconsax-react-native"
+
+import {
   Container,
   Content,
-  HStack,
   ScrollArea,
   VStack
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import CardAccountUser from "@/components/local/tabs/profile/CardAccountUser"
-import CardInformationUser from "@/components/local/tabs/profile/CardInformationUser"
+import {
+  Account,
+  Information,
+  UserAvatar
+} from "@/components/local/tabs/profile"
 
 import { COLORS } from "@/constants/appConstants"
-
-import { formatDate } from "@/utils/formatters"
 
 const UserInformation = () => {
   const defaultAvatar =
     "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Monhealth%2Ftests%2Fangrycat.jpg?alt=media&token=542becf5-173f-47c2-951b-b9f79578fa60"
+
+  const informationItems = [
+    {
+      icon: <ProfileCircle variant="Bold" size={24} color={COLORS.primary} />,
+      label: "Van Huu Toan"
+    },
+    {
+      icon: <Calendar variant="Bold" size={24} color={COLORS.primary} />,
+      label: "27/08/2003"
+    },
+    {
+      icon: <Lovely variant="Bold" size={24} color={COLORS.primary} />,
+      label: "Nam"
+    },
+    {
+      icon: <Weight variant="Bold" size={24} color={COLORS.primary} />,
+      label: "50kg"
+    },
+    {
+      icon: <AlignVertically variant="Bold" size={24} color={COLORS.primary} />,
+      label: "200cm"
+    }
+  ]
+
+  const accountItems = [
+    {
+      icon: <Sms variant="Bold" size={24} color={COLORS.primary} />,
+      label: "vanhuutoan27@gmail.com"
+    },
+    {
+      icon: <Call variant="Bold" size={24} color={COLORS.primary} />,
+      label: "0987654321"
+    }
+  ]
 
   return (
     <Container>
@@ -36,54 +78,26 @@ const UserInformation = () => {
         }}
       />
 
-      <Content margin={false}>
+      <Content>
         <ScrollArea>
-          <View className="mt-4">
-            <Avatar
-              size={200}
-              source={defaultAvatar}
-              alt="Zotaeus"
-              className="items-center"
-            />
+          <VStack center gap={20} className="mt-4 pb-16">
+            <UserAvatar size={200} avatarUrl={defaultAvatar} />
 
-            <VStack center className="mt-6">
+            <VStack center className="mb-2">
               <Text className="font-tbold text-3xl text-typography">
                 Van Huu Toan
               </Text>
-              <HStack className="items-center">
-                <Text className="font-tmedium text-lg text-secondary">
-                  Tham gia từ
-                  <Text className="text-typography">
-                    {formatDate("2024-08-27T00:00:00.000Z")}
-                  </Text>
-                </Text>
-              </HStack>
+
+              <Text className="font-tmedium text-lg text-accent">
+                Tham gia từ{" "}
+                <Text className="tbold text-typography">27/08/2003</Text>
+              </Text>
             </VStack>
 
-            <View className="mt-6">
-              <Text className="font-tmedium text-lg text-secondary">
-                Thông tin cá nhân
-              </Text>
-              <CardInformationUser
-                fullName="Van Huu Toan"
-                dateOfBirth="2003-08-27T00:00:00.000Z"
-                gender="Male"
-                weight={60}
-                height={173}
-              />
-            </View>
+            <Information informationItems={informationItems} />
 
-            <View className="mt-6">
-              <Text className="font-tmedium text-lg text-secondary">
-                Thông tin đăng nhập
-              </Text>
-              <CardAccountUser
-                email="VanHuuToan@gmai.com"
-                phoneNumber="0963122758"
-                password="123123123"
-              />
-            </View>
-          </View>
+            <Account accountItems={accountItems} />
+          </VStack>
         </ScrollArea>
       </Content>
     </Container>

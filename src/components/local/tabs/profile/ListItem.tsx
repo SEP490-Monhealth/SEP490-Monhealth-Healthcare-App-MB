@@ -9,10 +9,16 @@ import { COLORS } from "@/constants/appConstants"
 interface ListItemProps {
   icon: React.ReactNode
   label: string
-  onPress: () => void
+  more?: boolean
+  onPress?: () => void
 }
 
-export const ListItem = ({ icon, label, onPress }: ListItemProps) => {
+export const ListItem = ({
+  icon,
+  label,
+  more = true,
+  onPress
+}: ListItemProps) => {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
@@ -25,7 +31,8 @@ export const ListItem = ({ icon, label, onPress }: ListItemProps) => {
           {label}
         </Text>
       </View>
-      <ChevronRight size={20} color={COLORS.primary} />
+
+      {more && <ChevronRight size={20} color={COLORS.primary} />}
     </TouchableOpacity>
   )
 }
