@@ -13,7 +13,9 @@ const TitleUser = ({ icon, title }: TitleProps) => {
   return (
     <HStack className="py-4">
       <View>{icon}</View>
-      <Text className="ml-2 text-base font-medium text-primary">{title}</Text>
+      <Text className="ml-2 text-base font-medium text-typography">
+        {title}
+      </Text>
     </HStack>
   )
 }

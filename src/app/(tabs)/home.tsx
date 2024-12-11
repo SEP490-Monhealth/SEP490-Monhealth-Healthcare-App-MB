@@ -2,8 +2,6 @@ import React, { useState } from "react"
 
 import { FlatList, Text, View } from "react-native"
 
-import { Notification } from "iconsax-react-native"
-
 import {
   Container,
   Content,
@@ -11,12 +9,7 @@ import {
   Progress,
   VStack
 } from "@/components/global/atoms"
-import {
-  IconButton,
-  ListFooter,
-  ListHeader,
-  MealCard
-} from "@/components/global/molecules"
+import { ListFooter, ListHeader, MealCard } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
 
 import {
@@ -24,10 +17,6 @@ import {
   NutrientProgress,
   NutrientSummary
 } from "@/components/local/tabs/home"
-
-import { COLORS } from "@/constants/appConstants"
-
-import { getGreeting } from "@/utils/helpers"
 
 function HomeScreen() {
   const [mealsData, setMealsData] = useState<

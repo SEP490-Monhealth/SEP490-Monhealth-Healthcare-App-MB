@@ -29,7 +29,7 @@ module.exports = {
           DEFAULT: "#E2E8F0" // Slate 200
         },
         typography: {
-          DEFAULT: "#0F172A", // Slate 900
+          DEFAULT: "#334155", // Slate 700
           primary: "#94A3B8", // Slate 400
           foreground: "#FFFFFF"
         },

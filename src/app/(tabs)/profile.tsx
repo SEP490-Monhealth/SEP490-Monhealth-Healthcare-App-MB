@@ -44,7 +44,7 @@ function ProfileScreen() {
             <UserAvatar avatarUrl={defaultAvatar} />
 
             <VStack center gap={0} className="mb-2">
-              <Text className="font-tbold text-2xl text-primary">
+              <Text className="font-tbold text-2xl text-typography">
                 Van Huu Toan
               </Text>
 

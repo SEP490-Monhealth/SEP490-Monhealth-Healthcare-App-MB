@@ -32,7 +32,7 @@ export const Button: React.FC<ButtonProps> = ({
   const variants = {
     primary: {
       container: disabled ? "bg-gray-300" : "bg-primary",
-      text: "text-primary-foreground"
+      text: "text-typography-foreground"
     },
     secondary: {
       container: disabled ? "bg-gray-300" : "bg-secondary",

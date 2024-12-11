@@ -47,13 +47,13 @@ const UserInformation = () => {
             />
 
             <VStack center className="mt-6">
-              <Text className="font-tbold text-3xl text-primary">
+              <Text className="font-tbold text-3xl text-typography">
                 Van Huu Toan
               </Text>
               <HStack className="items-center">
                 <Text className="font-tmedium text-lg text-secondary">
                   Tham gia từ
-                  <Text className="text-primary">
+                  <Text className="text-typography">
                     {formatDate("2024-08-27T00:00:00.000Z")}
                   </Text>
                 </Text>

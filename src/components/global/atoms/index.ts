@@ -7,7 +7,6 @@ import { Container } from "./Container"
 import { Content } from "./Content"
 import { Input } from "./Input"
 import { Progress } from "./Progress"
-import { Schedule } from "./Schedule"
 import { ScrollArea } from "./ScrollArea"
 import { HStack, VStack } from "./Stack"
 import { Tabs } from "./Tabs"
@@ -23,7 +22,6 @@ export {
   Content,
   Input,
   Progress,
-  Schedule,
   ScrollArea,
   VStack,
   HStack,

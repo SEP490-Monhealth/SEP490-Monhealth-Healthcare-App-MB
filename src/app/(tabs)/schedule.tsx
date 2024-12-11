@@ -1,13 +1,12 @@
-import React, { useCallback, useState } from "react"
+import React, { useState } from "react"
 
 import { View } from "react-native"
 
 import { Add } from "iconsax-react-native"
 
-import { Container } from "@/components/global/atoms"
+import { Container, Content } from "@/components/global/atoms"
+import { Schedule } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
-
-import DateOfMonthList from "@/components/local/tabs/schedule/DateOfMonth"
 
 import { COLORS } from "@/constants/appConstants"
 
@@ -24,9 +23,9 @@ function ScheduleScreen() {
         }}
       />
 
-      <View className="mt-6">
-        <DateOfMonthList date={currentDate} />
-      </View>
+      <Content>
+        <Schedule initialDate={currentDate} />
+      </Content>
     </Container>
   )
 }

@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Text, View } from "react-native"
+import { View } from "react-native"
 
 import { Edit2 } from "iconsax-react-native"
 
@@ -19,7 +19,7 @@ export const UserAvatar = ({ avatarUrl }: UserAvatarProps) => {
       <Avatar size={144} source={avatarUrl} alt="Zotaeus" />
 
       <IconButton
-        icon={<Edit2 variant="Bold" size={24} color={COLORS.primary} />}
+        icon={<Edit2 variant="Bold" size={20} color={COLORS.primary} />}
         className="absolute bottom-0 right-2"
       />
     </View>
