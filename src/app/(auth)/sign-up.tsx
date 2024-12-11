@@ -61,7 +61,7 @@ function SignUpScreen() {
         <Text className="mb-2 font-tbold text-4xl text-typography">
           Đăng Ký
         </Text>
-        <Text className="font-tregular text-xl text-card">
+        <Text className="font-tregular text-xl text-secondary">
           Đăng ký để theo dõi sức khỏe và dinh dưỡng hàng ngày
         </Text>
 

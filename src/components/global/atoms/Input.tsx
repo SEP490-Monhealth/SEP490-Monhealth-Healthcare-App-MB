@@ -35,7 +35,7 @@ export const Input = ({
         className={`flex-row items-center rounded-2xl border px-4 py-1 ${
           hasError
             ? "border-destructive bg-red-50"
-            : "border-secondary bg-white"
+            : "border-border bg-white"
         }`}
         style={{ height: 52 }}
       >

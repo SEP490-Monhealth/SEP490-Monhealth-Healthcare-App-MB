@@ -53,7 +53,7 @@ function ForgotPasswordScreen() {
         <Text className="mb-2 font-tbold text-3xl text-typography">
           Đặt Lại Mật Khẩu
         </Text>
-        <Text className="font-tregular text-xl text-card">
+        <Text className="font-tregular text-xl text-secondary">
           Vui lòng nhập mật khẩu mới và xác nhận để hoàn tất quá trình đặt lại
           mật khẩu của bạn
         </Text>

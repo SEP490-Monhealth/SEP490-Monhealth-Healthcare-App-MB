@@ -33,12 +33,12 @@ function SignInScreen() {
   })
 
   const handleBack = () => {
-    router.push("/(onboarding)/welcome")
+    router.replace("/(onboarding)/welcome")
   }
 
   const onSubmit = (data: LoginUserType) => {
     console.log(data)
-    router.push("/(tabs)/home")
+    router.replace("/(tabs)/home")
   }
 
   return (
@@ -52,7 +52,7 @@ function SignInScreen() {
         <Text className="mb-2 font-tbold text-4xl text-typography">
           Đăng Nhập
         </Text>
-        <Text className="font-tregular text-xl text-card">
+        <Text className="font-tregular text-xl text-secondary">
           Đăng nhập để tiếp tục theo dõi sức khỏe của bạn
         </Text>
 

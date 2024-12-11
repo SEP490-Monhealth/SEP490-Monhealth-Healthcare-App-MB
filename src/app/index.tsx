@@ -4,7 +4,7 @@ import { ImageBackground, Text } from "react-native"
 
 import { useRouter } from "expo-router"
 
-import { Container, Content } from "@/components/global/atoms"
+import { Container } from "@/components/global/atoms"
 
 function AppIndex() {
   const router = useRouter()
@@ -13,9 +13,9 @@ function AppIndex() {
     setTimeout(() => {
       const isLoggedIn = true
       if (isLoggedIn) {
-        router.push("/(tabs)/home")
+        router.replace("/(tabs)/home")
       } else {
-        router.push("/(onboarding)/welcome")
+        router.replace("/(onboarding)/welcome")
       }
     }, 2000)
   }, [])

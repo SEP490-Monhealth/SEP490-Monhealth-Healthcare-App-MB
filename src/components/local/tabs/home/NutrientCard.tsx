@@ -28,7 +28,7 @@ export const NutrientCard = ({
             backgroundColor: color
           }}
         />
-        <Text className="font-tmedium text-base leading-4 text-muted">
+        <Text className="font-tmedium text-base leading-4 text-accent">
           {label}
         </Text>
       </HStack>

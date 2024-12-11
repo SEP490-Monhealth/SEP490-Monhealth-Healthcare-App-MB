@@ -50,7 +50,7 @@ function ProfileScreen() {
               </Text>
 
               <HStack center gap={4}>
-                <Crown1 variant="Bold" size="20" color="#dc2626" />
+                <Crown1 variant="Bold" size="20" color="#ef4444" />
                 <Text className="font-dbold text-lg text-destructive">
                   Vip Member
                 </Text>

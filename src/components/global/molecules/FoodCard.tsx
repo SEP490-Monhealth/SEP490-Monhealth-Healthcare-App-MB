@@ -40,7 +40,7 @@ export const FoodCard = ({
           <Text className="font-tmedium text-lg text-typography">
             {foodName}
           </Text>
-          <Text className="font-tmedium text-sm text-muted">
+          <Text className="font-tmedium text-sm text-accent">
             {calories} calories • {portionSize} • {portionWeight}
             {measurementUnit}
           </Text>

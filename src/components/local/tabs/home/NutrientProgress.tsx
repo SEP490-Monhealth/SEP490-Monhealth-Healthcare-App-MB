@@ -58,7 +58,7 @@ export const NutrientProgress = ({
           {calories ? `${calories.value} / ${calories.maxValue}` : "0 / 0"}
         </Text>
 
-        <Text className="font-tmedium text-sm text-muted">
+        <Text className="font-tmedium text-sm text-accent">
           {calories.label}
         </Text>
       </VStack>

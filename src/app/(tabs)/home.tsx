@@ -69,7 +69,7 @@ function HomeScreen() {
     <Container>
       <HStack className="items-center justify-between bg-background pb-4">
         <VStack>
-          <Text className="font-pregular text-lg text-muted">
+          <Text className="font-pregular text-lg text-accent">
             {getGreeting()}
           </Text>
           <Text className="font-tbold text-2xl leading-6 text-typography">
@@ -119,7 +119,7 @@ function HomeScreen() {
           )}
           ListFooterComponent={
             <View className="mt-8 pb-16">
-              <Text className="text-center font-tmedium text-card">
+              <Text className="text-center font-tmedium text-secondary">
                 "Bạn đã hoàn thành mục tiêu calo hôm nay. Tuyệt vời!"
               </Text>
             </View>

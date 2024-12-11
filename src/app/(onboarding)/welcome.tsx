@@ -28,7 +28,7 @@ function WelcomeScreen() {
           của bạn
         </Text>
 
-        <Text className="font-tregular text-xl text-card">
+        <Text className="font-tregular text-xl text-secondary">
           Với công cụ theo dõi dinh dưỡng và bài tập cá nhân hóa
         </Text>
       </VStack>
@@ -41,7 +41,7 @@ function WelcomeScreen() {
           <Button onPress={handleSignInEmail}>Tiếp tục với Email</Button>
         </VStack>
 
-        <Text className="text-center text-card">
+        <Text className="text-center text-secondary">
           Khi tiếp tục, bạn đồng ý với{" "}
           <Text className="font-tmedium text-typography active:underline">
             Điều khoản dịch vụ

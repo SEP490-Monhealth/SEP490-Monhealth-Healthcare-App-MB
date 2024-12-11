@@ -47,7 +47,7 @@ export const MealCard = ({
 
           {progress && <Progress progress={progress || 0} />}
 
-          <Text className="font-tmedium text-sm text-muted">
+          <Text className="font-tmedium text-sm text-accent">
             {totalCalories} calories
           </Text>
         </VStack>

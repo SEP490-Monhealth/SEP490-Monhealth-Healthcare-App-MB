@@ -51,7 +51,7 @@ const UserInformation = () => {
                 Van Huu Toan
               </Text>
               <HStack className="items-center">
-                <Text className="font-tmedium text-lg text-card">
+                <Text className="font-tmedium text-lg text-secondary">
                   Tham gia từ
                   <Text className="text-primary">
                     {formatDate("2024-08-27T00:00:00.000Z")}
@@ -61,7 +61,7 @@ const UserInformation = () => {
             </VStack>
 
             <View className="mt-6">
-              <Text className="font-tmedium text-lg text-card">
+              <Text className="font-tmedium text-lg text-secondary">
                 Thông tin cá nhân
               </Text>
               <CardInformationUser
@@ -74,7 +74,7 @@ const UserInformation = () => {
             </View>
 
             <View className="mt-6">
-              <Text className="font-tmedium text-lg text-card">
+              <Text className="font-tmedium text-lg text-secondary">
                 Thông tin đăng nhập
               </Text>
               <CardAccountUser

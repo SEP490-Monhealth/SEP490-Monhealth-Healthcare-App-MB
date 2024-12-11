@@ -49,7 +49,7 @@ function ForgotPasswordScreen() {
         <Text className="mb-2 font-tbold text-3xl text-typography">
           Quên Mật Khẩu
         </Text>
-        <Text className="font-tregular text-xl text-card">
+        <Text className="font-tregular text-xl text-secondary">
           Xác nhận số điện thoại của bạn để tiếp tục quá trình khôi phục mật
           khẩu
         </Text>

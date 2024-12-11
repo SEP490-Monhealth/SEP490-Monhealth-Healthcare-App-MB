@@ -21,7 +21,7 @@ function NotFoundScreen() {
           Không tìm thấy trang
         </Text>
 
-        <Text className="font-tmedium text-lg text-card">
+        <Text className="font-tmedium text-lg text-secondary">
           Trang bạn vừa truy cập không tồn tại hoặc đã bị xóa
         </Text>
       </VStack>

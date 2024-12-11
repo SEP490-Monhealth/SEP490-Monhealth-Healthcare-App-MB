@@ -23,10 +23,10 @@ export const Avatar = ({
     <View className={className}>
       {imgError || !source ? (
         <View
-          className="flex items-center justify-center rounded-full border-4 border-secondary bg-secondary"
+          className="flex items-center justify-center rounded-full border-4 border-border bg-secondary"
           style={{ width: size, height: size }}
         >
-          <Text className="font-tbold text-2xl text-card">
+          <Text className="font-tbold text-2xl text-secondary">
             {getInitials(alt)}
           </Text>
         </View>

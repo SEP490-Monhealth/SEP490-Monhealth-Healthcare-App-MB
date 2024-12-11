@@ -16,13 +16,13 @@ import { suggestedMeals } from "@/constants/meals"
 import { getMealTypeName } from "@/utils/helpers"
 
 function UpdateMealScreen() {
-  const { mealType } = useLocalSearchParams() as { mealType: string }
+  const { mealId } = useLocalSearchParams() as { mealId: string }
 
   const [foodsData, setFoodsData] = useState(suggestedMeals)
 
   return (
     <Container>
-      <Header back title={getMealTypeName(mealType)} />
+      <Header back title={getMealTypeName(mealId)} />
 
       <Content margin={false}>
         <FlatList

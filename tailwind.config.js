@@ -5,35 +5,36 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "#F1F5F9", // Slate 100
+        background: "#F8FAFC", // Slate 50
         foreground: "#0F172A", // Slate 900
+        card: {
+          DEFAULT: "#F2F9FD"
+        },
         primary: {
           DEFAULT: "#334155", // Slate 700
-          foreground: "#F1F5F9" // Slate 100
+          foreground: "#F8FAFC" // Slate 50
         },
         secondary: {
-          DEFAULT: "#E2E8F0", // Slate 200
-          foreground: "#64748B" // Slate 500
-        },
-        accent: {
-          DEFAULT: "#F1F5F9", // Slate 100
-          foreground: "#334155" // Slate 700
-        },
-        card: {
-          DEFAULT: "#64748B", // Slate 500
-          foreground: "#F1F5F9" // Slate 100
+          DEFAULT: "#64748B" // Slate 500
         },
         muted: {
-          DEFAULT: "#94A3B8", // Slate 400
+          DEFAULT: "#F1F5F9", // Slate 100
           foreground: "#475569" // Slate 600
+        },
+        accent: {
+          DEFAULT: "#94A3B8", // Slate 400
+          foreground: "#334155" // Slate 700
+        },
+        border: {
+          DEFAULT: "#E2E8F0" // Slate 200
         },
         typography: {
           DEFAULT: "#0F172A", // Slate 900
           primary: "#94A3B8", // Slate 400
-          foreground: "#FFFFFF",
+          foreground: "#FFFFFF"
         },
         destructive: {
-          DEFAULT: "#DC2626", // Red 600
+          DEFAULT: "#EF4444", // Red 500
           foreground: "#FEE2E2" // Red 100
         }
       },

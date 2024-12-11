@@ -35,7 +35,7 @@ const CenterCircle = ({
       <Text className="font-tbold text-2xl text-typography">
         {calorieValue} / {maxCalories}
       </Text>
-      <Text className="font-tmedium text-base text-muted">{label}</Text>
+      <Text className="font-tmedium text-base text-accent">{label}</Text>
     </View>
   )
 }

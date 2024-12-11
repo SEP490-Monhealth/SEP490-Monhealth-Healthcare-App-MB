@@ -20,7 +20,7 @@ export const IconButton = ({
       onPress={onPress}
       activeOpacity={0.7}
       className={cn(
-        "flex h-12 w-12 items-center justify-center rounded-full bg-slate-200 text-typography",
+        "flex h-12 w-12 items-center justify-center rounded-full bg-muted text-typography",
         className
       )}
     >
