@@ -11,10 +11,19 @@ import {
   Progress,
   VStack
 } from "@/components/global/atoms"
-import { IconButton, ListHeader, MealCard } from "@/components/global/molecules"
+import {
+  IconButton,
+  ListFooter,
+  ListHeader,
+  MealCard
+} from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
 
-import { NutrientProgress, NutrientSummary } from "@/components/local/tabs/home"
+import {
+  HomeHeader,
+  NutrientProgress,
+  NutrientSummary
+} from "@/components/local/tabs/home"
 
 import { COLORS } from "@/constants/appConstants"
 
@@ -53,7 +62,7 @@ function HomeScreen() {
     { label: "Protein", value: 120, maxValue: 220 },
     { label: "Carbs", value: 160, maxValue: 220 },
     { label: "Fat", value: 120, maxValue: 187 },
-    { label: "Salt", value: 24, maxValue: 45 },
+    { label: "Fiber", value: 24, maxValue: 45 },
     { label: "Sugar", value: 37, maxValue: 60 }
   ]
 
@@ -62,27 +71,12 @@ function HomeScreen() {
   ) || { label: "Calories", value: 0, maxValue: 0 }
 
   const filteredNutrients = nutrientsData.filter((nutrient) =>
-    ["Protein", "Carbs", "Fat", "Salt", "Sugar"].includes(nutrient.label)
+    ["Protein", "Carbs", "Fat", "Fiber", "Sugar"].includes(nutrient.label)
   )
 
   return (
     <Container>
-      <HStack className="items-center justify-between bg-background pb-4">
-        <VStack>
-          <Text className="font-pregular text-lg text-accent">
-            {getGreeting()}
-          </Text>
-          <Text className="font-tbold text-2xl leading-6 text-typography">
-            Văn Hữu Toàn
-          </Text>
-        </VStack>
-
-        <IconButton
-          icon={
-            <Notification variant="Bold" size={24} color={COLORS.primary} />
-          }
-        />
-      </HStack>
+      <HomeHeader fullName="Van Huu Toan" />
 
       <Content>
         <FlatList
@@ -118,11 +112,11 @@ function HomeScreen() {
             />
           )}
           ListFooterComponent={
-            <View className="mt-8 pb-16">
+            <ListFooter>
               <Text className="text-center font-tmedium text-secondary">
                 "Bạn đã hoàn thành mục tiêu calo hôm nay. Tuyệt vời!"
               </Text>
-            </View>
+            </ListFooter>
           }
           keyExtractor={(item) => item.mealType}
           onRefresh={onRefresh}

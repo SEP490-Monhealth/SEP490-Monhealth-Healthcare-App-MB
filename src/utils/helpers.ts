@@ -51,7 +51,7 @@ export const getGreeting = () => {
 
 /**
  * Lấy màu sắc đại diện cho từng chất dinh dưỡng
- * @param label Tên chất dinh dưỡng (Protein, Carbs, Fat, Salt, Sugar)
+ * @param label Tên chất dinh dưỡng (Protein, Carbs, Fat, Fiber, Sugar)
  * @returns Màu sắc đại diện cho chất dinh dưỡng (dùng trong UI)
  */
 export const getNutrientColor = (label: string) => {
@@ -62,8 +62,8 @@ export const getNutrientColor = (label: string) => {
       return COLORS.NUTRITION.carbs
     case "Fat":
       return COLORS.NUTRITION.fat
-    case "Salt":
-      return COLORS.NUTRITION.salt
+    case "Fiber":
+      return COLORS.NUTRITION.fiber
     case "Sugar":
       return COLORS.NUTRITION.sugar
     default:

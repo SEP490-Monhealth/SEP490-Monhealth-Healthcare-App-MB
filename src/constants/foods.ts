@@ -1,4 +1,6 @@
-export const sampleFoodsData = [
+import { FoodType } from "@/schemas/foodSchema"
+
+export const sampleFoodsData: FoodType[] = [
   {
     foodId: "72403979-2c88-4437-81b3-e4d7443bd0cf",
     category: "5e9ee573-bf7c-4d5b-9cdf-988daaa7017f",
@@ -109,6 +111,7 @@ export const sampleFoodsData = [
     foodName: "Cơm tấm sườn",
 
     portionSize: "1 đĩa",
+    portionWeight: 400,
     measurementUnit: "g",
 
     calories: 527,

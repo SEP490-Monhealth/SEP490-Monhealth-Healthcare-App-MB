@@ -34,7 +34,7 @@ export const AboutInfo = () => {
 
   return (
     <Card activeOpacity={1}>
-      <Text className="mb-2 font-tbold text-lg text-typography">
+      <Text className="mb-2 font-tmedium text-lg text-typography">
         Giới thiệu
       </Text>
 

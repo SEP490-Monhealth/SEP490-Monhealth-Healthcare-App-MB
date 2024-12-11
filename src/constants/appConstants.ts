@@ -18,7 +18,7 @@ export const COLORS = {
     protein: "#eab308",
     carbs: "#a855f7",
     fat: "#ef4444",
-    salt: "#f97316",
+    fiber: "#f97316",
     sugar: "#60a5fa"
   }
 }

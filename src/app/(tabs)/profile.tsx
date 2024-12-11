@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Text, View } from "react-native"
+import { Text } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -8,7 +8,6 @@ import { Crown1 } from "iconsax-react-native"
 
 import {
   Button,
-  Card,
   Container,
   Content,
   HStack,

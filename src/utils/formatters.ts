@@ -75,3 +75,11 @@ export const formatISODate = (
   const date = parseISO(isoDate)
   return format(date, formatStr)
 }
+/**
+ * Làm tròn một số đến 2 chữ số thập phân.
+ * @param num - Số cần làm tròn.
+ * @returns Số đã được làm tròn đến 2 chữ số thập phân.
+ */
+export const toFixed2 = (num: number): number => {
+  return Math.round((num + Number.EPSILON) * 100) / 100
+}

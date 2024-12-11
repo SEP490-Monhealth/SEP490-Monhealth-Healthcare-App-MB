@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Text, TouchableOpacity, View } from "react-native"
+import { Text } from "react-native"
 
 import { MoreHorizontal } from "lucide-react-native"
 
@@ -14,7 +14,7 @@ interface FoodCardProps {
   onCheckChange?: (checked: boolean) => void
   foodName: string
   calories: number
-  portionSize: string
+  portionSize?: string
   portionWeight: number
   measurementUnit: string
 }
@@ -41,7 +41,8 @@ export const FoodCard = ({
             {foodName}
           </Text>
           <Text className="font-tmedium text-sm text-accent">
-            {calories} calories • {portionSize} • {portionWeight}
+            {calories} calories{portionSize && ` • ${portionSize}`} •{" "}
+            {portionWeight}
             {measurementUnit}
           </Text>
         </VStack>

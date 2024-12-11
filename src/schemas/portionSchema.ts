@@ -3,10 +3,7 @@ import { z } from "zod"
 const portionSchema = z.object({
   portionId: z.string(),
   foodId: z.string(),
-  portionSize: z
-    .string()
-    .min(1, { message: "Kích cỡ phần ăn không được để trống" })
-    .max(50, { message: "Kích cỡ phần ăn không được dài hơn 50 ký tự" }),
+  portionSize: z.string().optional(),
   portionWeight: z
     .number()
     .positive({ message: "Khối lượng phần ăn phải là số dương" })
