@@ -1,13 +1,116 @@
-import React from "react"
+import React, { createContext, useContext, useState } from "react"
 
-import { Text, View } from "react-native"
+import { Text, TouchableOpacity, View } from "react-native"
 
-interface TabsProps {}
+interface TabsContextProps {
+  selectedValue: string
+  setSelectedValue: (value: string) => void
+  contentMarginTop?: number
+}
 
-export const Tabs = ({}: TabsProps) => {
+const TabsContext = createContext<TabsContextProps | null>(null)
+
+interface TabsProps {
+  defaultValue: string
+  children: React.ReactNode
+  contentMarginTop?: number
+  className?: string
+}
+export const Tabs: React.FC<TabsProps> = ({
+  defaultValue,
+  children,
+  contentMarginTop = 4,
+  className
+}) => {
+  const [selectedValue, setSelectedValue] = useState(defaultValue)
+
   return (
-    <View>
-      <Text>Tabs</Text>
+    <TabsContext.Provider
+      value={{ selectedValue, setSelectedValue, contentMarginTop }}
+    >
+      <View className={className}>{children}</View>
+    </TabsContext.Provider>
+  )
+}
+
+interface TabsListProps {
+  children: React.ReactNode
+  center?: boolean
+  gap?: number
+  className?: string
+}
+export const TabsList: React.FC<TabsListProps> = ({
+  children,
+  center = false,
+  gap = 8,
+  className
+}) => {
+  const justifyClass = center ? "justify-center" : "justify-start"
+
+  const gapClass = `gap-${gap}`
+
+  return (
+    <View className={`flex-row ${justifyClass} ${gapClass} ${className}`}>
+      {children}
     </View>
   )
+}
+
+interface TabsTriggerProps {
+  value: string
+  children: React.ReactNode
+}
+export const TabsTrigger: React.FC<TabsTriggerProps> = ({
+  value,
+  children
+}) => {
+  const context = useContext(TabsContext)
+
+  if (!context)
+    throw new Error("TabsTrigger must be used within a Tabs component")
+
+  const { selectedValue, setSelectedValue } = context
+  const isSelected = selectedValue === value
+
+  return (
+    <TouchableOpacity
+      activeOpacity={0.7}
+      className="flex items-center justify-center"
+      onPress={() => setSelectedValue(value)}
+    >
+      <Text
+        className={`text-base ${
+          isSelected ? "font-tbold text-primary" : "font-tmedium text-secondary"
+        }`}
+      >
+        {children}
+      </Text>
+
+      {isSelected && <View className="mt-1 h-1 w-full bg-primary" />}
+    </TouchableOpacity>
+  )
+}
+
+interface TabsContentProps {
+  value: string
+  children: React.ReactNode
+  contentMarginTop?: number
+}
+export const TabsContent: React.FC<TabsContentProps> = ({
+  value,
+  children,
+  contentMarginTop
+}) => {
+  const context = useContext(TabsContext)
+  if (!context)
+    throw new Error("TabsContent must be used within a Tabs component")
+
+  const { selectedValue, contentMarginTop: globalMarginTop } = context
+
+  if (selectedValue !== value) return null
+
+  const marginTop = contentMarginTop ?? globalMarginTop
+  const marginTopClass = `mt-${marginTop}`
+
+  return <View className={marginTopClass}>{children}</View>
 }

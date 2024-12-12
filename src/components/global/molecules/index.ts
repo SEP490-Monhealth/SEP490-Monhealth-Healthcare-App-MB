@@ -5,7 +5,6 @@ import { IconButton } from "./IconButton"
 import { ListFooter } from "./ListFooter"
 import { ListHeader } from "./ListHeader"
 import { MealCard } from "./MealCard"
-import { Schedule } from "./Schedule"
 
 export {
   ArcProgress,
@@ -14,6 +13,5 @@ export {
   IconButton,
   ListFooter,
   ListHeader,
-  MealCard,
-  Schedule
+  MealCard
 }

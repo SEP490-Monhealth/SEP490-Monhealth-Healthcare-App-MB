@@ -26,9 +26,6 @@ export const sampleMealsData = [
         fat: 0.3,
         fiber: 0.7,
         sugar: 0.1,
-
-        createdAt: "2021-12-07T00:00:00.000Z",
-        updatedAt: "2021-12-07T00:00:00.000Z"
       },
       {
         mealFoodId: "c68b7716-757c-4ce4-8f7b-1bf6fec68f01",
@@ -44,9 +41,6 @@ export const sampleMealsData = [
         fat: 0.8,
         fiber: 2.4,
         sugar: 5.3,
-
-        createdAt: "2021-12-07T00:00:00.000Z",
-        updatedAt: "2021-12-07T00:00:00.000Z"
       },
       {
         mealFoodId: "1d8bdf33-539f-4396-8de4-1abd49586cd0",
@@ -63,9 +57,6 @@ export const sampleMealsData = [
         fat: 0,
         fiber: 3.1,
         sugar: 14.4,
-
-        createdAt: "2021-12-07T00:00:00.000Z",
-        updatedAt: "2021-12-07T00:00:00.000Z"
       },
       {
         mealFoodId: "b7b921ca-200f-4b23-8b96-03d62df47483",
@@ -82,9 +73,6 @@ export const sampleMealsData = [
         fat: 52,
         fiber: 0,
         sugar: 0,
-
-        createdAt: "2021-12-07T00:00:00.000Z",
-        updatedAt: "2021-12-07T00:00:00.000Z"
       },
       {
         mealFoodId: "ddf6f1e9-c2ed-4e60-b9b9-e73292b31949",
@@ -101,9 +89,6 @@ export const sampleMealsData = [
         fat: 0,
         fiber: 3,
         sugar: 15,
-
-        createdAt: "2021-12-07T00:00:00.000Z",
-        updatedAt: "2021-12-07T00:00:00.000Z"
       }
     ],
     createdAt: "2021-12-07T00:00:00.000Z",
@@ -131,9 +116,6 @@ export const eatenMeals = [
         fat: 0.3,
         fiber: 0.7,
         sugar: 0.1,
-
-        createdAt: "2021-12-07T00:00:00.000Z",
-        updatedAt: "2021-12-07T00:00:00.000Z"
       },
       {
         mealFoodId: "224648d0-bc45-4c46-8ca5-151d00a345ed",
@@ -150,9 +132,6 @@ export const eatenMeals = [
         fat: 0,
         fiber: 3,
         sugar: 15,
-
-        createdAt: "2021-12-07T00:00:00.000Z",
-        updatedAt: "2021-12-07T00:00:00.000Z"
       },
       {
         mealFoodId: "1d8bdf33-539f-4396-8de4-1abd49586cd0",
@@ -169,9 +148,6 @@ export const eatenMeals = [
         fat: 0,
         fiber: 3.1,
         sugar: 14.4,
-
-        createdAt: "2021-12-07T00:00:00.000Z",
-        updatedAt: "2021-12-07T00:00:00.000Z"
       },
       {
         mealFoodId: "4d3baa5e-b50d-441c-bc28-ef957857a5d7",
@@ -188,9 +164,6 @@ export const eatenMeals = [
         fat: 13.3,
         fiber: 2.4,
         sugar: 0.4,
-
-        createdAt: "2021-12-07T00:00:00.000Z",
-        updatedAt: "2021-12-07T00:00:00.000Z"
       }
     ],
     createdAt: "2021-12-07T00:00:00.000Z",

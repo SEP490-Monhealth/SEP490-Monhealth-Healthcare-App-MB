@@ -7,6 +7,10 @@ import {
   Content,
   HStack,
   Progress,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
   VStack
 } from "@/components/global/atoms"
 import { ListFooter, ListHeader, MealCard } from "@/components/global/molecules"
@@ -73,21 +77,90 @@ function HomeScreen() {
           ListHeaderComponent={() => (
             <ListHeader>
               <VStack gap={24}>
-                <HStack center className="justify-between">
-                  <NutrientProgress
-                    calories={calories}
-                    nutrients={filteredNutrients}
-                  />
+                <Tabs defaultValue="today" contentMarginTop={6}>
+                  <TabsList center gap={12}>
+                    <TabsTrigger value="today">Hôm nay</TabsTrigger>
+                    <TabsTrigger value="week">Tuần</TabsTrigger>
+                    <TabsTrigger value="month">Tháng</TabsTrigger>
+                    <TabsTrigger value="year">Năm</TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="today">
+                    <VStack gap={24}>
+                      <HStack center className="justify-between">
+                        <NutrientProgress
+                          calories={calories}
+                          nutrients={filteredNutrients}
+                        />
 
-                  <NutrientSummary nutrients={filteredNutrients} />
-                </HStack>
+                        <NutrientSummary nutrients={filteredNutrients} />
+                      </HStack>
 
-                <Progress
-                  height={8}
-                  progress={50}
-                  labelStart="438 trên 842 calories"
-                  labelEnd="50%"
-                />
+                      <Progress
+                        height={8}
+                        progress={50}
+                        labelStart="438 trên 842 calories"
+                        labelEnd="50%"
+                      />
+                    </VStack>
+                  </TabsContent>
+                  <TabsContent value="week">
+                    <VStack gap={24}>
+                      <HStack center className="justify-between">
+                        <NutrientProgress
+                          calories={calories}
+                          nutrients={filteredNutrients}
+                        />
+
+                        <NutrientSummary nutrients={filteredNutrients} />
+                      </HStack>
+
+                      <Progress
+                        height={8}
+                        progress={50}
+                        labelStart="438 trên 842 calories"
+                        labelEnd="50%"
+                      />
+                    </VStack>
+                  </TabsContent>
+                  <TabsContent value="month">
+                    <VStack gap={24}>
+                      <HStack center className="justify-between">
+                        <NutrientProgress
+                          calories={calories}
+                          nutrients={filteredNutrients}
+                        />
+
+                        <NutrientSummary nutrients={filteredNutrients} />
+                      </HStack>
+
+                      <Progress
+                        height={8}
+                        progress={50}
+                        labelStart="438 trên 842 calories"
+                        labelEnd="50%"
+                      />
+                    </VStack>
+                  </TabsContent>
+                  <TabsContent value="year">
+                    <VStack gap={24}>
+                      <HStack center className="justify-between">
+                        <NutrientProgress
+                          calories={calories}
+                          nutrients={filteredNutrients}
+                        />
+
+                        <NutrientSummary nutrients={filteredNutrients} />
+                      </HStack>
+
+                      <Progress
+                        height={8}
+                        progress={50}
+                        labelStart="438 trên 842 calories"
+                        labelEnd="50%"
+                      />
+                    </VStack>
+                  </TabsContent>
+                </Tabs>
               </VStack>
 
               <Section title="Bữa ăn hôm nay" />
