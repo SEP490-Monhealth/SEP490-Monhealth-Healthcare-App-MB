@@ -108,12 +108,12 @@ export const Schedule = ({ initialDate }: ScheduleComponentProps) => {
         horizontal
         ref={flatListScrollRef}
         data={daysInMonth}
-        renderItem={({ item }) => (
-          <DayItem date={item.date} dayOfWeek={item.dayOfWeek} />
-        )}
         keyExtractor={(item) => item.date.toISOString()}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
+        renderItem={({ item }) => (
+          <DayItem date={item.date} dayOfWeek={item.dayOfWeek} />
+        )}
         onScrollToIndexFailed={(info) => {
           setTimeout(() => {
             if (flatListScrollRef.current) {

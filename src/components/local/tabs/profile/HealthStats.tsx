@@ -22,7 +22,10 @@ export const HealthStats = ({ weight, height, bmi }: HealthStatsProps) => {
   }
 
   return (
-    <Card className="flex flex-row items-center justify-between px-12">
+    <Card
+      activeOpacity={1}
+      className="flex flex-row items-center justify-between px-12"
+    >
       <View className="items-center">
         <Text className="font-tmedium text-base text-secondary">Cân nặng</Text>
         <Text className="font-tbold text-xl text-typography">{weight} kg</Text>

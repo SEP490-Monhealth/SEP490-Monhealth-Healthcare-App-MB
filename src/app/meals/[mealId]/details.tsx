@@ -41,7 +41,7 @@ function MealDetailsScreen() {
   const totalCalories = 2499
   const progress = Math.min((calorieValue / totalCalories) * 100, 100)
 
-  const handleRefresh = async () => {
+  const onRefresh = async () => {
     setIsRefreshing(true)
     setTimeout(() => setIsRefreshing(false), 1000)
   }
@@ -59,10 +59,10 @@ function MealDetailsScreen() {
 
       <Content margin={false}>
         <FlatList
-          data={mealData?.mealFoods || []}
+          data={mealData?.mealFoods}
           keyExtractor={(item) => item.foodId}
+          onRefresh={onRefresh}
           refreshing={isRefreshing}
-          onRefresh={handleRefresh}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
           ListHeaderComponent={() => (

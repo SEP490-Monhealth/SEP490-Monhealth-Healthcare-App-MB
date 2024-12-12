@@ -39,6 +39,7 @@ function HomeScreen() {
 
   const onRefresh = async () => {
     setIsRefreshing(true)
+
     setTimeout(() => {
       setMealsData([
         { mealType: "Breakfast", totalCalories: 300 },
@@ -46,6 +47,7 @@ function HomeScreen() {
         { mealType: "Dinner", totalCalories: 300 },
         { mealType: "Snack", totalCalories: 300 }
       ])
+      
       setIsRefreshing(false)
     }, 2000)
   }
@@ -74,6 +76,11 @@ function HomeScreen() {
       <Content>
         <FlatList
           data={mealsData}
+          keyExtractor={(item) => item.mealType}
+          onRefresh={onRefresh}
+          refreshing={isRefreshing}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
           ListHeaderComponent={() => (
             <ListHeader>
               <VStack gap={24}>
@@ -180,11 +187,6 @@ function HomeScreen() {
               </Text>
             </ListFooter>
           }
-          keyExtractor={(item) => item.mealType}
-          onRefresh={onRefresh}
-          refreshing={isRefreshing}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
           ItemSeparatorComponent={() => <View className="h-3" />}
         />
       </Content>
