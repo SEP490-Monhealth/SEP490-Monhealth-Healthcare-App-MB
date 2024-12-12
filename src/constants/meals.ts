@@ -3,12 +3,12 @@ export const sampleMealsData = [
     mealId: "c43ad7ca",
     mealType: "Breakfast",
 
-    calories: 1382,
-    protein: 2.7,
-    carbs: 28.2,
-    fat: 0.3,
-    fiber: 0.7,
-    sugar: 0.1,
+    calories: 840,
+    protein: 24.6,
+    carbs: 157.9,
+    fat: 13.6,
+    fiber: 9.2,
+    sugar: 29.9,
 
     mealFoods: [
       {
@@ -20,12 +20,7 @@ export const sampleMealsData = [
         portionWeight: 100,
         measurementUnit: "g",
 
-        calories: 130,
-        protein: 2.7,
-        carbs: 28.2,
-        fat: 0.3,
-        fiber: 0.7,
-        sugar: 0.1,
+        calories: 130
       },
       {
         mealFoodId: "c68b7716-757c-4ce4-8f7b-1bf6fec68f01",
@@ -35,12 +30,7 @@ export const sampleMealsData = [
         portionWeight: 100,
         measurementUnit: "g",
 
-        calories: 249,
-        protein: 7.9,
-        carbs: 52.6,
-        fat: 0.8,
-        fiber: 2.4,
-        sugar: 5.3,
+        calories: 249
       },
       {
         mealFoodId: "1d8bdf33-539f-4396-8de4-1abd49586cd0",
@@ -51,12 +41,7 @@ export const sampleMealsData = [
         portionWeight: 118,
         measurementUnit: "g",
 
-        calories: 105,
-        protein: 1.2,
-        carbs: 27.1,
-        fat: 0,
-        fiber: 3.1,
-        sugar: 14.4,
+        calories: 105
       },
       {
         mealFoodId: "b7b921ca-200f-4b23-8b96-03d62df47483",
@@ -67,12 +52,7 @@ export const sampleMealsData = [
         portionWeight: 400,
         measurementUnit: "g",
 
-        calories: 820,
-        protein: 56,
-        carbs: 20,
-        fat: 52,
-        fiber: 0,
-        sugar: 0,
+        calories: 820
       },
       {
         mealFoodId: "ddf6f1e9-c2ed-4e60-b9b9-e73292b31949",
@@ -83,12 +63,7 @@ export const sampleMealsData = [
         portionWeight: 150,
         measurementUnit: "g",
 
-        calories: 78,
-        protein: 0,
-        carbs: 21,
-        fat: 0,
-        fiber: 3,
-        sugar: 15,
+        calories: 78
       }
     ],
     createdAt: "2021-12-07T00:00:00.000Z",
@@ -100,6 +75,7 @@ export const eatenMeals = [
   {
     mealId: "c43ad7ca-ae49-4178-b793-fcd5d73d1513",
     mealType: "Breakfast",
+
     mealFoods: [
       {
         mealFoodId: "49ccddf0-5bb0-44f8-ad21-96435b1e91e8",
@@ -110,12 +86,7 @@ export const eatenMeals = [
         portionWeight: 100,
         measurementUnit: "g",
 
-        calories: 130,
-        protein: 2.7,
-        carbs: 28.2,
-        fat: 0.3,
-        fiber: 0.7,
-        sugar: 0.1,
+        calories: 130
       },
       {
         mealFoodId: "224648d0-bc45-4c46-8ca5-151d00a345ed",
@@ -126,12 +97,7 @@ export const eatenMeals = [
         portionWeight: 150,
         measurementUnit: "g",
 
-        calories: 78,
-        protein: 0,
-        carbs: 21,
-        fat: 0,
-        fiber: 3,
-        sugar: 15,
+        calories: 78
       },
       {
         mealFoodId: "1d8bdf33-539f-4396-8de4-1abd49586cd0",
@@ -142,12 +108,7 @@ export const eatenMeals = [
         portionWeight: 118,
         measurementUnit: "g",
 
-        calories: 105,
-        protein: 1.2,
-        carbs: 27.1,
-        fat: 0,
-        fiber: 3.1,
-        sugar: 14.4,
+        calories: 105
       },
       {
         mealFoodId: "4d3baa5e-b50d-441c-bc28-ef957857a5d7",
@@ -158,12 +119,7 @@ export const eatenMeals = [
         portionWeight: 400,
         measurementUnit: "g",
 
-        calories: 527,
-        protein: 20.7,
-        carbs: 81.6,
-        fat: 13.3,
-        fiber: 2.4,
-        sugar: 0.4,
+        calories: 527
       }
     ],
     createdAt: "2021-12-07T00:00:00.000Z",

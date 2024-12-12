@@ -40,7 +40,7 @@ function ScheduleScreen() {
             <Schedule initialDate={currentDate} />
 
             <Tabs defaultValue="breakfast" className="w-full">
-              <TabsList gap={8}>
+              <TabsList gap={24}>
                 <TabsTrigger value="breakfast">Bữa sáng</TabsTrigger>
                 <TabsTrigger value="lunch">Bữa trưa</TabsTrigger>
                 <TabsTrigger value="dinner">Bữa tối</TabsTrigger>

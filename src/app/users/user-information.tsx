@@ -29,7 +29,7 @@ import {
 
 import { COLORS } from "@/constants/appConstants"
 
-export const UserInformationScreenF = () => {
+function UserInformationScreen() {
   const defaultAvatar =
     "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Monhealth%2Ftests%2Fangrycat.jpg?alt=media&token=542becf5-173f-47c2-951b-b9f79578fa60"
 
@@ -103,3 +103,5 @@ export const UserInformationScreenF = () => {
     </Container>
   )
 }
+
+export default UserInformationScreen

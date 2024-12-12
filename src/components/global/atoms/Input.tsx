@@ -3,6 +3,8 @@ import React, { useRef } from "react"
 import { Text, TextInput, TouchableOpacity, View } from "react-native"
 
 interface InputProps {
+  multiline?: boolean
+  numberOfLines?: number
   value?: string
   onChangeText?: (text: string) => void
   placeholder?: string
@@ -15,6 +17,8 @@ interface InputProps {
 }
 
 export const Input = ({
+  multiline = false,
+  numberOfLines = 1,
   value,
   onChangeText,
   placeholder,
@@ -33,11 +37,9 @@ export const Input = ({
     <View>
       <View
         className={`flex-row items-center rounded-2xl border px-4 py-1 ${
-          hasError
-            ? "border-destructive bg-red-50"
-            : "border-border bg-white"
+          hasError ? "border-destructive bg-red-50" : "border-border bg-white"
         }`}
-        style={{ height: 52 }}
+        style={{ height: multiline ? undefined : 52 }}
       >
         {iconStart && (
           <TouchableOpacity
@@ -56,9 +58,15 @@ export const Input = ({
           value={value}
           keyboardType={keyboardType}
           onChangeText={onChangeText}
+          multiline={multiline}
+          numberOfLines={multiline ? numberOfLines : 1}
+          textAlignVertical={multiline ? "top" : "center"}
           className={`flex-1 font-tregular ${
             hasError ? "text-destructive" : "text-typography"
           }`}
+          style={{
+            height: multiline ? numberOfLines * 20 : undefined
+          }}
         />
 
         {iconEnd && (

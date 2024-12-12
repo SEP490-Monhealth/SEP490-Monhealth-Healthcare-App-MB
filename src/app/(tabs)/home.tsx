@@ -78,7 +78,7 @@ function HomeScreen() {
             <ListHeader>
               <VStack gap={24}>
                 <Tabs defaultValue="today" contentMarginTop={6}>
-                  <TabsList center gap={12}>
+                  <TabsList center gap={32}>
                     <TabsTrigger value="today">Hôm nay</TabsTrigger>
                     <TabsTrigger value="week">Tuần</TabsTrigger>
                     <TabsTrigger value="month">Tháng</TabsTrigger>

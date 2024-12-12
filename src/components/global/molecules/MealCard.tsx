@@ -29,7 +29,7 @@ export const MealCard = ({
   const mealId = "c43ad7ca"
 
   const handleViewMeal = () => {
-    router.push(`/meals/${mealId}/meal-details`)
+    router.push(`/meals/${mealId}/details`)
   }
 
   return (
