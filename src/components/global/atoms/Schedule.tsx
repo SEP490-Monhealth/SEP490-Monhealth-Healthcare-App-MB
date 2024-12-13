@@ -8,7 +8,7 @@ import { Card, HStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/appConstants"
 
-interface ScheduleComponentProps {
+interface ScheduleProps {
   initialDate: Date
 }
 
@@ -17,7 +17,7 @@ interface DayDetails {
   dayOfWeek: string
 }
 
-export const Schedule = ({ initialDate }: ScheduleComponentProps) => {
+export const Schedule = ({ initialDate }: ScheduleProps) => {
   const validInitialDate = useMemo(() => {
     if (initialDate instanceof Date && !isNaN(initialDate.getTime())) {
       return initialDate
@@ -79,12 +79,13 @@ export const Schedule = ({ initialDate }: ScheduleComponentProps) => {
         onPress={() => handleSelectedDay(date)}
       >
         <Text
-          className={`font-tbold ${isSelected ? "text-white" : "text-typography"}`}
+          className={`font-tbold text-base ${isSelected ? "text-white" : "text-typography"}`}
         >
           {dayOfWeek}
         </Text>
+
         <Text
-          className={`font-tmedium ${isSelected ? "text-white" : "text-accent"}`}
+          className={`font-tmedium text-base leading-5 ${isSelected ? "text-white" : "text-accent"}`}
         >
           {date.getDate()}
         </Text>
@@ -101,6 +102,7 @@ export const Schedule = ({ initialDate }: ScheduleComponentProps) => {
         <Text className="font-tbold text-xl text-typography">
           {month}, {year}
         </Text>
+
         <Calendar variant="Bold" size={24} color={COLORS.primary} />
       </HStack>
 

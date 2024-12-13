@@ -60,7 +60,7 @@ export const ArcProgress = ({
   width,
   fill = 0,
   tintColor = COLORS.primary,
-  backgroundColor = "#e2e8f0",
+  backgroundColor = "#F1F5F9",
   arcSweepAngle = 360,
   rotation = 0,
   centerCircle = false,

@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Container } from "@/components/global/atoms"
+import { Calendar, Container } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
 function ActivityScreen() {
@@ -8,6 +8,7 @@ function ActivityScreen() {
     <Container>
       <Header title="Hoạt động" />
 
+      <Calendar />
     </Container>
   )
 }

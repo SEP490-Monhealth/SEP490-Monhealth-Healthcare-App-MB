@@ -5,10 +5,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "#F8FAFC", // Slate 50
+        background: "#FFF", // White
         foreground: "#0F172A", // Slate 900
         card: {
-          DEFAULT: "#F2F9FD"
+          DEFAULT: "#F8FAFC" // Slate 50
         },
         primary: {
           DEFAULT: "#334155", // Slate 700
@@ -31,7 +31,7 @@ module.exports = {
         typography: {
           DEFAULT: "#334155", // Slate 700
           primary: "#94A3B8", // Slate 400
-          foreground: "#FFFFFF"
+          foreground: "#FFF" // White
         },
         destructive: {
           DEFAULT: "#EF4444", // Red 500
