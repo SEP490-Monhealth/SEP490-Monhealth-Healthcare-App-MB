@@ -73,7 +73,7 @@ function ForgotPasswordScreen() {
                 }
                 iconEnd={
                   showPassword ? (
-                    <Eye variant="Bold" size={20} color="#334155" />
+                    <Eye variant="Bold" size={20} color={COLORS.primary} />
                   ) : (
                     <EyeSlash variant="Bold" size={20} color="#cbd5e1" />
                   )
@@ -97,8 +97,8 @@ function ForgotPasswordScreen() {
                   <Lock1 variant="Bold" size={20} color={COLORS.primary} />
                 }
                 iconEnd={
-                  showConfirmPassword ? (
-                    <Eye variant="Bold" size={20} color="#334155" />
+                  showPassword ? (
+                    <Eye variant="Bold" size={20} color={COLORS.primary} />
                   ) : (
                     <EyeSlash variant="Bold" size={20} color="#cbd5e1" />
                   )

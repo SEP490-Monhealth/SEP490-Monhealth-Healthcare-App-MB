@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
 import { FlatList, Text, TouchableOpacity } from "react-native"
 
+import { useRouter } from "expo-router"
+
 import { Calendar } from "iconsax-react-native"
 
 import { Card, HStack } from "@/components/global/atoms"
@@ -18,6 +20,8 @@ interface DayDetails {
 }
 
 export const Schedule = ({ initialDate }: ScheduleProps) => {
+  const router = useRouter()
+
   const validInitialDate = useMemo(() => {
     if (initialDate instanceof Date && !isNaN(initialDate.getTime())) {
       return initialDate
@@ -96,6 +100,10 @@ export const Schedule = ({ initialDate }: ScheduleProps) => {
   const month = selectedDay.toLocaleString("vi-VN", { month: "short" })
   const year = selectedDay.toLocaleString("vi-VN", { year: "numeric" })
 
+  const handleCalendarPress = () => {
+    router.push("/schedules/calendar")
+  }
+
   return (
     <Card activeOpacity={1}>
       <HStack center className="mb-4 justify-between">
@@ -103,7 +111,12 @@ export const Schedule = ({ initialDate }: ScheduleProps) => {
           {month}, {year}
         </Text>
 
-        <Calendar variant="Bold" size={24} color={COLORS.primary} />
+        <Calendar
+          variant="Bold"
+          size={24}
+          color={COLORS.primary}
+          onPress={handleCalendarPress}
+        />
       </HStack>
 
       <FlatList

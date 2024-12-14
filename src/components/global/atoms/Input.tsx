@@ -2,6 +2,8 @@ import React, { useRef } from "react"
 
 import { Text, TextInput, TouchableOpacity, View } from "react-native"
 
+import { X } from "lucide-react-native"
+
 interface InputProps {
   multiline?: boolean
   numberOfLines?: number
@@ -32,6 +34,10 @@ export const Input = ({
   const inputRef = useRef<TextInput>(null)
 
   const hasError = !!errorMessage
+
+  const handleClearText = () => {
+    onChangeText?.("")
+  }
 
   return (
     <View>
@@ -69,10 +75,18 @@ export const Input = ({
           }}
         />
 
-        {iconEnd && (
+        {iconEnd ? (
           <TouchableOpacity onPress={toggleSecureTextEntry} activeOpacity={0.7}>
             <View className="px-2 py-4">{iconEnd}</View>
           </TouchableOpacity>
+        ) : (
+          value && (
+            <TouchableOpacity onPress={handleClearText} activeOpacity={0.7}>
+              <View className="px-2 py-4">
+                <X size={20} color="#cbd5e1" />
+              </View>
+            </TouchableOpacity>
+          )
         )}
       </View>
 

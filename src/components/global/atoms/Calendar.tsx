@@ -6,7 +6,6 @@ import { ChevronLeft, ChevronRight } from "lucide-react-native"
 
 import { COLORS } from "@/constants/appConstants"
 
-import { Card } from "./Card"
 import { HStack } from "./Stack"
 
 const daysOfWeek = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"]
@@ -74,9 +73,7 @@ export const Calendar = () => {
     const isCurrentMonth = item && item.getMonth() === currentDate.getMonth()
 
     return (
-      <View
-        style={{ flex: 1, aspectRatio: 1, alignItems: "center", padding: 4 }}
-      >
+      <View className="flex-1 items-center p-1" style={{ aspectRatio: 1 }}>
         {item ? (
           <TouchableOpacity
             activeOpacity={isCurrentMonth ? 0.7 : 1}
@@ -109,8 +106,8 @@ export const Calendar = () => {
   }
 
   return (
-    <Card activeOpacity={1}>
-      <HStack center className="mb-4 justify-between">
+    <View>
+      <HStack center className="mb-6 justify-between">
         <Text className="font-tbold text-xl text-typography">
           {`Tháng ${currentDate.getMonth() + 1}, ${currentDate.getFullYear()}`}
         </Text>
@@ -153,6 +150,6 @@ export const Calendar = () => {
         scrollEnabled={false}
         contentContainerStyle={{ flexGrow: 1 }}
       />
-    </Card>
+    </View>
   )
 }

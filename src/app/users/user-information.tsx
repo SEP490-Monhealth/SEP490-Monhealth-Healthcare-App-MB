@@ -70,8 +70,8 @@ function UserInformationScreen() {
   return (
     <Container>
       <Header
-        title="Thông tin cá nhân"
         back
+        title="Thông tin cá nhân"
         action={{
           icon: <Edit2 variant="Bold" size={20} color={COLORS.primary} />,
           url: "/users/settings"

@@ -11,7 +11,7 @@ function AppIndex() {
 
   useEffect(() => {
     setTimeout(() => {
-      const isLoggedIn = true
+      const isLoggedIn = false
       if (isLoggedIn) {
         router.replace("/(tabs)/home")
       } else {

@@ -35,8 +35,8 @@ export const Button: React.FC<ButtonProps> = ({
       text: "text-typography-foreground"
     },
     secondary: {
-      container: disabled ? "bg-gray-300" : "bg-secondary",
-      text: "text-secondary-foreground"
+      container: disabled ? "bg-gray-300" : "bg-border",
+      text: "text-primary"
     },
     danger: {
       container: disabled ? "bg-gray-300" : "bg-destructive",

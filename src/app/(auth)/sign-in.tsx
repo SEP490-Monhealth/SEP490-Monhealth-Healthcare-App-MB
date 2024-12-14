@@ -88,7 +88,7 @@ function SignInScreen() {
                 }
                 iconEnd={
                   showPassword ? (
-                    <Eye variant="Bold" size={20} color="#334155" />
+                    <Eye variant="Bold" size={20} color={COLORS.primary} />
                   ) : (
                     <EyeSlash variant="Bold" size={20} color="#cbd5e1" />
                   )
