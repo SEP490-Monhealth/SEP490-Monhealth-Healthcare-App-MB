@@ -20,10 +20,11 @@ export const Avatar = ({
   const [imgError, setImgError] = useState(false)
 
   return (
-    <View className={className}>
+    <View testID="avatar-view" className={className}>
       {imgError || !source ? (
         <View
-          className="border-border bg-border flex items-center justify-center rounded-full border-4"
+          testID="avatar-fallback"
+          className="flex items-center justify-center rounded-full border-4 border-border bg-border"
           style={{ width: size, height: size }}
         >
           <Text className="font-tbold text-2xl text-secondary">
@@ -32,8 +33,9 @@ export const Avatar = ({
         </View>
       ) : (
         <Image
+          testID="avatar-image"
           source={{ uri: source }}
-          className="bg-border rounded-full border-4 border-white shadow"
+          className="rounded-full border-4 border-white bg-border shadow"
           style={{ width: size, height: size }}
           onError={() => setImgError(true)}
         />
