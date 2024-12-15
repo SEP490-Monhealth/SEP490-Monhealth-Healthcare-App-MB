@@ -2,7 +2,7 @@ import { z } from "zod"
 
 const activityLevels = [1.2, 1.375, 1.55, 1.725]
 
-const metricSchema = z.object({
+export const metricSchema = z.object({
   metricId: z.string(),
   userId: z.string(),
   dateOfBirth: z.string().refine(
@@ -51,7 +51,7 @@ const metricSchema = z.object({
   updatedAt: z.string()
 })
 
-const createUpdateMetricSchema = metricSchema.omit({
+export const createUpdateMetricSchema = metricSchema.omit({
   metricId: true,
   createdAt: true,
   updatedAt: true

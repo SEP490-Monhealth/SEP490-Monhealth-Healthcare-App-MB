@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { FlatList, Text, View } from "react-native"
+import { FlatList, View } from "react-native"
 
 import { Add, SearchNormal1 } from "iconsax-react-native"
 

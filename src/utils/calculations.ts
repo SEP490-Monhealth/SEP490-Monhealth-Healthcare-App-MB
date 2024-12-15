@@ -7,7 +7,7 @@
  * @param activityLevel Mức độ hoạt động (1.2: ít hoạt động, 1.375: nhẹ, 1.55: trung bình, 1.725: cao)
  * @returns Một đối tượng chứa các chỉ số: BMI, BMR, TDEE, IBW
  */
-function calculateHealthMetrics(
+export function calculateHealthMetrics(
   weight: number,
   height: number,
   age: number,

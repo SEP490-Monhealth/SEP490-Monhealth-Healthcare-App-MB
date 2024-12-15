@@ -41,4 +41,4 @@ yarn-error.*
 # @end expo-cli
 
 # Jest
-__tests__/
+coverage/

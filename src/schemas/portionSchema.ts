@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-const portionSchema = z.object({
+export const portionSchema = z.object({
   portionId: z.string(),
   foodId: z.string(),
   portionSize: z.string().optional(),
@@ -18,7 +18,7 @@ const portionSchema = z.object({
   updatedAt: z.string()
 })
 
-const createUpdatePortionSchema = portionSchema.omit({
+export const createUpdatePortionSchema = portionSchema.omit({
   portionId: true,
   createdAt: true,
   updatedAt: true

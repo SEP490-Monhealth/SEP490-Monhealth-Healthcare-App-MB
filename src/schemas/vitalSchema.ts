@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-const vitalSchema = z.object({
+export const vitalSchema = z.object({
   vitalId: z.string(),
   userId: z.string(),
   bloodPressure: z
@@ -34,7 +34,7 @@ const vitalSchema = z.object({
   updatedAt: z.string()
 })
 
-const createUpdateVitalSchema = vitalSchema.omit({
+export const createUpdateVitalSchema = vitalSchema.omit({
   vitalId: true,
   createdAt: true,
   updatedAt: true

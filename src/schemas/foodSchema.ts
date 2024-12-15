@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-const foodSchema = z.object({
+export const foodSchema = z.object({
   foodId: z.string(),
   category: z.string(),
   foodName: z
@@ -54,7 +54,7 @@ const foodSchema = z.object({
   updatedBy: z.string()
 })
 
-const createUpdateFoodSchema = foodSchema.omit({
+export const createUpdateFoodSchema = foodSchema.omit({
   foodId: true,
   createdAt: true,
   updatedAt: true,

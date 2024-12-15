@@ -47,8 +47,6 @@ export const TabsList: React.FC<TabsListProps> = ({
 }) => {
   const justifyClass = center ? "justify-center" : "justify-start"
 
-  const gapClass = `gap-${gap}`
-
   return (
     <View className={`flex-row ${justifyClass} ${className}`} style={{ gap }}>
       {children}

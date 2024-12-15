@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-const mealFoodSchema = z.object({
+export const mealFoodSchema = z.object({
   mealFoodId: z.string(),
   mealId: z.string(),
   foodId: z.string(),
@@ -12,7 +12,7 @@ const mealFoodSchema = z.object({
   updatedAt: z.string()
 })
 
-const mealSchema = z.object({
+export const mealSchema = z.object({
   mealId: z.string(),
   dailyMealId: z.string(),
   userId: z.string(),
@@ -23,7 +23,7 @@ const mealSchema = z.object({
   updatedAt: z.string()
 })
 
-const createUpdateMealSchema = mealSchema.omit({
+export const createUpdateMealSchema = mealSchema.omit({
   mealId: true,
   createdAt: true,
   updatedAt: true

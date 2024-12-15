@@ -42,9 +42,9 @@ const baseNutritionSchema = z.object({
   updatedAt: z.string()
 })
 
-const nutritionSchema = baseNutritionSchema.superRefine(validateCalories)
+export const nutritionSchema = baseNutritionSchema.superRefine(validateCalories)
 
-const createUpdateNutritionSchema = baseNutritionSchema
+export const createUpdateNutritionSchema = baseNutritionSchema
   .omit({
     nutritionId: true,
     createdAt: true,
