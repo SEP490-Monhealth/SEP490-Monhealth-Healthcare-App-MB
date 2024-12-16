@@ -47,7 +47,7 @@ function HomeScreen() {
         { mealType: "Dinner", totalCalories: 300 },
         { mealType: "Snack", totalCalories: 300 }
       ])
-      
+
       setIsRefreshing(false)
     }, 2000)
   }
@@ -105,7 +105,7 @@ function HomeScreen() {
                       <Progress
                         height={8}
                         progress={50}
-                        labelStart="438 trên 842 calories"
+                        labelStart="438 trên 842 kcal"
                         labelEnd="50%"
                       />
                     </VStack>
@@ -124,7 +124,7 @@ function HomeScreen() {
                       <Progress
                         height={8}
                         progress={50}
-                        labelStart="438 trên 842 calories"
+                        labelStart="438 trên 842 kcal"
                         labelEnd="50%"
                       />
                     </VStack>

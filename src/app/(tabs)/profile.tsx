@@ -38,21 +38,21 @@ function ProfileScreen() {
 
   const generalItems = [
     {
-      icon: <Profile variant="Bold" size={24} color={COLORS.primary} />,
+      icon: <Profile variant="Bold" size={24} color={COLORS.secondary} />,
       label: "Hồ sơ cá nhân",
       onPress: () => {
         router.push("/users/user-information")
       }
     },
     {
-      icon: <Command variant="Bold" size={24} color={COLORS.primary} />,
+      icon: <Command variant="Bold" size={24} color={COLORS.secondary} />,
       label: "Theo dõi sức khỏe",
       onPress: () => {
         router.push("/users/health-tracking")
       }
     },
     {
-      icon: <Chart2 variant="Bold" size={24} color={COLORS.primary} />,
+      icon: <Chart2 variant="Bold" size={24} color={COLORS.secondary} />,
       label: "Thống kê sức khỏe",
       onPress: () => {
         router.push("/users/health-stats")
@@ -60,7 +60,7 @@ function ProfileScreen() {
     },
     {
       icon: (
-        <NotificationStatus variant="Bold" size={24} color={COLORS.primary} />
+        <NotificationStatus variant="Bold" size={24} color={COLORS.secondary} />
       ),
       label: "Nhắc nhở",
       onPress: () => {
@@ -68,7 +68,7 @@ function ProfileScreen() {
       }
     },
     {
-      icon: <Lock1 variant="Bold" size={24} color={COLORS.primary} />,
+      icon: <Lock1 variant="Bold" size={24} color={COLORS.secondary} />,
       label: "Cài đặt bảo mật",
       onPress: () => {
         router.push("/users/security-settings")
@@ -78,14 +78,14 @@ function ProfileScreen() {
 
   const aboutItems = [
     {
-      icon: <I3Dcube variant="Bold" size={24} color={COLORS.primary} />,
+      icon: <I3Dcube variant="Bold" size={24} color={COLORS.secondary} />,
       label: "Thông tin ứng dụng",
       onPress: () => {
         router.push("/about")
       }
     },
     {
-      icon: <Verify variant="Bold" size={24} color={COLORS.primary} />,
+      icon: <Verify variant="Bold" size={24} color={COLORS.secondary} />,
       label: "Phản hồi và đánh giá",
       onPress: () => {
         router.push("/feedback")
@@ -106,14 +106,14 @@ function ProfileScreen() {
         <ScrollArea>
           <VStack center gap={20} className="mt-4 pb-16">
             <Avatar
-              size={144}
+              size={160}
               source={defaultAvatar}
               alt="Zotaeus"
               className="items-center"
             />
 
             <VStack center className="mb-2">
-              <Text className="font-tbold text-2xl text-typography">
+              <Text className="font-tbold text-2xl leading-6 text-typography">
                 Van Huu Toan
               </Text>
 

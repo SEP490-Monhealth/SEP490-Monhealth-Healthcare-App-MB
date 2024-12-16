@@ -1,3 +1,4 @@
 import { NutrientCard } from "./NutrientCard"
+import { NutritionSummary } from "./NutritionSummary"
 
-export { NutrientCard }
+export { NutrientCard, NutritionSummary }

@@ -49,8 +49,8 @@ export const Input = ({
       >
         {iconStart && (
           <TouchableOpacity
-            onPress={() => inputRef.current?.focus()}
             activeOpacity={0.7}
+            onPress={() => inputRef.current?.focus()}
             className="mr-2"
           >
             <View>{iconStart}</View>
@@ -67,7 +67,7 @@ export const Input = ({
           multiline={multiline}
           numberOfLines={multiline ? numberOfLines : 1}
           textAlignVertical={multiline ? "top" : "center"}
-          className={`flex-1 font-tregular ${
+          className={`flex-1 py-2 font-tregular ${
             hasError ? "text-destructive" : "text-typography"
           }`}
           style={{

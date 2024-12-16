@@ -22,17 +22,17 @@ export const ListItem = ({
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      className="y flex-row items-center justify-between py-4"
+      className="flex-row items-center justify-between py-4"
       onPress={onPress}
     >
       <View className="flex-row items-center">
         {icon}
-        <Text className="ml-4 font-tmedium text-lg text-[#475569]">
+        <Text className="ml-4 font-tmedium text-lg text-secondary">
           {label}
         </Text>
       </View>
 
-      {more && <ChevronRight size={20} color={COLORS.primary} />}
+      {more && <ChevronRight size={20} color={COLORS.secondary} />}
     </TouchableOpacity>
   )
 }

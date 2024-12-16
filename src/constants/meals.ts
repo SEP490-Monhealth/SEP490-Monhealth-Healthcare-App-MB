@@ -1,4 +1,6 @@
-export const sampleMealsData = [
+import { MealType } from "@/schemas/mealSchema"
+
+export const sampleMealsData: MealType[] = [
   {
     mealId: "c43ad7ca",
     mealType: "Breakfast",

@@ -4,6 +4,7 @@ import { FlatList, View } from "react-native"
 
 import { useLocalSearchParams } from "expo-router"
 
+import LoadingScreen from "@/app/loading"
 import { Setting4 } from "iconsax-react-native"
 
 import { Container, Content, HStack } from "@/components/global/atoms"
@@ -15,7 +16,7 @@ import {
 } from "@/components/global/molecules"
 import { Header, Section } from "@/components/global/organisms"
 
-import { NutrientCard } from "@/components/local/meals"
+import { NutritionSummary } from "@/components/local/meals"
 
 import { COLORS } from "@/constants/appConstants"
 import { sampleMealsData } from "@/constants/meals"
@@ -43,7 +44,13 @@ function MealDetailsScreen() {
 
   const onRefresh = async () => {
     setIsRefreshing(true)
-    setTimeout(() => setIsRefreshing(false), 1000)
+    setTimeout(() => {
+      setIsRefreshing(false)
+    }, 2000)
+  }
+
+  if (!mealData) {
+    return <LoadingScreen />
   }
 
   return (
@@ -76,16 +83,10 @@ function MealDetailsScreen() {
                 centerCircle
                 calorieValue={calorieValue}
                 maxCalories={totalCalories}
-                label="Calories"
+                label="Kcal"
               />
 
-              <HStack center className="justify-between px-2">
-                <NutrientCard label="Protein" value={mealData?.protein || 0} />
-                <NutrientCard label="Carbs" value={mealData?.carbs || 0} />
-                <NutrientCard label="Fat" value={mealData?.fat || 0} />
-                <NutrientCard label="Fiber" value={mealData?.fiber || 0} />
-                <NutrientCard label="Sugar" value={mealData?.sugar || 0} />
-              </HStack>
+              <NutritionSummary nutritionData={mealData} />
 
               <Section title="Chi tiết bữa ăn" />
             </ListHeader>
@@ -93,6 +94,7 @@ function MealDetailsScreen() {
           renderItem={({ item }) => (
             <FoodCard
               key={item.foodId}
+              foodId={item.foodId}
               foodName={item.foodName}
               calories={item.calories}
               portionSize={item.portionSize}

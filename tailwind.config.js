@@ -5,10 +5,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "#FFF", // White
+        background: "#F8FAFC", // Slate 50
         foreground: "#0F172A", // Slate 900
         card: {
-          DEFAULT: "#F8FAFC" // Slate 50
+          DEFAULT: "#FFF" // White
         },
         primary: {
           DEFAULT: "#334155", // Slate 700

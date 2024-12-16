@@ -10,6 +10,7 @@ export const foodSchema = z.object({
     .regex(/^[a-zA-Z0-9\s\u00C0-\u024F\u1E00-\u1EFF]*$/, {
       message: "Tên món ăn chỉ được chứa chữ cái, số và khoảng trắng"
     }),
+  foodDescription: z.string().optional(),
 
   portionSize: z.string().optional(),
   portionWeight: z

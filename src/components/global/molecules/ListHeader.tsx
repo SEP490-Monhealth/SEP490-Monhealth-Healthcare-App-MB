@@ -5,7 +5,7 @@ import { View } from "react-native"
 import { cn } from "@/lib/utils"
 
 interface ListHeaderProps {
-  children: React.ReactNode
+  children?: React.ReactNode
   className?: string
 }
 

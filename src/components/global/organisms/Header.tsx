@@ -12,7 +12,7 @@ import { IconButton } from "../molecules"
 
 interface ActionProps {
   icon: React.ReactNode
-  url: string
+  url?: string
 }
 
 interface HeaderProps {

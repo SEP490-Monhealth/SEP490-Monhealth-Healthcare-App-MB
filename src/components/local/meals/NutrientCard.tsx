@@ -18,7 +18,7 @@ export const NutrientCard = ({ label, value }: NutrientCardProps) => {
         {label}
       </Text>
       <Text className="font-tbold text-lg text-typography">
-        {toFixed2(value)}g
+        {toFixed2(value)} g
       </Text>
     </VStack>
   )
