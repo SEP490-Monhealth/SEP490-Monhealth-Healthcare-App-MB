@@ -9,6 +9,13 @@ export const categorySchema = z.object({
     .regex(/^[a-zA-Z0-9\s\u00C0-\u024F\u1E00-\u1EFF]*$/, {
       message: "Tên danh mục chỉ được chứa chữ cái, số và khoảng trắng"
     }),
+  categoryDescription: z
+    .string()
+    .max(500, {
+      message: "Mô tả danh mục không được dài hơn 500 ký tự"
+    })
+    .optional(),
+    
   createdAt: z.string(),
   updatedAt: z.string()
 })

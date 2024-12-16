@@ -71,6 +71,14 @@ export const mealSchema = z.object({
 
 export const createUpdateMealSchema = mealSchema.omit({
   mealId: true,
+  
+  calories: true,
+  protein: true,
+  carbs: true,
+  fat: true,
+  fiber: true,
+  sugar: true,
+
   createdAt: true,
   updatedAt: true
 })

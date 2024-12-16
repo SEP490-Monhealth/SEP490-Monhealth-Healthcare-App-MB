@@ -3,6 +3,7 @@ import { z } from "zod"
 export const vitalSchema = z.object({
   vitalId: z.string(),
   userId: z.string(),
+
   bloodPressure: z
     .string()
     .regex(/^\d{2,3}\/\d{2,3}$/, {
@@ -30,6 +31,7 @@ export const vitalSchema = z.object({
     .string()
     .max(500, { message: "Danh sách dị ứng không được dài hơn 500 ký tự" })
     .optional(),
+    
   createdAt: z.string(),
   updatedAt: z.string()
 })

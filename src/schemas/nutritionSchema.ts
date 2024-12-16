@@ -14,6 +14,7 @@ const validateCalories = (data: any, ctx: z.RefinementCtx) => {
 const baseNutritionSchema = z.object({
   nutritionId: z.string(),
   foodId: z.string(),
+
   calories: z
     .number()
     .positive({ message: "Calories phải là một số dương" })
@@ -38,6 +39,7 @@ const baseNutritionSchema = z.object({
     .number()
     .positive({ message: "Sugar phải là một số dương" })
     .max(500, { message: "Sugar không được vượt quá 500g" }),
+    
   createdAt: z.string(),
   updatedAt: z.string()
 })

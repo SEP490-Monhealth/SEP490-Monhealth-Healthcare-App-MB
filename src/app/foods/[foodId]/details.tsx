@@ -30,11 +30,14 @@ function FoodDetailsScreen() {
         <Text className="font-tbold text-xl text-typography">
           {foodData.foodName}
         </Text>
+
         <Text className="font-tregular text-base text-secondary">
-          {foodData.foodDescription}
+          {foodData.portionSize} {foodData.portionWeight}{" "}
+          {foodData.measurementUnit}
         </Text>
 
         <Section title="Thông tin dinh dưỡng" />
+
         <NutritionFacts nutritionData={foodData} />
       </Content>
     </Container>

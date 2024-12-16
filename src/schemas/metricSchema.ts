@@ -5,6 +5,7 @@ const activityLevels = [1.2, 1.375, 1.55, 1.725]
 export const metricSchema = z.object({
   metricId: z.string(),
   userId: z.string(),
+
   dateOfBirth: z.string().refine(
     (date) => {
       const today = new Date()
@@ -47,12 +48,19 @@ export const metricSchema = z.object({
     .positive({ message: "IBW phải là số dương" })
     .min(30, { message: "IBW tối thiểu là 30 kg" })
     .max(300, { message: "IBW tối đa là 300 kg" }),
+
   createdAt: z.string(),
   updatedAt: z.string()
 })
 
 export const createUpdateMetricSchema = metricSchema.omit({
   metricId: true,
+
+  bmi: true,
+  bmr: true,
+  tdee: true,
+  ibw: true,
+
   createdAt: true,
   updatedAt: true
 })

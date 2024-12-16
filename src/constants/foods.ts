@@ -19,6 +19,8 @@ export const sampleFoodsData: FoodType[] = [
     fiber: 0.7,
     sugar: 0.1,
 
+    status: true,
+
     createdAt: "2021-12-07T00:00:00.000Z",
     updatedAt: "2021-12-07T00:00:00.000Z",
     createdBy: "asd",
@@ -40,6 +42,8 @@ export const sampleFoodsData: FoodType[] = [
     fat: 0.8,
     fiber: 2.4,
     sugar: 5.3,
+
+    status: true,
 
     createdAt: "2021-12-07T00:00:00.000Z",
     updatedAt: "2021-12-07T00:00:00.000Z",
@@ -64,6 +68,8 @@ export const sampleFoodsData: FoodType[] = [
     fiber: 3.1,
     sugar: 14.4,
 
+    status: true,
+
     createdAt: "2021-12-07T00:00:00.000Z",
     updatedAt: "2021-12-07T00:00:00.000Z",
     createdBy: "asd",
@@ -86,6 +92,8 @@ export const sampleFoodsData: FoodType[] = [
     fat: 52,
     fiber: 0,
     sugar: 0,
+
+    status: true,
 
     createdAt: "2021-12-07T00:00:00.000Z",
     updatedAt: "2021-12-07T00:00:00.000Z",
@@ -110,6 +118,8 @@ export const sampleFoodsData: FoodType[] = [
     fiber: 3,
     sugar: 15,
 
+    status: true,
+
     createdAt: "2021-12-07T00:00:00.000Z",
     updatedAt: "2021-12-07T00:00:00.000Z",
     createdBy: "asd",
@@ -132,6 +142,8 @@ export const sampleFoodsData: FoodType[] = [
     fat: 13.3,
     fiber: 2.4,
     sugar: 0.4,
+
+    status: true,
 
     createdAt: "2021-12-07T00:00:00.000Z",
     updatedAt: "2021-12-07T00:00:00.000Z",

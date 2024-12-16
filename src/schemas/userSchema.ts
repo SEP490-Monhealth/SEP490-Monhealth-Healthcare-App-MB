@@ -2,6 +2,7 @@ import { z } from "zod"
 
 export const userSchema = z.object({
   userId: z.string(),
+
   fullName: z
     .string()
     .nonempty({ message: "Tên không được để trống" })
@@ -32,6 +33,7 @@ export const userSchema = z.object({
   avatarUrl: z.string().url({ message: "Avatar không hợp lệ" }).optional(),
   role: z.enum(["User", "Admin"], { message: "Vai trò không hợp lệ" }),
   status: z.boolean(),
+  
   createdAt: z.string(),
   updatedAt: z.string()
 })

@@ -10,7 +10,10 @@ export const foodSchema = z.object({
     .regex(/^[a-zA-Z0-9\s\u00C0-\u024F\u1E00-\u1EFF]*$/, {
       message: "Tên món ăn chỉ được chứa chữ cái, số và khoảng trắng"
     }),
-  foodDescription: z.string().optional(),
+  foodDescription: z
+    .string()
+    .max(500, { message: "Mô tả món ăn không được dài hơn 500 ký tự" })
+    .optional(),
 
   portionSize: z.string().optional(),
   portionWeight: z
@@ -48,6 +51,8 @@ export const foodSchema = z.object({
     .number()
     .positive({ message: "Sugar phải là một số dương" })
     .max(500, { message: "Sugar không được vượt quá 500g" }),
+
+  status: z.boolean(),
 
   createdAt: z.string(),
   updatedAt: z.string(),

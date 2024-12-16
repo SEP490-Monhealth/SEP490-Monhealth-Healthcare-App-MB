@@ -32,9 +32,9 @@ export const NutrientCard = ({
           {label}
         </Text>
       </HStack>
-      
+
       <Text className="font-tbold text-sm text-typography">
-        {value}/{maxValue}g
+        {value}/{maxValue} g
       </Text>
     </VStack>
   )

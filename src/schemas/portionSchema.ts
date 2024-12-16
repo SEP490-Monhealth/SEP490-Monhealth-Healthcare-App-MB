@@ -3,6 +3,7 @@ import { z } from "zod"
 export const portionSchema = z.object({
   portionId: z.string(),
   foodId: z.string(),
+
   portionSize: z.string().optional(),
   portionWeight: z
     .number()
@@ -14,6 +15,7 @@ export const portionSchema = z.object({
     .string()
     .min(1, { message: "Đơn vị đo lường không được để trống" })
     .max(20, { message: "Đơn vị đo lường không được dài hơn 20 ký tự" }),
+    
   createdAt: z.string(),
   updatedAt: z.string()
 })
