@@ -14,7 +14,7 @@ export const ListHeader: React.FC<ListHeaderProps> = ({
   className = ""
 }) => {
   return (
-    <View className={cn("mt-4", className)}>
+    <View className={cn("bg-background pb-4", className)}>
       <React.Fragment>{children}</React.Fragment>
     </View>
   )

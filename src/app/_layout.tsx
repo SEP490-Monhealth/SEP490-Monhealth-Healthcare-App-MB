@@ -38,7 +38,7 @@ function AppLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <GestureHandlerRootView className="flex-1">
+      <GestureHandlerRootView>
         <SafeAreaProvider>
           <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name="index" />
@@ -49,7 +49,7 @@ function AppLayout() {
             <Stack.Screen name="(tabs)" />
             <Stack.Screen name="(errors)" />
           </Stack>
-          <StatusBar style="auto" />
+          <StatusBar style="auto" backgroundColor="#fff" />
         </SafeAreaProvider>
       </GestureHandlerRootView>
     </QueryClientProvider>

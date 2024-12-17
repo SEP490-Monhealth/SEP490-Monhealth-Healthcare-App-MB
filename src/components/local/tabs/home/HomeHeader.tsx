@@ -17,7 +17,7 @@ interface HomeHeaderProps {
 
 export const HomeHeader = ({ fullName }: HomeHeaderProps) => {
   return (
-    <HStack className="items-center justify-between bg-background pb-4">
+    <HStack className="min-h-14 items-center justify-between bg-background pb-4">
       <VStack>
         <Text className="font-pregular text-lg text-accent">
           {getGreeting()}

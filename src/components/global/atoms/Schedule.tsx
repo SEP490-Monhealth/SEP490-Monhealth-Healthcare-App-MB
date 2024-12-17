@@ -10,6 +10,8 @@ import { Card, HStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/appConstants"
 
+import { formatUTCDate } from "@/utils/formatters"
+
 interface ScheduleProps {
   initialDate: Date
 }
@@ -70,7 +72,7 @@ export const Schedule = ({ initialDate }: ScheduleProps) => {
 
   const handleSelectedDay = (date: Date) => {
     setSelectedDay(date)
-    console.log("Ngày đã chọn:", date)
+    console.log("Selected Date:", formatUTCDate(date))
   }
 
   const DayItem = ({ date, dayOfWeek }: DayDetails) => {

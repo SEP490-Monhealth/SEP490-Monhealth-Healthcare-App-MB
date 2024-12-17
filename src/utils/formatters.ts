@@ -83,3 +83,16 @@ export const formatISODate = (
 export const toFixed2 = (num: number): number => {
   return Math.round((num + Number.EPSILON) * 100) / 100
 }
+
+/**
+ * Chuyển đổi ngày sang UTC (ISO 8601)
+ * @param date Ngày (Date)
+ * @returns Chuỗi ngày theo định dạng UTC
+ */
+export const formatUTCDate = (date: Date) => {
+  const utcDate = new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+  )
+
+  return utcDate.toISOString()
+}

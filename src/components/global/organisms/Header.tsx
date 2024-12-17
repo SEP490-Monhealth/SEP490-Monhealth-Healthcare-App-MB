@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Text, View } from "react-native"
+import { Text } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -8,6 +8,7 @@ import { ArrowLeft } from "iconsax-react-native"
 
 import { COLORS } from "@/constants/appConstants"
 
+import { HStack } from "../atoms"
 import { IconButton } from "../molecules"
 
 interface ActionProps {
@@ -35,7 +36,7 @@ export const Header = ({ title, back = false, action }: HeaderProps) => {
   }
 
   return (
-    <View className="relative flex min-h-14 flex-row justify-between">
+    <HStack className="relative min-h-14 justify-between">
       {back && (
         <IconButton
           icon={<ArrowLeft size={24} color={COLORS.primary} />}
@@ -52,6 +53,6 @@ export const Header = ({ title, back = false, action }: HeaderProps) => {
       </Text>
 
       {action && <IconButton icon={action.icon} onPress={handleAction} />}
-    </View>
+    </HStack>
   )
 }

@@ -15,7 +15,7 @@ import { COLORS } from "@/constants/appConstants"
 
 function TabLayout() {
   const primaryColor = COLORS.primary
-  const descriptionColor = "#64748B"
+  const descriptionColor = COLORS.secondary
 
   return (
     <Tabs

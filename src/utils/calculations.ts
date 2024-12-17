@@ -7,13 +7,13 @@
  * @param activityLevel Mức độ hoạt động (1.2: ít hoạt động, 1.375: nhẹ, 1.55: trung bình, 1.725: cao)
  * @returns Một đối tượng chứa các chỉ số: BMI, BMR, TDEE, IBW
  */
-export function calculateHealthMetrics(
+export const calculateHealthMetrics = (
   weight: number,
   height: number,
   age: number,
   gender: number,
   activityLevel: 1.2 | 1.375 | 1.55 | 1.725
-) {
+) => {
   // Tính BMI
   const bmi = calculateBMI(weight, height)
 
@@ -40,7 +40,7 @@ export function calculateHealthMetrics(
  * @param height Chiều cao (cm)
  * @returns Chỉ số BMI
  */
-function calculateBMI(weight: number, height: number): number {
+const calculateBMI = (weight: number, height: number): number => {
   const heightInM = height / 100 // Chuyển chiều cao từ cm sang m
   return weight / (heightInM * heightInM) // Công thức tính BMI
 }
@@ -53,12 +53,12 @@ function calculateBMI(weight: number, height: number): number {
  * @param gender Giới tính (0 - Male hoặc 1 - Female)
  * @returns BMR của người dùng
  */
-function calculateBMR(
+const calculateBMR = (
   weight: number,
   height: number,
   age: number,
   gender: number
-): number {
+): number => {
   if (gender === 0) {
     return 10 * weight + 6.25 * height - 5 * age + 5 // Công thức Mifflin-St Jeor cho nam
   } else {
@@ -72,10 +72,10 @@ function calculateBMR(
  * @param activityLevel Mức độ hoạt động (1.2: ít hoạt động, 1.375: nhẹ, 1.55: trung bình, 1.725: cao)
  * @returns TDEE (Lượng calo cần thiết mỗi ngày)
  */
-function calculateTDEE(
+const calculateTDEE = (
   bmr: number,
   activityLevel: 1.2 | 1.375 | 1.55 | 1.725
-): number {
+): number => {
   return bmr * activityLevel // Công thức tính TDEE: BMR * mức độ hoạt động
 }
 
@@ -85,7 +85,7 @@ function calculateTDEE(
  * @param gender Giới tính (0 - Male hoặc 1 - Female)
  * @returns IBW lý tưởng
  */
-function calculateIBW(height: number, gender: number): number {
+const calculateIBW = (height: number, gender: number): number => {
   const heightInInches = height / 2.54 // Chuyển chiều cao từ cm sang inches
   if (gender === 0) {
     return 50 + 0.91 * (heightInInches - 60) // Công thức Broca cho nam

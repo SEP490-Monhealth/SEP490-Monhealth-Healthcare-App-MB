@@ -7,7 +7,7 @@ import { useLocalSearchParams } from "expo-router"
 import LoadingScreen from "@/app/loading"
 import { Setting4 } from "iconsax-react-native"
 
-import { Container, Content, HStack } from "@/components/global/atoms"
+import { Container, Content } from "@/components/global/atoms"
 import {
   ArcProgress,
   FoodCard,

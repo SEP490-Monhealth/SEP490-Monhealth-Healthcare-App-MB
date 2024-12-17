@@ -6,6 +6,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react-native"
 
 import { COLORS } from "@/constants/appConstants"
 
+import { formatUTCDate } from "@/utils/formatters"
+
 import { HStack } from "./Stack"
 
 const daysOfWeek = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"]
@@ -53,13 +55,8 @@ export const Calendar = () => {
   }
 
   const handleDayPress = (date: Date) => {
-    const utcDate = new Date(
-      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
-    )
-
     setSelectedDate(date)
-
-    console.log("Selected Date:", utcDate.toISOString())
+    console.log("Selected Date:", formatUTCDate(date))
   }
 
   const renderDay = ({ item }: { item: Date | null }) => {
@@ -77,7 +74,7 @@ export const Calendar = () => {
         {item ? (
           <TouchableOpacity
             activeOpacity={isCurrentMonth ? 0.7 : 1}
-            className={`h-full w-full items-center justify-center rounded-lg ${
+            className={`h-full w-full items-center justify-center rounded-xl ${
               isActive
                 ? "bg-primary text-white"
                 : isToday

@@ -14,7 +14,7 @@ export const ListFooter: React.FC<ListFooterProps> = ({
   className = ""
 }) => {
   return (
-    <View className={cn("mt-8 pb-20", className)}>
+    <View className={cn("mt-8 pb-12", className)}>
       <React.Fragment>{children}</React.Fragment>
     </View>
   )

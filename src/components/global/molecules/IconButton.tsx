@@ -1,6 +1,6 @@
 import React from "react"
 
-import { TouchableOpacity, View } from "react-native"
+import { TouchableOpacity } from "react-native"
 
 import { cn } from "@/lib/utils"
 
