@@ -5,17 +5,17 @@ import { TouchableOpacity } from "react-native"
 import { cn } from "@/lib/utils"
 
 interface CardProps {
-  children: React.ReactNode
   activeOpacity?: number
-  onPress?: () => void
   className?: string
+  onPress?: () => void
+  children: React.ReactNode
 }
 
 export const Card: React.FC<CardProps> = ({
-  children,
-  onPress,
   activeOpacity = 0.7,
-  className = ""
+  className = "",
+  onPress,
+  children
 }) => {
   return (
     <TouchableOpacity

@@ -22,7 +22,7 @@ function AppIndex() {
 
   return (
     <Container className="flex flex-col items-center justify-center bg-background">
-      <Text className="font-tbold text-4xl text-primary">
+      <Text className="font-tbold text-4xl text-secondary">
         Mon<Text className="font-tbold text-primary">Health</Text>
       </Text>
     </Container>

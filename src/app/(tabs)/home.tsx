@@ -18,8 +18,8 @@ import { Section } from "@/components/global/organisms"
 
 import {
   HomeHeader,
-  NutrientProgress,
-  NutrientSummary
+  NutritionProgress,
+  NutritionSummary
 } from "@/components/local/tabs/home"
 
 function HomeScreen() {
@@ -65,7 +65,7 @@ function HomeScreen() {
     (nutrient) => nutrient.label === "Calories"
   ) || { label: "Calories", value: 0, maxValue: 0 }
 
-  const filteredNutrients = nutrientsData.filter((nutrient) =>
+  const filteredNutritions = nutrientsData.filter((nutrient) =>
     ["Protein", "Carbs", "Fat", "Fiber", "Sugar"].includes(nutrient.label)
   )
 
@@ -94,12 +94,12 @@ function HomeScreen() {
                   <TabsContent value="today">
                     <VStack gap={24}>
                       <HStack center className="justify-between">
-                        <NutrientProgress
+                        <NutritionProgress
                           calories={calories}
-                          nutrients={filteredNutrients}
+                          nutrients={filteredNutritions}
                         />
 
-                        <NutrientSummary nutrients={filteredNutrients} />
+                        <NutritionSummary nutrients={filteredNutritions} />
                       </HStack>
 
                       <Progress
@@ -113,12 +113,12 @@ function HomeScreen() {
                   <TabsContent value="week">
                     <VStack gap={24}>
                       <HStack center className="justify-between">
-                        <NutrientProgress
+                        <NutritionProgress
                           calories={calories}
-                          nutrients={filteredNutrients}
+                          nutrients={filteredNutritions}
                         />
 
-                        <NutrientSummary nutrients={filteredNutrients} />
+                        <NutritionSummary nutrients={filteredNutritions} />
                       </HStack>
 
                       <Progress
@@ -132,12 +132,12 @@ function HomeScreen() {
                   <TabsContent value="month">
                     <VStack gap={24}>
                       <HStack center className="justify-between">
-                        <NutrientProgress
+                        <NutritionProgress
                           calories={calories}
-                          nutrients={filteredNutrients}
+                          nutrients={filteredNutritions}
                         />
 
-                        <NutrientSummary nutrients={filteredNutrients} />
+                        <NutritionSummary nutrients={filteredNutritions} />
                       </HStack>
 
                       <Progress
@@ -151,12 +151,12 @@ function HomeScreen() {
                   <TabsContent value="year">
                     <VStack gap={24}>
                       <HStack center className="justify-between">
-                        <NutrientProgress
+                        <NutritionProgress
                           calories={calories}
-                          nutrients={filteredNutrients}
+                          nutrients={filteredNutritions}
                         />
 
-                        <NutrientSummary nutrients={filteredNutrients} />
+                        <NutritionSummary nutrients={filteredNutritions} />
                       </HStack>
 
                       <Progress

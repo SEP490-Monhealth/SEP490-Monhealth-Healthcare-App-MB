@@ -5,15 +5,15 @@ import { View } from "react-native"
 import { cn } from "@/lib/utils"
 
 interface ContentProps {
-  children: React.ReactNode
   margin?: boolean
   className?: string
+  children: React.ReactNode
 }
 
 export const Content: React.FC<ContentProps> = ({
-  children,
   margin = true,
-  className = ""
+  className = "",
+  children
 }) => {
   return (
     <View

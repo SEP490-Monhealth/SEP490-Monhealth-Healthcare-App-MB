@@ -5,16 +5,16 @@ import { Animated, Text, View } from "react-native"
 import { COLORS } from "@/constants/appConstants"
 
 interface ProgressProps {
-  height?: number
   progress: number
+  height?: number
   color?: string
   labelStart?: string
   labelEnd?: string
 }
 
 export const Progress = ({
-  height = 10,
   progress,
+  height = 10,
   color = COLORS.primary,
   labelStart = "",
   labelEnd = ""

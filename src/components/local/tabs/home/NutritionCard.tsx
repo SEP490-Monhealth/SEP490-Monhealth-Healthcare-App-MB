@@ -4,19 +4,19 @@ import { Text, View } from "react-native"
 
 import { HStack, VStack } from "@/components/global/atoms"
 
-interface NutrientCardProps {
+interface NutritionCardProps {
   label: string
   value: number
   maxValue: number
   color: string
 }
 
-export const NutrientCard = ({
+export const NutritionCard = ({
   label,
   value,
   maxValue,
   color
-}: NutrientCardProps) => {
+}: NutritionCardProps) => {
   return (
     <VStack>
       <HStack gap={8} center>

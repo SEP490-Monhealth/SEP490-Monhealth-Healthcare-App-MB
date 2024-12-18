@@ -5,13 +5,13 @@ import { SafeAreaView, View } from "react-native"
 import { cn } from "@/lib/utils"
 
 interface ContainerProps {
-  children: React.ReactNode
   className?: string
+  children: React.ReactNode
 }
 
 export const Container: React.FC<ContainerProps> = ({
-  children,
-  className = ""
+  className = "",
+  children
 }) => {
   return (
     <SafeAreaView className={cn("flex-1 bg-background", className)}>

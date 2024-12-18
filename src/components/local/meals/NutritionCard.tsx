@@ -6,12 +6,12 @@ import { VStack } from "@/components/global/atoms"
 
 import { toFixed2 } from "@/utils/formatters"
 
-interface NutrientCardProps {
+interface NutritionCardProps {
   label: string
   value: number
 }
 
-export const NutrientCard = ({ label, value }: NutrientCardProps) => {
+export const NutritionCard = ({ label, value }: NutritionCardProps) => {
   return (
     <VStack center>
       <Text className="font-tmedium text-base leading-4 text-accent">

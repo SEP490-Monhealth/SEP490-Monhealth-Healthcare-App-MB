@@ -1,6 +1,6 @@
 import { HomeHeader } from "./HomeHeader"
-import { NutrientCard } from "./NutrientCard"
-import { NutrientProgress } from "./NutrientProgress"
-import { NutrientSummary } from "./NutrientSummary"
+import { NutritionCard } from "./NutritionCard"
+import { NutritionProgress } from "./NutritionProgress"
+import { NutritionSummary } from "./NutritionSummary"
 
-export { HomeHeader, NutrientCard, NutrientProgress, NutrientSummary }
+export { HomeHeader, NutritionCard, NutritionProgress, NutritionSummary }

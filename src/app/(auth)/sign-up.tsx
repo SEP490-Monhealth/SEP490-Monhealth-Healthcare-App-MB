@@ -74,10 +74,10 @@ function SignUpScreen() {
                 value={value}
                 onChangeText={onChange}
                 placeholder="Nhập họ và tên"
+                keyboardType="default"
                 iconStart={
                   <Profile variant="Bold" size={20} color={COLORS.primary} />
                 }
-                keyboardType="default"
                 errorMessage={errors.fullName?.message}
               />
             )}
@@ -91,10 +91,10 @@ function SignUpScreen() {
                 value={value}
                 onChangeText={onChange}
                 placeholder="Nhập địa chỉ email"
+                keyboardType="email-address"
                 iconStart={
                   <Sms variant="Bold" size={20} color={COLORS.primary} />
                 }
-                keyboardType="email-address"
                 errorMessage={errors.email?.message}
               />
             )}
@@ -108,10 +108,10 @@ function SignUpScreen() {
                 value={value}
                 onChangeText={onChange}
                 placeholder="Nhập số điện thoại"
+                keyboardType="phone-pad"
                 iconStart={
                   <Call variant="Bold" size={20} color={COLORS.primary} />
                 }
-                keyboardType="phone-pad"
                 errorMessage={errors.phoneNumber?.message}
               />
             )}
@@ -122,10 +122,11 @@ function SignUpScreen() {
             control={control}
             render={({ field: { onChange, value } }) => (
               <Input
+                secureTextEntry={!showPassword}
+                toggleSecureTextEntry={() => setShowPassword(!showPassword)}
                 value={value}
                 onChangeText={onChange}
                 placeholder="Nhập mật khẩu"
-                secureTextEntry={!showPassword}
                 iconStart={
                   <Lock1 variant="Bold" size={20} color={COLORS.primary} />
                 }
@@ -136,7 +137,6 @@ function SignUpScreen() {
                     <EyeSlash variant="Bold" size={20} color="#cbd5e1" />
                   )
                 }
-                toggleSecureTextEntry={() => setShowPassword(!showPassword)}
                 errorMessage={errors.password?.message}
               />
             )}

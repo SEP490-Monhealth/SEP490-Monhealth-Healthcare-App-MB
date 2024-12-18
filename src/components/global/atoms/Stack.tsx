@@ -5,19 +5,19 @@ import { TouchableOpacity, View } from "react-native"
 import { cn } from "@/lib/utils"
 
 interface StackProps {
-  children: React.ReactNode
   gap?: number
   center?: boolean
   onPress?: () => void
   className?: string
+  children: React.ReactNode
 }
 
 export const VStack: React.FC<StackProps> = ({
-  children,
   gap = 4,
   center = false,
   onPress,
-  className = ""
+  className = "",
+  children
 }) => {
   return (
     <TouchableOpacity activeOpacity={1} onPress={onPress} disabled={!onPress}>

@@ -2,11 +2,11 @@ import React from "react"
 
 import { VStack } from "@/components/global/atoms"
 
-import { getNutrientColor } from "@/utils/helpers"
+import { getNutritionColor } from "@/utils/helpers"
 
-import { NutrientCard } from "./NutrientCard"
+import { NutritionCard } from "./NutritionCard"
 
-interface NutrientSummaryProps {
+interface NutritionSummaryProps {
   nutrients: {
     label: string
     value: number
@@ -14,16 +14,16 @@ interface NutrientSummaryProps {
   }[]
 }
 
-export const NutrientSummary = ({ nutrients }: NutrientSummaryProps) => {
+export const NutritionSummary = ({ nutrients }: NutritionSummaryProps) => {
   return (
     <VStack gap={12}>
       {nutrients.map((nutrient, index) => (
-        <NutrientCard
+        <NutritionCard
           key={index}
           label={nutrient.label}
           value={nutrient.value}
           maxValue={nutrient.maxValue}
-          color={getNutrientColor(nutrient.label)}
+          color={getNutritionColor(nutrient.label)}
         />
       ))}
     </VStack>

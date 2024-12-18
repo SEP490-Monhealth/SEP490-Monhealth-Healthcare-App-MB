@@ -1,4 +1,4 @@
-import { NutrientItem } from "./NutrientItem"
+import { NutritionItem } from "./NutrientItem"
 import { NutritionFacts } from "./NutritionFacts"
 
-export { NutritionFacts, NutrientItem }
+export { NutritionFacts, NutritionItem }

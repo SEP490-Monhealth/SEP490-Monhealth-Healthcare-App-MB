@@ -38,7 +38,7 @@ function AppLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <GestureHandlerRootView>
+      <GestureHandlerRootView style={{ flex: 1 }}>
         <SafeAreaProvider>
           <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name="index" />

@@ -1,4 +1,4 @@
-import { NutrientCard } from "./NutrientCard"
+import { NutritionCard } from "./NutritionCard"
 import { NutritionSummary } from "./NutritionSummary"
 
-export { NutrientCard, NutritionSummary }
+export { NutritionCard, NutritionSummary }

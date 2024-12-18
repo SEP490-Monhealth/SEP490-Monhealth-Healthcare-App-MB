@@ -4,7 +4,7 @@ import { HStack } from "@/components/global/atoms"
 
 import { MealType } from "@/schemas/mealSchema"
 
-import { NutrientCard } from "./NutrientCard"
+import { NutritionCard } from "./NutritionCard"
 
 interface NutritionSummaryProps {
   nutritionData: MealType
@@ -13,11 +13,11 @@ interface NutritionSummaryProps {
 export const NutritionSummary = ({ nutritionData }: NutritionSummaryProps) => {
   return (
     <HStack center className="justify-between px-2">
-      <NutrientCard label="Protein" value={nutritionData?.protein} />
-      <NutrientCard label="Carbs" value={nutritionData?.carbs} />
-      <NutrientCard label="Fat" value={nutritionData?.fat} />
-      <NutrientCard label="Fiber" value={nutritionData?.fiber} />
-      <NutrientCard label="Sugar" value={nutritionData?.sugar} />
+      <NutritionCard label="Protein" value={nutritionData?.protein} />
+      <NutritionCard label="Carbs" value={nutritionData?.carbs} />
+      <NutritionCard label="Fat" value={nutritionData?.fat} />
+      <NutritionCard label="Fiber" value={nutritionData?.fiber} />
+      <NutritionCard label="Sugar" value={nutritionData?.sugar} />
     </HStack>
   )
 }

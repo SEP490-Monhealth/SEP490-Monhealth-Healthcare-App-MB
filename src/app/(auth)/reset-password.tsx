@@ -64,10 +64,11 @@ function ForgotPasswordScreen() {
             control={control}
             render={({ field: { onChange, value } }) => (
               <Input
+                secureTextEntry={!showPassword}
+                toggleSecureTextEntry={() => setShowPassword(!showPassword)}
                 value={value}
                 onChangeText={onChange}
                 placeholder="Nhập mật khẩu"
-                secureTextEntry={!showPassword}
                 iconStart={
                   <Lock1 variant="Bold" size={20} color={COLORS.primary} />
                 }
@@ -78,7 +79,6 @@ function ForgotPasswordScreen() {
                     <EyeSlash variant="Bold" size={20} color="#cbd5e1" />
                   )
                 }
-                toggleSecureTextEntry={() => setShowPassword(!showPassword)}
                 errorMessage={errors.password?.message}
               />
             )}
@@ -89,10 +89,13 @@ function ForgotPasswordScreen() {
             control={control}
             render={({ field: { onChange, value } }) => (
               <Input
+                secureTextEntry={!showConfirmPassword}
+                toggleSecureTextEntry={() =>
+                  setShowConfirmPassword(!showConfirmPassword)
+                }
                 value={value}
                 onChangeText={onChange}
                 placeholder="Nhập mật khẩu"
-                secureTextEntry={!showConfirmPassword}
                 iconStart={
                   <Lock1 variant="Bold" size={20} color={COLORS.primary} />
                 }
@@ -102,9 +105,6 @@ function ForgotPasswordScreen() {
                   ) : (
                     <EyeSlash variant="Bold" size={20} color="#cbd5e1" />
                   )
-                }
-                toggleSecureTextEntry={() =>
-                  setShowConfirmPassword(!showConfirmPassword)
                 }
                 errorMessage={errors.confirmPassword?.message}
               />

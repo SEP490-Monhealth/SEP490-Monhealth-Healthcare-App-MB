@@ -5,21 +5,21 @@ import { TouchableOpacity, View } from "react-native"
 interface CheckboxProps {
   size?: number
   checked?: boolean
-  onCheckChange?: (checked: boolean) => void
   borderColor?: string
   backgroundColor?: string
   activeBackgroundColor?: string
   innerCircleColor?: string
+  onCheckChange?: (checked: boolean) => void
 }
 
 export const Checkbox = ({
   size = 24,
   checked = false,
-  onCheckChange,
   borderColor = "border-primary",
   backgroundColor = "bg-transparent",
   activeBackgroundColor = "bg-primary",
-  innerCircleColor = "bg-white"
+  innerCircleColor = "bg-white",
+  onCheckChange
 }: CheckboxProps) => {
   return (
     <TouchableOpacity

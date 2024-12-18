@@ -65,10 +65,10 @@ function SignInScreen() {
                 value={value}
                 onChangeText={onChange}
                 placeholder="Nhập địa chỉ email"
+                keyboardType="email-address"
                 iconStart={
                   <Sms variant="Bold" size={20} color={COLORS.primary} />
                 }
-                keyboardType="email-address"
                 errorMessage={errors.email?.message}
               />
             )}
@@ -79,10 +79,11 @@ function SignInScreen() {
             control={control}
             render={({ field: { onChange, value } }) => (
               <Input
+                secureTextEntry={!showPassword}
+                toggleSecureTextEntry={() => setShowPassword(!showPassword)}
                 value={value}
                 onChangeText={onChange}
                 placeholder="Nhập mật khẩu"
-                secureTextEntry={!showPassword}
                 iconStart={
                   <Lock1 variant="Bold" size={20} color={COLORS.primary} />
                 }
@@ -93,7 +94,6 @@ function SignInScreen() {
                     <EyeSlash variant="Bold" size={20} color="#cbd5e1" />
                   )
                 }
-                toggleSecureTextEntry={() => setShowPassword(!showPassword)}
                 errorMessage={errors.password?.message}
               />
             )}

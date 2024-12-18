@@ -11,7 +11,6 @@ import { Schedule } from "./Schedule"
 import { ScrollArea } from "./ScrollArea"
 import { HStack, VStack } from "./Stack"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./Tabs"
-import { Textarea } from "./Textarea"
 
 export {
   Avatar,
@@ -30,6 +29,5 @@ export {
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger,
-  Textarea
+  TabsTrigger
 }

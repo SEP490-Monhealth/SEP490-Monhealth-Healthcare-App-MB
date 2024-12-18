@@ -1,35 +1,47 @@
 import React, { useRef } from "react"
 
-import { Text, TextInput, TouchableOpacity, View } from "react-native"
+import {
+  Text,
+  TextInput,
+  TextInputProps,
+  TouchableOpacity,
+  View
+} from "react-native"
 
 import { X } from "lucide-react-native"
 
-interface InputProps {
+interface InputProps extends TextInputProps {
   multiline?: boolean
   numberOfLines?: number
+  secureTextEntry?: boolean
+  toggleSecureTextEntry?: () => void
   value?: string
   onChangeText?: (text: string) => void
   placeholder?: string
+  keyboardType?: "default" | "numeric" | "email-address" | "phone-pad"
   iconStart?: React.ReactNode
   iconEnd?: React.ReactNode
-  secureTextEntry?: boolean
-  toggleSecureTextEntry?: () => void
-  keyboardType?: "default" | "numeric" | "email-address" | "phone-pad"
+  iconEndAction?: () => void
   errorMessage?: string
+  testID?: string
+  className?: string
 }
 
-export const Input = ({
+export const Input: React.FC<InputProps> = ({
   multiline = false,
   numberOfLines = 1,
+  secureTextEntry = false,
+  toggleSecureTextEntry,
   value,
   onChangeText,
   placeholder,
+  keyboardType = "default",
   iconStart,
   iconEnd,
-  secureTextEntry = false,
-  toggleSecureTextEntry,
-  keyboardType = "default",
-  errorMessage
+  iconEndAction,
+  errorMessage,
+  testID,
+  className = ""
 }: InputProps) => {
   const inputRef = useRef<TextInput>(null)
 
@@ -40,9 +52,9 @@ export const Input = ({
   }
 
   return (
-    <View>
+    <View testID={testID || "input-view"}>
       <View
-        className={`flex-row items-center rounded-2xl border px-4 py-1 ${
+        className={`flex-row items-center rounded-2xl border px-4 py-1 ${className} ${
           hasError ? "border-destructive bg-red-50" : "border-border bg-white"
         }`}
         style={{ height: multiline ? undefined : 52 }}
@@ -76,12 +88,15 @@ export const Input = ({
         />
 
         {iconEnd ? (
-          <TouchableOpacity onPress={toggleSecureTextEntry} activeOpacity={0.7}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={iconEndAction || toggleSecureTextEntry}
+          >
             <View className="px-2 py-4">{iconEnd}</View>
           </TouchableOpacity>
         ) : (
           value && (
-            <TouchableOpacity onPress={handleClearText} activeOpacity={0.7}>
+            <TouchableOpacity activeOpacity={0.7} onPress={handleClearText}>
               <View className="px-2 py-4">
                 <X size={20} color="#cbd5e1" />
               </View>

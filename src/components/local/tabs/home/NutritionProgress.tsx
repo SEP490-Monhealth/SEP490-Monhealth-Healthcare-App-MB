@@ -5,9 +5,9 @@ import { Image, Text, View } from "react-native"
 import { VStack } from "@/components/global/atoms"
 import { CircularProgress } from "@/components/global/molecules"
 
-import { getNutrientColor } from "@/utils/helpers"
+import { getNutritionColor } from "@/utils/helpers"
 
-interface NutrientProgressProps {
+interface NutritionProgressProps {
   calories: {
     label: string
     value: number
@@ -20,10 +20,10 @@ interface NutrientProgressProps {
   }[]
 }
 
-export const NutrientProgress = ({
+export const NutritionProgress = ({
   calories,
   nutrients
-}: NutrientProgressProps) => {
+}: NutritionProgressProps) => {
   return (
     <View
       className="relative items-center justify-center"
@@ -41,7 +41,7 @@ export const NutrientProgress = ({
               size={240 - index * 30}
               width={6}
               fill={fill}
-              tintColor={getNutrientColor(nutrient.label)}
+              tintColor={getNutritionColor(nutrient.label)}
             />
           </View>
         )
