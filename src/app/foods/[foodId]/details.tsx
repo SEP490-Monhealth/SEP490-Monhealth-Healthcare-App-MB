@@ -31,7 +31,7 @@ function FoodDetailsScreen() {
   const bottomSheetRef = useRef<BottomSheetRefProps>(null)
 
   const openBottomSheet = () => {
-    bottomSheetRef.current?.scrollTo(-500)
+    bottomSheetRef.current?.scrollTo(-300)
   }
 
   if (!foodData) {
