@@ -33,17 +33,14 @@ export const NutritionProgress = ({
         const fill = (nutrient.value / nutrient.maxValue) * 100
 
         return (
-          <View
-            key={index}
-            style={{ position: "absolute", alignItems: "center" }}
-          >
+          <View key={index} className="absolute items-center">
             <CircularProgress
               size={240 - index * 30}
               width={6}
               fill={fill}
               tintColor={getNutritionColor(nutrient.label)}
             />
-          </View>
+        </View>
         )
       })}
 

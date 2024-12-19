@@ -81,7 +81,7 @@ export const formatISODate = (
  * @returns Số đã được làm tròn đến 2 chữ số thập phân.
  */
 export const toFixed2 = (num: number): number => {
-  return Math.round((num + Number.EPSILON) * 100) / 100
+  return Math.round((num + Number.EPSILON) * 10) / 10
 }
 
 /**

@@ -57,7 +57,7 @@ export const Input: React.FC<InputProps> = ({
     <View testID={testID || "input-view"}>
       <View
         className={`flex-row items-center rounded-2xl border px-4 py-1 ${className} ${
-          hasError ? "border-destructive bg-red-50" : "border-muted bg-white"
+          hasError ? "border-destructive bg-red-50" : "border-border bg-white"
         }`}
         style={{ height: multiline ? undefined : 52 }}
       >

@@ -81,8 +81,8 @@ function MealDetailsScreen() {
                 arcSweepAngle={260}
                 rotation={230}
                 centerCircle
-                calorieValue={calorieValue}
-                maxCalories={totalCalories}
+                value={calorieValue}
+                maxValue={totalCalories}
                 label="Kcal"
               />
 

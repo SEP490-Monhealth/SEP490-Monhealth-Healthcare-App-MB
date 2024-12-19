@@ -117,7 +117,7 @@ function ProfileScreen() {
                 Van Huu Toan
               </Text>
 
-              <HStack center gap={4}>
+              <HStack center>
                 <Crown1 variant="Bold" size="20" color="#ef4444" />
                 <Text className="font-dbold text-lg text-destructive">
                   Vip Member

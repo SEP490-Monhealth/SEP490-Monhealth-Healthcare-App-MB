@@ -1,10 +1,11 @@
 import React from "react"
 
-import { Card, HStack } from "@/components/global/atoms"
-import { NutritionCard } from "@/components/global/molecules"
+import { HStack } from "@/components/global/atoms"
+import { ArcProgress } from "@/components/global/molecules"
 
 import { FoodType } from "@/schemas/foodSchema"
 
+import { toFixed2 } from "@/utils/formatters"
 import { getNutritionColor } from "@/utils/helpers"
 
 interface NutritionProps {
@@ -12,45 +13,47 @@ interface NutritionProps {
 }
 
 export const Nutrition = ({ foodData }: NutritionProps) => {
+  const proteinFill = ((foodData.protein * 4) / foodData.calories) * 100
+  const carbsFill = ((foodData.carbs * 4) / foodData.calories) * 100
+  const fatFill = ((foodData.fat * 9) / foodData.calories) * 100
+
   return (
-    <Card className="px-8 py-6">
-      <HStack center className="justify-between">
-        <NutritionCard
-          reverse={true}
-          label="Calories"
-          value={foodData.calories}
-          fillColor={true}
-          color={getNutritionColor("Fiber")}
-          unit="kcal"
-        />
+    <HStack center className="justify-between">
+      <ArcProgress
+        variant="sm"
+        size={110}
+        width={8}
+        fill={proteinFill}
+        tintColor={getNutritionColor("Protein")}
+        centerCircle={true}
+        valueType="percentage"
+        value={toFixed2(proteinFill)}
+        label="Protein"
+      />
 
-        <NutritionCard
-          reverse={true}
-          label="Protein"
-          value={foodData.protein}
-          fillColor={true}
-          color={getNutritionColor("Protein")}
-          unit="g"
-        />
+      <ArcProgress
+        variant="sm"
+        size={110}
+        width={8}
+        fill={carbsFill}
+        tintColor={getNutritionColor("Carbs")}
+        centerCircle={true}
+        valueType="percentage"
+        value={toFixed2(carbsFill)}
+        label="Carbs"
+      />
 
-        <NutritionCard
-          reverse={true}
-          label="Carbs"
-          value={foodData.carbs}
-          fillColor={true}
-          color={getNutritionColor("Carbs")}
-          unit="g"
-        />
-
-        <NutritionCard
-          reverse={true}
-          label="Fat"
-          value={foodData.fat}
-          fillColor={true}
-          color={getNutritionColor("Fat")}
-          unit="g"
-        />
-      </HStack>
-    </Card>
+      <ArcProgress
+        variant="sm"
+        size={110}
+        width={8}
+        fill={fatFill}
+        tintColor={getNutritionColor("Fat")}
+        centerCircle={true}
+        valueType="percentage"
+        value={toFixed2(fatFill)}
+        label="Fat"
+      />
+    </HStack>
   )
 }

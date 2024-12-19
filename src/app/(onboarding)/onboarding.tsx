@@ -72,7 +72,7 @@ const OnboardingScreen = () => {
         Bỏ qua
       </Text>
 
-      <VStack>
+      <View>
         <PanGestureHandler
           onGestureEvent={({ nativeEvent }) => {
             if (nativeEvent.velocityX < -800) {
@@ -116,7 +116,7 @@ const OnboardingScreen = () => {
             </VStack>
           </View>
         </PanGestureHandler>
-      </VStack>
+      </View>
 
       <Button onPress={handleNext} className="mt-24">
         {currentIndex < data.length - 1 ? "Tiếp tục" : "Hoàn tất"}

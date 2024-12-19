@@ -65,7 +65,7 @@ function HomeScreen() {
     (nutrient) => nutrient.label === "Calories"
   ) || { label: "Calories", value: 0, maxValue: 0 }
 
-  const filteredNutritions = nutrientsData.filter((nutrient) =>
+  const filteredNutrition = nutrientsData.filter((nutrient) =>
     ["Protein", "Carbs", "Fat", "Fiber", "Sugar"].includes(nutrient.label)
   )
 
@@ -96,10 +96,10 @@ function HomeScreen() {
                     <HStack center className="justify-between">
                       <NutritionProgress
                         calories={calories}
-                        nutrients={filteredNutritions}
+                        nutrients={filteredNutrition}
                       />
 
-                      <NutritionSummary nutrients={filteredNutritions} />
+                      <NutritionSummary nutrients={filteredNutrition} />
                     </HStack>
 
                     <Progress
@@ -116,10 +116,10 @@ function HomeScreen() {
                     <HStack center className="justify-between">
                       <NutritionProgress
                         calories={calories}
-                        nutrients={filteredNutritions}
+                        nutrients={filteredNutrition}
                       />
 
-                      <NutritionSummary nutrients={filteredNutritions} />
+                      <NutritionSummary nutrients={filteredNutrition} />
                     </HStack>
 
                     <Progress
@@ -136,10 +136,10 @@ function HomeScreen() {
                     <HStack center className="justify-between">
                       <NutritionProgress
                         calories={calories}
-                        nutrients={filteredNutritions}
+                        nutrients={filteredNutrition}
                       />
 
-                      <NutritionSummary nutrients={filteredNutritions} />
+                      <NutritionSummary nutrients={filteredNutrition} />
                     </HStack>
 
                     <Progress
@@ -156,10 +156,10 @@ function HomeScreen() {
                     <HStack center className="justify-between">
                       <NutritionProgress
                         calories={calories}
-                        nutrients={filteredNutritions}
+                        nutrients={filteredNutrition}
                       />
 
-                      <NutritionSummary nutrients={filteredNutritions} />
+                      <NutritionSummary nutrients={filteredNutrition} />
                     </HStack>
 
                     <Progress

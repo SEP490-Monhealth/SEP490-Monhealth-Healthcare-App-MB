@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Card, VStack } from "@/components/global/atoms"
+import { VStack } from "@/components/global/atoms"
 
 import { FoodType } from "@/schemas/foodSchema"
 
@@ -11,18 +11,33 @@ interface NutritionFactsProps {
 }
 
 export const NutritionFacts = ({ nutritionData }: NutritionFactsProps) => (
-  <Card>
-    <VStack gap={4}>
-      <NutritionItem
-        label="Calories"
-        value={nutritionData.calories}
-        unit="kcal"
-      />
-      <NutritionItem label="Protein" value={nutritionData.protein} unit="g" />
-      <NutritionItem label="Carbs" value={nutritionData.carbs} unit="g" />
-      <NutritionItem label="Fat" value={nutritionData.fat} unit="g" />
-      <NutritionItem label="Fiber" value={nutritionData.fiber} unit="g" />
-      <NutritionItem label="Sugar" value={nutritionData.sugar} unit="g" />
-    </VStack>
-  </Card>
+  <VStack>
+    <NutritionItem
+      label="Năng lượng (Calories)"
+      value={nutritionData.calories}
+      unit="kcal"
+    />
+
+    <NutritionItem
+      label="Chất đạm (Protein)"
+      value={nutritionData.protein}
+      unit="g"
+    />
+
+    <NutritionItem
+      label="Tinh bột (Carbohydrate)"
+      value={nutritionData.carbs}
+      unit="g"
+    />
+
+    <NutritionItem label="Chất béo (Fat)" value={nutritionData.fat} unit="g" />
+
+    <NutritionItem
+      label="Chất xơ (Fiber)"
+      value={nutritionData.fiber}
+      unit="g"
+    />
+
+    <NutritionItem label="Đường (Sugar)" value={nutritionData.sugar} unit="g" />
+  </VStack>
 )

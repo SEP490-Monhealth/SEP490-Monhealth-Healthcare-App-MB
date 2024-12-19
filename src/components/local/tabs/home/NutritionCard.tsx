@@ -2,7 +2,7 @@ import React from "react"
 
 import { Text, View } from "react-native"
 
-import { HStack, VStack } from "@/components/global/atoms"
+import { HStack } from "@/components/global/atoms"
 
 interface NutritionCardProps {
   label: string
@@ -18,7 +18,7 @@ export const NutritionCard = ({
   color
 }: NutritionCardProps) => {
   return (
-    <VStack>
+    <View>
       <HStack gap={8} center>
         <View
           className="rounded-full"
@@ -36,6 +36,6 @@ export const NutritionCard = ({
       <Text className="font-tbold text-sm text-primary">
         {value}/{maxValue} g
       </Text>
-    </VStack>
+    </View>
   )
 }

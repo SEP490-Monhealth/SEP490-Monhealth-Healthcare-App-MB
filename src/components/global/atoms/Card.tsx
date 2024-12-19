@@ -22,7 +22,7 @@ export const Card: React.FC<CardProps> = ({
       activeOpacity={activeOpacity}
       onPress={onPress}
       className={cn(
-        "w-full rounded-2xl border border-muted bg-card px-6 py-4",
+        "w-full rounded-2xl border border-border bg-card px-6 py-4",
         className
       )}
     >

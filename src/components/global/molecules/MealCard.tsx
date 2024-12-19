@@ -1,6 +1,7 @@
 import React from "react"
 
 import { Text } from "react-native"
+import { View } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -11,7 +12,7 @@ import { COLORS } from "@/constants/appConstants"
 
 import { getMealTypeName } from "@/utils/helpers"
 
-import { Card, HStack, Progress, VStack } from "../atoms"
+import { Card, HStack, Progress } from "../atoms"
 
 interface MealCardProps {
   mealType: "Breakfast" | "Lunch" | "Dinner" | "Snack"
@@ -40,7 +41,7 @@ export const MealCard = ({
       <HStack gap={16} center>
         <Reserve variant="Bold" size="32" color={COLORS.secondary} />
 
-        <VStack gap={0}>
+        <View>
           <Text className="font-tmedium text-lg text-primary">
             {getMealTypeName(mealType)}
           </Text>
@@ -50,7 +51,7 @@ export const MealCard = ({
           <Text className="font-tmedium text-sm text-accent">
             {totalCalories} kcal
           </Text>
-        </VStack>
+        </View>
       </HStack>
 
       {!progress && <ChevronRight size={20} color={COLORS.primary} />}

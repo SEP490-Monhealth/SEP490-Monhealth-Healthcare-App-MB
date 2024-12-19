@@ -8,20 +8,31 @@ import { COLORS } from "@/constants/appConstants"
 import { cn } from "@/lib/utils"
 
 interface CenterCircleProps {
+  variant?: "sm" | "md"
   size: number
   innerSizeRatio: number
-  calorieValue: number
-  maxCalories: number
+  valueType?: "number" | "percentage"
+  value: number | string
+  maxValue: number
   label: string
 }
 
 const CenterCircle = ({
+  variant = "md",
   size,
   innerSizeRatio,
-  calorieValue,
-  maxCalories,
+  valueType = "number",
+  value,
+  maxValue,
   label
 }: CenterCircleProps) => {
+  const sizes = {
+    sm: { title: "text-lg", description: "text-sm" },
+    md: { title: "text-2xl", description: "text-base" }
+  }
+
+  const sizeClass = sizes[variant]
+
   return (
     <View
       className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform select-none items-center justify-center rounded-full bg-white"
@@ -32,30 +43,37 @@ const CenterCircle = ({
         borderColor: "#fcfcfc"
       }}
     >
-      <Text className="font-tbold text-2xl text-primary">
-        {calorieValue} / {maxCalories}
+      <Text className={cn("font-tbold text-primary", sizeClass.title)}>
+        {valueType === "percentage" ? `${value}%` : value}
+        {valueType === "number" && maxValue ? ` / ${maxValue}` : ""}
       </Text>
-      <Text className="font-tmedium text-base text-accent">{label}</Text>
+
+      <Text className={cn("font-tmedium text-accent", sizeClass.description)}>
+        {label}
+      </Text>
     </View>
   )
 }
 
 interface ArcProgressProps {
+  variant?: "sm" | "md"
   size: number
   width: number
   fill?: number
   tintColor?: string
   backgroundColor?: string
-  arcSweepAngle: number
-  rotation: number
+  arcSweepAngle?: number
+  rotation?: number
   centerCircle?: boolean
-  calorieValue: number
-  maxCalories: number
+  valueType?: "number" | "percentage"
+  value: number | string
+  maxValue?: number
   label: string
   className?: string
 }
 
 export const ArcProgress = ({
+  variant = "md",
   size,
   width,
   fill = 0,
@@ -64,8 +82,9 @@ export const ArcProgress = ({
   arcSweepAngle = 360,
   rotation = 0,
   centerCircle = false,
-  calorieValue = 0,
-  maxCalories = 0,
+  valueType = "number",
+  value = 0,
+  maxValue = 0,
   label = "",
   className = ""
 }: ArcProgressProps) => {
@@ -85,10 +104,12 @@ export const ArcProgress = ({
 
       {centerCircle && (
         <CenterCircle
+          variant={variant}
           size={size}
           innerSizeRatio={0.75}
-          calorieValue={calorieValue}
-          maxCalories={maxCalories}
+          valueType={valueType}
+          value={value}
+          maxValue={maxValue}
           label={label}
         />
       )}
