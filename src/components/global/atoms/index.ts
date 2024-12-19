@@ -1,4 +1,5 @@
 import { Avatar } from "./Avatar"
+import { BottomSheet, BottomSheetRefProps } from "./BottomSheet"
 import { Button } from "./Button"
 import { Calendar } from "./Calendar"
 import { Card } from "./Card"
@@ -15,6 +16,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./Tabs"
 
 export {
   Avatar,
+  BottomSheet,
+  BottomSheetRefProps,
   Button,
   Calendar,
   Card,
