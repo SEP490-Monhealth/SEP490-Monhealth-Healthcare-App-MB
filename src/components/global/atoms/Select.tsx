@@ -25,7 +25,7 @@ export const Select = ({
       activeOpacity={0.7}
       onPress={onPress}
       className={cn(
-        "flex flex-row items-center rounded-2xl border border-border bg-white px-4",
+        "flex flex-row items-center rounded-2xl border border-muted bg-white px-4",
         className
       )}
       style={{ height: 52 }}

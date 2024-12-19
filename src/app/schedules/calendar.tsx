@@ -9,7 +9,7 @@ function CalendarScreen() {
       <Header back title="Chọn ngày" />
 
       <Content>
-        <VStack center gap={20} className="mt-4 pb-16">
+        <VStack className="mt-4">
           <Calendar />
         </VStack>
       </Content>

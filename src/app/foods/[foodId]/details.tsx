@@ -1,30 +1,33 @@
 import React, { useRef, useState } from "react"
 
-import { Button, SafeAreaView, Text, View } from "react-native"
+import { SafeAreaView, Text, View } from "react-native"
 
 import { useLocalSearchParams } from "expo-router"
 
 import LoadingScreen from "@/app/loading"
+import { ArchiveTick } from "iconsax-react-native"
 
 import {
   BottomSheet,
   BottomSheetRefProps,
-  Container,
   Content,
   HStack,
   Input,
   Select,
   VStack
 } from "@/components/global/atoms"
-import { Header, Section } from "@/components/global/organisms"
+import { Header } from "@/components/global/organisms"
 
-import { NutritionFacts } from "@/components/local/foods"
+import { Nutrition, NutritionFacts } from "@/components/local/foods"
 
+import { COLORS } from "@/constants/appConstants"
 import { sampleFoodsData } from "@/constants/foods"
 
 function FoodDetailsScreen() {
   const { foodId } = useLocalSearchParams()
   const foodData = sampleFoodsData.find((item) => item.foodId === foodId)
+
+  const isSaved = false
 
   const [query, setQuery] = useState("")
 
@@ -41,20 +44,22 @@ function FoodDetailsScreen() {
   return (
     <SafeAreaView className="h-full bg-background">
       <View className="px-6">
-        <Header back title="Chi tiết thức ăn" />
+        <Header
+          back
+          title={foodData.foodName}
+          action={{
+            icon: (
+              <ArchiveTick
+                variant={isSaved ? "Bold" : "Linear"}
+                size={20}
+                color={COLORS.primary}
+              />
+            )
+          }}
+        />
 
-        <Content margin={false}>
-          <VStack gap={24}>
-            <View>
-              <Text className="font-tbold text-xl text-primary">
-                {foodData.foodName}
-              </Text>
-              <Text className="font-tregular text-base text-secondary">
-                {foodData.portionSize} {foodData.portionWeight}{" "}
-                {foodData.measurementUnit}
-              </Text>
-            </View>
-
+        <Content>
+          <VStack gap={20} className="mt-4">
             <VStack gap={12}>
               <HStack center gap={8}>
                 <View style={{ flex: 1 }}>
@@ -83,10 +88,9 @@ function FoodDetailsScreen() {
               />
             </VStack>
 
-            <View>
-              <Section title="Thông tin dinh dưỡng" margin={false} />
-              <NutritionFacts nutritionData={foodData} />
-            </View>
+            <Nutrition foodData={foodData} />
+
+            <NutritionFacts nutritionData={foodData} />
           </VStack>
         </Content>
       </View>

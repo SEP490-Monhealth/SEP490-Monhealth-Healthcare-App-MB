@@ -8,6 +8,8 @@ export const COLORS = {
   primary: "#334155",
   secondary: "#64748b",
 
+  yellow: "#ca8a04",
+
   BMI: {
     low: "#22c55e",
     normal: "#eab308",

@@ -13,7 +13,7 @@ export const Section = ({ title, margin = true }: SectionProps) => {
   const marginClass = margin ? "mt-6" : ""
 
   return (
-    <View className={(cn("ml-1"), marginClass)}>
+    <View className={cn("ml-1", marginClass)}>
       <Text className="font-tbold text-xl text-primary">{title}</Text>
     </View>
   )

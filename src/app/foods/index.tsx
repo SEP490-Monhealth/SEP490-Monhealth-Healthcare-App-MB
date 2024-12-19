@@ -5,22 +5,15 @@ import { FlatList, View } from "react-native"
 import { useRouter } from "expo-router"
 
 import { ArrowLeft, Scanner, SearchNormal1 } from "iconsax-react-native"
-import { MoreHorizontal } from "lucide-react-native"
 
-import {
-  Container,
-  Content,
-  HStack,
-  Input,
-  VStack
-} from "@/components/global/atoms"
+import { Container, Content, HStack, Input } from "@/components/global/atoms"
 import {
   FoodCard,
   IconButton,
   ListFooter,
   ListHeader
 } from "@/components/global/molecules"
-import { Header, Section } from "@/components/global/organisms"
+import { Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/appConstants"
 import { sampleFoodsData } from "@/constants/foods"

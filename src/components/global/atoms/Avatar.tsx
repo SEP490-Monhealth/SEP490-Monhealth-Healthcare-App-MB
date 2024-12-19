@@ -24,7 +24,7 @@ export const Avatar = ({
       {imgError || !source ? (
         <View
           testID="avatar-fallback"
-          className="flex items-center justify-center rounded-full border-4 border-border bg-border"
+          className="flex items-center justify-center rounded-full border-4 border-muted bg-border"
           style={{ width: size, height: size }}
         >
           <Text className="font-tbold text-2xl text-secondary">

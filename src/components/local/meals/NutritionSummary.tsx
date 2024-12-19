@@ -1,10 +1,9 @@
 import React from "react"
 
 import { HStack } from "@/components/global/atoms"
+import { NutritionCard } from "@/components/global/molecules"
 
 import { MealType } from "@/schemas/mealSchema"
-
-import { NutritionCard } from "./NutritionCard"
 
 interface NutritionSummaryProps {
   nutritionData: MealType

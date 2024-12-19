@@ -102,9 +102,9 @@ function ProfileScreen() {
     <Container>
       <Header title="Hồ sơ" />
 
-      <Content margin={false}>
+      <Content>
         <ScrollArea>
-          <VStack center gap={20} className="mt-4 pb-16">
+          <VStack center gap={20} className="mt-4">
             <Avatar
               size={160}
               source={defaultAvatar}

@@ -2,7 +2,7 @@ import React from "react"
 
 import { Add } from "iconsax-react-native"
 
-import { Container, Content } from "@/components/global/atoms"
+import { Container, Content, VStack } from "@/components/global/atoms"
 import { Tabs, TabsContent } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
@@ -25,20 +25,26 @@ function ScheduleScreen() {
       />
 
       <Content margin={false}>
-        <Tabs defaultValue="breakfast" className="w-full">
-          <TabsContent value="breakfast">
-            <MealTab foodsData={foodsData} />
-          </TabsContent>
-          <TabsContent value="lunch">
-            <MealTab foodsData={foodsData} />
-          </TabsContent>
-          <TabsContent value="dinner">
-            <MealTab foodsData={foodsData} />
-          </TabsContent>
-          <TabsContent value="snack">
-            <MealTab foodsData={foodsData} />
-          </TabsContent>
-        </Tabs>
+        <VStack gap={20} className="mt-4">
+          <Tabs
+            contentMarginTop={0}
+            defaultValue="breakfast"
+            className="w-full"
+          >
+            <TabsContent value="breakfast">
+              <MealTab foodsData={foodsData} />
+            </TabsContent>
+            <TabsContent value="lunch">
+              <MealTab foodsData={foodsData} />
+            </TabsContent>
+            <TabsContent value="dinner">
+              <MealTab foodsData={foodsData} />
+            </TabsContent>
+            <TabsContent value="snack">
+              <MealTab foodsData={foodsData} />
+            </TabsContent>
+          </Tabs>
+        </VStack>
       </Content>
     </Container>
   )
