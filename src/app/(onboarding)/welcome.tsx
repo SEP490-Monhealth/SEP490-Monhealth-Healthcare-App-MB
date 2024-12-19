@@ -22,7 +22,7 @@ function WelcomeScreen() {
   return (
     <Container className="flex justify-between pb-8 pt-24">
       <VStack gap={12}>
-        <Text className="font-tbold text-4xl text-typography">
+        <Text className="font-tbold text-4xl text-primary">
           Hoàn thành {"\n"}
           mục tiêu sức khỏe {"\n"}
           của bạn
@@ -43,11 +43,11 @@ function WelcomeScreen() {
 
         <Text className="text-center text-secondary">
           Khi tiếp tục, bạn đồng ý với{" "}
-          <Text className="font-tmedium text-typography active:underline">
+          <Text className="font-tmedium text-primary active:underline">
             Điều khoản dịch vụ
           </Text>{" "}
           và{" "}
-          <Text className="font-tmedium text-typography active:underline">
+          <Text className="font-tmedium text-primary active:underline">
             Chính sách quyền riêng tư
           </Text>{" "}
           của chúng tôi.

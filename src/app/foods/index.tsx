@@ -2,11 +2,24 @@ import React, { useEffect, useState } from "react"
 
 import { FlatList, View } from "react-native"
 
-import { SearchNormal1 } from "iconsax-react-native"
+import { useRouter } from "expo-router"
+
+import { ArrowLeft, Scanner, SearchNormal1 } from "iconsax-react-native"
 import { MoreHorizontal } from "lucide-react-native"
 
-import { Container, Content, Input, VStack } from "@/components/global/atoms"
-import { FoodCard, ListFooter, ListHeader } from "@/components/global/molecules"
+import {
+  Container,
+  Content,
+  HStack,
+  Input,
+  VStack
+} from "@/components/global/atoms"
+import {
+  FoodCard,
+  IconButton,
+  ListFooter,
+  ListHeader
+} from "@/components/global/molecules"
 import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/appConstants"
@@ -15,11 +28,17 @@ import { sampleFoodsData } from "@/constants/foods"
 import { useDebounce } from "@/hooks/useDebounce"
 
 function FoodsScreen() {
+  const router = useRouter()
+
   const foodsData = sampleFoodsData
 
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const debouncedSearchQuery = useDebounce(searchQuery)
+
+  const handleBack = () => {
+    router.back()
+  }
 
   useEffect(() => {
     if (debouncedSearchQuery) {
@@ -36,23 +55,33 @@ function FoodsScreen() {
 
   return (
     <Container>
-      <Header
-        back
-        title="Thức ăn"
-        action={{
-          icon: <MoreHorizontal size={20} color={COLORS.primary} />
-        }}
-      />
+      <HStack center gap={20} className="min-h-14 justify-between">
+        <IconButton
+          icon={<ArrowLeft size={24} color={COLORS.primary} />}
+          onPress={handleBack}
+        />
+
+        <View className="flex-1">
+          <Input
+            value={searchQuery}
+            onChangeText={(text) => setSearchQuery(text)}
+            placeholder="Tìm kiếm tên thức ăn..."
+            iconStart={<SearchNormal1 size={20} color={COLORS.primary} />}
+            iconEnd={<Scanner size={20} color={COLORS.primary} />}
+            iconEndAction={() => router.push("/foods/test-camera")}
+          />
+        </View>
+      </HStack>
 
       <Content>
-        <VStack className="mt-4">
+        {/* <VStack className="mt-4">
           <Input
             value={searchQuery}
             onChangeText={(text) => setSearchQuery(text)}
             placeholder="Tìm kiếm tên thức ăn..."
             iconStart={<SearchNormal1 size={20} color={COLORS.primary} />}
           />
-        </VStack>
+        </VStack> */}
 
         <FlatList
           data={foodsData}

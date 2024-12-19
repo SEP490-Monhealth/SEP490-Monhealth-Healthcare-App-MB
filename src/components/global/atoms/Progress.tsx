@@ -47,12 +47,12 @@ export const Progress = ({
 
       <View className="mt-2 flex flex-row justify-between">
         {labelStart ? (
-          <Text className="font-tmedium text-base text-typography">
+          <Text className="font-tmedium text-base text-primary">
             {labelStart}
           </Text>
         ) : null}
         {labelEnd ? (
-          <Text className="font-tmedium text-base text-typography">
+          <Text className="font-tmedium text-base text-primary">
             {labelEnd}
           </Text>
         ) : null}

@@ -45,7 +45,7 @@ export const Header = ({ title, back = false, action }: HeaderProps) => {
       )}
 
       <Text
-        className={`mt-2 text-left font-tbold text-xl text-typography ${
+        className={`mt-2 text-left font-tbold text-xl text-primary ${
           back && "absolute left-1/2 -translate-x-1/2"
         }`}
       >

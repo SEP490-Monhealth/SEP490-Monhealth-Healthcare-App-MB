@@ -21,6 +21,7 @@ interface InputProps extends TextInputProps {
   keyboardType?: "default" | "numeric" | "email-address" | "phone-pad"
   iconStart?: React.ReactNode
   iconEnd?: React.ReactNode
+  clearText?: boolean
   iconEndAction?: () => void
   errorMessage?: string
   testID?: string
@@ -38,6 +39,7 @@ export const Input: React.FC<InputProps> = ({
   keyboardType = "default",
   iconStart,
   iconEnd,
+  clearText = true,
   iconEndAction,
   errorMessage,
   testID,
@@ -80,28 +82,28 @@ export const Input: React.FC<InputProps> = ({
           numberOfLines={multiline ? numberOfLines : 1}
           textAlignVertical={multiline ? "top" : "center"}
           className={`flex-1 py-2 font-tregular ${
-            hasError ? "text-destructive" : "text-typography"
+            hasError ? "text-destructive" : "text-primary"
           }`}
           style={{
             height: multiline ? numberOfLines * 20 : undefined
           }}
         />
 
-        {iconEnd ? (
+        {clearText && value && !iconEnd && (
+          <TouchableOpacity activeOpacity={0.7} onPress={handleClearText}>
+            <View className="px-2 py-4">
+              <X size={20} color="#cbd5e1" />
+            </View>
+          </TouchableOpacity>
+        )}
+
+        {iconEnd && (
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={iconEndAction || toggleSecureTextEntry}
           >
             <View className="px-2 py-4">{iconEnd}</View>
           </TouchableOpacity>
-        ) : (
-          value && (
-            <TouchableOpacity activeOpacity={0.7} onPress={handleClearText}>
-              <View className="px-2 py-4">
-                <X size={20} color="#cbd5e1" />
-              </View>
-            </TouchableOpacity>
-          )
         )}
       </View>
 

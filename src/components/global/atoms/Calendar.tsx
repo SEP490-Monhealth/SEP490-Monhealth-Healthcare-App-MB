@@ -78,7 +78,7 @@ export const Calendar = () => {
               isActive
                 ? "bg-primary text-white"
                 : isToday
-                  ? "bg-border text-typography"
+                  ? "bg-border text-primary"
                   : "bg-transparent"
             }`}
             onPress={() => isCurrentMonth && handleDayPress(item)}
@@ -88,7 +88,7 @@ export const Calendar = () => {
                 isActive
                   ? "font-tbold text-white"
                   : isCurrentMonth
-                    ? "font-tregular text-typography"
+                    ? "font-tregular text-primary"
                     : "font-tregular text-border"
               }`}
             >
@@ -105,7 +105,7 @@ export const Calendar = () => {
   return (
     <View>
       <HStack center className="mb-6 justify-between">
-        <Text className="font-tbold text-xl text-typography">
+        <Text className="font-tbold text-xl text-primary">
           {`Tháng ${currentDate.getMonth() + 1}, ${currentDate.getFullYear()}`}
         </Text>
 
@@ -132,7 +132,7 @@ export const Calendar = () => {
         {daysOfWeek.map((day, index) => (
           <Text
             key={index}
-            className="w-[14.28%] text-center font-tbold text-base text-typography"
+            className="w-[14.28%] text-center font-tbold text-base text-primary"
           >
             {day}
           </Text>

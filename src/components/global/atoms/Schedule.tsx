@@ -85,7 +85,7 @@ export const Schedule = ({ initialDate }: ScheduleProps) => {
         onPress={() => handleSelectedDay(date)}
       >
         <Text
-          className={`font-tbold text-base ${isSelected ? "text-white" : "text-typography"}`}
+          className={`font-tbold text-base ${isSelected ? "text-white" : "text-primary"}`}
         >
           {dayOfWeek}
         </Text>
@@ -109,7 +109,7 @@ export const Schedule = ({ initialDate }: ScheduleProps) => {
   return (
     <Card activeOpacity={1}>
       <HStack center className="mb-4 justify-between">
-        <Text className="font-tbold text-xl text-typography">
+        <Text className="font-tbold text-xl text-primary">
           {month}, {year}
         </Text>
 

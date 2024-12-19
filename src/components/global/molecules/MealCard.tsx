@@ -41,7 +41,7 @@ export const MealCard = ({
         <Reserve variant="Bold" size="32" color={COLORS.secondary} />
 
         <VStack gap={0}>
-          <Text className="font-tmedium text-lg text-typography">
+          <Text className="font-tmedium text-lg text-primary">
             {getMealTypeName(mealType)}
           </Text>
 

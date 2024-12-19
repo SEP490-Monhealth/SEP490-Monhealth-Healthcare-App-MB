@@ -84,13 +84,13 @@ function UserInformationScreen() {
             <UserAvatar size={200} avatarUrl={defaultAvatar} />
 
             <VStack center className="mb-2">
-              <Text className="font-tbold text-3xl text-typography">
+              <Text className="font-tbold text-3xl text-primary">
                 Van Huu Toan
               </Text>
 
               <Text className="font-tmedium text-lg text-accent">
                 Tham gia từ{" "}
-                <Text className="tbold text-typography">27/08/2003</Text>
+                <Text className="tbold text-primary">27/08/2003</Text>
               </Text>
             </VStack>
 

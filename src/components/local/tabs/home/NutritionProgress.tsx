@@ -54,7 +54,7 @@ export const NutritionProgress = ({
           style={{ width: 27, height: 27 }}
         />
 
-        <Text className="-mb-2 font-tbold text-base text-typography">
+        <Text className="-mb-2 font-tbold text-base text-primary">
           {calories ? `${calories.value} / ${calories.maxValue}` : "0 / 0"}
         </Text>
 

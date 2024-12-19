@@ -32,7 +32,7 @@ const CenterCircle = ({
         borderColor: "#fcfcfc"
       }}
     >
-      <Text className="font-tbold text-2xl text-typography">
+      <Text className="font-tbold text-2xl text-primary">
         {calorieValue} / {maxCalories}
       </Text>
       <Text className="font-tmedium text-base text-accent">{label}</Text>

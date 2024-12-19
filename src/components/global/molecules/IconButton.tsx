@@ -29,7 +29,7 @@ export const IconButton = ({
       activeOpacity={0.7}
       onPress={onPress}
       className={cn(
-        "flex items-center justify-center rounded-full bg-muted text-typography",
+        "flex items-center justify-center rounded-full bg-muted text-primary",
         sizeClass,
         className
       )}

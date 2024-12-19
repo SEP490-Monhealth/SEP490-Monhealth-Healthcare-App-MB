@@ -17,7 +17,7 @@ export const NutritionCard = ({ label, value }: NutritionCardProps) => {
       <Text className="font-tmedium text-base leading-4 text-accent">
         {label}
       </Text>
-      <Text className="font-tbold text-lg text-typography">
+      <Text className="font-tbold text-lg text-primary">
         {toFixed2(value)} g
       </Text>
     </VStack>

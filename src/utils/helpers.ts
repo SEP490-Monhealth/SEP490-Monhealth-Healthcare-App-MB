@@ -44,9 +44,18 @@ export const getGreeting = () => {
     return "Chào buổi sáng,"
   } else if (hours < 18) {
     return "Chào buổi chiều,"
-  } else {
-    return "Chào buổi tối,"
-  }
+  } else return "Chào buổi tối,"
+}
+
+export const getMealType = () => {
+  const date = new Date()
+  const hours = date.getHours()
+
+  if (hours < 12) {
+    return "Bữa sáng"
+  } else if (hours < 18) {
+    return "Bữa trưa"
+  } else return "Bữa tối"
 }
 
 /**

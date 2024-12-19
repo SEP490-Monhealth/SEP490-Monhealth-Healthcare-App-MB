@@ -28,7 +28,7 @@ export const HealthStats = ({ weight, height, bmi }: HealthStatsProps) => {
     >
       <View className="items-center">
         <Text className="font-tmedium text-base text-secondary">Cân nặng</Text>
-        <Text className="font-tbold text-xl text-typography">{weight} kg</Text>
+        <Text className="font-tbold text-xl text-primary">{weight} kg</Text>
       </View>
 
       <View className="items-center">
@@ -40,7 +40,7 @@ export const HealthStats = ({ weight, height, bmi }: HealthStatsProps) => {
 
       <View className="items-center">
         <Text className="font-tmedium text-base text-secondary">Chiều cao</Text>
-        <Text className="font-tbold text-xl text-typography">{height} cm</Text>
+        <Text className="font-tbold text-xl text-primary">{height} cm</Text>
       </View>
     </Card>
   )

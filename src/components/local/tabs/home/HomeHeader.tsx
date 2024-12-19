@@ -22,7 +22,7 @@ export const HomeHeader = ({ fullName }: HomeHeaderProps) => {
         <Text className="font-pregular text-lg text-accent">
           {getGreeting()}
         </Text>
-        <Text className="font-tbold text-2xl leading-6 text-typography">
+        <Text className="font-tbold text-2xl leading-6 text-primary">
           {fullName}
         </Text>
       </VStack>

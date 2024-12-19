@@ -15,9 +15,9 @@ function NotFoundScreen() {
 
   return (
     <Container>
-      <VStack className="mt-12">
-        <Text className="font-tbold text-8xl text-typography">404</Text>
-        <Text className="font-tbold text-2xl text-typography">
+      <VStack className="mt-12 min-h-full">
+        <Text className="font-tbold text-8xl text-primary">404</Text>
+        <Text className="font-tbold text-2xl text-primary">
           Không tìm thấy trang
         </Text>
 

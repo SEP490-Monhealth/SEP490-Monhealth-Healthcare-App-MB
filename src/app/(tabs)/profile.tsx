@@ -113,7 +113,7 @@ function ProfileScreen() {
             />
 
             <VStack center className="mb-2">
-              <Text className="font-tbold text-2xl leading-6 text-typography">
+              <Text className="font-tbold text-2xl leading-6 text-primary">
                 Van Huu Toan
               </Text>
 

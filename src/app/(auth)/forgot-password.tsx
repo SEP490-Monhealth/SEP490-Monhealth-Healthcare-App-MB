@@ -46,7 +46,7 @@ function ForgotPasswordScreen() {
       />
 
       <View>
-        <Text className="mb-2 font-tbold text-3xl text-typography">
+        <Text className="mb-2 font-tbold text-3xl text-primary">
           Quên Mật Khẩu
         </Text>
         <Text className="font-tregular text-xl text-secondary">

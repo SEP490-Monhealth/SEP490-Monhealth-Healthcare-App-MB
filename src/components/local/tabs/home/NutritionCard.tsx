@@ -33,7 +33,7 @@ export const NutritionCard = ({
         </Text>
       </HStack>
 
-      <Text className="font-tbold text-sm text-typography">
+      <Text className="font-tbold text-sm text-primary">
         {value}/{maxValue} g
       </Text>
     </VStack>

@@ -16,7 +16,7 @@ interface AccountProps {
 export const Account = ({ accountItems }: AccountProps) => {
   return (
     <Card activeOpacity={1}>
-      <Text className="mb-2 font-tbold text-lg text-typography">
+      <Text className="mb-2 font-tbold text-lg text-primary">
         Thông tin đăng nhập
       </Text>
 

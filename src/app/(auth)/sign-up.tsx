@@ -58,7 +58,7 @@ function SignUpScreen() {
       />
 
       <View>
-        <Text className="mb-2 font-tbold text-4xl text-typography">
+        <Text className="mb-2 font-tbold text-4xl text-primary">
           Đăng Ký
         </Text>
         <Text className="font-tregular text-xl text-secondary">
@@ -149,7 +149,7 @@ function SignUpScreen() {
 
         <Text className="mt-4 text-center font-tregular">
           Đã có tài khoản?{" "}
-          <Link href="/(auth)/sign-in" className="font-tmedium text-typography">
+          <Link href="/(auth)/sign-in" className="font-tmedium text-primary">
             Đăng nhập
           </Link>
         </Text>

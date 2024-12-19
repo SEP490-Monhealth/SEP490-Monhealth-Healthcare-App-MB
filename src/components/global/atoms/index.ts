@@ -9,6 +9,7 @@ import { Input } from "./Input"
 import { Progress } from "./Progress"
 import { Schedule } from "./Schedule"
 import { ScrollArea } from "./ScrollArea"
+import { Select } from "./Select"
 import { HStack, VStack } from "./Stack"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./Tabs"
 
@@ -24,6 +25,7 @@ export {
   Progress,
   Schedule,
   ScrollArea,
+  Select,
   VStack,
   HStack,
   Tabs,
