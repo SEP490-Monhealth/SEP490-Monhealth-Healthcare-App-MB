@@ -54,10 +54,17 @@ export const BottomSheet = React.forwardRef<
       )
     })
     .onEnd((event) => {
-      if (event.velocityY > 1000 || translateY.value > -SCREEN_HEIGHT / 5) {
+      const closeToMax = Math.abs(translateY.value - MAX_TRANSLATE_Y) < 100
+      const closeToMid = Math.abs(translateY.value + 300) < 100
+
+      if (closeToMax && event.translationY > 0) {
+        scrollTo(-300)
+      } else if (closeToMid && event.translationY > 0) {
         scrollTo(0)
-      } else {
+      } else if (event.translationY < 0) {
         scrollTo(MAX_TRANSLATE_Y)
+      } else {
+        scrollTo(0)
       }
     })
 
