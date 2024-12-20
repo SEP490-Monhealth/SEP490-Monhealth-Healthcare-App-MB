@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Text } from "react-native"
+import { Platform, Text } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -25,6 +25,8 @@ interface HeaderProps {
 export const Header = ({ title, back = false, action }: HeaderProps) => {
   const router = useRouter()
 
+  const paddingClass = Platform.OS === "ios" ? "pt-0" : "pt-4"
+
   const handleBack = () => {
     router.back()
   }
@@ -36,7 +38,7 @@ export const Header = ({ title, back = false, action }: HeaderProps) => {
   }
 
   return (
-    <HStack className="relative min-h-14 justify-between">
+    <HStack className={`relative min-h-14 justify-between ${paddingClass}`}>
       {back && (
         <IconButton
           icon={<ArrowLeft size={24} color={COLORS.primary} />}

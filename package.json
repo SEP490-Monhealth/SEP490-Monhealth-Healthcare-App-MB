@@ -12,9 +12,6 @@
     "coverage": "jest --coverage",
     "lint": "expo lint"
   },
-  "jest": {
-    "preset": "jest-expo"
-  },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
     "@tanstack/react-query": "^5.62.7",

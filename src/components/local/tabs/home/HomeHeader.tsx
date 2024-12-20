@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Text } from "react-native"
+import { Platform, Text } from "react-native"
 import { View } from "react-native"
 
 import { Notification } from "iconsax-react-native"
@@ -17,8 +17,12 @@ interface HomeHeaderProps {
 }
 
 export const HomeHeader = ({ fullName }: HomeHeaderProps) => {
+  const paddingClass = Platform.OS === "ios" ? "pb-4 pt-0" : "py-4"
+
   return (
-    <HStack className="min-h-14 items-center justify-between bg-background pb-4">
+    <HStack
+      className={`min-h-14 items-center justify-between bg-background ${paddingClass}`}
+    >
       <View>
         <Text className="font-pregular text-lg text-accent">
           {getGreeting()}

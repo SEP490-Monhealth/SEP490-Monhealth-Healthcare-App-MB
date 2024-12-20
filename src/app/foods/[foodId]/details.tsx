@@ -8,12 +8,13 @@ import LoadingScreen from "@/app/loading"
 import { ArchiveTick } from "iconsax-react-native"
 
 import {
-  BottomSheet,
-  BottomSheetRefProps,
   Content,
   HStack,
   Input,
+  ScrollArea,
   Select,
+  Sheet,
+  SheetRefProps,
   VStack
 } from "@/components/global/atoms"
 import { Header, Section } from "@/components/global/organisms"
@@ -31,10 +32,10 @@ function FoodDetailsScreen() {
 
   const [query, setQuery] = useState("1")
 
-  const bottomSheetRef = useRef<BottomSheetRefProps>(null)
+  const SheetRef = useRef<SheetRefProps>(null)
 
-  const openBottomSheet = () => {
-    bottomSheetRef.current?.scrollTo(-300)
+  const openSheet = () => {
+    SheetRef.current?.scrollTo(-300)
   }
 
   if (!foodData) {
@@ -59,7 +60,7 @@ function FoodDetailsScreen() {
         />
 
         <Content className="mt-4">
-          <View>
+          <ScrollArea>
             <VStack gap={12}>
               <Section title="Khẩu phần ăn" margin={false} />
 
@@ -67,7 +68,7 @@ function FoodDetailsScreen() {
                 <Select
                   defaultValue="Chọn bữa ăn"
                   value="Bữa sáng"
-                  onPress={openBottomSheet}
+                  onPress={openSheet}
                 />
 
                 <HStack center gap={8}>
@@ -85,7 +86,7 @@ function FoodDetailsScreen() {
                     <Select
                       defaultValue="Chọn khẩu phần ăn"
                       value="Chén (100 g)"
-                      onPress={openBottomSheet}
+                      onPress={openSheet}
                     />
                   </View>
                 </HStack>
@@ -104,15 +105,15 @@ function FoodDetailsScreen() {
             <VStack gap={12}>
               <Section title="Hoạt động" />
             </VStack>
-          </View>
+          </ScrollArea>
         </Content>
       </View>
 
-      <BottomSheet ref={bottomSheetRef}>
+      <Sheet ref={SheetRef}>
         <View>
           <Text>Đại sủi nói mai đi coi đồ án mà khum đi coi</Text>
         </View>
-      </BottomSheet>
+      </Sheet>
     </SafeAreaView>
   )
 }

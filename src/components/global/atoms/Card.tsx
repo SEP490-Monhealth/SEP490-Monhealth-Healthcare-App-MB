@@ -9,13 +9,15 @@ interface CardProps {
   className?: string
   onPress?: () => void
   children: React.ReactNode
+  testID?: string
 }
 
 export const Card: React.FC<CardProps> = ({
   activeOpacity = 0.7,
   className = "",
   onPress,
-  children
+  children,
+  testID
 }) => {
   return (
     <TouchableOpacity
@@ -25,6 +27,7 @@ export const Card: React.FC<CardProps> = ({
         "w-full rounded-2xl border border-border bg-card px-6 py-4",
         className
       )}
+      testID={testID}
     >
       <React.Fragment>{children}</React.Fragment>
     </TouchableOpacity>

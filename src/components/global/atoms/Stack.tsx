@@ -10,6 +10,7 @@ interface StackProps {
   onPress?: () => void
   className?: string
   children: React.ReactNode
+  testID?: string
 }
 
 export const VStack: React.FC<StackProps> = ({
@@ -17,10 +18,16 @@ export const VStack: React.FC<StackProps> = ({
   center = false,
   onPress,
   className = "",
-  children
+  children,
+  testID
 }) => {
   return (
-    <TouchableOpacity activeOpacity={1} onPress={onPress} disabled={!onPress}>
+    <TouchableOpacity
+      activeOpacity={1}
+      onPress={onPress}
+      disabled={!onPress}
+      testID={testID}
+    >
       <View
         className={cn("flex flex-col", center ? "items-center" : "", className)}
         style={{ gap }}
@@ -36,10 +43,16 @@ export const HStack: React.FC<StackProps> = ({
   gap = 4,
   center = false,
   onPress,
-  className = ""
+  className = "",
+  testID
 }) => {
   return (
-    <TouchableOpacity activeOpacity={1} onPress={onPress} disabled={!onPress}>
+    <TouchableOpacity
+      activeOpacity={1}
+      onPress={onPress}
+      disabled={!onPress}
+      testID={testID}
+    >
       <View
         className={cn("flex flex-row", center ? "items-center" : "", className)}
         style={{ gap }}
