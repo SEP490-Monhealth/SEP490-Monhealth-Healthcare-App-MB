@@ -66,7 +66,16 @@ export const Button: React.FC<ButtonProps> = ({
       )}
     >
       {loading ? (
-        <ActivityIndicator color="#fff" />
+        <View className="flex flex-row items-center justify-center gap-2">
+          <ActivityIndicator color="#fff" />
+          {children && (
+            <Text
+              className={cn("font-tmedium", variantClass.text, sizeClass.text)}
+            >
+              {children}
+            </Text>
+          )}
+        </View>
       ) : icon ? (
         <View className="flex items-center justify-center">{children}</View>
       ) : (
@@ -74,7 +83,7 @@ export const Button: React.FC<ButtonProps> = ({
           {iconStart && <View className="mr-2">{iconStart}</View>}
           {children && (
             <Text
-              className={cn("font-tbold", variantClass.text, sizeClass.text)}
+              className={cn("font-tmedium", variantClass.text, sizeClass.text)}
             >
               {children}
             </Text>

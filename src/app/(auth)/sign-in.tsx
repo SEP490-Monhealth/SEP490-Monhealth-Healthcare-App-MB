@@ -13,11 +13,14 @@ import { IconButton } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/appConstants"
 
+import { useLogin } from "@/hooks/useAuth"
+
 import { LoginUserType, loginUserSchema } from "@/schemas/userSchema"
 
 function SignInScreen() {
   const router = useRouter()
 
+  const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
   const {
@@ -27,18 +30,35 @@ function SignInScreen() {
   } = useForm<LoginUserType>({
     resolver: zodResolver(loginUserSchema),
     defaultValues: {
-      email: "asd@gmail.com",
+      phoneNumber: "0792766979",
       password: "123As@"
     }
   })
+
+  const { mutate: login } = useLogin()
 
   const handleBack = () => {
     router.replace("/(onboarding)/welcome")
   }
 
   const onSubmit = (data: LoginUserType) => {
-    console.log(data)
-    router.replace("/(tabs)/home")
+    setIsLoading(true)
+    // console.log(data)
+
+    login(
+      { phoneNumber: data.phoneNumber, password: data.password },
+      {
+        onSuccess: (data) => {
+          setIsLoading(false)
+          // console.log(data)
+          router.replace("/(tabs)/home")
+        },
+        onError: (error: any) => {
+          setIsLoading(false)
+          console.log(error)
+        }
+      }
+    )
   }
 
   return (
@@ -49,27 +69,25 @@ function SignInScreen() {
       />
 
       <View>
-        <Text className="mb-2 font-tbold text-4xl text-primary">
-          Đăng Nhập
-        </Text>
+        <Text className="mb-2 font-tbold text-4xl text-primary">Đăng Nhập</Text>
         <Text className="font-tregular text-xl text-secondary">
           Đăng nhập để tiếp tục theo dõi sức khỏe của bạn
         </Text>
 
         <VStack gap={12} className="mt-8">
           <Controller
-            name="email"
+            name="phoneNumber"
             control={control}
             render={({ field: { onChange, value } }) => (
               <Input
                 value={value}
                 onChangeText={onChange}
-                placeholder="Nhập địa chỉ email"
-                keyboardType="email-address"
+                placeholder="Nhập số điện thoại"
+                keyboardType="phone-pad"
                 iconStart={
                   <Sms variant="Bold" size={20} color={COLORS.primary} />
                 }
-                errorMessage={errors.email?.message}
+                errorMessage={errors.phoneNumber?.message}
               />
             )}
           />
@@ -107,8 +125,12 @@ function SignInScreen() {
           Quên mật khẩu
         </Link>
 
-        <Button onPress={handleSubmit(onSubmit)} className="mt-8">
-          Đăng nhập
+        <Button
+          loading={isLoading}
+          onPress={handleSubmit(onSubmit)}
+          className="mt-8"
+        >
+          {isLoading ? "Đang đăng nhập..." : "Đăng nhập"}
         </Button>
 
         <Text className="mt-4 text-center font-tregular">

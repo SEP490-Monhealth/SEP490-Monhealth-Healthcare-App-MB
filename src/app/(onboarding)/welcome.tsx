@@ -10,17 +10,15 @@ function WelcomeScreen() {
   const router = useRouter()
 
   const handleSignInGoogle = () => {
-    console.log("Continue with Google")
-    router.push("/(tabs)/home")
+    router.replace("/(tabs)/home")
   }
 
   const handleSignInEmail = () => {
-    console.log("Continue with Email")
     router.push("/(auth)/sign-in")
   }
 
   return (
-    <Container className="flex justify-between pb-8 pt-24">
+    <Container className="flex-1 justify-between pb-8 pt-24">
       <VStack gap={12}>
         <Text className="font-tbold text-4xl text-primary">
           Hoàn thành {"\n"}

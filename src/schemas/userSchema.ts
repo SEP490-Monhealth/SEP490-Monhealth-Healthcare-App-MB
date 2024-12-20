@@ -60,7 +60,7 @@ export const resetPasswordSchema = z.object({
 })
 
 export const loginUserSchema = userSchema.pick({
-  email: true,
+  phoneNumber: true,
   password: true
 })
 

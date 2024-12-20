@@ -17,11 +17,8 @@ export const Container: React.FC<ContainerProps> = ({
   testID
 }) => {
   return (
-    <SafeAreaView
-      className={cn("flex-1 bg-background", className)}
-      testID={testID}
-    >
-      <View className="px-6">
+    <SafeAreaView className="flex-1 bg-background" testID={testID}>
+      <View className={cn("px-6", className)}>
         <React.Fragment>{children}</React.Fragment>
       </View>
     </SafeAreaView>

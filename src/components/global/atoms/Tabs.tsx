@@ -111,7 +111,6 @@ export const TabsContent: React.FC<TabsContentProps> = ({
   if (selectedValue !== value) return null
 
   const marginTop = contentMarginTop ?? globalMarginTop
-  const marginTopClass = `mt-${marginTop}`
 
-  return <View className={marginTopClass}>{children}</View>
+  return <View style={{ marginTop }}>{children}</View>
 }

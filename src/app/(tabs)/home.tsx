@@ -60,7 +60,7 @@ function HomeScreen() {
       <Content>
         <ScrollArea>
           <View className="mt-2 pb-12">
-            <Tabs defaultValue="today" contentMarginTop={6}>
+            <Tabs defaultValue="today" contentMarginTop={16}>
               <TabsList center gap={32}>
                 <TabsTrigger value="today">Hôm nay</TabsTrigger>
                 <TabsTrigger value="week">Tuần</TabsTrigger>
