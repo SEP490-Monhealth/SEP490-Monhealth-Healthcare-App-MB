@@ -1,23 +1,25 @@
 import React from "react"
 
 import { View } from "react-native"
+import { SafeAreaView } from "react-native-safe-area-context"
 
-import { Container } from "@/components/global/atoms"
-import CardSlider from "@/components/global/molecules/CardSlider"
+import { Carousel } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import { ImageSlider } from "@/constants/sliderData"
+import { goalsData } from "@/constants/goals"
 
 function ActivityScreen() {
   return (
     <>
-      {/* <Container>
-        <Header title="Hoạt động" />
-      </Container> */}
+      <SafeAreaView className="h-full bg-background">
+        <View className="px-6">
+          <Header title="Hoạt động" />
+        </View>
 
-      <View className="mt-20 h-fit bg-background">
-        <CardSlider itemList={ImageSlider} />
-      </View>
+        <View>
+          <Carousel items={goalsData} />
+        </View>
+      </SafeAreaView>
     </>
   )
 }

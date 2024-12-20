@@ -113,7 +113,7 @@ function FoodDetailsScreen() {
 
       <Sheet ref={SheetRef}>
         <View>
-          <Text>Đại sủi nói mai đi coi đồ án mà khum đi coi</Text>
+          <Text>Đại, Khải sủi nói mai đi coi đồ án mà khum đi coi</Text>
         </View>
       </Sheet>
     </SafeAreaView>

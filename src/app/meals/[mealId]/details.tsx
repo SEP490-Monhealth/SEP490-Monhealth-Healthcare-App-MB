@@ -71,7 +71,6 @@ function MealDetailsScreen() {
           onRefresh={onRefresh}
           refreshing={isRefreshing}
           showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
           ListHeaderComponent={() => (
             <ListHeader>
               <ArcProgress

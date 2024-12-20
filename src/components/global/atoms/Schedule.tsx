@@ -126,7 +126,6 @@ export const Schedule = ({ initialDate }: ScheduleProps) => {
         ref={flatListScrollRef}
         data={daysInMonth}
         keyExtractor={(item) => item.date.toISOString()}
-        showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
           <DayItem date={item.date} dayOfWeek={item.dayOfWeek} />

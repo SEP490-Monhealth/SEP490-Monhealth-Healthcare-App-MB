@@ -73,7 +73,6 @@ function FoodsScreen() {
           onRefresh={onRefresh}
           refreshing={isRefreshing}
           showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
           ListHeaderComponent={() => (
             <ListHeader>
               <Section title="Danh sách thức ăn" />

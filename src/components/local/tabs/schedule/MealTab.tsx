@@ -16,7 +16,7 @@ interface MealTabProps {
   foodsData: FoodType[]
 }
 
-export const  MealTab = ({ foodsData }: MealTabProps) => {
+export const MealTab = ({ foodsData }: MealTabProps) => {
   const [isRefreshing, setIsRefreshing] = useState(false)
 
   const onRefresh = async () => {
@@ -33,7 +33,6 @@ export const  MealTab = ({ foodsData }: MealTabProps) => {
       onRefresh={onRefresh}
       refreshing={isRefreshing}
       showsVerticalScrollIndicator={false}
-      showsHorizontalScrollIndicator={false}
       ListHeaderComponent={
         <ListHeader>
           <VStack center gap={20}>

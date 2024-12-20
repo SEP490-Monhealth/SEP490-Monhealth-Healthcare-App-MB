@@ -6,17 +6,17 @@ import Animated, {
   useSharedValue
 } from "react-native-reanimated"
 
-import { ImageSlider, ImageSliderType } from "@/constants/sliderData"
+import { GoalType } from "@/constants/goals"
 
-import SliderItem from "./SliderItem"
+import { CarouselItem } from "./CarouselItem"
 
 const { width } = Dimensions.get("screen")
 
-type Props = {
-  itemList: ImageSliderType[]
+interface CarouselProps {
+  items: GoalType[]
 }
 
-const CardSlider = ({ itemList }: Props) => {
+export const Carousel = ({ items }: CarouselProps) => {
   const scrollX = useSharedValue(0)
 
   const onScrollHandler = useAnimatedScrollHandler({
@@ -27,12 +27,12 @@ const CardSlider = ({ itemList }: Props) => {
 
   return (
     <Animated.FlatList
-      data={itemList}
-      renderItem={({ item, index }) => (
-        <SliderItem item={item} index={index} scrollX={scrollX} />
-      )}
       horizontal
       showsHorizontalScrollIndicator={false}
+      data={items}
+      renderItem={({ item, index }) => (
+        <CarouselItem index={index} item={item} scrollX={scrollX} />
+      )}
       pagingEnabled
       snapToInterval={width}
       snapToAlignment="center"
@@ -41,5 +41,3 @@ const CardSlider = ({ itemList }: Props) => {
     />
   )
 }
-
-export default CardSlider
