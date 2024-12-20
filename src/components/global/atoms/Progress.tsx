@@ -4,12 +4,15 @@ import { Animated, Text, View } from "react-native"
 
 import { COLORS } from "@/constants/appConstants"
 
+import { cn } from "@/lib/utils"
+
 interface ProgressProps {
   progress: number
   height?: number
   color?: string
   labelStart?: string
   labelEnd?: string
+  className?: string
 }
 
 export const Progress = ({
@@ -17,7 +20,8 @@ export const Progress = ({
   height = 10,
   color = COLORS.primary,
   labelStart = "",
-  labelEnd = ""
+  labelEnd = "",
+  className = ""
 }: ProgressProps) => {
   const animatedWidth = useRef(new Animated.Value(0)).current
 
@@ -31,7 +35,7 @@ export const Progress = ({
   }, [progress])
 
   return (
-    <View className="w-full">
+    <View className={cn("w-full", className)}>
       <View className="w-full rounded-full bg-[#E2E8F0]" style={{ height }}>
         <Animated.View
           className="h-full rounded-full"

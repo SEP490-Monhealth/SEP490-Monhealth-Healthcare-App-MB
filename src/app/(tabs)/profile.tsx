@@ -104,7 +104,7 @@ function ProfileScreen() {
 
       <Content margin={false}>
         <ScrollArea>
-          <VStack center gap={20} className="mt-4 pb-16">
+          <VStack center gap={20} className="mt-2 pb-12">
             <Avatar
               size={160}
               source={defaultAvatar}

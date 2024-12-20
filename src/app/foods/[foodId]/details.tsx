@@ -17,7 +17,7 @@ import {
   SheetRefProps,
   VStack
 } from "@/components/global/atoms"
-import { Header, Section } from "@/components/global/organisms"
+import { Header,   Section } from "@/components/global/organisms"
 
 import { Nutrition, NutritionFacts } from "@/components/local/foods"
 
@@ -59,52 +59,54 @@ function FoodDetailsScreen() {
           }}
         />
 
-        <Content className="mt-4">
+        <Content margin={false}>
           <ScrollArea>
-            <VStack gap={12}>
-              <Section title="Khẩu phần ăn" margin={false} />
-
-              <VStack gap={12}>
-                <Select
-                  defaultValue="Chọn bữa ăn"
-                  value="Bữa sáng"
-                  onPress={openSheet}
-                />
-
-                <HStack center gap={8}>
-                  <View style={{ flex: 1 }}>
-                    <Input
-                      value={query}
-                      onChangeText={(text) => setQuery(text)}
-                      placeholder="1"
-                      keyboardType="numeric"
-                      clearText={false}
-                    />
-                  </View>
-
-                  <View style={{ flex: 4 }}>
-                    <Select
-                      defaultValue="Chọn khẩu phần ăn"
-                      value="Chén (100 g)"
-                      onPress={openSheet}
-                    />
-                  </View>
-                </HStack>
-              </VStack>
-            </VStack>
-
-            <VStack gap={12}>
-              <Section title="Thông tin dinh dưỡng" />
-
+            <View className="mt-2 pb-12">
               <VStack>
-                <Nutrition foodData={foodData} />
-                <NutritionFacts nutritionData={foodData} />
-              </VStack>
-            </VStack>
+                <Section title="Khẩu phần ăn" margin={false} />
 
-            <VStack gap={12}>
-              <Section title="Hoạt động" />
-            </VStack>
+                <VStack gap={8}>
+                  <Select
+                    defaultValue="Chọn bữa ăn"
+                    value="Bữa sáng"
+                    onPress={openSheet}
+                  />
+
+                  <HStack center gap={8}>
+                    <View style={{ flex: 1 }}>
+                      <Input
+                        value={query}
+                        onChangeText={(text) => setQuery(text)}
+                        placeholder="1"
+                        keyboardType="numeric"
+                        clearText={false}
+                      />
+                    </View>
+
+                    <View style={{ flex: 4 }}>
+                      <Select
+                        defaultValue="Chọn khẩu phần ăn"
+                        value="chén (100 g)"
+                        onPress={openSheet}
+                      />
+                    </View>
+                  </HStack>
+                </VStack>
+              </VStack>
+
+              <VStack gap={8}>
+                <Section title="Thông tin dinh dưỡng" />
+
+                <VStack>
+                  <Nutrition foodData={foodData} />
+                  <NutritionFacts nutritionData={foodData} />
+                </VStack>
+              </VStack>
+
+              <VStack gap={8}>
+                <Section title="Hoạt động" />
+              </VStack>
+            </View>
           </ScrollArea>
         </Content>
       </View>

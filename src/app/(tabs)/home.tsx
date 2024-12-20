@@ -7,6 +7,7 @@ import {
   Content,
   HStack,
   Progress,
+  ScrollArea,
   Tabs,
   TabsContent,
   TabsList,
@@ -35,23 +36,6 @@ function HomeScreen() {
     { mealType: "Snack", totalCalories: 294 }
   ])
 
-  const [isRefreshing, setIsRefreshing] = useState(false)
-
-  const onRefresh = async () => {
-    setIsRefreshing(true)
-
-    setTimeout(() => {
-      setMealsData([
-        { mealType: "Breakfast", totalCalories: 300 },
-        { mealType: "Lunch", totalCalories: 300 },
-        { mealType: "Dinner", totalCalories: 300 },
-        { mealType: "Snack", totalCalories: 300 }
-      ])
-
-      setIsRefreshing(false)
-    }, 2000)
-  }
-
   const nutrientsData = [
     { label: "Calories", value: 438, maxValue: 842 },
     { label: "Protein", value: 120, maxValue: 220 },
@@ -74,123 +58,91 @@ function HomeScreen() {
       <HomeHeader fullName="Van Huu Toan" />
 
       <Content>
-        <FlatList
-          data={mealsData}
-          keyExtractor={(item) => item.mealType}
-          onRefresh={onRefresh}
-          refreshing={isRefreshing}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-          ListHeaderComponent={() => (
-            <ListHeader>
-              <Tabs defaultValue="today" contentMarginTop={6}>
-                <TabsList center gap={32}>
-                  <TabsTrigger value="today">Hôm nay</TabsTrigger>
-                  <TabsTrigger value="week">Tuần</TabsTrigger>
-                  <TabsTrigger value="month">Tháng</TabsTrigger>
-                  <TabsTrigger value="year">Năm</TabsTrigger>
-                </TabsList>
+        <ScrollArea>
+          <View className="mt-2 pb-12">
+            <Tabs defaultValue="today" contentMarginTop={6}>
+              <TabsList center gap={32}>
+                <TabsTrigger value="today">Hôm nay</TabsTrigger>
+                <TabsTrigger value="week">Tuần</TabsTrigger>
+                <TabsTrigger value="month">Tháng</TabsTrigger>
+                <TabsTrigger value="year">Năm</TabsTrigger>
+              </TabsList>
 
-                <TabsContent value="today">
-                  <VStack gap={24}>
-                    <HStack center className="justify-between">
-                      <NutritionProgress
-                        calories={calories}
-                        nutrients={filteredNutrition}
-                      />
-
-                      <NutritionSummary nutrients={filteredNutrition} />
-                    </HStack>
-
-                    <Progress
-                      height={8}
-                      progress={50}
-                      labelStart="438 trên 842 kcal"
-                      labelEnd="50%"
+              <TabsContent value="today">
+                <VStack gap={24}>
+                  <HStack center className="justify-between">
+                    <NutritionProgress
+                      calories={calories}
+                      nutrients={filteredNutrition}
                     />
-                  </VStack>
-                </TabsContent>
 
-                <TabsContent value="week">
-                  <VStack gap={24}>
-                    <HStack center className="justify-between">
-                      <NutritionProgress
-                        calories={calories}
-                        nutrients={filteredNutrition}
-                      />
+                    <NutritionSummary nutrients={filteredNutrition} />
+                  </HStack>
+                </VStack>
+              </TabsContent>
 
-                      <NutritionSummary nutrients={filteredNutrition} />
-                    </HStack>
-
-                    <Progress
-                      height={8}
-                      progress={50}
-                      labelStart="438 trên 842 kcal"
-                      labelEnd="50%"
+              <TabsContent value="week">
+                <VStack gap={24}>
+                  <HStack center className="justify-between">
+                    <NutritionProgress
+                      calories={calories}
+                      nutrients={filteredNutrition}
                     />
-                  </VStack>
-                </TabsContent>
 
-                <TabsContent value="month">
-                  <VStack gap={24}>
-                    <HStack center className="justify-between">
-                      <NutritionProgress
-                        calories={calories}
-                        nutrients={filteredNutrition}
-                      />
+                    <NutritionSummary nutrients={filteredNutrition} />
+                  </HStack>
+                </VStack>
+              </TabsContent>
 
-                      <NutritionSummary nutrients={filteredNutrition} />
-                    </HStack>
-
-                    <Progress
-                      height={8}
-                      progress={50}
-                      labelStart="438 trên 842 calories"
-                      labelEnd="50%"
+              <TabsContent value="month">
+                <VStack gap={24}>
+                  <HStack center className="justify-between">
+                    <NutritionProgress
+                      calories={calories}
+                      nutrients={filteredNutrition}
                     />
-                  </VStack>
-                </TabsContent>
 
-                <TabsContent value="year">
-                  <VStack gap={24}>
-                    <HStack center className="justify-between">
-                      <NutritionProgress
-                        calories={calories}
-                        nutrients={filteredNutrition}
-                      />
+                    <NutritionSummary nutrients={filteredNutrition} />
+                  </HStack>
+                </VStack>
+              </TabsContent>
 
-                      <NutritionSummary nutrients={filteredNutrition} />
-                    </HStack>
-
-                    <Progress
-                      height={8}
-                      progress={50}
-                      labelStart="438 trên 842 calories"
-                      labelEnd="50%"
+              <TabsContent value="year">
+                <VStack gap={24}>
+                  <HStack center className="justify-between">
+                    <NutritionProgress
+                      calories={calories}
+                      nutrients={filteredNutrition}
                     />
-                  </VStack>
-                </TabsContent>
-              </Tabs>
 
-              <Section title="Bữa ăn hôm nay" />
-            </ListHeader>
-          )}
-          renderItem={({ item }) => (
-            <MealCard
-              key={item.mealType}
-              mealType={item.mealType}
-              totalCalories={item.totalCalories}
+                    <NutritionSummary nutrients={filteredNutrition} />
+                  </HStack>
+                </VStack>
+              </TabsContent>
+            </Tabs>
+
+            <Progress
+              height={8}
+              progress={50}
+              labelStart="Mục tiêu hằng ngày"
+              labelEnd="50%"
+              className="mt-8"
             />
-          )}
-          ListFooterComponent={
-            <ListFooter>
-              <Text className="text-center font-tmedium text-secondary">
-                "Bạn đã hoàn thành mục tiêu calo hôm nay. Tuyệt vời!"
-              </Text>
-            </ListFooter>
-          }
-          ItemSeparatorComponent={() => <View className="h-3" />}
-        />
+
+            <Section title="Bữa ăn hôm nay" />
+
+            <VStack gap={12}>
+              {mealsData.map((item) => (
+                <View key={item.mealType}>
+                  <MealCard
+                    mealType={item.mealType}
+                    totalCalories={item.totalCalories}
+                  />
+                </View>
+              ))}
+            </VStack>
+          </View>
+        </ScrollArea>
       </Content>
     </Container>
   )

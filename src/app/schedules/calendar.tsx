@@ -1,6 +1,8 @@
 import React from "react"
 
-import { Calendar, Container, Content, VStack } from "@/components/global/atoms"
+import { View } from "react-native"
+
+import { Calendar, Container, Content } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
 function CalendarScreen() {
@@ -9,9 +11,9 @@ function CalendarScreen() {
       <Header back title="Chọn ngày" />
 
       <Content>
-        <VStack className="mt-4">
+        <View className="mt-2">
           <Calendar />
-        </VStack>
+        </View>
       </Content>
     </Container>
   )

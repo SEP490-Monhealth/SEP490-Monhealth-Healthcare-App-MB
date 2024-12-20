@@ -80,7 +80,7 @@ function UserInformationScreen() {
 
       <Content>
         <ScrollArea>
-          <VStack center gap={20} className="mt-4">
+          <VStack center gap={20} className="mt-2">
             <UserAvatar size={200} avatarUrl={defaultAvatar} />
 
             <VStack center className="mb-2">

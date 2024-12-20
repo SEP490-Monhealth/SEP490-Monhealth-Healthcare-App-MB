@@ -17,7 +17,7 @@ interface HomeHeaderProps {
 }
 
 export const HomeHeader = ({ fullName }: HomeHeaderProps) => {
-  const paddingClass = Platform.OS === "ios" ? "pb-4 pt-0" : "py-4"
+  const paddingClass = Platform.OS === "ios" ? "pb-3 pt-0" : "py-4"
 
   return (
     <HStack

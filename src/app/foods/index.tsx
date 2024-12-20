@@ -67,15 +67,6 @@ function FoodsScreen() {
       </HStack>
 
       <Content>
-        {/* <VStack className="mt-4">
-          <Input
-            value={searchQuery}
-            onChangeText={(text) => setSearchQuery(text)}
-            placeholder="Tìm kiếm tên thức ăn..."
-            iconStart={<SearchNormal1 size={20} color={COLORS.primary} />}
-          />
-        </VStack> */}
-
         <FlatList
           data={foodsData}
           keyExtractor={(item) => item.foodId}

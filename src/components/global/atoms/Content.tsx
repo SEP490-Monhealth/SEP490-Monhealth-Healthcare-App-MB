@@ -20,7 +20,7 @@ export const Content: React.FC<ContentProps> = ({
   return (
     <View
       className={cn("", className)}
-      style={{ marginBottom: margin ? 124 : 64 }}
+      style={{ marginBottom: margin ? 100 : 64 }}
       testID={testID}
     >
       <React.Fragment>{children}</React.Fragment>
