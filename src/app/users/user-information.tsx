@@ -2,16 +2,7 @@ import React from "react"
 
 import { Text } from "react-native"
 
-import {
-  AlignVertically,
-  Calendar,
-  Call,
-  Edit2,
-  Lovely,
-  ProfileCircle,
-  Sms,
-  Weight
-} from "iconsax-react-native"
+import { Edit2 } from "iconsax-react-native"
 
 import {
   Container,
@@ -28,44 +19,11 @@ import {
 } from "@/components/local/tabs/profile"
 
 import { COLORS } from "@/constants/appConstants"
+import { accountItems, informationItems } from "@/constants/siteConstants"
 
 function UserInformationScreen() {
   const defaultAvatar =
     "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Monhealth%2Ftests%2Fangrycat.jpg?alt=media&token=542becf5-173f-47c2-951b-b9f79578fa60"
-
-  const informationItems = [
-    {
-      icon: <ProfileCircle variant="Bold" size={24} color={COLORS.primary} />,
-      label: "Van Huu Toan"
-    },
-    {
-      icon: <Calendar variant="Bold" size={24} color={COLORS.primary} />,
-      label: "27/08/2003"
-    },
-    {
-      icon: <Lovely variant="Bold" size={24} color={COLORS.primary} />,
-      label: "Nam"
-    },
-    {
-      icon: <Weight variant="Bold" size={24} color={COLORS.primary} />,
-      label: "50kg"
-    },
-    {
-      icon: <AlignVertically variant="Bold" size={24} color={COLORS.primary} />,
-      label: "200cm"
-    }
-  ]
-
-  const accountItems = [
-    {
-      icon: <Sms variant="Bold" size={24} color={COLORS.primary} />,
-      label: "vanhuutoan27@gmail.com"
-    },
-    {
-      icon: <Call variant="Bold" size={24} color={COLORS.primary} />,
-      label: "0987654321"
-    }
-  ]
 
   return (
     <Container>
