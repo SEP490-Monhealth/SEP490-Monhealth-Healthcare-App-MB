@@ -17,14 +17,12 @@ interface AboutProps {
 export const About = ({ aboutItems }: AboutProps) => {
   return (
     <Card activeOpacity={1}>
-      <Text className="mb-2 font-tbold text-lg text-primary">
-        Giới thiệu
-      </Text>
+      <Text className="mb-2 font-tbold text-lg text-primary">Giới thiệu</Text>
 
       {aboutItems.map((item, index) => (
         <ListItem
           key={index}
-          icon={item.icon}
+          startIcon={item.icon}
           label={item.label}
           onPress={item.onPress}
         />

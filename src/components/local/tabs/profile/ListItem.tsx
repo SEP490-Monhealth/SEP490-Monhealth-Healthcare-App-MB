@@ -7,14 +7,16 @@ import { ChevronRight } from "lucide-react-native"
 import { COLORS } from "@/constants/appConstants"
 
 interface ListItemProps {
-  icon: React.ReactNode
+  startIcon?: React.ReactNode
+  endIcon?: React.ReactNode
   label: string
   more?: boolean
   onPress?: () => void
 }
 
 export const ListItem = ({
-  icon,
+  startIcon,
+  endIcon,
   label,
   more = true,
   onPress
@@ -26,13 +28,15 @@ export const ListItem = ({
       onPress={onPress}
     >
       <View className="flex-row items-center">
-        {icon}
-        <Text className="ml-4 font-tmedium text-lg text-secondary">
-          {label}
-        </Text>
+        {startIcon && <View className="mr-4">{startIcon}</View>}
+        <Text className="font-tmedium text-lg text-secondary">{label}</Text>
       </View>
 
-      {more && <ChevronRight size={20} color={COLORS.secondary} />}
+      {endIcon ? (
+        <View>{endIcon}</View>
+      ) : (
+        more && <ChevronRight size={20} color={COLORS.secondary} />
+      )}
     </TouchableOpacity>
   )
 }

@@ -17,7 +17,7 @@ import {
   SheetRefProps,
   VStack
 } from "@/components/global/atoms"
-import { Header,   Section } from "@/components/global/organisms"
+import { Header, Section } from "@/components/global/organisms"
 
 import { Nutrition, NutritionFacts } from "@/components/local/foods"
 

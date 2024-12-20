@@ -23,7 +23,7 @@ export const Account = ({ accountItems }: AccountProps) => {
       {accountItems.map((item, index) => (
         <ListItem
           key={index}
-          icon={item.icon}
+          startIcon={item.icon}
           label={item.label}
           more={false}
         />

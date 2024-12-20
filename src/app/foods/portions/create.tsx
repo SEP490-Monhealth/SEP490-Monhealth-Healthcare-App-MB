@@ -2,12 +2,12 @@ import React from "react"
 
 import { Text, View } from "react-native"
 
-function FoodCreateScreen() {
+const PortionCreateScreen = () => {
   return (
     <View>
-      <Text>FoodCreateScreen</Text>
+      <Text>PortionCreateScreen</Text>
     </View>
   )
 }
 
-export default FoodCreateScreen
+export default PortionCreateScreen

@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { FlatList, Text, View } from "react-native"
+import { View } from "react-native"
 
 import {
   Container,
@@ -14,7 +14,7 @@ import {
   TabsTrigger,
   VStack
 } from "@/components/global/atoms"
-import { ListFooter, ListHeader, MealCard } from "@/components/global/molecules"
+import { MealCard } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
 
 import {

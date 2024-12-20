@@ -24,7 +24,7 @@ export const General = ({ generalItems }: GeneralProps) => {
       {generalItems.map((item, index) => (
         <ListItem
           key={index}
-          icon={item.icon}
+          startIcon={item.icon}
           label={item.label}
           onPress={item.onPress}
         />
