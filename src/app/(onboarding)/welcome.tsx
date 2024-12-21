@@ -18,7 +18,7 @@ function WelcomeScreen() {
   }
 
   return (
-    <Container className="flex-1 justify-between pb-8 pt-24">
+    <Container className="flex-1 justify-between pt-24">
       <VStack gap={12}>
         <Text className="font-tbold text-4xl text-primary">
           Hoàn thành {"\n"}
@@ -32,7 +32,7 @@ function WelcomeScreen() {
       </VStack>
 
       <VStack gap={20}>
-        <VStack gap={16}>
+        <VStack gap={12}>
           <Button variant="secondary" onPress={handleSignInGoogle}>
             Tiếp tục với Google
           </Button>
