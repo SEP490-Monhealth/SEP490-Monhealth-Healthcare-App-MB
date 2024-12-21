@@ -8,16 +8,20 @@ export const sampleFoodsData: FoodType[] = [
     foodDescription:
       "Cơm là một món ăn phổ biến trong ẩm thực Việt Nam, thường được ăn kèm với các món khác như cá, thịt, rau.",
 
-    portionSize: "1 chén (bát)",
-    portionWeight: 100,
-    measurementUnit: "g",
+    portion: {
+      portionSize: "1 chén (bát)",
+      portionWeight: 100,
+      measurementUnit: "g"
+    },
 
-    calories: 130,
-    protein: 2.7,
-    carbs: 28.2,
-    fat: 0.3,
-    fiber: 0.7,
-    sugar: 0.1,
+    nutrition: {
+      calories: 130,
+      protein: 2.7,
+      carbs: 28.2,
+      fat: 0.3,
+      fiber: 0.7,
+      sugar: 0.1
+    },
 
     status: true,
 
@@ -33,15 +37,19 @@ export const sampleFoodsData: FoodType[] = [
     foodDescription:
       "Bánh mì là một món ăn phổ biến ở Việt Nam, thường được kẹp với các loại nhân như thịt, pate, rau sống.",
 
-    portionWeight: 100,
-    measurementUnit: "g",
+    portion: {
+      portionWeight: 100,
+      measurementUnit: "g"
+    },
 
-    calories: 249,
-    protein: 7.9,
-    carbs: 52.6,
-    fat: 0.8,
-    fiber: 2.4,
-    sugar: 5.3,
+    nutrition: {
+      calories: 249,
+      protein: 7.9,
+      carbs: 52.6,
+      fat: 0.8,
+      fiber: 2.4,
+      sugar: 5.3
+    },
 
     status: true,
 
@@ -57,16 +65,20 @@ export const sampleFoodsData: FoodType[] = [
     foodDescription:
       "Chuối là một loại trái cây ngọt, giàu kali và rất tốt cho sức khỏe, thường được ăn trực tiếp hoặc làm sinh tố.",
 
-    portionSize: "1 quả vừa",
-    portionWeight: 118,
-    measurementUnit: "g",
+    portion: {
+      portionSize: "1 quả vừa",
+      portionWeight: 118,
+      measurementUnit: "g"
+    },
 
-    calories: 105,
-    protein: 1.2,
-    carbs: 27.1,
-    fat: 0,
-    fiber: 3.1,
-    sugar: 14.4,
+    nutrition: {
+      calories: 105,
+      protein: 1.2,
+      carbs: 27.1,
+      fat: 0,
+      fiber: 3.1,
+      sugar: 14.4
+    },
 
     status: true,
 
@@ -82,16 +94,20 @@ export const sampleFoodsData: FoodType[] = [
     foodDescription:
       "Bún bò huế là món ăn đặc sản miền Trung, nổi bật với nước dùng cay nồng, thịt bò và bún mềm.",
 
-    portionSize: "1 tô",
-    portionWeight: 400,
-    measurementUnit: "g",
+    portion: {
+      portionSize: "1 tô",
+      portionWeight: 400,
+      measurementUnit: "g"
+    },
 
-    calories: 820,
-    protein: 56,
-    carbs: 20,
-    fat: 52,
-    fiber: 0,
-    sugar: 0,
+    nutrition: {
+      calories: 820,
+      protein: 56,
+      carbs: 20,
+      fat: 52,
+      fiber: 0,
+      sugar: 0
+    },
 
     status: true,
 
@@ -107,16 +123,20 @@ export const sampleFoodsData: FoodType[] = [
     foodDescription:
       "Táo là một loại trái cây tươi ngon, giàu vitamin C và chất xơ, tốt cho hệ tiêu hóa.",
 
-    portionSize: "1 trái",
-    portionWeight: 150,
-    measurementUnit: "g",
+    portion: {
+      portionSize: "1 trái",
+      portionWeight: 150,
+      measurementUnit: "g"
+    },
 
-    calories: 78,
-    protein: 0,
-    carbs: 21,
-    fat: 0,
-    fiber: 3,
-    sugar: 15,
+    nutrition: {
+      calories: 78,
+      protein: 0,
+      carbs: 21,
+      fat: 0,
+      fiber: 3,
+      sugar: 15
+    },
 
     status: true,
 
@@ -132,16 +152,20 @@ export const sampleFoodsData: FoodType[] = [
     foodDescription:
       "Cơm tấm sườn là món ăn đặc sản của miền Nam, thường được ăn kèm với sườn nướng, trứng ốp la và dưa leo.",
 
-    portionSize: "1 đĩa",
-    portionWeight: 400,
-    measurementUnit: "g",
+    portion: {
+      portionSize: "1 đĩa",
+      portionWeight: 400,
+      measurementUnit: "g"
+    },
 
-    calories: 527,
-    protein: 20.7,
-    carbs: 81.6,
-    fat: 13.3,
-    fiber: 2.4,
-    sugar: 0.4,
+    nutrition: {
+      calories: 527,
+      protein: 20.7,
+      carbs: 81.6,
+      fat: 13.3,
+      fiber: 2.4,
+      sugar: 0.4
+    },
 
     status: true,
 

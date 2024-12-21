@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-export const portionSchema = z.object({
+const basePortionSchema = z.object({
   portionId: z.string(),
   foodId: z.string(),
 
@@ -15,16 +15,16 @@ export const portionSchema = z.object({
     .string()
     .min(1, { message: "Đơn vị đo lường không được để trống" })
     .max(20, { message: "Đơn vị đo lường không được dài hơn 20 ký tự" }),
-    
+
   createdAt: z.string(),
   updatedAt: z.string()
 })
 
-export const createUpdatePortionSchema = portionSchema.omit({
+export const portionSchema = basePortionSchema.omit({
   portionId: true,
+  foodId: true,
   createdAt: true,
   updatedAt: true
 })
 
 export type PortionType = z.infer<typeof portionSchema>
-export type CreateUpdatePortionType = z.infer<typeof createUpdatePortionSchema>
