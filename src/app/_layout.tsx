@@ -9,6 +9,8 @@ import { StatusBar } from "expo-status-bar"
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
+import { ErrorProvider } from "@/contexts/ErrorContext"
+
 import { MonFonts } from "@/styles/typography"
 
 import "../styles/globals.css"
@@ -38,20 +40,22 @@ function AppLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <SafeAreaProvider>
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="index" />
-            <Stack.Screen name="loading" />
-            <Stack.Screen name="(auth)" />
-            <Stack.Screen name="(onboarding)" />
-            <Stack.Screen name="(setup)" />
-            <Stack.Screen name="(tabs)" />
-            <Stack.Screen name="(errors)" />
-          </Stack>
-          <StatusBar style="auto" backgroundColor="#fff" />
-        </SafeAreaProvider>
-      </GestureHandlerRootView>
+      <ErrorProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <SafeAreaProvider>
+            <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="index" />
+              <Stack.Screen name="loading" />
+              <Stack.Screen name="(auth)" />
+              <Stack.Screen name="(onboarding)" />
+              <Stack.Screen name="(setup)" />
+              <Stack.Screen name="(tabs)" />
+              <Stack.Screen name="(errors)" />
+            </Stack>
+            <StatusBar style="auto" backgroundColor="#fff" />
+          </SafeAreaProvider>
+        </GestureHandlerRootView>
+      </ErrorProvider>
     </QueryClientProvider>
   )
 }

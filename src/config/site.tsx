@@ -17,7 +17,7 @@ import {
   Weight
 } from "iconsax-react-native"
 
-import { COLORS } from "./app"
+import { COLORS } from "@/constants/app"
 
 const router = useRouter()
 

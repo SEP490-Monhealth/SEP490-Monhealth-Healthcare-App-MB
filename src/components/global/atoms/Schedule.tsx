@@ -6,11 +6,12 @@ import { useRouter } from "expo-router"
 
 import { Calendar } from "iconsax-react-native"
 
-import { Card, HStack } from "@/components/global/atoms"
-
 import { COLORS } from "@/constants/app"
 
 import { formatUTCDate } from "@/utils/formatters"
+
+import { Card } from "./Card"
+import { HStack } from "./Stack"
 
 interface ScheduleProps {
   initialDate: Date

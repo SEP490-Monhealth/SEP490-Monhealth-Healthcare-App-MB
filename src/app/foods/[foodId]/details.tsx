@@ -2,8 +2,9 @@ import React, { useRef, useState } from "react"
 
 import { SafeAreaView, Text, View } from "react-native"
 
-import { useLocalSearchParams } from "expo-router"
+import { useLocalSearchParams, useRouter } from "expo-router"
 
+import InternalServerErrorScreen from "@/app/(errors)/internal-server-error"
 import LoadingScreen from "@/app/loading"
 import { ArchiveTick } from "iconsax-react-native"
 
@@ -22,11 +23,22 @@ import { Header, Section } from "@/components/global/organisms"
 import { Nutrition, NutritionFacts } from "@/components/local/foods"
 
 import { COLORS } from "@/constants/app"
-import { sampleFoodsData } from "@/constants/foods"
+
+import { useGetFoodById } from "@/hooks/useFood"
 
 function FoodDetailsScreen() {
-  const { foodId } = useLocalSearchParams()
-  const foodData = sampleFoodsData.find((item) => item.foodId === foodId)
+  const router = useRouter()
+
+  const { foodId } = useLocalSearchParams() as { foodId: string }
+  // const foodData = sampleFoodsData.find((item) => item.foodId === foodId)
+
+  const {
+    data: foodData,
+    isLoading,
+    isError,
+    error,
+    isFetching
+  } = useGetFoodById(foodId)
 
   const isSaved = false
 
@@ -38,9 +50,7 @@ function FoodDetailsScreen() {
     SheetRef.current?.scrollTo(-300)
   }
 
-  if (!foodData) {
-    return <LoadingScreen />
-  }
+  if (!foodData || isLoading || isFetching) return <LoadingScreen />
 
   return (
     <SafeAreaView className="h-full bg-background">

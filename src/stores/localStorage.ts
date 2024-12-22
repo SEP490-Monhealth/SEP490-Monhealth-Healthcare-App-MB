@@ -10,7 +10,7 @@ export const getAllStorage = async () => {
       console.log(`${key}: ${value}`)
     })
   } catch (error) {
-    console.error("Error fetching AsyncStorage items:", error)
+    console.log("Error fetching AsyncStorage items:", error)
   }
 }
 
@@ -19,6 +19,6 @@ export const clearAllStorage = async () => {
     await AsyncStorage.clear()
     console.log("AsyncStorage cleared successfully!")
   } catch (error) {
-    console.error("Error clearing AsyncStorage:", error)
+    console.log("Error clearing AsyncStorage:", error)
   }
 }

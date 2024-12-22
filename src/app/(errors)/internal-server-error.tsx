@@ -2,12 +2,12 @@ import React from "react"
 
 import { Text, View } from "react-native"
 
-function InternalServerError() {
+function InternalServerErrorScreen() {
   return (
     <View>
-      <Text>InternalServerError</Text>
+      <Text>InternalServerErrorScreen</Text>
     </View>
   )
 }
 
-export default InternalServerError
+export default InternalServerErrorScreen

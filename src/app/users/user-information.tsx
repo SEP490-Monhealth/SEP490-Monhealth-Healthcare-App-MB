@@ -2,6 +2,7 @@ import React from "react"
 
 import { Text } from "react-native"
 
+import { informationItems } from "@/config/site"
 import { Edit2 } from "iconsax-react-native"
 
 import {
@@ -19,7 +20,6 @@ import {
 } from "@/components/local/tabs/profile"
 
 import { COLORS } from "@/constants/app"
-import { accountItems, informationItems } from "@/constants/site"
 
 function UserInformationScreen() {
   const defaultAvatar =

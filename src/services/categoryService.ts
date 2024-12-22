@@ -1,3 +1,5 @@
+import axios from "axios"
+
 import monAPI from "@/lib/monAPI"
 
 import { CategoryType } from "@/schemas/categorySchema"
@@ -7,9 +9,11 @@ export const getAllCategories = async (): Promise<CategoryType> => {
     const response = await monAPI.get(`/categories`)
 
     if (!response || !response.data) {
-      throw new Error(
-        "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn."
-      )
+      throw {
+        isCustomError: true,
+        message:
+          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn."
+      }
     }
 
     const { success, message, data } = response.data
@@ -17,13 +21,21 @@ export const getAllCategories = async (): Promise<CategoryType> => {
     if (success) {
       return data as CategoryType
     } else {
-      throw new Error(message || "Không thể lấy danh sách danh mục.")
+      throw {
+        isCustomError: true,
+        message: message || "Không thể lấy danh sách danh mục."
+      }
     }
   } catch (error: any) {
-    const errorMessage = error.response?.data?.message
-      ? `Lỗi từ máy chủ: ${error.response.data.message}`
-      : error.message || "Đã xảy ra lỗi không mong muốn, vui lòng thử lại sau."
-    console.error("Lỗi khi lấy danh sách danh mục:", errorMessage)
-    throw new Error(errorMessage)
+    if (axios.isAxiosError(error)) {
+      console.log("Lỗi từ server:", error.response?.data || error.message)
+      throw error
+    } else {
+      console.log("Lỗi không phải Axios:", error)
+      throw {
+        isCustomError: true,
+        message: "Đã xảy ra lỗi không mong muốn."
+      }
+    }
   }
 }

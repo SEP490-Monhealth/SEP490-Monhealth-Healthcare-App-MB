@@ -2,7 +2,6 @@ import React from "react"
 
 import { Text, TouchableOpacity } from "react-native"
 
-import clsx from "clsx"
 import { ArrowDown2 } from "iconsax-react-native"
 
 import { cn } from "@/lib/utils"
@@ -31,7 +30,7 @@ export const Select = ({
       style={{ height: 52 }}
     >
       <Text
-        className={clsx(
+        className={cn(
           "flex-1 text-base",
           value ? "font-tmedium text-primary" : "font-tmedium text-accent"
         )}

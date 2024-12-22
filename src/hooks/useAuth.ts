@@ -26,7 +26,7 @@ const storeTokens = async (accessToken: string, refreshToken: string) => {
     await AsyncStorage.setItem("accessToken", accessToken)
     await AsyncStorage.setItem("refreshToken", refreshToken)
   } catch (error) {
-    console.error("Lỗi khi lưu token:", error)
+    console.log("Lỗi khi lưu token:", error)
     throw new Error("Không thể lưu trữ token, vui lòng thử lại.")
   }
 }
@@ -36,7 +36,7 @@ const removeTokens = async () => {
     await AsyncStorage.removeItem("accessToken")
     await AsyncStorage.removeItem("refreshToken")
   } catch (error) {
-    console.error("Lỗi khi xóa token:", error)
+    console.log("Lỗi khi xóa token:", error)
     throw new Error("Không thể xóa token, vui lòng thử lại.")
   }
 }

@@ -1,4 +1,4 @@
-import AsyncStorage from "@react-native-async-storage/async-storage"
+import axios from "axios"
 
 import monAPI from "@/lib/monAPI"
 
@@ -16,7 +16,10 @@ export const login = async (
     const response = await monAPI.post(`/auth/login`, { phoneNumber, password })
 
     if (!response || !response.data) {
-      throw new Error("Không nhận được phản hồi từ máy chủ.")
+      throw {
+        isCustomError: true,
+        message: "Không nhận được phản hồi từ máy chủ."
+      }
     }
 
     const { success, message, data } = response.data
@@ -28,15 +31,25 @@ export const login = async (
         expiredAt: data.expiredAt
       }
     } else {
-      throw new Error(message || "Đăng nhập không thành công.")
+      throw {
+        isCustomError: true,
+        message: message || "Đăng nhập không thành công."
+      }
     }
   } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message ||
-      error.message ||
-      "Đã xảy ra lỗi không mong muốn, vui lòng thử lại sau."
-    console.error("Lỗi khi đăng nhập:", errorMessage)
-    throw new Error(errorMessage)
+    if (axios.isAxiosError(error)) {
+      console.log(
+        "Lỗi từ server (login):",
+        error.response?.data || error.message
+      )
+      throw error
+    } else {
+      console.log("Lỗi không phải Axios (login):", error)
+      throw {
+        isCustomError: true,
+        message: "Đã xảy ra lỗi không mong muốn."
+      }
+    }
   }
 }
 
@@ -55,15 +68,25 @@ export const register = async (
     })
 
     if (!response || !response.data?.success) {
-      throw new Error(response?.data?.message || "Đăng ký tài khoản thất bại.")
+      throw {
+        isCustomError: true,
+        message: response?.data?.message || "Đăng ký tài khoản thất bại."
+      }
     }
   } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message ||
-      error.message ||
-      "Đã xảy ra lỗi không mong muốn, vui lòng thử lại sau."
-    console.error("Lỗi khi đăng ký tài khoản:", errorMessage)
-    throw new Error(errorMessage)
+    if (axios.isAxiosError(error)) {
+      console.log(
+        "Lỗi từ server (register):",
+        error.response?.data || error.message
+      )
+      throw error
+    } else {
+      console.log("Lỗi không phải Axios (register):", error)
+      throw {
+        isCustomError: true,
+        message: "Đã xảy ra lỗi không mong muốn."
+      }
+    }
   }
 }
 
@@ -72,14 +95,24 @@ export const logout = async (): Promise<void> => {
     const response = await monAPI.post(`/auth/logout`)
 
     if (!response || !response.data?.success) {
-      throw new Error(response?.data?.message || "Đăng xuất thất bại.")
+      throw {
+        isCustomError: true,
+        message: response?.data?.message || "Đăng xuất thất bại."
+      }
     }
   } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message ||
-      error.message ||
-      "Đã xảy ra lỗi không mong muốn, vui lòng thử lại sau."
-    console.error("Lỗi khi đăng xuất:", errorMessage)
-    throw new Error(errorMessage)
+    if (axios.isAxiosError(error)) {
+      console.log(
+        "Lỗi từ server (logout):",
+        error.response?.data || error.message
+      )
+      throw error
+    } else {
+      console.log("Lỗi không phải Axios (logout):", error)
+      throw {
+        isCustomError: true,
+        message: "Đã xảy ra lỗi không mong muốn."
+      }
+    }
   }
 }

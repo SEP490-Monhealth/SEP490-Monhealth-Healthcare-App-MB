@@ -4,6 +4,7 @@ import { Text } from "react-native"
 
 import { useRouter } from "expo-router"
 
+import { aboutItems, generalItems } from "@/config/site"
 import { Crown1 } from "iconsax-react-native"
 
 import {
@@ -18,8 +19,6 @@ import {
 import { Header } from "@/components/global/organisms"
 
 import { About, General, HealthStats } from "@/components/local/tabs/profile"
-
-import { aboutItems, generalItems } from "@/constants/site"
 
 function ProfileScreen() {
   const router = useRouter()

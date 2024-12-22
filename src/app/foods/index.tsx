@@ -58,7 +58,7 @@ function FoodsScreen() {
           <Input
             value={searchQuery}
             onChangeText={(text) => setSearchQuery(text)}
-            placeholder="Tìm kiếm tên thức ăn..."
+            placeholder="Tìm kiếm tên món ăn..."
             iconStart={<SearchNormal1 size={20} color={COLORS.primary} />}
             iconEnd={<Scanner size={20} color={COLORS.primary} />}
             iconEndAction={() => router.push("/foods/test-camera")}
@@ -75,7 +75,7 @@ function FoodsScreen() {
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={() => (
             <ListHeader>
-              <Section title="Danh sách thức ăn" />
+              <Section title="Danh sách món ăn" />
             </ListHeader>
           )}
           renderItem={({ item }) => (
@@ -84,10 +84,10 @@ function FoodsScreen() {
               variant="add"
               foodId={item.foodId}
               foodName={item.foodName}
-              calories={item.calories}
-              portionSize={item.portionSize}
-              portionWeight={item.portionWeight}
-              measurementUnit={item.measurementUnit}
+              calories={item.nutrition.calories}
+              portionSize={item.portion.portionSize}
+              portionWeight={item.portion.portionWeight}
+              measurementUnit={item.portion.measurementUnit}
             />
           )}
           ListFooterComponent={<ListFooter />}
