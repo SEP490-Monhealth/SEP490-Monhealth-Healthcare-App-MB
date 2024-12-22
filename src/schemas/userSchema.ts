@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-export const userSchema = z.object({
+export const baseUserSchema = z.object({
   userId: z.string(),
 
   fullName: z
@@ -33,12 +33,14 @@ export const userSchema = z.object({
   avatarUrl: z.string().url({ message: "Avatar không hợp lệ" }).optional(),
   role: z.enum(["User", "Admin"], { message: "Vai trò không hợp lệ" }),
   status: z.boolean(),
-  
+
   createdAt: z.string(),
   updatedAt: z.string()
 })
 
-export const createUpdateUserSchema = userSchema.omit({
+export const userSchema = baseUserSchema
+
+export const createUpdateUserSchema = baseUserSchema.omit({
   userId: true,
   role: true,
   status: true,
@@ -46,25 +48,25 @@ export const createUpdateUserSchema = userSchema.omit({
   updatedAt: true
 })
 
-export const phoneNumberSchema = userSchema.pick({
+export const phoneNumberSchema = baseUserSchema.pick({
   phoneNumber: true
 })
 
-export const passwordSchema = userSchema.pick({
+export const passwordSchema = baseUserSchema.pick({
   password: true
 })
 
 export const resetPasswordSchema = z.object({
-  password: userSchema.shape.password,
-  confirmPassword: userSchema.shape.password
+  password: baseUserSchema.shape.password,
+  confirmPassword: baseUserSchema.shape.password
 })
 
-export const loginUserSchema = userSchema.pick({
+export const loginUserSchema = baseUserSchema.pick({
   phoneNumber: true,
   password: true
 })
 
-export const registerUserSchema = userSchema.pick({
+export const registerUserSchema = baseUserSchema.pick({
   fullName: true,
   email: true,
   phoneNumber: true,

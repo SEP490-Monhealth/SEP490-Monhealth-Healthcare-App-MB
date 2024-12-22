@@ -3,8 +3,9 @@ import { z } from "zod"
 import { nutritionSchema } from "./nutritionSchema"
 import { portionSchema } from "./portionSchema"
 
-export const foodSchema = z.object({
+export const baseFoodSchema = z.object({
   foodId: z.string(),
+  foodType: z.string(),
   category: z.string(),
   foodName: z
     .string()
@@ -29,7 +30,9 @@ export const foodSchema = z.object({
   updatedBy: z.string()
 })
 
-export const createUpdateFoodSchema = foodSchema.omit({
+export const foodSchema = baseFoodSchema
+
+export const createUpdateFoodSchema = baseFoodSchema.omit({
   foodId: true,
   status: true,
   createdAt: true,

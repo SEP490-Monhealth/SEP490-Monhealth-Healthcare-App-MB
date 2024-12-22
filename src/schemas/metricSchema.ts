@@ -2,7 +2,7 @@ import { z } from "zod"
 
 const activityLevels = [1.2, 1.375, 1.55, 1.725]
 
-export const metricSchema = z.object({
+export const baseMetricSchema = z.object({
   metricId: z.string(),
   userId: z.string(),
 
@@ -53,7 +53,9 @@ export const metricSchema = z.object({
   updatedAt: z.string()
 })
 
-export const createUpdateMetricSchema = metricSchema.omit({
+export const metricSchema = baseMetricSchema
+
+export const createUpdateMetricSchema = baseMetricSchema.omit({
   metricId: true,
 
   bmi: true,
