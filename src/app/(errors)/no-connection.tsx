@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 
-import { Text } from "react-native"
-import { Image } from "react-native"
-import { View } from "react-native"
+import { Animated, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -12,43 +10,105 @@ import { Button, Container, VStack } from "@/components/global/atoms"
 
 function NoConnectionScreen() {
   const router = useRouter()
-
   const [isLoading, setIsLoading] = useState(false)
+
+  const fadeAnim = useRef(new Animated.Value(0)).current
+  const scaleAnim = useRef(new Animated.Value(0.5)).current
+  const textFadeAnim = useRef(new Animated.Value(0)).current
+  const textTranslateAnim = useRef(new Animated.Value(20)).current
+
+  useEffect(() => {
+    fadeAnim.setValue(0)
+    scaleAnim.setValue(0.5)
+    textFadeAnim.setValue(0)
+    textTranslateAnim.setValue(20)
+
+    const timeout = setTimeout(() => {
+      Animated.sequence([
+        Animated.parallel([
+          Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 300,
+            useNativeDriver: true
+          }),
+          Animated.sequence([
+            Animated.timing(scaleAnim, {
+              toValue: 1.2,
+              duration: 300,
+              useNativeDriver: true
+            }),
+            Animated.timing(scaleAnim, {
+              toValue: 1,
+              duration: 200,
+              useNativeDriver: true
+            })
+          ])
+        ]),
+        Animated.parallel([
+          Animated.timing(textFadeAnim, {
+            toValue: 1,
+            duration: 300,
+            useNativeDriver: true
+          }),
+          Animated.timing(textTranslateAnim, {
+            toValue: 0,
+            duration: 300,
+            useNativeDriver: true
+          })
+        ])
+      ]).start()
+    }, 500)
+
+    return () => clearTimeout(timeout)
+  }, [fadeAnim, scaleAnim, textFadeAnim, textTranslateAnim])
 
   const handleRetry = () => {
     setIsLoading(true)
     NetInfo.fetch().then((state) => {
       setIsLoading(false)
       if (state.isConnected) {
-        console.log("Có kết nối mạng, Thử lại")
         router.back()
       } else {
-        console.log("Không có kết nối mạng. Vui lòng kiểm tra lại.")
+        console.log("No internet connection. Please try again.")
       }
     })
   }
+
   return (
     <Container className="flex-1 justify-center pb-40">
       <VStack center gap={20}>
         <View className="w-full items-center">
-          <Image
+          <Animated.Image
             source={require("../../../public/images/no-connection-image.png")}
             style={{
               width: 320,
               height: 320,
-              resizeMode: "cover"
+              opacity: fadeAnim,
+              transform: [{ scale: scaleAnim }]
             }}
           />
         </View>
 
         <VStack>
-          <Text className="text-center font-tbold text-3xl text-primary">
+          <Animated.Text
+            style={{
+              opacity: textFadeAnim,
+              transform: [{ translateY: textTranslateAnim }]
+            }}
+            className="text-center font-tbold text-3xl text-primary"
+          >
             Không có kết nối mạng
-          </Text>
+          </Animated.Text>
 
-          <Text className="text-center font-tmedium text-lg text-secondary">
+          <Animated.Text
+            style={{
+              opacity: textFadeAnim,
+              transform: [{ translateY: textTranslateAnim }]
+            }}
+            className="text-center font-tmedium text-lg text-secondary"
+          >
             Vui lòng kiểm tra kết nối internet của bạn và thử lại
-          </Text>
+          </Animated.Text>
         </VStack>
       </VStack>
 
