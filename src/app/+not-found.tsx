@@ -1,6 +1,8 @@
 import React from "react"
 
 import { Text } from "react-native"
+import { Image } from "react-native"
+import { View } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -14,22 +16,34 @@ function NotFoundScreen() {
   }
 
   return (
-    <Container>
-      <VStack className="mt-12 min-h-full">
-        <Text className="font-tbold text-8xl text-primary">404</Text>
-        <Text className="font-tbold text-2xl text-primary">
-          Không tìm thấy trang
-        </Text>
+    <Container className="flex-1 justify-center pb-40">
+      <VStack center gap={20}>
+        <View className="w-full items-center">
+          <Image
+            source={require("../../public/images/no-data-image.png")}
+            style={{
+              width: 320,
+              height: 320,
+              resizeMode: "cover"
+            }}
+          />
+        </View>
 
-        <Text className="font-tmedium text-lg text-secondary">
-          Trang bạn vừa truy cập không tồn tại hoặc đã bị xóa
-        </Text>
+        <VStack>
+          <Text className="text-center font-tbold text-3xl text-primary">
+            Không tìm thấy trang
+          </Text>
+
+          <Text className="text-center font-tmedium text-lg text-secondary">
+            Trang bạn vừa truy cập không tồn tại hoặc đã bị xóa
+          </Text>
+        </VStack>
       </VStack>
 
       <Button
         size="lg"
         onPress={handleBack}
-        className="absolute bottom-16 left-5 right-5 w-full"
+        className="absolute bottom-4 left-6 right-6 w-full"
       >
         Quay lại
       </Button>

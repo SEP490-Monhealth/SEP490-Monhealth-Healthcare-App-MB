@@ -2,7 +2,7 @@ import React from "react"
 
 import { Text } from "react-native"
 
-import { informationItems } from "@/config/site"
+import { accountItems, informationItems } from "@/config/site"
 import { Edit2 } from "iconsax-react-native"
 
 import {

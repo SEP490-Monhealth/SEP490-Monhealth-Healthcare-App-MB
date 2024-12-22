@@ -10,7 +10,7 @@ interface SectionProps {
 }
 
 export const Section = ({ title, margin = true }: SectionProps) => {
-  const marginClass = margin ? "mt-4" : ""
+  const marginClass = margin ? "mt-6" : ""
 
   return (
     <View className={cn("mb-2 ml-0.5", marginClass)}>

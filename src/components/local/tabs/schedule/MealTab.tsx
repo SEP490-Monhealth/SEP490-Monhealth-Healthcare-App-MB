@@ -34,7 +34,7 @@ export const MealTab = ({ foodsData }: MealTabProps) => {
       refreshing={isRefreshing}
       showsVerticalScrollIndicator={false}
       ListHeaderComponent={
-        <ListHeader>
+        <ListHeader className="pb-4">
           <VStack center gap={20}>
             <Schedule initialDate={new Date()} />
 
