@@ -9,7 +9,7 @@ import { ArrowLeft } from "iconsax-react-native"
 import { Button, Container } from "@/components/global/atoms"
 import { IconButton } from "@/components/global/molecules"
 
-import { COLORS } from "@/constants/appConstants"
+import { COLORS } from "@/constants/app"
 
 function OTPVerificationScreen() {
   const router = useRouter()

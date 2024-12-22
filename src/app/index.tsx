@@ -56,7 +56,7 @@ function AppIndex() {
     ]).start()
 
     setTimeout(() => {
-      const isLoggedIn = false
+      const isLoggedIn = true
 
       if (isLoggedIn) {
         router.replace("/(tabs)/home")
@@ -74,7 +74,7 @@ function AppIndex() {
   return (
     <Container className="flex-1 items-center justify-center gap-4 bg-background pb-28">
       <Animated.Image
-        source={require("../../public/images/lemon-juice.png")}
+        source={require("../../public/images/monhealth-splash-image.png")}
         style={{
           width: 80,
           height: 80,

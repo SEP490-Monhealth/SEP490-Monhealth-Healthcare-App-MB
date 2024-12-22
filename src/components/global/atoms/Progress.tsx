@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react"
 
 import { Animated, Text, View } from "react-native"
 
-import { COLORS } from "@/constants/appConstants"
+import { COLORS } from "@/constants/app"
 
 import { cn } from "@/lib/utils"
 

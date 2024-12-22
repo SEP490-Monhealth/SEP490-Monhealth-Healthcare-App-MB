@@ -16,9 +16,7 @@ function ActivityScreen() {
           <Header title="Hoạt động" />
         </View>
 
-        <View>
-          <Carousel items={goalsData} />
-        </View>
+        <View>{/* <Carousel items={goalsData} /> */}</View>
       </SafeAreaView>
     </>
   )

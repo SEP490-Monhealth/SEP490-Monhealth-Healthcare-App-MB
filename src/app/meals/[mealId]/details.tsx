@@ -18,7 +18,7 @@ import { Header, Section } from "@/components/global/organisms"
 
 import { NutritionSummary } from "@/components/local/meals"
 
-import { COLORS } from "@/constants/appConstants"
+import { COLORS } from "@/constants/app"
 import { sampleMealsData } from "@/constants/meals"
 
 import { getMealTypeName } from "@/utils/helpers"

@@ -8,7 +8,7 @@ import { Calendar } from "iconsax-react-native"
 
 import { Card, HStack } from "@/components/global/atoms"
 
-import { COLORS } from "@/constants/appConstants"
+import { COLORS } from "@/constants/app"
 
 import { formatUTCDate } from "@/utils/formatters"
 

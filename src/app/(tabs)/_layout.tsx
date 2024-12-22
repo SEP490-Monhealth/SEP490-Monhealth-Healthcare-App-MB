@@ -11,7 +11,7 @@ import { Tabs } from "expo-router"
 
 import { Calendar, Flash, Home2, Profile, Sound } from "iconsax-react-native"
 
-import { COLORS } from "@/constants/appConstants"
+import { COLORS } from "@/constants/app"
 
 function TabLayout() {
   const primaryColor = COLORS.primary

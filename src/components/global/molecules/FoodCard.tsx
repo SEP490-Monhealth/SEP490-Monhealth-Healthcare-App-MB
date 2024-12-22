@@ -7,7 +7,7 @@ import { useRouter } from "expo-router"
 import { Add } from "iconsax-react-native"
 import { MoreHorizontal } from "lucide-react-native"
 
-import { COLORS } from "@/constants/appConstants"
+import { COLORS } from "@/constants/app"
 
 import { Card, HStack, VStack } from "../atoms"
 import { IconButton } from "./IconButton"

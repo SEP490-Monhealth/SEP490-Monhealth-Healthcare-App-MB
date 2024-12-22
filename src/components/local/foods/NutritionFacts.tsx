@@ -2,16 +2,26 @@ import React from "react"
 
 import { VStack } from "@/components/global/atoms"
 
-import { FoodType } from "@/schemas/foodSchema"
+import { NutritionType } from "@/schemas/nutritionSchema"
 
 import { NutritionItem } from "./NutritionItem"
 
 interface NutritionFactsProps {
-  nutritionData: FoodType
+  nutritionData: NutritionType
 }
 
 export const NutritionFacts = ({ nutritionData }: NutritionFactsProps) => (
   <VStack>
+    <NutritionItem
+      label="Calories"
+      value={200}
+      unit="kcal"
+      subItems={[
+        { label: "From Fat", value: 70, unit: "kcal" },
+        { label: "From Carbs", value: 100, unit: "kcal" }
+      ]}
+    />
+
     <NutritionItem
       label="Năng lượng (Calories)"
       value={nutritionData.calories}

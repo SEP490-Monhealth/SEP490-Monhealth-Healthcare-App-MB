@@ -8,13 +8,50 @@ interface NutritionItemProps {
   label: string
   value: number
   unit: string
+  subItems?: NutritionSubItemProps[]
 }
 
-export const NutritionItem = ({ label, value, unit }: NutritionItemProps) => (
+interface NutritionSubItemProps {
+  label: string
+  value: number
+  unit: string
+}
+
+export const NutritionSubItem = ({
+  label,
+  value,
+  unit
+}: NutritionSubItemProps) => (
+  <HStack className="justify-between py-1 pl-4">
+    <Text className="font-tregular text-sm text-secondary">{label}</Text>
+    <Text className="font-tmedium text-sm text-primary">
+      {value} {unit}
+    </Text>
+  </HStack>
+)
+
+export const NutritionItem = ({
+  label,
+  value,
+  unit,
+  subItems
+}: NutritionItemProps) => (
   <HStack center className="justify-between border-b border-border py-2">
     <Text className="font-tmedium text-base text-secondary">{label}</Text>
     <Text className="font-tmedium text-lg text-primary">
       {value} {unit}
     </Text>
+    {subItems && (
+      <HStack className="mt-2 flex-col">
+        {subItems.map((subItem, index) => (
+          <NutritionSubItem
+            key={index}
+            label={subItem.label}
+            value={subItem.value}
+            unit={subItem.unit}
+          />
+        ))}
+      </HStack>
+    )}
   </HStack>
 )

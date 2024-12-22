@@ -8,7 +8,7 @@ import { Header } from "@/components/global/organisms"
 
 import { MealTab } from "@/components/local/tabs/schedule"
 
-import { COLORS } from "@/constants/appConstants"
+import { COLORS } from "@/constants/app"
 import { sampleFoodsData } from "@/constants/foods"
 
 function ScheduleScreen() {

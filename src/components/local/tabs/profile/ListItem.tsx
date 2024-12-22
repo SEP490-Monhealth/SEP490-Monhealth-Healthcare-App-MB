@@ -4,7 +4,7 @@ import { Text, TouchableOpacity, View } from "react-native"
 
 import { ChevronRight } from "lucide-react-native"
 
-import { COLORS } from "@/constants/appConstants"
+import { COLORS } from "@/constants/app"
 
 interface ListItemProps {
   startIcon?: React.ReactNode

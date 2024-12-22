@@ -7,6 +7,7 @@ import {
   Sms,
   Weight
 } from "iconsax-react-native"
+./app
 import { COLORS } from "./appConstants"
 
 export const informationItems = [

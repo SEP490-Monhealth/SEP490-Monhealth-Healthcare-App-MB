@@ -8,7 +8,7 @@ import { Notification } from "iconsax-react-native"
 import { HStack } from "@/components/global/atoms"
 import { IconButton } from "@/components/global/molecules"
 
-import { COLORS } from "@/constants/appConstants"
+import { COLORS } from "@/constants/app"
 
 import { getGreeting } from "@/utils/helpers"
 

@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useMutation } from "@tanstack/react-query"
 
-import { login, register } from "@/services/authService"
+import { login, logout, register } from "@/services/authService"
 
 interface LoginResponse {
   accessToken: string
@@ -22,8 +22,23 @@ interface RegisterPayload {
 }
 
 const storeTokens = async (accessToken: string, refreshToken: string) => {
-  await AsyncStorage.setItem("accessToken", accessToken)
-  await AsyncStorage.setItem("refreshToken", refreshToken)
+  try {
+    await AsyncStorage.setItem("accessToken", accessToken)
+    await AsyncStorage.setItem("refreshToken", refreshToken)
+  } catch (error) {
+    console.error("Lỗi khi lưu token:", error)
+    throw new Error("Không thể lưu trữ token, vui lòng thử lại.")
+  }
+}
+
+const removeTokens = async () => {
+  try {
+    await AsyncStorage.removeItem("accessToken")
+    await AsyncStorage.removeItem("refreshToken")
+  } catch (error) {
+    console.error("Lỗi khi xóa token:", error)
+    throw new Error("Không thể xóa token, vui lòng thử lại.")
+  }
 }
 
 export const useLogin = () => {
@@ -45,6 +60,15 @@ export const useRegister = () => {
         payload.phoneNumber,
         payload.password
       )
+    }
+  })
+}
+
+export const useLogout = () => {
+  return useMutation<void, Error, void>({
+    mutationFn: async () => {
+      await logout()
+      await removeTokens()
     }
   })
 }

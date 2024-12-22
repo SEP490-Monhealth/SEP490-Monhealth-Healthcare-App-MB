@@ -28,7 +28,7 @@ import { Header } from "@/components/global/organisms"
 
 import { About, General, HealthStats } from "@/components/local/tabs/profile"
 
-import { COLORS } from "@/constants/appConstants"
+import { COLORS } from "@/constants/app"
 
 function ProfileScreen() {
   const router = useRouter()

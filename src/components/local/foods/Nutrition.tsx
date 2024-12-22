@@ -3,19 +3,20 @@ import React from "react"
 import { HStack } from "@/components/global/atoms"
 import { ArcProgress } from "@/components/global/molecules"
 
-import { FoodType } from "@/schemas/foodSchema"
+import { NutritionType } from "@/schemas/nutritionSchema"
 
 import { toFixed2 } from "@/utils/formatters"
 import { getNutritionColor } from "@/utils/helpers"
 
 interface NutritionProps {
-  foodData: FoodType
+  nutritionData: NutritionType
 }
 
-export const Nutrition = ({ foodData }: NutritionProps) => {
-  const proteinFill = ((foodData.protein * 4) / foodData.calories) * 100
-  const carbsFill = ((foodData.carbs * 4) / foodData.calories) * 100
-  const fatFill = ((foodData.fat * 9) / foodData.calories) * 100
+export const Nutrition = ({ nutritionData }: NutritionProps) => {
+  const proteinFill =
+    ((nutritionData.protein * 4) / nutritionData.calories) * 100
+  const carbsFill = ((nutritionData.carbs * 4) / nutritionData.calories) * 100
+  const fatFill = ((nutritionData.fat * 9) / nutritionData.calories) * 100
 
   return (
     <HStack center className="justify-between">

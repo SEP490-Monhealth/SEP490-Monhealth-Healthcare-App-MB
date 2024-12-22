@@ -5,7 +5,7 @@ import { Microphone } from "iconsax-react-native"
 import { Container } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import { COLORS } from "@/constants/appConstants"
+import { COLORS } from "@/constants/app"
 
 function VoiceScreen() {
   return (

@@ -7,7 +7,7 @@ import { Edit2 } from "iconsax-react-native"
 import { Avatar } from "@/components/global/atoms"
 import { IconButton } from "@/components/global/molecules"
 
-import { COLORS } from "@/constants/appConstants"
+import { COLORS } from "@/constants/app"
 
 interface UserAvatarProps {
   size: number

@@ -3,7 +3,7 @@ import React from "react"
 import { Text, View } from "react-native"
 import { AnimatedCircularProgress } from "react-native-circular-progress"
 
-import { COLORS } from "@/constants/appConstants"
+import { COLORS } from "@/constants/app"
 
 import { cn } from "@/lib/utils"
 

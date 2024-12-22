@@ -21,7 +21,7 @@ import { Header, Section } from "@/components/global/organisms"
 
 import { Nutrition, NutritionFacts } from "@/components/local/foods"
 
-import { COLORS } from "@/constants/appConstants"
+import { COLORS } from "@/constants/app"
 import { sampleFoodsData } from "@/constants/foods"
 
 function FoodDetailsScreen() {
@@ -98,8 +98,8 @@ function FoodDetailsScreen() {
                 <Section title="Thông tin dinh dưỡng" />
 
                 <VStack>
-                  <Nutrition foodData={foodData} />
-                  <NutritionFacts nutritionData={foodData} />
+                  <Nutrition nutritionData={foodData.nutrition} />
+                  <NutritionFacts nutritionData={foodData.nutrition} />
                 </VStack>
               </VStack>
 

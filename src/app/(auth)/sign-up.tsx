@@ -19,7 +19,7 @@ import { Controller, useForm } from "react-hook-form"
 import { Button, Container, Input, VStack } from "@/components/global/atoms"
 import { IconButton } from "@/components/global/molecules"
 
-import { COLORS } from "@/constants/appConstants"
+import { COLORS } from "@/constants/app"
 
 import { RegisterUserType, registerUserSchema } from "@/schemas/userSchema"
 

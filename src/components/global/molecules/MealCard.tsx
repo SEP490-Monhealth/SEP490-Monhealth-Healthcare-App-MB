@@ -7,7 +7,7 @@ import { useRouter } from "expo-router"
 
 import { ChevronRight } from "lucide-react-native"
 
-import { COLORS } from "@/constants/appConstants"
+import { COLORS } from "@/constants/app"
 
 import { getMealTypeName } from "@/utils/helpers"
 

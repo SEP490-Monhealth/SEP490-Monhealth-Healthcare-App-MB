@@ -1,4 +1,4 @@
-import { COLORS } from "@/constants/appConstants"
+import { COLORS } from "@/constants/app"
 
 /**
  * Capitalize: Chuyển ký tự đầu tiên thành in hoa

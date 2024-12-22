@@ -4,7 +4,7 @@ import { Text, View } from "react-native"
 
 import { Card } from "@/components/global/atoms"
 
-import { COLORS } from "@/constants/appConstants"
+import { COLORS } from "@/constants/app"
 
 interface HealthStatsProps {
   weight: number
