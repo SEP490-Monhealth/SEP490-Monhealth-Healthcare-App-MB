@@ -34,9 +34,12 @@ export const mealSchema = z.object({
   mealId: z.string(),
   // dailyMealId: z.string(),
   // userId: z.string(),
-  mealType: z.enum(["Breakfast", "Lunch", "Dinner", "Snack"], {
-    message: "Loại bữa ăn không hợp lệ"
-  }),
+  mealType: z
+    .string()
+    .refine((val) => ["Breakfast", "Lunch", "Dinner", "Snack"].includes(val), {
+      message:
+        "Bữa ăn phải là một trong các giá trị: Breakfast, Lunch, Dinner, Snack"
+    }),
 
   calories: z
     .number()
@@ -66,22 +69,9 @@ export const mealSchema = z.object({
   mealFoods: z.array(mealFoodSchema),
 
   createdAt: z.string(),
-  updatedAt: z.string()
-})
-
-export const createUpdateMealSchema = mealSchema.omit({
-  mealId: true,
-  
-  calories: true,
-  protein: true,
-  carbs: true,
-  fat: true,
-  fiber: true,
-  sugar: true,
-
-  createdAt: true,
-  updatedAt: true
+  updatedAt: z.string(),
+  createdBy: z.string(),
+  updatedBy: z.string()
 })
 
 export type MealType = z.infer<typeof mealSchema>
-export type CreateUpdateMealType = z.infer<typeof createUpdateMealSchema>

@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-import { nutritionSchema } from "./nutritionSchema"
+import { nutritionFoodSchema } from "./nutritionSchema"
 import { portionSchema } from "./portionSchema"
 
 export const baseFoodSchema = z.object({
@@ -20,7 +20,7 @@ export const baseFoodSchema = z.object({
     .optional(),
 
   portion: z.object(portionSchema.shape),
-  nutrition: z.object(nutritionSchema.shape),
+  nutrition: z.object(nutritionFoodSchema.shape),
 
   status: z.boolean(),
 
@@ -35,11 +35,16 @@ export const foodSchema = baseFoodSchema.pick({
   foodType: true,
   category: true,
   foodName: true,
+  
+  portion: true,
+
+  nutrition: true
 })
 
 export const createUpdateFoodSchema = baseFoodSchema.omit({
   foodId: true,
   status: true,
+
   createdAt: true,
   updatedAt: true,
   createdBy: true,

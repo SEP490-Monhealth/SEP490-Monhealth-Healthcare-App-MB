@@ -34,6 +34,7 @@ export const Checkbox = ({
         <View
           className={`rounded-full ${innerCircleColor}`}
           style={{ height: size / 2, width: size / 2 }}
+          testID="checkbox-inner-circle"
         />
       )}
     </TouchableOpacity>

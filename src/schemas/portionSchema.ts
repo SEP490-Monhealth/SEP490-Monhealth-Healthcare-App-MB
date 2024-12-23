@@ -17,7 +17,9 @@ const basePortionSchema = z.object({
     .max(20, { message: "Đơn vị đo lường không được dài hơn 20 ký tự" }),
 
   createdAt: z.string(),
-  updatedAt: z.string()
+  updatedAt: z.string(),
+  createdBy: z.string(),
+  updatedBy: z.string()
 })
 
 export const portionSchema = basePortionSchema.omit({

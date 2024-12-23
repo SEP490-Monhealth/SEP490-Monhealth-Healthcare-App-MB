@@ -30,14 +30,36 @@ const baseNutritionSchema = z.object({
     .max(500, { message: "Sugar không được vượt quá 500g" }),
 
   createdAt: z.string(),
-  updatedAt: z.string()
+  updatedAt: z.string(),
+  createdBy: z.string(),
+  updatedBy: z.string()
 })
 
 export const nutritionSchema = baseNutritionSchema.omit({
   nutritionId: true,
   foodId: true,
+
   createdAt: true,
-  updatedAt: true
+  updatedAt: true,
+  createdBy: true,
+  updatedBy: true
+})
+
+export const nutritionFoodSchema = baseNutritionSchema.pick({
+  calories: true
+})
+
+export const createUpdateNutritionSchema = baseNutritionSchema.omit({
+  nutritionId: true,
+  foodId: true,
+  
+  createdAt: true,
+  updatedAt: true,
+  createdBy: true,
+  updatedBy: true
 })
 
 export type NutritionType = z.infer<typeof nutritionSchema>
+export type CreateUpdateNutritionType = z.infer<
+  typeof createUpdateNutritionSchema
+>

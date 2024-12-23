@@ -15,7 +15,7 @@ import { COLORS } from "@/constants/app"
 
 import { useLogin } from "@/hooks/useAuth"
 
-import { LoginUserType, loginUserSchema } from "@/schemas/userSchema"
+import { LoginType, loginSchema } from "@/schemas/userSchema"
 
 function SignInScreen() {
   const router = useRouter()
@@ -27,8 +27,8 @@ function SignInScreen() {
     control,
     handleSubmit,
     formState: { errors }
-  } = useForm<LoginUserType>({
-    resolver: zodResolver(loginUserSchema),
+  } = useForm<LoginType>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       phoneNumber: "0792766979",
       password: "123As@"
@@ -41,7 +41,7 @@ function SignInScreen() {
     router.replace("/(onboarding)/welcome")
   }
 
-  const onSubmit = (data: LoginUserType) => {
+  const onSubmit = (data: LoginType) => {
     setIsLoading(true)
     // console.log(data)
 

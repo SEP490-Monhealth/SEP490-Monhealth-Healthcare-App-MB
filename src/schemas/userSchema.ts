@@ -31,21 +31,38 @@ export const baseUserSchema = z.object({
       message: "Mật khẩu phải chứa ít nhất một ký tự đặc biệt"
     }),
   avatarUrl: z.string().url({ message: "Avatar không hợp lệ" }).optional(),
-  role: z.enum(["User", "Admin"], { message: "Vai trò không hợp lệ" }),
+
+  role: z
+    .string()
+    .refine(
+      (val) => ["Member", "Consultant", "Manager", "Admin"].includes(val),
+      {
+        message:
+          "Vai trò phải là một trong các giá trị: Member, Consultant, Manager, Admin"
+      }
+    ),
+
   status: z.boolean(),
 
   createdAt: z.string(),
-  updatedAt: z.string()
+  updatedAt: z.string(),
+  createdBy: z.string(),
+  updatedBy: z.string()
 })
 
 export const userSchema = baseUserSchema
 
 export const createUpdateUserSchema = baseUserSchema.omit({
   userId: true,
+
   role: true,
+
   status: true,
+
   createdAt: true,
-  updatedAt: true
+  updatedAt: true,
+  createdBy: true,
+  updatedBy: true
 })
 
 export const phoneNumberSchema = baseUserSchema.pick({
@@ -61,12 +78,12 @@ export const resetPasswordSchema = z.object({
   confirmPassword: baseUserSchema.shape.password
 })
 
-export const loginUserSchema = baseUserSchema.pick({
+export const loginSchema = baseUserSchema.pick({
   phoneNumber: true,
   password: true
 })
 
-export const registerUserSchema = baseUserSchema.pick({
+export const registerSchema = baseUserSchema.pick({
   fullName: true,
   email: true,
   phoneNumber: true,
@@ -78,5 +95,5 @@ export type CreateUserType = z.infer<typeof createUpdateUserSchema>
 export type PhoneNumberType = z.infer<typeof phoneNumberSchema>
 export type PasswordType = z.infer<typeof passwordSchema>
 export type ResetPasswordType = z.infer<typeof resetPasswordSchema>
-export type LoginUserType = z.infer<typeof loginUserSchema>
-export type RegisterUserType = z.infer<typeof registerUserSchema>
+export type LoginType = z.infer<typeof loginSchema>
+export type RegisterType = z.infer<typeof registerSchema>

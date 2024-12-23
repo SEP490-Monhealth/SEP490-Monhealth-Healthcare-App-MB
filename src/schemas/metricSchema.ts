@@ -14,7 +14,9 @@ export const baseMetricSchema = z.object({
     },
     { message: "Ngày sinh không được vượt quá ngày hiện tại" }
   ),
-  gender: z.enum(["Male", "Female"], { message: "Giới tính không hợp lệ" }),
+  gender: z.string().refine((val) => ["Male", "Female"].includes(val), {
+    message: "Giới tính không hợp lệ. Chỉ chấp nhận 'Male' hoặc 'Female'"
+  }),
   height: z
     .number()
     .positive({ message: "Chiều cao phải là số dương" })
@@ -50,7 +52,9 @@ export const baseMetricSchema = z.object({
     .max(300, { message: "IBW tối đa là 300 kg" }),
 
   createdAt: z.string(),
-  updatedAt: z.string()
+  updatedAt: z.string(),
+  createdBy: z.string(),
+  updatedBy: z.string()
 })
 
 export const metricSchema = baseMetricSchema

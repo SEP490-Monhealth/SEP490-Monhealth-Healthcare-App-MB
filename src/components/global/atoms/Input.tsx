@@ -11,6 +11,7 @@ import {
 import { X } from "lucide-react-native"
 
 interface InputProps extends TextInputProps {
+  testID?: string
   multiline?: boolean
   numberOfLines?: number
   secureTextEntry?: boolean
@@ -24,11 +25,11 @@ interface InputProps extends TextInputProps {
   clearText?: boolean
   iconEndAction?: () => void
   errorMessage?: string
-  testID?: string
   className?: string
 }
 
 export const Input: React.FC<InputProps> = ({
+  testID,
   multiline = false,
   numberOfLines = 1,
   secureTextEntry = false,
@@ -42,7 +43,6 @@ export const Input: React.FC<InputProps> = ({
   clearText = true,
   iconEndAction,
   errorMessage,
-  testID,
   className = ""
 }: InputProps) => {
   const inputRef = useRef<TextInput>(null)
