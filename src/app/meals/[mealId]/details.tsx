@@ -87,7 +87,7 @@ function MealDetailsScreen() {
 
               <NutritionSummary nutritionData={mealData} />
 
-              <Section title="Chi tiết bữa ăn" />
+              <Section label="Chi tiết bữa ăn" />
             </ListHeader>
           )}
           renderItem={({ item }) => (

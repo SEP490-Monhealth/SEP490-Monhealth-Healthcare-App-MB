@@ -8,6 +8,7 @@ interface ChipProps {
   label: string
   onPress?: () => void
   variant?: "default" | "selected"
+  size?: "md" | "lg"
   selected?: boolean
   icon?: React.ReactNode
   className?: string
@@ -24,27 +25,42 @@ const variantStyles = {
   }
 }
 
+const sizeStyles = {
+  md: {
+    container: "px-3.5 py-1.5 rounded-xl",
+    text: "text-base"
+  },
+  lg: {
+    container: "px-6 py-3 rounded-2xl",
+    text: "text-base"
+  }
+}
+
 export const Chip = ({
   label,
   onPress,
   variant = "default",
+  size = "md",
   selected = false,
   icon,
   className = ""
 }: ChipProps) => {
-  const styles = variantStyles[selected ? "selected" : variant]
+  const variantStyle = variantStyles[selected ? "selected" : variant]
+  const sizeStyle = sizeStyles[size]
 
   return (
     <TouchableOpacity
       activeOpacity={0.7}
       onPress={onPress}
       className={cn(
-        `flex-row items-center rounded-xl border border-border px-3.5 py-1.5 ${styles.container}`,
+        `flex-row items-center border border-border ${variantStyle.container} ${sizeStyle.container}`,
         className
       )}
     >
       {icon && <View className="mr-2">{icon}</View>}
-      <Text className={`font-tmedium text-base ${styles.text}`}>{label}</Text>
+      <Text className={`font-tmedium ${variantStyle.text} ${sizeStyle.text}`}>
+        {label}
+      </Text>
     </TouchableOpacity>
   )
 }

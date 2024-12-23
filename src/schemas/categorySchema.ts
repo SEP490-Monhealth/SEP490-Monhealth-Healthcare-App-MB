@@ -1,5 +1,3 @@
-import { ImageSourcePropType } from "react-native"
-
 import { z } from "zod"
 
 export const baseCategorySchema = z.object({
@@ -18,6 +16,8 @@ export const baseCategorySchema = z.object({
     })
     .optional(),
 
+  categoryImage: z.string().optional(),
+
   createdAt: z.string(),
   updatedAt: z.string(),
   createdBy: z.string(),
@@ -26,14 +26,9 @@ export const baseCategorySchema = z.object({
 
 export const categorySchema = baseCategorySchema.pick({
   categoryId: true,
-  categoryName: true
-})
-
-export const categoryPickerSchema = z.object({
-  categoryId: z.string(),
-  categoryName: z.string(),
-  icon: z.custom<ImageSourcePropType>()
+  categoryName: true,
+  categoryDescription: true,
+  categoryImage: true
 })
 
 export type CategoryType = z.infer<typeof categorySchema>
-export type CategoryPickerType = z.infer<typeof categoryPickerSchema>

@@ -10,13 +10,13 @@ import {
 
 import { X } from "lucide-react-native"
 
-interface InputProps extends TextInputProps {
+type InputProps = Omit<TextInputProps, "value"> & {
   testID?: string
   multiline?: boolean
   numberOfLines?: number
   secureTextEntry?: boolean
   toggleSecureTextEntry?: () => void
-  value?: string
+  value?: string | number
   onChangeText?: (text: string) => void
   placeholder?: string
   keyboardType?: "default" | "numeric" | "email-address" | "phone-pad"
@@ -75,7 +75,7 @@ export const Input: React.FC<InputProps> = ({
           ref={inputRef}
           placeholder={placeholder}
           secureTextEntry={secureTextEntry}
-          value={value}
+          value={value?.toString()}
           keyboardType={keyboardType}
           onChangeText={onChangeText}
           multiline={multiline}

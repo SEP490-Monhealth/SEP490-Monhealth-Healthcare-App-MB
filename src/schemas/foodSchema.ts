@@ -34,13 +34,8 @@ export const foodSchema = baseFoodSchema.pick({
   foodId: true,
   foodType: true,
   category: true,
-  foodName: true
-})
-
-export const foodPickerSchema = baseFoodSchema.pick({
-  foodId: true,
   foodName: true,
-  
+
   portion: true,
 
   nutrition: true
@@ -48,6 +43,7 @@ export const foodPickerSchema = baseFoodSchema.pick({
 
 export const createUpdateFoodSchema = baseFoodSchema.omit({
   foodId: true,
+  
   status: true,
 
   createdAt: true,
@@ -57,5 +53,4 @@ export const createUpdateFoodSchema = baseFoodSchema.omit({
 })
 
 export type FoodType = z.infer<typeof foodSchema>
-export type FoodPickerType = z.infer<typeof foodPickerSchema>
 export type CreateUpdateFoodType = z.infer<typeof createUpdateFoodSchema>

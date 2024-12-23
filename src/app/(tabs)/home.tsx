@@ -129,7 +129,7 @@ function HomeScreen() {
               className="mt-8"
             />
 
-            <Section title="Bữa ăn hôm nay" />
+            <Section label="Bữa ăn hôm nay" />
 
             <VStack gap={12}>
               {mealsData.map((item) => (

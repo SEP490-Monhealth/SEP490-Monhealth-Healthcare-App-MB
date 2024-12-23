@@ -5,7 +5,6 @@ import { Card } from "./Card"
 import { Carousel } from "./Carousel"
 import { Checkbox } from "./Checkbox"
 import { Chip } from "./Chip"
-import { ChipPicker } from "./ChipPicker"
 import { Container } from "./Container"
 import { Content } from "./Content"
 import { Input } from "./Input"
@@ -27,7 +26,6 @@ export {
   Carousel,
   Checkbox,
   Chip,
-  ChipPicker,
   Container,
   Content,
   Input,

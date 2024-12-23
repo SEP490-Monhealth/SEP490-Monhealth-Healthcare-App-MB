@@ -5,17 +5,17 @@ import { Text, TouchableOpacity, View } from "react-native"
 import { cn } from "@/lib/utils"
 
 interface SectionProps {
-  title: string
+  label: string
   margin?: boolean
-  rightTitle?: string
+  action?: string
   onPress?: () => void
   className?: string
 }
 
 export const Section = ({
-  title,
+  label,
   margin = true,
-  rightTitle,
+  action,
   onPress,
   className
 }: SectionProps) => {
@@ -29,13 +29,11 @@ export const Section = ({
         className
       )}
     >
-      <Text className="font-tbold text-xl text-primary">{title}</Text>
+      <Text className="font-tmedium text-xl text-primary">{label}</Text>
 
-      {rightTitle && (
+      {action && (
         <TouchableOpacity activeOpacity={0.7} onPress={onPress}>
-          <Text className="font-tregular text-base text-primary">
-            {rightTitle}
-          </Text>
+          <Text className="font-tregular text-base text-primary">{action}</Text>
         </TouchableOpacity>
       )}
     </View>

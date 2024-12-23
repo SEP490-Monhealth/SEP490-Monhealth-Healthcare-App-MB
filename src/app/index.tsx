@@ -56,7 +56,7 @@ function AppIndex() {
     ]).start()
 
     setTimeout(() => {
-      const isLoggedIn = false
+      const isLoggedIn = true
 
       if (isLoggedIn) {
         router.replace("/(tabs)/home")

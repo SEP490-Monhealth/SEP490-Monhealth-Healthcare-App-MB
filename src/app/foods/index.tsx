@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 
-import { ActivityIndicator, FlatList, View } from "react-native"
+import { ActivityIndicator, FlatList, Text, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -131,15 +131,15 @@ function FoodsScreen() {
             onRefresh={onRefresh}
             refreshing={isRefreshing}
             onEndReached={onEndReached}
-            onEndReachedThreshold={0.5}
+            onEndReachedThreshold={1}
             showsVerticalScrollIndicator={false}
             stickyHeaderIndices={[0]}
             ListHeaderComponent={() => (
               <ListHeader className="pt-6">
                 <FoodCategories categoriesData={categoriesData || []} />
                 <Section
-                  title="Danh sách món ăn"
-                  rightTitle="Món ăn của tôi"
+                  label="Danh sách món ăn"
+                  action="Món ăn của tôi"
                   onPress={() => console.log("Món ăn của tôi")}
                   className="mt-6"
                 />
@@ -152,6 +152,11 @@ function FoodsScreen() {
                 foodId={item.foodId}
                 foodName={item.foodName}
               />
+            )}
+            ListEmptyComponent={() => (
+              <Text className="mt-2 text-center text-primary">
+                Không có kết quả tìm kiếm nào.
+              </Text>
             )}
             ListFooterComponent={
               hasMore ? (

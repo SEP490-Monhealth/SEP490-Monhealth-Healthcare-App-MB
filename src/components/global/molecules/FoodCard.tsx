@@ -47,9 +47,9 @@ export const FoodCard = ({
         <VStack gap={0} className="ml-1" onPress={handleViewFood}>
           <Text className="font-tmedium text-lg text-primary">{foodName}</Text>
           <Text className="font-tmedium text-sm text-accent">
-            {calories} kcal{portionSize && ` • ${portionSize}`} •{" "}
-            {portionWeight}
-            {measurementUnit}
+            {calories ?? 0} kcal
+            {portionSize ? ` • ${portionSize}` : " • 1 phần"} •{" "}
+            {portionWeight ?? 0} {measurementUnit ?? "g"}
           </Text>
         </VStack>
 

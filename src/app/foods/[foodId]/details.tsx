@@ -66,7 +66,7 @@ function FoodDetailsScreen() {
           <ScrollArea>
             <View className="mt-2 pb-12">
               <VStack>
-                <Section title="Khẩu phần ăn" margin={false} />
+                <Section label="Khẩu phần ăn" margin={false} />
 
                 <VStack gap={8}>
                   <Select
@@ -98,7 +98,7 @@ function FoodDetailsScreen() {
               </VStack>
 
               <VStack gap={8}>
-                <Section title="Thông tin dinh dưỡng" />
+                <Section label="Thông tin dinh dưỡng" />
 
                 {/* <VStack>
                   <Nutrition nutritionData={foodData.nutrition} />
@@ -107,7 +107,7 @@ function FoodDetailsScreen() {
               </VStack>
 
               <VStack gap={8}>
-                <Section title="Hoạt động" />
+                <Section label="Hoạt động" />
               </VStack>
             </View>
           </ScrollArea>
