@@ -31,7 +31,7 @@ monAPI.interceptors.request.use(
 
 monAPI.interceptors.response.use(
   (response) => {
-    console.log("Phản hồi từ máy chủ:", response)
+    // console.log("Phản hồi từ máy chủ:", response)
     return response
   },
   (error) => {

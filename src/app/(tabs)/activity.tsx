@@ -3,9 +3,10 @@ import React from "react"
 import { View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 
-import Categories from "@/components/global/atoms/Category"
 // import { Carousel } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
+
+import { FoodCategories } from "@/components/local/foods"
 
 import { categoriesData } from "@/constants/categories"
 
@@ -22,10 +23,6 @@ function ActivityScreen() {
         {/* <View>
           <Carousel items={goalsData} />
         </View> */}
-
-        <View className="h-fit px-6">
-          <Categories data={categoriesData} isMultiple={true} />
-        </View>
       </SafeAreaView>
     </>
   )

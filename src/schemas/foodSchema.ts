@@ -30,7 +30,12 @@ export const baseFoodSchema = z.object({
   updatedBy: z.string()
 })
 
-export const foodSchema = baseFoodSchema
+export const foodSchema = baseFoodSchema.pick({
+  foodId: true,
+  foodType: true,
+  category: true,
+  foodName: true,
+})
 
 export const createUpdateFoodSchema = baseFoodSchema.omit({
   foodId: true,

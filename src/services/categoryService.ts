@@ -4,7 +4,7 @@ import monAPI from "@/lib/monAPI"
 
 import { CategoryType } from "@/schemas/categorySchema"
 
-export const getAllCategories = async (): Promise<CategoryType> => {
+export const getAllCategories = async (): Promise<CategoryType[]> => {
   try {
     const response = await monAPI.get(`/categories`)
 
@@ -16,10 +16,10 @@ export const getAllCategories = async (): Promise<CategoryType> => {
       }
     }
 
-    const { success, message, data } = response.data
+    const { success, message, data: categories } = response.data
 
     if (success) {
-      return data as CategoryType
+      return categories as CategoryType[]
     } else {
       throw {
         isCustomError: true,

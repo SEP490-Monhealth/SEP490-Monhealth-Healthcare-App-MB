@@ -10,7 +10,7 @@ interface AboutProps {
   aboutItems: {
     icon: React.ReactNode
     label: string
-    onPress: () => void
+    route: string
   }[]
 }
 
@@ -24,7 +24,7 @@ export const About = ({ aboutItems }: AboutProps) => {
           key={index}
           startIcon={item.icon}
           label={item.label}
-          onPress={item.onPress}
+          route={item.route}
         />
       ))}
     </Card>

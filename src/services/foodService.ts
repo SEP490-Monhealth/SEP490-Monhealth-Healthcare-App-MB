@@ -12,7 +12,7 @@ interface FoodResponse {
 
 export const getAllFoods = async (
   page: number,
-  limit: number,
+  limit?: number,
   search?: string,
   status?: boolean
 ): Promise<FoodResponse> => {

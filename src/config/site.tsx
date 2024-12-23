@@ -1,5 +1,3 @@
-import { useRouter } from "expo-router"
-
 import {
   AlignVertically,
   Calendar,
@@ -19,45 +17,33 @@ import {
 
 import { COLORS } from "@/constants/app"
 
-const router = useRouter()
-
 export const generalItems = [
   {
     icon: <Profile variant="Bold" size={24} color={COLORS.secondary} />,
     label: "Hồ sơ cá nhân",
-    onPress: () => {
-      router.push("/users/user-information")
-    }
+    route: "/users/user-information"
   },
   {
     icon: <Command variant="Bold" size={24} color={COLORS.secondary} />,
     label: "Theo dõi sức khỏe",
-    onPress: () => {
-      router.push("/users/health-tracking")
-    }
+    route: "/users/health-tracking"
   },
   {
     icon: <Chart2 variant="Bold" size={24} color={COLORS.secondary} />,
     label: "Thống kê sức khỏe",
-    onPress: () => {
-      router.push("/users/health-stats")
-    }
+    route: "/users/health-stats"
   },
   {
     icon: (
       <NotificationStatus variant="Bold" size={24} color={COLORS.secondary} />
     ),
     label: "Nhắc nhở",
-    onPress: () => {
-      router.push("/users/reminders")
-    }
+    route: "/users/reminders"
   },
   {
     icon: <Lock1 variant="Bold" size={24} color={COLORS.secondary} />,
     label: "Cài đặt bảo mật",
-    onPress: () => {
-      router.push("/users/security-settings")
-    }
+    route: "/users/security-settings"
   }
 ]
 
@@ -65,16 +51,12 @@ export const aboutItems = [
   {
     icon: <I3Dcube variant="Bold" size={24} color={COLORS.secondary} />,
     label: "Thông tin ứng dụng",
-    onPress: () => {
-      router.push("/about")
-    }
+    route: "/about"
   },
   {
     icon: <Verify variant="Bold" size={24} color={COLORS.secondary} />,
     label: "Phản hồi và đánh giá",
-    onPress: () => {
-      router.push("/feedback")
-    }
+    route: "/feedback"
   }
 ]
 

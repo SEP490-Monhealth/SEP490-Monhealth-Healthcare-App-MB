@@ -22,6 +22,9 @@ export const baseCategorySchema = z.object({
   updatedBy: z.string()
 })
 
-export const categorySchema = baseCategorySchema
+export const categorySchema = baseCategorySchema.pick({
+  categoryId: true,
+  categoryName: true
+})
 
 export type CategoryType = z.infer<typeof categorySchema>

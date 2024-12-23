@@ -16,10 +16,10 @@ interface FoodCardProps {
   variant?: "default" | "add" | "more"
   foodId: string
   foodName: string
-  calories: number
+  calories?: number
   portionSize?: string
-  portionWeight: number
-  measurementUnit: string
+  portionWeight?: number
+  measurementUnit?: string
 }
 
 export const FoodCard = ({

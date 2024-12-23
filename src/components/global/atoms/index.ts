@@ -4,6 +4,7 @@ import { Calendar } from "./Calendar"
 import { Card } from "./Card"
 import { Carousel } from "./Carousel"
 import { Checkbox } from "./Checkbox"
+import { Chip } from "./Chip"
 import { Container } from "./Container"
 import { Content } from "./Content"
 import { Input } from "./Input"
@@ -24,6 +25,7 @@ export {
   Card,
   Carousel,
   Checkbox,
+  Chip,
   Container,
   Content,
   Input,

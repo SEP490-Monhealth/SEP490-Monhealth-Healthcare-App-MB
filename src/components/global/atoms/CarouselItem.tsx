@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Dimensions, Image, Text, View } from "react-native"
+import { Dimensions, Text, View } from "react-native"
 import Animated, {
   Extrapolation,
   SharedValue,

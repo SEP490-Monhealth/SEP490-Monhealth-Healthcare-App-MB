@@ -12,7 +12,7 @@ interface UserResponse {
 
 export const getAllUsers = async (
   page: number,
-  limit: number,
+  limit?: number,
   search?: string,
   role?: string,
   status?: boolean

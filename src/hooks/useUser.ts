@@ -14,7 +14,7 @@ interface UserResponse {
 
 export const useGetAllUsers = (
   page: number,
-  limit: number,
+  limit?: number,
   search?: string,
   role?: string,
   status?: boolean

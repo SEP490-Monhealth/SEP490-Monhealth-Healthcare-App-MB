@@ -9,7 +9,7 @@ import { getAllCategories } from "@/services/categoryService"
 export const useGetAllCategories = () => {
   const handleError = useErrorHandler()
 
-  return useQuery<CategoryType, Error>({
+  return useQuery<CategoryType[], Error>({
     queryKey: ["categories"],
     queryFn: async () => {
       try {
