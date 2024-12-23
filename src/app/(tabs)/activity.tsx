@@ -3,14 +3,14 @@ import React from "react"
 import { View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 
-// import { Carousel } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
 import { FoodCategories } from "@/components/local/foods"
+import { CategoryPicker } from "@/components/local/setup/CategoryPicker"
+import { FoodPicker } from "@/components/local/setup/FoodPicker"
 
 import { categoriesData } from "@/constants/categories"
-
-// import { goalsData } from "@/constants/goals"
+import { foodDataPicker } from "@/constants/foodsPicker"
 
 function ActivityScreen() {
   return (
@@ -23,6 +23,16 @@ function ActivityScreen() {
         {/* <View>
           <Carousel items={goalsData} />
         </View> */}
+
+        <View className="h-fit px-6">
+          <FoodCategories categoriesData={categoriesData} />
+        </View>
+
+        <View className="mb-20 mt-10 px-6">
+          {/* <FoodPicker data={foodDataPicker} /> */}
+
+          <CategoryPicker data={categoriesData} />
+        </View>
       </SafeAreaView>
     </>
   )
