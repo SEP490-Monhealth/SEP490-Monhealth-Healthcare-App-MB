@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react"
 
-import { FlatList, View } from "react-native"
+import { ActivityIndicator, FlatList, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
 import { ArrowLeft, Scanner, SearchNormal1 } from "iconsax-react-native"
 
-import { Container, Content, HStack, Input } from "@/components/global/atoms"
+import {
+  Container,
+  Content,
+  HStack,
+  Input,
+  VStack
+} from "@/components/global/atoms"
 import {
   FoodCard,
   IconButton,
@@ -31,88 +37,75 @@ import LoadingScreen from "../loading"
 function FoodsScreen() {
   const router = useRouter()
 
-  // **State Management**
-  const [limit, setLimit] = useState(5) // Số lượng món ăn mỗi lần tải
-  const [foods, setFoods] = useState<FoodType[]>([]) // Danh sách món ăn
-  const [isRefreshing, setIsRefreshing] = useState(false) // Trạng thái làm mới
-  const [isFetchingMore, setIsFetchingMore] = useState(false) // Trạng thái tải thêm
-  const [searchQuery, setSearchQuery] = useState("") // Ô tìm kiếm
-  const debouncedSearchQuery = useDebounce(searchQuery) // Xử lý debounce
-  const [totalItems, setTotalItems] = useState(0) // Tổng số món ăn từ API
-  const [hasMore, setHasMore] = useState(true) // Trạng thái kiểm tra còn dữ liệu hay không
+  const [limit, setLimit] = useState(10)
+  const [foods, setFoods] = useState<FoodType[]>([])
+  const [isRefreshing, setIsRefreshing] = useState(false)
+  const [isFetchingMore, setIsFetchingMore] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
+  const debouncedSearchQuery = useDebounce(searchQuery)
+  const [totalItems, setTotalItems] = useState(0)
+  const [hasMore, setHasMore] = useState(true)
 
-  // **API Calls**
   const { data: categoriesData, isLoading: isCategoriesLoading } =
     useGetAllCategories()
 
-  const fetchFoods = async (newLimit: number) => {
+  const fetchFoods = async (newLimit: number, search = "") => {
     try {
       const { foods: newFoods, totalItems: total } = await getAllFoods(
         1,
         newLimit,
-        debouncedSearchQuery
+        search
       )
-
-      setFoods(newFoods) // Cập nhật danh sách món ăn
-      setTotalItems(total) // Cập nhật tổng số món ăn
-      setHasMore(newFoods.length < total) // Xác định còn dữ liệu hay không
+      setFoods(newFoods)
+      setTotalItems(total)
+      setHasMore(newFoods.length < total)
     } catch (error) {
       console.error("Error fetching foods:", error)
     }
   }
 
-  // **Initial Data Load**
   useEffect(() => {
     fetchFoods(limit)
-  }, []) // Chỉ gọi một lần khi component mount
+  }, [])
 
-  // **Handle Search**
   useEffect(() => {
-    if (debouncedSearchQuery) {
-      setLimit(5) // Reset limit khi tìm kiếm
-      fetchFoods(5) // Load lại dữ liệu từ đầu
+    if (debouncedSearchQuery !== undefined) {
+      setLimit(10)
+      fetchFoods(10, debouncedSearchQuery)
     }
   }, [debouncedSearchQuery])
 
-  // **Handlers**
   const handleBack = () => router.back()
 
   const onRefresh = async () => {
     if (isRefreshing) return
     setIsRefreshing(true)
-    setLimit(5) // Reset limit khi làm mới
-    await fetchFoods(5) // Làm mới dữ liệu
+    setLimit(10)
+    await fetchFoods(10)
     setIsRefreshing(false)
   }
 
   const loadMoreFoods = async () => {
-    if (isFetchingMore || !hasMore) return // Ngăn gọi API nếu đang tải hoặc đã tải hết
+    if (isFetchingMore || !hasMore) return
     setIsFetchingMore(true)
 
-    // Chỉ tăng giới hạn nếu còn dữ liệu
-    const newLimit = Math.min(limit + 5, totalItems)
+    const newLimit = Math.min(limit + 10, totalItems)
     setLimit(newLimit)
-    await fetchFoods(newLimit)
+    await fetchFoods(newLimit, debouncedSearchQuery)
     setIsFetchingMore(false)
   }
 
-  // **Prevent Extra Loads**
   const onEndReached = async () => {
-    if (foods.length >= totalItems || isFetchingMore) return // Ngăn tải nếu đã hết dữ liệu
+    if (foods.length >= totalItems || isFetchingMore) return
     loadMoreFoods()
   }
 
-  console.log(`Current Limit: ${limit}, Total Items: ${totalItems}`)
-
-  // **Loading State**
   if (isCategoriesLoading && !categoriesData) {
     return <LoadingScreen />
   }
 
-  // **Render**
   return (
     <Container>
-      {/* Header */}
       <HStack center gap={20} className="min-h-14 justify-between">
         <IconButton
           icon={<ArrowLeft size={24} color={COLORS.primary} />}
@@ -130,34 +123,50 @@ function FoodsScreen() {
         </View>
       </HStack>
 
-      {/* Content */}
-      <Content>
-        <FlatList
-          data={foods}
-          keyExtractor={(item) => item.foodId}
-          onRefresh={onRefresh}
-          refreshing={isRefreshing}
-          onEndReached={onEndReached}
-          onEndReachedThreshold={0.1}
-          showsVerticalScrollIndicator={false}
-          ListHeaderComponent={() => (
-            <ListHeader className="pt-6">
-              <FoodCategories categoriesData={categoriesData || []} />
-              <Section title="Danh sách món ăn" />
-            </ListHeader>
-          )}
-          renderItem={({ item }) => (
-            <FoodCard
-              key={item.foodId}
-              variant="add"
-              foodId={item.foodId}
-              foodName={item.foodName}
-            />
-          )}
-          ListFooterComponent={<ListFooter />}
-          ItemSeparatorComponent={() => <View className="h-3" />}
-          stickyHeaderIndices={[0]}
-        />
+      <Content margin={false}>
+        <VStack center className="pb-12">
+          <FlatList
+            data={foods}
+            keyExtractor={(item) => item.foodId}
+            onRefresh={onRefresh}
+            refreshing={isRefreshing}
+            onEndReached={onEndReached}
+            onEndReachedThreshold={0.5}
+            showsVerticalScrollIndicator={false}
+            stickyHeaderIndices={[0]}
+            ListHeaderComponent={() => (
+              <ListHeader className="pt-6">
+                <FoodCategories categoriesData={categoriesData || []} />
+                <Section
+                  title="Danh sách món ăn"
+                  rightTitle="Món ăn của tôi"
+                  onPress={() => console.log("Món ăn của tôi")}
+                  className="mt-6"
+                />
+              </ListHeader>
+            )}
+            renderItem={({ item }) => (
+              <FoodCard
+                key={item.foodId}
+                variant="add"
+                foodId={item.foodId}
+                foodName={item.foodName}
+              />
+            )}
+            ListFooterComponent={
+              hasMore ? (
+                <ListFooter>
+                  {isFetchingMore && (
+                    <ActivityIndicator color={COLORS.primary} />
+                  )}
+                </ListFooter>
+              ) : (
+                <ListFooter />
+              )
+            }
+            ItemSeparatorComponent={() => <View className="h-3" />}
+          />
+        </VStack>
       </Content>
     </Container>
   )

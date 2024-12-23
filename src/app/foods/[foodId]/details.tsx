@@ -4,7 +4,6 @@ import { SafeAreaView, Text, View } from "react-native"
 
 import { useLocalSearchParams, useRouter } from "expo-router"
 
-import InternalServerErrorScreen from "@/app/(errors)/internal-server-error"
 import LoadingScreen from "@/app/loading"
 import { ArchiveTick } from "iconsax-react-native"
 
@@ -32,13 +31,7 @@ function FoodDetailsScreen() {
   const { foodId } = useLocalSearchParams() as { foodId: string }
   // const foodData = sampleFoodsData.find((item) => item.foodId === foodId)
 
-  const {
-    data: foodData,
-    isLoading,
-    isError,
-    error,
-    isFetching
-  } = useGetFoodById(foodId)
+  const { data: foodData, isLoading, isFetching } = useGetFoodById(foodId)
 
   const isSaved = false
 
@@ -107,10 +100,10 @@ function FoodDetailsScreen() {
               <VStack gap={8}>
                 <Section title="Thông tin dinh dưỡng" />
 
-                <VStack>
+                {/* <VStack>
                   <Nutrition nutritionData={foodData.nutrition} />
                   <NutritionFacts nutritionData={foodData.nutrition} />
-                </VStack>
+                </VStack> */}
               </VStack>
 
               <VStack gap={8}>

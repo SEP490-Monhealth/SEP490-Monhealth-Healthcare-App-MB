@@ -39,12 +39,12 @@ export const Chip = ({
       activeOpacity={0.7}
       onPress={onPress}
       className={cn(
-        `flex-row items-center rounded-xl border border-border px-4 py-1.5 ${styles.container}`,
+        `flex-row items-center rounded-xl border border-border px-3.5 py-1.5 ${styles.container}`,
         className
       )}
     >
       {icon && <View className="mr-2">{icon}</View>}
-      <Text className={`font-tmedium text-sm ${styles.text}`}>{label}</Text>
+      <Text className={`font-tmedium text-base ${styles.text}`}>{label}</Text>
     </TouchableOpacity>
   )
 }

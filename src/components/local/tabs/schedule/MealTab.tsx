@@ -33,6 +33,7 @@ export const MealTab = ({ foodsData }: MealTabProps) => {
       onRefresh={onRefresh}
       refreshing={isRefreshing}
       showsVerticalScrollIndicator={false}
+      stickyHeaderIndices={[0]}
       ListHeaderComponent={
         <ListHeader className="pb-4">
           <VStack center gap={20}>
@@ -61,7 +62,6 @@ export const MealTab = ({ foodsData }: MealTabProps) => {
       )}
       ListFooterComponent={<ListFooter />}
       ItemSeparatorComponent={() => <View className="h-3" />}
-      stickyHeaderIndices={[0]}
     />
   )
 }
