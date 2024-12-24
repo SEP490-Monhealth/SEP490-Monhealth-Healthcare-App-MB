@@ -37,9 +37,9 @@ function PortionCreateScreen() {
   } = useForm<PortionType>({
     resolver: zodResolver(portionSchema),
     defaultValues: {
-      portionSize: "1 phần",
-      portionWeight: 100,
-      measurementUnit: "g"
+      size: "1 phần",
+      weight: 100,
+      unit: "g"
     }
   })
 
@@ -55,7 +55,7 @@ function PortionCreateScreen() {
 
   const onUnitSelect = (unit: string) => {
     setSelectedUnit(unit)
-    setValue("measurementUnit", unit)
+    setValue("unit", unit)
     closeSheet()
   }
 
@@ -73,7 +73,7 @@ function PortionCreateScreen() {
             <VStack gap={20} className="mt-2">
               <VStack gap={8}>
                 <Controller
-                  name="portionSize"
+                  name="size"
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <Input
@@ -81,7 +81,7 @@ function PortionCreateScreen() {
                       onChangeText={onChange}
                       placeholder="Nhập khẩu phần ăn"
                       keyboardType="default"
-                      errorMessage={errors.portionSize?.message}
+                      errorMessage={errors.size?.message}
                     />
                   )}
                 />
@@ -89,7 +89,7 @@ function PortionCreateScreen() {
                 <HStack center gap={8}>
                   <View style={{ flex: 1 }}>
                     <Controller
-                      name="portionWeight"
+                      name="weight"
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <Input
@@ -100,7 +100,7 @@ function PortionCreateScreen() {
                           placeholder="1"
                           keyboardType="numeric"
                           clearText={false}
-                          errorMessage={errors.portionWeight?.message}
+                          errorMessage={errors.weight?.message}
                         />
                       )}
                     />

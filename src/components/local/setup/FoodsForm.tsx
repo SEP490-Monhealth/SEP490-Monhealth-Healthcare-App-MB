@@ -14,7 +14,7 @@ export const FoodsForm = () => {
   const foods =
     foodsData?.foods.map((f) => ({
       foodId: f.foodId,
-      foodName: f.foodName
+      name: f.name
     })) || []
 
   const handleSelectFood = (food: string) => {
@@ -34,9 +34,9 @@ export const FoodsForm = () => {
           <Chip
             key={food.foodId}
             size="lg"
-            label={food.foodName}
+            label={food.name}
             selected={selectedFoods.includes(food.foodId)}
-            onPress={() => handleSelectFood(food.foodName)}
+            onPress={() => handleSelectFood(food.name)}
             className={index === foods.length - 1 ? "" : "mb-4"}
           />
         ))}

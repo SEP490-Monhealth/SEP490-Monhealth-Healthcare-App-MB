@@ -3,14 +3,14 @@ import { z } from "zod"
 const basePortionSchema = z.object({
   portionId: z.string(),
   foodId: z.string(),
-  portionSize: z.string().optional(),
-  portionWeight: z
+  size: z.string().optional(),
+  weight: z
     .number()
     .positive({ message: "Khối lượng phần ăn phải là số dương" })
     .max(10000, {
       message: "Khối lượng phần ăn không được vượt quá 10,000 gram"
     }),
-  measurementUnit: z
+  unit: z
     .string()
     .min(1, { message: "Đơn vị đo lường không được để trống" })
     .max(20, { message: "Đơn vị đo lường không được dài hơn 20 ký tự" }),

@@ -16,8 +16,8 @@ export const CategoriesForm = () => {
   const categories =
     categoriesData?.map((c) => ({
       categoryId: c.categoryId,
-      categoryName: c.categoryName,
-      categoryDescription: c.categoryDescription,
+      name: c.name,
+      description: c.description,
       categoryImage: c.categoryImage
     })) || []
 
@@ -38,7 +38,7 @@ export const CategoriesForm = () => {
           <Chip
             key={category.categoryId}
             size="lg"
-            label={category.categoryName}
+            label={category.name}
             icon={
               <Image
                 source={
@@ -49,8 +49,8 @@ export const CategoriesForm = () => {
                 style={{ width: 36, height: 36, marginRight: 12 }}
               />
             }
-            selected={selectedCategories.includes(category.categoryName)}
-            onPress={() => handleSelectCategory(category.categoryName)}
+            selected={selectedCategories.includes(category.name)}
+            onPress={() => handleSelectCategory(category.name)}
             className={index === categories.length - 1 ? "" : "mb-4"}
           />
         ))}

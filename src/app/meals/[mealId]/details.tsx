@@ -94,11 +94,11 @@ function MealDetailsScreen() {
             <FoodCard
               key={item.foodId}
               foodId={item.foodId}
-              foodName={item.foodName}
+              name={item.name}
               calories={item.calories}
-              portionSize={item.portionSize}
-              portionWeight={item.portionWeight}
-              measurementUnit={item.measurementUnit}
+              size={item.size}
+              weight={item.weight}
+              unit={item.unit}
             />
           )}
           ListFooterComponent={<ListFooter />}

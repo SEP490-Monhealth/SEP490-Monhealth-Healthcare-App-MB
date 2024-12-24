@@ -150,7 +150,7 @@ function FoodsScreen() {
                 key={item.foodId}
                 variant="add"
                 foodId={item.foodId}
-                foodName={item.foodName}
+                name={item.name}
               />
             )}
             ListEmptyComponent={() => (

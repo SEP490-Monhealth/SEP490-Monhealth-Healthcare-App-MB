@@ -2,39 +2,59 @@ import { FoodType } from "@/schemas/foodSchema"
 
 export const sampleFoodsData: FoodType[] = [
   {
-    foodId: "72403979-2c88-4437-81b3-e4d7443bd0cf",
-    foodType: "Public",
-    category: "5e9ee573-bf7c-4d5b-9cdf-988daaa7017f",
-    foodName: "Cơm"
+    foodId: "599cfc95-4108-4dcc-9c5a-077173251f8b",
+    type: "Public",
+    category: "4c35b262-4c08-4624-900b-e22ba8988c92",
+    name: "Cơm",
+    portion: {
+      size: "1",
+      weight: 100,
+      unit: "g"
+    },
+    nutrition: {
+      calories: 130
+    }
   },
   {
-    foodId: "ddc5f97a-749f-4334-bd6d-dfecb47d913a",
-    foodType: "Public",
-    category: "5e9ee573-bf7c-4d5b-9cdf-988daaa7017f",
-    foodName: "Bánh mì"
+    foodId: "08b5c5da-4b0c-48f3-98fc-33420bdf8163",
+    type: "Public",
+    category: "cd017b8a-fbed-4399-99ed-b59eec9b9551",
+    name: "Bánh mì",
+    portion: {
+      size: "1",
+      weight: 100,
+      unit: "g"
+    },
+    nutrition: {
+      calories: 265
+    }
   },
   {
-    foodId: "7c58b4ed-d697-4c86-affe-7810ef7c6b0d",
-    foodType: "Public",
-    category: "5e9ee573-bf7c-4d5b-9cdf-988daaa7017f",
-    foodName: "Chuối"
+    foodId: "a989c8db-7506-467f-8aba-dce042f68eea",
+    type: "Public",
+    category: "19fe32e8-9e15-486b-9398-f0116cd5019a",
+    name: "Chuối",
+    portion: {
+      size: "1",
+      weight: 100,
+      unit: "g"
+    },
+    nutrition: {
+      calories: 89
+    }
   },
   {
-    foodId: "c70ab971-bd64-4557-ae05-df9a5599e154",
-    foodType: "Public",
-    category: "5e9ee573-bf7c-4d5b-9cdf-988daaa7017f",
-    foodName: "Bún bò huế"
-  },
-  {
-    foodId: "16de3ed1-d0ec-47e8-851b-80d6ba872a26",
-    foodType: "Public",
-    category: "5e9ee573-bf7c-4d5b-9cdf-988daaa7017f",
-    foodName: "Táo"
-  },
-  {
-    foodId: "11adf317-b001-4df7-bd1c-a4d1934c48f2",
-    foodType: "Public",
-    category: "5e9ee573-bf7c-4d5b-9cdf-988daaa7017f",
-    foodName: "Cơm tấm sườn"
+    foodId: "c42e7f00-ea31-430a-ac28-8d6e749b7eca",
+    type: "Public",
+    category: "99052f16-54f5-4456-80f8-1691db7c90f2",
+    name: "Trứng gà luộc",
+    portion: {
+      size: "1",
+      weight: 100,
+      unit: "g"
+    },
+    nutrition: {
+      calories: 155
+    }
   }
 ]

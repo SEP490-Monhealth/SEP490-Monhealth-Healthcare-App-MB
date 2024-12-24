@@ -15,7 +15,7 @@ export const FoodCategories = ({ categoriesData }: FoodCategoryProps) => {
 
   const categories = [
     "Tất cả",
-    ...(categoriesData?.map((cat) => cat.categoryName) || [])
+    ...(categoriesData?.map((cat) => cat.name) || [])
   ]
 
   const handleSelectCategory = (category: string) => {

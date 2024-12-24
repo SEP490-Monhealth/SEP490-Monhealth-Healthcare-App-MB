@@ -15,21 +15,21 @@ import { IconButton } from "./IconButton"
 interface FoodCardProps {
   variant?: "default" | "add" | "more"
   foodId: string
-  foodName: string
+  name: string
   calories?: number
-  portionSize?: string
-  portionWeight?: number
-  measurementUnit?: string
+  size?: string
+  weight?: number
+  unit?: string
 }
 
 export const FoodCard = ({
   variant = "default",
   foodId,
-  foodName,
+  name,
   calories,
-  portionSize,
-  portionWeight,
-  measurementUnit
+  size,
+  weight,
+  unit
 }: FoodCardProps) => {
   const router = useRouter()
 
@@ -45,11 +45,10 @@ export const FoodCard = ({
     <Card onPress={variant === "default" ? handleViewFood : undefined}>
       <HStack className="items-center justify-between">
         <VStack gap={0} className="ml-1" onPress={handleViewFood}>
-          <Text className="font-tmedium text-lg text-primary">{foodName}</Text>
+          <Text className="font-tmedium text-lg text-primary">{name}</Text>
           <Text className="font-tmedium text-sm text-accent">
             {calories ?? 0} kcal
-            {portionSize ? ` • ${portionSize}` : " • 1 phần"} •{" "}
-            {portionWeight ?? 0} {measurementUnit ?? "g"}
+            {size ? ` • ${size}` : " • 1 phần"} • {weight ?? 0} {unit ?? "g"}
           </Text>
         </VStack>
 

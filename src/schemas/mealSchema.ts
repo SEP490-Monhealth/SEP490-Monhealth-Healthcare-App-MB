@@ -4,7 +4,7 @@ export const mealFoodSchema = z.object({
   mealFoodId: z.string(),
   // mealId: z.string(),
   foodId: z.string(),
-  foodName: z
+  name: z
     .string()
     .nonempty({ message: "Tên món ăn không được để trống" })
     .max(100, { message: "Tên món ăn không được dài hơn 100 ký tự" })
@@ -12,14 +12,14 @@ export const mealFoodSchema = z.object({
       message: "Tên món ăn chỉ được chứa chữ cái, số và khoảng trắng"
     }),
 
-  portionSize: z.string().optional(),
-  portionWeight: z
+  size: z.string().optional(),
+  weight: z
     .number()
     .positive({ message: "Khối lượng phần ăn phải là số dương" })
     .max(10000, {
       message: "Khối lượng phần ăn không được vượt quá 10,000 gram"
     }),
-  measurementUnit: z
+  unit: z
     .string()
     .min(1, { message: "Đơn vị đo lường không được để trống" })
     .max(20, { message: "Đơn vị đo lường không được dài hơn 20 ký tự" }),
@@ -34,7 +34,7 @@ export const mealSchema = z.object({
   mealId: z.string(),
   // dailyMealId: z.string(),
   // userId: z.string(),
-  mealType: z
+  type: z
     .string()
     .refine((val) => ["Breakfast", "Lunch", "Dinner", "Snack"].includes(val), {
       message:

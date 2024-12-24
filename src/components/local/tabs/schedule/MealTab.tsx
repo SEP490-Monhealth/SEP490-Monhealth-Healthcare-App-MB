@@ -53,11 +53,11 @@ export const MealTab = ({ foodsData }: MealTabProps) => {
           key={item.foodId}
           variant="more"
           foodId={item.foodId}
-          foodName={item.foodName}
+          name={item.name}
           // calories={item.nutrition.calories}
-          // portionSize={item.portion.portionSize}
-          // portionWeight={item.portion.portionWeight}
-          // measurementUnit={item.portion.measurementUnit}
+          // size={item.portion.size}
+          // weight={item.portion.weight}
+          // unit={item.portion.unit}
         />
       )}
       ListFooterComponent={<ListFooter />}
