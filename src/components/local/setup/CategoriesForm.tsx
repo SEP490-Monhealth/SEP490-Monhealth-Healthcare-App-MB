@@ -18,7 +18,7 @@ export const CategoriesForm = () => {
       categoryId: c.categoryId,
       name: c.name,
       description: c.description,
-      categoryImage: c.categoryImage
+      image: c.image
     })) || []
 
   const handleSelectCategory = (category: string) => {
@@ -37,13 +37,13 @@ export const CategoriesForm = () => {
         {categories.map((category, index) => (
           <Chip
             key={category.categoryId}
-            size="lg"
+            size="md"
             label={category.name}
             icon={
               <Image
                 source={
-                  category.categoryImage
-                    ? { uri: category.categoryImage }
+                  category.image
+                    ? { uri: category.image }
                     : undefined
                 }
                 style={{ width: 36, height: 36, marginRight: 12 }}

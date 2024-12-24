@@ -33,7 +33,7 @@ function ProfileScreen() {
 
   return (
     <Container>
-      <Header title="Hồ sơ" />
+      <Header label="Hồ sơ" />
 
       <Content margin={false}>
         <ScrollArea>

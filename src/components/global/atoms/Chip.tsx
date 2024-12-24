@@ -8,8 +8,9 @@ interface ChipProps {
   label: string
   onPress?: () => void
   variant?: "default" | "selected"
-  size?: "md" | "lg" | "xl"
+  size?: "sm" | "md" | "lg"
   border?: boolean
+  borderWidth?: number
   selected?: boolean
   icon?: React.ReactNode
   className?: string
@@ -27,16 +28,16 @@ const variantStyles = {
 }
 
 const sizeStyles = {
-  md: {
+  sm: {
     container: "px-3.5 py-1.5 rounded-xl",
     text: "text-base"
   },
-  lg: {
+  md: {
     container: "px-6 py-3 rounded-2xl",
     text: "text-base"
   },
-  xl: {
-    container: "px-6 py-8 rounded-2xl",
+  lg: {
+    container: "px-6 py-6 rounded-2xl",
     text: "text-xl"
   }
 }
@@ -56,8 +57,9 @@ export const Chip = ({
   label,
   onPress,
   variant = "default",
-  size = "md",
+  size = "sm",
   border = false,
+  borderWidth = 1,
   selected = false,
   icon,
   className = ""
@@ -71,9 +73,12 @@ export const Chip = ({
       activeOpacity={0.7}
       onPress={onPress}
       className={cn(
-        `flex-row items-center border-2 border-border ${border ? borderStyle.border : variantStyle.container} ${sizeStyle.container}`,
+        `flex-row items-center ${
+          border ? borderStyle.border : variantStyle.container
+        } ${sizeStyle.container}`,
         className
       )}
+      style={border && { borderWidth }}
     >
       {icon && <View className="mr-4">{icon}</View>}
       <Text

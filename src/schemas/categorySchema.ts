@@ -15,7 +15,7 @@ export const baseCategorySchema = z.object({
       message: "Mô tả danh mục không được dài hơn 500 ký tự"
     })
     .optional(),
-  categoryImage: z.string().optional(),
+  image: z.string().optional(),
 
   createdAt: z.string(),
   updatedAt: z.string(),
@@ -27,7 +27,7 @@ export const categorySchema = baseCategorySchema.pick({
   categoryId: true,
   name: true,
   description: true,
-  categoryImage: true
+  image: true
 })
 
 export type CategoryType = z.infer<typeof categorySchema>

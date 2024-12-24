@@ -33,7 +33,7 @@ export const FoodsForm = () => {
         {foods.map((food, index) => (
           <Chip
             key={food.foodId}
-            size="lg"
+            size="md"
             label={food.name}
             selected={selectedFoods.includes(food.foodId)}
             onPress={() => handleSelectFood(food.name)}

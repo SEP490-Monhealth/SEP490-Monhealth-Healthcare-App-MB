@@ -7,6 +7,7 @@ import { FoodType } from "@/schemas/foodSchema"
 import {
   getAllFoods,
   getFoodById,
+  getFoodsByCategory,
   getFoodsByType
 } from "@/services/foodService"
 
@@ -52,6 +53,27 @@ export const useGetFoodsByType = (
     queryFn: async () => {
       try {
         return await getFoodsByType(type, page, limit)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    staleTime: 1000 * 60 * 5
+  })
+}
+
+export const useGetFoodsByCategory = (
+  category: string,
+  page: number,
+  limit: number
+) => {
+  const handleError = useErrorHandler()
+
+  return useQuery<FoodResponse, Error>({
+    queryKey: ["foods", category, page, limit],
+    queryFn: async () => {
+      try {
+        return await getFoodsByCategory(category, page, limit)
       } catch (error) {
         handleError(error)
         throw error

@@ -67,7 +67,7 @@ function PortionCreateScreen() {
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView className="h-full bg-background">
         <View className="px-6">
-          <Header back title="Thêm khẩu phần" />
+          <Header back label="Thêm khẩu phần" />
 
           <Content>
             <VStack gap={20} className="mt-2">

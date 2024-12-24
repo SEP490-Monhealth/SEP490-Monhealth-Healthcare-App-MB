@@ -29,7 +29,7 @@ function UserInformationScreen() {
     <Container>
       <Header
         back
-        title="Thông tin cá nhân"
+        label="Thông tin cá nhân"
         action={{
           icon: <Edit2 variant="Bold" size={20} color={COLORS.primary} />,
           url: "/users/settings"

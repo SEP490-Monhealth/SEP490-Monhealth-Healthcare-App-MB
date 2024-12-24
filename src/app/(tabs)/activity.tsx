@@ -22,7 +22,7 @@ function ActivityScreen() {
 
   return (
     <Container>
-      <Header title="Tạo khẩu phần" />
+      <Header label="Tạo khẩu phần" />
 
       <Content>
         <Button size="lg" onPress={handleViewCreatePortion}>

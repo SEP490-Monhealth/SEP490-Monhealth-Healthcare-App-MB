@@ -1,21 +1,45 @@
-import React from "react"
+import React, { useState } from "react"
 
-import { Container, Content } from "@/components/global/atoms"
+import { Chip, Container, Content, VStack } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import ActivityLevel from "@/components/local/activities/ActivityLevel"
+import { COLORS } from "@/constants/app"
+import { frequenciesData } from "@/constants/frequencies"
 
-import { frequencyActivityData } from "@/constants/frequency"
+function ActivityLevelScreen() {
+  const [selectedActivity, setSelectedActivity] = useState<number>(1.2)
 
-function FrequencyActivity() {
+  const handleSelectCategory = (value: number) => {
+    setSelectedActivity(value)
+    console.log(value)
+  }
+
   return (
     <Container>
+      <Header back label="Thông tin" />
+
       <Content>
-        <Header back title="Thông tin" />
-        <ActivityLevel activitiesData={frequencyActivityData} />
+        <VStack gap={20} className="mt-2">
+          {frequenciesData.map((activity) => {
+            const Icon = activity.icon
+
+            return (
+              <Chip
+                key={activity.label}
+                label={activity.label}
+                border={true}
+                borderWidth={2}
+                size="lg"
+                icon={<Icon variant="Bold" size={28} color={COLORS.primary} />}
+                selected={selectedActivity === activity.value}
+                onPress={() => handleSelectCategory(activity.value)}
+              />
+            )
+          })}
+        </VStack>
       </Content>
     </Container>
   )
 }
 
-export default FrequencyActivity
+export default ActivityLevelScreen

@@ -57,7 +57,7 @@ function MealDetailsScreen() {
     <Container>
       <Header
         back
-        title={getMealTypeName(mealData?.mealType || "")}
+        label={getMealTypeName(mealData?.mealType || "")}
         action={{
           icon: <Setting4 variant="Bold" size={24} color={COLORS.primary} />,
           url: `/(tabs)/schedule`

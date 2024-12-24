@@ -17,12 +17,12 @@ interface ActionProps {
 }
 
 interface HeaderProps {
-  title: string
+  label: string
   back?: boolean
   action?: ActionProps
 }
 
-export const Header = ({ title, back = false, action }: HeaderProps) => {
+export const Header = ({ label, back = false, action }: HeaderProps) => {
   const router = useRouter()
 
   const paddingClass = Platform.OS === "ios" ? "pt-0" : "pt-4"
@@ -49,7 +49,7 @@ export const Header = ({ title, back = false, action }: HeaderProps) => {
           back && "absolute left-1/2 -translate-x-1/2"
         }`}
       >
-        {title}
+        {label}
       </Text>
 
       {action && <IconButton icon={action.icon} onPress={handleAction} />}

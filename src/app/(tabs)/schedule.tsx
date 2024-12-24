@@ -17,7 +17,7 @@ function ScheduleScreen() {
   return (
     <Container>
       <Header
-        title="Thực đơn"
+        label="Thực đơn"
         action={{
           icon: <Add size={24} color={COLORS.primary} />,
           url: "/foods"

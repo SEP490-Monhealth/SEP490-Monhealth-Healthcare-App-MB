@@ -11,7 +11,7 @@ function VoiceScreen() {
   return (
     <Container>
       <Header
-        title="AI Voice"
+        label="AI Voice"
         action={{
           icon: <Microphone variant="Bold" size={24} color={COLORS.primary} />,
           url: "/(tabs)/home"

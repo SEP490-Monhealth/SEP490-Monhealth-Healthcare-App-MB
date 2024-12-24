@@ -50,7 +50,7 @@ function FoodDetailsScreen() {
       <View className="px-6">
         <Header
           back
-          title={foodData.name}
+          label={foodData.name}
           action={{
             icon: (
               <ArchiveTick

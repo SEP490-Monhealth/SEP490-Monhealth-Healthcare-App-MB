@@ -8,7 +8,7 @@ import { Header } from "@/components/global/organisms"
 function CalendarScreen() {
   return (
     <Container>
-      <Header back title="Chọn ngày" />
+      <Header back label="Chọn ngày" />
 
       <Content>
         <View className="mt-2">

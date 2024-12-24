@@ -8,7 +8,7 @@ function DateOfBirth() {
   return (
     <Container>
       <Content>
-        <Header back title="Thông tin" />
+        <Header back label="Thông tin" />
         <DatePicker />
       </Content>
     </Container>

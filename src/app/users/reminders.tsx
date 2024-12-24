@@ -16,7 +16,7 @@ function RemindersScreen() {
 
   return (
     <Container>
-      <Header back title="Nhắc nhở" />
+      <Header back label="Nhắc nhở" />
 
       <Content>
         <VStack className="mt-2">

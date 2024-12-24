@@ -4,18 +4,12 @@ import { ActivityIndicator, FlatList, Image, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
-import { ArrowLeft, Scanner, SearchNormal1 } from "iconsax-react-native"
+import { Scanner, SearchNormal1 } from "iconsax-react-native"
 
+import { Container, Content, Input, VStack } from "@/components/global/atoms"
 import {
-  Container,
-  Content,
-  HStack,
-  Input,
-  VStack
-} from "@/components/global/atoms"
-import {
+  CustomHeader,
   FoodCard,
-  IconButton,
   ListFooter,
   ListHeader
 } from "@/components/global/molecules"
@@ -116,16 +110,12 @@ function FoodsScreen() {
     return <LoadingScreen />
   }
 
-  const handleBack = (): void => router.back()
+  const handleViewMyFoods = (): void => router.push("/foods/user")
 
   return (
     <Container>
-      <HStack center gap={20} className="min-h-14 justify-between">
-        <IconButton
-          icon={<ArrowLeft size={24} color={COLORS.primary} />}
-          onPress={handleBack}
-        />
-        <View className="flex-1">
+      <CustomHeader
+        content={
           <Input
             value={searchQuery}
             onChangeText={(text) => setSearchQuery(text)}
@@ -134,8 +124,8 @@ function FoodsScreen() {
             iconEnd={<Scanner size={20} color={COLORS.primary} />}
             iconEndAction={() => router.push("/foods/test-camera")}
           />
-        </View>
-      </HStack>
+        }
+      />
 
       <Content margin={false}>
         <VStack center className="pb-12">
@@ -154,7 +144,7 @@ function FoodsScreen() {
                 <Section
                   label="Danh sách món ăn"
                   action="Món ăn của tôi"
-                  onPress={() => console.log("Món ăn của tôi")}
+                  onPress={handleViewMyFoods}
                   className="mt-6"
                 />
               </ListHeader>
