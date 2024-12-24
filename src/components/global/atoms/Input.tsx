@@ -1,6 +1,7 @@
-import React, { useRef } from "react"
+import React, { useRef, useState } from "react"
 
 import {
+  Keyboard,
   Text,
   TextInput,
   TextInputProps,
@@ -16,7 +17,7 @@ type InputProps = Omit<TextInputProps, "value"> & {
   numberOfLines?: number
   secureTextEntry?: boolean
   toggleSecureTextEntry?: () => void
-  value?: string | number
+  value?: string
   onChangeText?: (text: string) => void
   placeholder?: string
   keyboardType?: "default" | "numeric" | "email-address" | "phone-pad"
@@ -36,21 +37,34 @@ export const Input: React.FC<InputProps> = ({
   toggleSecureTextEntry,
   value,
   onChangeText,
-  placeholder,
+  placeholder = "",
   keyboardType = "default",
   iconStart,
   iconEnd,
   clearText = true,
   iconEndAction,
   errorMessage,
-  className = ""
+  className = "",
+  ...props
 }: InputProps) => {
   const inputRef = useRef<TextInput>(null)
+  const [isFocused, setIsFocused] = useState(false)
 
   const hasError = !!errorMessage
 
   const handleClearText = () => {
     onChangeText?.("")
+  }
+
+  const handleFocus = () => {
+    setIsFocused(true)
+  }
+
+  const handleBlur = () => {
+    setIsFocused(false)
+    if (!isFocused) {
+      Keyboard.dismiss()
+    }
   }
 
   return (
@@ -75,18 +89,22 @@ export const Input: React.FC<InputProps> = ({
           ref={inputRef}
           placeholder={placeholder}
           secureTextEntry={secureTextEntry}
-          value={value?.toString()}
+          value={value}
           keyboardType={keyboardType}
           onChangeText={onChangeText}
           multiline={multiline}
           numberOfLines={multiline ? numberOfLines : 1}
           textAlignVertical={multiline ? "top" : "center"}
+          blurOnSubmit={false}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           className={`flex-1 py-2 font-tregular ${
             hasError ? "text-destructive" : "text-primary"
           }`}
           style={{
             height: multiline ? numberOfLines * 20 : undefined
           }}
+          {...props}
         />
 
         {clearText && value && !iconEnd && (
@@ -107,7 +125,7 @@ export const Input: React.FC<InputProps> = ({
         )}
       </View>
 
-      {hasError && (
+      {hasError && errorMessage && (
         <Text className="ml-1 mt-1 font-tregular text-sm text-destructive">
           {errorMessage}
         </Text>

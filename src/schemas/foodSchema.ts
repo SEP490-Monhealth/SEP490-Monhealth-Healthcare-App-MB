@@ -35,17 +35,13 @@ export const foodSchema = baseFoodSchema.pick({
   foodType: true,
   category: true,
   foodName: true,
-
   portion: true,
-
   nutrition: true
 })
 
 export const createUpdateFoodSchema = baseFoodSchema.omit({
   foodId: true,
-  
   status: true,
-
   createdAt: true,
   updatedAt: true,
   createdBy: true,

@@ -61,12 +61,10 @@ export const metricSchema = baseMetricSchema
 
 export const createUpdateMetricSchema = baseMetricSchema.omit({
   metricId: true,
-
   bmi: true,
   bmr: true,
   tdee: true,
   ibw: true,
-
   createdAt: true,
   updatedAt: true
 })

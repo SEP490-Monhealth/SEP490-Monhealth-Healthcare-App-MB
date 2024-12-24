@@ -54,11 +54,8 @@ export const userSchema = baseUserSchema
 
 export const createUpdateUserSchema = baseUserSchema.omit({
   userId: true,
-
   role: true,
-
   status: true,
-
   createdAt: true,
   updatedAt: true,
   createdBy: true,

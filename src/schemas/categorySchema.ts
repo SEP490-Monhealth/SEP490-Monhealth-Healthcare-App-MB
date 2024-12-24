@@ -15,7 +15,6 @@ export const baseCategorySchema = z.object({
       message: "Mô tả danh mục không được dài hơn 500 ký tự"
     })
     .optional(),
-
   categoryImage: z.string().optional(),
 
   createdAt: z.string(),

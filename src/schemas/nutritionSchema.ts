@@ -38,7 +38,6 @@ const baseNutritionSchema = z.object({
 export const nutritionSchema = baseNutritionSchema.omit({
   nutritionId: true,
   foodId: true,
-
   createdAt: true,
   updatedAt: true,
   createdBy: true,
@@ -52,7 +51,6 @@ export const nutritionFoodSchema = baseNutritionSchema.pick({
 export const createUpdateNutritionSchema = baseNutritionSchema.omit({
   nutritionId: true,
   foodId: true,
-  
   createdAt: true,
   updatedAt: true,
   createdBy: true,

@@ -68,7 +68,7 @@ function InternalServerErrorScreen() {
       <VStack center gap={20}>
         <View className="w-full items-center">
           <Animated.Image
-            source={require("../../../public/images/no-data-image.png")}
+            source={require("../../../public/images/internal-server-error-image.png")}
             style={{
               width: 320,
               height: 320,
