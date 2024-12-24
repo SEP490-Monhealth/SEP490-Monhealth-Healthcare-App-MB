@@ -40,13 +40,13 @@ export const NutritionProgress = ({
               fill={fill}
               tintColor={getNutritionColor(nutrient.label)}
             />
-        </View>
+          </View>
         )
       })}
 
       <VStack center>
         <Image
-          source={require("../../../../../public/images/fire-icon.png")}
+          source={require("../../../../../public/icons/fire-icon.png")}
           resizeMode="cover"
           style={{ width: 27, height: 27 }}
         />

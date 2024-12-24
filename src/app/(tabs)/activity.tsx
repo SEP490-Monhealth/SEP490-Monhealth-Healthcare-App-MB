@@ -2,7 +2,7 @@ import React from "react"
 
 import { useRouter } from "expo-router"
 
-import { Button, Container, Content } from "@/components/global/atoms"
+import { Button, Container } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
 function ActivityScreen() {
@@ -13,14 +13,12 @@ function ActivityScreen() {
   }
 
   return (
-    <Container className="flex-1 justify-between">
+    <Container>
       <Header title="Tạo khẩu phần" />
 
-      <Content>
-        <Button size="lg" onPress={handleViewCreatePortion}>
-          Halo
-        </Button>
-      </Content>
+      <Button size="lg" onPress={handleViewCreatePortion}>
+        Halo
+      </Button>
     </Container>
   )
 }

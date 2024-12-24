@@ -9,7 +9,13 @@ import {
 
 import { Tabs } from "expo-router"
 
-import { Calendar, Flash, Home2, Profile, Sound } from "iconsax-react-native"
+import {
+  Calendar,
+  ClipboardTick,
+  Home2,
+  Profile,
+  Sound
+} from "iconsax-react-native"
 
 import { COLORS } from "@/constants/app"
 
@@ -80,7 +86,7 @@ function TabLayout() {
             </Text>
           ),
           tabBarIcon: ({ focused }) => (
-            <Flash
+            <ClipboardTick
               variant={focused ? "Bold" : "Linear"}
               color={focused ? primaryColor : descriptionColor}
               size={22}
