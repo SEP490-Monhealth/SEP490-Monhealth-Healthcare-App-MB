@@ -27,9 +27,7 @@ export const Header = ({ title, back = false, action }: HeaderProps) => {
 
   const paddingClass = Platform.OS === "ios" ? "pt-0" : "pt-4"
 
-  const handleBack = () => {
-    router.back()
-  }
+  const handleBack = () => router.back()
 
   const handleAction = () => {
     if (action?.url) {

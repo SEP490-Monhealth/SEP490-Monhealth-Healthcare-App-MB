@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 
-import { ActivityIndicator, FlatList, Text, View } from "react-native"
+import { ActivityIndicator, FlatList, Image, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -37,24 +37,32 @@ import LoadingScreen from "../loading"
 function FoodsScreen() {
   const router = useRouter()
 
-  const [limit, setLimit] = useState(10)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [limit, setLimit] = useState<number>(10)
   const [foods, setFoods] = useState<FoodType[]>([])
-  const [isRefreshing, setIsRefreshing] = useState(false)
-  const [isFetchingMore, setIsFetchingMore] = useState(false)
-  const [searchQuery, setSearchQuery] = useState("")
-  const debouncedSearchQuery = useDebounce(searchQuery)
-  const [totalItems, setTotalItems] = useState(0)
-  const [hasMore, setHasMore] = useState(true)
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
+  const [isFetchingMore, setIsFetchingMore] = useState<boolean>(false)
+  const [searchQuery, setSearchQuery] = useState<string>("")
+  const [totalItems, setTotalItems] = useState<number>(0)
+  const [hasMore, setHasMore] = useState<boolean>(true)
+
+  const debouncedSearchQuery: string = useDebounce(searchQuery)
 
   const { data: categoriesData, isLoading: isCategoriesLoading } =
     useGetAllCategories()
 
-  const fetchFoods = async (newLimit: number, search = "") => {
+  const fetchFoods = async (
+    newLimit: number,
+    search: string = ""
+  ): Promise<void> => {
     try {
       const { foods: newFoods, totalItems: total } = await getAllFoods(
         1,
         newLimit,
-        search
+        search,
+        "",
+        false,
+        true
       )
       setFoods(newFoods)
       setTotalItems(total)
@@ -64,20 +72,7 @@ function FoodsScreen() {
     }
   }
 
-  useEffect(() => {
-    fetchFoods(limit)
-  }, [])
-
-  useEffect(() => {
-    if (debouncedSearchQuery !== undefined) {
-      setLimit(10)
-      fetchFoods(10, debouncedSearchQuery)
-    }
-  }, [debouncedSearchQuery])
-
-  const handleBack = () => router.back()
-
-  const onRefresh = async () => {
+  const onRefresh = async (): Promise<void> => {
     if (isRefreshing) return
     setIsRefreshing(true)
     setLimit(10)
@@ -85,7 +80,7 @@ function FoodsScreen() {
     setIsRefreshing(false)
   }
 
-  const loadMoreFoods = async () => {
+  const loadMoreFoods = async (): Promise<void> => {
     if (isFetchingMore || !hasMore) return
     setIsFetchingMore(true)
 
@@ -95,14 +90,33 @@ function FoodsScreen() {
     setIsFetchingMore(false)
   }
 
-  const onEndReached = async () => {
+  const onEndReached = async (): Promise<void> => {
     if (foods.length >= totalItems || isFetchingMore) return
     loadMoreFoods()
   }
 
-  if (isCategoriesLoading && !categoriesData) {
+  useEffect(() => {
+    fetchFoods(limit)
+
+    const timeout = setTimeout(() => {
+      setIsLoading(false)
+    }, 1000)
+
+    return () => clearTimeout(timeout)
+  }, [])
+
+  useEffect(() => {
+    if (debouncedSearchQuery !== undefined) {
+      setLimit(10)
+      fetchFoods(10, debouncedSearchQuery)
+    }
+  }, [debouncedSearchQuery])
+
+  if (isLoading || (isCategoriesLoading && !categoriesData)) {
     return <LoadingScreen />
   }
+
+  const handleBack = (): void => router.back()
 
   return (
     <Container>
@@ -126,7 +140,7 @@ function FoodsScreen() {
       <Content margin={false}>
         <VStack center className="pb-12">
           <FlatList
-            data={foods}
+            data={foods || []}
             keyExtractor={(item) => item.foodId}
             onRefresh={onRefresh}
             refreshing={isRefreshing}
@@ -154,9 +168,26 @@ function FoodsScreen() {
               />
             )}
             ListEmptyComponent={() => (
-              <Text className="mt-2 text-center text-primary">
-                Không có kết quả tìm kiếm nào.
-              </Text>
+              <VStack center gap={20} className="mt-8">
+                {/* <VStack>
+                  <Text className=" font-tbold text-3xl text-primary">
+                    Không có kết quả
+                  </Text>
+                  <Text className=" font-tmedium text-lg text-secondary">
+                    Không tìm thấy món ăn nào phù hợp với tìm kiếm của bạn
+                  </Text>
+                </VStack> */}
+
+                <View className="w-full items-center">
+                  <Image
+                    source={require("../../../public/images/no-data-image.png")}
+                    style={{
+                      width: 320,
+                      height: 320
+                    }}
+                  />
+                </View>
+              </VStack>
             )}
             ListFooterComponent={
               hasMore ? (

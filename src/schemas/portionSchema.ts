@@ -3,6 +3,7 @@ import { z } from "zod"
 const basePortionSchema = z.object({
   portionId: z.string(),
   foodId: z.string(),
+  
   size: z.string().optional(),
   weight: z
     .number()

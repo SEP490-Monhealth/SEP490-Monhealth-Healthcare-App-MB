@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useState } from "react"
 
 import { Animated, View } from "react-native"
 
@@ -8,59 +8,15 @@ import NetInfo from "@react-native-community/netinfo"
 
 import { Button, Container, VStack } from "@/components/global/atoms"
 
+import { useAnimation } from "@/hooks/useAnimation"
+
 function NoConnectionScreen() {
   const router = useRouter()
+
   const [isLoading, setIsLoading] = useState(false)
 
-  const fadeAnim = useRef(new Animated.Value(0)).current
-  const scaleAnim = useRef(new Animated.Value(0.5)).current
-  const textFadeAnim = useRef(new Animated.Value(0)).current
-  const textTranslateAnim = useRef(new Animated.Value(20)).current
-
-  useEffect(() => {
-    fadeAnim.setValue(0)
-    scaleAnim.setValue(0.5)
-    textFadeAnim.setValue(0)
-    textTranslateAnim.setValue(20)
-
-    const timeout = setTimeout(() => {
-      Animated.sequence([
-        Animated.parallel([
-          Animated.timing(fadeAnim, {
-            toValue: 1,
-            duration: 300,
-            useNativeDriver: true
-          }),
-          Animated.sequence([
-            Animated.timing(scaleAnim, {
-              toValue: 1.2,
-              duration: 300,
-              useNativeDriver: true
-            }),
-            Animated.timing(scaleAnim, {
-              toValue: 1,
-              duration: 200,
-              useNativeDriver: true
-            })
-          ])
-        ]),
-        Animated.parallel([
-          Animated.timing(textFadeAnim, {
-            toValue: 1,
-            duration: 300,
-            useNativeDriver: true
-          }),
-          Animated.timing(textTranslateAnim, {
-            toValue: 0,
-            duration: 300,
-            useNativeDriver: true
-          })
-        ])
-      ]).start()
-    }, 500)
-
-    return () => clearTimeout(timeout)
-  }, [fadeAnim, scaleAnim, textFadeAnim, textTranslateAnim])
+  const { fadeAnim, scaleAnim, textFadeAnim, textTranslateAnim } =
+    useAnimation()
 
   const handleRetry = () => {
     setIsLoading(true)

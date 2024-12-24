@@ -6,6 +6,7 @@ import { portionSchema } from "./portionSchema"
 export const baseFoodSchema = z.object({
   foodId: z.string(),
   userId: z.string(),
+  
   type: z.string(),
   category: z.string(),
   name: z
