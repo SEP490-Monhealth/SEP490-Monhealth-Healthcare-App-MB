@@ -16,8 +16,14 @@ const baseNutritionSchema = z.object({
     .number()
     .positive({ message: "Carbs phải là một số dương" })
     .max(1000, { message: "Carbs không được vượt quá 1,000g" }),
-  fiber: z.number().optional(),
-  sugar: z.number().optional(),
+  fiber: z
+    .number()
+    .positive({ message: "Fiber phải là một số dương" })
+    .max(500, { message: "Fiber không được vượt quá 500g" }),
+  sugar: z
+    .number()
+    .positive({ message: "Sugar phải là một số dương" })
+    .max(500, { message: "Sugar không được vượt quá 500g" }),
   fat: z
     .number()
     .positive({ message: "Fat phải là một số dương" })

@@ -12,12 +12,22 @@ function ActivityScreen() {
     router.push("/foods/portions/create")
   }
 
+  const handleViewCreateFood = () => {
+    router.push("/foods/createStep1")
+  }
+
+
+
   return (
     <Container>
       <Header title="Tạo khẩu phần" />
 
       <Button size="lg" onPress={handleViewCreatePortion}>
-        Halo
+        Khẩu phần ăn
+      </Button>
+
+      <Button className="mt-10" size="lg" onPress={handleViewCreateFood}>
+        Tạo món ăn
       </Button>
     </Container>
   )
