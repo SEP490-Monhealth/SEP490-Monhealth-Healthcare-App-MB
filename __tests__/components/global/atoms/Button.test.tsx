@@ -83,7 +83,7 @@ describe("Button Component", () => {
     const MockIconStart = <View testID="icon-start" />
     const MockIconEnd = <View testID="icon-end" />
     const { getByTestId } = render(
-      <Button iconStart={MockIconStart} iconEnd={MockIconEnd}>
+      <Button startIcon={MockIconStart} endIcon={MockIconEnd}>
         Icon Button
       </Button>
     )

@@ -19,7 +19,7 @@ import {
 } from "@/components/global/atoms"
 import { Header, Section } from "@/components/global/organisms"
 
-import { Nutrition, NutritionFacts } from "@/components/local/foods"
+import { FoodNutrition, NutritionFacts } from "@/components/local/foods"
 
 import { COLORS } from "@/constants/app"
 
@@ -79,10 +79,9 @@ function FoodDetailsScreen() {
                     <View style={{ flex: 1 }}>
                       <Input
                         value={query}
-                        onChangeText={(text) => setQuery(text)}
                         placeholder="1"
+                        onChangeText={(text) => setQuery(text)}
                         keyboardType="numeric"
-                        clearText={false}
                       />
                     </View>
 

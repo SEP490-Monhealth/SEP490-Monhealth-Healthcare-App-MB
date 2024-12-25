@@ -78,8 +78,8 @@ function PortionCreateScreen() {
                   render={({ field: { onChange, value } }) => (
                     <Input
                       value={value}
-                      onChangeText={onChange}
                       placeholder="Nhập khẩu phần ăn"
+                      onChangeText={onChange}
                       keyboardType="default"
                       errorMessage={errors.size?.message}
                     />
@@ -94,12 +94,11 @@ function PortionCreateScreen() {
                       render={({ field: { onChange, value } }) => (
                         <Input
                           value={value.toString()}
+                          placeholder="1"
                           onChangeText={(text) =>
                             onChange(parseFloat(text) || 0)
                           }
-                          placeholder="1"
                           keyboardType="numeric"
-                          clearText={false}
                           errorMessage={errors.weight?.message}
                         />
                       )}

@@ -21,7 +21,7 @@ import { IconButton } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/app"
 
-import { RegisterUserType, registerUserSchema } from "@/schemas/userSchema"
+import { RegisterType, registerSchema } from "@/schemas/userSchema"
 
 function SignUpScreen() {
   const router = useRouter()
@@ -32,8 +32,8 @@ function SignUpScreen() {
     control,
     handleSubmit,
     formState: { errors }
-  } = useForm<RegisterUserType>({
-    resolver: zodResolver(registerUserSchema),
+  } = useForm<RegisterType>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       fullName: "Van Huu Toan",
       email: "asd@gmail.com",
@@ -46,7 +46,7 @@ function SignUpScreen() {
     router.push("/(onboarding)/welcome")
   }
 
-  const onSubmit = (data: RegisterUserType) => {
+  const onSubmit = (data: RegisterType) => {
     console.log(data)
   }
 
@@ -58,9 +58,7 @@ function SignUpScreen() {
       />
 
       <View>
-        <Text className="mb-2 font-tbold text-4xl text-primary">
-          Đăng Ký
-        </Text>
+        <Text className="mb-2 font-tbold text-4xl text-primary">Đăng Ký</Text>
         <Text className="font-tregular text-xl text-secondary">
           Đăng ký để theo dõi sức khỏe và dinh dưỡng hàng ngày
         </Text>
@@ -72,10 +70,10 @@ function SignUpScreen() {
             render={({ field: { onChange, value } }) => (
               <Input
                 value={value}
-                onChangeText={onChange}
                 placeholder="Nhập họ và tên"
+                onChangeText={onChange}
                 keyboardType="default"
-                iconStart={
+                startIcon={
                   <Profile variant="Bold" size={20} color={COLORS.primary} />
                 }
                 errorMessage={errors.fullName?.message}
@@ -89,10 +87,10 @@ function SignUpScreen() {
             render={({ field: { onChange, value } }) => (
               <Input
                 value={value}
-                onChangeText={onChange}
                 placeholder="Nhập địa chỉ email"
+                onChangeText={onChange}
                 keyboardType="email-address"
-                iconStart={
+                startIcon={
                   <Sms variant="Bold" size={20} color={COLORS.primary} />
                 }
                 errorMessage={errors.email?.message}
@@ -106,10 +104,10 @@ function SignUpScreen() {
             render={({ field: { onChange, value } }) => (
               <Input
                 value={value}
-                onChangeText={onChange}
                 placeholder="Nhập số điện thoại"
+                onChangeText={onChange}
                 keyboardType="phone-pad"
-                iconStart={
+                startIcon={
                   <Call variant="Bold" size={20} color={COLORS.primary} />
                 }
                 errorMessage={errors.phoneNumber?.message}
@@ -122,15 +120,15 @@ function SignUpScreen() {
             control={control}
             render={({ field: { onChange, value } }) => (
               <Input
-                secureTextEntry={!showPassword}
-                toggleSecureTextEntry={() => setShowPassword(!showPassword)}
                 value={value}
-                onChangeText={onChange}
                 placeholder="Nhập mật khẩu"
-                iconStart={
+                onChangeText={onChange}
+                isSecure={!showPassword}
+                onToggleSecure={() => setShowPassword(!showPassword)}
+                startIcon={
                   <Lock1 variant="Bold" size={20} color={COLORS.primary} />
                 }
-                iconEnd={
+                endIcon={
                   showPassword ? (
                     <Eye variant="Bold" size={20} color={COLORS.primary} />
                   ) : (

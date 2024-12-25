@@ -8,11 +8,11 @@ import { NutritionType } from "@/schemas/nutritionSchema"
 import { toFixed2 } from "@/utils/formatters"
 import { getNutritionColor } from "@/utils/helpers"
 
-interface NutritionProps {
+interface FoodNutritionProps {
   nutritionData: NutritionType
 }
 
-export const Nutrition = ({ nutritionData }: NutritionProps) => {
+export const FoodNutrition = ({ nutritionData }: FoodNutritionProps) => {
   const proteinFill =
     ((nutritionData.protein * 4) / nutritionData.calories) * 100
   const carbsFill = ((nutritionData.carbs * 4) / nutritionData.calories) * 100

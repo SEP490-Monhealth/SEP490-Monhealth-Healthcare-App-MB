@@ -19,7 +19,7 @@ export const NutritionCard = ({
 }: NutritionCardProps) => {
   return (
     <View>
-      <HStack gap={8} center>
+      <HStack gap={6} center>
         <View
           className="rounded-full"
           style={{

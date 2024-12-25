@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Text, TouchableOpacity } from "react-native"
+import { Text, TouchableOpacity, View } from "react-native"
 
 import { ArrowDown2 } from "iconsax-react-native"
 
@@ -10,6 +10,7 @@ interface SelectProps {
   defaultValue: string
   value?: string
   onPress: () => void
+  errorMessage?: string
   className?: string
 }
 
@@ -17,28 +18,39 @@ export const Select = ({
   defaultValue,
   value,
   onPress,
+  errorMessage,
   className = ""
 }: SelectProps) => {
-  return (
-    <TouchableOpacity
-      activeOpacity={0.7}
-      onPress={onPress}
-      className={cn(
-        "flex flex-row items-center rounded-2xl border border-border bg-white px-4",
-        className
-      )}
-      style={{ height: 52 }}
-    >
-      <Text
-        className={cn(
-          "flex-1 text-base",
-          value ? "font-tmedium text-primary" : "font-tmedium text-accent"
-        )}
-      >
-        {value || defaultValue}
-      </Text>
+  const hasError = !!errorMessage
 
-      <ArrowDown2 size={20} color="#cbd5e1" />
-    </TouchableOpacity>
+  return (
+    <View>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={onPress}
+        className={cn(
+          `flex flex-row items-center rounded-2xl border border-border bg-white px-4 ${
+            hasError ? "border-destructive bg-red-50" : "border-border bg-white"
+          }`,
+          className
+        )}
+        style={{ height: 52 }}
+      >
+        <Text
+          className={cn("flex-1 font-tregular", value && "text-primary")}
+          style={value ? {} : { color: "#a9a9a9" }}
+        >
+          {value || defaultValue}
+        </Text>
+
+        <ArrowDown2 size={20} color="#cbd5e1" />
+      </TouchableOpacity>
+
+      {hasError && errorMessage && (
+        <Text className="ml-1 mt-1 font-tregular text-sm text-destructive">
+          {errorMessage}
+        </Text>
+      )}
+    </View>
   )
 }

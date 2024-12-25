@@ -118,11 +118,11 @@ function FoodsScreen() {
         content={
           <Input
             value={searchQuery}
-            onChangeText={(text) => setSearchQuery(text)}
             placeholder="Tìm kiếm tên món ăn..."
-            iconStart={<SearchNormal1 size={20} color={COLORS.primary} />}
-            iconEnd={<Scanner size={20} color={COLORS.primary} />}
-            iconEndAction={() => router.push("/foods/test-camera")}
+            onChangeText={(text) => setSearchQuery(text)}
+            startIcon={<SearchNormal1 size={20} color={COLORS.primary} />}
+            endIcon={<Scanner size={20} color={COLORS.primary} />}
+            onEndIconPress={() => router.push("/foods/test-camera")}
           />
         }
       />
@@ -141,6 +141,7 @@ function FoodsScreen() {
             ListHeaderComponent={() => (
               <ListHeader className="pt-6">
                 <FoodCategories categoriesData={categoriesData || []} />
+
                 <Section
                   label="Danh sách món ăn"
                   action="Món ăn của tôi"

@@ -19,7 +19,7 @@ function ActivityLevelScreen() {
       <Header back label="Thông tin" />
 
       <Content>
-        <VStack gap={20} className="mt-2">
+        <VStack gap={12} className="mt-2">
           {frequenciesData.map((activity) => {
             const Icon = activity.icon
 

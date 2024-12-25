@@ -6,7 +6,7 @@ import { portionSchema } from "./portionSchema"
 export const baseFoodSchema = z.object({
   foodId: z.string(),
   userId: z.string(),
-  
+
   type: z.string(),
   category: z.string(),
   name: z
@@ -21,8 +21,8 @@ export const baseFoodSchema = z.object({
     .nonempty({ message: "Mô tả món ăn không được để trống" })
     .max(500, { message: "Mô tả món ăn không được dài hơn 500 ký tự" }),
 
-  portion: z.object(portionSchema.shape),
-  nutrition: z.object(nutritionSchema.shape),
+  portion: portionSchema,
+  nutrition: nutritionSchema,
 
   status: z.boolean(),
 
@@ -41,29 +41,34 @@ export const foodSchema = baseFoodSchema.pick({
   nutrition: true
 })
 
-export const createUpdateFoodSchema = baseFoodSchema.omit({
-  foodId: true,
-  category: true,
-  status: true,
-  createdAt: true,
-  updatedAt: true,
-  createdBy: true,
-  updatedBy: true
+export const createFoodSchema = baseFoodSchema.pick({
+  userId: true,
+  type: true,
+  name: true,
+  description: true,
+  portion: true,
+  nutrition: true
 })
 
-export const createFoodStep1Schema = baseFoodSchema.pick({
+export const createFoodInformationSchema = baseFoodSchema.pick({
   userId: true,
   type: true,
   name: true,
   description: true
 })
 
-export const createFoodStep2Schema = baseFoodSchema.pick({
-  portion: true,
+export const createFoodPortionSchema = baseFoodSchema.pick({
+  portion: true
+})
+
+export const createFoodNutritionSchema = baseFoodSchema.pick({
   nutrition: true
 })
 
 export type FoodType = z.infer<typeof foodSchema>
-export type CreateUpdateFoodType = z.infer<typeof createUpdateFoodSchema>
-export type CreateFoodStep1Type = z.infer<typeof createFoodStep1Schema>
-export type CreateFoodStep2Type = z.infer<typeof createFoodStep2Schema>
+export type CreateFoodType = z.infer<typeof createFoodSchema>
+export type CreateFoodInformationType = z.infer<
+  typeof createFoodInformationSchema
+>
+export type CreateFoodPortionType = z.infer<typeof createFoodPortionSchema>
+export type CreateFoodNutritionType = z.infer<typeof createFoodNutritionSchema>

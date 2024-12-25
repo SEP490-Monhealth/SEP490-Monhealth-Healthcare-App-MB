@@ -1,15 +1,4 @@
-import { ImageSourcePropType } from "react-native"
-
-export type GoalType = {
-  title: string
-  description: string
-  image: ImageSourcePropType
-  carbs: number
-  protein: number
-  fat: number
-}
-
-export const goalsData: GoalType[] = [
+export const goalsData = [
   {
     title: "Giảm cân",
     description:

@@ -81,10 +81,10 @@ function SignInScreen() {
             render={({ field: { onChange, value } }) => (
               <Input
                 value={value}
-                onChangeText={onChange}
                 placeholder="Nhập số điện thoại"
+                onChangeText={onChange}
                 keyboardType="phone-pad"
-                iconStart={
+                startIcon={
                   <Sms variant="Bold" size={20} color={COLORS.primary} />
                 }
                 errorMessage={errors.phoneNumber?.message}
@@ -97,15 +97,15 @@ function SignInScreen() {
             control={control}
             render={({ field: { onChange, value } }) => (
               <Input
-                secureTextEntry={!showPassword}
-                toggleSecureTextEntry={() => setShowPassword(!showPassword)}
                 value={value}
-                onChangeText={onChange}
                 placeholder="Nhập mật khẩu"
-                iconStart={
+                onChangeText={onChange}
+                isSecure={!showPassword}
+                onToggleSecure={() => setShowPassword(!showPassword)}
+                startIcon={
                   <Lock1 variant="Bold" size={20} color={COLORS.primary} />
                 }
-                iconEnd={
+                endIcon={
                   showPassword ? (
                     <Eye variant="Bold" size={20} color={COLORS.primary} />
                   ) : (

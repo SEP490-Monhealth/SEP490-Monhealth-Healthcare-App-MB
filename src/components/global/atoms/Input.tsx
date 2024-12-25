@@ -13,38 +13,38 @@ import { X } from "lucide-react-native"
 
 type InputProps = Omit<TextInputProps, "value"> & {
   testID?: string
-  multiline?: boolean
-  numberOfLines?: number
-  secureTextEntry?: boolean
-  toggleSecureTextEntry?: () => void
   value?: string
-  onChangeText?: (text: string) => void
   placeholder?: string
+  onChangeText?: (text: string) => void
   keyboardType?: "default" | "numeric" | "email-address" | "phone-pad"
-  iconStart?: React.ReactNode
-  iconEnd?: React.ReactNode
-  clearText?: boolean
-  textRight?: boolean
-  iconEndAction?: () => void
+  isMultiline?: boolean
+  numberOfLines?: number
+  isSecure?: boolean
+  onToggleSecure?: () => void
+  alignRight?: boolean
+  startIcon?: React.ReactNode
+  endIcon?: React.ReactNode
+  onEndIconPress?: () => void
+  canClearText?: boolean
   errorMessage?: string
   className?: string
 }
 
 export const Input: React.FC<InputProps> = ({
   testID,
-  multiline = false,
-  numberOfLines = 1,
-  secureTextEntry = false,
-  toggleSecureTextEntry,
   value,
-  onChangeText,
   placeholder = "",
+  onChangeText,
   keyboardType = "default",
-  iconStart,
-  iconEnd,
-  clearText = true,
-  textRight = false,
-  iconEndAction,
+  isMultiline = false,
+  numberOfLines = 1,
+  isSecure = false,
+  onToggleSecure,
+  alignRight = false,
+  startIcon,
+  endIcon,
+  onEndIconPress,
+  canClearText = false,
   errorMessage,
   className = "",
   ...props
@@ -70,34 +70,34 @@ export const Input: React.FC<InputProps> = ({
   }
 
   return (
-    <View testID={testID || "input-view"}>
+    <View testID={testID || "test-input"}>
       <View
         className={`flex-row items-center rounded-2xl border px-4 py-1 ${className} ${
           hasError ? "border-destructive bg-red-50" : "border-border bg-white"
         }`}
-        style={{ height: multiline ? undefined : 52 }}
+        style={{ height: isMultiline ? undefined : 52 }}
       >
-        {iconStart && (
+        {startIcon && (
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => inputRef.current?.focus()}
             className="mr-2"
           >
-            <View>{iconStart}</View>
+            <View>{startIcon}</View>
           </TouchableOpacity>
         )}
 
         <TextInput
           ref={inputRef}
           placeholder={placeholder}
-          secureTextEntry={secureTextEntry}
+          secureTextEntry={isSecure}
           value={value}
           keyboardType={keyboardType}
           onChangeText={onChangeText}
-          multiline={multiline}
-          numberOfLines={multiline ? numberOfLines : 1}
-          textAlignVertical={multiline ? "top" : "center"}
-          textAlign={textRight ? "right" : "left"}
+          multiline={isMultiline}
+          numberOfLines={isMultiline ? numberOfLines : 1}
+          textAlignVertical={isMultiline ? "top" : "center"}
+          textAlign={alignRight ? "right" : "left"}
           blurOnSubmit={false}
           onFocus={handleFocus}
           onBlur={handleBlur}
@@ -105,12 +105,12 @@ export const Input: React.FC<InputProps> = ({
             hasError ? "text-destructive" : "text-primary"
           }`}
           style={{
-            height: multiline ? numberOfLines * 20 : undefined
+            height: isMultiline ? numberOfLines * 20 : undefined
           }}
           {...props}
         />
 
-        {clearText && value && !iconEnd && (
+        {canClearText && value && !endIcon && (
           <TouchableOpacity activeOpacity={0.7} onPress={handleClearText}>
             <View className="px-2 py-4">
               <X size={20} color="#cbd5e1" />
@@ -118,12 +118,17 @@ export const Input: React.FC<InputProps> = ({
           </TouchableOpacity>
         )}
 
-        {iconEnd && (
+        {endIcon && (
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={iconEndAction || toggleSecureTextEntry}
+            // onPress={onEndIconPress || onToggleSecure}
+            onPress={() => {
+              inputRef.current?.focus()
+              onEndIconPress?.()
+              onToggleSecure?.()
+            }}
           >
-            <View className="px-2 items-center">{iconEnd}</View>
+            <View className="items-center px-2">{endIcon}</View>
           </TouchableOpacity>
         )}
       </View>

@@ -44,7 +44,7 @@ export const FoodCategories = ({ categoriesData }: FoodCategoryProps) => {
             selectedCategories.includes(category)
           }
           onPress={() => handleSelectCategory(category)}
-          className={index === categories.length - 1 ? "" : "mr-3"}
+          className={index === categories.length - 1 ? "" : "mr-2"}
         />
       ))}
     </ScrollView>

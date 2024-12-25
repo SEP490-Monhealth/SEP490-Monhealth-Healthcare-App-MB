@@ -64,15 +64,15 @@ function ForgotPasswordScreen() {
             control={control}
             render={({ field: { onChange, value } }) => (
               <Input
-                secureTextEntry={!showPassword}
-                toggleSecureTextEntry={() => setShowPassword(!showPassword)}
                 value={value}
-                onChangeText={onChange}
                 placeholder="Nhập mật khẩu"
-                iconStart={
+                onChangeText={onChange}
+                isSecure={!showPassword}
+                onToggleSecure={() => setShowPassword(!showPassword)}
+                startIcon={
                   <Lock1 variant="Bold" size={20} color={COLORS.primary} />
                 }
-                iconEnd={
+                endIcon={
                   showPassword ? (
                     <Eye variant="Bold" size={20} color={COLORS.primary} />
                   ) : (
@@ -89,17 +89,17 @@ function ForgotPasswordScreen() {
             control={control}
             render={({ field: { onChange, value } }) => (
               <Input
-                secureTextEntry={!showConfirmPassword}
-                toggleSecureTextEntry={() =>
+                value={value}
+                placeholder="Nhập mật khẩu"
+                onChangeText={onChange}
+                isSecure={!showConfirmPassword}
+                onToggleSecure={() =>
                   setShowConfirmPassword(!showConfirmPassword)
                 }
-                value={value}
-                onChangeText={onChange}
-                placeholder="Nhập mật khẩu"
-                iconStart={
+                startIcon={
                   <Lock1 variant="Bold" size={20} color={COLORS.primary} />
                 }
-                iconEnd={
+                endIcon={
                   showPassword ? (
                     <Eye variant="Bold" size={20} color={COLORS.primary} />
                   ) : (
