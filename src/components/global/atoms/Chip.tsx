@@ -4,8 +4,11 @@ import { Text, TouchableOpacity, View } from "react-native"
 
 import { cn } from "@/lib/utils"
 
+import { VStack } from "./Stack"
+
 interface ChipProps {
   label: string
+  description?: string
   onPress?: () => void
   variant?: "default" | "selected"
   size?: "sm" | "md" | "lg"
@@ -55,6 +58,7 @@ const borderStyles = {
 
 export const Chip = ({
   label,
+  description,
   onPress,
   variant = "default",
   size = "sm",
@@ -81,13 +85,25 @@ export const Chip = ({
       style={border && { borderWidth }}
     >
       {icon && <View className="mr-4">{icon}</View>}
-      <Text
-        className={`font-tmedium ${
-          border ? borderStyle.text : variantStyle.text
-        } ${sizeStyle.text}`}
-      >
-        {label}
-      </Text>
+
+      <View className="flex-col justify-start">
+        <Text
+          className={`font-tmedium ${
+            border ? borderStyle.text : variantStyle.text
+          } ${sizeStyle.text}`}
+        >
+          {label}
+        </Text>
+        {description && (
+          <Text
+            className={`font-tmedium text-sm ${
+              border ? borderStyle.text : variantStyle.text
+            } `}
+          >
+            {description}
+          </Text>
+        )}
+      </View>
     </TouchableOpacity>
   )
 }

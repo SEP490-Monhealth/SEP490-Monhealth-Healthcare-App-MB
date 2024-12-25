@@ -119,7 +119,7 @@ function NutritionFood() {
       >
         <SafeAreaView className="h-full bg-background">
           <ScrollView showsVerticalScrollIndicator={false} className="px-6">
-            <Header back title="Thêm khẩu phần" />
+            <Header back label="Thêm khẩu phần" />
             <Content>
               <VStack gap={20} className="mt-2">
                 <Text className="font-tmedium text-xl text-primary">
@@ -548,22 +548,18 @@ function NutritionFood() {
           <Sheet ref={SheetRef}>
             <VStack gap={10}>
               <TouchableOpacity onPress={() => onUnitSelect("g")}>
-                <Card>
-                  <Text
-                    className={`py-2 font-tmedium text-base ${selectedUnit === "g" ? "text-primary" : ""}`}
-                  >
-                    g (Gram)
-                  </Text>
-                </Card>
+                <Text
+                  className={`rounded-xl border border-border px-4 py-6 font-tmedium text-base ${selectedUnit === "g" ? "bg-primary text-white" : "bg-muted text-primary"}`}
+                >
+                  g (Gram)
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => onUnitSelect("ml")}>
-                <Card>
-                  <Text
-                    className={`py-2 font-tmedium text-base ${selectedUnit === "ml" ? "text-primary" : ""}`}
-                  >
-                    ml (Milliliter)
-                  </Text>
-                </Card>
+                <Text
+                  className={`rounded-xl border border-border px-4 py-6 font-tmedium text-base ${selectedUnit === "ml" ? "bg-primary text-white" : "bg-muted text-primary"}`}
+                >
+                  ml (Milliliter)
+                </Text>
               </TouchableOpacity>
             </VStack>
           </Sheet>

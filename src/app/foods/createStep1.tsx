@@ -56,7 +56,7 @@ function InformationFood() {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <Container>
-        <Header back title="Tạo món ăn" />
+        <Header back label="Tạo món ăn" />
         <Content>
           <VStack gap={40}>
             <VStack gap={20}>

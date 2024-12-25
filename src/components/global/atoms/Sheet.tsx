@@ -63,7 +63,7 @@ export const Sheet = forwardRef<SheetRefProps, SheetProps>(
         const closeToMid = Math.abs(translateY.value + 300) < 100
 
         if (closeToMax && event.translationY > 0) {
-          scrollTo(-300)
+          scrollTo(-250)
         } else if (closeToMid && event.translationY > 0) {
           scrollTo(0)
         } else if (event.translationY < 0) {
