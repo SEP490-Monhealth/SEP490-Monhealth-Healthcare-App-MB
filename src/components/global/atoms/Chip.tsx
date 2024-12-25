@@ -4,8 +4,6 @@ import { Text, TouchableOpacity, View } from "react-native"
 
 import { cn } from "@/lib/utils"
 
-import { VStack } from "./Stack"
-
 interface ChipProps {
   label: string
   description?: string
@@ -48,7 +46,7 @@ const sizeStyles = {
 const borderStyles = {
   default: {
     border: "border-border",
-    text: "text-secondary"
+    text: "text-accent"
   },
   selected: {
     border: "border-primary",
@@ -94,6 +92,7 @@ export const Chip = ({
         >
           {label}
         </Text>
+
         {description && (
           <Text
             className={`font-tmedium text-sm ${

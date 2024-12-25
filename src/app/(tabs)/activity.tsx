@@ -12,21 +12,16 @@ function ActivityScreen() {
     router.push("/foods/portions/create")
   }
 
-  const handleViewDoB = () => {
-    router.push("/(setup)/date-of-birth")
-  }
-
   const handleViewFrequency = () => {
     router.push("/(setup)/activity-level")
   }
-  const handleViewCreateFood = () => {
-    router.push("/foods/createStep1")
-  }
+
   const handleViewTargetSetup = () => {
-    router.push("/(setup)/target-setup")
+    router.push("/(setup)/target")
   }
+
   const handleViewWeightSetup = () => {
-    router.push("/(setup)/weight-setup")
+    router.push("/(setup)/weight")
   }
 
   return (
@@ -39,16 +34,8 @@ function ActivityScreen() {
             Tạo portion
           </Button>
 
-          <Button size="lg" onPress={handleViewDoB}>
-            Chọn ngày sinh
-          </Button>
-
           <Button size="lg" onPress={handleViewFrequency}>
             Chọn tần xuất
-          </Button>
-
-          <Button size="lg" onPress={handleViewCreateFood}>
-            Tạo món ăn
           </Button>
 
           <Button size="lg" onPress={handleViewTargetSetup}>

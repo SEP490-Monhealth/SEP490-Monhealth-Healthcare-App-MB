@@ -45,7 +45,7 @@ export const CreateNutrition = ({ control, errors }: CreateNutritionProps) => {
       <ScrollArea>
         <VStack gap={20} className="mt-2 h-full px-6 pb-40">
           <VStack>
-            <Section label="Thông tin dinh dưỡng cơ bản" />
+            <Section label="Dinh dưỡng cơ bản" />
 
             <VStack gap={12}>
               {renderInput("nutrition.calories", "Năng lượng", "kcal")}
@@ -58,7 +58,7 @@ export const CreateNutrition = ({ control, errors }: CreateNutritionProps) => {
           </VStack>
 
           <VStack>
-            <Section label="Thông tin chi tiết" />
+            <Section label="Dinh dưỡng chi tiết" />
 
             <VStack gap={12}>
               {renderInput("nutrition.saturatedFat", "Chất béo bão hòa", "g")}

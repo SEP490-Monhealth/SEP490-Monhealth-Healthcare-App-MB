@@ -14,7 +14,6 @@ import { Controller, useForm } from "react-hook-form"
 
 import {
   Button,
-  Card,
   Content,
   HStack,
   Input,

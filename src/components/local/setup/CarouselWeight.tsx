@@ -42,7 +42,7 @@ export const CarouselWeight = ({ defaultWeight }: WeightProp) => {
   }
 
   return (
-    <Animated.FlatList<number>
+    <Animated.FlatList
       ref={flatListRef}
       horizontal
       showsHorizontalScrollIndicator={false}

@@ -1,15 +1,44 @@
 import React, { useState } from "react"
 
+import {
+  Calendar,
+  Calendar2,
+  CalendarCircle,
+  CalendarRemove
+} from "iconsax-react-native"
+
 import { Chip, Container, Content, VStack } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/app"
-import { frequenciesData } from "@/constants/frequencies"
 
 function ActivityLevelScreen() {
-  const [selectedActivity, setSelectedActivity] = useState<number>(1.2)
+  const activityLevelsData = [
+    {
+      label: "0 buổi / tuần",
+      value: 1.2,
+      icon: CalendarRemove
+    },
+    {
+      label: "1 - 3 buổi / tuần",
+      value: 1.375,
+      icon: Calendar2
+    },
+    {
+      label: "3 - 5 buổi / tuần",
+      value: 1.55,
+      icon: Calendar
+    },
+    {
+      label: "6 - 7 buổi / tuần",
+      value: 1.725,
+      icon: CalendarCircle
+    }
+  ]
 
-  const handleSelectCategory = (value: number) => {
+  const [selectedActivity, setSelectedActivity] = useState(1.2)
+
+  const handleSelectActivity = (value: number) => {
     setSelectedActivity(value)
     console.log(value)
   }
@@ -20,7 +49,7 @@ function ActivityLevelScreen() {
 
       <Content>
         <VStack gap={12} className="mt-2">
-          {frequenciesData.map((activity) => {
+          {activityLevelsData.map((activity) => {
             const Icon = activity.icon
 
             return (
@@ -32,7 +61,7 @@ function ActivityLevelScreen() {
                 size="lg"
                 icon={<Icon variant="Bold" size={28} color={COLORS.primary} />}
                 selected={selectedActivity === activity.value}
-                onPress={() => handleSelectCategory(activity.value)}
+                onPress={() => handleSelectActivity(activity.value)}
               />
             )
           })}

@@ -2,8 +2,6 @@ import { useState } from "react"
 
 import {
   Keyboard,
-  KeyboardAvoidingView,
-  Platform,
   SafeAreaView,
   TouchableWithoutFeedback,
   View

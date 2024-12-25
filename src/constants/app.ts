@@ -7,6 +7,7 @@ export const APP = {
 export const COLORS = {
   primary: "#334155",
   secondary: "#64748b",
+  accent: "#94a3b8",
 
   yellow: "#ca8a04",
 

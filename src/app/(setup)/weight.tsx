@@ -2,9 +2,9 @@ import React from "react"
 
 import { SafeAreaView, View } from "react-native"
 
-import { CarouselWeight } from "@/components/global/atoms/CarouselWeight"
+import { CarouselWeight } from "@/components/local/setup/CarouselWeight"
 
-const Weight = () => {
+function SetupWeightScreen() {
   return (
     <SafeAreaView className="h-full bg-background">
       <View className="mt-20">
@@ -14,4 +14,4 @@ const Weight = () => {
   )
 }
 
-export default Weight
+export default SetupWeightScreen
