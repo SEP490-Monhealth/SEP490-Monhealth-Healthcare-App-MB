@@ -19,6 +19,9 @@ function ActivityScreen() {
   const handleViewFrequency = () => {
     router.push("/(setup)/activity-level")
   }
+  const handleViewCreateFood = () => {
+    router.push("/foods/createStep1")
+  }
 
   return (
     <Container>
@@ -35,6 +38,14 @@ function ActivityScreen() {
 
         <Button size="lg" onPress={handleViewFrequency} className="mt-20">
           Chọn tần xuất
+        </Button>
+
+        <Button size="lg" onPress={handleViewCreatePortion}>
+          Khẩu phần ăn
+        </Button>
+
+        <Button className="mt-10" size="lg" onPress={handleViewCreateFood}>
+          Tạo món ăn
         </Button>
       </Content>
     </Container>

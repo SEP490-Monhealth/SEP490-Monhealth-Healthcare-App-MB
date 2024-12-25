@@ -19,7 +19,7 @@ const baseNutritionSchema = z.object({
   fiber: z
     .number()
     .positive({ message: "Fiber phải là một số dương" })
-    .max(100, { message: "Fiber không được vượt quá 100g" }),
+    .max(500, { message: "Fiber không được vượt quá 500g" }),
   sugar: z
     .number()
     .positive({ message: "Sugar phải là một số dương" })

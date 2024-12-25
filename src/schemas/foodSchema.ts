@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-import { nutritionFoodSchema } from "./nutritionSchema"
+import { nutritionSchema } from "./nutritionSchema"
 import { portionSchema } from "./portionSchema"
 
 export const baseFoodSchema = z.object({
@@ -18,11 +18,11 @@ export const baseFoodSchema = z.object({
     }),
   description: z
     .string()
-    .max(500, { message: "Mô tả món ăn không được dài hơn 500 ký tự" })
-    .optional(),
+    .nonempty({ message: "Mô tả món ăn không được để trống" })
+    .max(500, { message: "Mô tả món ăn không được dài hơn 500 ký tự" }),
 
   portion: z.object(portionSchema.shape),
-  nutrition: z.object(nutritionFoodSchema.shape),
+  nutrition: z.object(nutritionSchema.shape),
 
   status: z.boolean(),
 
@@ -43,6 +43,7 @@ export const foodSchema = baseFoodSchema.pick({
 
 export const createUpdateFoodSchema = baseFoodSchema.omit({
   foodId: true,
+  category: true,
   status: true,
   createdAt: true,
   updatedAt: true,
@@ -50,5 +51,19 @@ export const createUpdateFoodSchema = baseFoodSchema.omit({
   updatedBy: true
 })
 
+export const createFoodStep1Schema = baseFoodSchema.pick({
+  userId: true,
+  type: true,
+  name: true,
+  description: true
+})
+
+export const createFoodStep2Schema = baseFoodSchema.pick({
+  portion: true,
+  nutrition: true
+})
+
 export type FoodType = z.infer<typeof foodSchema>
 export type CreateUpdateFoodType = z.infer<typeof createUpdateFoodSchema>
+export type CreateFoodStep1Type = z.infer<typeof createFoodStep1Schema>
+export type CreateFoodStep2Type = z.infer<typeof createFoodStep2Schema>

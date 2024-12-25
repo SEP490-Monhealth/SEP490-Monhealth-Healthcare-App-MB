@@ -24,6 +24,7 @@ type InputProps = Omit<TextInputProps, "value"> & {
   iconStart?: React.ReactNode
   iconEnd?: React.ReactNode
   clearText?: boolean
+  textRight?: boolean
   iconEndAction?: () => void
   errorMessage?: string
   className?: string
@@ -42,6 +43,7 @@ export const Input: React.FC<InputProps> = ({
   iconStart,
   iconEnd,
   clearText = true,
+  textRight = false,
   iconEndAction,
   errorMessage,
   className = "",
@@ -95,6 +97,7 @@ export const Input: React.FC<InputProps> = ({
           multiline={multiline}
           numberOfLines={multiline ? numberOfLines : 1}
           textAlignVertical={multiline ? "top" : "center"}
+          textAlign={textRight ? "right" : "left"}
           blurOnSubmit={false}
           onFocus={handleFocus}
           onBlur={handleBlur}
@@ -120,7 +123,7 @@ export const Input: React.FC<InputProps> = ({
             activeOpacity={0.7}
             onPress={iconEndAction || toggleSecureTextEntry}
           >
-            <View className="px-2 py-4">{iconEnd}</View>
+            <View className="px-2 items-center">{iconEnd}</View>
           </TouchableOpacity>
         )}
       </View>
