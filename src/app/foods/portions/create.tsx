@@ -14,6 +14,7 @@ import { Controller, useForm } from "react-hook-form"
 
 import {
   Button,
+  Card,
   Content,
   HStack,
   Input,
@@ -46,7 +47,7 @@ function PortionCreateScreen() {
   const SheetRef = useRef<SheetRefProps>(null)
 
   const openSheet = () => {
-    SheetRef.current?.scrollTo(-200)
+    SheetRef.current?.scrollTo(-250)
   }
 
   const closeSheet = () => {
@@ -123,20 +124,22 @@ function PortionCreateScreen() {
         </View>
 
         <Sheet ref={SheetRef}>
-          <TouchableOpacity onPress={() => onUnitSelect("g")}>
-            <Text
-              className={`py-2 ${selectedUnit === "g" ? "text-primary" : ""}`}
-            >
-              g (gram)
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => onUnitSelect("ml")}>
-            <Text
-              className={`py-2 ${selectedUnit === "ml" ? "text-primary" : ""}`}
-            >
-              ml (milliliter)
-            </Text>
-          </TouchableOpacity>
+          <VStack gap={10}>
+            <TouchableOpacity onPress={() => onUnitSelect("g")}>
+              <Text
+                className={`rounded-xl border border-border px-4 py-6 font-tmedium text-base ${selectedUnit === "g" ? "bg-primary text-white" : "bg-muted text-primary"}`}
+              >
+                g (Gram)
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => onUnitSelect("ml")}>
+              <Text
+                className={`rounded-xl border border-border px-4 py-6 font-tmedium text-base ${selectedUnit === "ml" ? "bg-primary text-white" : "bg-muted text-primary"}`}
+              >
+                ml (Milliliter)
+              </Text>
+            </TouchableOpacity>
+          </VStack>
         </Sheet>
       </SafeAreaView>
     </TouchableWithoutFeedback>

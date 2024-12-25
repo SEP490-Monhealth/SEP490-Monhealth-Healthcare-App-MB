@@ -2,7 +2,7 @@ import React from "react"
 
 import { useRouter } from "expo-router"
 
-import { Button, Container, Content } from "@/components/global/atoms"
+import { Button, Container, Content, VStack } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
 function ActivityScreen() {
@@ -22,31 +22,43 @@ function ActivityScreen() {
   const handleViewCreateFood = () => {
     router.push("/foods/createStep1")
   }
+  const handleViewTargetSetup = () => {
+    router.push("/(setup)/target-setup")
+  }
+  const handleViewWeightSetup = () => {
+    router.push("/(setup)/weight-setup")
+  }
 
   return (
     <Container>
       <Header label="Tạo khẩu phần" />
 
       <Content>
-        <Button size="lg" onPress={handleViewCreatePortion}>
-          Tạo portion
-        </Button>
+        <VStack gap={20}>
+          <Button size="lg" onPress={handleViewCreatePortion}>
+            Tạo portion
+          </Button>
 
-        <Button size="lg" onPress={handleViewDoB} className="mt-20">
-          Chọn ngày sinh
-        </Button>
+          <Button size="lg" onPress={handleViewDoB}>
+            Chọn ngày sinh
+          </Button>
 
-        <Button size="lg" onPress={handleViewFrequency} className="mt-20">
-          Chọn tần xuất
-        </Button>
+          <Button size="lg" onPress={handleViewFrequency}>
+            Chọn tần xuất
+          </Button>
 
-        <Button size="lg" onPress={handleViewCreatePortion}>
-          Khẩu phần ăn
-        </Button>
+          <Button size="lg" onPress={handleViewCreateFood}>
+            Tạo món ăn
+          </Button>
 
-        <Button className="mt-10" size="lg" onPress={handleViewCreateFood}>
-          Tạo món ăn
-        </Button>
+          <Button size="lg" onPress={handleViewTargetSetup}>
+            Chọn mục tiêu
+          </Button>
+
+          <Button size="lg" onPress={handleViewWeightSetup}>
+            Chọn cân nặng
+          </Button>
+        </VStack>
       </Content>
     </Container>
   )
