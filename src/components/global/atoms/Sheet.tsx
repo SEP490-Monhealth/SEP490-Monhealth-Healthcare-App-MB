@@ -132,7 +132,7 @@ export const Sheet = forwardRef<SheetRefProps, SheetProps>(
             className="absolute top-full z-20 w-full bg-background"
           >
             <View className="my-4 h-2 w-20 self-center rounded-full bg-border" />
-            <View className="px-6 py-4">{children}</View>
+            <View className="p-4">{children}</View>
           </Animated.View>
         </GestureDetector>
       </>

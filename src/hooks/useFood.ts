@@ -23,6 +23,7 @@ export const useGetAllFoods = (
   page: number,
   limit?: number,
   search?: string,
+  type?: string,
   category?: string,
   popular?: boolean,
   status?: boolean
@@ -30,10 +31,18 @@ export const useGetAllFoods = (
   const handleError = useErrorHandler()
 
   return useQuery<FoodResponse, Error>({
-    queryKey: ["foods", page, limit, search, category, popular, status],
+    queryKey: ["foods", page, limit, search, type, category, popular, status],
     queryFn: async () => {
       try {
-        return await getAllFoods(page, limit, search, category, popular, status)
+        return await getAllFoods(
+          page,
+          limit,
+          search,
+          type,
+          category,
+          popular,
+          status
+        )
       } catch (error) {
         handleError(error)
         throw error

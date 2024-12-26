@@ -10,7 +10,7 @@ export const useAnimation = () => {
 
   useEffect(() => {
     fadeAnim.setValue(0)
-    scaleAnim.setValue(0.5)
+    scaleAnim.setValue(0.9)
     textFadeAnim.setValue(0)
     textTranslateAnim.setValue(20)
 
@@ -24,7 +24,7 @@ export const useAnimation = () => {
           }),
           Animated.sequence([
             Animated.timing(scaleAnim, {
-              toValue: 1.2,
+              toValue: 1.1,
               duration: 300,
               useNativeDriver: true
             }),

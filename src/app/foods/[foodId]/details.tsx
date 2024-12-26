@@ -14,6 +14,7 @@ import {
   ScrollArea,
   Select,
   Sheet,
+  SheetItem,
   SheetRefProps,
   VStack
 } from "@/components/global/atoms"
@@ -27,20 +28,24 @@ import { useGetFoodById } from "@/hooks/useFood"
 
 function FoodDetailsScreen() {
   const router = useRouter()
+  const SheetRef = useRef<SheetRefProps>(null)
 
   const { foodId } = useLocalSearchParams() as { foodId: string }
-  // const foodData = sampleFoodsData.find((item) => item.foodId === foodId)
 
   const { data: foodData, isLoading, isFetching } = useGetFoodById(foodId)
 
   const isSaved = false
 
-  const [query, setQuery] = useState("1")
-
-  const SheetRef = useRef<SheetRefProps>(null)
+  const meals = ["Bữa sáng", "Bữa trưa", "Bữa tối", "Bữa phụ"]
+  const [selectedMeal, setSelectedMeal] = useState("Bữa sáng")
+  const [quantity, setQuantity] = useState("1")
 
   const openSheet = () => {
     SheetRef.current?.scrollTo(-300)
+  }
+
+  const closeSheet = () => {
+    SheetRef.current?.scrollTo(0)
   }
 
   if (!foodData || isLoading || isFetching) return <LoadingScreen />
@@ -78,9 +83,9 @@ function FoodDetailsScreen() {
                   <HStack center gap={8}>
                     <View style={{ flex: 1 }}>
                       <Input
-                        value={query}
+                        value={quantity}
                         placeholder="1"
-                        onChangeText={(text) => setQuery(text)}
+                        onChangeText={(text) => setQuantity(text)}
                         keyboardType="numeric"
                       />
                     </View>
@@ -114,9 +119,17 @@ function FoodDetailsScreen() {
       </View>
 
       <Sheet ref={SheetRef}>
-        <View>
-          <Text>Đại, Khải sủi nói mai đi coi đồ án mà khum đi coi</Text>
-        </View>
+        {meals.map((meal) => (
+          <SheetItem
+            key={meal}
+            item={meal}
+            isSelected={selectedMeal === meal}
+            onSelect={(meal) => {
+              setSelectedMeal(meal)
+              closeSheet()
+            }}
+          />
+        ))}
       </Sheet>
     </SafeAreaView>
   )

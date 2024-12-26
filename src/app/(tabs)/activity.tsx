@@ -24,6 +24,10 @@ function ActivityScreen() {
     router.push("/(setup)/weight")
   }
 
+  const handleViewFoodCompleted = () => {
+    router.push("/foods/completed")
+  }
+
   return (
     <Container>
       <Header label="Tạo khẩu phần" />
@@ -44,6 +48,10 @@ function ActivityScreen() {
 
           <Button size="lg" onPress={handleViewWeightSetup}>
             Chọn cân nặng
+          </Button>
+
+          <Button size="lg" onPress={handleViewFoodCompleted}>
+            Chọn Food
           </Button>
         </VStack>
       </Content>

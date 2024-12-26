@@ -13,6 +13,7 @@ import { Schedule } from "./Schedule"
 import { ScrollArea } from "./ScrollArea"
 import { Select } from "./Select"
 import { Sheet, SheetRefProps } from "./Sheet"
+import { SheetItem } from "./SheetItem"
 import { HStack, VStack } from "./Stack"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./Tabs"
 
@@ -33,6 +34,7 @@ export {
   Schedule,
   ScrollArea,
   Select,
+  SheetItem,
   VStack,
   HStack,
   Tabs,

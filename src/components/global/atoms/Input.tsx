@@ -13,6 +13,7 @@ import { X } from "lucide-react-native"
 
 type InputProps = Omit<TextInputProps, "value"> & {
   testID?: string
+  disabled?: boolean
   value?: string
   placeholder?: string
   onChangeText?: (text: string) => void
@@ -32,6 +33,7 @@ type InputProps = Omit<TextInputProps, "value"> & {
 
 export const Input: React.FC<InputProps> = ({
   testID,
+  disabled = false,
   value,
   placeholder = "",
   onChangeText,
@@ -55,10 +57,12 @@ export const Input: React.FC<InputProps> = ({
   const hasError = !!errorMessage
 
   const handleClearText = () => {
+    if (disabled) return
     onChangeText?.("")
   }
 
   const handleFocus = () => {
+    if (disabled) return
     setIsFocused(true)
   }
 
@@ -74,13 +78,13 @@ export const Input: React.FC<InputProps> = ({
       <View
         className={`flex-row items-center rounded-2xl border px-4 py-1 ${className} ${
           hasError ? "border-destructive bg-red-50" : "border-border bg-white"
-        }`}
+        } ${disabled ? "border-border bg-border" : ""}`}
         style={{ height: isMultiline ? undefined : 52 }}
       >
         {startIcon && (
           <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={() => inputRef.current?.focus()}
+            activeOpacity={disabled ? 1 : 0.7}
+            onPress={() => !disabled && inputRef.current?.focus()}
             className="mr-2"
           >
             <View>{startIcon}</View>
@@ -101,9 +105,10 @@ export const Input: React.FC<InputProps> = ({
           blurOnSubmit={false}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          editable={!disabled}
           className={`flex-1 py-2 font-tregular ${
             hasError ? "text-destructive" : "text-primary"
-          }`}
+          } ${disabled ? "text-secondary" : ""}`}
           style={{
             height: isMultiline ? numberOfLines * 20 : undefined
           }}
@@ -111,7 +116,10 @@ export const Input: React.FC<InputProps> = ({
         />
 
         {canClearText && value && !endIcon && (
-          <TouchableOpacity activeOpacity={0.7} onPress={handleClearText}>
+          <TouchableOpacity
+            activeOpacity={disabled ? 1 : 0.7}
+            onPress={handleClearText}
+          >
             <View className="px-2 py-4">
               <X size={20} color="#cbd5e1" />
             </View>
@@ -120,9 +128,9 @@ export const Input: React.FC<InputProps> = ({
 
         {endIcon && (
           <TouchableOpacity
-            activeOpacity={0.7}
-            // onPress={onEndIconPress || onToggleSecure}
+            activeOpacity={disabled ? 1 : 0.7}
             onPress={() => {
+              if (disabled) return
               inputRef.current?.focus()
               onEndIconPress?.()
               onToggleSecure?.()
