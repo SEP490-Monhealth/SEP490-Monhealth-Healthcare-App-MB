@@ -19,7 +19,7 @@ interface NutritionSubItemProps {
 
 export const NutritionSubItem = ({
   label,
-  value,
+  value = 0,
   unit
 }: NutritionSubItemProps) => (
   <HStack className="justify-between py-1 pl-4">
@@ -32,7 +32,7 @@ export const NutritionSubItem = ({
 
 export const NutritionItem = ({
   label,
-  value,
+  value = 0,
   unit,
   subItems
 }: NutritionItemProps) => (

@@ -3,20 +3,25 @@ import React from "react"
 import { HStack } from "@/components/global/atoms"
 import { ArcProgress } from "@/components/global/molecules"
 
-import { NutritionType } from "@/schemas/nutritionSchema"
-
 import { toFixed2 } from "@/utils/formatters"
 import { getNutritionColor } from "@/utils/helpers"
 
 interface FoodNutritionProps {
-  nutritionData: NutritionType
+  calories: number
+  protein: number
+  carbs: number
+  fat: number
 }
 
-export const FoodNutrition = ({ nutritionData }: FoodNutritionProps) => {
-  const proteinFill =
-    ((nutritionData.protein * 4) / nutritionData.calories) * 100
-  const carbsFill = ((nutritionData.carbs * 4) / nutritionData.calories) * 100
-  const fatFill = ((nutritionData.fat * 9) / nutritionData.calories) * 100
+export const FoodNutrition = ({
+  calories,
+  protein,
+  carbs,
+  fat
+}: FoodNutritionProps) => {
+  const proteinFill = ((protein * 4) / calories) * 100
+  const carbsFill = ((carbs * 4) / calories) * 100
+  const fatFill = ((fat * 9) / calories) * 100
 
   return (
     <HStack center className="justify-between">
@@ -28,7 +33,7 @@ export const FoodNutrition = ({ nutritionData }: FoodNutritionProps) => {
         tintColor={getNutritionColor("Protein")}
         centerCircle={true}
         valueType="percentage"
-        value={toFixed2(proteinFill)}
+        value={toFixed2(proteinFill) || 0}
         label="Protein"
       />
 
@@ -40,7 +45,7 @@ export const FoodNutrition = ({ nutritionData }: FoodNutritionProps) => {
         tintColor={getNutritionColor("Carbs")}
         centerCircle={true}
         valueType="percentage"
-        value={toFixed2(carbsFill)}
+        value={toFixed2(carbsFill) || 0}
         label="Carbs"
       />
 
@@ -52,7 +57,7 @@ export const FoodNutrition = ({ nutritionData }: FoodNutritionProps) => {
         tintColor={getNutritionColor("Fat")}
         centerCircle={true}
         valueType="percentage"
-        value={toFixed2(fatFill)}
+        value={toFixed2(fatFill) || 0}
         label="Fat"
       />
     </HStack>

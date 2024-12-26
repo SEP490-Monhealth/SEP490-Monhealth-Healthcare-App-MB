@@ -48,7 +48,11 @@ export const CreateNutrition = ({ control, errors }: CreateNutritionProps) => {
             <Section label="Dinh dưỡng cơ bản" />
 
             <VStack gap={12}>
-              {renderInput("nutrition.calories", "Năng lượng", "kcal")}
+              {renderInput(
+                "nutrition.calories",
+                "Năng lượng (Calories)",
+                "kcal"
+              )}
               {renderInput("nutrition.protein", "Chất đạm (Protein)", "g")}
               {renderInput("nutrition.carbs", "Tinh bột (Carbs)", "g")}
               {renderInput("nutrition.fiber", "Chất xơ (Fiber)", "g")}
