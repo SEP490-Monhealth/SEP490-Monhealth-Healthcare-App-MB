@@ -1,14 +1,16 @@
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 
 import { useErrorHandler } from "@/contexts/ErrorContext"
 
-import { FoodType } from "@/schemas/foodSchema"
+import { CreateFoodType, FoodType, UpdateFoodType } from "@/schemas/foodSchema"
 
 import {
+  createFood,
   getAllFoods,
   getFoodById,
   getFoodsByCategory,
-  getFoodsByType
+  getFoodsByType,
+  updateFood
 } from "@/services/foodService"
 
 interface FoodResponse {
@@ -97,5 +99,35 @@ export const useGetFoodById = (foodId: string) => {
       }
     },
     staleTime: 1000 * 60 * 5
+  })
+}
+
+export const useCreateFood = () => {
+  const handleError = useErrorHandler()
+
+  return useMutation<string, Error, CreateFoodType>({
+    mutationFn: async (data) => {
+      try {
+        return await createFood(data)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    }
+  })
+}
+
+export const useUpdateFood = () => {
+  const handleError = useErrorHandler()
+
+  return useMutation<string, Error, { foodId: string; food: UpdateFoodType }>({
+    mutationFn: async ({ foodId, food }) => {
+      try {
+        return await updateFood(foodId, food)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    }
   })
 }

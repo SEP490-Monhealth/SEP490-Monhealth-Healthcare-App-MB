@@ -65,6 +65,11 @@ export const createFoodNutritionSchema = baseFoodSchema.pick({
   nutrition: true
 })
 
+export const updateFoodSchema = baseFoodSchema.pick({
+  name: true,
+  description: true
+})
+
 export type FoodType = z.infer<typeof foodSchema>
 export type CreateFoodType = z.infer<typeof createFoodSchema>
 export type CreateFoodInformationType = z.infer<
@@ -72,3 +77,4 @@ export type CreateFoodInformationType = z.infer<
 >
 export type CreateFoodPortionType = z.infer<typeof createFoodPortionSchema>
 export type CreateFoodNutritionType = z.infer<typeof createFoodNutritionSchema>
+export type UpdateFoodType = z.infer<typeof updateFoodSchema>
