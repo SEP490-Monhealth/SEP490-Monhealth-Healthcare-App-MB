@@ -39,15 +39,18 @@ function FoodsScreen() {
   const [searchQuery, setSearchQuery] = useState<string>("")
   const [totalItems, setTotalItems] = useState<number>(0)
   const [hasMore, setHasMore] = useState<boolean>(true)
+  const [selectedCategory, setSelectedCategory] = useState<string>("Tất cả")
 
   const debouncedSearchQuery: string = useDebounce(searchQuery)
+  const debouncedSelectedCategory: string = useDebounce(selectedCategory, 0)
 
   const { data: categoriesData, isLoading: isCategoriesLoading } =
     useGetAllCategories()
 
   const fetchFoods = async (
     newLimit: number,
-    search: string = ""
+    search: string = "",
+    category: string = "Tất cả"
   ): Promise<void> => {
     try {
       const { foods: newFoods, totalItems: total } = await getAllFoods(
@@ -55,10 +58,11 @@ function FoodsScreen() {
         newLimit,
         search,
         "Public",
-        "",
+        category === "Tất cả" ? "" : category,
         false,
         true
       )
+
       setFoods(newFoods)
       setTotalItems(total)
       setHasMore(newFoods.length < total)
@@ -71,7 +75,7 @@ function FoodsScreen() {
     if (isRefreshing) return
     setIsRefreshing(true)
     setLimit(10)
-    await fetchFoods(10)
+    await fetchFoods(10, debouncedSearchQuery, debouncedSelectedCategory)
     setIsRefreshing(false)
   }
 
@@ -79,9 +83,9 @@ function FoodsScreen() {
     if (isFetchingMore || !hasMore) return
     setIsFetchingMore(true)
 
-    const newLimit = Math.min(limit + 10, totalItems)
+    const newLimit = Math.min(limit + 5, totalItems)
     setLimit(newLimit)
-    await fetchFoods(newLimit, debouncedSearchQuery)
+    await fetchFoods(newLimit, debouncedSearchQuery, debouncedSelectedCategory)
     setIsFetchingMore(false)
   }
 
@@ -91,21 +95,14 @@ function FoodsScreen() {
   }
 
   useEffect(() => {
-    fetchFoods(limit)
+    fetchFoods(limit, debouncedSearchQuery, debouncedSelectedCategory)
 
     const timeout = setTimeout(() => {
       setIsLoading(false)
     }, 1000)
 
     return () => clearTimeout(timeout)
-  }, [])
-
-  useEffect(() => {
-    if (debouncedSearchQuery !== undefined) {
-      setLimit(10)
-      fetchFoods(10, debouncedSearchQuery)
-    }
-  }, [debouncedSearchQuery])
+  }, [debouncedSearchQuery, debouncedSelectedCategory])
 
   if (isLoading || (isCategoriesLoading && !categoriesData)) {
     return <LoadingScreen />
@@ -136,12 +133,16 @@ function FoodsScreen() {
             onRefresh={onRefresh}
             refreshing={isRefreshing}
             onEndReached={onEndReached}
-            onEndReachedThreshold={1}
+            onEndReachedThreshold={0.1}
             showsVerticalScrollIndicator={false}
             stickyHeaderIndices={[0]}
             ListHeaderComponent={() => (
               <ListHeader className="pt-6">
-                <FoodCategories categoriesData={categoriesData || []} />
+                <FoodCategories
+                  categoriesData={categoriesData || []}
+                  selectedCategory={selectedCategory}
+                  onSelectCategory={setSelectedCategory}
+                />
 
                 <Section
                   label="Danh sách món ăn"
@@ -157,6 +158,10 @@ function FoodsScreen() {
                 variant="add"
                 foodId={item.foodId}
                 name={item.name}
+                calories={item.nutrition.calories}
+                // size={item.portion.size}
+                // weight={item.portion.weight}
+                // unit={item.portion.unit}
               />
             )}
             ListEmptyComponent={() => (
@@ -192,6 +197,7 @@ function FoodsScreen() {
                 <ListFooter />
               )
             }
+            contentContainerClassName="h-full"
             ItemSeparatorComponent={() => <View className="h-3" />}
           />
         </VStack>

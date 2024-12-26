@@ -54,10 +54,10 @@ export const MealTab = ({ foodsData }: MealTabProps) => {
           variant="more"
           foodId={item.foodId}
           name={item.name}
-          // calories={item.nutrition.calories}
-          // size={item.portion.size}
-          // weight={item.portion.weight}
-          // unit={item.portion.unit}
+          calories={item.nutrition.calories}
+          size={item.portion.size}
+          weight={item.portion.weight}
+          unit={item.portion.unit}
         />
       )}
       ListFooterComponent={<ListFooter />}

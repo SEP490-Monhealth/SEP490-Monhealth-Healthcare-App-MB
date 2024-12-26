@@ -7,7 +7,7 @@ export const sampleFoodsData: FoodType[] = [
     category: "4c35b262-4c08-4624-900b-e22ba8988c92",
     name: "Cơm",
     portion: {
-      size: "1",
+      size: "1 phần",
       weight: 100,
       unit: "g"
     },
@@ -21,7 +21,7 @@ export const sampleFoodsData: FoodType[] = [
     category: "cd017b8a-fbed-4399-99ed-b59eec9b9551",
     name: "Bánh mì",
     portion: {
-      size: "1",
+      size: "1 phần",
       weight: 100,
       unit: "g"
     },

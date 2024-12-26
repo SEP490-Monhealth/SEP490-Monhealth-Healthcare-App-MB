@@ -7,7 +7,7 @@ import {
   View
 } from "react-native"
 
-import { useLocalSearchParams, useRouter } from "expo-router"
+import { useLocalSearchParams } from "expo-router"
 
 import LoadingScreen from "@/app/loading"
 import { ArchiveTick } from "iconsax-react-native"
