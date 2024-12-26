@@ -35,4 +35,3 @@ export const portionSchema = basePortionSchema.omit({
 })
 
 export type PortionType = z.infer<typeof portionSchema>
-export type CreatePortionType = z.infer<typeof portionSchema>

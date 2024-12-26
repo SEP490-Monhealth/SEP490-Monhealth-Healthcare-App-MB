@@ -32,7 +32,9 @@ function FoodDetailsScreen() {
 
   const { foodId } = useLocalSearchParams() as { foodId: string }
 
-  const { data: foodData, isLoading, isFetching } = useGetFoodById(foodId)
+  const { data: foodData, isLoading: isFoodsLoading } = useGetFoodById(foodId)
+
+  // const {data: nutritionData, isLoading: isNutritionLoading, isFetching} = useGetNutritionByFoodId(foodId)
 
   const isSaved = false
 
@@ -48,7 +50,7 @@ function FoodDetailsScreen() {
     SheetRef.current?.scrollTo(0)
   }
 
-  if (!foodData || isLoading || isFetching) return <LoadingScreen />
+  if (!foodData || isFoodsLoading) return <LoadingScreen />
 
   return (
     <SafeAreaView className="h-full bg-background">
