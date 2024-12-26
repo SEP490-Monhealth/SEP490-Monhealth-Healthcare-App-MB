@@ -27,6 +27,7 @@ export const General = ({ generalItems }: GeneralProps) => {
           startIcon={item.icon}
           label={item.label}
           route={item.route}
+          isBorder={false}
         />
       ))}
     </Card>

@@ -10,8 +10,7 @@ import {
 import { useRouter } from "expo-router"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { set } from "lodash"
-import { useForm } from "react-hook-form"
+import { set, useForm } from "react-hook-form"
 
 import { Button, Content, VStack } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"

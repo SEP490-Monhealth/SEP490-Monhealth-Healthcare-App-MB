@@ -4,6 +4,7 @@ import { General } from "./General"
 import { HealthStats } from "./HealthStats"
 import { Information } from "./Information"
 import { ListItem } from "./ListItem"
+import { SettingItem } from "./SettingItem"
 import { UserAvatar } from "./UserAvatar"
 
 export {
@@ -13,5 +14,6 @@ export {
   HealthStats,
   Information,
   ListItem,
+  SettingItem,
   UserAvatar
 }

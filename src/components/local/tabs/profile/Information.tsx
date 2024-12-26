@@ -26,6 +26,7 @@ export const Information = ({ informationItems }: InformationProps) => {
           startIcon={item.icon}
           label={item.label}
           more={false}
+          isBorder={false}
         />
       ))}
     </Card>

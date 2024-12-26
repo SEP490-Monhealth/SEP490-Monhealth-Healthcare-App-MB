@@ -1,5 +1,3 @@
-import React from "react"
-
 import { Text, TouchableOpacity, View } from "react-native"
 
 import { useRouter } from "expo-router"
@@ -14,6 +12,8 @@ interface ListItemProps {
   label: string
   route?: string
   more?: boolean
+  isLastItem?: boolean
+  isBorder?: boolean // Thêm biến mới để bật/tắt border
 }
 
 export const ListItem = ({
@@ -21,7 +21,9 @@ export const ListItem = ({
   endIcon,
   label,
   route,
-  more = true
+  more = true,
+  isLastItem = false,
+  isBorder = true
 }: ListItemProps) => {
   const router = useRouter()
 
@@ -32,7 +34,9 @@ export const ListItem = ({
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      className="flex-row items-center justify-between py-4"
+      className={`flex-row items-center justify-between py-4 ${
+        isBorder && !isLastItem ? "border-b border-border" : ""
+      }`}
       onPress={() => route && handlePress(route)}
     >
       <View className="flex-row items-center">
