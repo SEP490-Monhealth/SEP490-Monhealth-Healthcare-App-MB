@@ -69,5 +69,13 @@ export const createUpdateMetricSchema = baseMetricSchema.omit({
   updatedAt: true
 })
 
+export const createHeightWeightMetricSchema = baseMetricSchema.pick({
+  height: true,
+  weight: true
+})
+
 export type MetricType = z.infer<typeof metricSchema>
 export type CreateUpdateMetricType = z.infer<typeof createUpdateMetricSchema>
+export type CreateHeightWeightMetricType = z.infer<
+  typeof createHeightWeightMetricSchema
+>

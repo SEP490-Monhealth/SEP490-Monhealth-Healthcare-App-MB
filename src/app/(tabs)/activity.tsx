@@ -20,8 +20,24 @@ function ActivityScreen() {
     router.push("/(setup)/target")
   }
 
+  const handleViewSexSetup = () => {
+    router.push("/(setup)/gender")
+  }
+
   const handleViewWeightSetup = () => {
     router.push("/(setup)/weight")
+  }
+
+  const handleViewDoBSetup = () => {
+    router.push("/(setup)/date-of-birth")
+  }
+
+  const handleViewHeightWeightSetup = () => {
+    router.push("/(setup)/height-weight")
+  }
+
+  const handleViewSettingTab = () => {
+    router.push("/(setup)/setting")
   }
 
   return (
@@ -42,8 +58,24 @@ function ActivityScreen() {
             Chọn mục tiêu
           </Button>
 
+          <Button size="lg" onPress={handleViewSexSetup}>
+            Chọn giới tính
+          </Button>
+
           <Button size="lg" onPress={handleViewWeightSetup}>
             Chọn cân nặng
+          </Button>
+
+          <Button size="lg" onPress={handleViewDoBSetup}>
+            Chọn ngày sinh
+          </Button>
+
+          <Button size="lg" onPress={handleViewHeightWeightSetup}>
+            Nhập chiều cao, cân nặng
+          </Button>
+
+          <Button size="lg" onPress={handleViewSettingTab}>
+            Cài đặt
           </Button>
         </VStack>
       </Content>

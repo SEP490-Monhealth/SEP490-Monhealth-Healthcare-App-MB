@@ -26,6 +26,7 @@ export const Account = ({ accountItems }: AccountProps) => {
           startIcon={item.icon}
           label={item.label}
           more={false}
+          isBorder={false}
         />
       ))}
     </Card>

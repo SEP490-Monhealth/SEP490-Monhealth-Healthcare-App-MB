@@ -1,31 +1,29 @@
 import React from "react"
 
-import { Text } from "react-native"
+import { Text, View } from "react-native"
 
 import { Card } from "@/components/global/atoms"
 
 import { ListItem } from "./ListItem"
 
-interface AboutProps {
-  aboutItems: {
+interface GeneralProps {
+  generalItems: {
     icon: React.ReactNode
     label: string
     route: string
   }[]
 }
 
-export const About = ({ aboutItems }: AboutProps) => {
+export const SettingItem = ({ generalItems }: GeneralProps) => {
   return (
     <Card activeOpacity={1}>
-      <Text className="mb-2 font-tbold text-lg text-primary">Giới thiệu</Text>
-
-      {aboutItems.map((item, index) => (
+      {generalItems.map((item, index) => (
         <ListItem
           key={index}
           startIcon={item.icon}
           label={item.label}
           route={item.route}
-          isBorder={false}
+          isLastItem={index === generalItems.length - 1}
         />
       ))}
     </Card>
