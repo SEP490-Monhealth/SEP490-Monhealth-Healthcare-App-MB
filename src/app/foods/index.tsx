@@ -54,7 +54,7 @@ function FoodsScreen() {
         1,
         newLimit,
         search,
-        "",
+        "Public",
         "",
         false,
         true

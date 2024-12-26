@@ -4,7 +4,6 @@ import { CreatePortion } from "./CreatePortion"
 import { FoodCategories } from "./FoodCategories"
 import { FoodNutrition } from "./FoodNutrition"
 import { NutritionFacts } from "./NutritionFacts"
-import { NutritionItem } from "./NutritionItem"
 
 export {
   CreateInformation,
@@ -12,6 +11,5 @@ export {
   CreatePortion,
   FoodCategories,
   FoodNutrition,
-  NutritionFacts,
-  NutritionItem
+  NutritionFacts
 }

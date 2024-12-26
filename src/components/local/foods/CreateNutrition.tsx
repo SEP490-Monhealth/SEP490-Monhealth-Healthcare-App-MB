@@ -14,6 +14,39 @@ interface CreateNutritionProps {
 }
 
 export const CreateNutrition = ({ control, errors }: CreateNutritionProps) => {
+  const basicNutritionItems = [
+    {
+      name: "nutrition.calories",
+      label: "Năng lượng (Calories)",
+      unit: "kcal"
+    },
+    { name: "nutrition.protein", label: "Chất đạm (Protein)", unit: "g" },
+    { name: "nutrition.carbs", label: "Tinh bột (Carbs)", unit: "g" },
+    { name: "nutrition.fiber", label: "Chất xơ (Fiber)", unit: "g" },
+    { name: "nutrition.sugar", label: "Đường (Sugar)", unit: "g" },
+    { name: "nutrition.fat", label: "Chất béo (Fat)", unit: "g" }
+  ]
+
+  const detailedNutritionItems = [
+    { name: "nutrition.saturatedFat", label: "Chất béo bão hòa", unit: "g" },
+    {
+      name: "nutrition.unsaturatedFat",
+      label: "Chất béo không bão hòa",
+      unit: "g"
+    },
+    { name: "nutrition.cholesterol", label: "Cholesterol", unit: "mg" },
+    { name: "nutrition.sodium", label: "Natri (Sodium)", unit: "mg" },
+    { name: "nutrition.potassium", label: "Kali (Potassium)", unit: "mg" },
+    { name: "nutrition.calcium", label: "Canxi (Calcium)", unit: "mg" },
+    { name: "nutrition.iron", label: "Sắt (Iron)", unit: "mg" },
+    { name: "nutrition.vitaminA", label: "Vitamin A", unit: "IU" },
+    { name: "nutrition.vitaminB1", label: "Vitamin B1", unit: "mg" },
+    { name: "nutrition.vitaminB2", label: "Vitamin B2", unit: "mg" },
+    { name: "nutrition.vitaminC", label: "Vitamin C", unit: "mg" },
+    { name: "nutrition.vitaminD", label: "Vitamin D", unit: "IU" },
+    { name: "nutrition.vitaminE", label: "Vitamin E", unit: "mg" }
+  ]
+
   const renderInput = (
     name: string,
     label: string,
@@ -21,6 +54,7 @@ export const CreateNutrition = ({ control, errors }: CreateNutritionProps) => {
     placeholder = "0"
   ) => (
     <Controller
+      key={name}
       name={name}
       control={control}
       render={({ field: { onChange, value } }) => (
@@ -46,42 +80,19 @@ export const CreateNutrition = ({ control, errors }: CreateNutritionProps) => {
         <VStack gap={20} className="mt-2 h-full px-6 pb-40">
           <VStack>
             <Section label="Dinh dưỡng cơ bản" />
-
             <VStack gap={12}>
-              {renderInput(
-                "nutrition.calories",
-                "Năng lượng (Calories)",
-                "kcal"
+              {basicNutritionItems.map((item) =>
+                renderInput(item.name, item.label, item.unit)
               )}
-              {renderInput("nutrition.protein", "Chất đạm (Protein)", "g")}
-              {renderInput("nutrition.carbs", "Tinh bột (Carbs)", "g")}
-              {renderInput("nutrition.fiber", "Chất xơ (Fiber)", "g")}
-              {renderInput("nutrition.sugar", "Đường (Sugar)", "g")}
-              {renderInput("nutrition.fat", "Chất béo (Fat)", "g")}
             </VStack>
           </VStack>
 
           <VStack>
             <Section label="Dinh dưỡng chi tiết" />
-
             <VStack gap={12}>
-              {renderInput("nutrition.saturatedFat", "Chất béo bão hòa", "g")}
-              {renderInput(
-                "nutrition.unsaturatedFat",
-                "Chất béo không bão hòa",
-                "g"
+              {detailedNutritionItems.map((item) =>
+                renderInput(item.name, item.label, item.unit)
               )}
-              {renderInput("nutrition.cholesterol", "Cholesterol", "mg")}
-              {renderInput("nutrition.sodium", "Natri (Sodium)", "mg")}
-              {renderInput("nutrition.potassium", "Kali (Potassium)", "mg")}
-              {renderInput("nutrition.calcium", "Canxi (Calcium)", "mg")}
-              {renderInput("nutrition.iron", "Sắt (Iron)", "mg")}
-              {renderInput("nutrition.vitaminA", "Vitamin A", "IU")}
-              {renderInput("nutrition.vitaminB1", "Vitamin B1", "mg")}
-              {renderInput("nutrition.vitaminB2", "Vitamin B2", "mg")}
-              {renderInput("nutrition.vitaminC", "Vitamin C", "mg")}
-              {renderInput("nutrition.vitaminD", "Vitamin D", "IU")}
-              {renderInput("nutrition.vitaminE", "Vitamin E", "mg")}
             </VStack>
           </VStack>
         </VStack>

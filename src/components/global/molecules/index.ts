@@ -7,6 +7,7 @@ import { ListFooter } from "./ListFooter"
 import { ListHeader } from "./ListHeader"
 import { MealCard } from "./MealCard"
 import { NutritionCard } from "./NutritionCard"
+import { NutritionItem } from "./NutritionItem"
 
 export {
   ArcProgress,
@@ -17,5 +18,6 @@ export {
   ListFooter,
   ListHeader,
   MealCard,
-  NutritionCard
+  NutritionCard,
+  NutritionItem
 }
