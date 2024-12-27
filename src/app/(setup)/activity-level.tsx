@@ -55,10 +55,10 @@ function ActivityLevelScreen() {
             return (
               <Chip
                 key={activity.label}
+                size="lg"
                 label={activity.label}
                 border={true}
                 borderWidth={2}
-                size="lg"
                 icon={
                   <Icon
                     size={28}

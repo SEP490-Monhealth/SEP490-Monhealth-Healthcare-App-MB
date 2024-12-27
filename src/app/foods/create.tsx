@@ -13,7 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { set } from "lodash"
 import { useForm } from "react-hook-form"
 
-import { Button, Content, VStack } from "@/components/global/atoms"
+import { Button, Content, HStack, VStack } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
 import {
@@ -146,11 +146,11 @@ function FoodCreateScreen() {
           gap={12}
           className="absolute bottom-16 w-full bg-background px-6"
         >
-          <Button variant="secondary" size="lg" onPress={handleBack}>
+          <Button variant="secondary" onPress={handleBack}>
             {currentStep === 1 ? "Hủy" : "Quay lại"}
           </Button>
 
-          <Button size="lg" onPress={handleSubmit(onSubmitStep)}>
+          <Button onPress={handleSubmit(onSubmitStep)}>
             {currentStep === steps.length ? "Tạo mới" : "Tiếp tục"}
           </Button>
         </VStack>

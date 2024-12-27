@@ -64,13 +64,13 @@ export const CreateInformation = ({
             <Text className="font-tbold text-lg text-primary">
               Bạn muốn lưu món ăn này như thế nào?
             </Text>
-            <Text className="font-tmedium text-sm text-accent">
+            <Text className="font-tregular text-sm text-accent">
               Chọn "Công khai" để chia sẻ món ăn với cộng đồng hoặc "Cá nhân" để
               lưu trữ riêng tư cho bạn.
             </Text>
           </VStack>
 
-          <HStack gap={8} className="justify-end">
+          <HStack gap={12} className="justify-end">
             <Chip
               label="Cá nhân"
               selected={selectedType === "User"}

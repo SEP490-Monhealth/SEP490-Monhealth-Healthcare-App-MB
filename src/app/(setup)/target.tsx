@@ -45,11 +45,11 @@ function SetupTargetScreen() {
             return (
               <Chip
                 key={target.label}
+                size="lg"
                 label={target.label}
                 description={target.description}
                 border={true}
                 borderWidth={2}
-                size="lg"
                 icon={
                   <Icon
                     size={28}

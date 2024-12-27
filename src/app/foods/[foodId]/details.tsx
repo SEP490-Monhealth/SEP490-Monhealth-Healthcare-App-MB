@@ -113,7 +113,6 @@ function FoodDetailsScreen() {
                     margin={false}
                     action="Thêm mới"
                     onPress={handleCreatePortion}
-                    className="mt-6"
                   />
 
                   <VStack gap={8}>
@@ -133,7 +132,7 @@ function FoodDetailsScreen() {
                         />
                       </View>
 
-                      <View style={{ flex: 4 }}>
+                      <View style={{ flex: 3 }}>
                         <Select
                           defaultValue="Chọn khẩu phần ăn"
                           value={selectedPortion}

@@ -39,7 +39,7 @@ const sizeStyles = {
   },
   lg: {
     container: "px-6 py-6 rounded-2xl",
-    text: "text-xl"
+    text: "text-lg"
   }
 }
 
@@ -95,7 +95,7 @@ export const Chip = ({
 
         {description && (
           <Text
-            className={`font-tmedium text-sm ${
+            className={`font-tmedium text-sm text-accent ${
               border ? borderStyle.text : variantStyle.text
             } `}
           >

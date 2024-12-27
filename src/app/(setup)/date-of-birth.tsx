@@ -26,7 +26,7 @@ const SetupDateOfBirthScreen = () => {
           <DateTimePicker
             value={date}
             mode="date"
-            display={Platform.OS === "ios" ? "spinner" : "default"}
+            display="spinner"
             onChange={onChange}
             minimumDate={new Date(1904, 0, 1)}
             maximumDate={new Date()}
