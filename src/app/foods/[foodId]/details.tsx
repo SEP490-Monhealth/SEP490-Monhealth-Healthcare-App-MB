@@ -7,7 +7,7 @@ import {
   View
 } from "react-native"
 
-import { useLocalSearchParams } from "expo-router"
+import { useLocalSearchParams, useRouter } from "expo-router"
 
 import LoadingScreen from "@/app/loading"
 import { ArchiveTick } from "iconsax-react-native"
@@ -34,15 +34,10 @@ import { useGetNutritionByFoodId } from "@/hooks/useNutrition"
 import { useGetPortionByFoodId } from "@/hooks/usePortion"
 
 function FoodDetailsScreen() {
+  const router = useRouter()
   const SheetRef = useRef<SheetRefProps>(null)
 
   const { foodId } = useLocalSearchParams() as { foodId: string }
-
-  const { data: foodData, isLoading: isFoodLoading } = useGetFoodById(foodId)
-  const { data: nutritionData, isLoading: isNutritionLoading } =
-    useGetNutritionByFoodId(foodId)
-  const { data: portionData, isLoading: isPortionLoading } =
-    useGetPortionByFoodId(foodId)
 
   const isSaved = false
 
@@ -55,14 +50,27 @@ function FoodDetailsScreen() {
   const [sheetData, setSheetData] = useState<string[]>(meals)
   const [isMealSelection, setIsMealSelection] = useState(true)
 
+  const { data: foodData, isLoading: isFoodLoading } = useGetFoodById(foodId)
+  const { data: nutritionData, isLoading: isNutritionLoading } =
+    useGetNutritionByFoodId(foodId)
+  const { data: portionData, isLoading: isPortionLoading } =
+    useGetPortionByFoodId(foodId)
+
+  const sheetDefaultHeight = 300
+  const sheetHeight = portions.length * 100
+
   const openSheet = (isMeal: boolean) => {
     setSheetData(isMeal ? meals : portions)
     setIsMealSelection(isMeal)
-    SheetRef.current?.scrollTo(-300)
+    SheetRef.current?.scrollTo(isMeal ? -sheetDefaultHeight : -sheetHeight)
   }
 
   const closeSheet = () => {
     SheetRef.current?.scrollTo(0)
+  }
+
+  const handleCreatePortion = () => {
+    router.push("/foods/portions/create")
   }
 
   if (
@@ -100,7 +108,13 @@ function FoodDetailsScreen() {
                 className="mt-2 pb-12"
               >
                 <VStack>
-                  <Section label="Khẩu phần ăn" margin={false} />
+                  <Section
+                    label="Khẩu phần ăn"
+                    margin={false}
+                    action="Thêm mới"
+                    onPress={handleCreatePortion}
+                    className="mt-6"
+                  />
 
                   <VStack gap={8}>
                     <Select
@@ -133,14 +147,16 @@ function FoodDetailsScreen() {
                 <VStack gap={8}>
                   <Section label="Thông tin dinh dưỡng" />
 
-                  <FoodNutrition
-                    calories={nutritionData?.calories || 0}
-                    protein={nutritionData?.protein || 0}
-                    carbs={nutritionData?.carbs || 0}
-                    fat={nutritionData?.fat || 0}
-                  />
+                  <VStack gap={12}>
+                    <FoodNutrition
+                      calories={nutritionData?.calories || 0}
+                      protein={nutritionData?.protein || 0}
+                      carbs={nutritionData?.carbs || 0}
+                      fat={nutritionData?.fat || 0}
+                    />
 
-                  <NutritionFacts nutritionData={nutritionData} />
+                    <NutritionFacts nutritionData={nutritionData} />
+                  </VStack>
                 </VStack>
 
                 <VStack gap={8}>

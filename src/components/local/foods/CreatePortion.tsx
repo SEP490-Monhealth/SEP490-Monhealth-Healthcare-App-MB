@@ -1,6 +1,6 @@
-import React, { useRef } from "react"
+import React, { useRef, useState } from "react"
 
-import { Text, TouchableOpacity, View } from "react-native"
+import { Text, View } from "react-native"
 
 import { get } from "lodash"
 import { Controller, FieldErrors, useWatch } from "react-hook-form"
@@ -10,6 +10,7 @@ import {
   Input,
   Select,
   Sheet,
+  SheetItem,
   SheetRefProps,
   VStack
 } from "@/components/global/atoms"
@@ -25,7 +26,11 @@ export const CreatePortion = ({
   errors,
   setValue
 }: CreatePortionProps) => {
+  const portions = ["chén (100 g)", "đĩa (200 g)", "cốc (250 ml)"]
+  const [selectedPortion, setSelectedPortion] = useState<string | null>(null)
+
   const SheetRef = useRef<SheetRefProps>(null)
+  const sheetHeight = portions.length * 110
 
   const selectedUnit = useWatch({
     control,
@@ -34,11 +39,12 @@ export const CreatePortion = ({
 
   const onUnitSelect = (unit: string) => {
     setValue("portion.unit", unit)
+    setSelectedPortion(unit)
     closeSheet()
   }
 
   const openSheet = () => {
-    SheetRef.current?.scrollTo(-300)
+    SheetRef.current?.scrollTo(-sheetHeight)
   }
 
   const closeSheet = () => {
@@ -66,7 +72,6 @@ export const CreatePortion = ({
                 />
               )}
             />
-
             <Text className="ml-1 font-tregular text-sm text-accent">
               Ví dụ: "Phần", "Hộp", "Lon", v.v.
             </Text>
@@ -79,8 +84,8 @@ export const CreatePortion = ({
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Input
-                    value={value?.toString() || ""}
-                    placeholder="Nhập khối lượng"
+                    value={value ? value.toString() : ""}
+                    placeholder="1"
                     onChangeText={(text) => onChange(parseFloat(text) || 0)}
                     keyboardType="numeric"
                   />
@@ -118,26 +123,14 @@ export const CreatePortion = ({
       </VStack>
 
       <Sheet ref={SheetRef}>
-        <VStack gap={10}>
-          <TouchableOpacity onPress={() => onUnitSelect("g")}>
-            <Text
-              className={`py-2 font-tmedium text-base ${
-                selectedUnit === "g" ? "text-primary" : ""
-              }`}
-            >
-              g (Gram)
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => onUnitSelect("ml")}>
-            <Text
-              className={`py-2 font-tmedium text-base ${
-                selectedUnit === "ml" ? "text-primary" : ""
-              }`}
-            >
-              ml (Milliliter)
-            </Text>
-          </TouchableOpacity>
-        </VStack>
+        {portions.map((portion) => (
+          <SheetItem
+            key={portion}
+            item={portion}
+            isSelected={selectedPortion === portion}
+            onSelect={() => onUnitSelect(portion)}
+          />
+        ))}
       </Sheet>
     </>
   )

@@ -8,7 +8,7 @@ import { Header } from "@/components/global/organisms"
 import { COLORS } from "@/constants/app"
 
 function GenderScreen() {
-  const genderData = [
+  const gendersData = [
     {
       label: "Nam",
       value: "Male",
@@ -34,7 +34,7 @@ function GenderScreen() {
 
       <Content>
         <VStack gap={12} className="mt-2">
-          {genderData.map((gender) => {
+          {gendersData.map((gender) => {
             const Icon = gender.icon
 
             return (
@@ -44,7 +44,16 @@ function GenderScreen() {
                 border={true}
                 borderWidth={2}
                 size="lg"
-                icon={<Icon size={28} color={COLORS.primary} />}
+                icon={
+                  <Icon
+                    size={28}
+                    color={
+                      selectedGender === gender.label
+                        ? COLORS.primary
+                        : COLORS.accent
+                    }
+                  />
+                }
                 selected={selectedGender === gender.value}
                 onPress={() => handleSelectGender(gender.value)}
               />

@@ -59,7 +59,16 @@ function ActivityLevelScreen() {
                 border={true}
                 borderWidth={2}
                 size="lg"
-                icon={<Icon variant="Bold" size={28} color={COLORS.primary} />}
+                icon={
+                  <Icon
+                    size={28}
+                    color={
+                      selectedActivity === activity.value
+                        ? COLORS.primary
+                        : COLORS.accent
+                    }
+                  />
+                }
                 selected={selectedActivity === activity.value}
                 onPress={() => handleSelectActivity(activity.value)}
               />

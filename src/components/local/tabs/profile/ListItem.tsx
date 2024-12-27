@@ -1,4 +1,6 @@
-import { Text, TouchableOpacity, View } from "react-native"
+import React from "react"
+
+import { Alert, Text, TouchableOpacity, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -11,9 +13,8 @@ interface ListItemProps {
   endIcon?: React.ReactNode
   label: string
   route?: string
+  action?: string
   more?: boolean
-  isLastItem?: boolean
-  isBorder?: boolean // Thêm biến mới để bật/tắt border
 }
 
 export const ListItem = ({
@@ -21,33 +22,44 @@ export const ListItem = ({
   endIcon,
   label,
   route,
-  more = true,
-  isLastItem = false,
-  isBorder = true
+  action,
+  more = true
 }: ListItemProps) => {
   const router = useRouter()
 
-  const handlePress = (route: string) => {
-    router.push(route)
+  const handlePress = () => {
+    if (action) {
+      switch (action) {
+        case "logout":
+          Alert.alert("Đăng xuất", "Bạn có chắc chắn muốn đăng xuất không?", [
+            { text: "Hủy", style: "cancel" },
+            { text: "Đồng ý", onPress: () => console.log("User logged out") }
+          ])
+          break
+        default:
+          console.log(`Unhandled action: ${action}`)
+          break
+      }
+    } else if (route) {
+      router.push(route)
+    }
   }
 
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      className={`flex-row items-center justify-between py-4 ${
-        isBorder && !isLastItem ? "border-b border-border" : ""
-      }`}
-      onPress={() => route && handlePress(route)}
+      className="flex-row items-center justify-between border-b border-border py-4"
+      onPress={handlePress}
     >
       <View className="flex-row items-center">
         {startIcon && <View className="mr-4">{startIcon}</View>}
-        <Text className="font-tmedium text-lg text-secondary">{label}</Text>
+        <Text className="font-tmedium text-base text-primary">{label}</Text>
       </View>
 
       {endIcon ? (
         <View>{endIcon}</View>
       ) : (
-        more && <ChevronRight size={20} color={COLORS.secondary} />
+        !action && more && <ChevronRight size={20} color={COLORS.secondary} />
       )}
     </TouchableOpacity>
   )

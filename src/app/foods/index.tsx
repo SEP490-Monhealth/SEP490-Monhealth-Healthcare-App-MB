@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 
 import { ActivityIndicator, FlatList, Image, View } from "react-native"
 
@@ -104,11 +104,28 @@ function FoodsScreen() {
     return () => clearTimeout(timeout)
   }, [debouncedSearchQuery, debouncedSelectedCategory])
 
+  const ListHeaderComponent = useMemo(() => {
+    return (
+      <ListHeader className="pt-6">
+        <FoodCategories
+          categoriesData={categoriesData || []}
+          selectedCategory={selectedCategory}
+          onSelectCategory={setSelectedCategory}
+        />
+
+        <Section
+          label="Danh sách món ăn"
+          action="Món ăn của tôi"
+          onPress={() => router.push("/foods/user")}
+          className="mt-6"
+        />
+      </ListHeader>
+    )
+  }, [categoriesData, selectedCategory])
+
   if (isLoading || (isCategoriesLoading && !categoriesData)) {
     return <LoadingScreen />
   }
-
-  const handleViewMyFoods = (): void => router.push("/foods/user")
 
   return (
     <Container>
@@ -136,22 +153,7 @@ function FoodsScreen() {
             onEndReachedThreshold={0.1}
             showsVerticalScrollIndicator={false}
             stickyHeaderIndices={[0]}
-            ListHeaderComponent={() => (
-              <ListHeader className="pt-6">
-                <FoodCategories
-                  categoriesData={categoriesData || []}
-                  selectedCategory={selectedCategory}
-                  onSelectCategory={setSelectedCategory}
-                />
-
-                <Section
-                  label="Danh sách món ăn"
-                  action="Món ăn của tôi"
-                  onPress={handleViewMyFoods}
-                  className="mt-6"
-                />
-              </ListHeader>
-            )}
+            ListHeaderComponent={ListHeaderComponent}
             renderItem={({ item }) => (
               <FoodCard
                 key={item.foodId}
@@ -159,22 +161,10 @@ function FoodsScreen() {
                 foodId={item.foodId}
                 name={item.name}
                 calories={item.nutrition.calories}
-                // size={item.portion.size}
-                // weight={item.portion.weight}
-                // unit={item.portion.unit}
               />
             )}
             ListEmptyComponent={() => (
               <VStack center gap={20} className="mt-8">
-                {/* <VStack>
-                  <Text className=" font-tbold text-3xl text-primary">
-                    Không có kết quả
-                  </Text>
-                  <Text className=" font-tmedium text-lg text-secondary">
-                    Không tìm thấy món ăn nào phù hợp với tìm kiếm của bạn
-                  </Text>
-                </VStack> */}
-
                 <View className="w-full items-center">
                   <Image
                     source={require("../../../public/images/no-data-image.png")}
@@ -197,7 +187,7 @@ function FoodsScreen() {
                 <ListFooter />
               )
             }
-            contentContainerClassName="h-full"
+            contentContainerClassName="min-h-full"
             ItemSeparatorComponent={() => <View className="h-3" />}
           />
         </VStack>

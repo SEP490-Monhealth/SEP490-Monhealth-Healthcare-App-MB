@@ -66,7 +66,9 @@ export const createUpdateMetricSchema = baseMetricSchema.omit({
   tdee: true,
   ibw: true,
   createdAt: true,
-  updatedAt: true
+  updatedAt: true,
+  createdBy: true,
+  updatedBy: true
 })
 
 export const createHeightWeightMetricSchema = baseMetricSchema.pick({

@@ -25,7 +25,7 @@ export const CreateInformation = ({
   }
 
   return (
-    <VStack gap={40} className="mt-2 h-full px-6 pb-12">
+    <VStack gap={32} className="mt-2 h-full px-6 pb-12">
       <VStack gap={12}>
         <Controller
           name="name"
@@ -61,12 +61,12 @@ export const CreateInformation = ({
       <Card>
         <VStack gap={12}>
           <VStack>
-            <Text className="font-tbold text-base text-primary">
-              Bạn muốn chia sẻ thông tin món ăn này?
+            <Text className="font-tbold text-lg text-primary">
+              Bạn muốn lưu món ăn này như thế nào?
             </Text>
             <Text className="font-tmedium text-sm text-accent">
-              Chọn "Công khai" để đóng góp dữ liệu hoặc "Cá nhân" để giữ riêng
-              tư.
+              Chọn "Công khai" để chia sẻ món ăn với cộng đồng hoặc "Cá nhân" để
+              lưu trữ riêng tư cho bạn.
             </Text>
           </VStack>
 

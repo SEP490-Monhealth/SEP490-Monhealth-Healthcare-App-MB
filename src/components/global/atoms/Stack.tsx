@@ -39,19 +39,19 @@ export const VStack: React.FC<StackProps> = ({
 }
 
 export const HStack: React.FC<StackProps> = ({
+  testID,
   children,
   gap = 4,
   center = false,
   onPress,
-  className = "",
-  testID
+  className = ""
 }) => {
   return (
     <TouchableOpacity
+      testID={testID}
       activeOpacity={1}
       onPress={onPress}
       disabled={!onPress}
-      testID={testID}
     >
       <View
         className={cn("flex flex-row", center ? "items-center" : "", className)}

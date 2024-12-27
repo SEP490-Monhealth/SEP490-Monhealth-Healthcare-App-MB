@@ -10,7 +10,8 @@ import {
 import { useRouter } from "expo-router"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { set, useForm } from "react-hook-form"
+import { set } from "lodash"
+import { useForm } from "react-hook-form"
 
 import { Button, Content, VStack } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
@@ -115,7 +116,7 @@ function FoodCreateScreen() {
 
   const handleBack = () => {
     if (currentStep === 1) {
-      router.push("/foods/user")
+      router.back()
     } else {
       setCurrentStep(currentStep - 1)
     }

@@ -3,8 +3,6 @@ import React, { useRef, useState } from "react"
 import {
   Keyboard,
   SafeAreaView,
-  Text,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   View
 } from "react-native"
@@ -19,6 +17,7 @@ import {
   Input,
   Select,
   Sheet,
+  SheetItem,
   SheetRefProps,
   VStack
 } from "@/components/global/atoms"
@@ -27,7 +26,11 @@ import { Header } from "@/components/global/organisms"
 import { PortionType, portionSchema } from "@/schemas/portionSchema"
 
 function PortionCreateScreen() {
-  const [selectedUnit, setSelectedUnit] = useState("g")
+  const units = ["g (gram)", "ml (mililit)"]
+  const [selectedUnit, setSelectedUnit] = useState("")
+
+  const SheetRef = useRef<SheetRefProps>(null)
+  const sheetHeight = units.length * 110
 
   const {
     control,
@@ -35,18 +38,11 @@ function PortionCreateScreen() {
     setValue,
     formState: { errors }
   } = useForm<PortionType>({
-    resolver: zodResolver(portionSchema),
-    defaultValues: {
-      size: "1 phần",
-      weight: 100,
-      unit: "g"
-    }
+    resolver: zodResolver(portionSchema)
   })
 
-  const SheetRef = useRef<SheetRefProps>(null)
-
   const openSheet = () => {
-    SheetRef.current?.scrollTo(-250)
+    SheetRef.current?.scrollTo(-sheetHeight)
   }
 
   const closeSheet = () => {
@@ -60,7 +56,7 @@ function PortionCreateScreen() {
   }
 
   const onSubmit = (data: PortionType) => {
-    console.log(data)
+    console.log("Submitted Data:", data)
   }
 
   return (
@@ -93,7 +89,7 @@ function PortionCreateScreen() {
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <Input
-                          value={value.toString()}
+                          value={value ? value.toString() : ""}
                           placeholder="1"
                           onChangeText={(text) =>
                             onChange(parseFloat(text) || 0)
@@ -123,22 +119,14 @@ function PortionCreateScreen() {
         </View>
 
         <Sheet ref={SheetRef}>
-          <VStack gap={10}>
-            <TouchableOpacity onPress={() => onUnitSelect("g")}>
-              <Text
-                className={`rounded-xl border border-border px-4 py-6 font-tmedium text-base ${selectedUnit === "g" ? "bg-primary text-white" : "bg-muted text-primary"}`}
-              >
-                g (Gram)
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => onUnitSelect("ml")}>
-              <Text
-                className={`rounded-xl border border-border px-4 py-6 font-tmedium text-base ${selectedUnit === "ml" ? "bg-primary text-white" : "bg-muted text-primary"}`}
-              >
-                ml (Milliliter)
-              </Text>
-            </TouchableOpacity>
-          </VStack>
+          {units.map((unit) => (
+            <SheetItem
+              key={unit}
+              item={unit}
+              isSelected={selectedUnit === unit}
+              onSelect={() => onUnitSelect(unit)}
+            />
+          ))}
         </Sheet>
       </SafeAreaView>
     </TouchableWithoutFeedback>

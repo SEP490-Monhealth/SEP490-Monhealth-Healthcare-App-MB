@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useRef, useState } from "react"
 
 import {
   Animated,
@@ -6,8 +6,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
-  Text,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   View
 } from "react-native"
@@ -26,23 +24,23 @@ import {
 import { useAnimation } from "@/hooks/useAnimation"
 
 const FoodCompletedScreen = () => {
-  const SheetRef = useRef<SheetRefProps>(null)
-
   const meals = ["Bữa sáng", "Bữa trưa", "Bữa tối", "Bữa phụ"]
-
   const [selectedMeal, setSelectedMeal] = useState("Bữa sáng")
   const [quantity, setQuantity] = useState("1")
 
+  const SheetRef = useRef<SheetRefProps>(null)
+  const sheetHeight = meals.length * 110
+
+  const { fadeAnim, scaleAnim, textFadeAnim, textTranslateAnim } =
+    useAnimation()
+
   const openSheet = () => {
-    SheetRef.current?.scrollTo(-300)
+    SheetRef.current?.scrollTo(-sheetHeight)
   }
 
   const closeSheet = () => {
     SheetRef.current?.scrollTo(0)
   }
-
-  const { fadeAnim, scaleAnim, textFadeAnim, textTranslateAnim } =
-    useAnimation()
 
   return (
     <KeyboardAvoidingView
