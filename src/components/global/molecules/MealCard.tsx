@@ -59,6 +59,7 @@ export const MealCard = ({
           className="flex h-12 w-12 items-center justify-center rounded-full bg-muted"
         >
           <Image
+            testID="meal-image"
             source={getMealImage()}
             style={{
               width: 24,
@@ -74,7 +75,11 @@ export const MealCard = ({
           </Text>
 
           {progress !== undefined && (
-            <Progress progress={progress} className="mt-2" />
+            <Progress
+              testID="progress-bar"
+              progress={progress}
+              className="mt-2"
+            />
           )}
 
           <Text className="font-tmedium text-sm text-accent">
@@ -83,7 +88,13 @@ export const MealCard = ({
         </View>
       </HStack>
 
-      {!progress && <ChevronRight size={20} color={COLORS.primary} />}
+      {!progress && (
+        <ChevronRight
+          testID="chevron-right-icon"
+          size={20}
+          color={COLORS.primary}
+        />
+      )}
     </Card>
   )
 }

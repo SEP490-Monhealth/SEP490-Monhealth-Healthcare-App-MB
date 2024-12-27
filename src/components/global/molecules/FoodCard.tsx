@@ -54,12 +54,14 @@ export const FoodCard = ({
 
         {variant === "add" ? (
           <IconButton
+           testID="icon-button-add"
             size="sm"
             icon={<Add size={20} color={COLORS.primary} />}
             onPress={handleAddFood}
           />
         ) : variant === "more" ? (
           <IconButton
+            testID="icon-button-more"
             size="sm"
             icon={<MoreHorizontal size={20} color={COLORS.primary} />}
             onPress={() => console.log("More")}

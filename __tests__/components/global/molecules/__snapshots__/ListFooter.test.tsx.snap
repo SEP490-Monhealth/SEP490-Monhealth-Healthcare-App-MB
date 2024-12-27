@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ListFooter applies default class names 1`] = `
+<View
+  className="mt-8 pb-4"
+>
+  <View
+    testID="footer-view"
+  />
+</View>
+`;
+
+exports[`ListFooter merges custom className with default className 1`] = `
+<View
+  className="mt-8 pb-4 custom-class"
+>
+  <View
+    testID="footer-view"
+  />
+</View>
+`;

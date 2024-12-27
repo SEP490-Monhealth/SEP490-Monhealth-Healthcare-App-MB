@@ -1,5 +1,7 @@
 import React from "react"
 
+import { ScrollView } from "react-native-gesture-handler"
+
 import { useRouter } from "expo-router"
 
 import { Button, Container, Content, VStack } from "@/components/global/atoms"
@@ -30,7 +32,7 @@ function ActivityScreen() {
 
   const handleViewFoodCompleted = () => {
     router.push("/foods/completed")
-    
+  }
   const handleViewDoBSetup = () => {
     router.push("/(setup)/date-of-birth")
   }
@@ -47,47 +49,48 @@ function ActivityScreen() {
     <Container>
       <Header label="Tạo khẩu phần" />
 
-      <Content>
-        <VStack gap={20}>
-          <Button size="lg" onPress={handleViewCreatePortion}>
-            Tạo portion
-          </Button>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Content>
+          <VStack gap={20}>
+            <Button size="lg" onPress={handleViewCreatePortion}>
+              Tạo portion
+            </Button>
 
-          <Button size="lg" onPress={handleViewFrequency}>
-            Chọn tần xuất
-          </Button>
+            <Button size="lg" onPress={handleViewFrequency}>
+              Chọn tần xuất
+            </Button>
 
-          <Button size="lg" onPress={handleViewTargetSetup}>
-            Chọn mục tiêu
-          </Button>
+            <Button size="lg" onPress={handleViewTargetSetup}>
+              Chọn mục tiêu
+            </Button>
 
-          <Button size="lg" onPress={handleViewSexSetup}>
-            Chọn giới tính
-          </Button>
+            <Button size="lg" onPress={handleViewSexSetup}>
+              Chọn giới tính
+            </Button>
 
-          <Button size="lg" onPress={handleViewWeightSetup}>
-            Chọn cân nặng
-          </Button>
+            <Button size="lg" onPress={handleViewWeightSetup}>
+              Chọn cân nặng
+            </Button>
 
-          <Button size="lg" onPress={handleViewFoodCompleted}>
-            Chọn Food
-          </Button>
+            <Button size="lg" onPress={handleViewFoodCompleted}>
+              Chọn Food
+            </Button>
 
-          <Button size="lg" onPress={handleViewDoBSetup}>
-            Chọn ngày sinh
-          </Button>
+            <Button size="lg" onPress={handleViewDoBSetup}>
+              Chọn ngày sinh
+            </Button>
 
-          <Button size="lg" onPress={handleViewHeightWeightSetup}>
-            Nhập chiều cao, cân nặng
-          </Button>
+            <Button size="lg" onPress={handleViewHeightWeightSetup}>
+              Nhập chiều cao, cân nặng
+            </Button>
 
-          <Button size="lg" onPress={handleViewSettingTab}>
-            Cài đặt
-          </Button>
-        </VStack>
-      </Content>
+            <Button size="lg" onPress={handleViewSettingTab}>
+              Cài đặt
+            </Button>
+          </VStack>
+        </Content>
+      </ScrollView>
     </Container>
   )
 }
-
 export default ActivityScreen

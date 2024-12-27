@@ -7,6 +7,7 @@ import { COLORS } from "@/constants/app"
 import { cn } from "@/lib/utils"
 
 interface ProgressProps {
+  testID?: string
   progress: number
   height?: number
   color?: string
@@ -16,6 +17,7 @@ interface ProgressProps {
 }
 
 export const Progress = ({
+  testID,
   progress,
   height = 10,
   color = COLORS.primary,
@@ -35,7 +37,7 @@ export const Progress = ({
   }, [progress])
 
   return (
-    <View className={cn("w-full", className)}>
+    <View testID={testID} className={cn("w-full", className)}>
       <View className="w-full rounded-full bg-[#E2E8F0]" style={{ height }}>
         <Animated.View
           className="h-full rounded-full"

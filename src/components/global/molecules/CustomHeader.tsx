@@ -1,6 +1,6 @@
 import React from "react"
 
-import { View } from "react-native"
+import { Text, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -23,10 +23,13 @@ export const CustomHeader = ({ content }: CustomHeaderProps) => {
   return (
     <HStack center gap={20} className="min-h-14 justify-between">
       <IconButton
+        testID="BackButton"
         icon={<ArrowLeft size={24} color={COLORS.primary} />}
         onPress={handleBack}
       />
-      <View className="flex-1">{content}</View>
+      <View testID="CustomHeaderContent" className="flex-1">
+        {typeof content === "string" ? <Text>{content}</Text> : content}
+      </View>
     </HStack>
   )
 }
