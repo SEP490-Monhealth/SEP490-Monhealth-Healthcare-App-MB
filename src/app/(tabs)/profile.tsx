@@ -22,7 +22,7 @@ function ProfileScreen() {
 
       <Content marginBottom={false}>
         {/* <ScrollArea> */}
-        <VStack className="mt-2 h-full justify-between pb-12">
+        <VStack className="mt-2 h-full justify-between pb-14">
           <Card>
             {generalItems.map((item, index) => (
               <ListItem
@@ -45,8 +45,8 @@ function ProfileScreen() {
               />
             ))}
 
-            <Text className="mt-4 text-center font-dmedium text-base text-accent">
-              Version 1.1.1
+            <Text className="mt-4 text-center font-dmedium text-base text-secondary">
+              Version 1.0.0
             </Text>
           </Card>
         </VStack>

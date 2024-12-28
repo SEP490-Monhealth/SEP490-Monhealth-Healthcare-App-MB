@@ -46,13 +46,9 @@ function FoodDetailsScreen() {
 
   const { foodId } = useLocalSearchParams() as { foodId: string }
 
-  const { saveFoods, toggleSave } = useSaveFoods()
+  const { saveFoodsData, toggleSaveFood } = useSaveFoods()
 
-  const isSaved = saveFoods.some((saved) => saved.foodId === foodId)
-
-  useEffect(() => {
-    console.log("Current saved foods:", saveFoods)
-  }, [saveFoods])
+  const isSaved = saveFoodsData.some((saved) => saved.foodId === foodId)
 
   const meals = ["Bữa sáng", "Bữa trưa", "Bữa tối", "Bữa phụ"]
 
@@ -106,13 +102,9 @@ function FoodDetailsScreen() {
     SheetRef.current?.scrollTo(isMeal ? -300 : -sheetHeight)
   }
 
-  const closeSheet = () => {
-    SheetRef.current?.scrollTo(0)
-  }
+  const closeSheet = () => SheetRef.current?.scrollTo(0)
 
-  const handleCreatePortion = () => {
-    router.push("/foods/portions/create")
-  }
+  const handleCreatePortion = () => router.push("/foods/portions/create")
 
   if (
     !foodData ||
@@ -124,12 +116,12 @@ function FoodDetailsScreen() {
   )
     return <LoadingScreen />
 
-  const handleToggleSave = () => {
+  const handleToggleSaveFood = () => {
     if (foodData && nutritionData && portionData) {
       const { portionSize, portionWeight, portionUnit } =
         parsePortion(selectedPortion)
 
-      toggleSave({
+      toggleSaveFood({
         foodId: foodId,
         name: foodData.name,
         portion: {
@@ -158,9 +150,9 @@ function FoodDetailsScreen() {
                   size={20}
                   color={COLORS.primary}
                 />
-              ),
-              onPress: handleToggleSave
+              )
             }}
+            onActionPress={handleToggleSaveFood}
           />
 
           <Content marginBottom={false}>

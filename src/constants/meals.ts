@@ -92,8 +92,9 @@ export const sampleMealsData: MealType[] = [
         calories: 78
       }
     ],
-    createdAt: "2023-01-01T00:00:00Z",
-    updatedAt: "2023-01-01T00:00:00Z",
+
+    createdAt: "2025-01-06T00:00:00Z",
+    updatedAt: "2025-01-06T00:00:00Z",
     createdBy: "asd",
     updatedBy: "asd"
   }

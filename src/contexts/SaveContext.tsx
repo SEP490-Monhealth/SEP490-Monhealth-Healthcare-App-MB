@@ -11,48 +11,69 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { SaveFoodType } from "@/schemas/foodSchema"
 
 interface SaveContextType {
-  saveFoods: SaveFoodType[]
-  toggleSave: (food: SaveFoodType) => void
-  clearSaved: () => void
+  saveFoodsData: SaveFoodType[]
+  toggleSaveFood: (food: SaveFoodType) => Promise<void>
+  clearFoodSaved: () => Promise<void>
 }
 
 const SaveContext = createContext<SaveContextType | undefined>(undefined)
 
 export const SaveFoodProvider = ({ children }: { children: ReactNode }) => {
-  const [saveFoods, setSaveFoods] = useState<SaveFoodType[]>([])
+  const [saveFoodsData, setSaveFoodsData] = useState<SaveFoodType[]>([])
 
-  useEffect(() => {
-    const loadSaves = async () => {
-      const saves = await AsyncStorage.getItem("saves")
+  const loadSavedFoods = async () => {
+    try {
+      const saves = await AsyncStorage.getItem("Save Foods Data")
       if (saves) {
-        setSaveFoods(JSON.parse(saves))
+        const parsedSaves = JSON.parse(saves)
+        if (Array.isArray(parsedSaves)) {
+          setSaveFoodsData(parsedSaves)
+        }
       }
+    } catch (error) {
+      console.error("Failed to load saved foods:", error)
     }
-    loadSaves()
-  }, [])
-
-  const toggleSave = async (food: SaveFoodType) => {
-    const isFoodSaved = saveFoods.some((saved) => saved.foodId === food.foodId)
-
-    const updatedSaves = isFoodSaved
-      ? saveFoods.filter((saved) => saved.foodId !== food.foodId)
-      : [...saveFoods, food]
-
-    setSaveFoods(updatedSaves)
-    await AsyncStorage.setItem("saves", JSON.stringify(updatedSaves))
   }
 
-  const clearSaved = async () => {
-    setSaveFoods([])
-    await AsyncStorage.removeItem("saves")
+  useEffect(() => {
+    loadSavedFoods()
+  }, [])
+
+  const toggleSaveFood = async (food: SaveFoodType) => {
+    try {
+      const isFoodSaved = saveFoodsData.some(
+        (saved) => saved.foodId === food.foodId
+      )
+
+      const updatedSaves = isFoodSaved
+        ? saveFoodsData.filter((saved) => saved.foodId !== food.foodId)
+        : [...saveFoodsData, food]
+
+      setSaveFoodsData(updatedSaves)
+      await AsyncStorage.setItem(
+        "Save Foods Data",
+        JSON.stringify(updatedSaves)
+      )
+    } catch (error) {
+      console.error("Failed to toggle save food:", error)
+    }
+  }
+
+  const clearFoodSaved = async () => {
+    try {
+      setSaveFoodsData([])
+      await AsyncStorage.removeItem("Save Foods Data")
+    } catch (error) {
+      console.error("Failed to clear saved foods:", error)
+    }
   }
 
   return (
     <SaveContext.Provider
       value={{
-        saveFoods,
-        toggleSave,
-        clearSaved
+        saveFoodsData,
+        toggleSaveFood,
+        clearFoodSaved
       }}
     >
       {children}

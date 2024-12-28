@@ -116,12 +116,15 @@ export const getMealTypeImage = (mealType: string) => {
   }
 }
 
-export const parsePortion = (selectedPortion: string) => {
-  const selectedPortionMatch = selectedPortion.match(/(.+?) \((\d+) (\w+)\)/)
+/**
+ * Chuyển đổi giá trị số thành chuỗi với số lẻ chỉ giữ 2 chữ số
+ * @param value - Giá trị số cần chuyển đổi
+ * @returns Chuỗi số đã được làm tròn với 2 chữ số lẻ
+ */
+export const parsePortion = (value: string) => {
+  const selectedPortionMatch = value.match(/(.+?) \((\d+) (\w+)\)/)
 
-  let portionSize = selectedPortionMatch
-    ? selectedPortionMatch[1]
-    : selectedPortion
+  let portionSize = selectedPortionMatch ? selectedPortionMatch[1] : value
   const portionWeight = selectedPortionMatch
     ? parseInt(selectedPortionMatch[2], 10)
     : 100

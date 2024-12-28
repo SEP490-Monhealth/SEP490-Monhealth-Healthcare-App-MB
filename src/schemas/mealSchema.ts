@@ -19,10 +19,7 @@ export const mealFoodSchema = z.object({
 
   portion: portionSchema,
 
-  calories: z
-    .number()
-    .positive({ message: "Calories phải là một số dương" })
-    .max(10000, { message: "Calories không được vượt quá 10,000" })
+  nutrition: nutritionFoodSchema
 })
 
 export const mealSchema = z.object({

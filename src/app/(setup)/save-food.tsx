@@ -15,18 +15,17 @@ function SaveFoodScreen() {
   const { fadeAnim, scaleAnim, textFadeAnim, textTranslateAnim } =
     useAnimation()
 
-  const { saveFoods, clearSaved } = useSaveFoods()
+  const { saveFoodsData, clearFoodSaved } = useSaveFoods()
 
-  const handleClearSaved = () => {
-    clearSaved()
-  }
+  const handleClearFoodSaved = () => clearFoodSaved()
 
   return (
     <Container className="flex-1">
       <Header back label="Danh sách đã lưu" />
+
       <Content className="flex-1 items-center justify-center">
-        {saveFoods.length > 0 ? (
-          <SavedFoods foodsData={saveFoods} />
+        {saveFoodsData.length > 0 ? (
+          <SavedFoods foodsData={saveFoodsData} />
         ) : (
           <>
             <VStack center gap={20}>
@@ -68,11 +67,11 @@ function SaveFoodScreen() {
         )}
       </Content>
 
-      {saveFoods.length > 0 && (
+      {saveFoodsData.length > 0 && (
         <Button
           size="lg"
           variant="danger"
-          onPress={handleClearSaved}
+          onPress={handleClearFoodSaved}
           className="absolute bottom-4 left-6 right-6 w-full"
         >
           Xóa tất cả

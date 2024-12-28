@@ -15,8 +15,8 @@ export const sampleFoodsData: FoodType[] = [
       calories: 130
     },
     status: true,
-    createdAt: "2023-01-01T00:00:00Z",
-    updatedAt: "2023-01-01T00:00:00Z",
+    createdAt: "2025-01-06T00:00:00Z",
+    updatedAt: "2025-01-06T00:00:00Z",
     createdBy: "asd",
     updatedBy: "asd"
   },
@@ -34,8 +34,8 @@ export const sampleFoodsData: FoodType[] = [
       calories: 265
     },
     status: true,
-    createdAt: "2023-01-01T00:00:00Z",
-    updatedAt: "2023-01-01T00:00:00Z",
+    createdAt: "2025-01-06T00:00:00Z",
+    updatedAt: "2025-01-06T00:00:00Z",
     createdBy: "asd",
     updatedBy: "asd"
   },
@@ -53,8 +53,8 @@ export const sampleFoodsData: FoodType[] = [
       calories: 89
     },
     status: true,
-    createdAt: "2023-01-01T00:00:00Z",
-    updatedAt: "2023-01-01T00:00:00Z",
+    createdAt: "2025-01-06T00:00:00Z",
+    updatedAt: "2025-01-06T00:00:00Z",
     createdBy: "asd",
     updatedBy: "asd"
   },
@@ -72,8 +72,8 @@ export const sampleFoodsData: FoodType[] = [
       calories: 155
     },
     status: true,
-    createdAt: "2023-01-01T00:00:00Z",
-    updatedAt: "2023-01-01T00:00:00Z",
+    createdAt: "2025-01-06T00:00:00Z",
+    updatedAt: "2025-01-06T00:00:00Z",
     createdBy: "asd",
     updatedBy: "asd"
   }

@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { View } from "react-native"
+import { Text, View } from "react-native"
 
 import {
   Container,
@@ -60,15 +60,14 @@ function HomeScreen() {
       <Content>
         <ScrollArea>
           <View className="mt-2 pb-12">
-            <Tabs defaultValue="today" contentMarginTop={16}>
+            <Tabs defaultValue="meal" contentMarginTop={16}>
               <TabsList center gap={32}>
-                <TabsTrigger value="today">Hôm nay</TabsTrigger>
-                <TabsTrigger value="week">Tuần</TabsTrigger>
-                <TabsTrigger value="month">Tháng</TabsTrigger>
-                <TabsTrigger value="year">Năm</TabsTrigger>
+                <TabsTrigger value="meal">Dinh dưỡng</TabsTrigger>
+                <TabsTrigger value="water">Nước</TabsTrigger>
+                <TabsTrigger value="exercise">Bài tập</TabsTrigger>
               </TabsList>
 
-              <TabsContent value="today">
+              <TabsContent value="meal">
                 <VStack gap={24}>
                   <HStack center className="justify-between">
                     <NutritionProgress
@@ -79,68 +78,41 @@ function HomeScreen() {
                     <NutritionSummary nutrients={filteredNutrition} />
                   </HStack>
                 </VStack>
-              </TabsContent>
 
-              <TabsContent value="week">
-                <VStack gap={24}>
-                  <HStack center className="justify-between">
-                    <NutritionProgress
-                      calories={calories}
-                      nutrients={filteredNutrition}
-                    />
+                <Progress
+                  height={8}
+                  progress={50}
+                  labelStart="Mục tiêu hằng ngày"
+                  labelEnd="50%"
+                  className="mt-8"
+                />
 
-                    <NutritionSummary nutrients={filteredNutrition} />
-                  </HStack>
+                <Section label="Bữa ăn hôm nay" />
+
+                <VStack gap={12}>
+                  {mealsData.map((item) => (
+                    <View key={item.mealType}>
+                      <MealCard
+                        mealType={item.mealType}
+                        totalCalories={item.totalCalories}
+                      />
+                    </View>
+                  ))}
                 </VStack>
               </TabsContent>
 
-              <TabsContent value="month">
+              <TabsContent value="water">
                 <VStack gap={24}>
-                  <HStack center className="justify-between">
-                    <NutritionProgress
-                      calories={calories}
-                      nutrients={filteredNutrition}
-                    />
-
-                    <NutritionSummary nutrients={filteredNutrition} />
-                  </HStack>
+                  <Text>asd</Text>
                 </VStack>
               </TabsContent>
 
-              <TabsContent value="year">
+              <TabsContent value="exercise">
                 <VStack gap={24}>
-                  <HStack center className="justify-between">
-                    <NutritionProgress
-                      calories={calories}
-                      nutrients={filteredNutrition}
-                    />
-
-                    <NutritionSummary nutrients={filteredNutrition} />
-                  </HStack>
+                  <Text>asd</Text>
                 </VStack>
               </TabsContent>
             </Tabs>
-
-            <Progress
-              height={8}
-              progress={50}
-              labelStart="Mục tiêu hằng ngày"
-              labelEnd="50%"
-              className="mt-8"
-            />
-
-            <Section label="Bữa ăn hôm nay" />
-
-            <VStack gap={12}>
-              {mealsData.map((item) => (
-                <View key={item.mealType}>
-                  <MealCard
-                    mealType={item.mealType}
-                    totalCalories={item.totalCalories}
-                  />
-                </View>
-              ))}
-            </VStack>
           </View>
         </ScrollArea>
       </Content>

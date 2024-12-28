@@ -184,14 +184,15 @@ function FoodsScreen() {
                   className="items-center"
                 />
 
-                <View>
+                <VStack>
                   <Text className="text-center font-tbold text-3xl text-primary">
-                    Không có dữ liệu
+                    Không có món ăn nào được tìm thấy
                   </Text>
                   <Text className="text-center font-tmedium text-lg text-secondary">
-                    Bạn chưa lưu món ăn nào trong danh sách
+                    Vui lòng thử tìm kiếm lại hoặc thay đổi danh mục để hiển thị
+                    kết quả
                   </Text>
-                </View>
+                </VStack>
               </VStack>
             )}
             ListFooterComponent={

@@ -14,16 +14,21 @@ import { IconButton } from "../molecules"
 interface ActionProps {
   icon: React.ReactNode
   url?: string
-  onPress?: () => void
 }
 
 interface HeaderProps {
   label: string
   back?: boolean
   action?: ActionProps
+  onActionPress?: () => void
 }
 
-export const Header = ({ label, back = false, action }: HeaderProps) => {
+export const Header = ({
+  label,
+  back = false,
+  action,
+  onActionPress
+}: HeaderProps) => {
   const router = useRouter()
 
   const paddingClass = Platform.OS === "ios" ? "pt-0" : "pt-4"
@@ -31,10 +36,10 @@ export const Header = ({ label, back = false, action }: HeaderProps) => {
   const handleBack = () => router.back()
 
   const handleAction = () => {
-    if (action?.onPress) {
-      action.onPress()
-    } else if (action?.url) {
+    if (action?.url) {
       router.push(action.url)
+    } else if (onActionPress) {
+      onActionPress()
     }
   }
 
