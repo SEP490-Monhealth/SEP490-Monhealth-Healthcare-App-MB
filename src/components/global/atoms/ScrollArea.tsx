@@ -16,7 +16,7 @@ export const ScrollArea = ({ testID, children, className }: ScrollProps) => {
       testID={testID}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
-      className={cn("", className)}
+      className={cn("h-full", className)}
     >
       {children}
     </ScrollView>

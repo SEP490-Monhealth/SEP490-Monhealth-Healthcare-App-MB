@@ -4,7 +4,13 @@ import { Text, View } from "react-native"
 
 import { aboutItems, generalItems } from "@/config/site"
 
-import { Container, Content, VStack } from "@/components/global/atoms"
+import {
+  Card,
+  Container,
+  Content,
+  ScrollArea,
+  VStack
+} from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
 import { ListItem } from "@/components/local/tabs/profile"
@@ -14,9 +20,10 @@ function ProfileScreen() {
     <Container>
       <Header label="Hồ sơ" />
 
-      <Content>
-        <VStack center gap={20} className="h-full justify-between pb-12">
-          <View className="w-full">
+      <Content marginBottom={false}>
+        {/* <ScrollArea> */}
+        <VStack className="mt-2 h-full justify-between pb-12">
+          <Card>
             {generalItems.map((item, index) => (
               <ListItem
                 key={index}
@@ -25,9 +32,9 @@ function ProfileScreen() {
                 route={item.route}
               />
             ))}
-          </View>
+          </Card>
 
-          <View className="w-full">
+          <Card>
             {aboutItems.map((item, index) => (
               <ListItem
                 key={index}
@@ -41,8 +48,9 @@ function ProfileScreen() {
             <Text className="mt-4 text-center font-dmedium text-base text-accent">
               Version 1.1.1
             </Text>
-          </View>
+          </Card>
         </VStack>
+        {/* </ScrollArea> */}
       </Content>
     </Container>
   )

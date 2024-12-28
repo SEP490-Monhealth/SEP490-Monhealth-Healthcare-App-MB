@@ -67,12 +67,27 @@ function FoodDetailsScreen() {
   ]
 
   useEffect(() => {
+    const minHeight = 160
+    const maxHeight = SCREEN_HEIGHT * 0.8
+
+    let itemHeight = 100
+    if (formattedPortionData.length === 3) {
+      itemHeight = 80
+    } else if (
+      formattedPortionData.length >= 4 &&
+      formattedPortionData.length <= 5
+    ) {
+      itemHeight = 60
+    } else if (formattedPortionData.length > 5) {
+      itemHeight = 50
+    }
+
     const calculatedHeight = Math.min(
-      (formattedPortionData.length || 0) * 110,
-      SCREEN_HEIGHT * 1
+      Math.max(itemHeight * formattedPortionData.length, minHeight),
+      maxHeight
     )
 
-    setSheetHeight(formattedPortionData.length === 1 ? 160 : calculatedHeight)
+    setSheetHeight(calculatedHeight)
   }, [formattedPortionData])
 
   const openSheet = (isMeal: boolean) => {
