@@ -10,6 +10,7 @@ import {
   getFoodById,
   getFoodsByCategory,
   getFoodsByType,
+  getFoodsByUserId,
   updateFood
 } from "@/services/foodService"
 
@@ -85,6 +86,27 @@ export const useGetFoodsByCategory = (
     queryFn: async () => {
       try {
         return await getFoodsByCategory(category, page, limit)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    staleTime: 1000 * 60 * 5
+  })
+}
+
+export const useGetFoodsByUserId = (
+  userId: string,
+  page: number,
+  limit: number
+) => {
+  const handleError = useErrorHandler()
+
+  return useQuery<FoodResponse, Error>({
+    queryKey: ["foods", userId, page, limit],
+    queryFn: async () => {
+      try {
+        return await getFoodsByUserId(userId, page, limit)
       } catch (error) {
         handleError(error)
         throw error

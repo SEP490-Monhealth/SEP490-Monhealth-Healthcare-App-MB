@@ -11,10 +11,10 @@ import Animated, {
 } from "react-native-reanimated"
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window")
-const MAX_TRANSLATE_Y = -SCREEN_HEIGHT + 50
 
 interface SheetProps {
   children?: React.ReactNode
+  dynamicHeight?: number
 }
 
 export interface SheetRefProps {
@@ -23,9 +23,11 @@ export interface SheetRefProps {
 }
 
 export const Sheet = forwardRef<SheetRefProps, SheetProps>(
-  ({ children }, ref) => {
+  ({ children, dynamicHeight }, ref) => {
     const translateY = useSharedValue(0)
     const active = useSharedValue(false)
+
+    const MAX_TRANSLATE_Y = -(dynamicHeight ?? SCREEN_HEIGHT * 0.5)
 
     const scrollTo = useCallback((destination: number) => {
       "worklet"

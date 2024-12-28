@@ -4,9 +4,9 @@ import monAPI from "@/lib/monAPI"
 
 import { PortionType } from "@/schemas/portionSchema"
 
-export const getPortionById = async (portionId: string) => {
+export const getPortionByFoodId = async (foodId: string) => {
   try {
-    const response = await monAPI.get(`/portions/${portionId}`)
+    const response = await monAPI.get(`/portions/food/${foodId}`)
 
     if (!response || !response.data) {
       throw {
@@ -19,7 +19,7 @@ export const getPortionById = async (portionId: string) => {
     const { success, message, data } = response.data
 
     if (success) {
-      return data as PortionType
+      return data as PortionType[]
     } else {
       throw {
         isCustomError: true,
@@ -40,9 +40,9 @@ export const getPortionById = async (portionId: string) => {
   }
 }
 
-export const getPortionByFoodId = async (foodId: string) => {
+export const getPortionById = async (portionId: string) => {
   try {
-    const response = await monAPI.get(`/portions/food/${foodId}`)
+    const response = await monAPI.get(`/portions/${portionId}`)
 
     if (!response || !response.data) {
       throw {

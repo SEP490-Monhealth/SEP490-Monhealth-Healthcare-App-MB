@@ -45,12 +45,13 @@ export const FoodCard = ({
 
   return (
     <Card onPress={variant === "default" ? handleViewFood : undefined}>
-      <HStack className="items-center justify-between">
+      <HStack className="w-full items-center justify-between">
         <VStack gap={0} className="ml-1" onPress={handleViewFood}>
           <Text className="font-tmedium text-lg text-primary">{name}</Text>
           <Text className="font-tmedium text-sm text-accent">
             {calories ?? 0} kcal
-            {size ? ` • ${size}` : " • 1 phần"} • {weight ?? 0} {unit ?? "g"}
+            {size ? ` • 1 ${size.toLowerCase()}` : " • 1 phần"}
+            {weight && unit ? ` • ${weight} ${unit}` : ""}
           </Text>
         </VStack>
 

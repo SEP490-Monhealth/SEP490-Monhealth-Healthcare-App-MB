@@ -1,7 +1,5 @@
 import React from "react"
 
-import { ScrollView } from "react-native-gesture-handler"
-
 import { useRouter } from "expo-router"
 
 import { Button, Container, Content, VStack } from "@/components/global/atoms"

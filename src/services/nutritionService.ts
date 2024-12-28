@@ -7,9 +7,9 @@ import {
   NutritionType
 } from "@/schemas/nutritionSchema"
 
-export const getNutritionById = async (nutritionId: string) => {
+export const getNutritionByFoodId = async (foodId: string) => {
   try {
-    const response = await monAPI.get(`/nutritions/${nutritionId}`)
+    const response = await monAPI.get(`/nutritions/food/${foodId}`)
 
     if (!response || !response.data) {
       throw {
@@ -43,9 +43,9 @@ export const getNutritionById = async (nutritionId: string) => {
   }
 }
 
-export const getNutritionByFoodId = async (foodId: string) => {
+export const getNutritionById = async (nutritionId: string) => {
   try {
-    const response = await monAPI.get(`/nutritions/food/${foodId}`)
+    const response = await monAPI.get(`/nutritions/${nutritionId}`)
 
     if (!response || !response.data) {
       throw {

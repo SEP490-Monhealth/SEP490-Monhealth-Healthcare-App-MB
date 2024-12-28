@@ -1,7 +1,6 @@
 import React from "react"
 
 import { View } from "react-native"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { cn } from "@/lib/utils"
 
@@ -11,8 +10,6 @@ interface ContentProps {
   className?: string
   children: React.ReactNode
 }
-
-const TAB_BAR_HEIGHT = 80
 
 export const Content: React.FC<ContentProps> = ({
   testID,
@@ -24,7 +21,7 @@ export const Content: React.FC<ContentProps> = ({
     <View
       testID={testID}
       className={cn("", className)}
-      style={{ paddingBottom: marginBottom ? TAB_BAR_HEIGHT : 0 }}
+      style={{ marginBottom: marginBottom ? 92 : 64 }}
     >
       <React.Fragment>{children}</React.Fragment>
     </View>

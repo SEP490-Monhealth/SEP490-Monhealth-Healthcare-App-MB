@@ -9,14 +9,14 @@ import {
   getNutritionById
 } from "@/services/nutritionService"
 
-export const useGetNutritionById = (nutritionId: string) => {
+export const useGetNutritionByFoodId = (foodId: string) => {
   const handleError = useErrorHandler()
 
   return useQuery<NutritionType, Error>({
-    queryKey: ["nutrition", nutritionId],
+    queryKey: ["nutrition", foodId],
     queryFn: async () => {
       try {
-        return await getNutritionById(nutritionId)
+        return await getNutritionByFoodId(foodId)
       } catch (error) {
         handleError(error)
         throw error
@@ -26,14 +26,14 @@ export const useGetNutritionById = (nutritionId: string) => {
   })
 }
 
-export const useGetNutritionByFoodId = (foodId: string) => {
+export const useGetNutritionById = (nutritionId: string) => {
   const handleError = useErrorHandler()
 
   return useQuery<NutritionType, Error>({
-    queryKey: ["nutrition", foodId],
+    queryKey: ["nutrition", nutritionId],
     queryFn: async () => {
       try {
-        return await getNutritionByFoodId(foodId)
+        return await getNutritionById(nutritionId)
       } catch (error) {
         handleError(error)
         throw error

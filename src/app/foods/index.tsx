@@ -104,6 +104,14 @@ function FoodsScreen() {
     return () => clearTimeout(timeout)
   }, [debouncedSearchQuery, debouncedSelectedCategory])
 
+  const handleViewUserFoods = () => {
+    router.push("/foods/user")
+  }
+
+  const handleScanFood = () => {
+    router.push("/foods/test-camera")
+  }
+
   const ListHeaderComponent = useMemo(() => {
     return (
       <ListHeader className="pt-6">
@@ -116,8 +124,7 @@ function FoodsScreen() {
         <Section
           label="Danh sách món ăn"
           action="Món ăn của tôi"
-          onPress={() => router.push("/foods/user")}
-          className="mt-6"
+          onPress={handleViewUserFoods}
         />
       </ListHeader>
     )
@@ -137,13 +144,13 @@ function FoodsScreen() {
             onChangeText={(text) => setSearchQuery(text)}
             startIcon={<SearchNormal1 size={20} color={COLORS.primary} />}
             endIcon={<Scanner size={20} color={COLORS.primary} />}
-            onEndIconPress={() => router.push("/foods/test-camera")}
+            onEndIconPress={handleScanFood}
           />
         }
       />
 
-      <Content marginBottom={false}>
-        <VStack center className="pb-12">
+      <Content>
+        <VStack center>
           <FlatList
             data={foods || []}
             keyExtractor={(item) => item.foodId}
@@ -161,6 +168,9 @@ function FoodsScreen() {
                 foodId={item.foodId}
                 name={item.name}
                 calories={item.nutrition.calories}
+                size={item.portion?.size}
+                weight={item.portion?.weight}
+                unit={item.portion?.unit}
               />
             )}
             ListEmptyComponent={() => (

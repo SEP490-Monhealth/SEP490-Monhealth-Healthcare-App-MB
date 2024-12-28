@@ -6,14 +6,14 @@ import { PortionType } from "@/schemas/portionSchema"
 
 import { getPortionByFoodId, getPortionById } from "@/services/portionService"
 
-export const useGetPortionById = (portionId: string) => {
+export const useGetPortionByFoodId = (foodId: string) => {
   const handleError = useErrorHandler()
 
-  return useQuery<PortionType, Error>({
-    queryKey: ["portion", portionId],
+  return useQuery<PortionType[], Error>({
+    queryKey: ["portion", foodId],
     queryFn: async () => {
       try {
-        return await getPortionById(portionId)
+        return await getPortionByFoodId(foodId)
       } catch (error) {
         handleError(error)
         throw error
@@ -23,14 +23,14 @@ export const useGetPortionById = (portionId: string) => {
   })
 }
 
-export const useGetPortionByFoodId = (foodId: string) => {
+export const useGetPortionById = (portionId: string) => {
   const handleError = useErrorHandler()
 
   return useQuery<PortionType, Error>({
-    queryKey: ["portion", foodId],
+    queryKey: ["portion", portionId],
     queryFn: async () => {
       try {
-        return await getPortionByFoodId(foodId)
+        return await getPortionById(portionId)
       } catch (error) {
         handleError(error)
         throw error
