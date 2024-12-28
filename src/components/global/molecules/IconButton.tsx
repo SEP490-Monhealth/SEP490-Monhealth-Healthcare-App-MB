@@ -5,6 +5,7 @@ import { TouchableOpacity } from "react-native"
 import { cn } from "@/lib/utils"
 
 interface IconButtonProps {
+  testID?: string
   size?: "sm" | "md"
   icon: React.ReactNode
   onPress?: () => void
@@ -12,6 +13,7 @@ interface IconButtonProps {
 }
 
 export const IconButton = ({
+  testID,
   size = "md",
   icon,
   onPress,
@@ -26,6 +28,7 @@ export const IconButton = ({
 
   return (
     <TouchableOpacity
+      testID={testID}
       activeOpacity={0.7}
       onPress={onPress}
       className={cn(
