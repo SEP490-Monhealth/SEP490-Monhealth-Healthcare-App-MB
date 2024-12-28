@@ -1,7 +1,5 @@
 import React, { useState } from "react"
 
-import { Platform } from "react-native"
-
 import DateTimePicker, {
   DateTimePickerEvent
 } from "@react-native-community/datetimepicker"

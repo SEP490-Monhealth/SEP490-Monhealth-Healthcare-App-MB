@@ -21,7 +21,7 @@ function FoodUserScreen() {
         }}
       />
 
-      <Content margin={false}>
+      <Content marginBottom={false}>
         <VStack center className="pb-12">
           <Text>Halo</Text>
         </VStack>

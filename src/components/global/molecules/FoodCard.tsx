@@ -20,6 +20,7 @@ interface FoodCardProps {
   size?: string
   weight?: number
   unit?: string
+  onMorePress?: () => void
 }
 
 export const FoodCard = ({
@@ -29,7 +30,8 @@ export const FoodCard = ({
   calories,
   size,
   weight,
-  unit
+  unit,
+  onMorePress
 }: FoodCardProps) => {
   const router = useRouter()
 
@@ -62,7 +64,7 @@ export const FoodCard = ({
           <IconButton
             size="sm"
             icon={<MoreHorizontal size={20} color={COLORS.primary} />}
-            onPress={() => console.log("More")}
+            onPress={onMorePress}
           />
         ) : null}
       </HStack>

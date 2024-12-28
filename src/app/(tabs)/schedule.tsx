@@ -24,7 +24,7 @@ function ScheduleScreen() {
         }}
       />
 
-      <Content margin={false}>
+      <Content marginBottom={false}>
         <VStack gap={20} className="mt-2">
           <Tabs
             defaultValue="breakfast"

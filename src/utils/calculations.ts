@@ -4,7 +4,7 @@
  * @param height Chiều cao (cm)
  * @param age Tuổi (năm)
  * @param gender Giới tính (0 - Male hoặc 1 - Female)
- * @param activityLevel Mức độ hoạt động (1.2: ít hoạt động, 1.375: nhẹ, 1.55: trung bình, 1.725: cao)
+ * @param activityLevel Mức độ hoạt động (1.2: ít hoạt động, 1.375: nhẹ, 1.55: trung bình, 1.725: cao, 1.9: rất cao)
  * @returns Một đối tượng chứa các chỉ số: BMI, BMR, TDEE, IBW
  */
 export const calculateHealthMetrics = (
@@ -12,7 +12,7 @@ export const calculateHealthMetrics = (
   height: number,
   age: number,
   gender: number,
-  activityLevel: 1.2 | 1.375 | 1.55 | 1.725
+  activityLevel: 1.2 | 1.375 | 1.55 | 1.725 | 1.9
 ) => {
   // Tính BMI
   const bmi = calculateBMI(weight, height)
@@ -74,7 +74,7 @@ const calculateBMR = (
  */
 const calculateTDEE = (
   bmr: number,
-  activityLevel: 1.2 | 1.375 | 1.55 | 1.725
+  activityLevel: 1.2 | 1.375 | 1.55 | 1.725 | 1.9
 ): number => {
   return bmr * activityLevel // Công thức tính TDEE: BMR * mức độ hoạt động
 }
@@ -86,10 +86,9 @@ const calculateTDEE = (
  * @returns IBW lý tưởng
  */
 const calculateIBW = (height: number, gender: number): number => {
-  const heightInInches = height / 2.54 // Chuyển chiều cao từ cm sang inches
   if (gender === 0) {
-    return 50 + 0.91 * (heightInInches - 60) // Công thức Broca cho nam
+    return 50 + 0.91 * (height - 152.4) // Công thức IBW cho nam
   } else {
-    return 45.5 + 0.91 * (heightInInches - 60) // Công thức Broca cho nữ
+    return 45.5 + 0.91 * (height - 152.4) // Công thức IBW cho nữ
   }
 }

@@ -64,7 +64,7 @@ function MealDetailsScreen() {
         }}
       />
 
-      <Content margin={false}>
+      <Content marginBottom={false}>
         <FlatList
           data={mealData?.mealFoods}
           keyExtractor={(item) => item.foodId}

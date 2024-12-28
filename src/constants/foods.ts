@@ -13,7 +13,12 @@ export const sampleFoodsData: FoodType[] = [
     },
     nutrition: {
       calories: 130
-    }
+    },
+    status: true,
+    createdAt: "2023-01-01T00:00:00Z",
+    updatedAt: "2023-01-01T00:00:00Z",
+    createdBy: "asd",
+    updatedBy: "asd"
   },
   {
     foodId: "08b5c5da-4b0c-48f3-98fc-33420bdf8163",
@@ -27,7 +32,12 @@ export const sampleFoodsData: FoodType[] = [
     },
     nutrition: {
       calories: 265
-    }
+    },
+    status: true,
+    createdAt: "2023-01-01T00:00:00Z",
+    updatedAt: "2023-01-01T00:00:00Z",
+    createdBy: "asd",
+    updatedBy: "asd"
   },
   {
     foodId: "a989c8db-7506-467f-8aba-dce042f68eea",
@@ -41,7 +51,12 @@ export const sampleFoodsData: FoodType[] = [
     },
     nutrition: {
       calories: 89
-    }
+    },
+    status: true,
+    createdAt: "2023-01-01T00:00:00Z",
+    updatedAt: "2023-01-01T00:00:00Z",
+    createdBy: "asd",
+    updatedBy: "asd"
   },
   {
     foodId: "c42e7f00-ea31-430a-ac28-8d6e749b7eca",
@@ -55,6 +70,11 @@ export const sampleFoodsData: FoodType[] = [
     },
     nutrition: {
       calories: 155
-    }
+    },
+    status: true,
+    createdAt: "2023-01-01T00:00:00Z",
+    updatedAt: "2023-01-01T00:00:00Z",
+    createdBy: "asd",
+    updatedBy: "asd"
   }
 ]

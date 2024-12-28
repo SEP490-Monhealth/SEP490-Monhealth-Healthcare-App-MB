@@ -101,7 +101,7 @@ function FoodDetailsScreen() {
             }}
           />
 
-          <Content margin={false}>
+          <Content marginBottom={false}>
             <ScrollArea>
               <View
                 onStartShouldSetResponder={() => true}

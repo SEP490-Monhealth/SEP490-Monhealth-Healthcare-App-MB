@@ -142,7 +142,7 @@ function FoodsScreen() {
         }
       />
 
-      <Content margin={false}>
+      <Content marginBottom={false}>
         <VStack center className="pb-12">
           <FlatList
             data={foods || []}

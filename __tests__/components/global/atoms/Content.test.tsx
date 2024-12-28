@@ -30,7 +30,7 @@ describe("Content Component", () => {
 
   it("should apply marginBottom of 64 when margin is false", () => {
     const { getByTestId } = render(
-      <Content margin={false} testID="test-content">
+      <Content marginBottom={false} testID="test-content">
         <Text>No Margin Test</Text>
       </Content>
     )

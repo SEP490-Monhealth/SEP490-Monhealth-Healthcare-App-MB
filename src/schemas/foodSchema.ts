@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-import { nutritionSchema } from "./nutritionSchema"
+import { nutritionFoodSchema } from "./nutritionSchema"
 import { portionSchema } from "./portionSchema"
 
 export const baseFoodSchema = z.object({
@@ -22,7 +22,8 @@ export const baseFoodSchema = z.object({
     .max(500, { message: "Mô tả món ăn không được dài hơn 500 ký tự" }),
 
   portion: portionSchema,
-  nutrition: nutritionSchema,
+
+  nutrition: nutritionFoodSchema,
 
   status: z.boolean(),
 
@@ -38,7 +39,12 @@ export const foodSchema = baseFoodSchema.pick({
   category: true,
   name: true,
   portion: true,
-  nutrition: true
+  nutrition: true,
+  status: true,
+  createdAt: true,
+  updatedAt: true,
+  createdBy: true,
+  updatedBy: true
 })
 
 export const createFoodSchema = baseFoodSchema.pick({
