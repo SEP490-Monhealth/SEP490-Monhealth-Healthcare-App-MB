@@ -56,7 +56,7 @@ export const FoodCard = ({
 
         {variant === "add" ? (
           <IconButton
-           testID="icon-button-add"
+            testID="test-icon-add-button"
             size="sm"
             icon={<Add size={20} color={COLORS.primary} />}
             onPress={handleAddFood}

@@ -9,7 +9,7 @@ import { ChevronRight } from "lucide-react-native"
 
 import { COLORS } from "@/constants/app"
 
-import { getMealTypeName } from "@/utils/helpers"
+import { getMealTypeImage, getMealTypeName } from "@/utils/helpers"
 
 import { Card, HStack, Progress } from "../atoms"
 
@@ -32,21 +32,6 @@ export const MealCard = ({
     router.push(`/meals/${mealId}/details`)
   }
 
-  const getMealImage = () => {
-    switch (mealType) {
-      case "Breakfast":
-        return require("../../../../public/icons/sandwich.png")
-      case "Lunch":
-        return require("../../../../public/icons/rice.png")
-      case "Dinner":
-        return require("../../../../public/icons/roast-chicken.png")
-      case "Snack":
-        return require("../../../../public/icons/cupcake.png")
-      default:
-        return require("../../../../public/icons/dish.png")
-    }
-  }
-
   return (
     <Card
       className="flex flex-row items-center justify-between"
@@ -59,8 +44,8 @@ export const MealCard = ({
           className="flex h-12 w-12 items-center justify-center rounded-full bg-muted"
         >
           <Image
-            testID="meal-image"
-            source={getMealImage()}
+            testID="test-meal-image"
+            source={getMealTypeImage(mealType)}
             style={{
               width: 24,
               height: 24,

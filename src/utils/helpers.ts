@@ -94,3 +94,24 @@ export const getMealTypeName = (mealType: string): string => {
   }
   return translations[mealType] || mealType
 }
+
+/**
+ * Lấy hình ảnh đại diện cho từng loại bữa ăn
+ * @param mealType - Loại bữa ăn (Breakfast, Lunch, Dinner, Snack)
+ * @returns Hình ảnh đại diện của loại bữa ăn
+ */
+
+export const getMealTypeImage = (mealType: string) => {
+  switch (mealType) {
+    case "Breakfast":
+      return require("../../public/icons/sandwich.png")
+    case "Lunch":
+      return require("../../public/icons/rice.png")
+    case "Dinner":
+      return require("../../public/icons/roast-chicken.png")
+    case "Snack":
+      return require("../../public/icons/cupcake.png")
+    default:
+      return require("../../public/icons/dish.png")
+  }
+}

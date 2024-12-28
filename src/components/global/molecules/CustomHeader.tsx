@@ -23,11 +23,11 @@ export const CustomHeader = ({ content }: CustomHeaderProps) => {
   return (
     <HStack center gap={20} className="min-h-14 justify-between">
       <IconButton
-        testID="BackButton"
+        testID="test-icon-more-button"
         icon={<ArrowLeft size={24} color={COLORS.primary} />}
         onPress={handleBack}
       />
-      <View testID="CustomHeaderContent" className="flex-1">
+      <View testID="test-header-custom" className="flex-1">
         {typeof content === "string" ? <Text>{content}</Text> : content}
       </View>
     </HStack>

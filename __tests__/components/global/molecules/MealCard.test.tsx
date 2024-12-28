@@ -2,113 +2,86 @@ import React from "react"
 
 import { useRouter } from "expo-router"
 
-import { act, fireEvent, render } from "@testing-library/react-native"
+import { fireEvent, render, screen } from "@testing-library/react-native"
 
 import { MealCard } from "@/components/global/molecules"
 
-import { COLORS } from "@/constants/app"
+import { getMealTypeImage, getMealTypeName } from "@/utils/helpers"
 
+// Mock the router
 jest.mock("expo-router", () => ({
   useRouter: jest.fn()
 }))
 
-jest.useFakeTimers() // Use fake timers for Animated
+// Mock helper functions
+jest.mock("@/utils/helpers", () => ({
+  getMealTypeImage: jest.fn(),
+  getMealTypeName: jest.fn()
+}))
 
-const mockRouterPush = jest.fn()
+describe("MealCard Component", () => {
+  const mockedRouter = {
+    push: jest.fn()
+  }
 
-;(useRouter as jest.Mock).mockReturnValue({
-  push: mockRouterPush
+  beforeEach(() => {
+    jest.clearAllMocks()
+    ;(useRouter as jest.Mock).mockReturnValue(mockedRouter)
+  })
+
+  it("renders correctly with default props", () => {
+    ;(getMealTypeImage as jest.Mock).mockReturnValue("test-image.png")
+    ;(getMealTypeName as jest.Mock).mockReturnValue("Breakfast")
+
+    render(<MealCard mealType="Breakfast" totalCalories={300} />)
+
+    expect(screen.getByText("Breakfast")).toBeTruthy()
+    expect(screen.getByText("300 kcal")).toBeTruthy()
+    expect(screen.getByTestId("test-meal-image")).toBeTruthy()
+  })
+
+  it("renders the correct image based on mealType", () => {
+    ;(getMealTypeImage as jest.Mock).mockReturnValue("test-image.png")
+
+    render(<MealCard mealType="Lunch" totalCalories={500} />)
+
+    expect(getMealTypeImage).toHaveBeenCalledWith("Lunch")
+    expect(screen.getByTestId("test-meal-image").props.source).toEqual(
+      "test-image.png"
+    )
+  })
+
+  it("renders the progress bar when progress is provided", () => {
+    render(<MealCard mealType="Dinner" totalCalories={600} progress={0.5} />)
+
+    expect(screen.getByTestId("progress-bar")).toBeTruthy()
+  })
+
+  it("does not render progress bar when progress is not provided", () => {
+    render(<MealCard mealType="Snack" totalCalories={150} />)
+
+    expect(screen.queryByTestId("progress-bar")).toBeNull()
+  })
+
+  it("navigates to meal details on press", () => {
+    render(<MealCard mealType="Breakfast" totalCalories={300} />)
+
+    const card = screen.getByTestId("test-meal-image")
+    fireEvent.press(card)
+
+    expect(mockedRouter.push).toHaveBeenCalledWith("/meals/c43ad7ca/details")
+  })
 })
 
-describe("MealCard", () => {
-  const defaultProps = {
-    mealType: "Breakfast" as "Breakfast",
-    totalCalories: 300,
-    progress: 50
-  }
+it("uses default mealType when not provided", () => {
+  ;(getMealTypeImage as jest.Mock).mockReturnValue("default-image.png")
+  ;(getMealTypeName as jest.Mock).mockReturnValue("Breakfast")
 
-  const getMealImageSource = (
-    mealType: "Breakfast" | "Lunch" | "Dinner" | "Snack" | string
-  ) => {
-    switch (mealType) {
-      case "Breakfast":
-        return require("../../../../public/icons/sandwich.png")
-      case "Lunch":
-        return require("../../../../public/icons/rice.png")
-      case "Dinner":
-        return require("../../../../public/icons/roast-chicken.png")
-      case "Snack":
-        return require("../../../../public/icons/cupcake.png")
-      default:
-        return require("../../../../public/icons/dish.png")
-    }
-  }
+  render(<MealCard totalCalories={300} />)
 
-  it("renders correctly with default props", async () => {
-    const { getByText, getByTestId } = render(<MealCard {...defaultProps} />)
-
-    await act(async () => {
-      jest.advanceTimersByTime(500) // Advance timers for Animated updates
-    })
-
-    expect(getByText("Bữa sáng")).toBeTruthy()
-    expect(getByText("300 kcal")).toBeTruthy()
-    expect(getByTestId("meal-image").props.source).toEqual(
-      getMealImageSource("Breakfast")
-    )
-    expect(getByTestId("progress-bar")).toBeTruthy()
-  })
-
-  it("handles onPress and navigates to the correct route", async () => {
-    const { getByTestId } = render(<MealCard {...defaultProps} />)
-
-    const card = getByTestId("meal-image")
-    await act(async () => {
-      fireEvent.press(card)
-    })
-
-    expect(mockRouterPush).toHaveBeenCalledWith("/meals/c43ad7ca/details")
-  })
-
-  it("renders the correct meal image for each meal type", async () => {
-    const mealTypes: ("Breakfast" | "Lunch" | "Dinner" | "Snack")[] = [
-      "Breakfast",
-      "Lunch",
-      "Dinner",
-      "Snack"
-    ]
-
-    for (const mealType of mealTypes) {
-      const { getByTestId, unmount } = render(
-        <MealCard mealType={mealType} totalCalories={400} />
-      )
-
-      await act(async () => {
-        jest.advanceTimersByTime(500)
-      })
-
-      expect(getByTestId("meal-image").props.source).toEqual(
-        getMealImageSource(mealType)
-      )
-
-      unmount()
-    }
-  })
-
-  it("renders fallback image for an unknown meal type", async () => {
-    const { getByTestId } = render(
-      <MealCard
-        mealType={"Unknown" as unknown as "Breakfast"}
-        totalCalories={400}
-      />
-    )
-
-    await act(async () => {
-      jest.advanceTimersByTime(500)
-    })
-
-    expect(getByTestId("meal-image").props.source).toEqual(
-      getMealImageSource("Unknown")
-    )
-  })
+  expect(getMealTypeName).toHaveBeenCalledWith("Breakfast")
+  expect(screen.getByText("Breakfast")).toBeTruthy()
+  expect(screen.getByTestId("test-meal-image").props.source).toEqual(
+    "default-image.png"
+  )
 })

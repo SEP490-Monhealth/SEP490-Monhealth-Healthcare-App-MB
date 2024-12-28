@@ -1,33 +1,33 @@
-// Import necessary modules
-import React from "react";
-import { render } from "@testing-library/react-native";
-import { AnimatedCircularProgress } from "react-native-circular-progress";
-import { CircularProgress } from "@/components/global/molecules";
+import React from "react"
+
+import { AnimatedCircularProgress } from "react-native-circular-progress"
+
+import { render } from "@testing-library/react-native"
+
+import { CircularProgress } from "@/components/global/molecules"
 
 jest.mock("react-native-circular-progress", () => ({
-  AnimatedCircularProgress: jest.fn().mockImplementation(() => null),
-}));
+  AnimatedCircularProgress: jest.fn().mockImplementation(() => null)
+}))
 
 describe("CircularProgress component", () => {
   it("renders correctly with default props", () => {
-    const { getByTestId } = render(
-      <CircularProgress size={100} width={10} />
-    );
+    const { getByTestId } = render(<CircularProgress size={100} width={10} />)
 
-    expect(getByTestId("CircularProgressContainer")).toBeTruthy();
+    expect(getByTestId("test-circular-progress")).toBeTruthy()
     expect(AnimatedCircularProgress).toHaveBeenCalledWith(
       expect.objectContaining({
         size: 100,
         width: 10,
         fill: 0,
-        tintColor: "#334155", // Assuming COLORS.primary is '#007bff'
+        tintColor: "#334155",
         backgroundColor: "#F1F5F9",
         rotation: 90,
-        lineCap: "round",
+        lineCap: "round"
       }),
       {}
-    );
-  });
+    )
+  })
 
   it("renders with custom props", () => {
     const { getByTestId } = render(
@@ -40,9 +40,9 @@ describe("CircularProgress component", () => {
         rotation={180}
         className="custom-class"
       />
-    );
+    )
 
-    expect(getByTestId("CircularProgressContainer")).toBeTruthy();
+    expect(getByTestId("test-circular-progress")).toBeTruthy()
     expect(AnimatedCircularProgress).toHaveBeenCalledWith(
       expect.objectContaining({
         size: 150,
@@ -51,18 +51,18 @@ describe("CircularProgress component", () => {
         tintColor: "red",
         backgroundColor: "blue",
         rotation: 180,
-        lineCap: "round",
+        lineCap: "round"
       }),
       {}
-    );
-  });
+    )
+  })
 
   it("applies the className correctly", () => {
     const { getByTestId } = render(
       <CircularProgress size={100} width={10} className="test-class" />
-    );
+    )
 
-    const container = getByTestId("CircularProgressContainer");
-    expect(container.props.className).toContain("test-class");
-  });
-});
+    const container = getByTestId("test-circular-progress")
+    expect(container.props.className).toContain("test-class")
+  })
+})

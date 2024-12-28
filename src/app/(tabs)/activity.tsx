@@ -44,17 +44,17 @@ function ActivityScreen() {
             Chọn tần xuất
           </Button>
 
-            <Button size="lg" onPress={handleViewTargetSetup}>
-              Chọn mục tiêu
-            </Button>
+          <Button size="lg" onPress={handleViewTargetSetup}>
+            Chọn mục tiêu
+          </Button>
 
-            <Button size="lg" onPress={handleViewSexSetup}>
-              Chọn giới tính
-            </Button>
+          <Button size="lg" onPress={handleViewSexSetup}>
+            Chọn giới tính
+          </Button>
 
-            <Button size="lg" onPress={handleViewWeightSetup}>
-              Chọn cân nặng
-            </Button>
+          <Button size="lg" onPress={handleViewWeightSetup}>
+            Chọn cân nặng
+          </Button>
 
           <Button size="lg" onPress={handleViewDoBSetup}>
             Chọn ngày sinh

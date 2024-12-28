@@ -1,55 +1,35 @@
 import React from "react"
 
-import { Text, View } from "react-native"
+import { View } from "react-native"
 
-import { render } from "@testing-library/react-native"
+import { render, screen } from "@testing-library/react-native"
 
 import { ListFooter } from "@/components/global/molecules"
 
-describe("ListFooter", () => {
-  it("renders correctly with default props", () => {
-    const { getByTestId } = render(
+describe("ListFooter Component", () => {
+  it("renders children correctly", () => {
+    render(
       <ListFooter>
         <View testID="child-view" />
       </ListFooter>
     )
 
-    const footer = getByTestId("child-view")
-    expect(footer).toBeTruthy()
+    expect(screen.getByTestId("child-view")).toBeTruthy()
   })
 
-  it("applies default class names", () => {
-    const { toJSON } = render(
-      <ListFooter>
-        <View testID="footer-view" />
-      </ListFooter>
-    )
+  it("applies default class name", () => {
+    render(<ListFooter />)
 
-    const tree = toJSON()
-    expect(tree).toMatchSnapshot() // So sánh output với snapshot để đảm bảo các class mặc định tồn tại
+    expect(screen.getByTestId("root-view").props.className).toContain(
+      "mt-8 pb-4"
+    )
   })
 
-  it("merges custom className with default className", () => {
-    const customClass = "custom-class"
-    const { toJSON } = render(
-      <ListFooter className={customClass}>
-        <View testID="footer-view" />
-      </ListFooter>
+  it("appends additional className prop", () => {
+    render(<ListFooter className="custom-class" />)
+
+    expect(screen.getByTestId("root-view").props.className).toContain(
+      "mt-8 pb-4 custom-class"
     )
-
-    const tree = toJSON()
-    expect(tree).toMatchSnapshot() // Snapshot sẽ chứa cả class mặc định lẫn custom class
-  })
-
-  it("renders children correctly", () => {
-    const { getByText } = render(
-      <ListFooter>
-        <View>
-          <Text>Test Child</Text>
-        </View>
-      </ListFooter>
-    )
-
-    expect(getByText("Test Child")).toBeTruthy()
   })
 })

@@ -4,9 +4,9 @@ module.exports = {
   coverageDirectory: "coverage",
   coveragePathIgnorePatterns: [
     "/node_modules/",
+    "public/icons",
     "/constants",
     "/lib",
-    "/utils",
-    "/components/global/atoms"
+    "/utils"
   ]
 }

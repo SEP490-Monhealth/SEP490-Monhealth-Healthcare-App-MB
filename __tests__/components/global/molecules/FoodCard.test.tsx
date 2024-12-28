@@ -2,118 +2,111 @@ import React from "react"
 
 import { useRouter } from "expo-router"
 
-import { fireEvent, render } from "@testing-library/react-native"
+import { fireEvent, render, screen } from "@testing-library/react-native"
 
 import { FoodCard } from "@/components/global/molecules"
 
+// Mock the router
 jest.mock("expo-router", () => ({
   useRouter: jest.fn()
 }))
 
-describe("FoodCard", () => {
-  const mockPush = jest.fn()
+describe("FoodCard Component", () => {
+  const mockedRouter = {
+    push: jest.fn()
+  }
 
   beforeEach(() => {
-    ;(useRouter as jest.Mock).mockReturnValue({
-      push: mockPush
-    })
-  })
-
-  afterEach(() => {
     jest.clearAllMocks()
+    ;(useRouter as jest.Mock).mockReturnValue(mockedRouter)
   })
 
-  it("renders default variant correctly", () => {
-    const { getByText } = render(
+  it("renders correctly for default variant", () => {
+    render(
       <FoodCard
         variant="default"
-        foodId="1"
-        name="Apple"
-        calories={95}
+        foodId="123"
+        name="Pizza"
+        calories={300}
         size="Medium"
-        weight={182}
+        weight={200}
         unit="g"
       />
     )
 
-    // Kiểm tra nội dung hiển thị đúng
-    expect(getByText("Apple")).toBeTruthy()
-    expect(getByText("95 kcal • Medium • 182 g")).toBeTruthy()
-
-    // Kiểm tra hành động nhấn vào thẻ
-    fireEvent.press(getByText("Apple"))
-    expect(mockPush).toHaveBeenCalledWith("/foods/1/details")
+    expect(screen.getByText("Pizza")).toBeTruthy()
+    expect(screen.getByText("300 kcal • Medium • 200 g")).toBeTruthy()
   })
 
-  it("navigates to food details when card is pressed", () => {
-    const { getByText } = render(
-      <FoodCard
-        variant="default"
-        foodId="1"
-        name="Apple"
-        calories={95}
-        size="Medium"
-        weight={182}
-        unit="g"
-      />
-    )
+  it("renders correctly for add variant", () => {
+    render(<FoodCard variant="add" foodId="123" name="Burger" />)
 
-    fireEvent.press(getByText("Apple"))
-    expect(mockPush).toHaveBeenCalledWith("/foods/1/details")
+    expect(screen.getByText("Burger")).toBeTruthy()
+    expect(screen.getByText("0 kcal • 1 phần • 0 g")).toBeTruthy()
+    expect(screen.getByTestId("test-icon-add-button")).toBeTruthy()
   })
 
-  it("renders add button and triggers callback when pressed", () => {
-    const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {})
+  it("renders correctly for more variant", () => {
+    const mockMorePress = jest.fn()
 
-    const { getByTestId } = render(
-      <FoodCard
-        variant="add"
-        foodId="2"
-        name="Banana"
-        calories={105}
-        weight={118}
-        unit="g"
-      />
-    )
-
-    const addButton = getByTestId("icon-button-add")
-    expect(addButton).toBeTruthy()
-
-    fireEvent.press(addButton)
-    expect(consoleSpy).toHaveBeenCalledWith("Add food", "2")
-
-    consoleSpy.mockRestore()
-  })
-
-  it("renders more button and triggers callback when pressed", () => {
-    const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {})
-
-    const { getByTestId } = render(
+    render(
       <FoodCard
         variant="more"
-        foodId="3"
-        name="Orange"
-        calories={62}
-        weight={131}
-        unit="g"
+        foodId="123"
+        name="Salad"
+        onMorePress={mockMorePress}
       />
     )
 
-    const moreButton = getByTestId("icon-button-more")
-    expect(moreButton).toBeTruthy()
-
-    fireEvent.press(moreButton)
-    expect(consoleSpy).toHaveBeenCalledWith("More")
-
-    consoleSpy.mockRestore()
+    expect(screen.getByText("Salad")).toBeTruthy()
+    expect(screen.getByText("0 kcal • 1 phần • 0 g")).toBeTruthy()
+    expect(screen.getByTestId("icon-button-more")).toBeTruthy()
   })
 
-  it("renders with default values for missing props", () => {
-    const { getByText } = render(
-      <FoodCard foodId="4" name="Grapes" variant="default" />
+  it("navigates to food details when default variant is pressed", () => {
+    render(<FoodCard variant="default" foodId="123" name="Pizza" />)
+
+    const card = screen.getByText("Pizza")
+    fireEvent.press(card)
+
+    expect(mockedRouter.push).toHaveBeenCalledWith("/foods/123/details")
+  })
+
+  it("logs correct message when add button is pressed", () => {
+    console.log = jest.fn()
+
+    render(<FoodCard variant="add" foodId="123" name="Burger" />)
+
+    const addButton = screen.getByTestId("test-icon-add-button")
+    fireEvent.press(addButton)
+
+    expect(console.log).toHaveBeenCalledWith("Add food", "123")
+  })
+
+  it("calls onMorePress handler when more button is pressed", () => {
+    const mockMorePress = jest.fn()
+
+    render(
+      <FoodCard
+        variant="more"
+        foodId="123"
+        name="Salad"
+        onMorePress={mockMorePress}
+      />
     )
 
-    expect(getByText("Grapes")).toBeTruthy()
-    expect(getByText("0 kcal • 1 phần • 0 g")).toBeTruthy()
+    const moreButton = screen.getByTestId("icon-button-more")
+    fireEvent.press(moreButton)
+
+    expect(mockMorePress).toHaveBeenCalled()
+  })
+  it("uses default variant when no variant is provided", () => {
+    render(<FoodCard foodId="123" name="Pizza" />)
+
+    const card = screen.getByText("Pizza")
+    fireEvent.press(card)
+
+    // Check that the router navigates to the correct path
+    expect(mockedRouter.push).toHaveBeenCalledWith("/foods/123/details")
   })
 })

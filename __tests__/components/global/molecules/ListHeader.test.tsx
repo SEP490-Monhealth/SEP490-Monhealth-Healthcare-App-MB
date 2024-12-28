@@ -1,55 +1,40 @@
 import React from "react"
 
-import { Text, View } from "react-native"
+import { View } from "react-native"
 
-import { render } from "@testing-library/react-native"
+import { render, screen } from "@testing-library/react-native"
 
 import { ListHeader } from "@/components/global/molecules"
 
-describe("ListHeader", () => {
-  it("renders correctly with default props", () => {
-    const { getByTestId } = render(
+// Mock cn utility
+jest.mock("@/lib/utils", () => ({
+  cn: jest.fn((...classes: string[]) => classes.join(" "))
+}))
+
+describe("ListHeader Component", () => {
+  it("renders children correctly", () => {
+    render(
       <ListHeader>
         <View testID="child-view" />
       </ListHeader>
     )
 
-    const header = getByTestId("child-view")
-    expect(header).toBeTruthy()
+    expect(screen.getByTestId("child-view")).toBeTruthy()
   })
 
-  it("applies default class names", () => {
-    const { toJSON } = render(
-      <ListHeader>
-        <View testID="header-view" />
-      </ListHeader>
-    )
+  it("applies default class name", () => {
+    render(<ListHeader />)
 
-    const tree = toJSON()
-    expect(tree).toMatchSnapshot() // Kiểm tra snapshot để đảm bảo các class mặc định được áp dụng
+    expect(screen.getByTestId("root-view").props.className).toContain(
+      "bg-background"
+    )
   })
 
-  it("merges custom className with default className", () => {
-    const customClass = "custom-class"
-    const { toJSON } = render(
-      <ListHeader className={customClass}>
-        <View testID="header-view" />
-      </ListHeader>
+  it("appends additional className prop", () => {
+    render(<ListHeader className="custom-class" />)
+
+    expect(screen.getByTestId("root-view").props.className).toContain(
+      "bg-background custom-class"
     )
-
-    const tree = toJSON()
-    expect(tree).toMatchSnapshot() // Snapshot sẽ lưu cả class mặc định và custom class
-  })
-
-  it("renders children correctly", () => {
-    const { getByText } = render(
-      <ListHeader>
-        <View>
-          <Text>Test Header Child</Text>
-        </View>
-      </ListHeader>
-    )
-
-    expect(getByText("Test Header Child")).toBeTruthy()
   })
 })
