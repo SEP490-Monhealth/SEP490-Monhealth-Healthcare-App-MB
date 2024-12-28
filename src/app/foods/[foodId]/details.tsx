@@ -30,9 +30,13 @@ import { FoodNutrition, NutritionFacts } from "@/components/local/foods"
 
 import { COLORS } from "@/constants/app"
 
+import { useSaveFoods } from "@/contexts/SaveContext"
+
 import { useGetFoodById } from "@/hooks/useFood"
 import { useGetNutritionByFoodId } from "@/hooks/useNutrition"
 import { useGetPortionByFoodId } from "@/hooks/usePortion"
+
+import { parsePortion } from "@/utils/helpers"
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window")
 
@@ -42,7 +46,13 @@ function FoodDetailsScreen() {
 
   const { foodId } = useLocalSearchParams() as { foodId: string }
 
-  const isSaved = false
+  const { saveFoods, toggleSave } = useSaveFoods()
+
+  const isSaved = saveFoods.some((saved) => saved.foodId === foodId)
+
+  useEffect(() => {
+    console.log("Current saved foods:", saveFoods)
+  }, [saveFoods])
 
   const meals = ["Bữa sáng", "Bữa trưa", "Bữa tối", "Bữa phụ"]
 
@@ -114,6 +124,26 @@ function FoodDetailsScreen() {
   )
     return <LoadingScreen />
 
+  const handleToggleSave = () => {
+    if (foodData && nutritionData && portionData) {
+      const { portionSize, portionWeight, portionUnit } =
+        parsePortion(selectedPortion)
+
+      toggleSave({
+        foodId: foodId,
+        name: foodData.name,
+        portion: {
+          size: portionSize,
+          weight: portionWeight,
+          unit: portionUnit
+        },
+        nutrition: {
+          calories: nutritionData.calories
+        }
+      })
+    }
+  }
+
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView className="h-full bg-background">
@@ -128,7 +158,8 @@ function FoodDetailsScreen() {
                   size={20}
                   color={COLORS.primary}
                 />
-              )
+              ),
+              onPress: handleToggleSave
             }}
           />
 

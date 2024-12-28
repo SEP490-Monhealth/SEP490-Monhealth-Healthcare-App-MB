@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react"
 
-import { ActivityIndicator, FlatList, Image, View } from "react-native"
+import { ActivityIndicator, FlatList, Image, Text, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -175,14 +175,22 @@ function FoodsScreen() {
             )}
             ListEmptyComponent={() => (
               <VStack center gap={20} className="mt-8">
-                <View className="w-full items-center">
-                  <Image
-                    source={require("../../../public/images/no-data-image.png")}
-                    style={{
-                      width: 320,
-                      height: 320
-                    }}
-                  />
+                <Image
+                  source={require("../../../public/images/no-data-image.png")}
+                  style={{
+                    width: 320,
+                    height: 320
+                  }}
+                  className="items-center"
+                />
+
+                <View>
+                  <Text className="text-center font-tbold text-3xl text-primary">
+                    Không có dữ liệu
+                  </Text>
+                  <Text className="text-center font-tmedium text-lg text-secondary">
+                    Bạn chưa lưu món ăn nào trong danh sách
+                  </Text>
                 </View>
               </VStack>
             )}

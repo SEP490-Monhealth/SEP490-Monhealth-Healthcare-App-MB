@@ -115,3 +115,21 @@ export const getMealTypeImage = (mealType: string) => {
       return require("../../public/icons/dish.png")
   }
 }
+
+export const parsePortion = (selectedPortion: string) => {
+  const selectedPortionMatch = selectedPortion.match(/(.+?) \((\d+) (\w+)\)/)
+
+  let portionSize = selectedPortionMatch
+    ? selectedPortionMatch[1]
+    : selectedPortion
+  const portionWeight = selectedPortionMatch
+    ? parseInt(selectedPortionMatch[2], 10)
+    : 100
+  const portionUnit = selectedPortionMatch ? selectedPortionMatch[3] : "g"
+
+  if (portionSize === "g") {
+    portionSize = "phần"
+  }
+
+  return { portionSize, portionWeight, portionUnit }
+}
