@@ -79,6 +79,8 @@ function ForgotPasswordScreen() {
                     <EyeSlash variant="Bold" size={20} color="#cbd5e1" />
                   )
                 }
+                alwaysShowEndIcon
+                canClearText
                 errorMessage={errors.password?.message}
               />
             )}
@@ -106,6 +108,8 @@ function ForgotPasswordScreen() {
                     <EyeSlash variant="Bold" size={20} color="#cbd5e1" />
                   )
                 }
+                alwaysShowEndIcon
+                canClearText
                 errorMessage={errors.confirmPassword?.message}
               />
             )}

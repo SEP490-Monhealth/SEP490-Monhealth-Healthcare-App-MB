@@ -13,12 +13,13 @@ import { IconButton } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/app"
 
-import { useLogin } from "@/hooks/useAuth"
+import { useAuth } from "@/contexts/AuthContext"
 
 import { LoginType, loginSchema } from "@/schemas/userSchema"
 
 function SignInScreen() {
   const router = useRouter()
+  const { login } = useAuth()
 
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -35,30 +36,17 @@ function SignInScreen() {
     }
   })
 
-  const { mutate: login } = useLogin()
-
   const handleBack = () => {
     router.replace("/(onboarding)/welcome")
   }
 
-  const onSubmit = (data: LoginType) => {
+  const onSubmit = async (data: LoginType) => {
     setIsLoading(true)
     // console.log(data)
 
-    login(
-      { phoneNumber: data.phoneNumber, password: data.password },
-      {
-        onSuccess: (data) => {
-          setIsLoading(false)
-          // console.log(data)
-          router.replace("/(tabs)/home")
-        },
-        onError: (error: any) => {
-          setIsLoading(false)
-          console.log(error)
-        }
-      }
-    )
+    await login(data.phoneNumber, data.password)
+    router.replace("/(tabs)/home")
+    setIsLoading(false)
   }
 
   return (
@@ -87,6 +75,7 @@ function SignInScreen() {
                 startIcon={
                   <Sms variant="Bold" size={20} color={COLORS.primary} />
                 }
+                canClearText
                 errorMessage={errors.phoneNumber?.message}
               />
             )}
@@ -112,6 +101,8 @@ function SignInScreen() {
                     <EyeSlash variant="Bold" size={20} color="#cbd5e1" />
                   )
                 }
+                alwaysShowEndIcon
+                canClearText
                 errorMessage={errors.password?.message}
               />
             )}
@@ -130,7 +121,7 @@ function SignInScreen() {
           onPress={handleSubmit(onSubmit)}
           className="mt-8"
         >
-          {isLoading ? "Đang đăng nhập..." : "Đăng nhập"}
+          {!isLoading && "Đăng nhập"}
         </Button>
 
         <Text className="mt-4 text-center font-tregular">

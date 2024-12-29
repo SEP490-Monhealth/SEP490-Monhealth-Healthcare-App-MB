@@ -6,8 +6,11 @@ import { useRouter } from "expo-router"
 
 import { Container } from "@/components/global/atoms"
 
+import { useAuth } from "@/contexts/AuthContext"
+
 function AppIndex() {
   const router = useRouter()
+  const { isAuthenticated, loading } = useAuth()
 
   const fadeAnim = useRef(new Animated.Value(0)).current
   const rotateAnim = useRef(new Animated.Value(0)).current
@@ -54,17 +57,18 @@ function AppIndex() {
         })
       ])
     ]).start()
-
-    setTimeout(() => {
-      const isLoggedIn = true
-
-      if (isLoggedIn) {
-        router.replace("/(tabs)/home")
-      } else {
-        router.replace("/(onboarding)/welcome")
+    const timeout = setTimeout(() => {
+      if (!loading) {
+        if (isAuthenticated) {
+          router.replace("/(tabs)/home")
+        } else {
+          router.replace("/(onboarding)/welcome")
+        }
       }
     }, 2000)
-  }, [])
+
+    return () => clearTimeout(timeout)
+  }, [loading, isAuthenticated, router])
 
   const rotate = rotateAnim.interpolate({
     inputRange: [0, 1],

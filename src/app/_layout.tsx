@@ -9,8 +9,9 @@ import { StatusBar } from "expo-status-bar"
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
-import { ErrorProvider } from "@/contexts/ErrorContext"
-import { SaveFoodProvider } from "@/contexts/SaveContext"
+import { AuthProvider } from "@/providers/AuthProvider"
+import { ErrorProvider } from "@/providers/ErrorProvider"
+import { SaveFoodProvider } from "@/providers/SaveFoodProvider"
 
 import { MonFonts } from "@/styles/typography"
 
@@ -42,22 +43,16 @@ function AppLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <ErrorProvider>
-        <SaveFoodProvider>
-          <GestureHandlerRootView style={{ flex: 1 }}>
-            <SafeAreaProvider>
-              <Stack screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="index" />
-                <Stack.Screen name="loading" />
-                <Stack.Screen name="(auth)" />
-                <Stack.Screen name="(onboarding)" />
-                <Stack.Screen name="(setup)" />
-                <Stack.Screen name="(tabs)" />
-                <Stack.Screen name="(errors)" />
-              </Stack>
-              <StatusBar style="auto" backgroundColor="#fff" />
-            </SafeAreaProvider>
-          </GestureHandlerRootView>
-        </SaveFoodProvider>
+        <AuthProvider>
+          <SaveFoodProvider>
+            <GestureHandlerRootView style={{ flex: 1 }}>
+              <SafeAreaProvider>
+                <Stack screenOptions={{ headerShown: false }} />
+                <StatusBar style="auto" backgroundColor="#fff" />
+              </SafeAreaProvider>
+            </GestureHandlerRootView>
+          </SaveFoodProvider>
+        </AuthProvider>
       </ErrorProvider>
     </QueryClientProvider>
   )

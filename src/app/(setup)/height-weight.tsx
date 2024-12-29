@@ -53,6 +53,7 @@ function HeightWeightScreen() {
                       cm
                     </Text>
                   }
+                  canClearText
                   errorMessage={errors.height?.message}
                 />
               )}
@@ -72,6 +73,7 @@ function HeightWeightScreen() {
                       kg
                     </Text>
                   }
+                  canClearText
                   errorMessage={errors.weight?.message}
                 />
               )}

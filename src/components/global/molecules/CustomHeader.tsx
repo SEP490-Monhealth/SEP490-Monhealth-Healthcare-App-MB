@@ -8,6 +8,8 @@ import { ArrowLeft } from "iconsax-react-native"
 
 import { COLORS } from "@/constants/app"
 
+import { useAuth } from "@/contexts/AuthContext"
+
 import { HStack } from "../atoms"
 import { IconButton } from "./IconButton"
 

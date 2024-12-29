@@ -34,25 +34,25 @@ describe("WelcomeScreen", () => {
     ).toBeTruthy()
 
     // Check for button text
-    expect(getByText("Tiếp tục với Google")).toBeTruthy()
-    expect(getByText("Tiếp tục với Email")).toBeTruthy()
+    expect(getByText("Google")).toBeTruthy()
+    expect(getByText("Tiếp tục")).toBeTruthy()
   })
 
-  it("navigates to home when 'Tiếp tục với Google' is pressed", () => {
+  it("navigates to home when 'Google' is pressed", () => {
     const { getByText } = render(<WelcomeScreen />)
 
     // Simulate button press
-    fireEvent.press(getByText("Tiếp tục với Google"))
+    fireEvent.press(getByText("Google"))
 
     // Verify navigation
     expect(router.replace).toHaveBeenCalledWith("/(tabs)/home")
   })
 
-  it("navigates to sign-in screen when 'Tiếp tục với Email' is pressed", () => {
+  it("navigates to sign-in screen when 'Tiếp tục' is pressed", () => {
     const { getByText } = render(<WelcomeScreen />)
 
     // Simulate button press
-    fireEvent.press(getByText("Tiếp tục với Email"))
+    fireEvent.press(getByText("Tiếp tục"))
 
     // Verify navigation
     expect(router.push).toHaveBeenCalledWith("/(auth)/sign-in")

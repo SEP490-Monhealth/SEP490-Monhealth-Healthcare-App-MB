@@ -13,7 +13,7 @@ import { COLORS } from "@/constants/app"
 import { getGreeting } from "@/utils/helpers"
 
 interface HomeHeaderProps {
-  fullName: string
+  fullName?: string
 }
 
 export const HomeHeader = ({ fullName }: HomeHeaderProps) => {

@@ -8,6 +8,8 @@ import { ChevronRight } from "lucide-react-native"
 
 import { COLORS } from "@/constants/app"
 
+import { useAuth } from "@/contexts/AuthContext"
+
 interface ListItemProps {
   startIcon?: React.ReactNode
   endIcon?: React.ReactNode
@@ -26,6 +28,7 @@ export const ListItem = ({
   more = true
 }: ListItemProps) => {
   const router = useRouter()
+  const { logout } = useAuth()
 
   const handlePress = () => {
     if (action) {
@@ -33,7 +36,13 @@ export const ListItem = ({
         case "logout":
           Alert.alert("Đăng xuất", "Bạn có chắc chắn muốn đăng xuất không?", [
             { text: "Hủy", style: "cancel" },
-            { text: "Đồng ý", onPress: () => console.log("User logged out") }
+            {
+              text: "Đồng ý",
+              onPress: async () => {
+                await logout()
+                router.replace("/(auth)/sign-in")
+              }
+            }
           ])
           break
         default:

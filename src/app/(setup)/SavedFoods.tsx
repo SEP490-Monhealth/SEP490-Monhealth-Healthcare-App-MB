@@ -31,7 +31,7 @@ export const SavedFoods = ({ foodsData }: MealTabProps) => {
       renderItem={({ item }) => (
         <FoodCard
           key={item.foodId}
-          variant="more"
+          variant="add"
           foodId={item.foodId}
           name={item.name}
           calories={item.nutrition.calories}

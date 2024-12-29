@@ -30,7 +30,7 @@ import { FoodNutrition, NutritionFacts } from "@/components/local/foods"
 
 import { COLORS } from "@/constants/app"
 
-import { useSaveFoods } from "@/contexts/SaveContext"
+import { useSaveFoods } from "@/contexts/SaveFoodContext"
 
 import { useGetFoodById } from "@/hooks/useFood"
 import { useGetNutritionByFoodId } from "@/hooks/useNutrition"
@@ -138,7 +138,7 @@ function FoodDetailsScreen() {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <SafeAreaView className="h-full bg-background">
+      <SafeAreaView className="h-full flex-1 bg-background">
         <View className="px-6">
           <Header
             back

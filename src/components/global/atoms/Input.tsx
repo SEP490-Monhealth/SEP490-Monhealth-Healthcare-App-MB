@@ -25,6 +25,7 @@ type InputProps = Omit<TextInputProps, "value"> & {
   alignRight?: boolean
   startIcon?: React.ReactNode
   endIcon?: React.ReactNode
+  alwaysShowEndIcon?: boolean
   onEndIconPress?: () => void
   canClearText?: boolean
   errorMessage?: string
@@ -45,6 +46,7 @@ export const Input: React.FC<InputProps> = ({
   alignRight = false,
   startIcon,
   endIcon,
+  alwaysShowEndIcon = false,
   onEndIconPress,
   canClearText = false,
   errorMessage,
@@ -79,7 +81,10 @@ export const Input: React.FC<InputProps> = ({
         className={`flex-row items-center rounded-2xl border px-4 py-1 ${className} ${
           hasError ? "border-destructive bg-red-50" : "border-border bg-white"
         } ${disabled ? "border-border bg-border" : ""}`}
-        style={{ height: isMultiline ? undefined : 52 }}
+        style={{
+          height: isMultiline ? undefined : 52,
+          alignItems: isMultiline ? "flex-start" : "center"
+        }}
       >
         {startIcon && (
           <TouchableOpacity
@@ -115,25 +120,30 @@ export const Input: React.FC<InputProps> = ({
           {...props}
         />
 
-        {canClearText && value && !endIcon && (
+        {canClearText && value && !alwaysShowEndIcon && (
           <TouchableOpacity
             activeOpacity={disabled ? 1 : 0.7}
             onPress={handleClearText}
+            className="flex items-center justify-center"
           >
-            <View className="px-2 py-4">
-              <X size={20} color="#cbd5e1" />
+            <View className="z-10 px-2 py-4">
+              <X size={12} color="#cbd5e1" />
             </View>
+            <View className="absolute rounded-full bg-muted p-3" />
           </TouchableOpacity>
         )}
 
-        {endIcon && (
+        {endIcon && (!value || alwaysShowEndIcon) && (
           <TouchableOpacity
             activeOpacity={disabled ? 1 : 0.7}
             onPress={() => {
               if (disabled) return
-              inputRef.current?.focus()
+              if (onToggleSecure) {
+                onToggleSecure()
+              } else {
+                inputRef.current?.focus()
+              }
               onEndIconPress?.()
-              onToggleSecure?.()
             }}
           >
             <View className="items-center px-2">{endIcon}</View>

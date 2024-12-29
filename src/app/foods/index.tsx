@@ -145,6 +145,7 @@ function FoodsScreen() {
             startIcon={<SearchNormal1 size={20} color={COLORS.primary} />}
             endIcon={<Scanner size={20} color={COLORS.primary} />}
             onEndIconPress={handleScanFood}
+            canClearText
           />
         }
       />

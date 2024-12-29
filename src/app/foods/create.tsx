@@ -22,6 +22,8 @@ import {
   CreatePortion
 } from "@/components/local/foods"
 
+import { useAuth } from "@/contexts/AuthContext"
+
 import {
   createFoodInformationSchema,
   createFoodNutritionSchema,
@@ -33,8 +35,11 @@ import { useFoodStore } from "@/stores/foodStore"
 function FoodCreateScreen() {
   const router = useRouter()
 
+  const { user } = useAuth()
+  const userId = user?.userId
+
   const [currentStep, setCurrentStep] = useState(1)
-  const { userId, type, name, description, portion, nutrition, updateField } =
+  const { type, name, description, portion, nutrition, updateField } =
     useFoodStore()
 
   const formData: Record<string, any> = {
@@ -87,7 +92,7 @@ function FoodCreateScreen() {
   })
 
   const onSubmitStep = (data: Record<string, any>) => {
-    // console.log("Submitted data:", data)
+    console.log("Submitted data:", data)
     // console.log("Errors after submit:", errors)
 
     Object.keys(data).forEach((key) => {
@@ -107,10 +112,10 @@ function FoodCreateScreen() {
     if (currentStep < steps.length) {
       setCurrentStep(currentStep + 1)
     } else {
-      console.log(
-        "Final Form Data:",
-        JSON.stringify(useFoodStore.getState(), null, 2)
-      )
+      // console.log(
+      //   "Final Form Data:",
+      //   JSON.stringify(useFoodStore.getState(), null, 2)
+      // )
     }
   }
 
@@ -129,7 +134,7 @@ function FoodCreateScreen() {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <SafeAreaView className="h-full bg-background">
+      <SafeAreaView className="h-full flex-1 bg-background">
         <View className="px-6">
           <Header back label={currentStepData.title} />
         </View>

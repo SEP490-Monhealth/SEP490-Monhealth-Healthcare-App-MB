@@ -6,7 +6,7 @@ import { CarouselWeight } from "@/components/local/setup/CarouselWeight"
 
 function SetupWeightScreen() {
   return (
-    <SafeAreaView className="h-full bg-background">
+    <SafeAreaView className="h-full flex-1 bg-background">
       <View className="mt-20">
         <CarouselWeight defaultWeight={70} />
       </View>

@@ -116,3 +116,41 @@ export const logout = async (): Promise<void> => {
     }
   }
 }
+
+export const whoIAm = async () => {
+  try {
+    const response = await monAPI.get(`/auth/me`)
+
+    if (!response || !response.data) {
+      throw {
+        isCustomError: true,
+        message: "Không nhận được phản hồi từ máy chủ."
+      }
+    }
+
+    const { success, message, data } = response.data
+
+    if (success && data) {
+      return data
+    } else {
+      throw {
+        isCustomError: true,
+        message: message || "Không thể lấy thông tin người dùng."
+      }
+    }
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      console.log(
+        "Lỗi từ server (whoIAm):",
+        error.response?.data || error.message
+      )
+      throw error
+    } else {
+      console.log("Lỗi không phải Axios (whoIAm):", error)
+      throw {
+        isCustomError: true,
+        message: "Đã xảy ra lỗi không mong muốn."
+      }
+    }
+  }
+}

@@ -23,7 +23,11 @@ import {
   NutritionSummary
 } from "@/components/local/tabs/home"
 
+import { useAuth } from "@/contexts/AuthContext"
+
 function HomeScreen() {
+  const { user } = useAuth()
+  
   const [mealsData, setMealsData] = useState<
     {
       mealType: "Breakfast" | "Lunch" | "Dinner" | "Snack"
@@ -55,7 +59,7 @@ function HomeScreen() {
 
   return (
     <Container>
-      <HomeHeader fullName="Van Huu Toan" />
+      <HomeHeader fullName={user?.fullName} />
 
       <Content>
         <ScrollArea>

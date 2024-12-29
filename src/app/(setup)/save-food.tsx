@@ -5,7 +5,7 @@ import { Animated, Text, View } from "react-native"
 import { Button, Container, Content, VStack } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import { useSaveFoods } from "@/contexts/SaveContext"
+import { useSaveFoods } from "@/contexts/SaveFoodContext"
 
 import { useAnimation } from "@/hooks/useAnimation"
 

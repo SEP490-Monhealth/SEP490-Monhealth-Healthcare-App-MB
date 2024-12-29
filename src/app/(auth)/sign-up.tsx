@@ -21,11 +21,15 @@ import { IconButton } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/app"
 
+import { useAuth } from "@/contexts/AuthContext"
+
 import { RegisterType, registerSchema } from "@/schemas/userSchema"
 
 function SignUpScreen() {
   const router = useRouter()
+  const { register } = useAuth()
 
+  const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
   const {
@@ -36,8 +40,8 @@ function SignUpScreen() {
     resolver: zodResolver(registerSchema),
     defaultValues: {
       fullName: "Van Huu Toan",
-      email: "asd@gmail.com",
       phoneNumber: "0123456789",
+      email: "asd@gmail.com",
       password: "123As@"
     }
   })
@@ -46,8 +50,13 @@ function SignUpScreen() {
     router.push("/(onboarding)/welcome")
   }
 
-  const onSubmit = (data: RegisterType) => {
-    console.log(data)
+  const onSubmit = async (data: RegisterType) => {
+    setIsLoading(true)
+    // console.log(data)
+
+    await register(data.fullName, data.phoneNumber, data.email, data.password)
+    router.replace("/(tabs)/home")
+    setIsLoading(false)
   }
 
   return (
@@ -76,24 +85,8 @@ function SignUpScreen() {
                 startIcon={
                   <Profile variant="Bold" size={20} color={COLORS.primary} />
                 }
+                canClearText
                 errorMessage={errors.fullName?.message}
-              />
-            )}
-          />
-
-          <Controller
-            name="email"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                value={value}
-                placeholder="Nhập địa chỉ email"
-                onChangeText={onChange}
-                keyboardType="email-address"
-                startIcon={
-                  <Sms variant="Bold" size={20} color={COLORS.primary} />
-                }
-                errorMessage={errors.email?.message}
               />
             )}
           />
@@ -110,7 +103,26 @@ function SignUpScreen() {
                 startIcon={
                   <Call variant="Bold" size={20} color={COLORS.primary} />
                 }
+                canClearText
                 errorMessage={errors.phoneNumber?.message}
+              />
+            )}
+          />
+
+          <Controller
+            name="email"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                value={value}
+                placeholder="Nhập địa chỉ email"
+                onChangeText={onChange}
+                keyboardType="email-address"
+                startIcon={
+                  <Sms variant="Bold" size={20} color={COLORS.primary} />
+                }
+                canClearText
+                errorMessage={errors.email?.message}
               />
             )}
           />
@@ -135,14 +147,20 @@ function SignUpScreen() {
                     <EyeSlash variant="Bold" size={20} color="#cbd5e1" />
                   )
                 }
+                alwaysShowEndIcon
+                canClearText
                 errorMessage={errors.password?.message}
               />
             )}
           />
         </VStack>
 
-        <Button onPress={handleSubmit(onSubmit)} className="mt-8">
-          Đăng ký
+        <Button
+          loading={isLoading}
+          onPress={handleSubmit(onSubmit)}
+          className="mt-8"
+        >
+          {!isLoading && "Đăng ký"}
         </Button>
 
         <Text className="mt-4 text-center font-tregular">

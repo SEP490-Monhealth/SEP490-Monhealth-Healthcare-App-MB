@@ -36,6 +36,7 @@ export const CreateInformation = ({
               placeholder="Nhập tên món ăn"
               onChangeText={onChange}
               keyboardType="default"
+              canClearText
               errorMessage={errors.name?.message}
             />
           )}
@@ -52,13 +53,14 @@ export const CreateInformation = ({
               keyboardType="default"
               isMultiline
               numberOfLines={4}
+              canClearText
               errorMessage={errors.description?.message}
             />
           )}
         />
       </VStack>
 
-      <Card>
+      <Card activeOpacity={1}>
         <VStack gap={12}>
           <VStack>
             <Text className="font-tbold text-lg text-primary">

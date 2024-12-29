@@ -26,11 +26,10 @@ export const CreatePortion = ({
   errors,
   setValue
 }: CreatePortionProps) => {
-  const portions = ["chén (100 g)", "đĩa (200 g)", "cốc (250 ml)"]
+  const portions = ["g (gram)", "ml (mililiter)"]
   const [selectedPortion, setSelectedPortion] = useState<string | null>(null)
 
   const SheetRef = useRef<SheetRefProps>(null)
-  const sheetHeight = portions.length * 110
 
   const selectedUnit = useWatch({
     control,
@@ -44,7 +43,7 @@ export const CreatePortion = ({
   }
 
   const openSheet = () => {
-    SheetRef.current?.scrollTo(-sheetHeight)
+    SheetRef.current?.scrollTo(-300)
   }
 
   const closeSheet = () => {
@@ -69,6 +68,7 @@ export const CreatePortion = ({
                   placeholder="Nhập khẩu phần ăn"
                   onChangeText={onChange}
                   keyboardType="default"
+                  canClearText
                 />
               )}
             />

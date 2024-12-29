@@ -61,7 +61,7 @@ function PortionCreateScreen() {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <SafeAreaView className="h-full bg-background">
+      <SafeAreaView className="h-full flex-1 bg-background">
         <View className="px-6">
           <Header back label="Thêm khẩu phần" />
 
@@ -78,6 +78,7 @@ function PortionCreateScreen() {
                       onChangeText={onChange}
                       keyboardType="default"
                       errorMessage={errors.size?.message}
+                      canClearText
                     />
                   )}
                 />

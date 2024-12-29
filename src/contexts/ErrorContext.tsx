@@ -1,32 +1,15 @@
-import React, { createContext, useContext } from "react"
+import { createContext, useContext } from "react"
 
-import { useRouter } from "expo-router"
+type ErrorHandler = (error: any) => void
 
-const ErrorContext = createContext<any>(null)
+export const ErrorContext = createContext<ErrorHandler | undefined>(undefined)
 
-export const ErrorProvider: React.FC<{ children: React.ReactNode }> = ({
-  children
-}) => {
-  const router = useRouter()
+export const useErrorHandler = () => {
+  const context = useContext(ErrorContext)
 
-  const handleError = (error: any) => {
-    const statusCode = error.response?.status
-    console.log("Trạng thái lỗi:", statusCode)
-
-    if (statusCode === 500) {
-      router.replace("/(errors)/internal-server-error")
-    } else if (statusCode === 404) {
-      router.replace("/(errors)/not-found")
-    } else {
-      console.log("Lỗi không mong muốn:", error.message || "Đã xảy ra lỗi.")
-    }
+  if (!context) {
+    throw new Error("useErrorHandler must be used within an ErrorProvider")
   }
 
-  return (
-    <ErrorContext.Provider value={handleError}>
-      {children}
-    </ErrorContext.Provider>
-  )
+  return context
 }
-
-export const useErrorHandler = () => useContext(ErrorContext)

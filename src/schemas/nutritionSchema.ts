@@ -6,27 +6,27 @@ const baseNutritionSchema = z.object({
 
   calories: z
     .number()
-    .positive({ message: "Calories phải là một số dương" })
+    .min(1, { message: "Calories phải lớn hơn hoặc bằng 1" })
     .max(10000, { message: "Calories không được vượt quá 10,000" }),
   protein: z
     .number()
-    .positive({ message: "Protein phải là một số dương" })
+    .min(1, { message: "Protein phải lớn hơn hoặc bằng 1" })
     .max(500, { message: "Protein không được vượt quá 500g" }),
   carbs: z
     .number()
-    .positive({ message: "Carbs phải là một số dương" })
+    .min(1, { message: "Carbs phải lớn hơn hoặc bằng 1" })
     .max(1000, { message: "Carbs không được vượt quá 1,000g" }),
   fat: z
     .number()
-    .positive({ message: "Chất béo phải là một số dương" })
+    .min(1, { message: "Chất béo phải lớn hơn hoặc bằng 1" })
     .max(500, { message: "Chất béo không được vượt quá 500g" }),
   fiber: z
     .number()
-    .positive({ message: "Chất xơ phải là một số dương" })
+    .min(1, { message: "Chất xơ phải lớn hơn hoặc bằng 1" })
     .max(500, { message: "Chất xơ không được vượt quá 500g" }),
   sugar: z
     .number()
-    .positive({ message: "Đường phải là một số dương" })
+    .min(1, { message: "Đường phải lớn hơn hoặc bằng 1" })
     .max(500, { message: "Đường không được vượt quá 500g" }),
 
   saturatedFat: z.number().optional(),

@@ -67,6 +67,7 @@ function ForgotPasswordScreen() {
                 startIcon={
                   <Call variant="Bold" size={20} color={COLORS.primary} />
                 }
+                canClearText
                 errorMessage={errors.phoneNumber?.message}
               />
             )}

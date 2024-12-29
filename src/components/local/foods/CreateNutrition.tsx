@@ -66,6 +66,7 @@ export const CreateNutrition = ({ control, errors }: CreateNutritionProps) => {
           alignRight
           startIcon={<Text>{label}</Text>}
           endIcon={<Text>{unit}</Text>}
+          alwaysShowEndIcon
           errorMessage={get(errors, `${name}.message`, null)}
         />
       )}

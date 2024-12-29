@@ -34,9 +34,9 @@ function WelcomeScreen() {
       <VStack gap={20}>
         <VStack gap={12}>
           <Button variant="secondary" onPress={handleSignInGoogle}>
-            Tiếp tục với Google
+            Google
           </Button>
-          <Button onPress={handleSignInEmail}>Tiếp tục với Email</Button>
+          <Button onPress={handleSignInEmail}>Tiếp tục</Button>
         </VStack>
 
         <Text className="text-center text-secondary">

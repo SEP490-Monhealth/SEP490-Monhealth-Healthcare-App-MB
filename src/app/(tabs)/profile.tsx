@@ -1,16 +1,10 @@
 import React from "react"
 
-import { Text, View } from "react-native"
+import { Text } from "react-native"
 
 import { aboutItems, generalItems } from "@/config/site"
 
-import {
-  Card,
-  Container,
-  Content,
-  ScrollArea,
-  VStack
-} from "@/components/global/atoms"
+import { Card, Container, Content, VStack } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
 import { ListItem } from "@/components/local/tabs/profile"
@@ -23,7 +17,7 @@ function ProfileScreen() {
       <Content marginBottom={false}>
         {/* <ScrollArea> */}
         <VStack className="mt-2 h-full justify-between pb-14">
-          <Card>
+          <Card activeOpacity={1}>
             {generalItems.map((item, index) => (
               <ListItem
                 key={index}
@@ -34,7 +28,7 @@ function ProfileScreen() {
             ))}
           </Card>
 
-          <Card>
+          <Card activeOpacity={1}>
             {aboutItems.map((item, index) => (
               <ListItem
                 key={index}

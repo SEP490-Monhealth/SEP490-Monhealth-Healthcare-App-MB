@@ -4,7 +4,6 @@ import { NutritionType } from "@/schemas/nutritionSchema"
 import { PortionType } from "@/schemas/portionSchema"
 
 interface CreateFoodState {
-  userId: string
   type: string
   name: string
   description: string
@@ -15,7 +14,6 @@ interface CreateFoodState {
 }
 
 export const useFoodStore = create<CreateFoodState>((set) => ({
-  userId: "1",
   type: "User",
   name: "",
   description: "",
@@ -39,7 +37,6 @@ export const useFoodStore = create<CreateFoodState>((set) => ({
     })),
   reset: () =>
     set(() => ({
-      userId: "1",
       type: "User",
       name: "",
       description: "",
