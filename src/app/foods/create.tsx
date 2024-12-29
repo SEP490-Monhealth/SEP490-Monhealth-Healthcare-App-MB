@@ -112,10 +112,10 @@ function FoodCreateScreen() {
     if (currentStep < steps.length) {
       setCurrentStep(currentStep + 1)
     } else {
-      // console.log(
-      //   "Final Form Data:",
-      //   JSON.stringify(useFoodStore.getState(), null, 2)
-      // )
+      console.log(
+        "Final Form Data:",
+        JSON.stringify(useFoodStore.getState(), null, 2)
+      )
     }
   }
 
@@ -129,7 +129,6 @@ function FoodCreateScreen() {
 
   const StepComponent = currentStepData.component
 
-  // console.log("Default Values:", defaultValues)
   // console.log(errors)
 
   return (

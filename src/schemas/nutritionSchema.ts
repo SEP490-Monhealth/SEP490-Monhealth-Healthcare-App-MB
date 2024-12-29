@@ -62,16 +62,4 @@ export const nutritionFoodSchema = baseNutritionSchema.pick({
   calories: true
 })
 
-export const createUpdateNutritionSchema = baseNutritionSchema.omit({
-  nutritionId: true,
-  foodId: true,
-  createdAt: true,
-  updatedAt: true,
-  createdBy: true,
-  updatedBy: true
-})
-
 export type NutritionType = z.infer<typeof nutritionSchema>
-export type CreateUpdateNutritionType = z.infer<
-  typeof createUpdateNutritionSchema
->

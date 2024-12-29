@@ -110,7 +110,7 @@ function FoodUserScreen() {
             renderItem={({ item }) => (
               <FoodCard
                 key={item.foodId}
-                variant="add"
+                variant="more"
                 foodId={item.foodId}
                 name={item.name}
                 calories={item.nutrition.calories}

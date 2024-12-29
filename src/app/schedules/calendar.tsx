@@ -1,8 +1,6 @@
 import React from "react"
 
-import { View } from "react-native"
-
-import { Calendar, Container, Content } from "@/components/global/atoms"
+import { Calendar, Card, Container, Content } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
 function CalendarScreen() {
@@ -11,9 +9,9 @@ function CalendarScreen() {
       <Header back label="Chọn ngày" />
 
       <Content>
-        <View className="mt-2">
+        <Card activeOpacity={1} className="mt-2">
           <Calendar />
-        </View>
+        </Card>
       </Content>
     </Container>
   )

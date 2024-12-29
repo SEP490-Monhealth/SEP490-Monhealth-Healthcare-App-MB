@@ -33,7 +33,7 @@ function ActivityScreen() {
   }
 
   const handleViewFoodSaved = () => {
-    router.push("/(setup)/save-food")
+    router.push("/foods/saved")
   }
 
   return (

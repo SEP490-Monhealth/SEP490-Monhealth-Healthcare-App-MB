@@ -18,7 +18,10 @@ export const Container: React.FC<ContainerProps> = ({
   children
 }) => {
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    <TouchableWithoutFeedback
+      onPress={() => Keyboard.dismiss()}
+      className="flex-1"
+    >
       <SafeAreaView testID={testID} className="flex-1 bg-background">
         <View className={cn("px-6", className)}>
           <React.Fragment>{children}</React.Fragment>

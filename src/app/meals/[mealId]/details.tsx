@@ -59,7 +59,7 @@ function MealDetailsScreen() {
         back
         label={getMealTypeName(mealData?.mealType || "")}
         action={{
-          icon: <Setting4 variant="Bold" size={24} color={COLORS.primary} />,
+          icon: <Setting4 variant="Bold" size={20} color={COLORS.primary} />,
           url: `/(tabs)/schedule`
         }}
       />

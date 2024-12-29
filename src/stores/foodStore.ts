@@ -8,7 +8,7 @@ interface CreateFoodState {
   name: string
   description: string
   portion: PortionType
-  nutrition: NutritionType
+  nutrition?: NutritionType
   updateField: (field: string, value: any) => void
   reset: () => void
 }
@@ -19,17 +19,10 @@ export const useFoodStore = create<CreateFoodState>((set) => ({
   description: "",
   portion: {
     size: "",
-    weight: 0,
+    weight: 1,
     unit: ""
   },
-  nutrition: {
-    calories: 0,
-    protein: 0,
-    carbs: 0,
-    fiber: 0,
-    sugar: 0,
-    fat: 0
-  },
+  nutrition: undefined,
   updateField: (field, value) =>
     set((state) => ({
       ...state,
@@ -45,13 +38,6 @@ export const useFoodStore = create<CreateFoodState>((set) => ({
         weight: 0,
         unit: ""
       },
-      nutrition: {
-        calories: 0,
-        protein: 0,
-        carbs: 0,
-        fiber: 0,
-        sugar: 0,
-        fat: 0
-      }
+      nutrition: undefined
     }))
 }))
