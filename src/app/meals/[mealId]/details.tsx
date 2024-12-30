@@ -57,14 +57,14 @@ function MealDetailsScreen() {
     <Container>
       <Header
         back
-        label={getMealTypeName(mealData?.mealType || "")}
+        label={getMealTypeName(mealData?.type || "")}
         action={{
           icon: <Setting4 variant="Bold" size={20} color={COLORS.primary} />,
           url: `/(tabs)/schedule`
         }}
       />
 
-      <Content marginBottom={false}>
+      <Content className="mt-2">
         <FlatList
           data={mealData?.mealFoods}
           keyExtractor={(item) => item.foodId}
@@ -85,7 +85,7 @@ function MealDetailsScreen() {
                 label="Kcal"
               />
 
-              <NutritionSummary nutritionData={mealData} />
+              <NutritionSummary nutritionData={mealData.nutrition} />
 
               <Section label="Chi tiết bữa ăn" />
             </ListHeader>
@@ -95,10 +95,10 @@ function MealDetailsScreen() {
               key={item.foodId}
               foodId={item.foodId}
               name={item.name}
-              calories={item.calories}
-              size={item.size}
-              weight={item.weight}
-              unit={item.unit}
+              calories={item.nutrition?.calories}
+              size={item.portion?.size}
+              weight={item.portion?.weight}
+              unit={item.portion?.unit}
             />
           )}
           ListFooterComponent={<ListFooter />}

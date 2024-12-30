@@ -6,7 +6,7 @@ import { Chip, Container, ScrollArea } from "@/components/global/atoms"
 
 import { useGetFoodsByCategory } from "@/hooks/useFood"
 
-export const FoodsForm = () => {
+function SetupFoods() {
   const { data: foodsData, isLoading } = useGetFoodsByCategory("Hải Sản", 1, 10)
 
   const [selectedFoods, setSelectedFoods] = useState<string[]>([])
@@ -44,3 +44,5 @@ export const FoodsForm = () => {
     </Container>
   )
 }
+
+export default SetupFoods

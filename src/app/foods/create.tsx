@@ -16,34 +16,32 @@ import { useForm } from "react-hook-form"
 import { Button, Content, VStack } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import {
-  CreateInformation,
-  CreateNutrition,
-  CreatePortion
-} from "@/components/local/foods"
-
 import { useAuth } from "@/contexts/AuthContext"
 
 import {
-  createFoodInformationSchema,
-  createFoodNutritionSchema,
-  createFoodPortionSchema
+  foodInformationSchema,
+  foodNutritionSchema,
+  foodPortionSchema
 } from "@/schemas/foodSchema"
 
 import { useFoodStore } from "@/stores/foodStore"
+
+import FoodInformation from "./information"
+import FoodNutrition from "./nutrition"
+import FoodPortion from "./portion"
 
 function FoodCreateScreen() {
   const router = useRouter()
 
   const { user } = useAuth()
-  const userId = user?.userId
 
-  const [currentStep, setCurrentStep] = useState(1)
   const { type, name, description, portion, nutrition, updateField } =
     useFoodStore()
 
+  const [currentStep, setCurrentStep] = useState(1)
+
   const formData: Record<string, any> = {
-    userId,
+    userId: user?.userId,
     type,
     name,
     description,
@@ -55,23 +53,23 @@ function FoodCreateScreen() {
     {
       step: 1,
       title: "Tạo món ăn",
-      component: CreateInformation,
-      fields: ["userId", "type", "name", "description"],
-      schema: createFoodInformationSchema
+      component: FoodInformation,
+      fields: ["type", "name", "description"],
+      schema: foodInformationSchema
     },
     {
       step: 2,
       title: "Khẩu phần ăn",
-      component: CreatePortion,
+      component: FoodPortion,
       fields: ["portion"],
-      schema: createFoodPortionSchema
+      schema: foodPortionSchema
     },
     {
       step: 3,
       title: "Dinh dưỡng",
-      component: CreateNutrition,
+      component: FoodNutrition,
       fields: ["nutrition"],
-      schema: createFoodNutritionSchema
+      schema: foodNutritionSchema
     }
   ]
 
@@ -138,7 +136,7 @@ function FoodCreateScreen() {
           <Header back label={currentStepData.title} />
         </View>
 
-        <Content>
+        <Content className="mt-2">
           <StepComponent
             control={control}
             errors={errors}

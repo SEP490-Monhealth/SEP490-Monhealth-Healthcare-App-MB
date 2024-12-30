@@ -1,13 +1,17 @@
-import React, { useState } from "react"
+import React from "react"
 
 import { Man, Woman } from "iconsax-react-native"
+import { Control, useController } from "react-hook-form"
 
-import { Chip, Container, Content, VStack } from "@/components/global/atoms"
-import { Header } from "@/components/global/organisms"
+import { Chip, VStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/app"
 
-function GenderScreen() {
+interface SetupGenderProps {
+  control: Control
+}
+
+function SetupGender({ control }: SetupGenderProps) {
   const gendersData = [
     {
       label: "Nam",
@@ -21,48 +25,42 @@ function GenderScreen() {
     }
   ]
 
-  const [selectedGender, setSelectedGender] = useState("Male")
+  const { field } = useController({
+    name: "gender",
+    control
+  })
 
   const handleSelectGender = (value: string) => {
-    setSelectedGender(value)
-    console.log(value)
+    field.onChange(value)
   }
 
   return (
-    <Container>
-      <Header back label="Thông tin" />
+    <VStack gap={12}>
+      {gendersData.map((gender) => {
+        const Icon = gender.icon
 
-      <Content>
-        <VStack gap={12} className="mt-2">
-          {gendersData.map((gender) => {
-            const Icon = gender.icon
-
-            return (
-              <Chip
-                key={gender.label}
-                label={gender.label}
-                border={true}
-                borderWidth={2}
-                size="lg"
-                icon={
-                  <Icon
-                    size={28}
-                    color={
-                      selectedGender === gender.label
-                        ? COLORS.primary
-                        : COLORS.accent
-                    }
-                  />
+        return (
+          <Chip
+            key={gender.label}
+            label={gender.label}
+            border={true}
+            borderWidth={2}
+            size="lg"
+            icon={
+              <Icon
+                size={28}
+                color={
+                  field.value === gender.value ? COLORS.primary : COLORS.accent
                 }
-                selected={selectedGender === gender.value}
-                onPress={() => handleSelectGender(gender.value)}
               />
-            )
-          })}
-        </VStack>
-      </Content>
-    </Container>
+            }
+            selected={field.value === gender.value}
+            onPress={() => handleSelectGender(gender.value)}
+          />
+        )
+      })}
+    </VStack>
   )
 }
 
-export default GenderScreen
+export default SetupGender

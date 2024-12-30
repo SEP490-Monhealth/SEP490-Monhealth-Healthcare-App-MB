@@ -8,8 +8,6 @@ import { ArrowLeft } from "iconsax-react-native"
 
 import { COLORS } from "@/constants/app"
 
-import { useAuth } from "@/contexts/AuthContext"
-
 import { HStack } from "../atoms"
 import { IconButton } from "./IconButton"
 
@@ -29,6 +27,7 @@ export const CustomHeader = ({ content }: CustomHeaderProps) => {
         icon={<ArrowLeft size={24} color={COLORS.primary} />}
         onPress={handleBack}
       />
+
       <View testID="test-header-custom" className="flex-1">
         {typeof content === "string" ? <Text>{content}</Text> : content}
       </View>

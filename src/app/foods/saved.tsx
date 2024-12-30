@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { Animated, FlatList, View } from "react-native"
+import { Alert, Animated, FlatList, View } from "react-native"
 
 import { Edit2 } from "iconsax-react-native"
 
@@ -29,7 +29,24 @@ function FoodSavedScreen() {
     }, 2000)
   }
 
-  const handleClearFoodSaved = () => clearFoodSaved()
+  const handleClearSavedFood = () => {
+    Alert.alert(
+      "Xác nhận xóa",
+      "Bạn có chắc chắn muốn xóa tất cả món ăn đã lưu?",
+      [
+        {
+          text: "Hủy",
+          style: "cancel"
+        },
+        {
+          text: "Xóa",
+          onPress: clearFoodSaved,
+          style: "destructive"
+        }
+      ],
+      { cancelable: true }
+    )
+  }
 
   return (
     <Container className="flex-1">
@@ -37,11 +54,11 @@ function FoodSavedScreen() {
         back
         label="Món ăn đã lưu"
         action={{
-          icon: <Edit2 size={20} color={COLORS.primary} />
+          icon: <Edit2 variant="Bold" size={20} color={COLORS.primary} />
         }}
       />
 
-      <Content className="flex-1 items-center justify-center">
+      <Content className="mt-2 flex-1 items-center justify-center">
         {saveFoodsData.length > 0 ? (
           <FlatList
             data={saveFoodsData || []}
@@ -106,9 +123,9 @@ function FoodSavedScreen() {
 
       {saveFoodsData.length > 0 && (
         <Button
-          size="lg"
           variant="danger"
-          onPress={handleClearFoodSaved}
+          size="lg"
+          onPress={handleClearSavedFood}
           className="absolute bottom-4 left-6 right-6 w-full"
         >
           Xóa tất cả

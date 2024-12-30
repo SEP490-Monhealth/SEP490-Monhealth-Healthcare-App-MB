@@ -60,7 +60,7 @@ describe("FoodCard Component", () => {
 
     expect(screen.getByText("Salad")).toBeTruthy()
     expect(screen.getByText("0 kcal • 1 phần • 0 g")).toBeTruthy()
-    expect(screen.getByTestId("icon-button-more")).toBeTruthy()
+    expect(screen.getByTestId("test-icon-more-button")).toBeTruthy()
   })
 
   it("navigates to food details when default variant is pressed", () => {
@@ -95,7 +95,7 @@ describe("FoodCard Component", () => {
       />
     )
 
-    const moreButton = screen.getByTestId("icon-button-more")
+    const moreButton = screen.getByTestId("test-icon-more-button")
     fireEvent.press(moreButton)
 
     expect(mockMorePress).toHaveBeenCalled()

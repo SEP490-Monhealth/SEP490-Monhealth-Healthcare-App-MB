@@ -8,7 +8,7 @@ interface ChipProps {
   label: string
   description?: string
   onPress?: () => void
-  variant?: "default" | "selected"
+  variant?: "default" | "selected" | "yellow"
   size?: "sm" | "md" | "lg"
   border?: boolean
   borderWidth?: number
@@ -25,6 +25,10 @@ const variantStyles = {
   selected: {
     container: "bg-primary",
     text: "text-white"
+  },
+  yellow: {
+    container: "bg-yellow-400",
+    text: "text-gray-700"
   }
 }
 

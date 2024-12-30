@@ -6,25 +6,33 @@ export const baseMetricSchema = z.object({
   metricId: z.string(),
   userId: z.string(),
 
-  dateOfBirth: z.string().refine(
-    (date) => {
-      const today = new Date()
-      const birthDate = new Date(date)
-      return birthDate <= today
-    },
-    { message: "Ngày sinh không được vượt quá ngày hiện tại" }
-  ),
+  dateOfBirth: z
+    .string()
+    .refine(
+      (date) => {
+        const today = new Date()
+        const birthDate = new Date(date)
+        return !isNaN(birthDate.getTime()) && birthDate <= today
+      },
+      { message: "Ngày sinh không hợp lệ hoặc vượt quá ngày hiện tại" }
+    )
+    .refine(
+      (date) => {
+        const birthDate = new Date(date)
+        const age = new Date().getFullYear() - birthDate.getFullYear()
+        return age >= 1 && age <= 120
+      },
+      { message: "Tuổi phải nằm trong khoảng từ 1 đến 120" }
+    ),
   gender: z.string().refine((val) => ["Male", "Female"].includes(val), {
     message: "Giới tính không hợp lệ. Chỉ chấp nhận 'Male' hoặc 'Female'"
   }),
   height: z
     .number()
-    .positive({ message: "Chiều cao phải là số dương" })
     .min(50, { message: "Chiều cao tối thiểu là 50 cm" })
     .max(300, { message: "Chiều cao tối đa là 300 cm" }),
   weight: z
     .number()
-    .positive({ message: "Cân nặng phải là số dương" })
     .min(1, { message: "Cân nặng tối thiểu là 1 kg" })
     .max(500, { message: "Cân nặng tối đa là 500 kg" }),
   activityLevel: z.number().refine((value) => activityLevels.includes(value), {
@@ -71,13 +79,26 @@ export const createUpdateMetricSchema = baseMetricSchema.omit({
   updatedBy: true
 })
 
-export const createHeightWeightMetricSchema = baseMetricSchema.pick({
+export const metricDateOfBirthSchema = baseMetricSchema.pick({
+  dateOfBirth: true
+})
+
+export const metricGenderSchema = baseMetricSchema.pick({
+  gender: true
+})
+
+export const metricHeightWeightSchema = baseMetricSchema.pick({
   height: true,
   weight: true
 })
 
+export const metricActivityLevelSchema = baseMetricSchema.pick({
+  activityLevel: true
+})
+
 export type MetricType = z.infer<typeof metricSchema>
 export type CreateUpdateMetricType = z.infer<typeof createUpdateMetricSchema>
-export type CreateHeightWeightMetricType = z.infer<
-  typeof createHeightWeightMetricSchema
->
+export type MetricDateOfBirthType = z.infer<typeof metricDateOfBirthSchema>
+export type MetricGenderType = z.infer<typeof metricGenderSchema>
+export type MetricHeightWeightType = z.infer<typeof metricHeightWeightSchema>
+export type MetricActivityLevelType = z.infer<typeof metricActivityLevelSchema>

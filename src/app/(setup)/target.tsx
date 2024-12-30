@@ -7,7 +7,7 @@ import { Header } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/app"
 
-function SetupTargetScreen() {
+function SetupTarget() {
   const targetsData = [
     {
       label: "Giảm cân",
@@ -71,4 +71,4 @@ function SetupTargetScreen() {
   )
 }
 
-export default SetupTargetScreen
+export default SetupTarget

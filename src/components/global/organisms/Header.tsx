@@ -20,6 +20,7 @@ interface HeaderProps {
   label: string
   back?: boolean
   action?: ActionProps
+  onBackPress?: () => void
   onActionPress?: () => void
 }
 
@@ -27,11 +28,18 @@ export const Header = ({
   label,
   back = false,
   action,
+  onBackPress,
   onActionPress
 }: HeaderProps) => {
   const router = useRouter()
 
-  const handleBack = () => router.back()
+  const handleBack = () => {
+    if (onBackPress) {
+      onBackPress()
+    } else {
+      router.back()
+    }
+  }
 
   const handleAction = () => {
     if (action?.url) {
@@ -51,6 +59,7 @@ export const Header = ({
       )}
 
       <Text
+        key={`header-label-${label}`}
         className={`mt-2 text-left font-tbold text-xl text-primary ${
           back && "absolute left-1/2 -translate-x-1/2"
         }`}

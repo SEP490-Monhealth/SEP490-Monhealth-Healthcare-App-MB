@@ -6,17 +6,13 @@ import { Controller } from "react-hook-form"
 
 import { Card, Chip, HStack, Input, VStack } from "@/components/global/atoms"
 
-interface CreateInformationProps {
+interface FoodInformationProps {
   control: any
   errors: any
   setValue: any
 }
 
-export const CreateInformation = ({
-  control,
-  errors,
-  setValue
-}: CreateInformationProps) => {
+function FoodInformation({ control, errors, setValue }: FoodInformationProps) {
   const [selectedType, setSelectedType] = useState("User")
 
   const handleTypeSelect = (type: string) => {
@@ -25,7 +21,7 @@ export const CreateInformation = ({
   }
 
   return (
-    <VStack gap={32} className="mt-2 h-full px-6 pb-12">
+    <VStack gap={32} className="h-full px-6 pb-12">
       <VStack gap={12}>
         <Controller
           name="name"
@@ -90,3 +86,5 @@ export const CreateInformation = ({
     </VStack>
   )
 }
+
+export default FoodInformation

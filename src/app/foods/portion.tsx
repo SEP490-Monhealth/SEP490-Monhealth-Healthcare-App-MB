@@ -15,17 +15,13 @@ import {
   VStack
 } from "@/components/global/atoms"
 
-interface CreatePortionProps {
+interface FoodPortionProps {
   control: any
   errors: FieldErrors
   setValue: (name: string, value: any) => void
 }
 
-export const CreatePortion = ({
-  control,
-  errors,
-  setValue
-}: CreatePortionProps) => {
+function FoodPortion({ control, errors, setValue }: FoodPortionProps) {
   const portions = ["g (gram)", "ml (mililiter)"]
   const [selectedPortion, setSelectedPortion] = useState<string | null>(null)
 
@@ -56,7 +52,7 @@ export const CreatePortion = ({
 
   return (
     <>
-      <VStack gap={20} className="mt-2 h-full px-6 pb-12">
+      <VStack gap={20} className="h-full px-6">
         <VStack gap={8}>
           <VStack>
             <Controller
@@ -72,6 +68,7 @@ export const CreatePortion = ({
                 />
               )}
             />
+
             <Text className="ml-1 font-tregular text-sm text-accent">
               Ví dụ: "Phần", "Hộp", "Lon", v.v.
             </Text>
@@ -135,3 +132,5 @@ export const CreatePortion = ({
     </>
   )
 }
+
+export default FoodPortion

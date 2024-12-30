@@ -8,7 +8,7 @@ import { Chip, Container, ScrollArea } from "@/components/global/atoms"
 
 import { useGetAllCategories } from "@/hooks/useCategory"
 
-export const CategoriesForm = () => {
+function SetupCategories() {
   const { data: categoriesData, isLoading } = useGetAllCategories()
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
@@ -41,11 +41,7 @@ export const CategoriesForm = () => {
             label={category.name}
             icon={
               <Image
-                source={
-                  category.image
-                    ? { uri: category.image }
-                    : undefined
-                }
+                source={category.image ? { uri: category.image } : undefined}
                 style={{ width: 36, height: 36, marginRight: 12 }}
               />
             }
@@ -58,3 +54,5 @@ export const CategoriesForm = () => {
     </Container>
   )
 }
+
+export default SetupCategories

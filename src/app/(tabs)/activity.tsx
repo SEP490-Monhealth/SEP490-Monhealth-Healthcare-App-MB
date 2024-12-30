@@ -32,8 +32,8 @@ function ActivityScreen() {
     router.push("/(setup)/height-weight")
   }
 
-  const handleViewFoodSaved = () => {
-    router.push("/foods/saved")
+  const handleSetup = () => {
+    router.push("/(setup)")
   }
 
   return (
@@ -66,8 +66,8 @@ function ActivityScreen() {
             Nhập chiều cao, cân nặng
           </Button>
 
-          <Button size="lg" onPress={handleViewFoodSaved}>
-            Danh sách món ăn đã lưu
+          <Button size="lg" onPress={handleSetup}>
+            Setup Hehe
           </Button>
         </VStack>
       </Content>

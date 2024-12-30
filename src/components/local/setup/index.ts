@@ -1,4 +1,4 @@
-import { CategoriesForm } from "./CategoriesForm"
-import { FoodsForm } from "./FoodsForm"
+import { CategoriesForm } from "../../../app/(setup)/categories"
+import { FoodsForm } from "../../../app/(setup)/foods"
 
 export { CategoriesForm, FoodsForm }

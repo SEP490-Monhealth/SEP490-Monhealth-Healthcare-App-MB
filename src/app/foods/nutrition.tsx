@@ -8,12 +8,12 @@ import { Controller } from "react-hook-form"
 import { Input, ScrollArea, VStack } from "@/components/global/atoms"
 import { Section } from "@/components/global/organisms"
 
-interface CreateNutritionProps {
+interface FoodNutritionProps {
   control: any
   errors: any
 }
 
-export const CreateNutrition = ({ control, errors }: CreateNutritionProps) => {
+function FoodNutrition({ control, errors }: FoodNutritionProps) {
   const basicNutritionItems = [
     {
       name: "nutrition.calories",
@@ -78,7 +78,7 @@ export const CreateNutrition = ({ control, errors }: CreateNutritionProps) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <ScrollArea>
-        <VStack gap={20} className="mt-2 h-full px-6 pb-40">
+        <VStack gap={20} className="h-full px-6 pb-40">
           <VStack>
             <Section label="Dinh dưỡng cơ bản" />
             <VStack gap={12}>
@@ -101,3 +101,5 @@ export const CreateNutrition = ({ control, errors }: CreateNutritionProps) => {
     </KeyboardAvoidingView>
   )
 }
+
+export default FoodNutrition

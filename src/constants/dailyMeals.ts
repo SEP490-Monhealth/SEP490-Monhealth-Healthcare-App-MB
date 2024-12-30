@@ -16,22 +16,34 @@ export const sampleMealsDailyData = [
       {
         mealId: "1",
         type: "Breakfast",
-        calories: 200
+        calories: 200,
+        protein: 24.6,
+        carbs: 157.9,
+        fat: 13.6
       },
       {
         mealId: "2",
         type: "Lunch",
-        calories: 200
+        calories: 200,
+        protein: 24.6,
+        carbs: 157.9,
+        fat: 13.6
       },
       {
         mealId: "3",
         type: "Dinner",
-        calories: 200
+        calories: 200,
+        protein: 24.6,
+        carbs: 157.9,
+        fat: 13.6
       },
       {
         mealId: "4",
         type: "Snack",
-        calories: 200
+        calories: 200,
+        protein: 24.6,
+        carbs: 157.9,
+        fat: 13.6
       }
     ],
 

@@ -3,10 +3,10 @@ import React from "react"
 import { HStack } from "@/components/global/atoms"
 import { NutritionCard } from "@/components/global/molecules"
 
-import { MealType } from "@/schemas/mealSchema"
+import { NutritionType } from "@/schemas/nutritionSchema"
 
 interface NutritionSummaryProps {
-  nutritionData: MealType
+  nutritionData: NutritionType
 }
 
 export const NutritionSummary = ({ nutritionData }: NutritionSummaryProps) => {

@@ -6,13 +6,18 @@ import {
   CalendarCircle,
   CalendarRemove
 } from "iconsax-react-native"
+import { Control, FieldValues, useController } from "react-hook-form"
 
-import { Chip, Container, Content, VStack } from "@/components/global/atoms"
-import { Header } from "@/components/global/organisms"
+import { Chip, VStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/app"
 
-function ActivityLevelScreen() {
+interface SetupActivityLevelProps {
+  control: Control<FieldValues>
+  errors: any
+}
+
+function SetupActivityLevel({ control, errors }: SetupActivityLevelProps) {
   const activityLevelsData = [
     {
       label: "0 buổi / tuần",
@@ -36,48 +41,44 @@ function ActivityLevelScreen() {
     }
   ]
 
-  const [selectedActivity, setSelectedActivity] = useState(1.2)
+  const { field } = useController({
+    name: "activityLevel",
+    control
+  })
 
   const handleSelectActivity = (value: number) => {
-    setSelectedActivity(value)
-    console.log(value)
+    field.onChange(value)
   }
 
   return (
-    <Container>
-      <Header back label="Thông tin" />
+    <VStack gap={12}>
+      {activityLevelsData.map((activity) => {
+        const Icon = activity.icon
 
-      <Content>
-        <VStack gap={12} className="mt-2">
-          {activityLevelsData.map((activity) => {
-            const Icon = activity.icon
-
-            return (
-              <Chip
-                key={activity.label}
-                size="lg"
-                label={activity.label}
-                border={true}
-                borderWidth={2}
-                icon={
-                  <Icon
-                    size={28}
-                    color={
-                      selectedActivity === activity.value
-                        ? COLORS.primary
-                        : COLORS.accent
-                    }
-                  />
+        return (
+          <Chip
+            key={activity.label}
+            size="lg"
+            label={activity.label}
+            border={true}
+            borderWidth={2}
+            icon={
+              <Icon
+                size={28}
+                color={
+                  field.value === activity.value
+                    ? COLORS.primary
+                    : COLORS.accent
                 }
-                selected={selectedActivity === activity.value}
-                onPress={() => handleSelectActivity(activity.value)}
               />
-            )
-          })}
-        </VStack>
-      </Content>
-    </Container>
+            }
+            selected={field.value === activity.value}
+            onPress={() => handleSelectActivity(activity.value)}
+          />
+        )
+      })}
+    </VStack>
   )
 }
 
-export default ActivityLevelScreen
+export default SetupActivityLevel

@@ -63,18 +63,18 @@ export const createFoodSchema = baseFoodSchema.pick({
   nutrition: true
 })
 
-export const createFoodInformationSchema = baseFoodSchema.pick({
+export const foodInformationSchema = baseFoodSchema.pick({
   userId: true,
   type: true,
   name: true,
   description: true
 })
 
-export const createFoodPortionSchema = baseFoodSchema.pick({
+export const foodPortionSchema = baseFoodSchema.pick({
   portion: true
 })
 
-export const createFoodNutritionSchema = baseFoodSchema.pick({
+export const foodNutritionSchema = baseFoodSchema.pick({
   nutrition: true
 })
 
@@ -86,9 +86,7 @@ export const updateFoodSchema = baseFoodSchema.pick({
 export type FoodType = z.infer<typeof foodSchema>
 export type SaveFoodType = z.infer<typeof foodSaveSchema>
 export type CreateFoodType = z.infer<typeof createFoodSchema>
-export type CreateFoodInformationType = z.infer<
-  typeof createFoodInformationSchema
->
-export type CreateFoodPortionType = z.infer<typeof createFoodPortionSchema>
-export type CreateFoodNutritionType = z.infer<typeof createFoodNutritionSchema>
+export type FoodInformationType = z.infer<typeof foodInformationSchema>
+export type FoodPortionType = z.infer<typeof foodPortionSchema>
+export type FoodNutritionType = z.infer<typeof foodNutritionSchema>
 export type UpdateFoodType = z.infer<typeof updateFoodSchema>

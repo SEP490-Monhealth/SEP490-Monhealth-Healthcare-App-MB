@@ -5,11 +5,11 @@
     "scheme": "monhealth",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./public/assets/icon.png",
+    "icon": "./public/assets/monhealth-splash.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./public/assets/splash-icon.png",
+      "image": "./public/assets/monhealth-splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#fff"
     },
@@ -18,7 +18,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./public/assets/adaptive-icon.png",
+        "foregroundImage": "./public/assets/monhealth-splash.png",
         "backgroundColor": "#fff"
       },
       "package": "com.monapp.monhealth"

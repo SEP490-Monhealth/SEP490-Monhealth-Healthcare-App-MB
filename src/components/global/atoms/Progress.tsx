@@ -38,7 +38,7 @@ export const Progress = ({
 
   return (
     <View testID={testID} className={cn("w-full", className)}>
-      <View className="w-full rounded-full bg-[#E2E8F0]" style={{ height }}>
+      <View className="w-full rounded-full bg-border" style={{ height }}>
         <Animated.View
           className="h-full rounded-full"
           style={{
