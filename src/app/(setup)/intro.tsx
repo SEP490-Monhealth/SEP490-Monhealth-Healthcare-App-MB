@@ -91,7 +91,7 @@ function IntroScreen() {
       </View>
 
       {currentSlide < introSetupData.length - 1 ? (
-        <HStack className="absolute bottom-0 w-full flex-row items-center justify-between px-4">
+        <HStack className="absolute bottom-0 w-full flex-row items-center justify-between p-4">
           <TouchableOpacity
             onPress={handlePrevious}
             disabled={currentSlide === 0}
@@ -110,7 +110,7 @@ function IntroScreen() {
           </Button>
         </HStack>
       ) : (
-        <HStack className="absolute bottom-0 w-full flex-row items-center justify-between gap-6 pr-28">
+        <HStack className="absolute bottom-0 w-full flex-row items-center justify-between gap-6 py-4 pr-28">
           <Button size="lg" variant="secondary" onPress={handlePrevious}>
             <ArrowLeft3 size={24} color={COLORS.primary} />
           </Button>
