@@ -36,6 +36,10 @@ function ActivityScreen() {
     router.push("/(setup)")
   }
 
+  const handleViewIntroSetup = () => {
+    router.push("/(setup)/intro")
+  }
+
   return (
     <Container>
       <Header label="Tạo khẩu phần" />
@@ -68,6 +72,10 @@ function ActivityScreen() {
 
           <Button size="lg" onPress={handleSetup}>
             Setup Hehe
+          </Button>
+
+          <Button size="lg" onPress={handleViewIntroSetup}>
+            Trang setup
           </Button>
         </VStack>
       </Content>
