@@ -36,6 +36,10 @@ function ActivityScreen() {
     router.push("/foods/saved")
   }
 
+  const handleViewIntroSetup = () => {
+    router.push("/(setup)/intro")
+  }
+
   return (
     <Container>
       <Header label="Tạo khẩu phần" />
@@ -68,6 +72,10 @@ function ActivityScreen() {
 
           <Button size="lg" onPress={handleViewFoodSaved}>
             Danh sách món ăn đã lưu
+          </Button>
+
+          <Button size="lg" onPress={handleViewIntroSetup}>
+            Trang setup
           </Button>
         </VStack>
       </Content>
