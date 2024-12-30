@@ -7,25 +7,25 @@ import { Header } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/app"
 
-function SetupTarget() {
-  const targetsData = [
-    {
-      label: "Giảm cân",
-      description: "Mục tiêu giảm cân và duy trì vóc dáng",
-      icon: TrendingDown
-    },
-    {
-      label: "Giữ cân",
-      description: "Mục tiêu duy trì cân nặng hiện tại",
-      icon: Scale
-    },
-    {
-      label: "Tăng cân",
-      description: "Mục tiêu tăng cân và cải thiện cơ thể",
-      icon: TrendingUp
-    }
-  ]
+const targetsData = [
+  {
+    label: "Giảm cân",
+    description: "Mục tiêu giảm cân và duy trì vóc dáng",
+    icon: TrendingDown
+  },
+  {
+    label: "Giữ cân",
+    description: "Mục tiêu duy trì cân nặng hiện tại",
+    icon: Scale
+  },
+  {
+    label: "Tăng cân",
+    description: "Mục tiêu tăng cân và cải thiện cơ thể",
+    icon: TrendingUp
+  }
+]
 
+function SetupTarget() {
   const [selectedTarget, setSelectedTarget] = useState("Giảm cân")
 
   const handleSelectTarget = (label: string) => {

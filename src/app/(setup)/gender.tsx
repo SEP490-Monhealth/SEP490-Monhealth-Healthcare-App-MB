@@ -7,24 +7,24 @@ import { Chip, VStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/app"
 
+const gendersData = [
+  {
+    label: "Nam",
+    value: "Male",
+    icon: Man
+  },
+  {
+    label: "Nữ",
+    value: "Female",
+    icon: Woman
+  }
+]
+
 interface SetupGenderProps {
   control: Control
 }
 
 function SetupGender({ control }: SetupGenderProps) {
-  const gendersData = [
-    {
-      label: "Nam",
-      value: "Male",
-      icon: Man
-    },
-    {
-      label: "Nữ",
-      value: "Female",
-      icon: Woman
-    }
-  ]
-
   const { field } = useController({
     name: "gender",
     control

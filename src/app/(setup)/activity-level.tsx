@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 
 import {
   Calendar,
@@ -12,35 +12,35 @@ import { Chip, VStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/app"
 
+const activityLevelsData = [
+  {
+    label: "0 buổi / tuần",
+    value: 1.2,
+    icon: CalendarRemove
+  },
+  {
+    label: "1 - 3 buổi / tuần",
+    value: 1.375,
+    icon: Calendar2
+  },
+  {
+    label: "3 - 5 buổi / tuần",
+    value: 1.55,
+    icon: Calendar
+  },
+  {
+    label: "6 - 7 buổi / tuần",
+    value: 1.725,
+    icon: CalendarCircle
+  }
+]
+
 interface SetupActivityLevelProps {
   control: Control<FieldValues>
   errors: any
 }
 
 function SetupActivityLevel({ control, errors }: SetupActivityLevelProps) {
-  const activityLevelsData = [
-    {
-      label: "0 buổi / tuần",
-      value: 1.2,
-      icon: CalendarRemove
-    },
-    {
-      label: "1 - 3 buổi / tuần",
-      value: 1.375,
-      icon: Calendar2
-    },
-    {
-      label: "3 - 5 buổi / tuần",
-      value: 1.55,
-      icon: Calendar
-    },
-    {
-      label: "6 - 7 buổi / tuần",
-      value: 1.725,
-      icon: CalendarCircle
-    }
-  ]
-
   const { field } = useController({
     name: "activityLevel",
     control

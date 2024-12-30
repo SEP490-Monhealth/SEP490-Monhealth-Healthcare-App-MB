@@ -118,6 +118,8 @@ function SetupScreen() {
       }
 
       console.log("Final Form Data:", JSON.stringify(finalData, null, 2))
+
+      router.replace("/(onboarding)/welcome")
     }
   }
 

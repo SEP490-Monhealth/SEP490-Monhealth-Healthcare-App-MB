@@ -62,7 +62,7 @@ function AppIndex() {
         if (isAuthenticated) {
           router.replace("/(tabs)/home")
         } else {
-          router.replace("/(onboarding)/welcome")
+          router.replace("/(onboarding)")
         }
       }
     }, 2000)
