@@ -64,7 +64,6 @@ export const createFoodSchema = baseFoodSchema.pick({
 })
 
 export const foodInformationSchema = baseFoodSchema.pick({
-  userId: true,
   type: true,
   name: true,
   description: true

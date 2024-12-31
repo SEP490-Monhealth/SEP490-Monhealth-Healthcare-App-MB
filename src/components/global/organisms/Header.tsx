@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Text } from "react-native"
+import { Text, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -50,7 +50,7 @@ export const Header = ({
   }
 
   return (
-    <HStack className="relative min-h-14 justify-between pt-0">
+    <HStack className="relative min-h-14 items-center justify-between">
       {back && (
         <IconButton
           icon={<ArrowLeft size={24} color={COLORS.primary} />}
@@ -59,15 +59,16 @@ export const Header = ({
       )}
 
       <Text
-        key={`header-label-${label}`}
-        className={`mt-2 text-left font-tbold text-xl text-primary ${
-          back && "absolute left-1/2 -translate-x-1/2"
-        }`}
+        className={`mt-2 flex-1 font-tbold text-xl text-primary ${back ? "ml-0 text-center" : "ml-1 text-left"}`}
       >
         {label}
       </Text>
 
-      {action && <IconButton icon={action.icon} onPress={handleAction} />}
+      {action ? (
+        <IconButton icon={action.icon} onPress={handleAction} />
+      ) : (
+        <View className="h-12 w-12" />
+      )}
     </HStack>
   )
 }

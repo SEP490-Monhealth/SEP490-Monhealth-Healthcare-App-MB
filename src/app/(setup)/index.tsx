@@ -49,7 +49,7 @@ function SetupScreen() {
       step: 1,
       title: "Ngày sinh",
       component: SetupDateOfBirth,
-      fields: ["userId", "dateOfBirth"],
+      fields: ["dateOfBirth"],
       schema: metricDateOfBirthSchema
     },
     {
@@ -92,7 +92,7 @@ function SetupScreen() {
   })
 
   const onSubmitStep = (data: Record<string, any>) => {
-    // console.log("Submitted data:", data)
+    console.log("Submitted data:", data)
     // console.log("Errors after submit:", errors)
 
     Object.keys(data).forEach((key) => {
@@ -119,7 +119,7 @@ function SetupScreen() {
 
       console.log("Final Form Data:", JSON.stringify(finalData, null, 2))
 
-      router.replace("/(onboarding)/welcome")
+      router.replace("/(tabs)/home")
     }
   }
 
@@ -144,7 +144,7 @@ function SetupScreen() {
       <Button
         size="lg"
         onPress={handleSubmit(onSubmitStep)}
-        className="absolute bottom-0 left-6 right-6 w-full"
+        className="absolute bottom-0 left-6 right-6"
       >
         {currentStep === setupSteps.length ? "Hoàn thành" : "Tiếp tục"}
       </Button>

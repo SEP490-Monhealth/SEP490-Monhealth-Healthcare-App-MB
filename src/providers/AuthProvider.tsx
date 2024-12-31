@@ -5,7 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { AuthContext } from "@/contexts/AuthContext"
 import { useErrorHandler } from "@/contexts/ErrorContext"
 
-import { whoIAm, login, logout, register } from "@/services/authService"
+import { login, logout, register, whoIAm } from "@/services/authService"
 
 interface UserPayload {
   userId: string

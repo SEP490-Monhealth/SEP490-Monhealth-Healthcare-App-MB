@@ -4,17 +4,7 @@ import { Image, Text, View } from "react-native"
 
 import { router } from "expo-router"
 
-import { ArrowLeft } from "iconsax-react-native"
-
-import {
-  Button,
-  Container,
-  HStack,
-  Progress,
-  VStack
-} from "@/components/global/atoms"
-
-import { COLORS } from "@/constants/app"
+import { Button, Container, Progress, VStack } from "@/components/global/atoms"
 
 const onboardingData = [
   {
@@ -38,67 +28,51 @@ const onboardingData = [
 ]
 
 function OnboardingScreen() {
-  const [currentSlide, setCurrentSlide] = useState(0)
+  const [currentIndex, setCurrentIndex] = useState(0)
 
   const handleNext = () => {
-    if (currentSlide < onboardingData.length - 1) {
-      setCurrentSlide((prev) => prev + 1)
+    if (currentIndex < onboardingData.length - 1) {
+      setCurrentIndex((prev) => prev + 1)
+    } else {
+      router.replace("/(onboarding)/welcome")
     }
-  }
-
-  const handlePrevious = () => {
-    if (currentSlide > 0) {
-      setCurrentSlide((prev) => prev - 1)
-    }
-  }
-
-  const handleDone = () => {
-    router.replace("/(onboarding)/welcome")
   }
 
   return (
     <Container className="flex-1 justify-between">
       <VStack gap={32} center className="pt-20">
         <Image
-          source={onboardingData[currentSlide].image}
+          source={onboardingData[currentIndex].image}
           className="object-cover"
           style={{ width: 320, height: 320 }}
         />
 
         <VStack gap={12}>
           <Text className="text-center font-tbold text-3xl text-primary">
-            {onboardingData[currentSlide].title}
+            {onboardingData[currentIndex].title}
           </Text>
 
           <Text className="text-center font-tmedium text-base text-accent">
-            {onboardingData[currentSlide].description}
+            {onboardingData[currentIndex].description}
           </Text>
         </VStack>
 
         <View className="w-72">
           <Progress
             height={12}
-            progress={(currentSlide + 1) * (100 / onboardingData.length)}
+            progress={(currentIndex + 1) * (100 / onboardingData.length)}
             color="#eab308"
           />
         </View>
       </VStack>
 
-      <HStack gap={16} className="absolute bottom-0 w-full">
-        <Button icon variant="secondary" size="lg" onPress={handlePrevious}>
-          <ArrowLeft size={20} color={COLORS.primary} />
-        </Button>
-
-        <Button
-          size="lg"
-          className="flex-1"
-          onPress={
-            currentSlide < onboardingData.length - 1 ? handleNext : handleDone
-          }
-        >
-          {currentSlide < onboardingData.length - 1 ? "Tiếp tục" : "Bắt đầu"}
-        </Button>
-      </HStack>
+      <Button
+        size="lg"
+        onPress={handleNext}
+        className="absolute bottom-4 left-6 right-6"
+      >
+        {currentIndex === onboardingData.length - 1 ? "Bắt đầu" : "Tiếp tục"}
+      </Button>
     </Container>
   )
 }

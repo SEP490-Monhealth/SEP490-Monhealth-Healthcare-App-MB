@@ -110,10 +110,12 @@ function FoodCreateScreen() {
     if (currentStep < steps.length) {
       setCurrentStep(currentStep + 1)
     } else {
-      console.log(
-        "Final Form Data:",
-        JSON.stringify(useFoodStore.getState(), null, 2)
-      )
+      const finalData = {
+        ...useFoodStore.getState(),
+        userId: formData.userId
+      }
+
+      console.log("Final Form Data:", JSON.stringify(finalData, null, 2))
     }
   }
 
@@ -127,13 +129,11 @@ function FoodCreateScreen() {
 
   const StepComponent = currentStepData.component
 
-  // console.log(errors)
-
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView className="h-full flex-1 bg-background">
         <View className="px-6">
-          <Header back label={currentStepData.title} />
+          <Header back label={currentStepData.title} onBackPress={handleBack} />
         </View>
 
         <Content className="mt-2">
@@ -144,7 +144,15 @@ function FoodCreateScreen() {
           />
         </Content>
 
-        <VStack
+        <Button
+          size="lg"
+          onPress={handleSubmit(onSubmitStep)}
+          className="absolute bottom-16 left-6 right-6"
+        >
+          {currentStep === steps.length ? "Tạo mới" : "Tiếp tục"}
+        </Button>
+
+        {/* <VStack
           gap={12}
           className="absolute bottom-16 w-full bg-background px-6"
         >
@@ -155,7 +163,7 @@ function FoodCreateScreen() {
           <Button onPress={handleSubmit(onSubmitStep)}>
             {currentStep === steps.length ? "Tạo mới" : "Tiếp tục"}
           </Button>
-        </VStack>
+        </VStack> */}
       </SafeAreaView>
     </TouchableWithoutFeedback>
   )
