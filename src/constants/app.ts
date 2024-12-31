@@ -9,7 +9,7 @@ export const COLORS = {
   secondary: "#64748b",
   accent: "#94a3b8",
 
-  yellow: "#ca8a04",
+  lemon: "#eab308",
 
   BMI: {
     low: "#22c55e",

@@ -35,7 +35,7 @@ function NoConnectionScreen() {
       <VStack center gap={20}>
         <View className="w-full items-center">
           <Animated.Image
-            source={require("../../../public/images/no-connection-image.png")}
+            source={require("../../../public/images/monhealth-no-connection-image.png")}
             style={{
               width: 320,
               height: 320,

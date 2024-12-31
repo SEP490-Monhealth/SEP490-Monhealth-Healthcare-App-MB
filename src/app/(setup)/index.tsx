@@ -6,8 +6,11 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { set } from "lodash"
 import { useForm } from "react-hook-form"
 
-import { Button, Container, Content } from "@/components/global/atoms"
-import { Header } from "@/components/global/organisms"
+import { Button, Container, Content, Progress } from "@/components/global/atoms"
+import { CustomHeader } from "@/components/global/molecules"
+import { Header, Section } from "@/components/global/organisms"
+
+import { COLORS } from "@/constants/app"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -124,18 +127,29 @@ function SetupScreen() {
   }
 
   const handleBack = () => {
-    setCurrentStep(currentStep - 1)
+    if (currentStep === 1) {
+      router.back()
+    } else {
+      setCurrentStep(currentStep - 1)
+    }
   }
 
   const StepComponent = currentStepData.component
 
   return (
     <Container className="flex-1">
-      <Header
-        back={currentStep !== 1}
-        label={currentStepData.title}
+      <CustomHeader
+        content={
+          <Progress
+            height={14}
+            progress={(currentStep / setupSteps.length) * 100}
+            color={COLORS.lemon}
+          />
+        }
         onBackPress={handleBack}
       />
+
+      <Section label={currentStepData.title} />
 
       <Content className="mt-2">
         <StepComponent control={control} errors={errors} setValue={setValue} />

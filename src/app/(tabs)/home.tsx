@@ -27,7 +27,7 @@ import { useAuth } from "@/contexts/AuthContext"
 
 function HomeScreen() {
   const { user } = useAuth()
-  
+
   const [mealsData, setMealsData] = useState<
     {
       mealType: "Breakfast" | "Lunch" | "Dinner" | "Snack"

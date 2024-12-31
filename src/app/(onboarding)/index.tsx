@@ -6,6 +6,8 @@ import { router } from "expo-router"
 
 import { Button, Container, Progress, VStack } from "@/components/global/atoms"
 
+import { COLORS } from "@/constants/app"
+
 const onboardingData = [
   {
     title: "Gợi ý các bữa ăn và theo dõi dinh dưỡng",
@@ -61,7 +63,7 @@ function OnboardingScreen() {
           <Progress
             height={12}
             progress={(currentIndex + 1) * (100 / onboardingData.length)}
-            color="#eab308"
+            color={COLORS.lemon}
           />
         </View>
       </VStack>

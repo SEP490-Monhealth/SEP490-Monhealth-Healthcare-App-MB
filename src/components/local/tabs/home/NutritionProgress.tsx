@@ -46,9 +46,9 @@ export const NutritionProgress = ({
 
       <VStack center>
         <Image
-          source={require("../../../../../public/icons/fire-icon.png")}
+          source={require("../../../../../public/images/monhealth-fire-image.png")}
           resizeMode="cover"
-          style={{ width: 27, height: 27 }}
+          style={{ width: 24, height: 24 }}
         />
 
         <Text className="-mb-2 font-tbold text-base text-primary">
@@ -56,7 +56,7 @@ export const NutritionProgress = ({
         </Text>
 
         <Text className="font-tmedium text-sm text-accent">
-          {calories.label}
+          {calories.label === "Calories" && "Kcal"}
         </Text>
       </VStack>
     </View>

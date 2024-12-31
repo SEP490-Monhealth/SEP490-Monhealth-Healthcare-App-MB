@@ -30,7 +30,7 @@ export const FoodCategories = ({
 
   return (
     <HStack gap={8}>
-      <Chip variant="yellow" label="Đã lưu" onPress={handleViewSavedFood} />
+      <Chip variant="lemon" label="Đã lưu" onPress={handleViewSavedFood} />
 
       <ScrollArea orientation="horizontal" className="flex-1">
         {categories.map((category, index) => (

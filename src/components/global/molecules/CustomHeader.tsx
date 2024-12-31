@@ -13,12 +13,19 @@ import { IconButton } from "./IconButton"
 
 interface CustomHeaderProps {
   content: React.ReactNode
+  onBackPress?: () => void
 }
 
-export const CustomHeader = ({ content }: CustomHeaderProps) => {
+export const CustomHeader = ({ content, onBackPress }: CustomHeaderProps) => {
   const router = useRouter()
 
-  const handleBack = (): void => router.back()
+  const handleBack = () => {
+    if (onBackPress) {
+      onBackPress()
+    } else {
+      router.back()
+    }
+  }
 
   return (
     <HStack center gap={20} className="min-h-14 justify-between">
@@ -28,7 +35,7 @@ export const CustomHeader = ({ content }: CustomHeaderProps) => {
         onPress={handleBack}
       />
 
-      <View testID="test-header-custom" className="flex-1">
+      <View testID="test-header-custom" className="mt-2 flex-1">
         {typeof content === "string" ? <Text>{content}</Text> : content}
       </View>
     </HStack>

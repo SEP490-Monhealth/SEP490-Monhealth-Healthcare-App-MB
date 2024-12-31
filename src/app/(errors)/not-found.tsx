@@ -19,7 +19,7 @@ function NotFoundScreen() {
       <VStack center gap={20}>
         <View className="w-full items-center">
           <Animated.Image
-            source={require("../../../public/images/not-found-image.png")}
+            source={require("../../../public/images/monhealth-not-found-image.png")}
             style={{
               width: 320,
               height: 320,

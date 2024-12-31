@@ -123,7 +123,7 @@ function FoodUserScreen() {
               <VStack center gap={20} className="mt-8">
                 <View className="w-full items-center">
                 <Image
-                    source={require("../../../public/images/no-data-image.png")}
+                    source={require("../../../public/images/monhealth-no-data-image.png")}
                     style={{
                       width: 320,
                       height: 320
