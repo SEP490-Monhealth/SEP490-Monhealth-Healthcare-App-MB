@@ -15,6 +15,18 @@ function ActivityScreen() {
     router.push("/(onboarding)")
   }
 
+  const handleViewForgotPassword = () => {
+    router.push("/(onboarding)/otp-confirm")
+  }
+
+  const handleViewCompletedSetup = () => {
+    router.push("/(setup)/completed")
+  }
+
+  const handleViewGoalSetup = () => {
+    router.push("/(setup)/goal")
+  }
+
   return (
     <Container>
       <Content className="mt-2 pb-12">
@@ -25,6 +37,18 @@ function ActivityScreen() {
 
           <Button size="lg" onPress={handleViewIntroSetup}>
             Onboarding
+          </Button>
+
+          <Button size="lg" onPress={handleViewForgotPassword}>
+            Forgot Password
+          </Button>
+
+          <Button size="lg" onPress={handleViewCompletedSetup}>
+            Hoàn thành
+          </Button>
+
+          <Button size="lg" onPress={handleViewGoalSetup}>
+            Mục tiêu
           </Button>
         </VStack>
       </Content>
