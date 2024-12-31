@@ -1,9 +1,10 @@
 import React from "react"
 
 import { Man, Woman } from "iconsax-react-native"
-import { Control, useController } from "react-hook-form"
+import { get } from "lodash"
+import { Control, FieldValues, useController } from "react-hook-form"
 
-import { Chip, VStack } from "@/components/global/atoms"
+import { Chip, ErrorText, VStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/app"
 
@@ -21,10 +22,11 @@ const gendersData = [
 ]
 
 interface SetupGenderProps {
-  control: Control
+  control: Control<FieldValues>
+  errors: any
 }
 
-function SetupGender({ control }: SetupGenderProps) {
+function SetupGender({ control, errors }: SetupGenderProps) {
   const { field } = useController({
     name: "gender",
     control
@@ -33,6 +35,8 @@ function SetupGender({ control }: SetupGenderProps) {
   const handleSelectGender = (value: string) => {
     field.onChange(value)
   }
+
+  const errorMessage = get(errors, "gender.message", null)
 
   return (
     <VStack gap={12}>
@@ -59,6 +63,8 @@ function SetupGender({ control }: SetupGenderProps) {
           />
         )
       })}
+
+      {errors.gender && <ErrorText text={errorMessage} />}
     </VStack>
   )
 }

@@ -23,7 +23,7 @@ export const ScrollArea = ({
       horizontal={orientation === "horizontal"}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
-      className={cn("h-full", className)}
+      className={cn("flex-1", className)}
     >
       {children}
     </ScrollView>

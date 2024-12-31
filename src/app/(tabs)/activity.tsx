@@ -3,7 +3,6 @@ import React from "react"
 import { useRouter } from "expo-router"
 
 import { Button, Container, Content, VStack } from "@/components/global/atoms"
-import { Header } from "@/components/global/organisms"
 
 function ActivityScreen() {
   const router = useRouter()
@@ -18,9 +17,7 @@ function ActivityScreen() {
 
   return (
     <Container>
-      <Header label="Tạo khẩu phần" />
-
-      <Content>
+      <Content className="mt-2 pb-12">
         <VStack gap={20}>
           <Button size="lg" onPress={handleSetup}>
             Setup Hehe

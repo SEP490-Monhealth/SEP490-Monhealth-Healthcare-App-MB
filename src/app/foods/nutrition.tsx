@@ -3,13 +3,13 @@ import React from "react"
 import { KeyboardAvoidingView, Platform, Text } from "react-native"
 
 import { get } from "lodash"
-import { Controller } from "react-hook-form"
+import { Control, Controller, FieldValues } from "react-hook-form"
 
 import { Input, ScrollArea, VStack } from "@/components/global/atoms"
 import { Section } from "@/components/global/organisms"
 
 interface FoodNutritionProps {
-  control: any
+  control: Control<FieldValues>
   errors: any
 }
 
@@ -76,9 +76,10 @@ function FoodNutrition({ control, errors }: FoodNutritionProps) {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
+      className="flex-1"
     >
       <ScrollArea>
-        <VStack gap={20} className="h-full px-6 pb-40">
+        <VStack gap={12} className="px-6 pb-40">
           <VStack>
             <Section label="Dinh dưỡng cơ bản" />
             <VStack gap={12}>

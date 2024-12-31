@@ -114,7 +114,7 @@ function FoodsScreen() {
 
   const ListHeaderComponent = useMemo(() => {
     return (
-      <ListHeader className="pt-6">
+      <ListHeader className="pt-4">
         <FoodCategories
           categoriesData={categoriesData || []}
           selectedCategory={selectedCategory}
@@ -207,7 +207,7 @@ function FoodsScreen() {
                 <ListFooter />
               )
             }
-            contentContainerClassName="min-h-full"
+            // contentContainerClassName="min-h-full"
             ItemSeparatorComponent={() => <View className="h-3" />}
           />
         </VStack>

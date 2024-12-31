@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { Text, View } from "react-native"
+import { SafeAreaView, Text, View } from "react-native"
 
 import {
   Container,
@@ -61,65 +61,63 @@ function HomeScreen() {
     <Container>
       <HomeHeader fullName={user?.fullName} />
 
-      <Content>
-        <ScrollArea>
-          <View className="mt-2 pb-12">
-            <Tabs defaultValue="meal" contentMarginTop={16}>
-              <TabsList center gap={32}>
-                <TabsTrigger value="meal">Dinh dưỡng</TabsTrigger>
-                <TabsTrigger value="water">Nước</TabsTrigger>
-                <TabsTrigger value="exercise">Bài tập</TabsTrigger>
-              </TabsList>
+      <ScrollArea>
+        <Content className="mt-2 pb-12">
+          <Tabs defaultValue="meal" contentMarginTop={16}>
+            <TabsList center gap={32}>
+              <TabsTrigger value="meal">Dinh dưỡng</TabsTrigger>
+              <TabsTrigger value="water">Nước</TabsTrigger>
+              <TabsTrigger value="exercise">Bài tập</TabsTrigger>
+            </TabsList>
 
-              <TabsContent value="meal">
-                <VStack gap={24}>
-                  <HStack center className="justify-between">
-                    <NutritionProgress
-                      calories={calories}
-                      nutrients={filteredNutrition}
+            <TabsContent value="meal">
+              <VStack gap={24}>
+                <HStack center className="justify-between">
+                  <NutritionProgress
+                    calories={calories}
+                    nutrients={filteredNutrition}
+                  />
+
+                  <NutritionSummary nutrients={filteredNutrition} />
+                </HStack>
+              </VStack>
+
+              <Progress
+                height={8}
+                progress={50}
+                labelStart="Mục tiêu hằng ngày"
+                labelEnd="50%"
+                className="mt-8"
+              />
+
+              <Section label="Bữa ăn hôm nay" />
+
+              <VStack gap={12}>
+                {mealsData.map((item) => (
+                  <View key={item.mealType}>
+                    <MealCard
+                      mealType={item.mealType}
+                      totalCalories={item.totalCalories}
                     />
+                  </View>
+                ))}
+              </VStack>
+            </TabsContent>
 
-                    <NutritionSummary nutrients={filteredNutrition} />
-                  </HStack>
-                </VStack>
+            <TabsContent value="water">
+              <VStack gap={24}>
+                <Text>asd</Text>
+              </VStack>
+            </TabsContent>
 
-                <Progress
-                  height={8}
-                  progress={50}
-                  labelStart="Mục tiêu hằng ngày"
-                  labelEnd="50%"
-                  className="mt-8"
-                />
-
-                <Section label="Bữa ăn hôm nay" />
-
-                <VStack gap={12}>
-                  {mealsData.map((item) => (
-                    <View key={item.mealType}>
-                      <MealCard
-                        mealType={item.mealType}
-                        totalCalories={item.totalCalories}
-                      />
-                    </View>
-                  ))}
-                </VStack>
-              </TabsContent>
-
-              <TabsContent value="water">
-                <VStack gap={24}>
-                  <Text>asd</Text>
-                </VStack>
-              </TabsContent>
-
-              <TabsContent value="exercise">
-                <VStack gap={24}>
-                  <Text>asd</Text>
-                </VStack>
-              </TabsContent>
-            </Tabs>
-          </View>
-        </ScrollArea>
-      </Content>
+            <TabsContent value="exercise">
+              <VStack gap={24}>
+                <Text>asd</Text>
+              </VStack>
+            </TabsContent>
+          </Tabs>
+        </Content>
+      </ScrollArea>
     </Container>
   )
 }

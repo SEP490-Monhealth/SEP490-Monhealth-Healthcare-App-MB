@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-export const baseCategorySchema = z.object({
+const baseCategorySchema = z.object({
   categoryId: z.string(),
   name: z
     .string()
@@ -28,6 +28,10 @@ export const categorySchema = baseCategorySchema.pick({
   name: true,
   description: true,
   image: true
+})
+
+export const nameCategorySchema = baseCategorySchema.pick({
+  name: true
 })
 
 export type CategoryType = z.infer<typeof categorySchema>

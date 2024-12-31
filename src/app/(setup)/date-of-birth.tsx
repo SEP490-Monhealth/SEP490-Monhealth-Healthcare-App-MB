@@ -3,6 +3,7 @@ import React from "react"
 import DateTimePicker, {
   DateTimePickerEvent
 } from "@react-native-community/datetimepicker"
+import { get } from "lodash"
 import {
   Control,
   FieldValues,
@@ -10,16 +11,21 @@ import {
   useController
 } from "react-hook-form"
 
-import { VStack } from "@/components/global/atoms"
+import { ErrorText, VStack } from "@/components/global/atoms"
 
 import { formatUTCDate } from "@/utils/formatters"
 
 interface SetupDateOfBirthProps {
   control: Control<FieldValues>
   setValue: (name: string, value: any, config?: SetValueConfig) => void
+  errors: any
 }
 
-function SetupDateOfBirth({ control, setValue }: SetupDateOfBirthProps) {
+function SetupDateOfBirth({
+  control,
+  setValue,
+  errors
+}: SetupDateOfBirthProps) {
   const { field } = useController({
     name: "dateOfBirth",
     control
@@ -32,6 +38,8 @@ function SetupDateOfBirth({ control, setValue }: SetupDateOfBirthProps) {
     }
   }
 
+  const errorMessage = get(errors, "dateOfBirth.message", null)
+
   return (
     <VStack gap={12}>
       <DateTimePicker
@@ -43,6 +51,8 @@ function SetupDateOfBirth({ control, setValue }: SetupDateOfBirthProps) {
         maximumDate={new Date()}
         locale="vi"
       />
+
+      {errors.dateOfBirth && <ErrorText text={errorMessage} />}
     </VStack>
   )
 }

@@ -13,15 +13,15 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { set } from "lodash"
 import { useForm } from "react-hook-form"
 
-import { Button, Content, VStack } from "@/components/global/atoms"
+import { Button, Content } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
 import { useAuth } from "@/contexts/AuthContext"
 
 import {
-  foodInformationSchema,
-  foodNutritionSchema,
-  foodPortionSchema
+  informationFoodSchema,
+  nutritionFoodSchema,
+  portionFoodSchema
 } from "@/schemas/foodSchema"
 
 import { useFoodStore } from "@/stores/foodStore"
@@ -55,21 +55,21 @@ function FoodCreateScreen() {
       title: "Tạo món ăn",
       component: FoodInformation,
       fields: ["type", "name", "description"],
-      schema: foodInformationSchema
+      schema: informationFoodSchema
     },
     {
       step: 2,
       title: "Khẩu phần ăn",
       component: FoodPortion,
       fields: ["portion"],
-      schema: foodPortionSchema
+      schema: portionFoodSchema
     },
     {
       step: 3,
       title: "Dinh dưỡng",
       component: FoodNutrition,
       fields: ["nutrition"],
-      schema: foodNutritionSchema
+      schema: nutritionFoodSchema
     }
   ]
 

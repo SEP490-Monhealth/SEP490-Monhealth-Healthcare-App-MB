@@ -3,7 +3,13 @@ import React, { useRef, useState } from "react"
 import { Text, View } from "react-native"
 
 import { get } from "lodash"
-import { Controller, FieldErrors, useWatch } from "react-hook-form"
+import {
+  Control,
+  Controller,
+  FieldErrors,
+  FieldValues,
+  useWatch
+} from "react-hook-form"
 
 import {
   HStack,
@@ -16,13 +22,23 @@ import {
 } from "@/components/global/atoms"
 
 interface FoodPortionProps {
-  control: any
+  control: Control<FieldValues>
   errors: FieldErrors
   setValue: (name: string, value: any) => void
 }
 
+const portionSizesData = [
+  {
+    label: "g (gram)",
+    value: "g"
+  },
+  {
+    label: "ml (mililiter)",
+    value: "ml"
+  }
+]
+
 function FoodPortion({ control, errors, setValue }: FoodPortionProps) {
-  const portions = ["g (gram)", "ml (mililiter)"]
   const [selectedPortion, setSelectedPortion] = useState<string | null>(null)
 
   const SheetRef = useRef<SheetRefProps>(null)
@@ -52,7 +68,7 @@ function FoodPortion({ control, errors, setValue }: FoodPortionProps) {
 
   return (
     <>
-      <VStack gap={20} className="h-full px-6">
+      <VStack gap={20} className="px-6">
         <VStack gap={8}>
           <VStack>
             <Controller
@@ -93,7 +109,10 @@ function FoodPortion({ control, errors, setValue }: FoodPortionProps) {
             <View style={{ flex: 3 }}>
               <Select
                 defaultValue="Chọn đơn vị"
-                value={selectedUnit}
+                value={
+                  portionSizesData.find((item) => item.value === selectedUnit)
+                    ?.label || "Chọn đơn vị"
+                }
                 onPress={openSheet}
               />
             </View>
@@ -120,12 +139,12 @@ function FoodPortion({ control, errors, setValue }: FoodPortionProps) {
       </VStack>
 
       <Sheet ref={SheetRef}>
-        {portions.map((portion) => (
+        {portionSizesData.map((portion) => (
           <SheetItem
-            key={portion}
-            item={portion}
-            isSelected={selectedPortion === portion}
-            onSelect={() => onUnitSelect(portion)}
+            key={portion.value}
+            item={portion.label}
+            isSelected={selectedPortion === portion.value}
+            onSelect={() => onUnitSelect(portion.value)}
           />
         ))}
       </Sheet>

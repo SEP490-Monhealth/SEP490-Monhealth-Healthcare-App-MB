@@ -14,6 +14,7 @@ import LoadingScreen from "@/app/loading"
 import { ArchiveTick } from "iconsax-react-native"
 
 import {
+  Container,
   Content,
   HStack,
   Input,
@@ -129,6 +130,7 @@ function FoodDetailsScreen() {
           weight: portionWeight,
           unit: portionUnit
         },
+        // @ts-ignore
         nutrition: {
           calories: nutritionData.calories
         }
@@ -138,8 +140,8 @@ function FoodDetailsScreen() {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <SafeAreaView className="h-full flex-1 bg-background">
-        <View className="px-6">
+      <SafeAreaView className="flex-1 bg-background">
+        <Container>
           <Header
             back
             label={foodData.name}
@@ -155,11 +157,11 @@ function FoodDetailsScreen() {
             onActionPress={handleToggleSaveFood}
           />
 
-          <Content marginBottom={false}>
-            <ScrollArea>
+          <Content>
+            <ScrollArea className="flex-1">
               <View
                 onStartShouldSetResponder={() => true}
-                className="mt-2 pb-12"
+                className="mt-2 flex-1 pb-12"
               >
                 <VStack>
                   <Section
@@ -218,7 +220,7 @@ function FoodDetailsScreen() {
               </View>
             </ScrollArea>
           </Content>
-        </View>
+        </Container>
 
         <Sheet ref={SheetRef} dynamicHeight={sheetHeight}>
           {sheetData.map((item) => (

@@ -9,15 +9,11 @@ const basePortionSchema = z.object({
     .nonempty({ message: "Kích thước phần ăn không được để trống" }),
   weight: z
     .number()
-    .positive({ message: "Khối lượng phần ăn phải là số dương" })
-    .min(0, { message: "Khối lượng phần ăn không được nhỏ hơn 0 gram" })
+    .min(1, { message: "Khối lượng phần ăn phải lớn hơn hoặc bằng 1 gram" })
     .max(10000, {
       message: "Khối lượng phần ăn không được vượt quá 10,000 gram"
     }),
-  unit: z
-    .string()
-    .min(1, { message: "Đơn vị đo lường không được để trống" })
-    .max(20, { message: "Đơn vị đo lường không được dài hơn 20 ký tự" }),
+  unit: z.string().nonempty({ message: "Đơn vị đo lường không được để trống" }),
 
   createdAt: z.string(),
   updatedAt: z.string(),

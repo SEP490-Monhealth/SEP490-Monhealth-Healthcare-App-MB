@@ -22,7 +22,14 @@ export const useFoodStore = create<CreateFoodState>((set) => ({
     weight: 1,
     unit: ""
   },
-  nutrition: undefined,
+  nutrition: {
+    calories: 0,
+    protein: 0,
+    carbs: 0,
+    fat: 0,
+    fiber: 0,
+    sugar: 0
+  },
   updateField: (field, value) =>
     set((state) => ({
       ...state,
@@ -38,6 +45,13 @@ export const useFoodStore = create<CreateFoodState>((set) => ({
         weight: 0,
         unit: ""
       },
-      nutrition: undefined
+      nutrition: {
+        calories: 0,
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+        fiber: 0,
+        sugar: 0
+      }
     }))
 }))

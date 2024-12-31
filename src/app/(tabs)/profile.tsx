@@ -4,7 +4,7 @@ import { Text } from "react-native"
 
 import { aboutItems, generalItems } from "@/config/site"
 
-import { Card, Container, Content, VStack } from "@/components/global/atoms"
+import { Card, Container, Content } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
 import { ListItem } from "@/components/local/tabs/profile"
@@ -14,36 +14,34 @@ function ProfileScreen() {
     <Container>
       <Header label="Hồ sơ" />
 
-      <Content marginBottom={false}>
+      <Content className="mt-2 justify-between pb-12">
         {/* <ScrollArea> */}
-        <VStack className="mt-2 h-full justify-between pb-14">
-          <Card activeOpacity={1}>
-            {generalItems.map((item, index) => (
-              <ListItem
-                key={index}
-                startIcon={item.icon}
-                label={item.label}
-                route={item.route}
-              />
-            ))}
-          </Card>
+        <Card activeOpacity={1}>
+          {generalItems.map((item, index) => (
+            <ListItem
+              key={index}
+              startIcon={item.icon}
+              label={item.label}
+              route={item.route}
+            />
+          ))}
+        </Card>
 
-          <Card activeOpacity={1}>
-            {aboutItems.map((item, index) => (
-              <ListItem
-                key={index}
-                startIcon={item.icon}
-                label={item.label}
-                route={item.route}
-                action={item.action}
-              />
-            ))}
+        <Card activeOpacity={1}>
+          {aboutItems.map((item, index) => (
+            <ListItem
+              key={index}
+              startIcon={item.icon}
+              label={item.label}
+              route={item.route}
+              action={item.action}
+            />
+          ))}
 
-            <Text className="mt-4 text-center font-dmedium text-base text-secondary">
-              Version 1.0.0
-            </Text>
-          </Card>
-        </VStack>
+          <Text className="mt-4 text-center font-dmedium text-base text-secondary">
+            Version 1.0.0
+          </Text>
+        </Card>
         {/* </ScrollArea> */}
       </Content>
     </Container>

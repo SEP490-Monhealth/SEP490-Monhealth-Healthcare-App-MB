@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react"
 
 import {
   Keyboard,
-  Text,
   TextInput,
   TextInputProps,
   TouchableOpacity,
@@ -10,6 +9,8 @@ import {
 } from "react-native"
 
 import { X } from "lucide-react-native"
+
+import { ErrorText } from "./Typography"
 
 type InputProps = Omit<TextInputProps, "value"> & {
   testID?: string
@@ -151,11 +152,7 @@ export const Input: React.FC<InputProps> = ({
         )}
       </View>
 
-      {hasError && errorMessage && (
-        <Text className="ml-1 mt-1 font-tregular text-sm text-destructive">
-          {errorMessage}
-        </Text>
-      )}
+      {hasError && errorMessage && <ErrorText text={errorMessage} />}
     </View>
   )
 }

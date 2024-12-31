@@ -2,12 +2,12 @@ import React, { useState } from "react"
 
 import { Text } from "react-native"
 
-import { Controller } from "react-hook-form"
+import { Control, Controller, FieldValues } from "react-hook-form"
 
 import { Card, Chip, HStack, Input, VStack } from "@/components/global/atoms"
 
 interface FoodInformationProps {
-  control: any
+  control: Control<FieldValues>
   errors: any
   setValue: any
 }
@@ -21,7 +21,7 @@ function FoodInformation({ control, errors, setValue }: FoodInformationProps) {
   }
 
   return (
-    <VStack gap={32} className="h-full px-6 pb-12">
+    <VStack gap={32} className="px-6">
       <VStack gap={12}>
         <Controller
           name="name"

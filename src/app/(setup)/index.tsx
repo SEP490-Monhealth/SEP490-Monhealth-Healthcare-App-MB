@@ -1,31 +1,42 @@
 import React, { useState } from "react"
 
+import { Text } from "react-native"
+
 import { useRouter } from "expo-router"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { set } from "lodash"
 import { useForm } from "react-hook-form"
 
-import { Button, Container, Content, Progress } from "@/components/global/atoms"
+import {
+  Button,
+  Container,
+  Content,
+  Progress,
+  VStack
+} from "@/components/global/atoms"
 import { CustomHeader } from "@/components/global/molecules"
-import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/app"
 
 import { useAuth } from "@/contexts/AuthContext"
 
+import { nameCategorySchema } from "@/schemas/categorySchema"
+import { typeGoalSchema } from "@/schemas/goalSchema"
 import {
-  metricActivityLevelSchema,
-  metricDateOfBirthSchema,
-  metricGenderSchema,
-  metricHeightWeightSchema
+  activityLevelMetricSchema,
+  dateOfBirthMetricSchema,
+  genderMetricSchema,
+  heightWeightMetricSchema
 } from "@/schemas/metricSchema"
 
 import { useSetupStore } from "@/stores/setupStore"
 
 import SetupActivityLevel from "./activity-level"
+import SetupInterestCategories from "./categories"
 import SetupDateOfBirth from "./date-of-birth"
 import SetupGender from "./gender"
+import SetupGoal from "./goal"
 import SetupHeightWeight from "./height-weight"
 
 function SetupScreen() {
@@ -33,8 +44,16 @@ function SetupScreen() {
 
   const { user } = useAuth()
 
-  const { dateOfBirth, gender, height, weight, activityLevel, updateField } =
-    useSetupStore()
+  const {
+    dateOfBirth,
+    gender,
+    height,
+    weight,
+    activityLevel,
+    goal,
+    categories,
+    updateField
+  } = useSetupStore()
 
   const [currentStep, setCurrentStep] = useState(1)
 
@@ -44,38 +63,72 @@ function SetupScreen() {
     gender,
     height,
     weight,
-    activityLevel
+    activityLevel,
+    goal,
+    categories
   }
 
   const setupSteps = [
     {
       step: 1,
       title: "Ngày sinh",
+      description:
+        "Vui lòng nhập ngày sinh của bạn để chúng tôi xác định độ tuổi.",
       component: SetupDateOfBirth,
       fields: ["dateOfBirth"],
-      schema: metricDateOfBirthSchema
+      schema: dateOfBirthMetricSchema
     },
     {
       step: 2,
-      title: "Mức độ hoạt động",
+      title: "Giới tính",
+      description: "Chọn giới tính của bạn để cá nhân hóa trải nghiệm.",
       component: SetupGender,
       fields: ["gender"],
-      schema: metricGenderSchema
+      schema: genderMetricSchema
     },
     {
       step: 3,
       title: "Chiều cao và cân nặng",
+      description:
+        "Nhập chiều cao và cân nặng để tính toán chỉ số sức khỏe của bạn.",
       component: SetupHeightWeight,
       fields: ["height", "weight"],
-      schema: metricHeightWeightSchema
+      schema: heightWeightMetricSchema
     },
     {
       step: 4,
       title: "Mức độ hoạt động",
+      description:
+        "Chọn mức độ hoạt động để dự đoán nhu cầu năng lượng của bạn.",
       component: SetupActivityLevel,
       fields: ["activityLevel"],
-      schema: metricActivityLevelSchema
+      schema: activityLevelMetricSchema
+    },
+    {
+      step: 5,
+      title: "Mục tiêu",
+      description: "Chọn mục tiêu sức khỏe của bạn để bắt đầu.",
+      component: SetupGoal,
+      fields: ["goal"],
+      schema: typeGoalSchema
+    },
+    {
+      step: 6,
+      title: "Danh mục yêu thích",
+      description:
+        "Chọn các danh mục bạn yêu thích để chúng tôi gợi ý phù hợp.",
+      component: SetupInterestCategories,
+      fields: ["categories"],
+      schema: nameCategorySchema
     }
+    // {
+    //   step: 7,
+    //   title: "Món ăn yêu thích",
+    //   description: "Chọn các món ăn bạn yêu thích để chúng tôi gợi ý phù hợp.",
+    //   component: SetupInterestFoods,
+    //   fields: ["interestFoods"],
+    //   schema: ,
+    // }
   ]
 
   const currentStepData = setupSteps.find((step) => step.step === currentStep)
@@ -115,14 +168,25 @@ function SetupScreen() {
     if (currentStep < setupSteps.length) {
       setCurrentStep(currentStep + 1)
     } else {
-      const finalData = {
-        ...useSetupStore.getState(),
-        userId: formData.userId
+      const metricData = {
+        userId: formData.userId,
+        dateOfBirth: formData.dateOfBirth,
+        gender: formData.gender,
+        height: formData.height,
+        weight: formData.weight,
+        activityLevel: formData.activityLevel
       }
 
-      console.log("Final Form Data:", JSON.stringify(finalData, null, 2))
+      console.log(metricData)
 
-      router.replace("/(tabs)/home")
+      // const finalData = {
+      //   ...useSetupStore.getState(),
+      //   userId: formData.userId
+      // }
+
+      // console.log("Final Form Data:", JSON.stringify(finalData, null, 2))
+
+      // router.replace("/(tabs)/home")
     }
   }
 
@@ -137,7 +201,7 @@ function SetupScreen() {
   const StepComponent = currentStepData.component
 
   return (
-    <Container className="flex-1">
+    <Container>
       <CustomHeader
         content={
           <Progress
@@ -149,10 +213,23 @@ function SetupScreen() {
         onBackPress={handleBack}
       />
 
-      <Section label={currentStepData.title} />
+      <Content className="mt-2 flex-1">
+        <VStack gap={20} className="h-full">
+          <VStack>
+            <Text className="font-tbold text-2xl text-primary">
+              {currentStepData.title}
+            </Text>
+            <Text className="font-tmedium text-lg text-accent">
+              {currentStepData.description}
+            </Text>
+          </VStack>
 
-      <Content className="mt-2">
-        <StepComponent control={control} errors={errors} setValue={setValue} />
+          <StepComponent
+            control={control}
+            errors={errors}
+            setValue={setValue}
+          />
+        </VStack>
       </Content>
 
       <Button

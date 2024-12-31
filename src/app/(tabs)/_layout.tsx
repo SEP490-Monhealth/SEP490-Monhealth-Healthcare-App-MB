@@ -32,7 +32,8 @@ function TabLayout() {
           backgroundColor: "#fff",
           height: 80,
           elevation: 0,
-          paddingTop: 4
+          paddingTop: 4,
+          paddingHorizontal: 12
         },
         tabBarButton: (props) => {
           // @ts-ignore

@@ -16,6 +16,7 @@ import { Sheet, SheetRefProps } from "./Sheet"
 import { SheetItem } from "./SheetItem"
 import { HStack, VStack } from "./Stack"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./Tabs"
+import { ErrorText } from "./Typography"
 
 export {
   Avatar,
@@ -40,5 +41,6 @@ export {
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger
+  TabsTrigger,
+  ErrorText
 }

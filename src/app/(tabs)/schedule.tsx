@@ -24,13 +24,9 @@ function ScheduleScreen() {
         }}
       />
 
-      <Content>
-        <VStack gap={20} className="mt-2">
-          <Tabs
-            defaultValue="breakfast"
-            contentMarginTop={0}
-            className="w-full"
-          >
+      <Content className="mt-2 pb-12">
+        <VStack gap={20}>
+          <Tabs defaultValue="breakfast" contentMarginTop={0}>
             <TabsContent value="breakfast">
               <MealTab foodsData={foodsData} />
             </TabsContent>

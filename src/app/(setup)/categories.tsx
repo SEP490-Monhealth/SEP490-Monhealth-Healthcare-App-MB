@@ -15,7 +15,6 @@ function SetupCategories() {
 
   const categories =
     categoriesData?.map((c) => ({
-      categoryId: c.categoryId,
       name: c.name,
       description: c.description,
       image: c.image
@@ -36,7 +35,7 @@ function SetupCategories() {
       <ScrollArea>
         {categories.map((category, index) => (
           <Chip
-            key={category.categoryId}
+            key={category.name}
             size="md"
             label={category.name}
             icon={

@@ -4,7 +4,7 @@ import { Animated, Text } from "react-native"
 
 import { useRouter } from "expo-router"
 
-import { Container } from "@/components/global/atoms"
+import { Container, Content } from "@/components/global/atoms"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -76,26 +76,28 @@ function AppIndex() {
   })
 
   return (
-    <Container className="flex-1 items-center justify-center gap-4 bg-background pb-28">
-      <Animated.Image
-        source={require("../../public/images/monhealth-splash-image.png")}
-        style={{
-          width: 80,
-          height: 80,
-          opacity: fadeAnim,
-          transform: [{ scale: scaleAnim }, { rotate }]
-        }}
-      />
+    <Container>
+      <Content className="flex items-center justify-center gap-4 pb-28">
+        <Animated.Image
+          source={require("../../public/images/monhealth-splash-image.png")}
+          style={{
+            width: 80,
+            height: 80,
+            opacity: fadeAnim,
+            transform: [{ scale: scaleAnim }, { rotate }]
+          }}
+        />
 
-      <Animated.Text
-        style={{
-          opacity: textFadeAnim,
-          transform: [{ translateY: textTranslateAnim }]
-        }}
-        className="font-dbold text-5xl text-primary"
-      >
-        Mon<Text className="font-dbold text-yellow-500">Health</Text>
-      </Animated.Text>
+        <Animated.Text
+          style={{
+            opacity: textFadeAnim,
+            transform: [{ translateY: textTranslateAnim }]
+          }}
+          className="font-dbold text-5xl text-primary"
+        >
+          Mon<Text className="font-dbold text-yellow-500">Health</Text>
+        </Animated.Text>
+      </Content>
     </Container>
   )
 }
