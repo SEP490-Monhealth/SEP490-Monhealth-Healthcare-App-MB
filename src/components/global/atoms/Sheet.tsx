@@ -56,22 +56,15 @@ export const Sheet = forwardRef<SheetRefProps, SheetProps>(
       })
       .onUpdate((event) => {
         translateY.value = Math.max(
-          event.translationY + context.value.y,
+          Math.min(event.translationY + context.value.y, 0),
           MAX_TRANSLATE_Y
         )
       })
       .onEnd((event) => {
-        const closeToMax = Math.abs(translateY.value - MAX_TRANSLATE_Y) < 100
-        const closeToMid = Math.abs(translateY.value + 300) < 100
-
-        if (closeToMax && event.translationY > 0) {
-          scrollTo(-300)
-        } else if (closeToMid && event.translationY > 0) {
+        if (event.translationY > 0) {
           scrollTo(0)
-        } else if (event.translationY < 0) {
-          scrollTo(MAX_TRANSLATE_Y)
         } else {
-          scrollTo(0)
+          scrollTo(MAX_TRANSLATE_Y)
         }
       })
 
@@ -93,7 +86,7 @@ export const Sheet = forwardRef<SheetRefProps, SheetProps>(
       const borderRadius = interpolate(
         translateY.value,
         [MAX_TRANSLATE_Y + 70, MAX_TRANSLATE_Y],
-        [25, 5],
+        [0, 25],
         "clamp"
       )
 

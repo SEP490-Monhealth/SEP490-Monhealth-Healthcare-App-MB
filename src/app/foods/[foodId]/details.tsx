@@ -39,11 +39,10 @@ import { useGetPortionByFoodId } from "@/hooks/usePortion"
 
 import { parsePortion } from "@/utils/helpers"
 
-const { height: SCREEN_HEIGHT } = Dimensions.get("window")
-
 function FoodDetailsScreen() {
   const router = useRouter()
-  const SheetRef = useRef<SheetRefProps>(null)
+  const MealSheetRef = useRef<SheetRefProps>(null)
+  const PortionSheetRef = useRef<SheetRefProps>(null)
 
   const { foodId } = useLocalSearchParams() as { foodId: string }
 
@@ -56,9 +55,7 @@ function FoodDetailsScreen() {
   const [selectedMeal, setSelectedMeal] = useState(meals[0])
   const [selectedPortion, setSelectedPortion] = useState("g")
   const [quantity, setQuantity] = useState("100")
-  const [sheetData, setSheetData] = useState<string[]>(meals)
-  const [isMealSelection, setIsMealSelection] = useState(true)
-  const [sheetHeight, setSheetHeight] = useState(320)
+  const [portionSheetHeight, setPortionSheetHeight] = useState(300)
 
   const { data: foodData, isLoading: isFoodLoading } = useGetFoodById(foodId)
   const { data: nutritionData, isLoading: isNutritionLoading } =
@@ -74,36 +71,36 @@ function FoodDetailsScreen() {
   ]
 
   useEffect(() => {
-    const minHeight = 160
-    const maxHeight = SCREEN_HEIGHT * 0.8
-
-    let itemHeight = 100
-    if (formattedPortionData.length === 3) {
-      itemHeight = 80
-    } else if (
-      formattedPortionData.length >= 4 &&
-      formattedPortionData.length <= 5
-    ) {
-      itemHeight = 60
-    } else if (formattedPortionData.length > 5) {
-      itemHeight = 50
+    if (formattedPortionData.length <= 1) {
+      setPortionSheetHeight(140)
+    } else if (formattedPortionData.length === 2) {
+      setPortionSheetHeight(180)
+    } else if (formattedPortionData.length === 3) {
+      setPortionSheetHeight(220)
+    } else if (formattedPortionData.length === 4) {
+      setPortionSheetHeight(260)
+    } else if (formattedPortionData.length === 5) {
+      setPortionSheetHeight(300)
+    } else {
+      setPortionSheetHeight(400)
     }
-
-    const calculatedHeight = Math.min(
-      Math.max(itemHeight * formattedPortionData.length, minHeight),
-      maxHeight
-    )
-
-    setSheetHeight(calculatedHeight)
   }, [formattedPortionData])
 
-  const openSheet = (isMeal: boolean) => {
-    setSheetData(isMeal ? meals : formattedPortionData || [])
-    setIsMealSelection(isMeal)
-    SheetRef.current?.scrollTo(isMeal ? -300 : -sheetHeight)
+  const openMealSheet = () => {
+    MealSheetRef.current?.scrollTo(-260)
   }
 
-  const closeSheet = () => SheetRef.current?.scrollTo(0)
+  const closeMealSheet = () => {
+    MealSheetRef.current?.scrollTo(0)
+  }
+
+  const openPortionSheet = () => {
+    PortionSheetRef.current?.scrollTo(-portionSheetHeight)
+  }
+
+  const closePortionSheet = () => {
+    PortionSheetRef.current?.scrollTo(0)
+  }
 
   const handleCreatePortion = () => router.push("/foods/portions/create")
 
@@ -175,7 +172,7 @@ function FoodDetailsScreen() {
                     <Select
                       defaultValue="Chọn bữa ăn"
                       value={selectedMeal}
-                      onPress={() => openSheet(true)}
+                      onPress={openMealSheet}
                     />
 
                     <HStack center gap={8}>
@@ -192,7 +189,7 @@ function FoodDetailsScreen() {
                         <Select
                           defaultValue="Chọn khẩu phần ăn"
                           value={selectedPortion}
-                          onPress={() => openSheet(false)}
+                          onPress={openPortionSheet}
                         />
                       </View>
                     </HStack>
@@ -222,24 +219,30 @@ function FoodDetailsScreen() {
           </Content>
         </Container>
 
-        <Sheet ref={SheetRef} dynamicHeight={sheetHeight}>
-          {sheetData.map((item) => (
+        <Sheet ref={MealSheetRef} dynamicHeight={260}>
+          {meals.map((item) => (
             <SheetItem
               key={item}
               item={item}
-              isSelected={
-                isMealSelection
-                  ? selectedMeal === item
-                  : selectedPortion === item
-              }
+              isSelected={selectedMeal === item}
               onSelect={(selectedItem) => {
-                if (isMealSelection) {
-                  setSelectedMeal(selectedItem)
-                } else {
-                  setSelectedPortion(selectedItem)
-                  setQuantity(selectedItem === "g" ? "100" : "1")
-                }
-                closeSheet()
+                setSelectedMeal(selectedItem)
+                closeMealSheet()
+              }}
+            />
+          ))}
+        </Sheet>
+
+        <Sheet ref={PortionSheetRef} dynamicHeight={portionSheetHeight}>
+          {formattedPortionData.map((item) => (
+            <SheetItem
+              key={item}
+              item={item}
+              isSelected={selectedPortion === item}
+              onSelect={(selectedItem) => {
+                setSelectedPortion(selectedItem)
+                setQuantity(selectedItem === "g" ? "100" : "1")
+                closePortionSheet()
               }}
             />
           ))}
