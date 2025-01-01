@@ -1,15 +1,10 @@
 import React, { useState } from "react"
 
-import { Animated, Image, Text, TextInput, View } from "react-native"
+import { Image, Text, TextInput, View } from "react-native"
 
-import { Button, Calories, Container, VStack } from "@/components/global/atoms"
-
-import { useAnimation } from "@/hooks/useAnimation"
+import { Button, Container, VStack } from "@/components/global/atoms"
 
 function SetupSummary() {
-  const { fadeAnim, scaleAnim, textFadeAnim, textTranslateAnim } =
-    useAnimation()
-
   const [caloriesInput, setCaloriesInput] = useState(2200)
   const [isEditing, setIsEditing] = useState(false)
 
@@ -25,13 +20,11 @@ function SetupSummary() {
     <Container>
       <View className="flex-1 justify-center">
         <VStack gap={40} center className="pb-36">
-          <Animated.Image
+          <Image
             source={require("../../../public/images/monhealth-fire-image.png")}
             style={{
               width: 240,
-              height: 240,
-              opacity: fadeAnim,
-              transform: [{ scale: scaleAnim }]
+              height: 240
             }}
           />
 
@@ -48,8 +41,6 @@ function SetupSummary() {
               </View>
             ) : (
               <>
-                <Calories caloriesInput={caloriesInput} />
-
                 <View className="flex-row items-end">
                   <Text className="font-tbold text-6xl text-primary">
                     {caloriesInput}

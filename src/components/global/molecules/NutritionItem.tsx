@@ -25,7 +25,7 @@ export const NutritionItem = ({
       </Text>
     </HStack>
 
-    {children && <View className="ml-1">{children}</View>}
+    {children && <View className="ml-1 mt-1">{children}</View>}
   </View>
 )
 

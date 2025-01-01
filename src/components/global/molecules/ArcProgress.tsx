@@ -27,7 +27,7 @@ const CenterCircle = ({
   label
 }: CenterCircleProps) => {
   const sizes = {
-    sm: { title: "text-lg", description: "text-sm" },
+    sm: { title: "text-base", description: "text-sm" },
     md: { title: "text-2xl", description: "text-base" }
   }
 
