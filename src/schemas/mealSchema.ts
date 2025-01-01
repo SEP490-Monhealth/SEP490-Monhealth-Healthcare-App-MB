@@ -3,9 +3,8 @@ import { z } from "zod"
 import { nutritionFoodSchema, nutritionSchema } from "./nutritionSchema"
 import { portionSchema } from "./portionSchema"
 
-export const mealFoodSchema = z.object({
+const mealFoodSchema = z.object({
   mealFoodId: z.string(),
-  // mealId: z.string(),
   foodId: z.string(),
   name: z
     .string()
@@ -15,17 +14,39 @@ export const mealFoodSchema = z.object({
       message: "Tên món ăn chỉ được chứa chữ cái, số và khoảng trắng"
     }),
 
-  quantity: z.number().min(0, { message: "Số lượng phải là một số không âm" }),
+  quantity: z.number().min(1, { message: "Số lượng phải lớn hơn hoặc bằng 1" }),
 
   portion: portionSchema,
 
-  nutrition: nutritionFoodSchema
+  nutrition: nutritionFoodSchema,
+
+  createdAt: z.string(),
+  updatedAt: z.string(),
+  createdBy: z.string(),
+  updatedBy: z.string()
 })
 
-export const mealSchema = z.object({
+const createMealFoodSchema = z.object({
+  foodId: z.string(),
+
+  quantity: z.number().min(1, { message: "Số lượng phải lớn hơn hoặc bằng 1" }),
+
+  size: z
+    .string()
+    .nonempty({ message: "Kích thước phần ăn không được để trống" }),
+  weight: z
+    .number()
+    .min(1, { message: "Khối lượng phần ăn phải lớn hơn hoặc bằng 1 gram" })
+    .max(10000, {
+      message: "Khối lượng phần ăn không được vượt quá 10,000 gram"
+    }),
+  unit: z.string().nonempty({ message: "Đơn vị đo lường không được để trống" })
+})
+
+const mealSchema = z.object({
   mealId: z.string(),
-  // dailyMealId: z.string(),
   userId: z.string(),
+
   type: z
     .string()
     .refine((val) => ["Breakfast", "Lunch", "Dinner", "Snack"].includes(val), {
@@ -35,12 +56,26 @@ export const mealSchema = z.object({
 
   nutrition: nutritionSchema,
 
-  mealFoods: z.array(mealFoodSchema),
-
   createdAt: z.string(),
   updatedAt: z.string(),
   createdBy: z.string(),
   updatedBy: z.string()
 })
 
+export const createMealSchema = z.object({
+  userId: z.string(),
+
+  type: z
+    .string()
+    .refine((val) => ["Breakfast", "Lunch", "Dinner", "Snack"].includes(val), {
+      message:
+        "Bữa ăn phải là một trong các giá trị: Breakfast, Lunch, Dinner, Snack"
+    }),
+
+  items: z.array(mealFoodSchema)
+})
+
+export type MealFoodType = z.infer<typeof mealFoodSchema>
+export type CreateMealFoodType = z.infer<typeof createMealFoodSchema>
 export type MealType = z.infer<typeof mealSchema>
+export type CreateMealType = z.infer<typeof createMealSchema>
