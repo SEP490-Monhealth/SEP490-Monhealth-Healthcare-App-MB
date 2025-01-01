@@ -13,6 +13,7 @@ import { IconButton } from "./IconButton"
 
 interface WaterCardProps {
   waterIntakeId: string
+  variant?: "switch" | "more"
   time: string
   amount: number
   status: boolean

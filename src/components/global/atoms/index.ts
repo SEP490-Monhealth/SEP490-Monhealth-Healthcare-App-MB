@@ -8,7 +8,7 @@ import { Chip } from "./Chip"
 import { Container } from "./Container"
 import { Content } from "./Content"
 import { Input } from "./Input"
-import { OtpInput } from "./OtpInput"
+import { OTPInput } from "./OTP"
 import { Progress } from "./Progress"
 import { Schedule } from "./Schedule"
 import { ScrollArea } from "./ScrollArea"
@@ -32,7 +32,7 @@ export {
   Container,
   Content,
   Input,
-  OtpInput,
+  OTPInput,
   Progress,
   Schedule,
   ScrollArea,

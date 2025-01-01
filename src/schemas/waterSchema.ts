@@ -5,8 +5,11 @@ const baseWaterSchema = z.object({
   userId: z.string(),
 
   amount: z.number().min(1, { message: "Lượng nước phải lớn hơn hoặc bằng 1" }),
+
   time: z.string().nonempty({ message: "Thời gian không được để trống" }),
+
   status: z.boolean(),
+
   createdAt: z.string(),
   updatedAt: z.string(),
   createdBy: z.string(),
