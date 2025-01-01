@@ -201,7 +201,7 @@ function SetupScreen() {
   const StepComponent = currentStepData.component
 
   return (
-    <Container>
+    <Container dismissKeyboard>
       <CustomHeader
         content={
           <Progress
@@ -214,18 +214,12 @@ function SetupScreen() {
       />
 
       <Content className="mt-2">
-        <VStack gap={20}>
-          <StepHeader
-            title={currentStepData.title}
-            description={currentStepData.description}
-          />
+        <StepHeader
+          title={currentStepData.title}
+          description={currentStepData.description}
+        />
 
-          <StepComponent
-            control={control}
-            errors={errors}
-            setValue={setValue}
-          />
-        </VStack>
+        <StepComponent control={control} errors={errors} setValue={setValue} />
       </Content>
 
       <Button

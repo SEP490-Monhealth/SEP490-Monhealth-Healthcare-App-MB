@@ -178,11 +178,11 @@ function FoodsScreen() {
               <VStack center gap={20} className="mt-8">
                 <Image
                   source={require("../../../public/images/monhealth-no-data-image.png")}
+                  className="items-center"
                   style={{
                     width: 320,
                     height: 320
                   }}
-                  className="items-center"
                 />
 
                 <VStack>

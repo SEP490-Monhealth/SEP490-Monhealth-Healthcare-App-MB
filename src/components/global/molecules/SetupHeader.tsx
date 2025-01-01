@@ -11,7 +11,7 @@ interface StepHeaderProps {
 
 export const StepHeader = ({ title, description }: StepHeaderProps) => {
   return (
-    <VStack>
+    <VStack className="mb-6">
       <Text className="font-tbold text-2xl text-primary">{title}</Text>
       <Text className="font-tregular text-lg text-accent">{description}</Text>
     </VStack>

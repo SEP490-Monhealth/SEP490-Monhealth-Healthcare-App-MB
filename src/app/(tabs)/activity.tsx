@@ -15,10 +15,6 @@ function ActivityScreen() {
     router.push("/(onboarding)")
   }
 
-  const handleViewForgotPassword = () => {
-    router.push("/(onboarding)/otp-confirm")
-  }
-
   const handleViewCompletedSetup = () => {
     router.push("/(setup)/completed")
   }
@@ -37,10 +33,6 @@ function ActivityScreen() {
 
           <Button size="lg" onPress={handleViewIntroSetup}>
             Onboarding
-          </Button>
-
-          <Button size="lg" onPress={handleViewForgotPassword}>
-            Forgot Password
           </Button>
 
           <Button size="lg" onPress={handleViewCompletedSetup}>

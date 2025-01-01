@@ -1,10 +1,12 @@
 import React, { useState } from "react"
 
-import { Image } from "react-native"
+import { Image, KeyboardAvoidingView, Platform } from "react-native"
+import { ScrollView } from "react-native"
 
 import LoadingScreen from "@/app/loading"
+import { View } from "lucide-react-native"
 
-import { Chip, Container, ScrollArea } from "@/components/global/atoms"
+import { Chip, Content, ScrollArea, VStack } from "@/components/global/atoms"
 
 import { useGetAllCategories } from "@/hooks/useCategory"
 
@@ -31,8 +33,8 @@ function SetupCategories() {
   if (!categoriesData || isLoading) return <LoadingScreen />
 
   return (
-    <Container>
-      <ScrollArea>
+    <ScrollArea>
+      <VStack className="pb-32">
         {categories.map((category, index) => (
           <Chip
             key={category.name}
@@ -41,16 +43,16 @@ function SetupCategories() {
             icon={
               <Image
                 source={category.image ? { uri: category.image } : undefined}
-                style={{ width: 36, height: 36, marginRight: 12 }}
+                className="mr-3 h-11 w-11"
               />
             }
             selected={selectedCategories.includes(category.name)}
             onPress={() => handleSelectCategory(category.name)}
-            className={index === categories.length - 1 ? "" : "mb-4"}
+            className={index === categories.length - 1 ? "" : "mb-3"}
           />
         ))}
-      </ScrollArea>
-    </Container>
+      </VStack>
+    </ScrollArea>
   )
 }
 
