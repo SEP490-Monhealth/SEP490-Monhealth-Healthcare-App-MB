@@ -15,7 +15,7 @@ import {
   Progress,
   VStack
 } from "@/components/global/atoms"
-import { CustomHeader } from "@/components/global/molecules"
+import { CustomHeader, StepHeader } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/app"
 
@@ -213,16 +213,12 @@ function SetupScreen() {
         onBackPress={handleBack}
       />
 
-      <Content className="mt-2 flex-1">
-        <VStack gap={20} className="h-full">
-          <VStack>
-            <Text className="font-tbold text-2xl text-primary">
-              {currentStepData.title}
-            </Text>
-            <Text className="font-tmedium text-lg text-accent">
-              {currentStepData.description}
-            </Text>
-          </VStack>
+      <Content className="mt-2">
+        <VStack gap={20}>
+          <StepHeader
+            title={currentStepData.title}
+            description={currentStepData.description}
+          />
 
           <StepComponent
             control={control}

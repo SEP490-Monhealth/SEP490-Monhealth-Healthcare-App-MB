@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { Text, View } from "react-native"
+import { Text, TouchableOpacity, View } from "react-native"
 
 import { Link, useRouter } from "expo-router"
 
@@ -16,7 +16,13 @@ import {
 } from "iconsax-react-native"
 import { Controller, useForm } from "react-hook-form"
 
-import { Button, Container, Input, VStack } from "@/components/global/atoms"
+import {
+  Button,
+  Container,
+  Content,
+  Input,
+  VStack
+} from "@/components/global/atoms"
 import { IconButton } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/app"
@@ -50,6 +56,10 @@ function SignUpScreen() {
     router.push("/(onboarding)/welcome")
   }
 
+  const handleSignIn = () => {
+    router.replace("/(auth)/sign-in")
+  }
+
   const onSubmit = async (data: RegisterType) => {
     setIsLoading(true)
     // console.log(data)
@@ -60,116 +70,128 @@ function SignUpScreen() {
   }
 
   return (
-    <Container className="gap-16">
-      <IconButton
-        icon={<ArrowLeft size={24} color={COLORS.primary} />}
-        onPress={handleBack}
-      />
-
-      <View>
-        <Text className="mb-2 font-tbold text-4xl text-primary">Đăng Ký</Text>
-        <Text className="font-tregular text-xl text-secondary">
-          Đăng ký để theo dõi sức khỏe và dinh dưỡng hàng ngày
-        </Text>
-
-        <VStack gap={12} className="mt-8">
-          <Controller
-            name="fullName"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                value={value}
-                placeholder="Nhập họ và tên"
-                onChangeText={onChange}
-                keyboardType="default"
-                startIcon={
-                  <Profile variant="Bold" size={20} color={COLORS.primary} />
-                }
-                canClearText
-                errorMessage={errors.fullName?.message}
-              />
-            )}
+    <Container>
+      <Content>
+        <VStack gap={64}>
+          <IconButton
+            icon={<ArrowLeft size={24} color={COLORS.primary} />}
+            onPress={handleBack}
           />
 
-          <Controller
-            name="phoneNumber"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                value={value}
-                placeholder="Nhập số điện thoại"
-                onChangeText={onChange}
-                keyboardType="phone-pad"
-                startIcon={
-                  <Call variant="Bold" size={20} color={COLORS.primary} />
-                }
-                canClearText
-                errorMessage={errors.phoneNumber?.message}
-              />
-            )}
-          />
+          <View>
+            <Text className="mb-2 font-tbold text-4xl text-primary">
+              Đăng Ký
+            </Text>
+            <Text className="font-tregular text-xl text-accent">
+              Đăng ký để theo dõi sức khỏe và dinh dưỡng hàng ngày
+            </Text>
 
-          <Controller
-            name="email"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                value={value}
-                placeholder="Nhập địa chỉ email"
-                onChangeText={onChange}
-                keyboardType="email-address"
-                startIcon={
-                  <Sms variant="Bold" size={20} color={COLORS.primary} />
-                }
-                canClearText
-                errorMessage={errors.email?.message}
+            <VStack gap={12} className="mt-8">
+              <Controller
+                name="fullName"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    value={value}
+                    placeholder="Nhập họ và tên"
+                    onChangeText={onChange}
+                    keyboardType="default"
+                    startIcon={
+                      <Profile
+                        variant="Bold"
+                        size={20}
+                        color={COLORS.primary}
+                      />
+                    }
+                    canClearText
+                    errorMessage={errors.fullName?.message}
+                  />
+                )}
               />
-            )}
-          />
 
-          <Controller
-            name="password"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                value={value}
-                placeholder="Nhập mật khẩu"
-                onChangeText={onChange}
-                isSecure={!showPassword}
-                onToggleSecure={() => setShowPassword(!showPassword)}
-                startIcon={
-                  <Lock1 variant="Bold" size={20} color={COLORS.primary} />
-                }
-                endIcon={
-                  showPassword ? (
-                    <Eye variant="Bold" size={20} color={COLORS.primary} />
-                  ) : (
-                    <EyeSlash variant="Bold" size={20} color="#cbd5e1" />
-                  )
-                }
-                alwaysShowEndIcon
-                canClearText
-                errorMessage={errors.password?.message}
+              <Controller
+                name="phoneNumber"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    value={value}
+                    placeholder="Nhập số điện thoại"
+                    onChangeText={onChange}
+                    keyboardType="phone-pad"
+                    startIcon={
+                      <Call variant="Bold" size={20} color={COLORS.primary} />
+                    }
+                    canClearText
+                    errorMessage={errors.phoneNumber?.message}
+                  />
+                )}
               />
-            )}
-          />
+
+              <Controller
+                name="email"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    value={value}
+                    placeholder="Nhập địa chỉ email"
+                    onChangeText={onChange}
+                    keyboardType="email-address"
+                    startIcon={
+                      <Sms variant="Bold" size={20} color={COLORS.primary} />
+                    }
+                    canClearText
+                    errorMessage={errors.email?.message}
+                  />
+                )}
+              />
+
+              <Controller
+                name="password"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    value={value}
+                    placeholder="Nhập mật khẩu"
+                    onChangeText={onChange}
+                    isSecure={!showPassword}
+                    onToggleSecure={() => setShowPassword(!showPassword)}
+                    startIcon={
+                      <Lock1 variant="Bold" size={20} color={COLORS.primary} />
+                    }
+                    endIcon={
+                      showPassword ? (
+                        <Eye variant="Bold" size={20} color={COLORS.primary} />
+                      ) : (
+                        <EyeSlash variant="Bold" size={20} color="#cbd5e1" />
+                      )
+                    }
+                    alwaysShowEndIcon
+                    canClearText
+                    errorMessage={errors.password?.message}
+                  />
+                )}
+              />
+            </VStack>
+
+            <Button
+              loading={isLoading}
+              onPress={handleSubmit(onSubmit)}
+              className="mt-8"
+            >
+              {!isLoading && "Đăng ký"}
+            </Button>
+
+            <Text className="mt-4 text-center font-tregular text-secondary">
+              Đã có tài khoản?{" "}
+              <TouchableOpacity activeOpacity={1} onPress={handleSignIn}>
+                <Text className="-mb-1 font-tmedium text-primary">
+                  Đăng nhập
+                </Text>
+              </TouchableOpacity>
+            </Text>
+          </View>
         </VStack>
-
-        <Button
-          loading={isLoading}
-          onPress={handleSubmit(onSubmit)}
-          className="mt-8"
-        >
-          {!isLoading && "Đăng ký"}
-        </Button>
-
-        <Text className="mt-4 text-center font-tregular">
-          Đã có tài khoản?{" "}
-          <Link href="/(auth)/sign-in" className="font-tmedium text-primary">
-            Đăng nhập
-          </Link>
-        </Text>
-      </View>
+      </Content>
     </Container>
   )
 }

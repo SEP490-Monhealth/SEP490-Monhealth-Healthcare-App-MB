@@ -81,7 +81,7 @@ export const TabsTrigger: React.FC<TabsTriggerProps> = ({
     >
       <Text
         className={`text-base ${
-          isSelected ? "font-tbold text-primary" : "font-tmedium text-secondary"
+          isSelected ? "font-tbold text-primary" : "font-tmedium text-accent"
         }`}
       >
         {children}

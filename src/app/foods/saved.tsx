@@ -49,7 +49,7 @@ function FoodSavedScreen() {
   }
 
   return (
-    <Container className="flex-1">
+    <Container>
       <Header
         back
         label="Món ăn đã lưu"
@@ -58,7 +58,7 @@ function FoodSavedScreen() {
         }}
       />
 
-      <Content className="mt-2 flex-1 items-center justify-center">
+      <Content className="mt-2 items-center justify-center">
         {saveFoodsData.length > 0 ? (
           <FlatList
             data={saveFoodsData || []}
@@ -112,7 +112,7 @@ function FoodSavedScreen() {
                   opacity: textFadeAnim,
                   transform: [{ translateY: textTranslateAnim }]
                 }}
-                className="text-center font-tmedium text-lg text-secondary"
+                className="text-center font-tmedium text-lg text-accent"
               >
                 Bạn chưa lưu món ăn nào trong danh sách
               </Animated.Text>

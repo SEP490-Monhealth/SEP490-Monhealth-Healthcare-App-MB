@@ -41,8 +41,8 @@ function OnboardingScreen() {
   }
 
   return (
-    <Container className="flex-1 justify-between">
-      <VStack gap={32} center className="pt-20">
+    <Container>
+      <VStack gap={32} center className="mt-20">
         <Image
           source={onboardingData[currentIndex].image}
           className="object-cover"

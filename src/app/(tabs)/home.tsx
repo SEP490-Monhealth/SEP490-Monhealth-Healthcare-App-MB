@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { SafeAreaView, Text, View } from "react-native"
+import { Text, View } from "react-native"
 
 import {
   Container,

@@ -62,11 +62,11 @@ function PortionCreateScreen() {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView className="h-full flex-1 bg-background">
-        <View className="px-6">
+        <View className="flex-1 px-6">
           <Header back label="Thêm khẩu phần" />
 
-          <Content>
-            <VStack gap={20} className="mt-2">
+          <Content className="mt-2">
+            <VStack gap={32}>
               <VStack gap={8}>
                 <Controller
                   name="size"

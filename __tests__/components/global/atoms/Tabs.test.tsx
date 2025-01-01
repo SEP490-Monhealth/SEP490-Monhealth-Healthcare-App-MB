@@ -93,7 +93,7 @@ describe("Tabs Component Suite", () => {
 
     // Verify styles for selected and unselected states
     expect(tab1Trigger).toHaveClass("font-tbold text-primary")
-    expect(tab2Trigger).toHaveClass("font-tmedium text-secondary")
+    expect(tab2Trigger).toHaveClass("font-tmedium text-accent")
   })
 
   it("renders TabsContent only when selected", () => {

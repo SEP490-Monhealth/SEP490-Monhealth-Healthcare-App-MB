@@ -8,6 +8,7 @@ import { ListHeader } from "./ListHeader"
 import { MealCard } from "./MealCard"
 import { NutritionCard } from "./NutritionCard"
 import { NutritionItem } from "./NutritionItem"
+import { StepHeader } from "./SetupHeader"
 import { WaterCard } from "./WaterCard"
 
 export {
@@ -21,5 +22,6 @@ export {
   MealCard,
   NutritionCard,
   NutritionItem,
+  StepHeader,
   WaterCard
 }

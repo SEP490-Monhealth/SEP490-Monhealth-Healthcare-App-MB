@@ -189,7 +189,7 @@ function FoodsScreen() {
                   <Text className="text-center font-tbold text-3xl text-primary">
                     Không có món ăn nào được tìm thấy
                   </Text>
-                  <Text className="text-center font-tmedium text-lg text-secondary">
+                  <Text className="text-center font-tmedium text-lg text-accent">
                     Vui lòng thử tìm kiếm lại hoặc thay đổi danh mục để hiển thị
                     kết quả
                   </Text>

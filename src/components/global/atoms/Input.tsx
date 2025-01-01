@@ -114,7 +114,7 @@ export const Input: React.FC<InputProps> = ({
           editable={!disabled}
           className={`flex-1 py-2 font-tregular ${
             hasError ? "text-destructive" : "text-primary"
-          } ${disabled ? "text-secondary" : ""}`}
+          } ${disabled ? "text-accent" : ""}`}
           style={{
             height: isMultiline ? numberOfLines * 20 : undefined
           }}

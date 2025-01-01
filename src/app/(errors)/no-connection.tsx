@@ -31,9 +31,9 @@ function NoConnectionScreen() {
   }
 
   return (
-    <Container className="flex-1 justify-center pb-40">
-      <VStack center gap={20}>
-        <View className="w-full items-center">
+    <Container>
+      <View className="flex-1 justify-center">
+        <VStack center gap={32}>
           <Animated.Image
             source={require("../../../public/images/monhealth-no-connection-image.png")}
             style={{
@@ -43,36 +43,36 @@ function NoConnectionScreen() {
               transform: [{ scale: scaleAnim }]
             }}
           />
-        </View>
 
-        <VStack>
-          <Animated.Text
-            style={{
-              opacity: textFadeAnim,
-              transform: [{ translateY: textTranslateAnim }]
-            }}
-            className="text-center font-tbold text-3xl text-primary"
-          >
-            Không có kết nối mạng
-          </Animated.Text>
+          <VStack>
+            <Animated.Text
+              className="text-center font-tbold text-3xl text-primary"
+              style={{
+                opacity: textFadeAnim,
+                transform: [{ translateY: textTranslateAnim }]
+              }}
+            >
+              Không có kết nối mạng
+            </Animated.Text>
 
-          <Animated.Text
-            style={{
-              opacity: textFadeAnim,
-              transform: [{ translateY: textTranslateAnim }]
-            }}
-            className="text-center font-tmedium text-lg text-secondary"
-          >
-            Vui lòng kiểm tra kết nối internet của bạn và thử lại
-          </Animated.Text>
+            <Animated.Text
+              className="text-center font-tmedium text-lg text-accent"
+              style={{
+                opacity: textFadeAnim,
+                transform: [{ translateY: textTranslateAnim }]
+              }}
+            >
+              Vui lòng kiểm tra kết nối internet của bạn và thử lại
+            </Animated.Text>
+          </VStack>
         </VStack>
-      </VStack>
+      </View>
 
       <Button
         loading={isLoading}
         size="lg"
         onPress={handleRetry}
-        className="absolute bottom-4 left-6 right-6 w-full"
+        className="mb-4"
       >
         {isLoading ? "Đang kiểm tra..." : "Thử lại"}
       </Button>

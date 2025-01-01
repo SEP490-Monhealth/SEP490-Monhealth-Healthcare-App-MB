@@ -40,7 +40,7 @@ export const NutritionSubItem = ({
   value = 0,
   unit
 }: NutritionSubItemProps) => (
-  <HStack center className="justify-between py-1">
+  <HStack center className="justify-between py-1.5">
     <Text className="font-tregular text-sm text-secondary">{label}</Text>
     <Text className="font-tmedium text-base text-primary">
       {value} {unit}

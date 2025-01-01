@@ -24,7 +24,7 @@ function ActivityScreen() {
   }
 
   const handleViewGoalSetup = () => {
-    router.push("/(setup)/goal")
+    router.push("/(setup)/summary")
   }
 
   return (

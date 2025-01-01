@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { Switch, Text, View } from "react-native"
+import { Switch, Text } from "react-native"
 
 import { Container, Content, VStack } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
@@ -27,11 +27,9 @@ function RemindersScreen() {
           />
 
           {isEnabled && (
-            <View className="mt-2">
-              <Text className="text-sm text-secondary">
-                Thông báo đã được bật, bạn sẽ nhận các nhắc nhở hàng ngày.
-              </Text>
-            </View>
+            <Text className="mt-2 text-base text-accent">
+              Thông báo đã được bật, bạn sẽ nhận các nhắc nhở hàng ngày.
+            </Text>
           )}
         </VStack>
       </Content>
