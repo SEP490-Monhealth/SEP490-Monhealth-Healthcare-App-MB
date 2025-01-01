@@ -39,8 +39,6 @@ import { useGetPortionByFoodId } from "@/hooks/usePortion"
 
 import { parsePortion } from "@/utils/helpers"
 
-const { height: SCREEN_HEIGHT } = Dimensions.get("window")
-
 function FoodDetailsScreen() {
   const router = useRouter()
   const MealSheetRef = useRef<SheetRefProps>(null)

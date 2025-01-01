@@ -82,7 +82,7 @@ function MealDetailsScreen() {
                 centerCircle
                 value={calorieValue}
                 maxValue={totalCalories}
-                label="Kcal"
+                label="kcal"
               />
 
               <NutritionSummary nutritionData={mealData.nutrition} />

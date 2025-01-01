@@ -11,7 +11,7 @@ interface OTPInputProps {
   onOTPChange?: (OTP: string) => void
 }
 
-export const OTPInput = ({ length = 4, onOTPChange }: OTPInputProps) => {
+export const OtpInput = ({ length = 4, onOTPChange }: OTPInputProps) => {
   const [Otp, setOtp] = useState<string[]>(Array(length).fill(""))
   const [timer, setTimer] = useState(60)
   const inputs = useRef<Array<TextInput | null>>([])

@@ -23,6 +23,10 @@ function ActivityScreen() {
     router.push("/(setup)/summary")
   }
 
+  const handleViewNotification = () => {
+    router.push("/(setup)/notification")
+  }
+
   return (
     <Container>
       <Content className="mt-2 pb-12">
@@ -41,6 +45,10 @@ function ActivityScreen() {
 
           <Button size="lg" onPress={handleViewGoalSetup}>
             Mục tiêu
+          </Button>
+
+          <Button size="lg" onPress={handleViewNotification}>
+            Lịch nhắc nhở
           </Button>
         </VStack>
       </Content>
