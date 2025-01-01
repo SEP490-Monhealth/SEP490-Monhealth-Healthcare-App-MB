@@ -1,63 +1,81 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import { Image, Text, TextInput, View } from "react-native"
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming
+} from "react-native-reanimated"
 
-import { Button, Container, VStack } from "@/components/global/atoms"
+import { Edit2 } from "iconsax-react-native"
+
+import { Button, Container, HStack, VStack } from "@/components/global/atoms"
 
 function SetupSummary() {
-  const [caloriesInput, setCaloriesInput] = useState(2200)
+  const [caloriesValue, setCaloriesValue] = useState(2200)
   const [isEditing, setIsEditing] = useState(false)
+
+  const fireScale = useSharedValue(1)
+
+  useEffect(() => {
+    fireScale.value = withRepeat(withTiming(1.1, { duration: 700 }), -1, true)
+  }, [])
+
+  const fireStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: fireScale.value }]
+  }))
 
   const handleSave = () => {
     setIsEditing(false)
   }
 
   const handleFinished = () => {
-    console.log(caloriesInput)
+    console.log(caloriesValue)
   }
 
   return (
-    <Container>
+    <Container dismissKeyboard>
       <View className="flex-1 justify-center">
-        <VStack gap={40} center className="pb-36">
-          <Image
-            source={require("../../../public/images/monhealth-fire-image.png")}
-            style={{
-              width: 240,
-              height: 240
-            }}
-          />
+        <VStack center gap={32}>
+          <Animated.View style={[fireStyle]}>
+            <Image
+              source={require("../../../public/images/monhealth-fire-image.png")}
+              style={{
+                width: 240,
+                height: 240
+              }}
+            />
+          </Animated.View>
 
           <VStack center>
             {isEditing ? (
-              <View className="pb-16">
-                <TextInput
-                  className="h-16 w-48 border-b border-border text-center font-tbold text-5xl text-primary"
-                  keyboardType="numeric"
-                  maxLength={4}
-                  value={String(caloriesInput)}
-                  onChangeText={(text) => setCaloriesInput(Number(text) || 0)}
-                />
-              </View>
+              <TextInput
+                maxLength={4}
+                value={String(caloriesValue)}
+                placeholder="0"
+                onChangeText={(text) => setCaloriesValue(Number(text) || 0)}
+                keyboardType="numeric"
+                className="h-16 w-48 border-b border-border text-center font-tbold text-5xl text-primary"
+              />
             ) : (
-              <>
-                <View className="flex-row items-end">
+              <HStack center gap={12}>
+                <View className="flex-row items-end gap-2">
                   <Text className="font-tbold text-6xl text-primary">
-                    {caloriesInput}
+                    {caloriesValue}
                   </Text>
-                  <Text className="pb-3 font-tmedium text-base text-accent">
+                  <Text className="mb-3 font-tmedium text-xl text-accent">
                     kcal
                   </Text>
                 </View>
 
-                <Button
-                  variant="secondary"
-                  size="lg"
+                <Edit2
+                  variant="Bold"
+                  size={24}
+                  color="#EF4444"
                   onPress={() => setIsEditing(true)}
-                >
-                  Chỉnh sửa
-                </Button>
-              </>
+                />
+              </HStack>
             )}
           </VStack>
         </VStack>
@@ -65,8 +83,8 @@ function SetupSummary() {
 
       <Button
         size="lg"
-        className="mb-4"
         onPress={isEditing ? handleSave : handleFinished}
+        className="mb-4"
       >
         {isEditing ? "Cập nhật" : "Tiếp tục"}
       </Button>

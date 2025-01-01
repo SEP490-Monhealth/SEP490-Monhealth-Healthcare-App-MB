@@ -55,10 +55,10 @@ function SetupGoal({ control, errors }: SetupGoalProps) {
           <Chip
             key={goal.label}
             size="lg"
+            border
+            borderWidth={2}
             label={goal.label}
             description={goal.description}
-            border={true}
-            borderWidth={2}
             icon={
               <Icon
                 size={28}

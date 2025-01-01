@@ -1,12 +1,10 @@
 import React, { useState } from "react"
 
-import { Image, KeyboardAvoidingView, Platform } from "react-native"
-import { ScrollView } from "react-native"
+import { Image, Text, TouchableOpacity, View } from "react-native"
 
 import LoadingScreen from "@/app/loading"
-import { View } from "lucide-react-native"
 
-import { Chip, Content, ScrollArea, VStack } from "@/components/global/atoms"
+import { ScrollArea } from "@/components/global/atoms"
 
 import { useGetAllCategories } from "@/hooks/useCategory"
 
@@ -30,28 +28,44 @@ function SetupCategories() {
     )
   }
 
+  console.log("Selected Categories:", selectedCategories)
+
   if (!categoriesData || isLoading) return <LoadingScreen />
 
   return (
     <ScrollArea>
-      <VStack className="pb-32">
-        {categories.map((category, index) => (
-          <Chip
+      <View
+        className="flex-row flex-wrap"
+        style={{ rowGap: 16, columnGap: 12 }}
+      >
+        {categories.map((category) => (
+          <TouchableOpacity
             key={category.name}
-            size="md"
-            label={category.name}
-            icon={
-              <Image
-                source={category.image ? { uri: category.image } : undefined}
-                className="mr-3 h-11 w-11"
-              />
-            }
-            selected={selectedCategories.includes(category.name)}
+            activeOpacity={0.7}
             onPress={() => handleSelectCategory(category.name)}
-            className={index === categories.length - 1 ? "" : "mb-3"}
-          />
+            className={`flex-row items-center rounded-2xl border-2 bg-muted px-4 py-2.5 ${
+              selectedCategories.includes(category.name)
+                ? "border-primary"
+                : "border-border"
+            }`}
+          >
+            <Image
+              source={category.image ? { uri: category.image } : undefined}
+              className="mr-3 h-8 w-8"
+            />
+
+            <Text
+              className={`font-tmedium text-base ${
+                selectedCategories.includes(category.name)
+                  ? "text-primary"
+                  : "text-black"
+              }`}
+            >
+              {category.name}
+            </Text>
+          </TouchableOpacity>
         ))}
-      </VStack>
+      </View>
     </ScrollArea>
   )
 }

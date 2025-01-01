@@ -1,20 +1,12 @@
 import React, { useState } from "react"
 
-import { Text } from "react-native"
-
 import { useRouter } from "expo-router"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { set } from "lodash"
 import { useForm } from "react-hook-form"
 
-import {
-  Button,
-  Container,
-  Content,
-  Progress,
-  VStack
-} from "@/components/global/atoms"
+import { Button, Container, Content, Progress } from "@/components/global/atoms"
 import { CustomHeader, StepHeader } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/app"

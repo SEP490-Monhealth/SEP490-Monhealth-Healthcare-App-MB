@@ -2,7 +2,7 @@ import React, { useState } from "react"
 
 import { Text, TouchableOpacity, View } from "react-native"
 
-import { Link, useRouter } from "expo-router"
+import { useRouter } from "expo-router"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
