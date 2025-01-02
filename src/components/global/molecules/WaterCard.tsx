@@ -68,8 +68,11 @@ export const WaterCard = ({
           <Switch
             value={status}
             onValueChange={handleToggle}
-            trackColor={{ false: COLORS.secondary, true: COLORS.accent }}
-            thumbColor={status ? COLORS.primary : COLORS.primary}
+            trackColor={{
+              false: "#F5F5F5",
+              true: "#E0F7FA"
+            }}
+            thumbColor={status ? "#B2EBF2" : "#E3F2FD"}
             style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
           />
         ) : (

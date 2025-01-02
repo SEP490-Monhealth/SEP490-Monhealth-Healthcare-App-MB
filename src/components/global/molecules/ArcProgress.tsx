@@ -46,9 +46,9 @@ const CenterCircle = ({
       }}
     >
       <Text className={cn("font-tbold text-primary", sizeClass.title)}>
-        {valueType === "percentage" ? `${value}%` : toFixed(Number(value), 1)}
+        {valueType === "percentage" ? `${value}%` : toFixed(Number(value), 0)}
         {valueType === "number" && maxValue
-          ? ` / ${toFixed(Number(maxValue), 1)}`
+          ? ` / ${toFixed(Number(maxValue), 0)}`
           : ""}
       </Text>
 

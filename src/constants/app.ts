@@ -10,6 +10,7 @@ export const COLORS = {
   accent: "#94a3b8",
 
   lemon: "#eab308",
+  water: "#3b82f6",
 
   BMI: {
     low: "#22c55e",

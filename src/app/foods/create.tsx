@@ -34,6 +34,7 @@ function FoodCreateScreen() {
   const router = useRouter()
 
   const { user } = useAuth()
+  const userId = user?.userId
 
   const { type, name, description, portion, nutrition, updateField } =
     useFoodStore()
@@ -41,7 +42,7 @@ function FoodCreateScreen() {
   const [currentStep, setCurrentStep] = useState(1)
 
   const formData: Record<string, any> = {
-    userId: user?.userId,
+    userId,
     type,
     name,
     description,

@@ -22,7 +22,17 @@ function RemindersScreen() {
         <VStack className="mt-2">
           <ListItem
             label="Bật thông báo"
-            endIcon={<Switch value={isEnabled} onValueChange={toggleSwitch} />}
+            endIcon={
+              <Switch
+                value={isEnabled}
+                onValueChange={toggleSwitch}
+                trackColor={{
+                  false: "#F5F5F5",
+                  true: "#E0F7FA"
+                }}
+                thumbColor={isEnabled ? "#B2EBF2" : "#E3F2FD"}
+              />
+            }
             more={false}
           />
 

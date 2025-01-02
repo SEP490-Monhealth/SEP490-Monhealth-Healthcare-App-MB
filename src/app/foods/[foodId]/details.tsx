@@ -157,12 +157,9 @@ function FoodDetailsScreen() {
             onActionPress={handleToggleSaveFood}
           />
 
-          <Content>
+          <Content className="mt-2">
             <ScrollArea className="flex-1">
-              <View
-                onStartShouldSetResponder={() => true}
-                className="mt-2 flex-1 pb-12"
-              >
+              <View onStartShouldSetResponder={() => true} className="pb-12">
                 <VStack>
                   <Section
                     label="Khẩu phần ăn"

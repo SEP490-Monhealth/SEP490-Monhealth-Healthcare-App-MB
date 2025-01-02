@@ -12,7 +12,7 @@ import { Header } from "@/components/global/organisms"
 import { COLORS } from "@/constants/app"
 import { sampleWaterData } from "@/constants/water"
 
-function UpdateNotificationScreen() {
+function ReminderScreen() {
   const waterData = sampleWaterData
 
   return (
@@ -22,7 +22,7 @@ function UpdateNotificationScreen() {
         label="Cập nhật"
         action={{
           icon: <Add variant="Outline" size={22} color={COLORS.primary} />,
-          url: "/add-notification"
+          url: "/reminders/create"
         }}
       />
 
@@ -48,4 +48,4 @@ function UpdateNotificationScreen() {
   )
 }
 
-export default UpdateNotificationScreen
+export default ReminderScreen

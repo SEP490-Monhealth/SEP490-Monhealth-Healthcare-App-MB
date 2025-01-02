@@ -21,6 +21,7 @@ import { useAuth } from "@/contexts/AuthContext"
 
 function HomeScreen() {
   const { user } = useAuth()
+  const userId = user?.userId
 
   const [activeTab, setActiveTab] = useState("meal")
 
@@ -28,7 +29,7 @@ function HomeScreen() {
     setActiveTab(tab)
   }
 
-  console.log(user?.userId)
+  console.log(userId)
 
   return (
     <Container>

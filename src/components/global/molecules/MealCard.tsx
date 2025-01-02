@@ -60,7 +60,7 @@ export const MealCard = ({
           )}
 
           <Text className="font-tmedium text-sm text-accent">
-            {toFixed(calories, 1)} kcal
+            {toFixed(calories, 0)} kcal
           </Text>
         </View>
       </HStack>

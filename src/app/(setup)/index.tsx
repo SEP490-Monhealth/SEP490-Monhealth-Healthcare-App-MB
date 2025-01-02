@@ -35,6 +35,7 @@ function SetupScreen() {
   const router = useRouter()
 
   const { user } = useAuth()
+  const userId = user?.userId
 
   const {
     dateOfBirth,
@@ -50,7 +51,7 @@ function SetupScreen() {
   const [currentStep, setCurrentStep] = useState(1)
 
   const formData: Record<string, any> = {
-    userId: user?.userId,
+    userId,
     dateOfBirth,
     gender,
     height,
@@ -171,14 +172,14 @@ function SetupScreen() {
 
       console.log(metricData)
 
-      // const finalData = {
-      //   ...useSetupStore.getState(),
-      //   userId: formData.userId
-      // }
+      const finalData = {
+        userId: formData.userId,
+        ...useSetupStore.getState()
+      }
 
-      // console.log("Final Form Data:", JSON.stringify(finalData, null, 2))
+      console.log("Final Form Data:", JSON.stringify(finalData, null, 2))
 
-      // router.replace("/(tabs)/home")
+      router.replace("/(setup)/summary")
     }
   }
 

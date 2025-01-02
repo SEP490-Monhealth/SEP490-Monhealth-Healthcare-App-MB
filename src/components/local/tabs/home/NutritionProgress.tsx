@@ -5,6 +5,7 @@ import { Image, Text, View } from "react-native"
 import { VStack } from "@/components/global/atoms"
 import { CircularProgress } from "@/components/global/molecules"
 
+import { toFixed } from "@/utils/formatters"
 import { getNutritionColor } from "@/utils/helpers"
 
 export interface NutritionProps {
@@ -50,11 +51,13 @@ export const NutritionProgress = ({
         />
 
         <Text className="-mb-2 font-tbold text-base text-primary">
-          {calorieData ? `${calorieData.value} / ${calorieData.targetValue}` : "0 / 0"}
+          {calorieData
+            ? `${toFixed(calorieData.value, 0)} / ${toFixed(calorieData.targetValue, 0)}`
+            : "0 / 0"}
         </Text>
 
         <Text className="font-tmedium text-sm text-accent">
-          {calorieData.label === "calorieData" && "Kcal"}
+          {calorieData.label === "Calories" && "Kcal"}
         </Text>
       </VStack>
     </View>

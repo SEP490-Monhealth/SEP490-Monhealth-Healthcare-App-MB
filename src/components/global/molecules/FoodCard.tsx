@@ -39,11 +39,10 @@ export const FoodCard = ({
   return (
     <Card onPress={onPress}>
       <HStack className="w-full items-center justify-between">
-        {/* <VStack gap={0} className="ml-1" onPress={onPress}> */}
         <VStack gap={0} className="ml-1">
           <Text className="font-tmedium text-lg text-primary">{name}</Text>
           <Text className="font-tmedium text-sm text-accent">
-            {toFixed(Number(calories), 1) ?? 0} kcal
+            {toFixed(Number(calories), 0) ?? 0} kcal
             {size ? ` • 1 ${size.toLowerCase()}` : " • 1 phần"}
             {weight && unit ? ` • ${weight} ${unit}` : ""}
           </Text>

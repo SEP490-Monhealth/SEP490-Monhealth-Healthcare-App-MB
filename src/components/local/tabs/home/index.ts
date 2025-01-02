@@ -4,7 +4,7 @@ import { MealTab } from "./MealTab"
 import { NutritionCard } from "./NutritionCard"
 import { NutritionProgress } from "./NutritionProgress"
 import { NutritionSummary } from "./NutritionSummary"
-import { WaterTab } from "./water"
+import { WaterTab } from "./WaterTab"
 
 export {
   ActivityTab,

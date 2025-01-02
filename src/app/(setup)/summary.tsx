@@ -8,11 +8,15 @@ import Animated, {
   withTiming
 } from "react-native-reanimated"
 
+import { useRouter } from "expo-router"
+
 import { Edit2 } from "iconsax-react-native"
 
 import { Button, Container, HStack, VStack } from "@/components/global/atoms"
 
 function SetupSummary() {
+  const router = useRouter()
+
   const [caloriesValue, setCaloriesValue] = useState(2200)
   const [isEditing, setIsEditing] = useState(false)
 
@@ -32,6 +36,8 @@ function SetupSummary() {
 
   const handleFinished = () => {
     console.log(caloriesValue)
+
+    router.push("/(setup)/completed")
   }
 
   return (

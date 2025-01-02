@@ -16,7 +16,7 @@ import { useAuth } from "@/contexts/AuthContext"
 import { useGetDailyMealByUserId } from "@/hooks/useDailyMeal"
 import { useRouterHandlers } from "@/hooks/useRouter"
 
-import { formatDateYYYYMMDD } from "@/utils/formatters"
+import { formatDateYYYYMMDD, toFixed } from "@/utils/formatters"
 
 import LoadingScreen from "../../../../app/loading"
 
@@ -26,7 +26,11 @@ export const MealTab = () => {
   const { user } = useAuth()
   const userId = user?.userId
 
+  console.log(userId)
+
   const today = formatDateYYYYMMDD(new Date())
+
+  // const dyca = "2025-01-03"
 
   const { data: dailyMealData, isLoading } = useGetDailyMealByUserId(
     userId,
@@ -88,7 +92,7 @@ export const MealTab = () => {
         height={8}
         progress={(caloriesData.value / calorieGoal) * 100}
         labelStart="Mục tiêu hằng ngày"
-        labelEnd={`${((caloriesData.value / calorieGoal) * 100).toFixed(0)}%`}
+        labelEnd={`${toFixed((caloriesData.value / calorieGoal) * 100, 0)}%`}
         className="mt-8"
       />
 
