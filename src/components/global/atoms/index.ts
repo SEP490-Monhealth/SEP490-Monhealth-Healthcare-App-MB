@@ -17,6 +17,7 @@ import { Sheet, SheetRefProps } from "./Sheet"
 import { SheetItem } from "./SheetItem"
 import { HStack, VStack } from "./Stack"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./Tabs"
+import { Toggle } from "./Toggle"
 import { ErrorText } from "./Typography"
 
 export {
@@ -44,5 +45,6 @@ export {
   TabsContent,
   TabsList,
   TabsTrigger,
+  Toggle,
   ErrorText
 }

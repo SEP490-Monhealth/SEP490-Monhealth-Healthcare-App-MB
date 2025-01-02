@@ -26,11 +26,7 @@ export const MealTab = () => {
   const { user } = useAuth()
   const userId = user?.userId
 
-  console.log(userId)
-
   const today = formatDateYYYYMMDD(new Date())
-
-  const dyca = "2025-01-02"
 
   const { data: dailyMealData, isLoading } = useGetDailyMealByUserId(
     userId,
@@ -39,34 +35,58 @@ export const MealTab = () => {
 
   const mealsData = dailyMealData?.items || []
 
+  const defaultMeals = [
+    {
+      mealId: "default-breakfast",
+      type: "Breakfast",
+      calories: 0,
+      isDefault: true
+    },
+    { mealId: "default-lunch", type: "Lunch", calories: 0, isDefault: true },
+    { mealId: "default-dinner", type: "Dinner", calories: 0, isDefault: true },
+    { mealId: "default-snack", type: "Snack", calories: 0, isDefault: true }
+  ]
+
+  const mergedMealsData = defaultMeals.map((defaultMeal) => {
+    const existingMeal = mealsData.find(
+      (meal) => meal.type === defaultMeal.type
+    )
+
+    return (existingMeal || defaultMeal) as typeof defaultMeal
+  })
+
   const calorieGoal = 1249
 
   const caloriesData = {
     label: "Calories",
-    value: dailyMealData?.nutrition.calories || 0,
+    value: dailyMealData?.nutrition?.calories || 0,
     targetValue: calorieGoal
   }
 
   const nutritionData = [
     {
       label: "Protein",
-      value: dailyMealData?.nutrition.protein || 0,
+      value: dailyMealData?.nutrition?.protein || 0,
       targetValue: 90
     },
     {
       label: "Carbs",
-      value: dailyMealData?.nutrition.carbs || 0,
+      value: dailyMealData?.nutrition?.carbs || 0,
       targetValue: 144
     },
-    { label: "Fat", value: dailyMealData?.nutrition.fat || 0, targetValue: 35 },
+    {
+      label: "Fat",
+      value: dailyMealData?.nutrition?.fat || 0,
+      targetValue: 35
+    },
     {
       label: "Fiber",
-      value: dailyMealData?.nutrition.fiber || 0,
+      value: dailyMealData?.nutrition?.fiber || 0,
       targetValue: 28
     },
     {
       label: "Sugar",
-      value: dailyMealData?.nutrition.sugar || 0,
+      value: dailyMealData?.nutrition?.sugar || 0,
       targetValue: 25
     }
   ]
@@ -99,12 +119,14 @@ export const MealTab = () => {
       <Section label="Bữa ăn hôm nay" />
 
       <VStack gap={12}>
-        {mealsData.map((item) => (
+        {mergedMealsData.map((item) => (
           <MealCard
             key={item.mealId}
             type={item.type as "Breakfast" | "Lunch" | "Dinner" | "Snack"}
             calories={item.calories}
-            onPress={() => handleViewMeal(item.mealId)}
+            onPress={
+              !item.isDefault ? () => handleViewMeal(item.mealId) : undefined
+            }
           />
         ))}
       </VStack>

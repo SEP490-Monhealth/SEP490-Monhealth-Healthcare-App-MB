@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 
-import { Switch, Text } from "react-native"
+import { Text } from "react-native"
 
-import { Container, Content, VStack } from "@/components/global/atoms"
+import { Container, Content, Toggle, VStack } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
 import { ListItem } from "@/components/local/tabs/profile"
@@ -22,17 +22,7 @@ function RemindersScreen() {
         <VStack className="mt-2">
           <ListItem
             label="Bật thông báo"
-            endIcon={
-              <Switch
-                value={isEnabled}
-                onValueChange={toggleSwitch}
-                trackColor={{
-                  false: "#F5F5F5",
-                  true: "#E0F7FA"
-                }}
-                thumbColor={isEnabled ? "#B2EBF2" : "#E3F2FD"}
-              />
-            }
+            endIcon={<Toggle value={isEnabled} onValueChange={toggleSwitch} />}
             more={false}
           />
 
