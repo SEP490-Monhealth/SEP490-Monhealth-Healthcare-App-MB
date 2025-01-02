@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 
 import { Image, Switch, Text } from "react-native"
 
@@ -14,31 +14,40 @@ import { IconButton } from "./IconButton"
 interface WaterCardProps {
   waterIntakeId: string
   variant?: "switch" | "more"
-  time: string
-  amount: number
+  intakeTime: string
+  volume: number
   status: boolean
-  buttonSwitch?: boolean
-  buttonMore?: boolean
   onMorePress?: () => void
   onToggleChange?: (data: WaterUpdateType) => void
 }
 
 export const WaterCard = ({
   waterIntakeId,
-  time,
-  amount,
+  intakeTime,
+  volume,
   status,
-  buttonSwitch = false,
-  buttonMore = true,
+  variant,
   onMorePress,
   onToggleChange
 }: WaterCardProps) => {
+  const [isChangeStatus, setIsChangeStatus] = useState(status)
+  useEffect(() => {
+    setIsChangeStatus(status)
+  }, [status])
+
   const handleToggle = (value: boolean) => {
     const updatedData = { waterIntakeId, status: value }
-
     const validation = waterUpdateSchema.safeParse(updatedData)
+    if (validation.success && onToggleChange) {
+      onToggleChange(updatedData)
+    } else {
+      console.error(validation.error)
+    }
+  }
 
-    console.log(validation.data)
+  const toggleSwitch = (value: boolean) => {
+    setIsChangeStatus(value)
+    handleToggle(value)
   }
 
   return (
@@ -51,24 +60,26 @@ export const WaterCard = ({
             style={{ width: 30, height: 30 }}
           />
           <VStack gap={0} className="ml-1">
-            <Text className="font-tmedium text-lg text-primary">{time}</Text>
+            <Text className="font-tmedium text-lg text-primary">
+              {intakeTime}
+            </Text>
             <Text className="font-tmedium text-sm text-accent">
-              {amount ?? 0} ml
+              {volume ?? 0} ml
             </Text>
           </VStack>
         </HStack>
 
-        {buttonSwitch && (
+        {variant === "switch" && (
           <Switch
-            value={status}
-            onValueChange={handleToggle}
-            trackColor={{ false: COLORS.secondary, true: COLORS.accent }}
-            thumbColor={status ? COLORS.primary : COLORS.primary}
-            style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
+            value={isChangeStatus}
+            onValueChange={(value) => toggleSwitch(value)}
+            // trackColor={{ false: COLORS.secondary, true: COLORS.accent }}
+            // thumbColor={isChangeStatus ? COLORS.primary : COLORS.primary}
+            // style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
           />
         )}
 
-        {buttonMore && (
+        {variant === "more" && (
           <IconButton
             size="sm"
             icon={<MoreHorizontal size={20} color={COLORS.primary} />}

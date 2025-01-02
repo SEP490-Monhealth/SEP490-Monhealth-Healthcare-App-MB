@@ -17,10 +17,10 @@ import { COLORS } from "@/constants/app"
 import { sampleWaterData } from "@/constants/water"
 
 function NotificationScreen() {
-  const waterData = sampleWaterData
+  const { totalVolume, items } = sampleWaterData
 
-  const totalWater = 2000
-  const drank = 1300
+  const totalWater = totalVolume || 2000
+  const drank = 1500
   const progress = Math.min((drank / totalWater) * 100, 100)
 
   return (
@@ -36,7 +36,7 @@ function NotificationScreen() {
 
       <Content className="mt-2">
         <FlatList
-          data={waterData || []}
+          data={items || []}
           keyExtractor={(item) => item.waterIntakeId}
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={() => (
@@ -57,15 +57,14 @@ function NotificationScreen() {
           )}
           renderItem={({ item }) => (
             <WaterCard
-              buttonMore={false}
-              buttonSwitch={true}
+              variant="switch"
               key={item.waterIntakeId}
               waterIntakeId={item.waterIntakeId}
-              amount={item.amount}
-              time={item.time}
+              volume={item.volume}
+              intakeTime={item.intakeTime}
               status={item.status}
               onToggleChange={(data) => {
-                console.log(data)
+                console.log("Toggle changed:", data)
               }}
             />
           )}

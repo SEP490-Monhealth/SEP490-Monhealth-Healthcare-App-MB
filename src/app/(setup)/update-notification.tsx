@@ -1,9 +1,9 @@
 import React from "react"
 
-import { Text, View } from "react-native"
+import { View } from "react-native"
 import { FlatList } from "react-native"
 
-import { Add, Setting4 } from "iconsax-react-native"
+import { Add } from "iconsax-react-native"
 
 import { Container, Content } from "@/components/global/atoms"
 import { ListFooter, WaterCard } from "@/components/global/molecules"
@@ -13,7 +13,7 @@ import { COLORS } from "@/constants/app"
 import { sampleWaterData } from "@/constants/water"
 
 function UpdateNotificationScreen() {
-  const waterData = sampleWaterData
+  const { items } = sampleWaterData
 
   return (
     <Container>
@@ -28,15 +28,16 @@ function UpdateNotificationScreen() {
 
       <Content className="mt-2">
         <FlatList
-          data={waterData || []}
+          data={items || []}
           keyExtractor={(item) => item.waterIntakeId}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
             <WaterCard
+              variant="more"
               key={item.waterIntakeId}
               waterIntakeId={item.waterIntakeId}
-              amount={item.amount}
-              time={item.time}
+              volume={item.volume}
+              intakeTime={item.intakeTime}
               status={item.status}
             />
           )}
