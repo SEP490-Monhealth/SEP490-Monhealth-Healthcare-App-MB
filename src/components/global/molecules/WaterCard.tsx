@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 
 import { Image, Switch, Text, TouchableOpacity } from "react-native"
 
@@ -14,8 +14,8 @@ import { IconButton } from "./IconButton"
 interface WaterCardProps {
   waterIntakeId: string
   variant?: "switch" | "more"
-  time: string
-  amount: number
+  intakeTime: string
+  volume: number
   status: boolean
   onMorePress?: () => void
   onToggleChange?: (data: WaterUpdateType) => void
@@ -23,19 +23,31 @@ interface WaterCardProps {
 
 export const WaterCard = ({
   waterIntakeId,
-  variant = "more",
-  time,
-  amount,
+  variant,
+  intakeTime,
+  volume,
   status,
   onMorePress,
   onToggleChange
 }: WaterCardProps) => {
+  const [isChangeStatus, setIsChangeStatus] = useState(status)
+  useEffect(() => {
+    setIsChangeStatus(status)
+  }, [status])
+
   const handleToggle = (value: boolean) => {
     const updatedData = { waterIntakeId, status: value }
-
     const validation = waterUpdateSchema.safeParse(updatedData)
+    if (validation.success && onToggleChange) {
+      onToggleChange(updatedData)
+    } else {
+      console.error(validation.error)
+    }
+  }
 
-    console.log(validation.data)
+  const toggleSwitch = (value: boolean) => {
+    setIsChangeStatus(value)
+    handleToggle(value)
   }
 
   return (
@@ -57,9 +69,11 @@ export const WaterCard = ({
           </TouchableOpacity>
 
           <VStack gap={0} className="ml-1">
-            <Text className="font-tmedium text-lg text-primary">{time}</Text>
+            <Text className="font-tmedium text-lg text-primary">
+              {intakeTime}
+            </Text>
             <Text className="font-tmedium text-sm text-accent">
-              {amount ?? 0} ml
+              {volume ?? 0} ml
             </Text>
           </VStack>
         </HStack>

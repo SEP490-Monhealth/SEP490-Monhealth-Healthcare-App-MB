@@ -12,8 +12,8 @@ import { Header } from "@/components/global/organisms"
 import { COLORS } from "@/constants/app"
 import { sampleWaterData } from "@/constants/water"
 
-function ReminderScreen() {
-  const waterData = sampleWaterData
+function UpdateNotificationScreen() {
+  const { items } = sampleWaterData
 
   return (
     <Container>
@@ -28,15 +28,16 @@ function ReminderScreen() {
 
       <Content className="mt-2">
         <FlatList
-          data={waterData || []}
+          data={items || []}
           keyExtractor={(item) => item.waterIntakeId}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
             <WaterCard
+              variant="more"
               key={item.waterIntakeId}
               waterIntakeId={item.waterIntakeId}
-              amount={item.amount}
-              time={item.time}
+              volume={item.volume}
+              intakeTime={item.intakeTime}
               status={item.status}
             />
           )}
