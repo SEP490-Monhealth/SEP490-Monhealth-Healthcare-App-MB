@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 
 import { View } from "react-native"
 
@@ -9,19 +9,29 @@ import { ArcProgress, WaterCard } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/app"
-import { sampleWaterData } from "@/constants/water"
+import { sampleReminderData } from "@/constants/reminders"
 
 export const WaterTab = () => {
   const router = useRouter()
 
-  const waterData = sampleWaterData || []
+  const [remindersData, setRemindersData] = useState(sampleReminderData)
 
   const totalWater = 2000
   const drank = 1300
   const progress = Math.min((drank / totalWater) * 100, 100)
 
+  const toggleReminderStatus = (reminderId: string) => {
+    setRemindersData((prevData) =>
+      prevData.map((reminder) =>
+        reminder.reminderId === reminderId
+          ? { ...reminder, status: !reminder.status }
+          : reminder
+      )
+    )
+  }
+
   const handleUpdateReminder = () => {
-    router.push("/update-notification")
+    router.push("/reminders")
   }
 
   return (
@@ -47,17 +57,15 @@ export const WaterTab = () => {
       />
 
       <VStack gap={12}>
-        {waterData.map((item) => (
+        {remindersData.map((item) => (
           <WaterCard
-            key={item.waterIntakeId}
-            waterIntakeId={item.waterIntakeId}
+            key={item.reminderId}
             variant="switch"
-            amount={item.amount}
+            name={item.name}
             time={item.time}
+            volume={item.volume}
             status={item.status}
-            onToggleChange={(data) => {
-              console.log(data)
-            }}
+            onSwitchChange={() => toggleReminderStatus(item.reminderId)}
           />
         ))}
       </VStack>

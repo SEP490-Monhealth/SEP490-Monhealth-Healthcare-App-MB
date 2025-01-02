@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 
 import { View } from "react-native"
 import { FlatList } from "react-native"
@@ -10,34 +10,59 @@ import { ListFooter, WaterCard } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/app"
-import { sampleWaterData } from "@/constants/water"
+import { sampleReminderData } from "@/constants/reminders"
 
-function UpdateNotificationScreen() {
-  const { items } = sampleWaterData
+import { ReminderType } from "@/schemas/reminderSchema"
+
+function ReminderScreen() {
+  const [remindersData, setRemindersData] = useState(sampleReminderData)
+  const [isRefreshing, setIsRefreshing] = useState(false)
+
+  const onRefresh = async () => {
+    setIsRefreshing(true)
+    try {
+      const newData = await fetchRemindersData()
+      setRemindersData(newData)
+    } catch (error) {
+      console.error("Lỗi khi làm mới dữ liệu:", error)
+    } finally {
+      setIsRefreshing(false)
+    }
+  }
+
+  const fetchRemindersData = async (): Promise<ReminderType[]> => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(sampleReminderData)
+      }, 2000)
+    })
+  }
 
   return (
     <Container>
       <Header
         back
-        label="Cập nhật"
+        label="Nhắc nhở uống nước"
         action={{
-          icon: <Add variant="Outline" size={22} color={COLORS.primary} />,
+          icon: <Add size={24} color={COLORS.primary} />,
           url: "/reminders/create"
         }}
       />
 
       <Content className="mt-2">
         <FlatList
-          data={items || []}
-          keyExtractor={(item) => item.waterIntakeId}
+          data={remindersData || []}
+          keyExtractor={(item) => item.reminderId}
+          onRefresh={onRefresh}
+          refreshing={isRefreshing}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
             <WaterCard
+              key={item.reminderId}
               variant="more"
-              key={item.waterIntakeId}
-              waterIntakeId={item.waterIntakeId}
+              name={item.name}
+              time={item.time}
               volume={item.volume}
-              intakeTime={item.intakeTime}
               status={item.status}
             />
           )}

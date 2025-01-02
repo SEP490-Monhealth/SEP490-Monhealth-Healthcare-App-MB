@@ -30,7 +30,7 @@ export const MealTab = () => {
 
   const today = formatDateYYYYMMDD(new Date())
 
-  // const dyca = "2025-01-03"
+  const dyca = "2025-01-02"
 
   const { data: dailyMealData, isLoading } = useGetDailyMealByUserId(
     userId,

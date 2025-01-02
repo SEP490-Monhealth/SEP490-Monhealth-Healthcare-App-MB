@@ -112,7 +112,7 @@ function PortionCreateScreen() {
                 </HStack>
               </VStack>
 
-              <Button onPress={handleSubmit(onSubmit)}>Thêm mới</Button>
+              <Button onPress={handleSubmit(onSubmit)}>Tạo khẩu phần</Button>
             </VStack>
           </Content>
         </View>

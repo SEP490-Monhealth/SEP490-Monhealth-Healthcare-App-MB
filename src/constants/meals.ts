@@ -2,7 +2,7 @@ import { MealType } from "@/schemas/mealSchema"
 
 export const sampleMealsData: MealType[] = [
   {
-    mealId: "c43ad7ca",
+    mealId: "123",
     userId: "123",
     type: "Breakfast",
 

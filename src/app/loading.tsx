@@ -6,7 +6,7 @@ import LottieView from "lottie-react-native"
 
 export default function LoadingScreen() {
   return (
-    <View className="flex h-full min-h-screen items-center justify-center bg-background">
+    <View className="h-full min-h-screen flex-1 items-center justify-center bg-background">
       <LottieView
         source={require("../../public/videos/monhealth-loading.json")}
         autoPlay

@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { Switch, Text, View } from "react-native"
+import { Text } from "react-native"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import DateTimePicker, {
@@ -17,126 +17,106 @@ import {
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import { ListItem } from "@/components/local/tabs/profile"
-
-import { WaterCreateType, waterCreateSchema } from "@/schemas/waterSchema"
+import {
+  CreateUpdateReminderType,
+  createUpdateReminderSchema
+} from "@/schemas/reminderSchema"
 
 function ReminderCreateScreen() {
   const [time, setTime] = useState(new Date())
-  const [isEnabled, setIsEnabled] = useState(false)
-
-  const toggleSwitch = () => {
-    setIsEnabled((prev) => {
-      setValue("status", !prev)
-      return !prev
-    })
-  }
-
-  const defaultIntakeTime = time.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit"
-  })
-
-  const onChange = (_event: DateTimePickerEvent, selectedTime?: Date) => {
-    if (selectedTime) {
-      setTime(selectedTime)
-      const formattedTime = selectedTime.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit"
-      })
-      setValue("intakeTime", formattedTime)
-    }
-  }
 
   const {
     control,
     handleSubmit,
     setValue,
     formState: { errors }
-  } = useForm<WaterCreateType>({
-    resolver: zodResolver(waterCreateSchema),
+  } = useForm<CreateUpdateReminderType>({
+    resolver: zodResolver(createUpdateReminderSchema),
     defaultValues: {
       name: "",
-      volume: 0,
-      intakeTime: defaultIntakeTime,
-      status: false
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+      }),
+      volume: 0
     }
   })
 
-  const onSubmit = (data: WaterCreateType) => {
-    console.log("Submitted Data:", data)
+  const handleTimeChange = (
+    _event: DateTimePickerEvent,
+    selectedTime?: Date
+  ) => {
+    if (selectedTime) {
+      setTime(selectedTime)
+      const formattedTime = selectedTime.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+      })
+      setValue("time", formattedTime)
+    }
+  }
+
+  const onSubmit = (data: CreateUpdateReminderType) => {
+    console.log("Dữ liệu được gửi:", data)
   }
 
   return (
     <Container dismissKeyboard>
-      <Header back label="Thêm thông báo" />
+      <Header back label="Tạo nhắc nhở" />
 
-      <Content>
-        <VStack center gap={20}>
-          <DateTimePicker
-            value={time}
-            mode="time"
-            display="spinner"
-            onChange={onChange}
-          />
+      <Content className="mt-2">
+        <DateTimePicker
+          value={time}
+          mode="time"
+          display="spinner"
+          onChange={handleTimeChange}
+        />
 
-          <Controller
-            name="name"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                value={value}
-                placeholder="Nhập tên gợi nhớ"
-                onChangeText={onChange}
-                keyboardType="default"
-                errorMessage={errors.name?.message}
-                canClearText
-                className="w-full"
-              />
-            )}
-          />
-
-          <Controller
-            name="volume"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                value={value ? value.toString() : ""}
-                placeholder="Nhập lượng nước"
-                onChangeText={(text) => onChange(parseFloat(text) || 0)}
-                keyboardType="numeric"
-                endIcon={
-                  <Text className="font-tmedium text-base text-primary">
-                    ml
-                  </Text>
-                }
-                canClearText
-                className="w-full"
-                errorMessage={errors.volume?.message}
-              />
-            )}
-          />
-
-          <View className="w-full px-1">
-            <ListItem
-              label="Bật thông báo"
-              endIcon={
-                <Switch value={isEnabled} onValueChange={toggleSwitch} />
-              }
-              more={false}
+        <VStack gap={32}>
+          <VStack gap={12}>
+            <Controller
+              name="name"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  value={value}
+                  placeholder="Nhập tên nhắc nhở"
+                  onChangeText={onChange}
+                  keyboardType="default"
+                  canClearText
+                  errorMessage={errors.name?.message}
+                  className="w-full"
+                />
+              )}
             />
-            {isEnabled && (
-              <Text className="mt-2 text-base text-accent">
-                Thông báo đã được bật, bạn sẽ nhận các nhắc nhở hàng ngày.
-              </Text>
-            )}
-          </View>
+
+            <Controller
+              name="volume"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  value={value ? value.toString() : ""}
+                  placeholder="Nhập lượng nước"
+                  onChangeText={(text) => onChange(parseFloat(text) || 0)}
+                  keyboardType="numeric"
+                  endIcon={
+                    <Text className="font-tmedium text-base text-primary">
+                      ml
+                    </Text>
+                  }
+                  canClearText
+                  errorMessage={errors.volume?.message}
+                  className="w-full"
+                />
+              )}
+            />
+          </VStack>
+
+          <Button size="lg" onPress={handleSubmit(onSubmit)} className="mb-4">
+            Tạo nhắc nhở
+          </Button>
         </VStack>
       </Content>
-
-      <Button size="lg" onPress={handleSubmit(onSubmit)} className="mb-4">
-        Tạo thông báo
-      </Button>
     </Container>
   )
 }

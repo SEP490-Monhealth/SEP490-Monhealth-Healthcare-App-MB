@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 
 import { Image, Switch, Text, TouchableOpacity } from "react-native"
 
@@ -6,53 +6,37 @@ import { MoreHorizontal } from "lucide-react-native"
 
 import { COLORS } from "@/constants/app"
 
-import { WaterUpdateType, waterUpdateSchema } from "@/schemas/waterSchema"
-
 import { Card, HStack, VStack } from "../atoms"
 import { IconButton } from "./IconButton"
 
 interface WaterCardProps {
-  waterIntakeId: string
   variant?: "switch" | "more"
-  intakeTime: string
+  name?: string
+  time: string
   volume: number
   status: boolean
+  onSwitchChange?: () => void
   onMorePress?: () => void
-  onToggleChange?: (data: WaterUpdateType) => void
 }
 
 export const WaterCard = ({
-  waterIntakeId,
   variant,
-  intakeTime,
+  name,
+  time,
   volume,
   status,
-  onMorePress,
-  onToggleChange
+  onSwitchChange,
+  onMorePress
 }: WaterCardProps) => {
-  const [isChangeStatus, setIsChangeStatus] = useState(status)
-  useEffect(() => {
-    setIsChangeStatus(status)
-  }, [status])
-
-  const handleToggle = (value: boolean) => {
-    const updatedData = { waterIntakeId, status: value }
-    const validation = waterUpdateSchema.safeParse(updatedData)
-    if (validation.success && onToggleChange) {
-      onToggleChange(updatedData)
-    } else {
-      console.error(validation.error)
+  const handlePress = () => {
+    if (variant === "switch" && onSwitchChange) {
+      onSwitchChange()
     }
   }
 
-  const toggleSwitch = (value: boolean) => {
-    setIsChangeStatus(value)
-    handleToggle(value)
-  }
-
   return (
-    <Card>
-      <HStack className="items-center justify-between">
+    <Card onPress={handlePress}>
+      <HStack className="w-full items-center justify-between">
         <HStack gap={10} center>
           <TouchableOpacity
             activeOpacity={1}
@@ -69,11 +53,9 @@ export const WaterCard = ({
           </TouchableOpacity>
 
           <VStack gap={0} className="ml-1">
-            <Text className="font-tmedium text-lg text-primary">
-              {intakeTime}
-            </Text>
+            <Text className="font-tmedium text-lg text-primary">{time}</Text>
             <Text className="font-tmedium text-sm text-accent">
-              {volume ?? 0} ml
+              {name}, {volume ?? 0} ml
             </Text>
           </VStack>
         </HStack>
@@ -81,7 +63,7 @@ export const WaterCard = ({
         {variant === "switch" ? (
           <Switch
             value={status}
-            onValueChange={handleToggle}
+            onValueChange={onSwitchChange}
             trackColor={{
               false: "#F5F5F5",
               true: "#E0F7FA"

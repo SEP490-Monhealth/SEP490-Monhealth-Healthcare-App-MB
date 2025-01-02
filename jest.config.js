@@ -7,6 +7,7 @@ module.exports = {
     "public/icons",
     "/constants",
     "/lib",
+    "/schemas",
     "/utils"
   ]
 }
