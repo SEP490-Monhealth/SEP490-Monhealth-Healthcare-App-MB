@@ -13,6 +13,14 @@ export const formatDate = (
   return format(new Date(date), formatStr)
 }
 
+export const formatDateYYYYMMDD = (date: Date) => {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, "0")
+  const day = String(date.getDate()).padStart(2, "0")
+
+  return `${year}-${month}-${day}`
+}
+
 /**
  * Hiển thị thời gian tương đối (VD: 2 phút trước)
  * @param date Ngày (Date hoặc chuỗi)
@@ -75,13 +83,16 @@ export const formatISODate = (
   const date = parseISO(isoDate)
   return format(date, formatStr)
 }
+
 /**
- * Làm tròn một số đến 2 chữ số thập phân.
+ * Làm tròn một số đến số chữ số thập phân tùy ý.
  * @param num - Số cần làm tròn.
- * @returns Số đã được làm tròn đến 2 chữ số thập phân.
+ * @param decimals - Số chữ số thập phân cần làm tròn (mặc định là 1).
+ * @returns Số đã được làm tròn đến số chữ số thập phân được chỉ định.
  */
-export const toFixed2 = (num: number): number => {
-  return Math.round((num + Number.EPSILON) * 10) / 10
+export const toFixed = (num: number, decimals: number = 1): number => {
+  const factor = Math.pow(10, decimals)
+  return Math.round((num + Number.EPSILON) * factor) / factor
 }
 
 /**

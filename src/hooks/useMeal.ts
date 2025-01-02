@@ -12,7 +12,7 @@ import {
   updateMealFood
 } from "@/services/mealService"
 
-export const useGetMealByUserId = (userId: string) => {
+export const useGetMealByUserId = (userId: string | undefined) => {
   const handleError = useErrorHandler()
 
   return useQuery<MealType[], Error>({
@@ -29,7 +29,7 @@ export const useGetMealByUserId = (userId: string) => {
   })
 }
 
-export const useGetMealById = (mealId: string) => {
+export const useGetMealById = (mealId: string | undefined) => {
   const handleError = useErrorHandler()
 
   return useQuery<MealType, Error>({
@@ -61,7 +61,7 @@ export const useCreateMeal = () => {
   })
 }
 
-export const useGetMealFoodsByMealId = (mealId: string) => {
+export const useGetMealFoodsByMealId = (mealId: string | undefined) => {
   const handleError = useErrorHandler()
 
   return useQuery<MealFoodType[], Error>({

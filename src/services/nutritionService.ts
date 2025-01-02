@@ -8,7 +8,7 @@ export const getNutritionByFoodId = async (
   foodId: string
 ): Promise<NutritionType> => {
   try {
-    const response = await monAPI.get(`/nutritions/food/${foodId}`)
+    const response = await monAPI.get(`/nutrition/food/${foodId}`)
 
     if (!response || !response.data) {
       throw {
@@ -46,7 +46,7 @@ export const getNutritionById = async (
   nutritionId: string
 ): Promise<NutritionType> => {
   try {
-    const response = await monAPI.get(`/nutritions/${nutritionId}`)
+    const response = await monAPI.get(`/nutrition/${nutritionId}`)
 
     if (!response || !response.data) {
       throw {
@@ -84,7 +84,7 @@ export const createNutrition = async (
   nutrition: NutritionType
 ): Promise<string> => {
   try {
-    const response = await monAPI.post("/nutritions", nutrition)
+    const response = await monAPI.post("/nutrition", nutrition)
 
     if (!response || !response.data) {
       throw {
@@ -124,7 +124,7 @@ export const updateNutrition = async (
   nutrition: NutritionType
 ): Promise<string> => {
   try {
-    const response = await monAPI.put(`/nutritions/${nutritionId}`, nutrition)
+    const response = await monAPI.put(`/nutrition/${nutritionId}`, nutrition)
 
     if (!response || !response.data) {
       throw {

@@ -1,9 +1,9 @@
 import React from "react"
 
-import { Text, View } from "react-native"
+import { View } from "react-native"
 import { FlatList } from "react-native"
 
-import { Add, Setting4 } from "iconsax-react-native"
+import { Add } from "iconsax-react-native"
 
 import { Container, Content } from "@/components/global/atoms"
 import { ListFooter, WaterCard } from "@/components/global/molecules"

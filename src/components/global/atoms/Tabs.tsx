@@ -16,6 +16,7 @@ interface TabsProps {
   contentMarginTop?: number
   className?: string
 }
+
 export const Tabs: React.FC<TabsProps> = ({
   defaultValue,
   children,
@@ -39,6 +40,7 @@ interface TabsListProps {
   gap?: number
   className?: string
 }
+
 export const TabsList: React.FC<TabsListProps> = ({
   children,
   center = false,
@@ -60,10 +62,13 @@ export const TabsList: React.FC<TabsListProps> = ({
 interface TabsTriggerProps {
   value: string
   children: React.ReactNode
+  onChange?: (value: string) => void
 }
+
 export const TabsTrigger: React.FC<TabsTriggerProps> = ({
   value,
-  children
+  children,
+  onChange
 }) => {
   const context = useContext(TabsContext)
 
@@ -73,11 +78,16 @@ export const TabsTrigger: React.FC<TabsTriggerProps> = ({
   const { selectedValue, setSelectedValue } = context
   const isSelected = selectedValue === value
 
+  const handlePress = () => {
+    setSelectedValue(value)
+    if (onChange) onChange(value)
+  }
+
   return (
     <TouchableOpacity
       activeOpacity={0.7}
       className="flex items-center justify-center"
-      onPress={() => setSelectedValue(value)}
+      onPress={handlePress}
     >
       <Text
         className={`text-base ${
@@ -97,6 +107,7 @@ interface TabsContentProps {
   children: React.ReactNode
   contentMarginTop?: number
 }
+
 export const TabsContent: React.FC<TabsContentProps> = ({
   value,
   children,

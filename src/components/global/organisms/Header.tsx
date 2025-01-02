@@ -59,7 +59,7 @@ export const Header = ({
       )}
 
       <Text
-        className={`mt-2 flex-1 font-tbold text-xl text-primary ${back ? "ml-0 text-center" : "ml-1 text-left"}`}
+        className={`mt-1 flex-1 font-tbold text-xl text-primary ${back ? "ml-0 text-center" : "ml-1 text-left"}`}
       >
         {label}
       </Text>

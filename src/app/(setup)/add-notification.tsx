@@ -1,7 +1,5 @@
 import React from "react"
 
-import { Text, View } from "react-native"
-
 import { Container } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 

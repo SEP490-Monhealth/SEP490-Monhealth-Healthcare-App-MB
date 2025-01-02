@@ -10,6 +10,8 @@ import {
 } from "@/components/global/atoms"
 import { FoodCard, ListFooter, ListHeader } from "@/components/global/molecules"
 
+import { useRouterHandlers } from "@/hooks/useRouter"
+
 import { FoodType } from "@/schemas/foodSchema"
 
 interface MealTabProps {
@@ -17,6 +19,8 @@ interface MealTabProps {
 }
 
 export const MealTab = ({ foodsData }: MealTabProps) => {
+  const { handleViewFood } = useRouterHandlers()
+
   const [isRefreshing, setIsRefreshing] = useState(false)
 
   const onRefresh = async () => {
@@ -52,12 +56,12 @@ export const MealTab = ({ foodsData }: MealTabProps) => {
         <FoodCard
           key={item.foodId}
           variant="more"
-          foodId={item.foodId}
           name={item.name}
           calories={item.nutrition.calories}
           size={item.portion.size}
           weight={item.portion.weight}
           unit={item.portion.unit}
+          onPress={() => handleViewFood(item.foodId)}
         />
       )}
       ListFooterComponent={<ListFooter />}

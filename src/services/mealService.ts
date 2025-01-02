@@ -4,7 +4,9 @@ import monAPI from "@/lib/monAPI"
 
 import { CreateMealType, MealFoodType, MealType } from "@/schemas/mealSchema"
 
-export const getMealsByUserId = async (userId: string): Promise<MealType[]> => {
+export const getMealsByUserId = async (
+  userId: string | undefined
+): Promise<MealType[]> => {
   try {
     const response = await monAPI.get(`/meals/user/${userId}`)
 
@@ -40,7 +42,9 @@ export const getMealsByUserId = async (userId: string): Promise<MealType[]> => {
   }
 }
 
-export const getMealById = async (mealId: string): Promise<MealType> => {
+export const getMealById = async (
+  mealId: string | undefined
+): Promise<MealType> => {
   try {
     const response = await monAPI.get(`/meals/${mealId}`)
 
@@ -114,10 +118,10 @@ export const createMeal = async (data: CreateMealType): Promise<string> => {
 }
 
 export const getMealFoodsByMealId = async (
-  mealId: string
+  mealId: string | undefined
 ): Promise<MealFoodType[]> => {
   try {
-    const response = await monAPI.get(`/meals/${mealId}/foods`)
+    const response = await monAPI.get(`/meal/${mealId}/foods`)
 
     if (!response || !response.data) {
       throw {
@@ -152,11 +156,11 @@ export const getMealFoodsByMealId = async (
 }
 
 export const updateMealFood = async (
-  mealFoodId: string,
+  mealFoodId: string | undefined,
   quantity: number
 ): Promise<string> => {
   try {
-    const response = await monAPI.put(`/meals/foods/${mealFoodId}`, {
+    const response = await monAPI.put(`/meal/${mealFoodId}/foods/quantity`, {
       quantity
     })
 

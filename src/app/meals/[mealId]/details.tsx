@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react"
+import React, { useState } from "react"
 
 import { FlatList, View } from "react-native"
 
@@ -19,28 +19,26 @@ import { Header, Section } from "@/components/global/organisms"
 import { NutritionSummary } from "@/components/local/meals"
 
 import { COLORS } from "@/constants/app"
-import { sampleMealsData } from "@/constants/meals"
+
+import { useGetMealById, useGetMealFoodsByMealId } from "@/hooks/useMeal"
+import { useRouterHandlers } from "@/hooks/useRouter"
 
 import { getMealTypeName } from "@/utils/helpers"
 
 function MealDetailsScreen() {
+  const { handleViewFood } = useRouterHandlers()
+
   const { mealId } = useLocalSearchParams() as { mealId: string }
+
   const [isRefreshing, setIsRefreshing] = useState(false)
 
-  const mealData = useMemo(
-    () => sampleMealsData.find((meal) => meal.mealId === mealId),
-    [mealId]
-  )
+  const { data: mealData, isLoading: isLoadingMeal } = useGetMealById(mealId)
+  const { data: mealFoodsData, isLoading: isLoadingMealFoods } =
+    useGetMealFoodsByMealId(mealId)
 
-  const calorieValue = useMemo(
-    () =>
-      mealData?.mealFoods.reduce((total, food) => total + food.calories, 0) ||
-      0,
-    [mealData]
-  )
-
-  const totalCalories = 2499
-  const progress = Math.min((calorieValue / totalCalories) * 100, 100)
+  const calorieValue = mealData?.nutrition.calories || 0
+  const calorieGoal = 1249
+  const progress = Math.min((calorieValue / calorieGoal) * 100, 100)
 
   const onRefresh = async () => {
     setIsRefreshing(true)
@@ -49,7 +47,7 @@ function MealDetailsScreen() {
     }, 2000)
   }
 
-  if (!mealData) {
+  if (!mealData || isLoadingMeal || !mealFoodsData || isLoadingMealFoods) {
     return <LoadingScreen />
   }
 
@@ -66,7 +64,7 @@ function MealDetailsScreen() {
 
       <Content className="mt-2">
         <FlatList
-          data={mealData?.mealFoods}
+          data={mealFoodsData || []}
           keyExtractor={(item) => item.foodId}
           onRefresh={onRefresh}
           refreshing={isRefreshing}
@@ -77,11 +75,12 @@ function MealDetailsScreen() {
                 size={240}
                 width={14}
                 fill={progress}
+                prefill
                 arcSweepAngle={260}
                 rotation={230}
                 centerCircle
                 value={calorieValue}
-                maxValue={totalCalories}
+                maxValue={calorieGoal}
                 label="kcal"
               />
 
@@ -93,12 +92,12 @@ function MealDetailsScreen() {
           renderItem={({ item }) => (
             <FoodCard
               key={item.foodId}
-              foodId={item.foodId}
               name={item.name}
               calories={item.nutrition?.calories}
               size={item.portion?.size}
               weight={item.portion?.weight}
               unit={item.portion?.unit}
+              onPress={() => handleViewFood(item.foodId)}
             />
           )}
           ListFooterComponent={<ListFooter />}

@@ -73,7 +73,7 @@ function TabLayout() {
       />
 
       <Tabs.Screen
-        name="activity"
+        name="report"
         options={{
           tabBarLabel: ({ focused }) => (
             <Text
@@ -83,7 +83,7 @@ function TabLayout() {
                 color: focused ? primaryColor : descriptionColor
               }}
             >
-              Hoạt động
+              Báo cáo
             </Text>
           ),
           tabBarIcon: ({ focused }) => (

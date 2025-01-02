@@ -3,49 +3,41 @@ import React from "react"
 import { Image, Text, TouchableOpacity } from "react-native"
 import { View } from "react-native"
 
-import { useRouter } from "expo-router"
-
 import { ChevronRight } from "lucide-react-native"
 
 import { COLORS } from "@/constants/app"
 
+import { toFixed } from "@/utils/formatters"
 import { getMealTypeImage, getMealTypeName } from "@/utils/helpers"
 
 import { Card, HStack, Progress } from "../atoms"
 
 interface MealCardProps {
-  mealType: "Breakfast" | "Lunch" | "Dinner" | "Snack"
-  totalCalories: number
+  type: "Breakfast" | "Lunch" | "Dinner" | "Snack"
+  calories: number
   progress?: number
+  onPress?: () => void
 }
 
 export const MealCard = ({
-  mealType = "Breakfast",
-  totalCalories,
-  progress
+  type = "Breakfast",
+  calories,
+  progress,
+  onPress
 }: MealCardProps) => {
-  const router = useRouter()
-
-  const mealId = "c43ad7ca"
-
-  const handleViewMeal = () => {
-    router.push(`/meals/${mealId}/details`)
-  }
-
   return (
     <Card
+      onPress={onPress}
       className="flex flex-row items-center justify-between"
-      onPress={handleViewMeal}
     >
       <HStack gap={16} center>
         <TouchableOpacity
           activeOpacity={1}
-          onPress={handleViewMeal}
           className="flex h-12 w-12 items-center justify-center rounded-full bg-muted"
         >
           <Image
             testID="test-meal-image"
-            source={getMealTypeImage(mealType)}
+            source={getMealTypeImage(type)}
             style={{
               width: 24,
               height: 24,
@@ -56,7 +48,7 @@ export const MealCard = ({
 
         <View>
           <Text className="font-tmedium text-lg text-primary">
-            {getMealTypeName(mealType)}
+            {getMealTypeName(type)}
           </Text>
 
           {progress !== undefined && (
@@ -68,7 +60,7 @@ export const MealCard = ({
           )}
 
           <Text className="font-tmedium text-sm text-accent">
-            {totalCalories} kcal
+            {toFixed(calories, 1)} kcal
           </Text>
         </View>
       </HStack>

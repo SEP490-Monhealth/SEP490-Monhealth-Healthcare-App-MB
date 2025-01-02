@@ -21,6 +21,7 @@ import { COLORS } from "@/constants/app"
 
 import { useGetAllCategories } from "@/hooks/useCategory"
 import { useDebounce } from "@/hooks/useDebounce"
+import { useRouterHandlers } from "@/hooks/useRouter"
 
 import { FoodType } from "@/schemas/foodSchema"
 
@@ -30,6 +31,7 @@ import LoadingScreen from "../loading"
 
 function FoodsScreen() {
   const router = useRouter()
+  const { handleViewFood } = useRouterHandlers()
 
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [limit, setLimit] = useState<number>(10)
@@ -166,12 +168,12 @@ function FoodsScreen() {
               <FoodCard
                 key={item.foodId}
                 variant="add"
-                foodId={item.foodId}
                 name={item.name}
                 calories={item.nutrition.calories}
                 size={item.portion?.size}
                 weight={item.portion?.weight}
                 unit={item.portion?.unit}
+                onPress={() => handleViewFood(item.foodId)}
               />
             )}
             ListEmptyComponent={() => (

@@ -7,30 +7,28 @@ import { CircularProgress } from "@/components/global/molecules"
 
 import { getNutritionColor } from "@/utils/helpers"
 
+export interface NutritionProps {
+  label: string
+  value: number
+  targetValue: number
+}
+
 interface NutritionProgressProps {
-  calories: {
-    label: string
-    value: number
-    maxValue: number
-  }
-  nutrients: {
-    label: string
-    value: number
-    maxValue: number
-  }[]
+  calorieData: NutritionProps
+  nutritionData: NutritionProps[]
 }
 
 export const NutritionProgress = ({
-  calories,
-  nutrients
+  calorieData,
+  nutritionData
 }: NutritionProgressProps) => {
   return (
     <View
       className="relative items-center justify-center"
       style={{ width: 240, height: 240 }}
     >
-      {nutrients.map((nutrient, index) => {
-        const fill = (nutrient.value / nutrient.maxValue) * 100
+      {nutritionData.map((nutrient, index) => {
+        const fill = (nutrient.value / nutrient.targetValue) * 100
 
         return (
           <View key={index} className="absolute items-center">
@@ -52,11 +50,11 @@ export const NutritionProgress = ({
         />
 
         <Text className="-mb-2 font-tbold text-base text-primary">
-          {calories ? `${calories.value} / ${calories.maxValue}` : "0 / 0"}
+          {calorieData ? `${calorieData.value} / ${calorieData.targetValue}` : "0 / 0"}
         </Text>
 
         <Text className="font-tmedium text-sm text-accent">
-          {calories.label === "Calories" && "Kcal"}
+          {calorieData.label === "calorieData" && "Kcal"}
         </Text>
       </VStack>
     </View>

@@ -14,7 +14,13 @@ function NotFoundScreen() {
   const { fadeAnim, scaleAnim, textFadeAnim, textTranslateAnim } =
     useAnimation()
 
-  const handleBack = () => router.back()
+  const handleBack = () => {
+    if (router.canGoBack()) {
+      router.back()
+    } else {
+      router.replace("/")
+    }
+  }
 
   return (
     <Container>

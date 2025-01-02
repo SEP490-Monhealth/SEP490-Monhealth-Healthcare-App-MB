@@ -7,12 +7,14 @@ import { COLORS } from "@/constants/app"
 
 import { cn } from "@/lib/utils"
 
+import { toFixed } from "@/utils/formatters"
+
 interface CenterCircleProps {
   variant?: "sm" | "md"
   size: number
   innerSizeRatio: number
   valueType?: "number" | "percentage"
-  value: number | string
+  value: string | number
   maxValue: number
   label: string
 }
@@ -44,8 +46,10 @@ const CenterCircle = ({
       }}
     >
       <Text className={cn("font-tbold text-primary", sizeClass.title)}>
-        {valueType === "percentage" ? `${value}%` : value}
-        {valueType === "number" && maxValue ? ` / ${maxValue}` : ""}
+        {valueType === "percentage" ? `${value}%` : toFixed(Number(value), 1)}
+        {valueType === "number" && maxValue
+          ? ` / ${toFixed(Number(maxValue), 1)}`
+          : ""}
       </Text>
 
       <Text className={cn("font-tmedium text-accent", sizeClass.description)}>
@@ -60,6 +64,7 @@ interface ArcProgressProps {
   size: number
   width: number
   fill?: number
+  prefill?: boolean
   tintColor?: string
   backgroundColor?: string
   arcSweepAngle?: number
@@ -77,6 +82,7 @@ export const ArcProgress = ({
   size,
   width,
   fill = 0,
+  prefill = false,
   tintColor = COLORS.primary,
   backgroundColor = "#F1F5F9",
   arcSweepAngle = 360,
@@ -94,7 +100,7 @@ export const ArcProgress = ({
         size={size}
         width={width}
         fill={fill}
-        prefill={fill}
+        prefill={prefill ? 0 : fill}
         tintColor={tintColor}
         backgroundColor={backgroundColor}
         arcSweepAngle={arcSweepAngle}

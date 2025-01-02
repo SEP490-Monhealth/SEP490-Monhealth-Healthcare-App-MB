@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react"
 
-import { ActivityIndicator, FlatList, Image, View } from "react-native"
+import { ActivityIndicator, Animated, FlatList, View } from "react-native"
 
 import { Add } from "iconsax-react-native"
 
 import { Container, Content, VStack } from "@/components/global/atoms"
 import { FoodCard, ListFooter, ListHeader } from "@/components/global/molecules"
-import { Header, Section } from "@/components/global/organisms"
+import { Header } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/app"
+
+import { useAuth } from "@/contexts/AuthContext"
+
+import { useAnimation } from "@/hooks/useAnimation"
+import { useRouterHandlers } from "@/hooks/useRouter"
 
 import { FoodType } from "@/schemas/foodSchema"
 
@@ -17,7 +22,14 @@ import { getFoodsByUserId } from "@/services/foodService"
 import LoadingScreen from "../loading"
 
 function FoodUserScreen() {
-  const userId = "3026595f-1414-4b74-be8f-11b7f6e7f4f6"
+  const { handleViewFood } = useRouterHandlers()
+  const { user } = useAuth()
+  const userId = user?.userId
+
+  // const userId = "3026595f-1414-4b74-be8f-11b7f6e7f4f6"
+
+  const { fadeAnim, scaleAnim, textFadeAnim, textTranslateAnim } =
+    useAnimation()
 
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [limit, setLimit] = useState<number>(10)
@@ -91,62 +103,78 @@ function FoodUserScreen() {
         }}
       />
 
-      <Content>
-        <VStack center>
-          <FlatList
-            data={foods || []}
-            keyExtractor={(item) => item.foodId}
-            onRefresh={onRefresh}
-            refreshing={isRefreshing}
-            onEndReached={onEndReached}
-            onEndReachedThreshold={0.1}
-            showsVerticalScrollIndicator={false}
-            stickyHeaderIndices={[0]}
-            ListHeaderComponent={
-              <ListHeader>
-                <Section label="Danh sách món ăn" />
-              </ListHeader>
-            }
-            renderItem={({ item }) => (
-              <FoodCard
-                key={item.foodId}
-                variant="more"
-                foodId={item.foodId}
-                name={item.name}
-                calories={item.nutrition.calories}
-                size={item.portion?.size}
-                weight={item.portion?.weight}
-                unit={item.portion?.unit}
-              />
-            )}
-            ListEmptyComponent={() => (
-              <VStack center gap={20} className="mt-8">
-                <View className="w-full items-center">
-                <Image
-                    source={require("../../../public/images/monhealth-no-data-image.png")}
-                    style={{
-                      width: 320,
-                      height: 320
-                    }}
-                  />
-                </View>
+      <Content className="mt-2">
+        <FlatList
+          data={foods || []}
+          keyExtractor={(item) => item.foodId}
+          onRefresh={onRefresh}
+          refreshing={isRefreshing}
+          onEndReached={onEndReached}
+          onEndReachedThreshold={0.1}
+          showsVerticalScrollIndicator={false}
+          stickyHeaderIndices={[0]}
+          ListHeaderComponent={<ListHeader />}
+          renderItem={({ item }) => (
+            <FoodCard
+              key={item.foodId}
+              variant="more"
+              name={item.name}
+              calories={item.nutrition.calories}
+              size={item.portion?.size}
+              weight={item.portion?.weight}
+              unit={item.portion?.unit}
+              onPress={() => handleViewFood(item.foodId)}
+            />
+          )}
+          ListEmptyComponent={() => (
+            <VStack center gap={20} className="mt-24">
+              <View className="w-full items-center">
+                <Animated.Image
+                  source={require("../../../public/images/monhealth-no-data-image.png")}
+                  style={{
+                    width: 320,
+                    height: 320,
+                    opacity: fadeAnim,
+                    transform: [{ scale: scaleAnim }]
+                  }}
+                />
+              </View>
+
+              <VStack>
+                <Animated.Text
+                  style={{
+                    opacity: textFadeAnim,
+                    transform: [{ translateY: textTranslateAnim }]
+                  }}
+                  className="text-center font-tbold text-3xl text-primary"
+                >
+                  Không có dữ liệu
+                </Animated.Text>
+
+                <Animated.Text
+                  style={{
+                    opacity: textFadeAnim,
+                    transform: [{ translateY: textTranslateAnim }]
+                  }}
+                  className="text-center font-tmedium text-lg text-accent"
+                >
+                  Bạn chưa lưu món ăn nào trong danh sách
+                </Animated.Text>
               </VStack>
-            )}
-            ListFooterComponent={
-              hasMore ? (
-                <ListFooter>
-                  {isFetchingMore && (
-                    <ActivityIndicator color={COLORS.primary} />
-                  )}
-                </ListFooter>
-              ) : (
-                <ListFooter />
-              )
-            }
-            contentContainerClassName="min-h-full"
-            ItemSeparatorComponent={() => <View className="h-3" />}
-          />
-        </VStack>
+            </VStack>
+          )}
+          ListFooterComponent={
+            hasMore ? (
+              <ListFooter>
+                {isFetchingMore && <ActivityIndicator color={COLORS.primary} />}
+              </ListFooter>
+            ) : (
+              <ListFooter />
+            )
+          }
+          contentContainerClassName="min-h-full"
+          ItemSeparatorComponent={() => <View className="h-3" />}
+        />
       </Content>
     </Container>
   )

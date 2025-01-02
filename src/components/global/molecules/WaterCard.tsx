@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Image, Switch, Text } from "react-native"
+import { Image, Switch, Text, TouchableOpacity } from "react-native"
 
 import { MoreHorizontal } from "lucide-react-native"
 
@@ -17,19 +17,16 @@ interface WaterCardProps {
   time: string
   amount: number
   status: boolean
-  buttonSwitch?: boolean
-  buttonMore?: boolean
   onMorePress?: () => void
   onToggleChange?: (data: WaterUpdateType) => void
 }
 
 export const WaterCard = ({
   waterIntakeId,
+  variant = "more",
   time,
   amount,
   status,
-  buttonSwitch = false,
-  buttonMore = true,
   onMorePress,
   onToggleChange
 }: WaterCardProps) => {
@@ -45,11 +42,20 @@ export const WaterCard = ({
     <Card>
       <HStack className="items-center justify-between">
         <HStack gap={10} center>
-          <Image
-            source={require("../../../../public/icons/water-intake.png")}
-            className="object-cover"
-            style={{ width: 30, height: 30 }}
-          />
+          <TouchableOpacity
+            activeOpacity={1}
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-muted"
+          >
+            <Image
+              source={require("../../../../public/icons/glass-of-water.png")}
+              style={{
+                width: 24,
+                height: 24,
+                resizeMode: "cover"
+              }}
+            />
+          </TouchableOpacity>
+
           <VStack gap={0} className="ml-1">
             <Text className="font-tmedium text-lg text-primary">{time}</Text>
             <Text className="font-tmedium text-sm text-accent">
@@ -58,7 +64,7 @@ export const WaterCard = ({
           </VStack>
         </HStack>
 
-        {buttonSwitch && (
+        {variant === "switch" ? (
           <Switch
             value={status}
             onValueChange={handleToggle}
@@ -66,9 +72,7 @@ export const WaterCard = ({
             thumbColor={status ? COLORS.primary : COLORS.primary}
             style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
           />
-        )}
-
-        {buttonMore && (
+        ) : (
           <IconButton
             size="sm"
             icon={<MoreHorizontal size={20} color={COLORS.primary} />}

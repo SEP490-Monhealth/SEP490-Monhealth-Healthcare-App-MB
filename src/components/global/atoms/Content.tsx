@@ -6,14 +6,14 @@ import { cn } from "@/lib/utils"
 
 interface ContentProps {
   testID?: string
-  className?: string
   children: React.ReactNode
+  className?: string
 }
 
 export const Content: React.FC<ContentProps> = ({
   testID,
-  className = "",
-  children
+  children,
+  className = ""
 }) => {
   return (
     <View testID={testID} className={cn("flex-1", className)}>

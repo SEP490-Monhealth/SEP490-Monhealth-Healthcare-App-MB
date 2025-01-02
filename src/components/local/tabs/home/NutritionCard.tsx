@@ -7,14 +7,14 @@ import { HStack } from "@/components/global/atoms"
 interface NutritionCardProps {
   label: string
   value: number
-  maxValue: number
+  targetValue: number
   color: string
 }
 
 export const NutritionCard = ({
   label,
   value,
-  maxValue,
+  targetValue,
   color
 }: NutritionCardProps) => {
   return (
@@ -34,7 +34,7 @@ export const NutritionCard = ({
       </HStack>
 
       <Text className="font-tbold text-sm text-primary">
-        {value}/{maxValue} g
+        {value}/{targetValue} g
       </Text>
     </View>
   )

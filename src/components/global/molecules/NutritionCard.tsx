@@ -6,7 +6,7 @@ import { VStack } from "@/components/global/atoms"
 
 import { cn } from "@/lib/utils"
 
-import { toFixed2 } from "@/utils/formatters"
+import { toFixed } from "@/utils/formatters"
 
 interface NutritionCardProps {
   reverse?: boolean
@@ -37,7 +37,7 @@ export const NutritionCard = ({
         className={cn("font-tbold text-lg leading-5")}
         style={fillColor ? { color } : undefined}
       >
-        {toFixed2(value)} {showUnit ? unit : ""}
+        {toFixed(value, 2)} {showUnit ? unit : ""}
       </Text>
     </VStack>
   )

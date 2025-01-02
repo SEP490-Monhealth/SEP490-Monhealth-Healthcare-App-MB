@@ -1,58 +1,49 @@
-import React, { useState } from "react"
+import React from "react"
 
 import { Text } from "react-native"
-
-import { useRouter } from "expo-router"
 
 import { Check, MoreHorizontal, Plus } from "lucide-react-native"
 
 import { COLORS } from "@/constants/app"
+
+import { toFixed } from "@/utils/formatters"
 
 import { Card, HStack, VStack } from "../atoms"
 import { IconButton } from "./IconButton"
 
 interface FoodCardProps {
   variant?: "default" | "add" | "more"
-  foodId: string
   name: string
   calories?: number
   size?: string
   weight?: number
   unit?: string
+  isAdded?: boolean
+  onPress?: () => void
+  onAddPress?: () => void
   onMorePress?: () => void
 }
 
 export const FoodCard = ({
   variant = "default",
-  foodId,
   name,
   calories,
   size,
   weight,
   unit,
+  isAdded,
+  onPress,
+  onAddPress,
   onMorePress
 }: FoodCardProps) => {
-  const router = useRouter()
-
-  const [isAdded, setIsAdded] = useState(false)
-
-  const handleViewFood = () => {
-    router.push(`/foods/${foodId}/details`)
-  }
-
-  const handleAddFood = () => {
-    setIsAdded(!isAdded)
-
-    console.log("Add food", foodId)
-  }
-
   return (
-    <Card onPress={variant === "default" ? handleViewFood : undefined}>
+    <Card onPress={onPress}>
       <HStack className="w-full items-center justify-between">
-        <VStack gap={0} className="ml-1" onPress={handleViewFood}>
+        {/* <VStack gap={0} className="ml-1" onPress={onPress}> */}
+        <VStack gap={0} className="ml-1">
           <Text className="font-tmedium text-lg text-primary">{name}</Text>
           <Text className="font-tmedium text-sm text-accent">
-            {calories ?? 0} kcal
+            {toFixed(Number(calories), 1) ?? 0} kcal
             {size ? ` • 1 ${size.toLowerCase()}` : " • 1 phần"}
             {weight && unit ? ` • ${weight} ${unit}` : ""}
           </Text>
@@ -69,7 +60,7 @@ export const FoodCard = ({
                 <Plus size={18} strokeWidth={2.3} color={COLORS.secondary} />
               )
             }
-            onPress={handleAddFood}
+            onPress={onAddPress}
           />
         ) : variant === "more" ? (
           <IconButton

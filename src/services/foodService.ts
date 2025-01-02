@@ -144,7 +144,7 @@ export const getFoodsByCategory = async (
 }
 
 export const getFoodsByUserId = async (
-  userId: string,
+  userId: string | undefined,
   page: number,
   limit: number
 ): Promise<FoodResponse> => {

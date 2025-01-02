@@ -4,7 +4,7 @@ import { useRouter } from "expo-router"
 
 import { Button, Container, Content, VStack } from "@/components/global/atoms"
 
-function ActivityScreen() {
+function ReportScreen() {
   const router = useRouter()
 
   const handleSetup = () => {
@@ -21,10 +21,6 @@ function ActivityScreen() {
 
   const handleViewGoalSetup = () => {
     router.push("/(setup)/summary")
-  }
-
-  const handleViewNotification = () => {
-    router.push("/(setup)/notification")
   }
 
   return (
@@ -46,13 +42,9 @@ function ActivityScreen() {
           <Button size="lg" onPress={handleViewGoalSetup}>
             Mục tiêu
           </Button>
-
-          <Button size="lg" onPress={handleViewNotification}>
-            Lịch nhắc nhở
-          </Button>
         </VStack>
       </Content>
     </Container>
   )
 }
-export default ActivityScreen
+export default ReportScreen

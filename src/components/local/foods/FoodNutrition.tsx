@@ -3,7 +3,7 @@ import React from "react"
 import { HStack } from "@/components/global/atoms"
 import { ArcProgress } from "@/components/global/molecules"
 
-import { toFixed2 } from "@/utils/formatters"
+import { toFixed } from "@/utils/formatters"
 import { getNutritionColor } from "@/utils/helpers"
 
 interface FoodNutritionProps {
@@ -33,7 +33,7 @@ export const FoodNutrition = ({
         tintColor={getNutritionColor("Protein")}
         centerCircle={true}
         valueType="percentage"
-        value={toFixed2(proteinFill) || 0}
+        value={toFixed(proteinFill, 1) || 0}
         label="Protein"
       />
 
@@ -45,7 +45,7 @@ export const FoodNutrition = ({
         tintColor={getNutritionColor("Carbs")}
         centerCircle={true}
         valueType="percentage"
-        value={toFixed2(carbsFill) || 0}
+        value={toFixed(carbsFill, 1) || 0}
         label="Carbs"
       />
 
@@ -57,7 +57,7 @@ export const FoodNutrition = ({
         tintColor={getNutritionColor("Fat")}
         centerCircle={true}
         valueType="percentage"
-        value={toFixed2(fatFill) || 0}
+        value={toFixed(fatFill, 1) || 0}
         label="Fat"
       />
     </HStack>
