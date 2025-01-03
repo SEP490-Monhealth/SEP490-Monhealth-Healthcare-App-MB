@@ -47,15 +47,37 @@ export const getGreeting = () => {
   } else return "Chào buổi tối,"
 }
 
-export const getMealType = () => {
+/**
+ * Lấy loại bữa ăn dựa trên thời gian hiện tại
+ * @param {string} lang - Ngôn ngữ ("vi" cho tiếng Việt, "en" cho tiếng Anh)
+ * @returns Loại bữa ăn theo ngôn ngữ (mặc định là tiếng Việt)
+ */
+export const getMealType = (lang: string = "vi") => {
   const date = new Date()
   const hours = date.getHours()
 
+  const mealTypes: { [key: string]: { breakfast: string; lunch: string; dinner: string } } = {
+    vi: {
+      breakfast: "Bữa sáng",
+      lunch: "Bữa trưa",
+      dinner: "Bữa tối"
+    },
+    en: {
+      breakfast: "Breakfast",
+      lunch: "Lunch",
+      dinner: "Dinner"
+    }
+  }
+
+  const selectedLang = mealTypes[lang as keyof typeof mealTypes] || mealTypes["vi"] // Default to Vietnamese
+
   if (hours < 12) {
-    return "Bữa sáng"
+    return selectedLang.breakfast
   } else if (hours < 18) {
-    return "Bữa trưa"
-  } else return "Bữa tối"
+    return selectedLang.lunch
+  } else {
+    return selectedLang.dinner
+  }
 }
 
 /**

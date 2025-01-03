@@ -45,7 +45,7 @@ function ReminderScreen() {
         label="Nhắc nhở uống nước"
         action={{
           icon: <Add size={24} color={COLORS.primary} />,
-          url: "/reminders/create"
+          href: "/reminders/create"
         }}
       />
 

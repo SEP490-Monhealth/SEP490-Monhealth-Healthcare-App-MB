@@ -160,7 +160,7 @@ export const updateMealFood = async (
   quantity: number
 ): Promise<string> => {
   try {
-    const response = await monAPI.put(`/meal/${mealFoodId}/foods/quantity`, {
+    const response = await monAPI.put(`/meal/foods/${mealFoodId}/quantity`, {
       quantity
     })
 

@@ -49,13 +49,26 @@ const baseNutritionSchema = z.object({
   updatedBy: z.string()
 })
 
-export const nutritionSchema = baseNutritionSchema.omit({
-  nutritionId: true,
-  foodId: true,
-  createdAt: true,
-  updatedAt: true,
-  createdBy: true,
-  updatedBy: true
+export const nutritionSchema = baseNutritionSchema.pick({
+  calories: true,
+  protein: true,
+  carbs: true,
+  fat: true,
+  fiber: true,
+  sugar: true,
+  saturatedFat: true,
+  unsaturatedFat: true,
+  cholesterol: true,
+  sodium: true,
+  potassium: true,
+  calcium: true,
+  iron: true,
+  vitaminA: true,
+  vitaminB1: true,
+  vitaminB2: true,
+  vitaminC: true,
+  vitaminD: true,
+  vitaminE: true
 })
 
 export const nutritionFoodSchema = baseNutritionSchema.pick({

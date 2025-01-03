@@ -35,7 +35,7 @@ export const useGetAllUsers = (
   })
 }
 
-export const useGetUserById = (userId: string) => {
+export const useGetUserById = (userId: string | undefined) => {
   const handleError = useErrorHandler()
 
   return useQuery<UserType, Error>({
@@ -48,6 +48,7 @@ export const useGetUserById = (userId: string) => {
         throw error
       }
     },
+    enabled: !!userId,
     staleTime: 1000 * 60 * 5
   })
 }

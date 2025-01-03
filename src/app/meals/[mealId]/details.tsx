@@ -58,7 +58,7 @@ function MealDetailsScreen() {
         label={getMealTypeName(mealData?.type || "")}
         action={{
           icon: <Setting4 variant="Bold" size={20} color={COLORS.primary} />,
-          url: `/(tabs)/schedule`
+          href: `/(tabs)/schedule`
         }}
       />
 

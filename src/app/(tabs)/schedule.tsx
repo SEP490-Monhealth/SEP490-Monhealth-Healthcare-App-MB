@@ -20,7 +20,7 @@ function ScheduleScreen() {
         label="Thực đơn"
         action={{
           icon: <Add size={24} color={COLORS.primary} />,
-          url: "/foods"
+          href: "/foods"
         }}
       />
 

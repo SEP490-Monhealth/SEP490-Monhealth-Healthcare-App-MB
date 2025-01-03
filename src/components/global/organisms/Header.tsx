@@ -13,7 +13,7 @@ import { IconButton } from "../molecules"
 
 interface ActionProps {
   icon: React.ReactNode
-  url?: string
+  href?: string
 }
 
 interface HeaderProps {
@@ -42,8 +42,8 @@ export const Header = ({
   }
 
   const handleAction = () => {
-    if (action?.url) {
-      router.push(action.url)
+    if (action?.href) {
+      router.push(action.href)
     } else if (onActionPress) {
       onActionPress()
     }

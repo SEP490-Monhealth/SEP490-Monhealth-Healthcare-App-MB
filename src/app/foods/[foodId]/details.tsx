@@ -37,7 +37,7 @@ import { useGetFoodById } from "@/hooks/useFood"
 import { useGetNutritionByFoodId } from "@/hooks/useNutrition"
 import { useGetPortionByFoodId } from "@/hooks/usePortion"
 
-import { parsePortion } from "@/utils/helpers"
+import { getMealType, parsePortion } from "@/utils/helpers"
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window")
 
@@ -54,7 +54,7 @@ function FoodDetailsScreen() {
 
   const meals = ["Bữa sáng", "Bữa trưa", "Bữa tối", "Bữa phụ"]
 
-  const [selectedMeal, setSelectedMeal] = useState(meals[0])
+  const [selectedMeal, setSelectedMeal] = useState(getMealType())
   const [selectedPortion, setSelectedPortion] = useState("g")
   const [quantity, setQuantity] = useState("100")
   const [portionSheetHeight, setPortionSheetHeight] = useState(320)

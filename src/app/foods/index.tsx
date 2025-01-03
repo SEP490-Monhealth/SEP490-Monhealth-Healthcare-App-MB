@@ -19,19 +19,29 @@ import { FoodCategories } from "@/components/local/foods"
 
 import { COLORS } from "@/constants/app"
 
+import { useAuth } from "@/contexts/AuthContext"
+
 import { useGetAllCategories } from "@/hooks/useCategory"
 import { useDebounce } from "@/hooks/useDebounce"
+import { useCreateMeal } from "@/hooks/useMeal"
 import { useRouterHandlers } from "@/hooks/useRouter"
 
 import { FoodType } from "@/schemas/foodSchema"
 
 import { getAllFoods } from "@/services/foodService"
 
+import { getMealType } from "@/utils/helpers"
+
 import LoadingScreen from "../loading"
 
 function FoodsScreen() {
   const router = useRouter()
   const { handleViewFood } = useRouterHandlers()
+
+  const { user } = useAuth()
+  const userId = user?.userId
+
+  const { mutate: addMeal } = useCreateMeal()
 
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [limit, setLimit] = useState<number>(10)
@@ -42,6 +52,7 @@ function FoodsScreen() {
   const [totalItems, setTotalItems] = useState<number>(0)
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [selectedCategory, setSelectedCategory] = useState<string>("Tất cả")
+  const [addedFoods, setAddedFoods] = useState<Set<string>>(new Set())
 
   const debouncedSearchQuery: string = useDebounce(searchQuery)
   const debouncedSelectedCategory: string = useDebounce(selectedCategory, 0)
@@ -105,6 +116,42 @@ function FoodsScreen() {
 
     return () => clearTimeout(timeout)
   }, [debouncedSearchQuery, debouncedSelectedCategory])
+
+  useEffect(() => {
+    return () => {
+      setAddedFoods(new Set())
+    }
+  }, [])
+
+  const handleAddFood = (food: FoodType) => {
+    const mealType = getMealType("en")
+
+    const size = food.portion?.size || ""
+    const weight = food.portion?.weight || 100
+    const unit = food.portion?.unit || "g"
+
+    const mealData = {
+      userId: userId || "",
+      type: mealType,
+      items: [
+        {
+          foodId: food.foodId,
+          quantity: 1,
+          size,
+          weight,
+          unit
+        }
+      ]
+    }
+
+    console.log(JSON.stringify(mealData, null, 2))
+
+    addMeal(mealData, {
+      onSuccess: () => {
+        setAddedFoods((prev) => new Set(prev).add(food.foodId))
+      }
+    })
+  }
 
   const handleViewUserFoods = () => {
     router.push("/foods/user")
@@ -173,7 +220,9 @@ function FoodsScreen() {
                 size={item.portion?.size}
                 weight={item.portion?.weight}
                 unit={item.portion?.unit}
+                isAdded={addedFoods.has(item.foodId)}
                 onPress={() => handleViewFood(item.foodId)}
+                onAddPress={() => handleAddFood(item)}
               />
             )}
             ListEmptyComponent={() => (

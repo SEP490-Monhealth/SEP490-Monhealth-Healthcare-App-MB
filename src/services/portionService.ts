@@ -5,7 +5,7 @@ import monAPI from "@/lib/monAPI"
 import { PortionType } from "@/schemas/portionSchema"
 
 export const getPortionByFoodId = async (
-  foodId: string
+  foodId: string | undefined
 ): Promise<PortionType[]> => {
   try {
     const response = await monAPI.get(`/portions/food/${foodId}`)
@@ -43,7 +43,7 @@ export const getPortionByFoodId = async (
 }
 
 export const getPortionById = async (
-  portionId: string
+  portionId: string | undefined
 ): Promise<PortionType> => {
   try {
     const response = await monAPI.get(`/portions/${portionId}`)

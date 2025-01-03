@@ -36,6 +36,7 @@ export const FoodCard = ({
   onAddPress,
   onMorePress
 }: FoodCardProps) => {
+  
   return (
     <Card onPress={onPress}>
       <HStack className="w-full items-center justify-between">

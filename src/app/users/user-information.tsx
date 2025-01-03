@@ -32,7 +32,7 @@ function UserInformationScreen() {
         label="Thông tin cá nhân"
         action={{
           icon: <Edit2 variant="Bold" size={20} color={COLORS.primary} />,
-          url: "/users/settings"
+          href: "/users/settings"
         }}
       />
 

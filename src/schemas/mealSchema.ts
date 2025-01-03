@@ -72,7 +72,7 @@ export const createMealSchema = z.object({
         "Bữa ăn phải là một trong các giá trị: Breakfast, Lunch, Dinner, Snack"
     }),
 
-  items: z.array(mealFoodSchema)
+  items: z.array(createMealFoodSchema)
 })
 
 export type MealFoodType = z.infer<typeof mealFoodSchema>

@@ -63,18 +63,27 @@ const baseMetricSchema = z.object({
   updatedBy: z.string()
 })
 
-export const metricSchema = baseMetricSchema
+const metricSchema = baseMetricSchema
 
-export const createUpdateMetricSchema = baseMetricSchema.omit({
-  metricId: true,
-  bmi: true,
-  bmr: true,
-  tdee: true,
-  ibw: true,
-  createdAt: true,
-  updatedAt: true,
-  createdBy: true,
-  updatedBy: true
+// export const createUpdateMetricSchema = baseMetricSchema.omit({
+//   metricId: true,
+//   bmi: true,
+//   bmr: true,
+//   tdee: true,
+//   ibw: true,
+//   createdAt: true,
+//   updatedAt: true,
+//   createdBy: true,
+//   updatedBy: true
+// })
+
+export const createUpdateMetricSchema = baseMetricSchema.pick({
+  userId: true,
+  dateOfBirth: true,
+  gender: true,
+  height: true,
+  weight: true,
+  activityLevel: true
 })
 
 export const dateOfBirthMetricSchema = baseMetricSchema.pick({

@@ -22,6 +22,7 @@ export const useGetDailyMealByUserId = (
         throw error
       }
     },
+    enabled: !!userId,
     staleTime: 1000 * 60 * 5
   })
 }

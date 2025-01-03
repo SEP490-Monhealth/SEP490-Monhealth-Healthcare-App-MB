@@ -31,7 +31,7 @@ export const MealTab = () => {
   const { data: dailyMealData, isLoading } = useGetDailyMealByUserId(
     userId,
     today
-  )
+)
 
   const mealsData = dailyMealData?.items || []
 

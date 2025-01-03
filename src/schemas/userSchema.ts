@@ -10,12 +10,12 @@ const baseUserSchema = z.object({
     .regex(/^[^\d!@#$%^&*()_+=[\]{};':"\\|,.<>/?]*$/, {
       message: "Tên không được chứa ký tự đặc biệt hoặc số"
     }),
-  email: z.string().email({ message: "Email không hợp lệ" }),
   phoneNumber: z
     .string()
     .regex(/^[0-9]+$/, { message: "Số điện thoại chỉ được chứa số" })
     .min(10, { message: "Số điện thoại phải có ít nhất 10 ký tự" })
     .max(15, { message: "Số điện thoại không được dài hơn 15 ký tự" }),
+  email: z.string().email({ message: "Email không hợp lệ" }),
   password: z
     .string()
     .min(6, { message: "Mật khẩu phải có ít nhất 6 ký tự" })
@@ -52,14 +52,12 @@ const baseUserSchema = z.object({
 
 export const userSchema = baseUserSchema
 
-export const createUpdateUserSchema = baseUserSchema.omit({
-  userId: true,
-  role: true,
-  status: true,
-  createdAt: true,
-  updatedAt: true,
-  createdBy: true,
-  updatedBy: true
+export const createUpdateUserSchema = baseUserSchema.pick({
+  fullName: true,
+  phoneNumber: true,
+  email: true,
+  password: true,
+  avatarUrl: true
 })
 
 export const phoneNumberSchema = baseUserSchema.pick({
@@ -82,8 +80,8 @@ export const loginSchema = baseUserSchema.pick({
 
 export const registerSchema = baseUserSchema.pick({
   fullName: true,
-  email: true,
   phoneNumber: true,
+  email: true,
   password: true
 })
 

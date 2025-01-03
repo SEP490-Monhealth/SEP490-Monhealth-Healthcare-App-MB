@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { useErrorHandler } from "@/contexts/ErrorContext"
 
@@ -42,11 +42,13 @@ export const useGetMealById = (mealId: string | undefined) => {
         throw error
       }
     },
+    enabled: !!mealId,
     staleTime: 1000 * 60 * 5
   })
 }
 
 export const useCreateMeal = () => {
+  const queryClient = useQueryClient()
   const handleError = useErrorHandler()
 
   return useMutation<string, Error, CreateMealType>({
@@ -57,6 +59,9 @@ export const useCreateMeal = () => {
         handleError(error)
         throw error
       }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["dailyMeal"] })
     }
   })
 }
@@ -74,6 +79,7 @@ export const useGetMealFoodsByMealId = (mealId: string | undefined) => {
         throw error
       }
     },
+    enabled: !!mealId,
     staleTime: 1000 * 60 * 5
   })
 }

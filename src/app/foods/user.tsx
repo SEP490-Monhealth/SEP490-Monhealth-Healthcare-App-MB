@@ -99,7 +99,7 @@ function FoodUserScreen() {
         label="Món ăn của tôi"
         action={{
           icon: <Add size={24} color={COLORS.primary} />,
-          url: "/foods/create"
+          href: "/foods/create"
         }}
       />
 

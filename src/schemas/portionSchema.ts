@@ -21,13 +21,10 @@ const basePortionSchema = z.object({
   updatedBy: z.string()
 })
 
-export const portionSchema = basePortionSchema.omit({
-  portionId: true,
-  foodId: true,
-  createdAt: true,
-  updatedAt: true,
-  createdBy: true,
-  updatedBy: true
+export const portionSchema = basePortionSchema.pick({
+  size: true,
+  weight: true,
+  unit: true
 })
 
 export type PortionType = z.infer<typeof portionSchema>

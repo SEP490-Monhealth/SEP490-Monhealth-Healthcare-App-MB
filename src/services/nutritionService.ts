@@ -80,45 +80,6 @@ export const getNutritionById = async (
   }
 }
 
-export const createNutrition = async (
-  nutrition: NutritionType
-): Promise<string> => {
-  try {
-    const response = await monAPI.post("/nutrition", nutrition)
-
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn."
-      }
-    }
-
-    const { success, message } = response.data
-
-    if (!success) {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể tạo thông tin dinh dưỡng."
-      }
-    }
-
-    console.log(message)
-    return message
-  } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
-      }
-    }
-  }
-}
-
 export const updateNutrition = async (
   nutritionId: string,
   nutrition: NutritionType

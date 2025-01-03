@@ -87,13 +87,18 @@ export const goalSchema = baseGoalSchema.pick({
   updatedBy: true
 })
 
-export const createGoalSchema = baseGoalSchema.omit({
-  goalId: true,
-  status: true,
-  createdAt: true,
-  updatedAt: true,
-  createdBy: true,
-  updatedBy: true
+export const createGoalSchema = baseGoalSchema.pick({
+  userId: true,
+  type: true,
+  weightGoal: true,
+  calorieGoal: true,
+  proteinGoal: true,
+  carbGoal: true,
+  fatGoal: true,
+  fiberGoal: true,
+  sugarGoal: true,
+  waterGoal: true,
+  exerciseGoal: true
 })
 
 export const typeGoalSchema = z.object({

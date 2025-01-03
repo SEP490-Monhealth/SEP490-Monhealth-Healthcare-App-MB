@@ -55,7 +55,9 @@ export const getAllUsers = async (
   }
 }
 
-export const getUserById = async (userId: string): Promise<UserType> => {
+export const getUserById = async (
+  userId: string | undefined
+): Promise<UserType> => {
   try {
     const response = await monAPI.get(`/users/${userId}`)
 
