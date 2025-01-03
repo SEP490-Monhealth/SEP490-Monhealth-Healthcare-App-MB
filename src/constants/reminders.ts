@@ -2,7 +2,7 @@ import { ReminderType } from "@/schemas/reminderSchema"
 
 export const sampleReminderData: ReminderType[] = [
   {
-    reminderId: "123",
+    reminderId: "001",
     userId: "123",
 
     name: "Nhắc nhở 1",
@@ -16,7 +16,7 @@ export const sampleReminderData: ReminderType[] = [
     updatedBy: "asd"
   },
   {
-    reminderId: "1234",
+    reminderId: "002",
     userId: "123",
 
     name: "Nhắc nhở 2",
@@ -30,7 +30,7 @@ export const sampleReminderData: ReminderType[] = [
     updatedBy: "asd"
   },
   {
-    reminderId: "1235",
+    reminderId: "003",
     userId: "123",
 
     name: "Nhắc nhở 3",
@@ -44,7 +44,7 @@ export const sampleReminderData: ReminderType[] = [
     updatedBy: "asd"
   },
   {
-    reminderId: "1236",
+    reminderId: "004",
     userId: "123",
 
     name: "Nhắc nhở 4",

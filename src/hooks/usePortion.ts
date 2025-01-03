@@ -10,7 +10,7 @@ export const useGetPortionByFoodId = (foodId: string) => {
   const handleError = useErrorHandler()
 
   return useQuery<PortionType[], Error>({
-    queryKey: ["portion", foodId],
+    queryKey: ["portions", foodId],
     queryFn: async () => {
       try {
         return await getPortionByFoodId(foodId)
