@@ -22,6 +22,7 @@ export const WaterTab = () => {
 
   const toggleReminderStatus = (reminderId: string) => {
     console.log("Cập nhật:", reminderId)
+    
     setRemindersData((prevData) =>
       prevData.map((reminder) =>
         reminder.reminderId === reminderId

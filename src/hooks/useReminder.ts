@@ -8,10 +8,11 @@ import {
 } from "@/schemas/reminderSchema"
 
 import {
+  changeReminderStatus,
   createReminder,
   deleteReminder,
+  getReminderById,
   getRemindersByUserId,
-  patchReminderStatus,
   updateReminder
 } from "@/services/reminderService"
 
@@ -28,6 +29,24 @@ export const useGetReminderByUserId = (userId: string | undefined) => {
         throw error
       }
     },
+    staleTime: 1000 * 60 * 5
+  })
+}
+
+export const useGetReminderById = (reminderId: string | undefined) => {
+  const handleError = useErrorHandler()
+
+  return useQuery<ReminderType, Error>({
+    queryKey: ["reminder", reminderId],
+    queryFn: async () => {
+      try {
+        return await getReminderById(reminderId)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    enabled: !!reminderId,
     staleTime: 1000 * 60 * 5
   })
 }
@@ -66,13 +85,13 @@ export const useUpdateReminder = () => {
   })
 }
 
-export const usePatchReminderStatus = () => {
+export const useChangeReminderStatus = () => {
   const handleError = useErrorHandler()
 
   return useMutation<string, Error, string>({
     mutationFn: async (reminderId) => {
       try {
-        return await patchReminderStatus(reminderId)
+        return await changeReminderStatus(reminderId)
       } catch (error) {
         handleError(error)
         throw error

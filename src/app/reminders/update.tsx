@@ -26,6 +26,7 @@ import {
 
 function ReminderUpdateScreen() {
   const searchParams = useLocalSearchParams()
+  
   const parsedReminder = searchParams.reminder
     ? JSON.parse(searchParams.reminder as string)
     : null

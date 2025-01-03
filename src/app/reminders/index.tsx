@@ -6,6 +6,7 @@ import { FlatList } from "react-native"
 import { useRouter } from "expo-router"
 
 import { Add } from "iconsax-react-native"
+import { Trash2 } from "lucide-react-native"
 
 import {
   Button,
@@ -25,14 +26,14 @@ import { ReminderType } from "@/schemas/reminderSchema"
 
 function ReminderScreen() {
   const router = useRouter()
+  const WaterSheetRef = useRef<SheetRefProps>(null)
+
   const [remindersData, setRemindersData] = useState(sampleReminderData)
   const [isRefreshing, setIsRefreshing] = useState(false)
-  const WaterSheetRef = useRef<SheetRefProps>(null)
-  const [selectedReminderId, setSelectedReminderId] = useState<string | null>(
-    null
-  )
+  const [selectedReminder, setSelectedReminder] = useState<string | null>(null)
+
   const openMealSheet = (reminder: ReminderType) => {
-    setSelectedReminderId(reminder.reminderId)
+    setSelectedReminder(reminder.reminderId)
     WaterSheetRef.current?.scrollTo(-150)
   }
 
@@ -40,6 +41,7 @@ function ReminderScreen() {
 
   const onRefresh = async () => {
     setIsRefreshing(true)
+
     try {
       const newData = await fetchRemindersData()
       setRemindersData(newData)
@@ -59,17 +61,18 @@ function ReminderScreen() {
   }
 
   const handleDelete = () => {
-    if (selectedReminderId) {
-      console.log("Deleting reminder with ID:", selectedReminderId)
+    if (selectedReminder) {
+      console.log("Deleting reminder with ID:", selectedReminder)
       closeReminderSheet()
     }
   }
 
   const handleUpdateReminder = () => {
-    if (selectedReminderId) {
+    if (selectedReminder) {
       const reminder = remindersData.find(
-        (r) => r.reminderId === selectedReminderId
+        (r) => r.reminderId === selectedReminder
       )
+
       if (reminder) {
         router.push({
           pathname: "/reminders/update",
@@ -79,12 +82,13 @@ function ReminderScreen() {
         })
       }
     }
+
     closeReminderSheet()
   }
 
   return (
     <SafeAreaView className="flex-1 bg-background">
-      <Container>
+      <View className="flex-1 px-6">
         <Header
           back
           label="Nhắc nhở uống nước"
@@ -116,19 +120,14 @@ function ReminderScreen() {
             ItemSeparatorComponent={() => <View className="h-3" />}
           />
         </Content>
-      </Container>
+      </View>
+
       <Sheet ref={WaterSheetRef} dynamicHeight={150}>
         <HStack gap={20}>
-          <Button variant="danger" icon={true} size="lg" onPress={handleDelete}>
-            <Image
-              source={require("../../../public/icons/delete.png")}
-              style={{
-                width: 20,
-                height: 20
-              }}
-              className="object-cover"
-            />
+          <Button variant="danger" icon size="lg" onPress={handleDelete}>
+            <Trash2 size={24} color="#fff" />
           </Button>
+
           <Button
             variant="secondary"
             size="lg"
