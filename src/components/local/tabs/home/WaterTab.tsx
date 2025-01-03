@@ -21,6 +21,7 @@ export const WaterTab = () => {
   const progress = Math.min((drank / totalWater) * 100, 100)
 
   const toggleReminderStatus = (reminderId: string) => {
+    console.log("Cập nhật:", reminderId)
     setRemindersData((prevData) =>
       prevData.map((reminder) =>
         reminder.reminderId === reminderId

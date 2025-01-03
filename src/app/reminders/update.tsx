@@ -2,6 +2,8 @@ import React, { useState } from "react"
 
 import { Text } from "react-native"
 
+import { useLocalSearchParams } from "expo-router"
+
 import { zodResolver } from "@hookform/resolvers/zod"
 import DateTimePicker, {
   DateTimePickerEvent
@@ -22,8 +24,29 @@ import {
   createUpdateReminderSchema
 } from "@/schemas/reminderSchema"
 
-function ReminderCreateScreen() {
+function ReminderUpdateScreen() {
+  const searchParams = useLocalSearchParams()
+  const parsedReminder = searchParams.reminder
+    ? JSON.parse(searchParams.reminder as string)
+    : null
+
   const [time, setTime] = useState(new Date())
+  const [hasUserSetTime, setHasUserSetTime] = useState(false)
+
+  React.useEffect(() => {
+    if (!hasUserSetTime && parsedReminder?.time) {
+      const [hours, minutes] = parsedReminder.time.split(":").map(Number)
+      const reminderDate = new Date()
+      reminderDate.setHours(hours, minutes)
+
+      if (
+        time.getHours() !== reminderDate.getHours() ||
+        time.getMinutes() !== reminderDate.getMinutes()
+      ) {
+        setTime(reminderDate)
+      }
+    }
+  }, [parsedReminder, time, hasUserSetTime])
 
   const {
     control,
@@ -32,14 +55,20 @@ function ReminderCreateScreen() {
     formState: { errors }
   } = useForm<CreateUpdateReminderType>({
     resolver: zodResolver(createUpdateReminderSchema),
-    defaultValues: {
-      name: "",
-      time: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit"
-      }),
-      volume: 0
-    }
+    defaultValues: parsedReminder
+      ? {
+          name: parsedReminder.name,
+          time: parsedReminder.time,
+          volume: parsedReminder.volume
+        }
+      : {
+          name: "",
+          time: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit"
+          }),
+          volume: 0
+        }
   })
 
   const handleTimeChange = (
@@ -48,6 +77,7 @@ function ReminderCreateScreen() {
   ) => {
     if (selectedTime) {
       setTime(selectedTime)
+      setHasUserSetTime(true)
       const formattedTime = selectedTime.toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit"
@@ -57,12 +87,12 @@ function ReminderCreateScreen() {
   }
 
   const onSubmit = (data: CreateUpdateReminderType) => {
-    console.log("Dữ liệu được gửi:", data)
+    console.log("Updated:", data)
   }
 
   return (
     <Container dismissKeyboard>
-      <Header back label="Tạo nhắc nhở" />
+      <Header back label="Chỉnh sửa nhắc nhở" />
 
       <Content className="mt-2">
         <DateTimePicker
@@ -113,7 +143,7 @@ function ReminderCreateScreen() {
           </VStack>
 
           <Button size="lg" onPress={handleSubmit(onSubmit)}>
-            Tạo nhắc nhở
+            Cập nhật
           </Button>
         </VStack>
       </Content>
@@ -121,4 +151,4 @@ function ReminderCreateScreen() {
   )
 }
 
-export default ReminderCreateScreen
+export default ReminderUpdateScreen
