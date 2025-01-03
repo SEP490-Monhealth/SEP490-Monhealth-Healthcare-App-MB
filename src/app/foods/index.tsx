@@ -144,8 +144,6 @@ function FoodsScreen() {
       ]
     }
 
-    console.log(JSON.stringify(mealData, null, 2))
-
     addMeal(mealData, {
       onSuccess: () => {
         setAddedFoods((prev) => new Set(prev).add(food.foodId))

@@ -56,7 +56,9 @@ export const getMealType = (lang: string = "vi") => {
   const date = new Date()
   const hours = date.getHours()
 
-  const mealTypes: { [key: string]: { breakfast: string; lunch: string; dinner: string } } = {
+  const mealTypes: {
+    [key: string]: { breakfast: string; lunch: string; dinner: string }
+  } = {
     vi: {
       breakfast: "Bữa sáng",
       lunch: "Bữa trưa",
@@ -69,7 +71,8 @@ export const getMealType = (lang: string = "vi") => {
     }
   }
 
-  const selectedLang = mealTypes[lang as keyof typeof mealTypes] || mealTypes["vi"] // Default to Vietnamese
+  const selectedLang =
+    mealTypes[lang as keyof typeof mealTypes] || mealTypes["vi"] // Default to Vietnamese
 
   if (hours < 12) {
     return selectedLang.breakfast
@@ -143,13 +146,13 @@ export const getMealTypeImage = (mealType: string) => {
  * @param value - Giá trị số cần chuyển đổi
  * @returns Chuỗi số đã được làm tròn với 2 chữ số lẻ
  */
-export const parsePortion = (value: string) => {
+export const parsePortion = (value: string, quantity: string) => {
   const selectedPortionMatch = value.match(/(.+?) \((\d+) (\w+)\)/)
 
   let portionSize = selectedPortionMatch ? selectedPortionMatch[1] : value
   const portionWeight = selectedPortionMatch
     ? parseInt(selectedPortionMatch[2], 10)
-    : 100
+    : parseInt(quantity, 10)
   const portionUnit = selectedPortionMatch ? selectedPortionMatch[3] : "g"
 
   if (portionSize === "g") {

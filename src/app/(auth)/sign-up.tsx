@@ -64,8 +64,15 @@ function SignUpScreen() {
     setIsLoading(true)
     // console.log(data)
 
-    await register(data.fullName, data.phoneNumber, data.email, data.password)
-    router.replace("/(tabs)/home")
+    try {
+      await register(data.fullName, data.phoneNumber, data.email, data.password)
+      router.replace("/(auth)/login")
+    } catch (error: any) {
+      console.log("Lỗi khi đăng ký:", error.response?.data || error.message)
+    } finally {
+      setIsLoading(false)
+    }
+
     setIsLoading(false)
   }
 

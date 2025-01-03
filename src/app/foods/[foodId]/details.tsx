@@ -14,6 +14,7 @@ import LoadingScreen from "@/app/loading"
 import { ArchiveTick } from "iconsax-react-native"
 
 import {
+  Button,
   Container,
   Content,
   HStack,
@@ -31,11 +32,15 @@ import { FoodNutrition, NutritionFacts } from "@/components/local/foods"
 
 import { COLORS } from "@/constants/app"
 
+import { useAuth } from "@/contexts/AuthContext"
 import { useSaveFoods } from "@/contexts/SaveFoodContext"
 
 import { useGetFoodById } from "@/hooks/useFood"
+import { useCreateMeal } from "@/hooks/useMeal"
 import { useGetNutritionByFoodId } from "@/hooks/useNutrition"
 import { useGetPortionByFoodId } from "@/hooks/usePortion"
+
+import { FoodType } from "@/schemas/foodSchema"
 
 import { getMealType, parsePortion } from "@/utils/helpers"
 
@@ -46,15 +51,25 @@ function FoodDetailsScreen() {
   const MealSheetRef = useRef<SheetRefProps>(null)
   const PortionSheetRef = useRef<SheetRefProps>(null)
 
+  const { user } = useAuth()
+  const userId = user?.userId
+
   const { foodId } = useLocalSearchParams() as { foodId: string }
+
+  const { mutate: addMeal } = useCreateMeal()
 
   const { saveFoodsData, toggleSaveFood } = useSaveFoods()
 
   const isSaved = saveFoodsData.some((saved) => saved.foodId === foodId)
 
-  const meals = ["Bữa sáng", "Bữa trưa", "Bữa tối", "Bữa phụ"]
+  const meals = [
+    { label: "Bữa sáng", value: "Breakfast" },
+    { label: "Bữa trưa", value: "Lunch" },
+    { label: "Bữa tối", value: "Dinner" },
+    { label: "Bữa phụ", value: "Snack" }
+  ]
 
-  const [selectedMeal, setSelectedMeal] = useState(getMealType())
+  const [selectedMeal, setSelectedMeal] = useState(getMealType("eng"))
   const [selectedPortion, setSelectedPortion] = useState("g")
   const [quantity, setQuantity] = useState("100")
   const [portionSheetHeight, setPortionSheetHeight] = useState(320)
@@ -107,6 +122,56 @@ function FoodDetailsScreen() {
 
   const handleCreatePortion = () => router.push("/foods/portions/create")
 
+  const handleQuantityChange = (text: string) => {
+    setQuantity(text)
+  }
+
+  const handlePortionChange = (selectedItem: string) => {
+    setSelectedPortion(selectedItem)
+
+    if (selectedItem === "g") {
+      setQuantity("100")
+    } else {
+      setQuantity("1")
+    }
+
+    closePortionSheet()
+  }
+
+  const handleAddFoodWrapper = () => {
+    if (!foodData) return
+    handleAddFood(foodData)
+  }
+
+  const handleAddFood = (food: FoodType) => {
+    const { portionSize, portionWeight, portionUnit } = parsePortion(
+      selectedPortion,
+      quantity
+    )
+
+    const selectedMealValue =
+      meals.find((meal) => meal.label === selectedMeal)?.value || ""
+
+    const mealData = {
+      userId: userId || "",
+      type: selectedMealValue,
+      items: [
+        {
+          foodId: foodId,
+          quantity: selectedPortion === "g" ? 1 : parseInt(quantity, 10),
+          size: portionSize,
+          weight:
+            selectedPortion === "g" ? parseInt(quantity, 10) : portionWeight,
+          unit: portionUnit
+        }
+      ]
+    }
+
+    // console.log(JSON.stringify(mealData, null, 2))
+
+    addMeal(mealData)
+  }
+
   if (
     !foodData ||
     isFoodLoading ||
@@ -119,8 +184,10 @@ function FoodDetailsScreen() {
 
   const handleToggleSaveFood = () => {
     if (foodData && nutritionData && portionData) {
-      const { portionSize, portionWeight, portionUnit } =
-        parsePortion(selectedPortion)
+      const { portionSize, portionWeight, portionUnit } = parsePortion(
+        selectedPortion,
+        quantity
+      )
 
       toggleSaveFood({
         foodId: foodId,
@@ -180,7 +247,7 @@ function FoodDetailsScreen() {
                         <Input
                           value={quantity}
                           placeholder="1"
-                          onChangeText={(text) => setQuantity(text)}
+                          onChangeText={handleQuantityChange}
                           keyboardType="numeric"
                         />
                       </View>
@@ -216,17 +283,30 @@ function FoodDetailsScreen() {
                 </VStack>
               </View>
             </ScrollArea>
+
+            <Button
+              size="lg"
+              onPress={handleAddFoodWrapper}
+              className="absolute bottom-4 w-full"
+            >
+              Thêm vào bữa ăn
+            </Button>
           </Content>
         </Container>
 
         <Sheet ref={MealSheetRef} dynamicHeight={300}>
           {meals.map((meal) => (
             <SheetItem
-              key={meal}
-              item={meal}
-              isSelected={selectedMeal === meal}
+              key={meal.value}
+              item={meal.label}
+              isSelected={selectedMeal === meal.label}
               onSelect={(selectedItem) => {
-                setSelectedMeal(selectedItem)
+                const selectedMealValue = meals.find(
+                  (m) => m.label === selectedItem
+                )?.label
+                if (selectedMealValue) {
+                  setSelectedMeal(selectedMealValue)
+                }
                 closeMealSheet()
               }}
             />
@@ -239,11 +319,7 @@ function FoodDetailsScreen() {
               key={portion}
               item={portion}
               isSelected={selectedPortion === portion}
-              onSelect={(selectedItem) => {
-                setSelectedPortion(selectedItem)
-                setQuantity(selectedItem === "g" ? "100" : "1")
-                closePortionSheet()
-              }}
+              onSelect={handlePortionChange}
             />
           ))}
         </Sheet>

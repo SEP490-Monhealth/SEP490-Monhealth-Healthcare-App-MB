@@ -15,6 +15,7 @@ interface FoodCardProps {
   variant?: "default" | "add" | "more"
   name: string
   calories?: number
+  quantity?: number
   size?: string
   weight?: number
   unit?: string
@@ -28,6 +29,7 @@ export const FoodCard = ({
   variant = "default",
   name,
   calories,
+  quantity = 1,
   size,
   weight,
   unit,
@@ -36,7 +38,6 @@ export const FoodCard = ({
   onAddPress,
   onMorePress
 }: FoodCardProps) => {
-  
   return (
     <Card onPress={onPress}>
       <HStack className="w-full items-center justify-between">
@@ -44,7 +45,9 @@ export const FoodCard = ({
           <Text className="font-tmedium text-lg text-primary">{name}</Text>
           <Text className="font-tmedium text-sm text-accent">
             {toFixed(Number(calories), 0) ?? 0} kcal
-            {size ? ` • 1 ${size.toLowerCase()}` : " • 1 phần"}
+            {size
+              ? ` • ${quantity} ${size.toLowerCase()}`
+              : ` • ${quantity} phần`}
             {weight && unit ? ` • ${weight} ${unit}` : ""}
           </Text>
         </VStack>

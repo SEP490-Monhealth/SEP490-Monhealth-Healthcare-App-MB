@@ -94,6 +94,7 @@ function MealDetailsScreen() {
               key={item.foodId}
               name={item.name}
               calories={item.nutrition?.calories}
+              quantity={item.quantity}
               size={item.portion?.size}
               weight={item.portion?.weight}
               unit={item.portion?.unit}

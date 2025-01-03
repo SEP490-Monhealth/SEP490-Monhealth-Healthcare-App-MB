@@ -58,9 +58,14 @@ function SignInScreen() {
     setIsLoading(true)
     // console.log(data)
 
-    await login(data.phoneNumber, data.password)
-    router.replace("/(tabs)/home")
-    setIsLoading(false)
+    try {
+      await login(data.phoneNumber, data.password)
+      router.replace("/(tabs)/home")
+    } catch (error: any) {
+      console.log("Lỗi khi đăng nhập:", error.response?.data || error.message)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
