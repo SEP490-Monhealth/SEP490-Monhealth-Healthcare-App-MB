@@ -2,6 +2,8 @@ import React from "react"
 
 import { TouchableOpacity, View } from "react-native"
 
+import { COLORS } from "@/constants/app"
+
 interface CheckboxProps {
   size?: number
   checked?: boolean
@@ -15,25 +17,35 @@ interface CheckboxProps {
 export const Checkbox = ({
   size = 24,
   checked = false,
-  borderColor = "border-primary",
-  backgroundColor = "bg-transparent",
-  activeBackgroundColor = "bg-primary",
-  innerCircleColor = "bg-white",
+  borderColor = COLORS.primary,
+  backgroundColor = "#fff",
+  activeBackgroundColor = "#fff",
+  innerCircleColor = COLORS.primary,
   onCheckChange
 }: CheckboxProps) => {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
       onPress={() => onCheckChange?.(!checked)}
-      className={`items-center justify-center rounded-full border-2 ${borderColor} ${
-        checked ? activeBackgroundColor : backgroundColor
-      }`}
-      style={{ height: size, width: size }}
+      style={{
+        height: size,
+        width: size,
+        borderRadius: size / 2,
+        borderWidth: checked ? 1.5 : 2,
+        borderColor: borderColor,
+        backgroundColor: checked ? activeBackgroundColor : backgroundColor,
+        alignItems: "center",
+        justifyContent: "center"
+      }}
     >
       {checked && (
         <View
-          className={`rounded-full ${innerCircleColor}`}
-          style={{ height: size / 2, width: size / 2 }}
+          style={{
+            height: size / 2,
+            width: size / 2,
+            borderRadius: size / 4,
+            backgroundColor: innerCircleColor
+          }}
           testID="checkbox-inner-circle"
         />
       )}

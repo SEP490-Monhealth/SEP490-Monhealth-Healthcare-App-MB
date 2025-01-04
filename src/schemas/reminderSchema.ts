@@ -24,14 +24,19 @@ const baseReminderSchema = z.object({
 
 const reminderSchema = baseReminderSchema
 
-export const createUpdateReminderSchema = baseReminderSchema.pick({
+export const createReminderSchema = baseReminderSchema.pick({
   userId: true,
   name: true,
   time: true,
   volume: true
 })
 
+export const updateReminderSchema = baseReminderSchema.pick({
+  name: true,
+  time: true,
+  volume: true
+})
+
 export type ReminderType = z.infer<typeof reminderSchema>
-export type CreateUpdateReminderType = z.infer<
-  typeof createUpdateReminderSchema
->
+export type CreateReminderType = z.infer<typeof createReminderSchema>
+export type UpdateReminderType = z.infer<typeof updateReminderSchema>

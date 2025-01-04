@@ -1,9 +1,10 @@
-import React, { useState } from "react"
+import { useEffect, useState } from "react"
 
-import { Text, View } from "react-native"
+import { Text } from "react-native"
 
 import { useLocalSearchParams } from "expo-router"
 
+import LoadingScreen from "@/app/loading"
 import { zodResolver } from "@hookform/resolvers/zod"
 import DateTimePicker, {
   DateTimePickerEvent
@@ -19,46 +20,45 @@ import {
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import { sampleReminderData } from "@/constants/reminders"
+import { useGetReminderById } from "@/hooks/useReminder"
 
 import {
-  CreateUpdateReminderType,
-  createUpdateReminderSchema
+  UpdateReminderType,
+  updateReminderSchema
 } from "@/schemas/reminderSchema"
 
 import { convertTimeStringToDate } from "@/utils/helpers"
 
-const details = () => {
+function ReminderDetailsScreen() {
   const { reminderId } = useLocalSearchParams() as {
     reminderId: string
   }
 
-  const reminderDetails = sampleReminderData.find(
-    (reminder) => reminder.reminderId === reminderId
-  )
+  const { data: reminderData, isLoading } = useGetReminderById(reminderId)
 
-  if (!reminderDetails) {
-    console.log(`Không tìm thấy nhắc nhở với ID: ${reminderId}`)
-    return <View>Không tìm thấy {reminderId}</View>
-  }
-
-  const [time, setTime] = useState(() =>
-    convertTimeStringToDate(reminderDetails.time)
-  )
+  const [time, setTime] = useState(new Date())
 
   const {
     control,
     handleSubmit,
     setValue,
     formState: { errors }
-  } = useForm<CreateUpdateReminderType>({
-    resolver: zodResolver(createUpdateReminderSchema),
-    defaultValues: {
-      name: reminderDetails.name,
-      time: reminderDetails.time,
-      volume: reminderDetails.volume
-    }
+  } = useForm<UpdateReminderType>({
+    resolver: zodResolver(updateReminderSchema)
   })
+
+  useEffect(() => {
+    if (reminderData) {
+      setValue("name", reminderData.name)
+      setValue("time", reminderData.time)
+      setValue("volume", reminderData.volume)
+      setTime(convertTimeStringToDate(reminderData.time))
+    }
+  }, [reminderData, setValue])
+
+  if (isLoading) {
+    return <LoadingScreen />
+  }
 
   const handleTimeChange = (
     _event: DateTimePickerEvent,
@@ -74,7 +74,7 @@ const details = () => {
     }
   }
 
-  const onSubmit = (data: CreateUpdateReminderType) => {
+  const onSubmit = (data: UpdateReminderType) => {
     console.log("Cập nhật:", data)
   }
 
@@ -139,4 +139,4 @@ const details = () => {
   )
 }
 
-export default details
+export default ReminderDetailsScreen

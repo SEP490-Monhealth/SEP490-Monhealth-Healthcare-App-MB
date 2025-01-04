@@ -1,39 +1,53 @@
-import React, { useState } from "react"
+import React from "react"
 
 import { View } from "react-native"
 
 import { useRouter } from "expo-router"
+
+import LoadingScreen from "@/app/loading"
 
 import { VStack } from "@/components/global/atoms"
 import { ArcProgress, WaterCard } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/app"
-import { sampleReminderData } from "@/constants/reminders"
+
+import { useAuth } from "@/contexts/AuthContext"
+
+import { useGetReminderByUserId } from "@/hooks/useReminder"
+import { useRouterHandlers } from "@/hooks/useRouter"
 
 export const WaterTab = () => {
   const router = useRouter()
+  const { handleViewReminder } = useRouterHandlers()
 
-  const [remindersData, setRemindersData] = useState(sampleReminderData)
+  const { user } = useAuth()
+  const userId = user?.userId
 
-  const totalWater = 2000
-  const drank = 1300
-  const progress = Math.min((drank / totalWater) * 100, 100)
+  const { data: remindersData, isLoading } = useGetReminderByUserId(userId)
 
-  const toggleReminderStatus = (reminderId: string) => {
-    console.log("Cập nhật:", reminderId)
-    
-    setRemindersData((prevData) =>
-      prevData.map((reminder) =>
-        reminder.reminderId === reminderId
-          ? { ...reminder, status: !reminder.status }
-          : reminder
+  const goalWater = 2000
+
+  const totalConsumedWater = remindersData
+    ? remindersData.reduce(
+        (total, reminder) =>
+          reminder.status ? total + reminder.volume : total,
+        0
       )
-    )
-  }
+    : 0
+
+  const progress = Math.min((totalConsumedWater / goalWater) * 100, 100)
 
   const handleUpdateReminder = () => {
     router.push("/reminders")
+  }
+
+  const toggleReminderStatus = (reminderId: string) => {
+    console.log("Toggling reminder status for ID:", reminderId)
+  }
+
+  if (!remindersData || isLoading) {
+    return <LoadingScreen />
   }
 
   return (
@@ -47,13 +61,14 @@ export const WaterTab = () => {
         arcSweepAngle={260}
         rotation={230}
         centerCircle
-        value={drank}
-        maxValue={totalWater}
+        value={totalConsumedWater}
+        maxValue={goalWater}
         label="ml"
       />
 
       <Section
         label="Nhắc nhở mỗi ngày"
+        margin={false}
         action="Chỉnh sửa"
         onPress={handleUpdateReminder}
       />
@@ -62,12 +77,13 @@ export const WaterTab = () => {
         {remindersData.map((item) => (
           <WaterCard
             key={item.reminderId}
-            variant="switch"
+            variant="checkbox"
             name={item.name}
             time={item.time}
             volume={item.volume}
             status={item.status}
-            onSwitchChange={() => toggleReminderStatus(item.reminderId)}
+            onMorePress={() => handleViewReminder(item.reminderId)}
+            onCheckboxChange={() => toggleReminderStatus(item.reminderId)}
           />
         ))}
       </VStack>

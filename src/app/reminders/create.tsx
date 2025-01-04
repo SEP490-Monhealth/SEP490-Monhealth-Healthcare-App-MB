@@ -2,6 +2,8 @@ import React, { useState } from "react"
 
 import { Text } from "react-native"
 
+import { useRouter } from "expo-router"
+
 import { zodResolver } from "@hookform/resolvers/zod"
 import DateTimePicker, {
   DateTimePickerEvent
@@ -17,12 +19,23 @@ import {
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
+import { useAuth } from "@/contexts/AuthContext"
+
+import { useCreateReminder } from "@/hooks/useReminder"
+
 import {
-  CreateUpdateReminderType,
-  createUpdateReminderSchema
+  CreateReminderType,
+  createReminderSchema
 } from "@/schemas/reminderSchema"
 
 function ReminderCreateScreen() {
+  const router = useRouter()
+
+  const { user } = useAuth()
+  const userId = user?.userId || ""
+
+  const { mutate: addReminder } = useCreateReminder()
+
   const [time, setTime] = useState(new Date())
 
   const {
@@ -30,9 +43,10 @@ function ReminderCreateScreen() {
     handleSubmit,
     setValue,
     formState: { errors }
-  } = useForm<CreateUpdateReminderType>({
-    resolver: zodResolver(createUpdateReminderSchema),
+  } = useForm<CreateReminderType>({
+    resolver: zodResolver(createReminderSchema),
     defaultValues: {
+      userId: userId || "",
       name: "",
       time: new Date().toLocaleTimeString([], {
         hour: "2-digit",
@@ -56,8 +70,16 @@ function ReminderCreateScreen() {
     }
   }
 
-  const onSubmit = (data: CreateUpdateReminderType) => {
-    console.log("Dữ liệu được gửi:", data)
+  const onSubmit = (data: CreateReminderType) => {
+    const finalData = { ...data, userId }
+
+    // console.log(JSON.stringify(finalData, null, 2))
+
+    addReminder(finalData, {
+      onSuccess: () => {
+        router.push("/reminders")
+      }
+    })
   }
 
   return (

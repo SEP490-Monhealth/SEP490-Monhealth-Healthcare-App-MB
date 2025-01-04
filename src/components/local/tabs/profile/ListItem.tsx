@@ -17,6 +17,7 @@ interface ListItemProps {
   route?: string
   action?: string
   more?: boolean
+  onPress?: () => void
 }
 
 export const ListItem = ({
@@ -25,12 +26,15 @@ export const ListItem = ({
   label,
   route,
   action,
-  more = true
+  more = true,
+  onPress
 }: ListItemProps) => {
   const router = useRouter()
   const { logout } = useAuth()
 
   const handlePress = () => {
+    onPress?.()
+
     if (action) {
       switch (action) {
         case "logout":

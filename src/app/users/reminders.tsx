@@ -24,6 +24,7 @@ function RemindersScreen() {
             label="Bật thông báo"
             endIcon={<Toggle value={isEnabled} onValueChange={toggleSwitch} />}
             more={false}
+            onPress={toggleSwitch}
           />
 
           {isEnabled && (

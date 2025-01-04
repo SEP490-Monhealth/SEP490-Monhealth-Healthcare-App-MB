@@ -12,7 +12,7 @@ import { Card, HStack, VStack } from "../atoms"
 import { IconButton } from "./IconButton"
 
 interface FoodCardProps {
-  variant?: "default" | "add" | "more"
+  variant?: "default" | "add" | "checkbox" | "more"
   name: string
   calories?: number
   quantity?: number
@@ -39,9 +39,9 @@ export const FoodCard = ({
   onMorePress
 }: FoodCardProps) => {
   return (
-    <Card onPress={onPress}>
+    <Card>
       <HStack className="w-full items-center justify-between">
-        <VStack gap={0} className="ml-1">
+        <VStack gap={0} className="ml-1" onPress={onPress}>
           <Text className="font-tmedium text-lg text-primary">{name}</Text>
           <Text className="font-tmedium text-sm text-accent">
             {toFixed(Number(calories), 0) ?? 0} kcal

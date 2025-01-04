@@ -52,8 +52,6 @@ function ReminderScreen() {
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [selectedReminder, setSelectedReminder] = useState<string>("")
 
-  console.log(selectedReminder)
-
   const openMealSheet = (reminder: ReminderType) => {
     setSelectedReminder(reminder.reminderId)
     WaterSheetRef.current?.scrollTo(-160)
@@ -116,6 +114,7 @@ function ReminderScreen() {
                 time={item.time}
                 volume={item.volume}
                 status={item.status}
+                onPress={() => handleViewReminder(item.reminderId)}
                 onMorePress={() => openMealSheet(item)}
               />
             )}

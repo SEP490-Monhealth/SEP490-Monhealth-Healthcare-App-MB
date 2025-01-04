@@ -3,7 +3,7 @@ import axios from "axios"
 import monAPI from "@/lib/monAPI"
 
 import {
-  CreateUpdateReminderType,
+  CreateReminderType,
   ReminderType
 } from "@/schemas/reminderSchema"
 
@@ -84,7 +84,7 @@ export const getReminderById = async (
 }
 
 export const createReminder = async (
-  reminder: CreateUpdateReminderType
+  reminder: CreateReminderType
 ): Promise<string> => {
   try {
     const response = await monAPI.post(`/reminders`, reminder)
@@ -124,7 +124,7 @@ export const createReminder = async (
 
 export const updateReminder = async (
   reminderId: string,
-  reminder: CreateUpdateReminderType
+  reminder: CreateReminderType
 ): Promise<string> => {
   try {
     const response = await monAPI.put(`/reminders/${reminderId}`, reminder)
