@@ -1,30 +1,70 @@
 import React from "react"
 
-import { Text } from "react-native"
+import { Keyboard, Text, View } from "react-native"
 
-import { render } from "@testing-library/react-native"
+import { fireEvent, render, screen } from "@testing-library/react-native"
 
-import { Container } from "@/components/global/atoms/Container"
+import { Container } from "@/components/global/atoms"
+
+jest.spyOn(Keyboard, "dismiss")
 
 describe("Container Component", () => {
-  it("should render children correctly", () => {
-    const { getByText } = render(
+  it("renders children correctly", () => {
+    render(
       <Container>
-        <Text>Test Content</Text>
+        <View testID="child-view">
+          <Text>Test Content</Text>
+        </View>
       </Container>
     )
 
-    expect(getByText("Test Content")).toBeTruthy()
+    const childView = screen.getByTestId("child-view")
+    const text = screen.getByText("Test Content")
+
+    expect(childView).toBeTruthy()
+    expect(text).toBeTruthy()
   })
 
-  it("should apply custom className", () => {
-    const { getByTestId } = render(
-      <Container testID="test-container">
-        <Text>Class Test</Text>
+  it("wraps children with SafeAreaView and View when dismissKeyboard is false", () => {
+    render(
+      <Container dismissKeyboard={false}>
+        <Text>Safe Content</Text>
       </Container>
     )
 
-    const container = getByTestId("test-container")
-    expect(container.props.className).toContain("custom-class")
+    const safeAreaView = screen.getByTestId("SafeAreaView")
+    const contentView = screen.getByTestId("View")
+
+    expect(safeAreaView).toBeTruthy()
+    expect(contentView).toBeTruthy()
+    expect(screen.getByText("Safe Content")).toBeTruthy()
+  })
+
+  it("dismisses keyboard when TouchableWithoutFeedback is pressed", () => {
+    render(
+      <Container dismissKeyboard={true}>
+        <Text>Dismiss Content</Text>
+      </Container>
+    )
+
+    const touchable = screen.getByTestId("TouchableWithoutFeedback")
+    fireEvent.press(touchable)
+
+    expect(Keyboard.dismiss).toHaveBeenCalledTimes(1)
+  })
+
+  it("renders TouchableWithoutFeedback when dismissKeyboard is true", () => {
+    render(
+      <Container dismissKeyboard={true}>
+        <Text>Keyboard Dismiss Test</Text>
+      </Container>
+    )
+
+    const touchable = screen.getByTestId("TouchableWithoutFeedback")
+    const safeAreaView = screen.getByTestId("SafeAreaView")
+
+    expect(touchable).toBeTruthy()
+    expect(safeAreaView).toBeTruthy()
+    expect(screen.getByText("Keyboard Dismiss Test")).toBeTruthy()
   })
 })

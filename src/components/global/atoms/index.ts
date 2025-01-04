@@ -2,13 +2,12 @@ import { Avatar } from "./Avatar"
 import { Button } from "./Button"
 import { Calendar } from "./Calendar"
 import { Card } from "./Card"
-import { Carousel } from "./Carousel"
 import { Checkbox } from "./Checkbox"
 import { Chip } from "./Chip"
 import { Container } from "./Container"
 import { Content } from "./Content"
 import { Input } from "./Input"
-import { OTPInput } from "./OTP"
+import { OTPInput } from "./OTPInput"
 import { Progress } from "./Progress"
 import { Schedule } from "./Schedule"
 import { ScrollArea } from "./ScrollArea"
@@ -27,7 +26,6 @@ export {
   Button,
   Calendar,
   Card,
-  Carousel,
   Checkbox,
   Chip,
   Container,

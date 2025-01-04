@@ -2,62 +2,103 @@ import React from "react"
 
 import { View } from "react-native"
 
-import { fireEvent, render } from "@testing-library/react-native"
+import { fireEvent, render, screen } from "@testing-library/react-native"
 
 import { Chip } from "@/components/global/atoms"
 
 describe("Chip Component", () => {
-  it("renders correctly with default props", () => {
-    const { getByText } = render(<Chip label="Test Chip" />)
+  it("renders the chip with default props", () => {
+    render(<Chip label="Default Chip" />)
 
-    // Check if the label is rendered
-    expect(getByText("Test Chip")).toBeTruthy()
+    const chip = screen.getByText("Default Chip")
+    expect(chip).toBeTruthy()
+
+    const container = chip.parent
+    expect(container.props.className).toContain("bg-muted")
+    expect(container.props.className).toContain("px-3.5 py-1.5 rounded-xl")
   })
 
-  it("applies default styles when no variant or selected is provided", () => {
-    const { getByText } = render(<Chip label="Default Chip" />)
+  it("renders the chip with selected variant", () => {
+    render(<Chip label="Selected Chip" variant="selected" />)
 
-    // Check if the default styles are applied
-    const textElement = getByText("Default Chip")
-    expect(textElement.props.className).toContain("text-primary")
+    const chip = screen.getByText("Selected Chip")
+    expect(chip).toBeTruthy()
+
+    const container = chip.parent
+    expect(container.props.className).toContain("bg-primary")
   })
 
-  it("applies selected styles when selected is true", () => {
-    const { getByText } = render(<Chip label="Selected Chip" selected />)
+  it("renders the chip with lemon variant", () => {
+    render(<Chip label="Lemon Chip" variant="lemon" />)
 
-    // Check if the selected styles are applied
-    const textElement = getByText("Selected Chip")
-    expect(textElement.props.className).toContain("text-white")
+    const chip = screen.getByText("Lemon Chip")
+    expect(chip).toBeTruthy()
+
+    const container = chip.parent
+    expect(container.props.className).toContain("bg-yellow-400")
   })
 
-  it("calls onPress when pressed", () => {
-    const onPressMock = jest.fn()
-    const { getByText } = render(
-      <Chip label="Pressable Chip" onPress={onPressMock} />
+  it("renders the chip with custom size", () => {
+    render(<Chip label="Large Chip" size="lg" />)
+
+    const chip = screen.getByText("Large Chip")
+    expect(chip).toBeTruthy()
+
+    const container = chip.parent
+    expect(container.props.className).toContain("px-6 py-6 rounded-2xl")
+  })
+
+  it("renders the chip with border", () => {
+    render(<Chip label="Bordered Chip" border={true} />)
+
+    const chip = screen.getByText("Bordered Chip")
+    expect(chip).toBeTruthy()
+
+    const container = chip.parent
+    expect(container.props.style).toHaveProperty("borderWidth", 1)
+    expect(container.props.className).toContain("border-border")
+  })
+
+  it("renders the chip with custom border width", () => {
+    render(<Chip label="Custom Border" border={true} borderWidth={2} />)
+
+    const chip = screen.getByText("Custom Border")
+    expect(chip).toBeTruthy()
+
+    const container = chip.parent
+    expect(container.props.style).toHaveProperty("borderWidth", 2)
+  })
+
+  it("renders the chip with an icon", () => {
+    render(<Chip label="Chip with Icon" icon={<View testID="icon" />} />)
+
+    const icon = screen.getByTestId("icon")
+    expect(icon).toBeTruthy()
+  })
+
+  it("renders the chip with description", () => {
+    render(
+      <Chip label="Chip with Description" description="This is a description" />
     )
 
-    // Simulate press
-    fireEvent.press(getByText("Pressable Chip"))
+    const description = screen.getByText("This is a description")
+    expect(description).toBeTruthy()
+  })
 
-    // Verify the press handler was called
+  it("calls onPress when the chip is pressed", () => {
+    const onPressMock = jest.fn()
+    render(<Chip label="Pressable Chip" onPress={onPressMock} />)
+
+    const chip = screen.getByText("Pressable Chip").parent
+    fireEvent.press(chip)
+
     expect(onPressMock).toHaveBeenCalledTimes(1)
   })
 
-  it("renders an icon when provided", () => {
-    const MockIcon = <View testID="mock-icon" />
-    const { getByTestId } = render(<Chip label="Icon Chip" icon={MockIcon} />)
+  it("applies custom className", () => {
+    render(<Chip label="Custom Class Chip" className="custom-class" />)
 
-    // Check if the icon is rendered
-    expect(getByTestId("mock-icon")).toBeTruthy()
-  })
-
-  it("applies custom className when provided", () => {
-    const { getByText } = render(
-      <Chip label="Custom Chip" className="custom-class" />
-    )
-
-    // Check if the custom className is applied
-    const textElement = getByText("Custom Chip")
-    expect(textElement.props.className).toContain("custom-class")
+    const chip = screen.getByText("Custom Class Chip").parent
+    expect(chip.props.className).toContain("custom-class")
   })
 })

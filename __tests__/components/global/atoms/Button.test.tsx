@@ -2,115 +2,98 @@ import React from "react"
 
 import { View } from "react-native"
 
-import { fireEvent, render } from "@testing-library/react-native"
+import { fireEvent, render, screen } from "@testing-library/react-native"
 
 import { Button } from "@/components/global/atoms"
 
 describe("Button Component", () => {
-  it("renders correctly with default props", () => {
-    const { getByText } = render(<Button>Default Button</Button>)
+  it("renders the button with default variant and size", () => {
+    render(<Button>Click Me</Button>)
 
-    // Check if the button text is rendered
-    expect(getByText("Default Button")).toBeTruthy()
+    const button = screen.getByRole("button")
+    expect(button).toBeTruthy()
+    expect(button.props.className).toContain("bg-primary")
+    expect(button.props.className).toContain("h-14 px-5") // Default size is "md"
   })
 
-  it("applies primary variant styles by default", () => {
-    const { getByText } = render(<Button>Primary Button</Button>)
-
-    // Verify primary styles
-    const buttonText = getByText("Primary Button")
-    expect(buttonText.props.className).toContain("text-primary-foreground")
-  })
-
-  it("renders correctly with secondary and danger variants", () => {
-    const { getByText } = render(<Button variant="secondary">Secondary</Button>)
-    const { getByText: getByTextDanger } = render(
-      <Button variant="danger">Danger</Button>
-    )
-
-    // Verify secondary styles
-    expect(getByText("Secondary").props.className).toContain("text-primary")
-
-    // Verify danger styles
-    expect(getByTextDanger("Danger").props.className).toContain(
-      "text-destructive-foreground"
-    )
-  })
-
-  it("renders correctly with different sizes", () => {
-    const { getByText: getByTextSm } = render(
-      <Button size="sm">Small Button</Button>
-    )
-    const { getByText: getByTextLg } = render(
-      <Button size="lg">Large Button</Button>
-    )
-
-    // Verify small size
-    expect(getByTextSm("Small Button").props.className).toContain("text-sm")
-
-    // Verify large size
-    expect(getByTextLg("Large Button").props.className).toContain("text-lg")
-  })
-
-  it("displays loading indicator when loading is true", () => {
-    const { getByText, getByTestId } = render(
-      <Button loading>Loading Button</Button>
-    )
-
-    // Check if loading indicator is displayed
-    expect(getByTestId("ActivityIndicator")).toBeTruthy()
-
-    // Ensure button text is still displayed
-    expect(getByText("Loading Button")).toBeTruthy()
-  })
-
-  it("is disabled when disabled is true", () => {
-    const onPressMock = jest.fn()
-    const { getByText } = render(
-      <Button disabled onPress={onPressMock}>
-        Disabled Button
+  it("renders the correct variant and size", () => {
+    render(
+      <Button variant="danger" size="lg">
+        Delete
       </Button>
     )
 
-    // Simulate press
-    fireEvent.press(getByText("Disabled Button"))
+    const button = screen.getByRole("button")
+    expect(button.props.className).toContain("bg-destructive")
+    expect(button.props.className).toContain("h-16 px-6") // Size "lg"
+  })
 
-    // Verify that onPress is not called
+  it("renders with loading state", () => {
+    render(<Button loading={true}>Loading...</Button>)
+
+    const loader = screen.getByTestId("ActivityIndicator")
+    expect(loader).toBeTruthy()
+
+    const text = screen.getByText("Loading...")
+    expect(text).toBeTruthy()
+  })
+
+  it("renders with iconStart and iconEnd", () => {
+    render(
+      <Button
+        iconStart={<View testID="icon-start" />}
+        iconEnd={<View testID="icon-end" />}
+      >
+        Submit
+      </Button>
+    )
+
+    const iconStart = screen.getByTestId("icon-start")
+    const iconEnd = screen.getByTestId("icon-end")
+    const text = screen.getByText("Submit")
+
+    expect(iconStart).toBeTruthy()
+    expect(iconEnd).toBeTruthy()
+    expect(text).toBeTruthy()
+  })
+
+  it("renders with only an icon when `icon` prop is true", () => {
+    render(<Button icon={true}>Icon</Button>)
+
+    const button = screen.getByRole("button")
+    const text = screen.queryByText("Icon") // Text should not appear
+    expect(button).toBeTruthy()
+    expect(text).toBeNull()
+  })
+
+  it("does not trigger onPress when disabled", () => {
+    const onPressMock = jest.fn()
+    render(
+      <Button disabled={true} onPress={onPressMock}>
+        Disabled
+      </Button>
+    )
+
+    const button = screen.getByRole("button")
+    fireEvent.press(button)
+
     expect(onPressMock).not.toHaveBeenCalled()
   })
 
-  it("renders iconStart and iconEnd correctly", () => {
-    const MockIconStart = <View testID="icon-start" />
-    const MockIconEnd = <View testID="icon-end" />
-    const { getByTestId } = render(
-      <Button startIcon={MockIconStart} endIcon={MockIconEnd}>
-        Icon Button
-      </Button>
-    )
-
-    // Check if icons are rendered
-    expect(getByTestId("icon-start")).toBeTruthy()
-    expect(getByTestId("icon-end")).toBeTruthy()
-  })
-
-  it("calls onPress when pressed", () => {
+  it("triggers onPress when pressed and not disabled or loading", () => {
     const onPressMock = jest.fn()
-    const { getByText } = render(
-      <Button onPress={onPressMock}>Pressable Button</Button>
-    )
+    render(<Button onPress={onPressMock}>Click Me</Button>)
 
-    // Simulate button press
-    fireEvent.press(getByText("Pressable Button"))
+    const button = screen.getByRole("button")
+    fireEvent.press(button)
 
-    // Verify onPress handler is called
     expect(onPressMock).toHaveBeenCalledTimes(1)
   })
 
-  it("renders correctly when used as an icon-only button", () => {
-    const MockIcon = <View testID="icon-only" />
-    const { getByTestId } = render(<Button icon>{MockIcon}</Button>)
+  it("applies custom className", () => {
+    render(<Button className="custom-class">Custom Button</Button>)
 
-    // Verify the button renders the icon correctly
-    expect(getByTestId("icon-only")).toBeTruthy()
+    const button = screen.getByRole("button")
+    expect(button.props.className).toContain("custom-class")
   })
 })

@@ -5,9 +5,8 @@ module.exports = {
   coveragePathIgnorePatterns: [
     "/node_modules/",
     "public/icons",
-    "/constants",
-    "/lib",
-    "/schemas",
-    "/utils"
+    "src/constants",
+    "src/lib",
+    "src/utils"
   ]
 }
