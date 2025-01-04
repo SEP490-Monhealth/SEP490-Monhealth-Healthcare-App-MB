@@ -4,7 +4,8 @@ import monAPI from "@/lib/monAPI"
 
 import {
   CreateReminderType,
-  ReminderType
+  ReminderType,
+  UpdateReminderType
 } from "@/schemas/reminderSchema"
 
 export const getRemindersByUserId = async (
@@ -124,7 +125,7 @@ export const createReminder = async (
 
 export const updateReminder = async (
   reminderId: string,
-  reminder: CreateReminderType
+  reminder: UpdateReminderType
 ): Promise<string> => {
   try {
     const response = await monAPI.put(`/reminders/${reminderId}`, reminder)

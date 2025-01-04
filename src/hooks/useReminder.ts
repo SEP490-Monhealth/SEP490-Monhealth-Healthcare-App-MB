@@ -2,7 +2,11 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { useErrorHandler } from "@/contexts/ErrorContext"
 
-import { CreateReminderType, ReminderType } from "@/schemas/reminderSchema"
+import {
+  CreateReminderType,
+  ReminderType,
+  UpdateReminderType
+} from "@/schemas/reminderSchema"
 
 import {
   changeReminderStatus,
@@ -75,7 +79,7 @@ export const useUpdateReminder = () => {
   return useMutation<
     string,
     Error,
-    { reminderId: string; reminder: CreateReminderType }
+    { reminderId: string; reminder: UpdateReminderType }
   >({
     mutationFn: async ({ reminderId, reminder }) => {
       try {
@@ -85,7 +89,8 @@ export const useUpdateReminder = () => {
         throw error
       }
     },
-    onSuccess: () => {
+    onSuccess: (_data, { reminderId }) => {
+      queryClient.invalidateQueries({ queryKey: ["reminder", reminderId] })
       queryClient.invalidateQueries({ queryKey: ["reminders"] })
     }
   })

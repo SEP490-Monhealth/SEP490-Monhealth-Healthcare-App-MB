@@ -14,12 +14,17 @@ import { COLORS } from "@/constants/app"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useGetReminderByUserId } from "@/hooks/useReminder"
+import {
+  useChangeReminderStatus,
+  useGetReminderByUserId
+} from "@/hooks/useReminder"
 import { useRouterHandlers } from "@/hooks/useRouter"
 
 export const WaterTab = () => {
   const router = useRouter()
   const { handleViewReminder } = useRouterHandlers()
+
+  const { mutate: patchReminder } = useChangeReminderStatus()
 
   const { user } = useAuth()
   const userId = user?.userId
@@ -43,7 +48,7 @@ export const WaterTab = () => {
   }
 
   const toggleReminderStatus = (reminderId: string) => {
-    console.log("Toggling reminder status for ID:", reminderId)
+    patchReminder(reminderId)
   }
 
   if (!remindersData || isLoading) {

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 
 import { Text } from "react-native"
 
-import { useLocalSearchParams } from "expo-router"
+import { router, useLocalSearchParams } from "expo-router"
 
 import LoadingScreen from "@/app/loading"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -20,7 +20,7 @@ import {
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import { useGetReminderById } from "@/hooks/useReminder"
+import { useGetReminderById, useUpdateReminder } from "@/hooks/useReminder"
 
 import {
   UpdateReminderType,
@@ -30,18 +30,21 @@ import {
 import { convertTimeStringToDate } from "@/utils/helpers"
 
 function ReminderDetailsScreen() {
+  const [time, setTime] = useState(new Date())
+
   const { reminderId } = useLocalSearchParams() as {
     reminderId: string
   }
 
   const { data: reminderData, isLoading } = useGetReminderById(reminderId)
 
-  const [time, setTime] = useState(new Date())
+  const { mutate: updateReminder } = useUpdateReminder()
 
   const {
     control,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors }
   } = useForm<UpdateReminderType>({
     resolver: zodResolver(updateReminderSchema)
@@ -75,9 +78,16 @@ function ReminderDetailsScreen() {
   }
 
   const onSubmit = (data: UpdateReminderType) => {
-    console.log("Cập nhật:", data)
+    updateReminder(
+      { reminderId, reminder: data },
+      {
+        onSuccess: () => {
+          reset()
+          router.replace("/reminders")
+        }
+      }
+    )
   }
-
   return (
     <Container dismissKeyboard>
       <Header back label="Chỉnh sửa nhắc nhở" />

@@ -1,10 +1,12 @@
 import React, { useRef, useState } from "react"
 
-import { Animated, SafeAreaView, View } from "react-native"
+import { Alert, Animated, SafeAreaView, View } from "react-native"
 import { FlatList } from "react-native"
 
-import { Add, Edit } from "iconsax-react-native"
-import { Trash2 } from "lucide-react-native"
+import { router } from "expo-router"
+
+import { Add } from "iconsax-react-native"
+import { BellDot, BellOff, Settings, Trash2 } from "lucide-react-native"
 
 import {
   Content,
@@ -21,12 +23,15 @@ import {
 import { Header } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/app"
-import { sampleReminderData } from "@/constants/reminders"
 
 import { useAuth } from "@/contexts/AuthContext"
 
 import { useAnimation } from "@/hooks/useAnimation"
-import { useGetReminderByUserId } from "@/hooks/useReminder"
+import {
+  useChangeReminderStatus,
+  useDeleteReminder,
+  useGetReminderByUserId
+} from "@/hooks/useReminder"
 import { useRouterHandlers } from "@/hooks/useRouter"
 
 import { ReminderType } from "@/schemas/reminderSchema"
@@ -43,6 +48,10 @@ function ReminderScreen() {
   const { user } = useAuth()
   const userId = user?.userId
 
+  const { mutate: deleteReminder } = useDeleteReminder()
+
+  const { mutate: patchReminder } = useChangeReminderStatus()
+
   const {
     data: remindersData,
     isLoading,
@@ -52,9 +61,13 @@ function ReminderScreen() {
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [selectedReminder, setSelectedReminder] = useState<string>("")
 
+  const selectedReminderStatus = remindersData?.find(
+    (reminder) => reminder.reminderId === selectedReminder
+  )?.status
+
   const openMealSheet = (reminder: ReminderType) => {
     setSelectedReminder(reminder.reminderId)
-    WaterSheetRef.current?.scrollTo(-160)
+    WaterSheetRef.current?.scrollTo(-210)
   }
 
   const closeReminderSheet = () => WaterSheetRef.current?.scrollTo(0)
@@ -67,9 +80,15 @@ function ReminderScreen() {
 
   const handleDelete = () => {
     if (selectedReminder) {
-      console.log("Deleting reminder with ID:", selectedReminder)
-      closeReminderSheet()
+      deleteReminder(selectedReminder)
     }
+  }
+
+  const handlePatchStatus = () => {
+    if (selectedReminder) {
+      patchReminder(selectedReminder)
+    }
+    closeReminderSheet()
   }
 
   const handleUpdateReminderWrapper = () => {
@@ -77,9 +96,32 @@ function ReminderScreen() {
     handleUpdateReminder(selectedReminder)
   }
 
+  const handleDeleteReminder = () => {
+    closeReminderSheet()
+    Alert.alert(
+      "Xác nhận xóa",
+      "Bạn có chắc chắn muốn xóa nhắc nhở?",
+      [
+        {
+          text: "Hủy",
+          style: "cancel"
+        },
+        {
+          text: "Xóa",
+          onPress: handleDelete,
+          style: "destructive"
+        }
+      ],
+      { cancelable: true }
+    )
+  }
   const handleUpdateReminder = (reminderId: string) => {
     handleViewReminder(reminderId)
     closeReminderSheet()
+  }
+
+  const handleBack = () => {
+    router.push("/(tabs)/home")
   }
 
   if (!remindersData || isLoading) {
@@ -91,6 +133,7 @@ function ReminderScreen() {
       <View className="flex-1 px-6">
         <Header
           back
+          onBackPress={handleBack}
           label="Nhắc nhở uống nước"
           action={{
             icon: <Add size={24} color={COLORS.primary} />,
@@ -161,13 +204,27 @@ function ReminderScreen() {
         </Content>
       </View>
 
-      <Sheet ref={WaterSheetRef} dynamicHeight={160}>
+      <Sheet ref={WaterSheetRef} dynamicHeight={210}>
         <VStack gap={20} className="px-2">
+          <SheetSelect
+            label={selectedReminderStatus ? "Tắt thông báo" : "Bật thông báo"}
+            icon={
+              <View>
+                {selectedReminderStatus ? (
+                  <BellOff size={24} color={COLORS.primary} />
+                ) : (
+                  <BellDot size={24} color={COLORS.primary} />
+                )}
+              </View>
+            }
+            onPress={handlePatchStatus}
+          />
+
           <SheetSelect
             label="Chỉnh sửa"
             icon={
               <View>
-                <Edit size="24" color={COLORS.primary} />
+                <Settings size="24" color={COLORS.primary}/>
               </View>
             }
             onPress={handleUpdateReminderWrapper}
@@ -181,7 +238,7 @@ function ReminderScreen() {
                 <Trash2 size={24} color="#ef4444" />
               </View>
             }
-            onPress={handleDelete}
+            onPress={handleDeleteReminder}
           />
         </VStack>
       </Sheet>
