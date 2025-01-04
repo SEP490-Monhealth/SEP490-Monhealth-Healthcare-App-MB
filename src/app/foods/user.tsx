@@ -51,7 +51,7 @@ function FoodUserScreen() {
       setTotalItems(total)
       setHasMore(newFoods.length < total)
     } catch (error) {
-      console.error("Error fetching foods:", error)
+      console.log("Error fetching foods:", error)
     }
   }
 

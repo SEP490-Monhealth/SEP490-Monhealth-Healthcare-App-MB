@@ -125,7 +125,6 @@ export const getMealTypeName = (mealType: string): string => {
  * @param mealType - Loại bữa ăn (Breakfast, Lunch, Dinner, Snack)
  * @returns Hình ảnh đại diện của loại bữa ăn
  */
-
 export const getMealTypeImage = (mealType: string) => {
   switch (mealType) {
     case "Breakfast":
@@ -142,9 +141,13 @@ export const getMealTypeImage = (mealType: string) => {
 }
 
 /**
- * Chuyển đổi giá trị số thành chuỗi với số lẻ chỉ giữ 2 chữ số
- * @param value - Giá trị số cần chuyển đổi
- * @returns Chuỗi số đã được làm tròn với 2 chữ số lẻ
+ * Phân tích một chuỗi khẩu phần (portion) và trả về thông tin chi tiết về kích thước, trọng lượng và đơn vị khẩu phần.
+ * @param value Chuỗi mô tả khẩu phần, ví dụ: `"ly (200 ml)"` hoặc `"g"`.
+ * @param quantity Giá trị số lượng mặc định nếu không có thông tin trọng lượng hoặc đơn vị trong chuỗi.
+ * @returns Đối tượng chứa:
+ * - `portionSize`: Kích thước khẩu phần (ví dụ: `"ly"`, `"phần"`).
+ * - `portionWeight`: Trọng lượng hoặc thể tích khẩu phần (ví dụ: `200`).
+ * - `portionUnit`: Đơn vị khẩu phần (ví dụ: `"ml"`, `"g"`).
  */
 export const parsePortion = (value: string, quantity: string) => {
   const selectedPortionMatch = value.match(/(.+?) \((\d+) (\w+)\)/)
@@ -155,7 +158,7 @@ export const parsePortion = (value: string, quantity: string) => {
     : parseInt(quantity, 10)
   const portionUnit = selectedPortionMatch ? selectedPortionMatch[3] : "g"
 
-  if (portionSize === "g") {
+  if (portionSize === "g" || portionSize === "ml") {
     portionSize = "phần"
   }
 

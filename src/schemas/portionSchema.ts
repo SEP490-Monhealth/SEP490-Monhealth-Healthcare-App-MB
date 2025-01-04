@@ -27,4 +27,12 @@ export const portionSchema = basePortionSchema.pick({
   unit: true
 })
 
+export const createPortionSchema = basePortionSchema.pick({
+  foodId: true,
+  size: true,
+  weight: true,
+  unit: true
+})
+
 export type PortionType = z.infer<typeof portionSchema>
+export type CreatePortionType = z.infer<typeof createPortionSchema>

@@ -25,6 +25,7 @@ const baseReminderSchema = z.object({
 const reminderSchema = baseReminderSchema
 
 export const createUpdateReminderSchema = baseReminderSchema.pick({
+  userId: true,
   name: true,
   time: true,
   volume: true

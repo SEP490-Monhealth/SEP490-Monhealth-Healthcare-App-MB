@@ -80,7 +80,7 @@ function FoodsScreen() {
       setTotalItems(total)
       setHasMore(newFoods.length < total)
     } catch (error) {
-      console.error("Error fetching foods:", error)
+      console.log("Error fetching foods:", error)
     }
   }
 
@@ -126,7 +126,7 @@ function FoodsScreen() {
   const handleAddFood = (food: FoodType) => {
     const mealType = getMealType("en")
 
-    const size = food.portion?.size || ""
+    const size = food.portion?.size || "phần"
     const weight = food.portion?.weight || 100
     const unit = food.portion?.unit || "g"
 
@@ -143,6 +143,8 @@ function FoodsScreen() {
         }
       ]
     }
+
+    console.log(JSON.stringify(mealData, null, 2))
 
     addMeal(mealData, {
       onSuccess: () => {

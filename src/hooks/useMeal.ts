@@ -60,7 +60,8 @@ export const useCreateMeal = () => {
         throw error
       }
     },
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ["meals", variables.userId] })
       queryClient.invalidateQueries({ queryKey: ["dailyMeal"] })
     }
   })
@@ -85,6 +86,7 @@ export const useGetMealFoodsByMealId = (mealId: string | undefined) => {
 }
 
 export const useUpdateMealFood = () => {
+  const queryClient = useQueryClient()
   const handleError = useErrorHandler()
 
   return useMutation<string, Error, { mealFoodId: string; quantity: number }>({
@@ -95,6 +97,11 @@ export const useUpdateMealFood = () => {
         handleError(error)
         throw error
       }
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ["meals", variables.mealFoodId]
+      })
     }
   })
 }

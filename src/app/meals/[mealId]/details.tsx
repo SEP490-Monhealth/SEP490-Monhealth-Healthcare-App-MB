@@ -32,9 +32,16 @@ function MealDetailsScreen() {
 
   const [isRefreshing, setIsRefreshing] = useState(false)
 
-  const { data: mealData, isLoading: isLoadingMeal } = useGetMealById(mealId)
-  const { data: mealFoodsData, isLoading: isLoadingMealFoods } =
-    useGetMealFoodsByMealId(mealId)
+  const {
+    data: mealData,
+    isLoading: isLoadingMeal,
+    refetch: mealRefetch
+  } = useGetMealById(mealId)
+  const {
+    data: mealFoodsData,
+    isLoading: isLoadingMealFoods,
+    refetch: mealFoodRefetch
+  } = useGetMealFoodsByMealId(mealId)
 
   const calorieValue = mealData?.nutrition.calories || 0
   const calorieGoal = 1249
@@ -42,9 +49,8 @@ function MealDetailsScreen() {
 
   const onRefresh = async () => {
     setIsRefreshing(true)
-    setTimeout(() => {
-      setIsRefreshing(false)
-    }, 2000)
+    await Promise.all([mealRefetch(), mealFoodRefetch()])
+    setIsRefreshing(false)
   }
 
   if (!mealData || isLoadingMeal || !mealFoodsData || isLoadingMealFoods) {

@@ -2,7 +2,7 @@ import axios from "axios"
 
 import monAPI from "@/lib/monAPI"
 
-import { PortionType } from "@/schemas/portionSchema"
+import { CreatePortionType, PortionType } from "@/schemas/portionSchema"
 
 export const getPortionByFoodId = async (
   foodId: string | undefined
@@ -80,7 +80,9 @@ export const getPortionById = async (
   }
 }
 
-export const createPortion = async (portion: PortionType): Promise<string> => {
+export const createPortion = async (
+  portion: CreatePortionType
+): Promise<string> => {
   try {
     const response = await monAPI.post(`/portions`, portion)
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import { Text } from "react-native"
 
@@ -26,7 +26,7 @@ import {
 
 function ReminderUpdateScreen() {
   const searchParams = useLocalSearchParams()
-  
+
   const parsedReminder = searchParams.reminder
     ? JSON.parse(searchParams.reminder as string)
     : null
@@ -34,7 +34,7 @@ function ReminderUpdateScreen() {
   const [time, setTime] = useState(new Date())
   const [hasUserSetTime, setHasUserSetTime] = useState(false)
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!hasUserSetTime && parsedReminder?.time) {
       const [hours, minutes] = parsedReminder.time.split(":").map(Number)
       const reminderDate = new Date()

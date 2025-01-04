@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { useErrorHandler } from "@/contexts/ErrorContext"
 
-import { PortionType } from "@/schemas/portionSchema"
+import { CreatePortionType, PortionType } from "@/schemas/portionSchema"
 
 import {
   createPortion,
@@ -50,7 +50,7 @@ export const useCreatePortion = () => {
   const queryClient = useQueryClient()
   const handleError = useErrorHandler()
 
-  return useMutation<string, Error, PortionType>({
+  return useMutation<string, Error, CreatePortionType>({
     mutationFn: async (portion) => {
       try {
         return await createPortion(portion)

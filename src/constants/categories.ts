@@ -1,6 +1,6 @@
 import { CategoryType } from "@/schemas/categorySchema"
 
-export const categoriesData: CategoryType[] = [
+export const sampleCategoriesData: CategoryType[] = [
   {
     categoryId: "ee39be57-cf88-4420-8e19-606b2ed4dc6d",
     name: "Hải sản",

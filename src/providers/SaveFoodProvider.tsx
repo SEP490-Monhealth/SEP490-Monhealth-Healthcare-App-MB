@@ -19,7 +19,7 @@ export const SaveFoodProvider = ({ children }: { children: ReactNode }) => {
         }
       }
     } catch (error) {
-      console.error("Failed to load saved foods:", error)
+      console.log("Failed to load saved foods:", error)
     }
   }
 
@@ -38,12 +38,9 @@ export const SaveFoodProvider = ({ children }: { children: ReactNode }) => {
         : [...saveFoodsData, food]
 
       setSaveFoodsData(updatedSaves)
-      await AsyncStorage.setItem(
-        "saveFoodsData",
-        JSON.stringify(updatedSaves)
-      )
+      await AsyncStorage.setItem("saveFoodsData", JSON.stringify(updatedSaves))
     } catch (error) {
-      console.error("Failed to toggle save food:", error)
+      console.log("Failed to toggle save food:", error)
     }
   }
 
@@ -52,7 +49,7 @@ export const SaveFoodProvider = ({ children }: { children: ReactNode }) => {
       setSaveFoodsData([])
       await AsyncStorage.removeItem("saveFoodsData")
     } catch (error) {
-      console.error("Failed to clear saved foods:", error)
+      console.log("Failed to clear saved foods:", error)
     }
   }
 

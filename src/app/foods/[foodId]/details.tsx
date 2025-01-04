@@ -40,8 +40,6 @@ import { useCreateMeal } from "@/hooks/useMeal"
 import { useGetNutritionByFoodId } from "@/hooks/useNutrition"
 import { useGetPortionByFoodId } from "@/hooks/usePortion"
 
-import { FoodType } from "@/schemas/foodSchema"
-
 import { getMealType, parsePortion } from "@/utils/helpers"
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window")
@@ -82,6 +80,7 @@ function FoodDetailsScreen() {
 
   const formattedPortionData = [
     "g",
+    "ml",
     ...(portionData?.map(
       (portion) => `${portion.size} (${portion.weight} ${portion.unit})`
     ) || [])
@@ -129,7 +128,7 @@ function FoodDetailsScreen() {
   const handlePortionChange = (selectedItem: string) => {
     setSelectedPortion(selectedItem)
 
-    if (selectedItem === "g") {
+    if (selectedItem === "g" || selectedItem === "ml") {
       setQuantity("100")
     } else {
       setQuantity("1")
@@ -138,12 +137,7 @@ function FoodDetailsScreen() {
     closePortionSheet()
   }
 
-  const handleAddFoodWrapper = () => {
-    if (!foodData) return
-    handleAddFood(foodData)
-  }
-
-  const handleAddFood = (food: FoodType) => {
+  const handleAddFood = () => {
     const { portionSize, portionWeight, portionUnit } = parsePortion(
       selectedPortion,
       quantity
@@ -167,7 +161,7 @@ function FoodDetailsScreen() {
       ]
     }
 
-    // console.log(JSON.stringify(mealData, null, 2))
+    console.log(JSON.stringify(mealData, null, 2))
 
     addMeal(mealData)
   }
@@ -226,7 +220,7 @@ function FoodDetailsScreen() {
 
           <Content className="mt-2">
             <ScrollArea className="flex-1">
-              <View onStartShouldSetResponder={() => true} className="pb-12">
+              <View onStartShouldSetResponder={() => true} className="pb-40">
                 <VStack>
                   <Section
                     label="Khẩu phần ăn"
@@ -286,7 +280,7 @@ function FoodDetailsScreen() {
 
             <Button
               size="lg"
-              onPress={handleAddFoodWrapper}
+              onPress={handleAddFood}
               className="absolute bottom-4 w-full"
             >
               Thêm vào bữa ăn

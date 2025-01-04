@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { useErrorHandler } from "@/contexts/ErrorContext"
 
@@ -44,6 +44,7 @@ export const useGetNutritionById = (nutritionId: string) => {
 }
 
 export const useUpdateNutrition = (nutritionId: string) => {
+  const queryClient = useQueryClient()
   const handleError = useErrorHandler()
 
   return useQuery<NutritionType, Error>({
@@ -55,7 +56,6 @@ export const useUpdateNutrition = (nutritionId: string) => {
         handleError(error)
         throw error
       }
-    },
-    staleTime: 1000 * 60 * 5
+    }
   })
 }

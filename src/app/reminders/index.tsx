@@ -1,36 +1,59 @@
 import React, { useRef, useState } from "react"
 
-import { Image, SafeAreaView, View } from "react-native"
+import { Animated, SafeAreaView, View } from "react-native"
 import { FlatList } from "react-native"
 
 import { useRouter } from "expo-router"
 
 import { Add } from "iconsax-react-native"
-import { Trash2 } from "lucide-react-native"
 
 import {
   Button,
-  Container,
   Content,
-  HStack,
   Sheet,
-  SheetRefProps
+  SheetItem,
+  SheetRefProps,
+  VStack
 } from "@/components/global/atoms"
-import { ListFooter, WaterCard } from "@/components/global/molecules"
+import {
+  ListFooter,
+  ListHeader,
+  WaterCard
+} from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/app"
 import { sampleReminderData } from "@/constants/reminders"
 
+import { useAuth } from "@/contexts/AuthContext"
+
+import { useAnimation } from "@/hooks/useAnimation"
+import { useGetReminderByUserId } from "@/hooks/useReminder"
+
 import { ReminderType } from "@/schemas/reminderSchema"
+
+import LoadingScreen from "../loading"
 
 function ReminderScreen() {
   const router = useRouter()
   const WaterSheetRef = useRef<SheetRefProps>(null)
 
-  const [remindersData, setRemindersData] = useState(sampleReminderData)
+  const { fadeAnim, scaleAnim, textFadeAnim, textTranslateAnim } =
+    useAnimation()
+
+  const { user } = useAuth()
+  const userId = user?.userId
+
+  const {
+    data: remindersData,
+    isLoading,
+    refetch
+  } = useGetReminderByUserId(userId)
+
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [selectedReminder, setSelectedReminder] = useState<string | null>(null)
+
+  console.log(selectedReminder)
 
   const openMealSheet = (reminder: ReminderType) => {
     setSelectedReminder(reminder.reminderId)
@@ -41,49 +64,12 @@ function ReminderScreen() {
 
   const onRefresh = async () => {
     setIsRefreshing(true)
-
-    try {
-      const newData = await fetchRemindersData()
-      setRemindersData(newData)
-    } catch (error) {
-      console.error("Lỗi khi làm mới dữ liệu:", error)
-    } finally {
-      setIsRefreshing(false)
-    }
+    await refetch()
+    setIsRefreshing(false)
   }
 
-  const fetchRemindersData = async (): Promise<ReminderType[]> => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(sampleReminderData)
-      }, 2000)
-    })
-  }
-
-  const handleDelete = () => {
-    if (selectedReminder) {
-      console.log("Deleting reminder with ID:", selectedReminder)
-      closeReminderSheet()
-    }
-  }
-
-  const handleUpdateReminder = () => {
-    if (selectedReminder) {
-      const reminder = remindersData.find(
-        (r) => r.reminderId === selectedReminder
-      )
-
-      if (reminder) {
-        router.push({
-          pathname: "/reminders/update",
-          params: {
-            reminder: JSON.stringify(reminder)
-          }
-        })
-      }
-    }
-
-    closeReminderSheet()
+  if (!remindersData || isLoading) {
+    return <LoadingScreen />
   }
 
   return (
@@ -105,6 +91,7 @@ function ReminderScreen() {
             onRefresh={onRefresh}
             refreshing={isRefreshing}
             showsVerticalScrollIndicator={false}
+            ListHeaderComponent={<ListHeader />}
             renderItem={({ item }) => (
               <WaterCard
                 key={item.reminderId}
@@ -116,27 +103,54 @@ function ReminderScreen() {
                 onMorePress={() => openMealSheet(item)}
               />
             )}
+            ListEmptyComponent={() => (
+              <VStack center gap={20} className="mt-24">
+                <View className="w-full items-center">
+                  <Animated.Image
+                    source={require("../../../public/images/monhealth-no-data-image.png")}
+                    style={{
+                      width: 320,
+                      height: 320,
+                      opacity: fadeAnim,
+                      transform: [{ scale: scaleAnim }]
+                    }}
+                  />
+                </View>
+
+                <VStack>
+                  <Animated.Text
+                    style={{
+                      opacity: textFadeAnim,
+                      transform: [{ translateY: textTranslateAnim }]
+                    }}
+                    className="text-center font-tbold text-3xl text-primary"
+                  >
+                    Không có dữ liệu
+                  </Animated.Text>
+
+                  <Animated.Text
+                    style={{
+                      opacity: textFadeAnim,
+                      transform: [{ translateY: textTranslateAnim }]
+                    }}
+                    className="text-center font-tmedium text-lg text-accent"
+                  >
+                    Bạn chưa lưu món ăn nào trong danh sách
+                  </Animated.Text>
+                </VStack>
+              </VStack>
+            )}
             ListFooterComponent={<ListFooter />}
             ItemSeparatorComponent={() => <View className="h-3" />}
           />
         </Content>
       </View>
 
-      <Sheet ref={WaterSheetRef} dynamicHeight={150}>
-        <HStack gap={20}>
-          <Button variant="danger" icon size="lg" onPress={handleDelete}>
-            <Trash2 size={24} color="#fff" />
-          </Button>
-
-          <Button
-            variant="secondary"
-            size="lg"
-            onPress={handleUpdateReminder}
-            className="flex-1"
-          >
-            Chỉnh sửa
-          </Button>
-        </HStack>
+      <Sheet ref={WaterSheetRef} dynamicHeight={200}>
+        <VStack gap={20}>
+          <SheetItem item="Chỉnh sửa" isSelected={false} onSelect={() => {}} />
+          <SheetItem item="Xóa" isSelected={false} onSelect={() => {}} />
+        </VStack>
       </Sheet>
     </SafeAreaView>
   )

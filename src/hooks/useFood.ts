@@ -154,6 +154,7 @@ export const useCreateFood = () => {
 }
 
 export const useUpdateFood = () => {
+  const queryClient = useQueryClient()
   const handleError = useErrorHandler()
 
   return useMutation<string, Error, { foodId: string; food: UpdateFoodType }>({
@@ -164,6 +165,9 @@ export const useUpdateFood = () => {
         handleError(error)
         throw error
       }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["foods"] })
     }
   })
 }

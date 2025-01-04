@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { useErrorHandler } from "@/contexts/ErrorContext"
 
@@ -29,6 +29,7 @@ export const useGetReminderByUserId = (userId: string | undefined) => {
         throw error
       }
     },
+    enabled: !!userId,
     staleTime: 1000 * 60 * 5
   })
 }
@@ -52,6 +53,7 @@ export const useGetReminderById = (reminderId: string | undefined) => {
 }
 
 export const useCreateReminder = () => {
+  const queryClient = useQueryClient()
   const handleError = useErrorHandler()
 
   return useMutation<string, Error, CreateUpdateReminderType>({
@@ -62,11 +64,15 @@ export const useCreateReminder = () => {
         handleError(error)
         throw error
       }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["reminders"] })
     }
   })
 }
 
 export const useUpdateReminder = () => {
+  const queryClient = useQueryClient()
   const handleError = useErrorHandler()
 
   return useMutation<
@@ -81,11 +87,15 @@ export const useUpdateReminder = () => {
         handleError(error)
         throw error
       }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["reminders"] })
     }
   })
 }
 
 export const useChangeReminderStatus = () => {
+  const queryClient = useQueryClient()
   const handleError = useErrorHandler()
 
   return useMutation<string, Error, string>({
@@ -96,11 +106,15 @@ export const useChangeReminderStatus = () => {
         handleError(error)
         throw error
       }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["reminders"] })
     }
   })
 }
 
 export const useDeleteReminder = () => {
+  const queryClient = useQueryClient()
   const handleError = useErrorHandler()
 
   return useMutation<string, Error, string>({
@@ -111,6 +125,9 @@ export const useDeleteReminder = () => {
         handleError(error)
         throw error
       }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["reminders"] })
     }
   })
 }

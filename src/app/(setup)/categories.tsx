@@ -6,10 +6,10 @@ import LoadingScreen from "@/app/loading"
 
 import { ScrollArea } from "@/components/global/atoms"
 
-import { useGetAllCategories } from "@/hooks/useCategory"
+import { sampleCategoriesData } from "@/constants/categories"
 
 function SetupCategories() {
-  const { data: categoriesData, isLoading } = useGetAllCategories()
+  const categoriesData = sampleCategoriesData
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
 
@@ -30,7 +30,7 @@ function SetupCategories() {
 
   console.log("Selected Categories:", selectedCategories)
 
-  if (!categoriesData || isLoading) return <LoadingScreen />
+  if (!categoriesData) return <LoadingScreen />
 
   return (
     <ScrollArea>
