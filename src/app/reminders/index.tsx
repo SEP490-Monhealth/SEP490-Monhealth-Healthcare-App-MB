@@ -5,16 +5,15 @@ import { FlatList } from "react-native"
 
 import { router } from "expo-router"
 
-import { Add } from "iconsax-react-native"
-import { BellDot, BellOff, Settings, Trash2 } from "lucide-react-native"
+import { Add, Edit2, Notification, Trash } from "iconsax-react-native"
 
 import {
   Content,
   Sheet,
   SheetRefProps,
+  SheetSelect,
   VStack
 } from "@/components/global/atoms"
-import { SheetSelect } from "@/components/global/atoms/SheetItem"
 import {
   ListFooter,
   ListHeader,
@@ -48,15 +47,14 @@ function ReminderScreen() {
   const { user } = useAuth()
   const userId = user?.userId
 
-  const { mutate: deleteReminder } = useDeleteReminder()
-
-  const { mutate: patchReminder } = useChangeReminderStatus()
-
   const {
     data: remindersData,
     isLoading,
     refetch
   } = useGetReminderByUserId(userId)
+
+  const { mutate: deleteReminder } = useDeleteReminder()
+  const { mutate: updateReminderStatus } = useChangeReminderStatus()
 
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [selectedReminder, setSelectedReminder] = useState<string>("")
@@ -67,7 +65,7 @@ function ReminderScreen() {
 
   const openMealSheet = (reminder: ReminderType) => {
     setSelectedReminder(reminder.reminderId)
-    WaterSheetRef.current?.scrollTo(-210)
+    WaterSheetRef.current?.scrollTo(-240)
   }
 
   const closeReminderSheet = () => WaterSheetRef.current?.scrollTo(0)
@@ -84,16 +82,11 @@ function ReminderScreen() {
     }
   }
 
-  const handlePatchStatus = () => {
+  const handleUpdateReminderStatus = () => {
     if (selectedReminder) {
-      patchReminder(selectedReminder)
+      updateReminderStatus(selectedReminder)
     }
     closeReminderSheet()
-  }
-
-  const handleUpdateReminderWrapper = () => {
-    if (!selectedReminder) return
-    handleUpdateReminder(selectedReminder)
   }
 
   const handleDeleteReminder = () => {
@@ -205,42 +198,30 @@ function ReminderScreen() {
       </View>
 
       <Sheet ref={WaterSheetRef} dynamicHeight={210}>
-        <VStack gap={20} className="px-2">
-          <SheetSelect
-            label={selectedReminderStatus ? "Tắt thông báo" : "Bật thông báo"}
-            icon={
-              <View>
-                {selectedReminderStatus ? (
-                  <BellOff size={24} color={COLORS.primary} />
-                ) : (
-                  <BellDot size={24} color={COLORS.primary} />
-                )}
-              </View>
-            }
-            onPress={handlePatchStatus}
-          />
+        <SheetSelect
+          label={selectedReminderStatus ? "Tắt nhắc nhở" : "Bật nhắc nhở"}
+          icon={
+            <Notification
+              variant={selectedReminderStatus ? "Bold" : "Linear"}
+              size={24}
+              color={COLORS.primary}
+            />
+          }
+          onPress={handleUpdateReminderStatus}
+        />
 
-          <SheetSelect
-            label="Chỉnh sửa"
-            icon={
-              <View>
-                <Settings size="24" color={COLORS.primary}/>
-              </View>
-            }
-            onPress={handleUpdateReminderWrapper}
-          />
+        <SheetSelect
+          label="Chỉnh sửa"
+          icon={<Edit2 variant="Bold" size="24" color={COLORS.primary} />}
+          onPress={handleDeleteReminder}
+        />
 
-          <SheetSelect
-            variant="danger"
-            label="Xóa"
-            icon={
-              <View>
-                <Trash2 size={24} color="#ef4444" />
-              </View>
-            }
-            onPress={handleDeleteReminder}
-          />
-        </VStack>
+        <SheetSelect
+          variant="danger"
+          label="Xóa"
+          icon={<Trash variant="Bold" size={24} color="#ef4444" />}
+          onPress={handleDeleteReminder}
+        />
       </Sheet>
     </SafeAreaView>
   )

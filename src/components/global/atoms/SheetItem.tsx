@@ -10,13 +10,6 @@ interface SheetItemProps {
   onSelect: (item: string) => void
 }
 
-interface SheetSelectProps {
-  variant?: "default" | "danger"
-  label: string
-  icon: React.ReactNode
-  onPress: () => void
-}
-
 export const SheetItem = ({ item, isSelected, onSelect }: SheetItemProps) => {
   return (
     <TouchableOpacity
@@ -33,6 +26,13 @@ export const SheetItem = ({ item, isSelected, onSelect }: SheetItemProps) => {
   )
 }
 
+interface SheetSelectProps {
+  variant?: "default" | "danger"
+  label: string
+  icon: React.ReactNode
+  onPress: () => void
+}
+
 export const SheetSelect = ({
   variant = "default",
   icon,
@@ -40,12 +40,16 @@ export const SheetSelect = ({
   onPress
 }: SheetSelectProps) => {
   return (
-    <TouchableOpacity activeOpacity={0.7} onPress={onPress}>
+    <TouchableOpacity
+      activeOpacity={0.7}
+      onPress={onPress}
+      className="px-4 py-3"
+    >
       <HStack center>
-        <View className="mr-2">{icon}</View>
+        <View className="mr-4">{icon}</View>
         <Text
           className={`font-tmedium text-lg ${
-            variant === "danger" ? "text-red-500" : "text-primary"
+            variant === "danger" ? "text-destructive" : "text-primary"
           }`}
         >
           {label}

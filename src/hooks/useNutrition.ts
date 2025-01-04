@@ -44,7 +44,6 @@ export const useGetNutritionById = (nutritionId: string) => {
 }
 
 export const useUpdateNutrition = (nutritionId: string) => {
-  const queryClient = useQueryClient()
   const handleError = useErrorHandler()
 
   return useQuery<NutritionType, Error>({

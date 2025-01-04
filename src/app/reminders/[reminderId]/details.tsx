@@ -30,21 +30,20 @@ import {
 import { convertTimeStringToDate } from "@/utils/helpers"
 
 function ReminderDetailsScreen() {
-  const [time, setTime] = useState(new Date())
-
   const { reminderId } = useLocalSearchParams() as {
     reminderId: string
   }
 
+  const { mutate: updateReminder } = useUpdateReminder()
+
   const { data: reminderData, isLoading } = useGetReminderById(reminderId)
 
-  const { mutate: updateReminder } = useUpdateReminder()
+  const [time, setTime] = useState(new Date())
 
   const {
     control,
     handleSubmit,
     setValue,
-    reset,
     formState: { errors }
   } = useForm<UpdateReminderType>({
     resolver: zodResolver(updateReminderSchema)
@@ -82,7 +81,6 @@ function ReminderDetailsScreen() {
       { reminderId, reminder: data },
       {
         onSuccess: () => {
-          reset()
           router.replace("/reminders")
         }
       }
