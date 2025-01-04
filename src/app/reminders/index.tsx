@@ -1,40 +1,39 @@
 import React, { useRef, useState } from "react"
 
-import { Image, SafeAreaView, View } from "react-native"
+import { SafeAreaView, View } from "react-native"
 import { FlatList } from "react-native"
 
-import { useRouter } from "expo-router"
-
-import { Add } from "iconsax-react-native"
+import { Add, Edit } from "iconsax-react-native"
 import { Trash2 } from "lucide-react-native"
 
 import {
-  Button,
-  Container,
   Content,
-  HStack,
   Sheet,
-  SheetRefProps
+  SheetRefProps,
+  VStack
 } from "@/components/global/atoms"
+import { SheetSelect } from "@/components/global/atoms/SheetItem"
 import { ListFooter, WaterCard } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/app"
 import { sampleReminderData } from "@/constants/reminders"
 
+import { useRouterHandlers } from "@/hooks/useRouter"
+
 import { ReminderType } from "@/schemas/reminderSchema"
 
 function ReminderScreen() {
-  const router = useRouter()
   const WaterSheetRef = useRef<SheetRefProps>(null)
+  const { handleViewReminder } = useRouterHandlers()
 
   const [remindersData, setRemindersData] = useState(sampleReminderData)
   const [isRefreshing, setIsRefreshing] = useState(false)
-  const [selectedReminder, setSelectedReminder] = useState<string | null>(null)
+  const [selectedReminder, setSelectedReminder] = useState<string>("")
 
   const openMealSheet = (reminder: ReminderType) => {
     setSelectedReminder(reminder.reminderId)
-    WaterSheetRef.current?.scrollTo(-150)
+    WaterSheetRef.current?.scrollTo(-160)
   }
 
   const closeReminderSheet = () => WaterSheetRef.current?.scrollTo(0)
@@ -67,22 +66,13 @@ function ReminderScreen() {
     }
   }
 
-  const handleUpdateReminder = () => {
-    if (selectedReminder) {
-      const reminder = remindersData.find(
-        (r) => r.reminderId === selectedReminder
-      )
+  const handleUpdateReminderWrapper = () => {
+    if (!selectedReminder) return
+    handleUpdateReminder(selectedReminder)
+  }
 
-      if (reminder) {
-        router.push({
-          pathname: "/reminders/update",
-          params: {
-            reminder: JSON.stringify(reminder)
-          }
-        })
-      }
-    }
-
+  const handleUpdateReminder = (reminderId: string) => {
+    handleViewReminder(reminderId)
     closeReminderSheet()
   }
 
@@ -122,21 +112,29 @@ function ReminderScreen() {
         </Content>
       </View>
 
-      <Sheet ref={WaterSheetRef} dynamicHeight={150}>
-        <HStack gap={20}>
-          <Button variant="danger" icon size="lg" onPress={handleDelete}>
-            <Trash2 size={24} color="#fff" />
-          </Button>
+      <Sheet ref={WaterSheetRef} dynamicHeight={160}>
+        <VStack gap={20} className="px-2">
+          <SheetSelect
+            label="Chỉnh sửa"
+            icon={
+              <View>
+                <Edit size="24" color={COLORS.primary} />
+              </View>
+            }
+            onPress={handleUpdateReminderWrapper}
+          />
 
-          <Button
-            variant="secondary"
-            size="lg"
-            onPress={handleUpdateReminder}
-            className="flex-1"
-          >
-            Chỉnh sửa
-          </Button>
-        </HStack>
+          <SheetSelect
+            variant="danger"
+            label="Xóa"
+            icon={
+              <View>
+                <Trash2 size={24} color="#ef4444" />
+              </View>
+            }
+            onPress={handleDelete}
+          />
+        </VStack>
       </Sheet>
     </SafeAreaView>
   )
