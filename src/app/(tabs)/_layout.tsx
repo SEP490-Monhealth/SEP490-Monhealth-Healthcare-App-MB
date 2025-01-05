@@ -10,8 +10,8 @@ import {
 import { Tabs } from "expo-router"
 
 import {
-  Calendar,
   ClipboardTick,
+  DirectboxDefault,
   Home2,
   Profile,
   Sound
@@ -21,7 +21,7 @@ import { COLORS } from "@/constants/app"
 
 function TabLayout() {
   const primaryColor = COLORS.primary
-  const descriptionColor = COLORS.secondary
+  const accentColor = COLORS.accent
 
   return (
     <Tabs
@@ -30,13 +30,12 @@ function TabLayout() {
         tabBarActiveTintColor: primaryColor,
         tabBarStyle: {
           backgroundColor: "#fff",
-          height: 80,
           elevation: 0,
           paddingTop: 4,
           paddingHorizontal: 12
         },
         tabBarButton: (props) => {
-          // @ts-ignore
+          // @ts-ignore toi met moi roi
           const newProps: TouchableOpacityProps = {
             ...props,
             delayLongPress: props.delayLongPress ?? undefined,
@@ -56,7 +55,7 @@ function TabLayout() {
               style={{
                 fontFamily: "TikTokDisplay-Medium",
                 fontSize: 11,
-                color: focused ? primaryColor : descriptionColor
+                color: focused ? primaryColor : accentColor
               }}
             >
               Trang chủ
@@ -65,7 +64,7 @@ function TabLayout() {
           tabBarIcon: ({ focused }) => (
             <Home2
               variant={focused ? "Bold" : "Linear"}
-              color={focused ? primaryColor : descriptionColor}
+              color={focused ? primaryColor : accentColor}
               size={22}
             />
           )
@@ -73,23 +72,23 @@ function TabLayout() {
       />
 
       <Tabs.Screen
-        name="report"
+        name="questions"
         options={{
           tabBarLabel: ({ focused }) => (
             <Text
               style={{
                 fontFamily: "TikTokDisplay-Medium",
                 fontSize: 11,
-                color: focused ? primaryColor : descriptionColor
+                color: focused ? primaryColor : accentColor
               }}
             >
-              Báo cáo
+              Hỏi đáp
             </Text>
           ),
           tabBarIcon: ({ focused }) => (
-            <ClipboardTick
+            <DirectboxDefault
               variant={focused ? "Bold" : "Linear"}
-              color={focused ? primaryColor : descriptionColor}
+              color={focused ? primaryColor : accentColor}
               size={22}
             />
           )
@@ -109,23 +108,23 @@ function TabLayout() {
       />
 
       <Tabs.Screen
-        name="schedule"
+        name="report"
         options={{
           tabBarLabel: ({ focused }) => (
             <Text
               style={{
                 fontFamily: "TikTokDisplay-Medium",
                 fontSize: 11,
-                color: focused ? primaryColor : descriptionColor
+                color: focused ? primaryColor : accentColor
               }}
             >
-              Thực đơn
+              Báo cáo
             </Text>
           ),
           tabBarIcon: ({ focused }) => (
-            <Calendar
+            <ClipboardTick
               variant={focused ? "Bold" : "Linear"}
-              color={focused ? primaryColor : descriptionColor}
+              color={focused ? primaryColor : accentColor}
               size={22}
             />
           )
@@ -140,7 +139,7 @@ function TabLayout() {
               style={{
                 fontFamily: "TikTokDisplay-Medium",
                 fontSize: 11,
-                color: focused ? primaryColor : descriptionColor
+                color: focused ? primaryColor : accentColor
               }}
             >
               Hồ sơ
@@ -149,7 +148,7 @@ function TabLayout() {
           tabBarIcon: ({ focused }) => (
             <Profile
               variant={focused ? "Bold" : "Linear"}
-              color={focused ? primaryColor : descriptionColor}
+              color={focused ? primaryColor : accentColor}
               size={22}
             />
           )
