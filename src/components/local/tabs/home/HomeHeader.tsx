@@ -3,6 +3,8 @@ import React from "react"
 import { Platform, Text } from "react-native"
 import { View } from "react-native"
 
+import { useRouter } from "expo-router"
+
 import { Notification } from "iconsax-react-native"
 
 import { HStack } from "@/components/global/atoms"
@@ -17,7 +19,13 @@ interface HomeHeaderProps {
 }
 
 export const HomeHeader = ({ fullName }: HomeHeaderProps) => {
+  const router = useRouter()
+
   const paddingClass = Platform.OS === "ios" ? "pb-3 pt-0" : "py-4"
+
+  const handleViewNotifications = () => {
+    router.push("notifications")
+  }
 
   return (
     <HStack
@@ -32,6 +40,7 @@ export const HomeHeader = ({ fullName }: HomeHeaderProps) => {
 
       <IconButton
         icon={<Notification variant="Bold" size={24} color={COLORS.primary} />}
+        onPress={handleViewNotifications}
       />
     </HStack>
   )

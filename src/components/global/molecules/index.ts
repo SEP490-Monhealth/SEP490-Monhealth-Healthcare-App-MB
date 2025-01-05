@@ -7,6 +7,7 @@ import { IconButton } from "./IconButton"
 import { ListFooter } from "./ListFooter"
 import { ListHeader } from "./ListHeader"
 import { MealCard } from "./MealCard"
+import { NotificationCard } from "./NotificationCard"
 import { NutritionCard } from "./NutritionCard"
 import { NutritionItem } from "./NutritionItem"
 import { StepHeader } from "./SetupHeader"
@@ -22,6 +23,7 @@ export {
   ListFooter,
   ListHeader,
   MealCard,
+  NotificationCard,
   NutritionCard,
   NutritionItem,
   StepHeader,
