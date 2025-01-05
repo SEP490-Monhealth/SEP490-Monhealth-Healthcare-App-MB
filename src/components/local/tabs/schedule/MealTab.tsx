@@ -55,7 +55,6 @@ export const MealTab = ({ foodsData }: MealTabProps) => {
       renderItem={({ item }) => (
         <FoodCard
           key={item.foodId}
-          variant="more"
           name={item.name}
           calories={item.nutrition.calories}
           size={item.portion.size}

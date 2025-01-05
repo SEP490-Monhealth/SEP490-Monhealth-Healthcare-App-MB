@@ -117,7 +117,6 @@ function FoodUserScreen() {
           renderItem={({ item }) => (
             <FoodCard
               key={item.foodId}
-              variant="more"
               name={item.name}
               calories={item.nutrition.calories}
               size={item.portion?.size}
@@ -158,7 +157,7 @@ function FoodUserScreen() {
                   }}
                   className="text-center font-tmedium text-lg text-accent"
                 >
-                  Bạn chưa lưu món ăn nào trong danh sách
+                  Bạn chưa tạo món ăn nào. Hãy thêm món ăn để bắt đầu theo dõi
                 </Animated.Text>
               </VStack>
             </VStack>

@@ -103,6 +103,7 @@ export const createPortion = async (
       }
     }
 
+    console.log(message)
     return message
   } catch (error: any) {
     if (axios.isAxiosError(error)) {

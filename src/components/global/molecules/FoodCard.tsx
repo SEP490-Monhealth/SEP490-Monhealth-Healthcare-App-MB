@@ -8,11 +8,11 @@ import { COLORS } from "@/constants/app"
 
 import { toFixed } from "@/utils/formatters"
 
-import { Card, HStack, VStack } from "../atoms"
+import { Card, Checkbox, HStack, VStack } from "../atoms"
 import { IconButton } from "./IconButton"
 
 interface FoodCardProps {
-  variant?: "default" | "add" | "checkbox" | "more"
+  variant?: "default" | "add" | "checkbox"
   name: string
   calories?: number
   quantity?: number
@@ -22,6 +22,7 @@ interface FoodCardProps {
   isAdded?: boolean
   onPress?: () => void
   onAddPress?: () => void
+  onCheckboxChange?: (value: boolean) => void
   onMorePress?: () => void
 }
 
@@ -36,6 +37,7 @@ export const FoodCard = ({
   isAdded,
   onPress,
   onAddPress,
+  onCheckboxChange,
   onMorePress
 }: FoodCardProps) => {
   return (
@@ -65,14 +67,16 @@ export const FoodCard = ({
             }
             onPress={onAddPress}
           />
-        ) : variant === "more" ? (
+        ) : variant === "checkbox" ? (
+          <Checkbox size={20} checked={true} onCheckChange={onCheckboxChange} />
+        ) : (
           <IconButton
             testID="test-icon-more-button"
             size="sm"
             icon={<MoreHorizontal size={20} color={COLORS.primary} />}
             onPress={onMorePress}
           />
-        ) : null}
+        )}
       </HStack>
     </Card>
   )

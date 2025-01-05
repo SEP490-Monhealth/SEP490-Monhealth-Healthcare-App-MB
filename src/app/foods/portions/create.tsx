@@ -7,6 +7,8 @@ import {
   View
 } from "react-native"
 
+import { useLocalSearchParams } from "expo-router"
+
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 
@@ -23,10 +25,20 @@ import {
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import { PortionType, portionSchema } from "@/schemas/portionSchema"
+import { useCreatePortion } from "@/hooks/usePortion"
+
+import { CreatePortionType, createPortionSchema } from "@/schemas/portionSchema"
 
 function PortionCreateScreen() {
-  const units = ["g (gram)", "ml (mililit)"]
+  const { foodId } = useLocalSearchParams() as { foodId: string }
+
+  const { mutate: createPortion } = useCreatePortion()
+
+  const units = [
+    { label: "g (gram)", value: "g" },
+    { label: "ml (mililit)", value: "ml" }
+  ]
+
   const [selectedUnit, setSelectedUnit] = useState("")
 
   const SheetRef = useRef<SheetRefProps>(null)
@@ -37,8 +49,14 @@ function PortionCreateScreen() {
     handleSubmit,
     setValue,
     formState: { errors }
-  } = useForm<PortionType>({
-    resolver: zodResolver(portionSchema)
+  } = useForm<CreatePortionType>({
+    resolver: zodResolver(createPortionSchema),
+    defaultValues: {
+      foodId: foodId || "",
+      size: "",
+      weight: 0,
+      unit: ""
+    }
   })
 
   const openSheet = () => {
@@ -49,14 +67,16 @@ function PortionCreateScreen() {
     SheetRef.current?.scrollTo(0)
   }
 
-  const onUnitSelect = (unit: string) => {
-    setSelectedUnit(unit)
-    setValue("unit", unit)
+  const onUnitSelect = (label: string, value: string) => {
+    setSelectedUnit(label)
+    setValue("unit", value)
     closeSheet()
   }
 
-  const onSubmit = (data: PortionType) => {
-    console.log("Submitted Data:", data)
+  const onSubmit = (data: CreatePortionType) => {
+    console.log("Submitted Data:", JSON.stringify(data, null, 2))
+
+    createPortion(data)
   }
 
   return (
@@ -120,10 +140,10 @@ function PortionCreateScreen() {
         <Sheet ref={SheetRef}>
           {units.map((unit) => (
             <SheetItem
-              key={unit}
-              item={unit}
-              isSelected={selectedUnit === unit}
-              onSelect={() => onUnitSelect(unit)}
+              key={unit.value}
+              item={unit.label}
+              isSelected={selectedUnit === unit.label}
+              onSelect={() => onUnitSelect(unit.label, unit.value)}
             />
           ))}
         </Sheet>

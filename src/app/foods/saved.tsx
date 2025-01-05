@@ -112,7 +112,8 @@ function FoodSavedScreen() {
                   }}
                   className="text-center font-tmedium text-lg text-accent"
                 >
-                  Bạn chưa lưu món ăn nào trong danh sách
+                  Bạn chưa lưu món ăn nào trong danh sách. Hãy thêm món ăn yêu
+                  thích của bạn!
                 </Animated.Text>
               </VStack>
             </VStack>

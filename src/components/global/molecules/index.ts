@@ -1,6 +1,7 @@
 import { ArcProgress } from "./ArcProgress"
 import { CircularProgress } from "./CircularProgress"
 import { CustomHeader } from "./CustomHeader"
+import { ErrorDisplay } from "./ErrorDisplay"
 import { FoodCard } from "./FoodCard"
 import { IconButton } from "./IconButton"
 import { ListFooter } from "./ListFooter"
@@ -15,6 +16,7 @@ export {
   ArcProgress,
   CircularProgress,
   CustomHeader,
+  ErrorDisplay,
   FoodCard,
   IconButton,
   ListFooter,

@@ -98,6 +98,7 @@ function MealDetailsScreen() {
           renderItem={({ item }) => (
             <FoodCard
               key={item.foodId}
+              variant="checkbox"
               name={item.name}
               calories={item.nutrition?.calories}
               quantity={item.quantity}

@@ -108,14 +108,15 @@ function ReminderScreen() {
       { cancelable: true }
     )
   }
-  const handleUpdateReminder = (reminderId: string) => {
-    handleViewReminder(reminderId)
-    closeReminderSheet()
-  }
 
   const handleUpdateReminderWrapper = () => {
     if (!selectedReminder) return
     handleUpdateReminder(selectedReminder)
+  }
+
+  const handleUpdateReminder = (reminderId: string) => {
+    handleViewReminder(reminderId)
+    closeReminderSheet()
   }
 
   const handleBack = () => {
@@ -181,7 +182,7 @@ function ReminderScreen() {
                     }}
                     className="text-center font-tbold text-3xl text-primary"
                   >
-                    Không có dữ liệu
+                    Không có nhắc nhở
                   </Animated.Text>
 
                   <Animated.Text
@@ -191,7 +192,8 @@ function ReminderScreen() {
                     }}
                     className="text-center font-tmedium text-lg text-accent"
                   >
-                    Bạn chưa lưu món ăn nào trong danh sách
+                    Bạn chưa tạo nhắc nhở nào. Hãy thêm nhắc nhở để theo dõi
+                    lượng nước hàng ngày của bạn
                   </Animated.Text>
                 </VStack>
               </VStack>
@@ -207,7 +209,7 @@ function ReminderScreen() {
           label={selectedReminderStatus ? "Tắt nhắc nhở" : "Bật nhắc nhở"}
           icon={
             <Notification
-              variant={selectedReminderStatus ? "Linear" : "Bold"}
+              variant={selectedReminderStatus ? "Bold" : "Linear"}
               size={24}
               color={COLORS.primary}
             />
