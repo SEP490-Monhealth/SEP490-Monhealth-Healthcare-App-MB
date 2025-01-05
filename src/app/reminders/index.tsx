@@ -113,6 +113,11 @@ function ReminderScreen() {
     closeReminderSheet()
   }
 
+  const handleUpdateReminderWrapper = () => {
+    if (!selectedReminder) return
+    handleUpdateReminder(selectedReminder)
+  }
+
   const handleBack = () => {
     router.push("/(tabs)/home")
   }
@@ -202,7 +207,7 @@ function ReminderScreen() {
           label={selectedReminderStatus ? "Tắt nhắc nhở" : "Bật nhắc nhở"}
           icon={
             <Notification
-              variant={selectedReminderStatus ? "Bold" : "Linear"}
+              variant={selectedReminderStatus ? "Linear" : "Bold"}
               size={24}
               color={COLORS.primary}
             />
@@ -213,7 +218,7 @@ function ReminderScreen() {
         <SheetSelect
           label="Chỉnh sửa"
           icon={<Edit2 variant="Bold" size="24" color={COLORS.primary} />}
-          onPress={handleDeleteReminder}
+          onPress={handleUpdateReminderWrapper}
         />
 
         <SheetSelect
