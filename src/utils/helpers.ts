@@ -177,3 +177,24 @@ export const convertTimeStringToDate = (timeString: string): Date => {
   date.setHours(hours, minutes, 0, 0)
   return date
 }
+
+// Utility function to get notification styles
+export const getNotificationStyles = (type: string) => {
+  const styleMap: { [key: string]: { border: string; text: string } } = {
+    System: { border: "border-red-500", text: "text-red-500" },
+    Reminder: { border: "border-green-500", text: "text-green-500" },
+    Activity: { border: "border-orange-500", text: "text-orange-500" }
+  }
+
+  const typeLabelMap: { [key: string]: string } = {
+    System: "Hệ thống",
+    Reminder: "Nhắc nhở",
+    Activity: "Hoạt động"
+  }
+
+  const borderColorClass = styleMap[type]?.border || "border-border"
+  const textColorClass = styleMap[type]?.text || "text-primary"
+  const typeLabel = typeLabelMap[type] || type
+
+  return { borderColorClass, textColorClass, typeLabel }
+}

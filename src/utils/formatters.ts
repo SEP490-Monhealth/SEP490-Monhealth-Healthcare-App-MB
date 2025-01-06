@@ -107,3 +107,34 @@ export const formatUTCDate = (date: Date) => {
 
   return utcDate.toISOString()
 }
+
+export const formatTimeAgo = (createdAt: string): string => {
+  const now = new Date()
+  const createdDate = new Date(createdAt)
+
+  const nowUTC7 =
+    now.getTime() + (14 - now.getTimezoneOffset() / 60) * 60 * 60 * 1000
+  const createdDateUTC7 =
+    createdDate.getTime() +
+    (7 - createdDate.getTimezoneOffset() / 60) * 60 * 60 * 1000
+
+  const diffInMs = nowUTC7 - createdDateUTC7
+
+  const diffInMinutes = Math.floor(diffInMs / (1000 * 60))
+  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60))
+
+  if (diffInMinutes < 60) {
+    return `${diffInMinutes} phút trước`
+  } else if (diffInHours < 24) {
+    return `${diffInHours} giờ trước`
+  } else {
+    const options: Intl.DateTimeFormatOptions = {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour12: false,
+      timeZone: "Asia/Ho_Chi_Minh"
+    }
+    return createdDate.toLocaleString("vi-VN", options)
+  }
+}
