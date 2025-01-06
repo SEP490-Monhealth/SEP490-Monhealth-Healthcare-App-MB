@@ -5,14 +5,13 @@ import { Image, Text, TouchableOpacity, View } from "react-native"
 import { formatTimeAgo } from "@/utils/formatters"
 import { getNotificationStyles } from "@/utils/helpers"
 
-import { HStack, VStack } from "../atoms"
+import { HStack } from "../atoms"
 
 interface NotificationCardProps {
-  icon: any
   title: string
-  message: string
+  description: string
   type: string
-  action_url: string
+  href: string
   status: boolean
   createdAt: string
   onPress?: () => void
@@ -20,18 +19,16 @@ interface NotificationCardProps {
 }
 
 export const NotificationCard = ({
-  icon,
   title,
-  message,
+  description,
   type,
-  action_url,
+  href,
   status,
   createdAt,
   onPress,
   onReadChange
 }: NotificationCardProps) => {
-  const { borderColorClass, textColorClass, typeLabel } =
-    getNotificationStyles(type)
+  const { imageSource, bgColorClass } = getNotificationStyles(type)
 
   const handlePress = () => {
     if (onReadChange) {
@@ -43,30 +40,37 @@ export const NotificationCard = ({
     <TouchableOpacity
       activeOpacity={1}
       onPress={handlePress}
-      className="border-b-[1px] border-border py-4"
+      className="rounded-2xl border-2 border-border px-4 py-6"
     >
       <HStack gap={10} onPress={onPress}>
-        <Image
-          source={typeof icon === "string" ? { uri: icon } : icon}
-          className="h-14 w-14 rounded-xl object-cover"
-        />
+        <View
+          className={`h-16 w-16 overflow-hidden rounded-xl px-4 py-4 ${bgColorClass}`}
+        >
+          <Image source={imageSource} className="h-full w-full object-cover" />
+        </View>
 
-        <VStack>
-          <Text className="font-tmedium text-xl text-primary">{title}</Text>
-          <Text className="font-tregular text-sm leading-relaxed text-primary">
-            {message}
-          </Text>
-
-          <HStack center className="mt-2 flex justify-between">
-            <Text className="font-tbold text-sm leading-relaxed text-secondary">
+        <View className="flex-1 flex-col">
+          <View className="flex-1 flex-row items-center justify-between">
+            <Text
+              className="w-2/3 font-tmedium text-lg text-primary"
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {title}
+            </Text>
+            <Text className="w-1/3 text-right font-tregular text-sm text-accent">
               {formatTimeAgo(createdAt)}
             </Text>
+          </View>
 
-            <View className={`rounded-xl border px-2 py-1 ${borderColorClass}`}>
-              <Text className={`text-sm ${textColorClass}`}>{typeLabel}</Text>
-            </View>
-          </HStack>
-        </VStack>
+          <Text
+            numberOfLines={2}
+            ellipsizeMode="tail"
+            className="font-tregular text-sm leading-relaxed text-secondary"
+          >
+            {description}
+          </Text>
+        </View>
       </HStack>
     </TouchableOpacity>
   )

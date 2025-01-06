@@ -41,13 +41,12 @@ function NotificationScreen() {
             renderItem={({ item }) => (
               <NotificationCard
                 key={item.notificationId}
-                icon={item.icon}
                 title={item.title}
-                message={item.message}
+                description={item.description}
                 type={item.type}
-                action_url={item.action_url}
+                href={item.href}
                 status={item.status}
-                createdAt={item.createdAt}
+                createdAt={item.createdAt} 
                 onPress={() => handleViewNotification(item.notificationId)}
               />
             )}

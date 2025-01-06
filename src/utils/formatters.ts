@@ -108,6 +108,11 @@ export const formatUTCDate = (date: Date) => {
   return utcDate.toISOString()
 }
 
+/**
+ * Định dạng thời gian thành chuỗi thể hiện khoảng cách thời gian từ thời điểm hiện tại đến thời điểm được cung cấp.
+ * @param {string} createdAt - Thời điểm tạo (dạng chuỗi ISO hoặc tương thích Date).
+ * @returns {string} - Chuỗi thời gian định dạng như "5 phút", "2 giờ", hoặc ngày giờ chi tiết.
+ */
 export const formatTimeAgo = (createdAt: string): string => {
   const now = new Date()
   const createdDate = new Date(createdAt)
@@ -124,9 +129,9 @@ export const formatTimeAgo = (createdAt: string): string => {
   const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60))
 
   if (diffInMinutes < 60) {
-    return `${diffInMinutes} phút trước`
+    return `${diffInMinutes} phút`
   } else if (diffInHours < 24) {
-    return `${diffInHours} giờ trước`
+    return `${diffInHours} giờ`
   } else {
     const options: Intl.DateTimeFormatOptions = {
       day: "2-digit",

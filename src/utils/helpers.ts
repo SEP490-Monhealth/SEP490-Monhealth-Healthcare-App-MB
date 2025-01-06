@@ -178,23 +178,26 @@ export const convertTimeStringToDate = (timeString: string): Date => {
   return date
 }
 
-// Utility function to get notification styles
+/**
+ * Lấy các kiểu giao diện dựa trên loại thông báo.
+ * @param {string} type - Loại thông báo (ví dụ: "System", "Reminder", "Activity").
+ * @returns {object} - Một đối tượng chứa `imageSource` (đường dẫn hình ảnh) và `bgColorClass` (lớp màu nền) tương ứng với loại thông báo.
+ */
 export const getNotificationStyles = (type: string) => {
-  const styleMap: { [key: string]: { border: string; text: string } } = {
-    System: { border: "border-red-500", text: "text-red-500" },
-    Reminder: { border: "border-green-500", text: "text-green-500" },
-    Activity: { border: "border-orange-500", text: "text-orange-500" }
+  const imageMap: { [key: string]: any } = {
+    System: require("../../public/notification/system-icon.png"),
+    Reminder: require("../../public/notification/reminder-icon.png"),
+    Activity: require("../../public/notification/activity-icon.png")
   }
 
-  const typeLabelMap: { [key: string]: string } = {
-    System: "Hệ thống",
-    Reminder: "Nhắc nhở",
-    Activity: "Hoạt động"
+  const bgColorMap: { [key: string]: string } = {
+    System: "bg-red-500",
+    Reminder: "bg-blue-500",
+    Activity: "bg-orange-500"
   }
 
-  const borderColorClass = styleMap[type]?.border || "border-border"
-  const textColorClass = styleMap[type]?.text || "text-primary"
-  const typeLabel = typeLabelMap[type] || type
+  const imageSource = imageMap[type]
+  const bgColorClass = bgColorMap[type] || "bg-slate-500" // Default bg color
 
-  return { borderColorClass, textColorClass, typeLabel }
+  return { imageSource, bgColorClass }
 }

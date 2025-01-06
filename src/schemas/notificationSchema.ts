@@ -4,13 +4,12 @@ const baseNotificationSchema = z.object({
   notificationId: z.string(),
   userId: z.string(),
 
-  icon: z.string(),
   title: z.string(),
-  message: z.string(),
+  description: z.string(),
   type: z
     .string()
     .refine((val) => ["System", "Reminder", "Activity"].includes(val)),
-  action_url: z.string(),
+  href: z.string(),
 
   status: z.boolean(),
 
