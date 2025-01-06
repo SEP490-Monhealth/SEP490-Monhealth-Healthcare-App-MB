@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react"
 
-import { Alert, Animated, SafeAreaView, View } from "react-native"
+import { Alert, SafeAreaView, View } from "react-native"
 import { FlatList } from "react-native"
 
 import { router } from "expo-router"
@@ -15,6 +15,7 @@ import {
   VStack
 } from "@/components/global/atoms"
 import {
+  ErrorDisplay,
   ListFooter,
   ListHeader,
   WaterCard
@@ -25,7 +26,6 @@ import { COLORS } from "@/constants/app"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useAnimation } from "@/hooks/useAnimation"
 import {
   useChangeReminderStatus,
   useDeleteReminder,
@@ -40,9 +40,6 @@ import LoadingScreen from "../loading"
 function ReminderScreen() {
   const WaterSheetRef = useRef<SheetRefProps>(null)
   const { handleViewReminder } = useRouterHandlers()
-
-  const { fadeAnim, scaleAnim, textFadeAnim, textTranslateAnim } =
-    useAnimation()
 
   const { user } = useAuth()
   const userId = user?.userId
@@ -161,42 +158,13 @@ function ReminderScreen() {
               />
             )}
             ListEmptyComponent={() => (
-              <VStack center gap={20} className="mt-24">
-                <View className="w-full items-center">
-                  <Animated.Image
-                    source={require("../../../public/images/monhealth-no-data-image.png")}
-                    style={{
-                      width: 320,
-                      height: 320,
-                      opacity: fadeAnim,
-                      transform: [{ scale: scaleAnim }]
-                    }}
-                  />
-                </View>
-
-                <VStack>
-                  <Animated.Text
-                    style={{
-                      opacity: textFadeAnim,
-                      transform: [{ translateY: textTranslateAnim }]
-                    }}
-                    className="text-center font-tbold text-3xl text-primary"
-                  >
-                    Không có nhắc nhở
-                  </Animated.Text>
-
-                  <Animated.Text
-                    style={{
-                      opacity: textFadeAnim,
-                      transform: [{ translateY: textTranslateAnim }]
-                    }}
-                    className="text-center font-tmedium text-lg text-accent"
-                  >
-                    Bạn chưa tạo nhắc nhở nào. Hãy thêm nhắc nhở để theo dõi
-                    lượng nước hàng ngày của bạn
-                  </Animated.Text>
-                </VStack>
-              </VStack>
+              <ErrorDisplay
+                imageSource={require("../../../public/images/monhealth-no-data-image.png")}
+                title="Không có nhắc nhở"
+                description="Bạn chưa tạo nhắc nhở nào. Hãy thêm nhắc nhở để theo dõi
+                    lượng nước hàng ngày của bạn"
+                marginTop={24}
+              />
             )}
             ListFooterComponent={<ListFooter />}
             ItemSeparatorComponent={() => <View className="h-3" />}

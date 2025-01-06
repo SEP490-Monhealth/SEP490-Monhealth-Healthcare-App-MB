@@ -1,12 +1,8 @@
-import React, { useState } from "react"
-
-import { Text } from "react-native"
-import { View } from "react-native"
+import React from "react"
 
 import { useRouter } from "expo-router"
 
 import { Button, Container, Content, VStack } from "@/components/global/atoms"
-import { Dialog } from "@/components/global/atoms/Dialog"
 
 function AssistantScreen() {
   const router = useRouter()

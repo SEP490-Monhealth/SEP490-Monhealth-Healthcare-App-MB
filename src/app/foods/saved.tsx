@@ -1,25 +1,27 @@
 import React, { useState } from "react"
 
-import { Alert, Animated, FlatList, View } from "react-native"
+import { Alert, FlatList, View } from "react-native"
 
 import { Edit2 } from "iconsax-react-native"
 
-import { Button, Container, Content, VStack } from "@/components/global/atoms"
-import { FoodCard, ListFooter, ListHeader } from "@/components/global/molecules"
+import { Button, Container, Content } from "@/components/global/atoms"
+import {
+  ErrorDisplay,
+  FoodCard,
+  ListFooter,
+  ListHeader
+} from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/app"
 
 import { useSaveFoods } from "@/contexts/SaveFoodContext"
 
-import { useAnimation } from "@/hooks/useAnimation"
 import { useRouterHandlers } from "@/hooks/useRouter"
 
 function FoodSavedScreen() {
   const { handleViewFood } = useRouterHandlers()
   const { saveFoodsData, clearFoodSaved } = useSaveFoods()
-  const { fadeAnim, scaleAnim, textFadeAnim, textTranslateAnim } =
-    useAnimation()
 
   const [isRefreshing, setIsRefreshing] = useState(false)
 
@@ -81,42 +83,13 @@ function FoodSavedScreen() {
             />
           )}
           ListEmptyComponent={() => (
-            <VStack center gap={20} className="mt-24">
-              <View className="w-full items-center">
-                <Animated.Image
-                  source={require("../../../public/images/monhealth-no-data-image.png")}
-                  style={{
-                    width: 320,
-                    height: 320,
-                    opacity: fadeAnim,
-                    transform: [{ scale: scaleAnim }]
-                  }}
-                />
-              </View>
-
-              <VStack>
-                <Animated.Text
-                  style={{
-                    opacity: textFadeAnim,
-                    transform: [{ translateY: textTranslateAnim }]
-                  }}
-                  className="text-center font-tbold text-3xl text-primary"
-                >
-                  Không có dữ liệu
-                </Animated.Text>
-
-                <Animated.Text
-                  style={{
-                    opacity: textFadeAnim,
-                    transform: [{ translateY: textTranslateAnim }]
-                  }}
-                  className="text-center font-tmedium text-lg text-accent"
-                >
-                  Bạn chưa lưu món ăn nào trong danh sách. Hãy thêm món ăn yêu
-                  thích của bạn!
-                </Animated.Text>
-              </VStack>
-            </VStack>
+            <ErrorDisplay
+              imageSource={require("../../../public/images/monhealth-no-data-image.png")}
+              title="Không có dữ liệu"
+              description="Bạn chưa lưu món ăn nào trong danh sách. Hãy thêm món ăn yêu
+                  thích của bạn!"
+              marginTop={24}
+            />
           )}
           ListFooterComponent={<ListFooter />}
           ItemSeparatorComponent={() => <View className="h-3" />}

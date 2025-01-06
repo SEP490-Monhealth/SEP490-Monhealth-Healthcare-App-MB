@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Animated, View } from "react-native"
+import { Animated } from "react-native"
 
 import { VStack } from "@/components/global/atoms"
 
@@ -10,18 +10,22 @@ interface ErrorDisplayProps {
   imageSource: any
   title: string
   description: string
+  marginTop?: number
 }
 
 export const ErrorDisplay = ({
   imageSource,
   title,
-  description
+  description,
+  marginTop
 }: ErrorDisplayProps) => {
   const { fadeAnim, scaleAnim, textFadeAnim, textTranslateAnim } =
     useAnimation()
 
+  const marginClass = marginTop ? `mt-${marginTop}` : "mt-0"
+
   return (
-    <VStack center gap={32}>
+    <VStack center gap={32} className={marginClass}>
       <Animated.Image
         source={imageSource}
         style={{

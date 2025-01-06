@@ -177,27 +177,3 @@ export const convertTimeStringToDate = (timeString: string): Date => {
   date.setHours(hours, minutes, 0, 0)
   return date
 }
-
-/**
- * Lấy các kiểu giao diện dựa trên loại thông báo.
- * @param {string} type - Loại thông báo (ví dụ: "System", "Reminder", "Activity").
- * @returns {object} - Một đối tượng chứa `imageSource` (đường dẫn hình ảnh) và `bgColorClass` (lớp màu nền) tương ứng với loại thông báo.
- */
-export const getNotificationStyles = (type: string) => {
-  const imageMap: { [key: string]: any } = {
-    System: require("../../public/notification/system-icon.png"),
-    Reminder: require("../../public/notification/reminder-icon.png"),
-    Activity: require("../../public/notification/activity-icon.png")
-  }
-
-  const bgColorMap: { [key: string]: string } = {
-    System: "bg-red-500",
-    Reminder: "bg-blue-500",
-    Activity: "bg-orange-500"
-  }
-
-  const imageSource = imageMap[type]
-  const bgColorClass = bgColorMap[type] || "bg-slate-500" // Default bg color
-
-  return { imageSource, bgColorClass }
-}

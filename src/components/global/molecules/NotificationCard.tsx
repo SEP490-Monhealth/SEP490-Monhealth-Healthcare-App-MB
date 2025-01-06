@@ -1,72 +1,79 @@
 import React from "react"
 
-import { Image, Text, TouchableOpacity, View } from "react-native"
+import { Text, TouchableOpacity, View } from "react-native"
+
+import { useRouter } from "expo-router"
+
+import { COLORS, ICONS } from "@/constants/app"
 
 import { formatTimeAgo } from "@/utils/formatters"
-import { getNotificationStyles } from "@/utils/helpers"
 
 import { HStack } from "../atoms"
 
+export type NotificationType = "reminder" | "suggestion" | "warning"
+
 interface NotificationCardProps {
+  type: NotificationType
   title: string
   description: string
-  type: string
-  href: string
+  time: string
+  href?: string
   status: boolean
-  createdAt: string
   onPress?: () => void
   onReadChange?: (value: boolean) => void
 }
 
 export const NotificationCard = ({
+  type,
   title,
   description,
-  type,
-  href,
+  time,
+  href = "",
   status,
-  createdAt,
   onPress,
   onReadChange
 }: NotificationCardProps) => {
-  const { imageSource, bgColorClass } = getNotificationStyles(type)
+  const router = useRouter()
+
+  const bgColor = COLORS.NOTIFICATIONS[type] || COLORS.accent
+  const IconComponent =
+    ICONS.NOTIFICATIONS[type] || ICONS.NOTIFICATIONS.reminder
 
   const handlePress = () => {
-    if (onReadChange) {
-      onReadChange(!status)
-    }
+    if (href) router.push(href)
+    if (onReadChange) onReadChange(!status)
+    if (onPress) onPress()
   }
 
   return (
     <TouchableOpacity
-      activeOpacity={1}
+      activeOpacity={0.7}
       onPress={handlePress}
-      className="rounded-2xl border-2 border-border px-4 py-6"
+      className="rounded-2xl border border-border p-4"
     >
-      <HStack gap={10} onPress={onPress}>
-        <View
-          className={`h-16 w-16 overflow-hidden rounded-xl px-4 py-4 ${bgColorClass}`}
-        >
-          <Image source={imageSource} className="h-full w-full object-cover" />
+      <HStack center gap={12}>
+        <View className="rounded-xl p-4" style={{ backgroundColor: bgColor }}>
+          <IconComponent variant="Bold" size={24} color="white" />
         </View>
 
-        <View className="flex-1 flex-col">
-          <View className="flex-1 flex-row items-center justify-between">
+        <View className="flex-1">
+          <HStack center gap={12} className="justify-between">
             <Text
-              className="w-2/3 font-tmedium text-lg text-primary"
+              className="flex-1 font-tmedium text-base text-primary"
               numberOfLines={1}
               ellipsizeMode="tail"
             >
               {title}
             </Text>
-            <Text className="w-1/3 text-right font-tregular text-sm text-accent">
-              {formatTimeAgo(createdAt)}
+            <Text className="mr-1 font-tregular text-sm text-secondary">
+              {formatTimeAgo(time)}
             </Text>
-          </View>
+          </HStack>
 
           <Text
+            className="mt-1 font-tregular text-sm text-accent"
             numberOfLines={2}
             ellipsizeMode="tail"
-            className="font-tregular text-sm leading-relaxed text-secondary"
           >
             {description}
           </Text>

@@ -142,7 +142,7 @@ function FoodDetailsScreen() {
     )
 
     const selectedMealValue =
-      DATA.meals.find((meal) => meal.label === selectedMeal)?.value || ""
+      DATA.MEALS.find((meal) => meal.label === selectedMeal)?.value || ""
 
     const mealData = {
       userId: userId || "",
@@ -287,13 +287,13 @@ function FoodDetailsScreen() {
         </Container>
 
         <Sheet ref={MealSheetRef} dynamicHeight={300}>
-          {DATA.meals.map((meal) => (
+          {DATA.MEALS.map((meal) => (
             <SheetItem
               key={meal.value}
               item={meal.label}
               isSelected={selectedMeal === meal.label}
               onSelect={(selectedItem) => {
-                const selectedMealValue = DATA.meals.find(
+                const selectedMealValue = DATA.MEALS.find(
                   (m) => m.label === selectedItem
                 )?.label
                 if (selectedMealValue) {

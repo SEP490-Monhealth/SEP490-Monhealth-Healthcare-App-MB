@@ -1,4 +1,4 @@
-import { format, formatDistanceToNow, parseISO } from "date-fns"
+import { format, parseISO } from "date-fns"
 
 /**
  * Định dạng ngày/thời gian
@@ -19,15 +19,6 @@ export const formatDateYYYYMMDD = (date: Date) => {
   const day = String(date.getDate()).padStart(2, "0")
 
   return `${year}-${month}-${day}`
-}
-
-/**
- * Hiển thị thời gian tương đối (VD: 2 phút trước)
- * @param date Ngày (Date hoặc chuỗi)
- * @returns Chuỗi thời gian tương đối
- */
-export const timeAgo = (date: Date | string) => {
-  return formatDistanceToNow(new Date(date), { addSuffix: true })
 }
 
 /**
@@ -96,50 +87,30 @@ export const toFixed = (num: number, decimals: number = 1): number => {
 }
 
 /**
- * Chuyển đổi ngày sang UTC (ISO 8601)
- * @param date Ngày (Date)
- * @returns Chuỗi ngày theo định dạng UTC
+ * Chuyển đổi thời gian thành chuỗi biểu diễn thời gian trước đó (1 phút, 2 giờ, 1 ngày,...) dựa trên UTC.
+ * @param {string | Date} date - Thời gian cần định dạng (chuỗi hoặc đối tượng Date).
+ * @returns {string} - Chuỗi mô tả thời gian trước đó.
  */
-export const formatUTCDate = (date: Date) => {
-  const utcDate = new Date(
-    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
-  )
+export const formatTimeAgo = (date: string | Date): string => {
+  const nowUTC = new Date().getTime() + 7 * 60 * 60 * 1000
 
-  return utcDate.toISOString()
-}
+  const inputDateUTC = new Date(date).getTime()
 
-/**
- * Định dạng thời gian thành chuỗi thể hiện khoảng cách thời gian từ thời điểm hiện tại đến thời điểm được cung cấp.
- * @param {string} createdAt - Thời điểm tạo (dạng chuỗi ISO hoặc tương thích Date).
- * @returns {string} - Chuỗi thời gian định dạng như "5 phút", "2 giờ", hoặc ngày giờ chi tiết.
- */
-export const formatTimeAgo = (createdAt: string): string => {
-  const now = new Date()
-  const createdDate = new Date(createdAt)
+  const diffInMs = nowUTC - inputDateUTC
 
-  const nowUTC7 =
-    now.getTime() + (14 - now.getTimezoneOffset() / 60) * 60 * 60 * 1000
-  const createdDateUTC7 =
-    createdDate.getTime() +
-    (7 - createdDate.getTimezoneOffset() / 60) * 60 * 60 * 1000
+  const seconds = Math.floor(diffInMs / 1000)
+  const minutes = Math.floor(seconds / 60)
+  const hours = Math.floor(minutes / 60)
+  const days = Math.floor(hours / 24)
+  const weeks = Math.floor(days / 7)
+  const months = Math.floor(days / 30)
+  const years = Math.floor(days / 365)
 
-  const diffInMs = nowUTC7 - createdDateUTC7
-
-  const diffInMinutes = Math.floor(diffInMs / (1000 * 60))
-  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60))
-
-  if (diffInMinutes < 60) {
-    return `${diffInMinutes} phút`
-  } else if (diffInHours < 24) {
-    return `${diffInHours} giờ`
-  } else {
-    const options: Intl.DateTimeFormatOptions = {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour12: false,
-      timeZone: "Asia/Ho_Chi_Minh"
-    }
-    return createdDate.toLocaleString("vi-VN", options)
-  }
+  if (seconds < 60) return `${seconds} giây trước`
+  if (minutes < 60) return `${minutes} phút trước`
+  if (hours < 24) return `${hours} giờ trước`
+  if (days < 7) return `${days} ngày trước`
+  if (weeks < 4) return `${weeks} tuần trước`
+  if (months < 12) return `${months} tháng trước`
+  return `${years} năm trước`
 }

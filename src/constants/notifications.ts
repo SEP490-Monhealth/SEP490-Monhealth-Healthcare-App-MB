@@ -24,7 +24,7 @@ export const sampleNotificationData: NotificationType[] = [
     title: "Hệ thống thông báo bảo trì",
     description:
       "Hãy nhớ uống một ly nước để duy trì sức khỏe! Nước không chỉ giúp cơ thể bạn hoạt động tốt hơn mà còn giúp làn da của bạn luôn tươi tắn.",
-    type: "System",
+    type: "Warning",
     href: "/reminders",
     status: false,
 
@@ -40,7 +40,7 @@ export const sampleNotificationData: NotificationType[] = [
     title: "Khải tỏi thích trò chơi",
     description:
       "Hãy nhớ uống một ly nước để duy trì sức khỏe! Nước không chỉ giúp cơ thể bạn hoạt động tốt hơn mà còn giúp làn da của bạn luôn tươi tắn.",
-    type: "Activity",
+    type: "Suggestion",
     href: "/reminders",
     status: false,
 
