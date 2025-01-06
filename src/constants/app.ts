@@ -4,6 +4,19 @@ export const APP = {
   version: "1.0.0"
 }
 
+export const DATA = {
+  meals: [
+    { label: "Bữa sáng", value: "Breakfast" },
+    { label: "Bữa trưa", value: "Lunch" },
+    { label: "Bữa tối", value: "Dinner" },
+    { label: "Bữa phụ", value: "Snack" }
+  ],
+  units: [
+    { label: "g (gram)", value: "g" },
+    { label: "ml (mililit)", value: "ml" }
+  ]
+}
+
 export const COLORS = {
   primary: "#334155",
   secondary: "#64748b",

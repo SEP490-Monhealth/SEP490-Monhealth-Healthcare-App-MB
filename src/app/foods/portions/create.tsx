@@ -25,6 +25,8 @@ import {
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
+import { DATA } from "@/constants/app"
+
 import { useCreatePortion } from "@/hooks/usePortion"
 
 import { CreatePortionType, createPortionSchema } from "@/schemas/portionSchema"
@@ -34,15 +36,10 @@ function PortionCreateScreen() {
 
   const { mutate: createPortion } = useCreatePortion()
 
-  const units = [
-    { label: "g (gram)", value: "g" },
-    { label: "ml (mililit)", value: "ml" }
-  ]
-
   const [selectedUnit, setSelectedUnit] = useState("")
 
   const SheetRef = useRef<SheetRefProps>(null)
-  const sheetHeight = units.length * 110
+  const sheetHeight = DATA.units.length * 110
 
   const {
     control,
@@ -138,7 +135,7 @@ function PortionCreateScreen() {
         </View>
 
         <Sheet ref={SheetRef}>
-          {units.map((unit) => (
+          {DATA.units.map((unit) => (
             <SheetItem
               key={unit.value}
               item={unit.label}

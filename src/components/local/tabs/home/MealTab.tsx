@@ -2,6 +2,8 @@ import React from "react"
 
 import { View } from "react-native"
 
+import { useRouter } from "expo-router"
+
 import { HStack, Progress, VStack } from "@/components/global/atoms"
 import { MealCard } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
@@ -21,6 +23,7 @@ import { formatDateYYYYMMDD, toFixed } from "@/utils/formatters"
 import LoadingScreen from "../../../../app/loading"
 
 export const MealTab = () => {
+  const router = useRouter()
   const { handleViewMeal } = useRouterHandlers()
 
   const { user } = useAuth()
@@ -31,7 +34,7 @@ export const MealTab = () => {
   const { data: dailyMealData, isLoading } = useGetDailyMealByUserId(
     userId,
     today
-)
+  )
 
   const mealsData = dailyMealData?.items || []
 
@@ -91,22 +94,24 @@ export const MealTab = () => {
     }
   ]
 
+  const handleViewFoods = () => {
+    router.push("/foods")
+  }
+
   if (!dailyMealData || isLoading) {
     return <LoadingScreen />
   }
 
   return (
     <View className="mt-4">
-      <VStack gap={24}>
-        <HStack center className="justify-between">
-          <NutritionProgress
-            calorieData={caloriesData}
-            nutritionData={nutritionData}
-          />
+      <HStack center className="justify-between">
+        <NutritionProgress
+          calorieData={caloriesData}
+          nutritionData={nutritionData}
+        />
 
-          <NutritionSummary nutritionData={nutritionData} />
-        </HStack>
-      </VStack>
+        <NutritionSummary nutritionData={nutritionData} />
+      </HStack>
 
       <Progress
         height={8}
@@ -116,7 +121,11 @@ export const MealTab = () => {
         className="mt-8"
       />
 
-      <Section label="Bữa ăn hôm nay" />
+      <Section
+        label="Bữa ăn hôm nay"
+        action="Món ăn"
+        onPress={handleViewFoods}
+      />
 
       <VStack gap={12}>
         {mergedMealsData.map((item) => (
@@ -124,8 +133,8 @@ export const MealTab = () => {
             key={item.mealId}
             type={item.type as "Breakfast" | "Lunch" | "Dinner" | "Snack"}
             calories={item.calories}
-            onPress={
-              !item.isDefault ? () => handleViewMeal(item.mealId) : undefined
+            onPress={() =>
+              item.isDefault ? handleViewFoods() : handleViewMeal(item.mealId)
             }
           />
         ))}

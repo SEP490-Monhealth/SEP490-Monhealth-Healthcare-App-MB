@@ -72,7 +72,7 @@ function TabLayout() {
       />
 
       <Tabs.Screen
-        name="questions"
+        name="assistant"
         options={{
           tabBarLabel: ({ focused }) => (
             <Text

@@ -71,7 +71,7 @@ function MealDetailsScreen() {
       <Content className="mt-2">
         <FlatList
           data={mealFoodsData || []}
-          keyExtractor={(item) => item.foodId}
+          keyExtractor={(item, index) => `${item.foodId}-${index}`}
           onRefresh={onRefresh}
           refreshing={isRefreshing}
           showsVerticalScrollIndicator={false}
@@ -97,7 +97,6 @@ function MealDetailsScreen() {
           )}
           renderItem={({ item }) => (
             <FoodCard
-              key={item.foodId}
               variant="checkbox"
               name={item.name}
               calories={item.nutrition?.calories}

@@ -38,10 +38,16 @@ export const HomeHeader = ({ fullName }: HomeHeaderProps) => {
         <Text className="font-tbold text-2xl text-primary">{fullName}</Text>
       </View>
 
-      <IconButton
-        icon={<Notification variant="Bold" size={24} color={COLORS.primary} />}
-        onPress={handleViewNotifications}
-      />
+      <View>
+        <IconButton
+          icon={
+            <Notification variant="Bold" size={24} color={COLORS.primary} />
+          }
+          onPress={handleViewNotifications}
+        />
+
+        <View className="absolute right-3 top-2.5 h-3 w-3 rounded-full bg-destructive" />
+      </View>
     </HStack>
   )
 }

@@ -19,7 +19,7 @@ export const Section = ({
   onPress,
   className
 }: SectionProps) => {
-  const marginClass = margin ? "mt-4" : ""
+  const marginClass = margin ? "mt-6" : ""
 
   return (
     <View

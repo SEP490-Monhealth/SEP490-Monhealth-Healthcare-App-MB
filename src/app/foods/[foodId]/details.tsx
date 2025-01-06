@@ -30,7 +30,7 @@ import { Header, Section } from "@/components/global/organisms"
 
 import { FoodNutrition, NutritionFacts } from "@/components/local/foods"
 
-import { COLORS } from "@/constants/app"
+import { COLORS, DATA } from "@/constants/app"
 
 import { useAuth } from "@/contexts/AuthContext"
 import { useSaveFoods } from "@/contexts/SaveFoodContext"
@@ -59,13 +59,6 @@ function FoodDetailsScreen() {
   const { saveFoodsData, toggleSaveFood } = useSaveFoods()
 
   const isSaved = saveFoodsData.some((saved) => saved.foodId === foodId)
-
-  const meals = [
-    { label: "Bữa sáng", value: "Breakfast" },
-    { label: "Bữa trưa", value: "Lunch" },
-    { label: "Bữa tối", value: "Dinner" },
-    { label: "Bữa phụ", value: "Snack" }
-  ]
 
   const [selectedMeal, setSelectedMeal] = useState(getMealType("eng"))
   const [selectedPortion, setSelectedPortion] = useState("g")
@@ -149,7 +142,7 @@ function FoodDetailsScreen() {
     )
 
     const selectedMealValue =
-      meals.find((meal) => meal.label === selectedMeal)?.value || ""
+      DATA.meals.find((meal) => meal.label === selectedMeal)?.value || ""
 
     const mealData = {
       userId: userId || "",
@@ -294,13 +287,13 @@ function FoodDetailsScreen() {
         </Container>
 
         <Sheet ref={MealSheetRef} dynamicHeight={300}>
-          {meals.map((meal) => (
+          {DATA.meals.map((meal) => (
             <SheetItem
               key={meal.value}
               item={meal.label}
               isSelected={selectedMeal === meal.label}
               onSelect={(selectedItem) => {
-                const selectedMealValue = meals.find(
+                const selectedMealValue = DATA.meals.find(
                   (m) => m.label === selectedItem
                 )?.label
                 if (selectedMealValue) {
