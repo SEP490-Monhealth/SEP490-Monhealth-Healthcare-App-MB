@@ -85,10 +85,10 @@ export const getReminderById = async (
 }
 
 export const createReminder = async (
-  reminder: CreateReminderType
+  newReminderData: CreateReminderType
 ): Promise<string> => {
   try {
-    const response = await monAPI.post(`/reminders`, reminder)
+    const response = await monAPI.post(`/reminders`, newReminderData)
 
     if (!response || !response.data) {
       throw {
@@ -125,10 +125,10 @@ export const createReminder = async (
 
 export const updateReminder = async (
   reminderId: string,
-  reminder: UpdateReminderType
+  reminderData: UpdateReminderType
 ): Promise<string> => {
   try {
-    const response = await monAPI.put(`/reminders/${reminderId}`, reminder)
+    const response = await monAPI.put(`/reminders/${reminderId}`, reminderData)
 
     if (!response || !response.data) {
       throw {
@@ -163,7 +163,7 @@ export const updateReminder = async (
   }
 }
 
-export const changeReminderStatus = async (
+export const updateReminderStatus = async (
   reminderId: string
 ): Promise<string> => {
   try {

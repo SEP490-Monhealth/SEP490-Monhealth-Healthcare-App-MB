@@ -15,7 +15,7 @@ import { COLORS } from "@/constants/app"
 import { useAuth } from "@/contexts/AuthContext"
 
 import {
-  useChangeReminderStatus,
+  useUpdateReminderStatus,
   useGetReminderByUserId
 } from "@/hooks/useReminder"
 import { useRouterHandlers } from "@/hooks/useRouter"
@@ -24,7 +24,7 @@ export const WaterTab = () => {
   const router = useRouter()
   const { handleViewReminder } = useRouterHandlers()
 
-  const { mutate: patchReminder } = useChangeReminderStatus()
+  const { mutate: patchReminder } = useUpdateReminderStatus()
 
   const { user } = useAuth()
   const userId = user?.userId

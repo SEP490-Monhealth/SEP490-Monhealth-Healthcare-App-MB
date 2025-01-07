@@ -82,10 +82,13 @@ export const getNutritionById = async (
 
 export const updateNutrition = async (
   nutritionId: string,
-  nutrition: NutritionType
+  nutritionData: NutritionType
 ): Promise<string> => {
   try {
-    const response = await monAPI.put(`/nutrition/${nutritionId}`, nutrition)
+    const response = await monAPI.put(
+      `/nutrition/${nutritionId}`,
+      nutritionData
+    )
 
     if (!response || !response.data) {
       throw {
@@ -104,6 +107,7 @@ export const updateNutrition = async (
       }
     }
 
+    console.log(message)
     return message
   } catch (error: any) {
     if (axios.isAxiosError(error)) {

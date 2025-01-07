@@ -9,7 +9,7 @@ import {
 } from "@/schemas/reminderSchema"
 
 import {
-  changeReminderStatus,
+  updateReminderStatus,
   createReminder,
   deleteReminder,
   getReminderById,
@@ -96,14 +96,14 @@ export const useUpdateReminder = () => {
   })
 }
 
-export const useChangeReminderStatus = () => {
+export const useUpdateReminderStatus = () => {
   const queryClient = useQueryClient()
   const handleError = useErrorHandler()
 
   return useMutation<string, Error, string>({
     mutationFn: async (reminderId) => {
       try {
-        return await changeReminderStatus(reminderId)
+        return await updateReminderStatus(reminderId)
       } catch (error) {
         handleError(error)
         throw error

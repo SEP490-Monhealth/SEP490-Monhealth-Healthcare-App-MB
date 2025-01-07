@@ -81,10 +81,10 @@ export const getPortionById = async (
 }
 
 export const createPortion = async (
-  portion: CreatePortionType
+  newPortionData: CreatePortionType
 ): Promise<string> => {
   try {
-    const response = await monAPI.post(`/portions`, portion)
+    const response = await monAPI.post(`/portions`, newPortionData)
 
     if (!response || !response.data) {
       throw {
@@ -121,10 +121,10 @@ export const createPortion = async (
 
 export const updatePortion = async (
   portionId: string,
-  portion: PortionType
+  portionData: PortionType
 ): Promise<string> => {
   try {
-    const response = await monAPI.put(`/portions/${portionId}`, portion)
+    const response = await monAPI.put(`/portions/${portionId}`, portionData)
 
     if (!response || !response.data) {
       throw {

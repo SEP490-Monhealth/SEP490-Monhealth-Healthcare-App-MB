@@ -222,9 +222,11 @@ export const getFoodById = async (foodId: string): Promise<FoodType> => {
   }
 }
 
-export const createFood = async (food: CreateFoodType): Promise<string> => {
+export const createFood = async (
+  newFoodData: CreateFoodType
+): Promise<string> => {
   try {
-    const response = await monAPI.post(`/foods`, food)
+    const response = await monAPI.post(`/foods`, newFoodData)
 
     if (!response || !response.data) {
       throw {

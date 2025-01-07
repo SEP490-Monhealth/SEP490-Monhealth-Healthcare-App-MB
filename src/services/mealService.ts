@@ -80,9 +80,11 @@ export const getMealById = async (
   }
 }
 
-export const createMeal = async (data: CreateMealType): Promise<string> => {
+export const createMeal = async (
+  newMealData: CreateMealType
+): Promise<{ mealId: string; message: string }> => {
   try {
-    const response = await monAPI.post("/meals", data)
+    const response = await monAPI.post("/meals", newMealData)
 
     if (!response || !response.data) {
       throw {
@@ -92,7 +94,7 @@ export const createMeal = async (data: CreateMealType): Promise<string> => {
       }
     }
 
-    const { success, message } = response.data
+    const { success, message, data } = response.data
 
     if (!success) {
       throw {
@@ -101,8 +103,8 @@ export const createMeal = async (data: CreateMealType): Promise<string> => {
       }
     }
 
-    console.log(message)
-    return message
+    const mealId = data?.mealId
+    return { mealId, message }
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
       console.log("Lỗi từ server:", error.response?.data || error.message)
@@ -178,6 +180,45 @@ export const updateMealFood = async (
       throw {
         isCustomError: true,
         message: message || "Không thể cập nhật số lượng khẩu phần ăn."
+      }
+    }
+
+    console.log(message)
+    return message
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      console.log("Lỗi từ server:", error.response?.data || error.message)
+      throw error
+    } else {
+      console.log("Lỗi không phải Axios:", error)
+      throw {
+        isCustomError: true,
+        message: "Đã xảy ra lỗi không mong muốn."
+      }
+    }
+  }
+}
+
+export const updateMealFoodStatus = async (
+  mealFoodId: string | undefined
+): Promise<string> => {
+  try {
+    const response = await monAPI.put(`/meal/${mealFoodId}/status`)
+
+    if (!response || !response.data) {
+      throw {
+        isCustomError: true,
+        message:
+          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn."
+      }
+    }
+
+    const { success, message } = response.data
+
+    if (!success) {
+      throw {
+        isCustomError: true,
+        message: message || "Không thể cập nhật trạng thái bữa ăn."
       }
     }
 

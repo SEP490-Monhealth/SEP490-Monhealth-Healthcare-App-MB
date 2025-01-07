@@ -87,6 +87,19 @@ export const toFixed = (num: number, decimals: number = 1): number => {
 }
 
 /**
+ * Chuyển đổi ngày sang UTC (ISO 8601)
+ * @param date Ngày (Date)
+ * @returns Chuỗi ngày theo định dạng UTC
+ */
+export const formatUTCDate = (date: Date) => {
+  const utcDate = new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+  )
+
+  return utcDate.toISOString()
+}
+
+/**
  * Chuyển đổi thời gian thành chuỗi biểu diễn thời gian trước đó (1 phút, 2 giờ, 1 ngày,...) dựa trên UTC.
  * @param {string | Date} date - Thời gian cần định dạng (chuỗi hoặc đối tượng Date).
  * @returns {string} - Chuỗi mô tả thời gian trước đó.

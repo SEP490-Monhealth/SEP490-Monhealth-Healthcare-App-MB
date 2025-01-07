@@ -27,7 +27,7 @@ import { COLORS } from "@/constants/app"
 import { useAuth } from "@/contexts/AuthContext"
 
 import {
-  useChangeReminderStatus,
+  useUpdateReminderStatus,
   useDeleteReminder,
   useGetReminderByUserId
 } from "@/hooks/useReminder"
@@ -51,7 +51,7 @@ function ReminderScreen() {
   } = useGetReminderByUserId(userId)
 
   const { mutate: deleteReminder } = useDeleteReminder()
-  const { mutate: updateReminderStatus } = useChangeReminderStatus()
+  const { mutate: updateReminderStatus } = useUpdateReminderStatus()
 
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [selectedReminder, setSelectedReminder] = useState<string>("")

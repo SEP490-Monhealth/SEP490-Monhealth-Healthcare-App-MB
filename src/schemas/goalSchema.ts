@@ -19,7 +19,7 @@ const baseGoalSchema = z.object({
     .min(1, { message: "Trọng lượng mục tiêu phải lớn hơn hoặc bằng 1" })
     .optional(),
 
-  calorieGoal: z
+  caloriesGoal: z
     .number()
     .min(1, { message: "Mục tiêu calo phải lớn hơn hoặc bằng 1" })
     .optional(),
@@ -72,7 +72,7 @@ export const goalSchema = baseGoalSchema.pick({
   userId: true,
   type: true,
   weightGoal: true,
-  calorieGoal: true,
+  caloriesGoal: true,
   proteinGoal: true,
   carbGoal: true,
   fatGoal: true,
@@ -91,7 +91,7 @@ export const createGoalSchema = baseGoalSchema.pick({
   userId: true,
   type: true,
   weightGoal: true,
-  calorieGoal: true,
+  caloriesGoal: true,
   proteinGoal: true,
   carbGoal: true,
   fatGoal: true,

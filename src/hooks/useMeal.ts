@@ -9,7 +9,8 @@ import {
   getMealById,
   getMealFoodsByMealId,
   getMealsByUserId,
-  updateMealFood
+  updateMealFood,
+  updateMealFoodStatus
 } from "@/services/mealService"
 
 export const useGetMealByUserId = (userId: string | undefined) => {
@@ -51,7 +52,11 @@ export const useCreateMeal = () => {
   const queryClient = useQueryClient()
   const handleError = useErrorHandler()
 
-  return useMutation<string, Error, CreateMealType>({
+  return useMutation<
+    { mealId: string; message: string },
+    Error,
+    CreateMealType
+  >({
     mutationFn: async (meal) => {
       try {
         return await createMeal(meal)
@@ -60,8 +65,11 @@ export const useCreateMeal = () => {
         throw error
       }
     },
-    onSuccess: (_, variables) => {
+    onSuccess: (response, variables) => {
+      const { mealId } = response
+
       queryClient.invalidateQueries({ queryKey: ["meals", variables.userId] })
+      queryClient.invalidateQueries({ queryKey: ["meal", mealId] })
       queryClient.invalidateQueries({ queryKey: ["dailyMeal"] })
     }
   })
@@ -85,7 +93,7 @@ export const useGetMealFoodsByMealId = (mealId: string | undefined) => {
   })
 }
 
-export const useUpdateMealFood = () => {
+export const useUpdateMealFoodQuantity = () => {
   const queryClient = useQueryClient()
   const handleError = useErrorHandler()
 
@@ -93,6 +101,27 @@ export const useUpdateMealFood = () => {
     mutationFn: async ({ mealFoodId, quantity }) => {
       try {
         return await updateMealFood(mealFoodId, quantity)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ["meals", variables.mealFoodId]
+      })
+    }
+  })
+}
+
+export const useUpdateMealFoodQuantityStatus = () => {
+  const queryClient = useQueryClient()
+  const handleError = useErrorHandler()
+
+  return useMutation<string, Error, { mealFoodId: string }>({
+    mutationFn: async ({ mealFoodId }) => {
+      try {
+        return await updateMealFoodStatus(mealFoodId)
       } catch (error) {
         handleError(error)
         throw error
