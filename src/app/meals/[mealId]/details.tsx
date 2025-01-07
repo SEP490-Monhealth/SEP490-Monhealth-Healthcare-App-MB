@@ -5,7 +5,7 @@ import { FlatList, View } from "react-native"
 import { useLocalSearchParams } from "expo-router"
 
 import LoadingScreen from "@/app/loading"
-import { Setting4 } from "iconsax-react-native"
+import { Add, Setting4 } from "iconsax-react-native"
 
 import { Container, Content } from "@/components/global/atoms"
 import {
@@ -86,8 +86,8 @@ function MealDetailsScreen() {
         back
         label={getMealTypeName(mealType)}
         action={{
-          icon: <Setting4 variant="Bold" size={20} color={COLORS.primary} />,
-          href: `/(tabs)/schedule`
+          icon: <Add size={24} color={COLORS.primary} />,
+          href: `/foods`
         }}
       />
 

@@ -112,8 +112,9 @@ export const useUpdateMealFoodQuantity = () => {
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
-        queryKey: ["meals", variables.mealFoodId]
+        queryKey: ["mealFoods", variables.mealFoodId]
       })
+      queryClient.invalidateQueries({ queryKey: ["meals"] })
     }
   })
 }
@@ -138,9 +139,9 @@ export const useUpdateMealFoodStatus = () => {
     onSuccess: (_, variables) => {
       const { mealId, userId, date } = variables
 
+      queryClient.invalidateQueries({ queryKey: ["meals"] })
       queryClient.invalidateQueries({ queryKey: ["meal", mealId] })
       queryClient.invalidateQueries({ queryKey: ["mealFoods", mealId] })
-      queryClient.invalidateQueries({ queryKey: ["meals"] })
       queryClient.invalidateQueries({ queryKey: ["dailyMeal", userId, date] })
     }
   })
