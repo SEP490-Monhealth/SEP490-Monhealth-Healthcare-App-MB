@@ -79,6 +79,11 @@ function FoodDetailsScreen() {
     ) || [])
   ].map((portion) => portion.toLowerCase())
 
+  const weightRatio =
+    selectedPortion === "g"
+      ? parseInt(quantity, 10) / 100
+      : parsePortion(selectedPortion, quantity).portionWeight / 100
+
   useEffect(() => {
     const minHeight = 160
     const maxHeight = SCREEN_HEIGHT * 0.8
@@ -264,9 +269,13 @@ function FoodDetailsScreen() {
                       protein={nutritionData?.protein || 0}
                       carbs={nutritionData?.carbs || 0}
                       fat={nutritionData?.fat || 0}
+                      weightRatio={weightRatio}
                     />
 
-                    <NutritionFacts nutritionData={nutritionData} />
+                    <NutritionFacts
+                      nutritionData={nutritionData}
+                      weightRatio={weightRatio}
+                    />
                   </VStack>
                 </VStack>
 

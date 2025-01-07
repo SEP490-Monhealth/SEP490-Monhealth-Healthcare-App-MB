@@ -11,17 +11,24 @@ interface FoodNutritionProps {
   protein: number
   carbs: number
   fat: number
+  weightRatio: number
 }
 
 export const FoodNutrition = ({
   calories,
   protein,
   carbs,
-  fat
+  fat,
+  weightRatio
 }: FoodNutritionProps) => {
-  const proteinFill = ((protein * 4) / calories) * 100
-  const carbsFill = ((carbs * 4) / calories) * 100
-  const fatFill = ((fat * 9) / calories) * 100
+  const adjustedCalories = calories * weightRatio
+  const adjustedProtein = protein * weightRatio
+  const adjustedCarbs = carbs * weightRatio
+  const adjustedFat = fat * weightRatio
+
+  const proteinFill = ((adjustedProtein * 4) / adjustedCalories) * 100
+  const carbsFill = ((adjustedCarbs * 4) / adjustedCalories) * 100
+  const fatFill = ((adjustedFat * 9) / adjustedCalories) * 100
 
   return (
     <HStack center className="justify-between">
