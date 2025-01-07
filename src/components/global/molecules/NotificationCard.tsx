@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Text, TouchableOpacity, View } from "react-native"
+import { Text, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -8,7 +8,7 @@ import { COLORS, ICONS } from "@/constants/app"
 
 import { formatTimeAgo } from "@/utils/formatters"
 
-import { HStack } from "../atoms"
+import { Card, HStack } from "../atoms"
 
 export type NotificationType = "reminder" | "suggestion" | "warning"
 
@@ -46,11 +46,7 @@ export const NotificationCard = ({
   }
 
   return (
-    <TouchableOpacity
-      activeOpacity={0.7}
-      onPress={handlePress}
-      className="rounded-2xl border border-border p-4"
-    >
+    <Card onPress={handlePress}>
       <HStack center gap={12}>
         <View className="rounded-xl p-4" style={{ backgroundColor: bgColor }}>
           <IconComponent variant="Bold" size={24} color="white" />
@@ -79,6 +75,6 @@ export const NotificationCard = ({
           </Text>
         </View>
       </HStack>
-    </TouchableOpacity>
+    </Card>
   )
 }

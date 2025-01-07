@@ -216,7 +216,7 @@ export const updateMealFoodStatus = async (
   showDialog: (message: string) => void
 ): Promise<string> => {
   try {
-    const response = await monAPI.put(`/meal/${mealFoodId}/status`)
+    const response = await monAPI.patch(`/meal/${mealFoodId}/status`)
 
     if (!response || !response.data) {
       throw {
