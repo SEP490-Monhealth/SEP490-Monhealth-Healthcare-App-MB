@@ -20,13 +20,26 @@ import { NutritionSummary } from "@/components/local/meals"
 
 import { COLORS } from "@/constants/app"
 
-import { useGetMealById, useGetMealFoodsByMealId } from "@/hooks/useMeal"
+import { useAuth } from "@/contexts/AuthContext"
+
+import {
+  useGetMealById,
+  useGetMealFoodsByMealId,
+  useUpdateMealFoodQuantityStatus
+} from "@/hooks/useMeal"
 import { useRouterHandlers } from "@/hooks/useRouter"
 
+import { formatDateYYYYMMDD } from "@/utils/formatters"
 import { getMealTypeName } from "@/utils/helpers"
 
 function MealDetailsScreen() {
   const { handleViewFood } = useRouterHandlers()
+
+  const { user } = useAuth()
+  const userId = user?.userId
+  const date = formatDateYYYYMMDD(new Date())
+
+  const { mutate: updateMealFoodStatus } = useUpdateMealFoodQuantityStatus()
 
   const { mealId } = useLocalSearchParams() as { mealId: string }
 
@@ -57,6 +70,14 @@ function MealDetailsScreen() {
     return <LoadingScreen />
   }
 
+  const handleViewMealFood = (mealFoodId: string) => {
+    if (!userId) {
+      console.error("User ID is undefined")
+      return
+    }
+    updateMealFoodStatus({ mealFoodId, mealId, userId, date })
+  }
+
   return (
     <Container>
       <Header
@@ -81,7 +102,7 @@ function MealDetailsScreen() {
                 size={240}
                 width={14}
                 fill={progress}
-                prefill
+                // prefill
                 arcSweepAngle={260}
                 rotation={230}
                 centerCircle
@@ -104,7 +125,11 @@ function MealDetailsScreen() {
               size={item.portion?.size}
               weight={item.portion?.weight}
               unit={item.portion?.unit}
+              status={item.status}
               onPress={() => handleViewFood(item.foodId)}
+              onStatusPress={() => {
+                handleViewMealFood(item.mealFoodId)
+              }}
             />
           )}
           ListFooterComponent={<ListFooter />}

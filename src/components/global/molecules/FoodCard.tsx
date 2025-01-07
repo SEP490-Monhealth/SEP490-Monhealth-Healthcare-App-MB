@@ -19,11 +19,13 @@ interface FoodCardProps {
   size?: string
   weight?: number
   unit?: string
+  status?: boolean
   isAdded?: boolean
   onPress?: () => void
   onAddPress?: () => void
   onCheckboxChange?: (value: boolean) => void
   onMorePress?: () => void
+  onStatusPress?: () => void
 }
 
 export const FoodCard = ({
@@ -34,15 +36,31 @@ export const FoodCard = ({
   size,
   weight,
   unit,
+  status,
   isAdded,
   onPress,
   onAddPress,
   onCheckboxChange,
-  onMorePress
+  onMorePress,
+  onStatusPress
 }: FoodCardProps) => {
+  const handlePress = () => {
+    if (variant === "checkbox") {
+      if (onCheckboxChange) {
+        onCheckboxChange(!status)
+      }
+      if (onStatusPress) {
+        onStatusPress()
+      }
+    }
+  }
+
   return (
     <Card>
-      <HStack className="w-full items-center justify-between">
+      <HStack
+        className="w-full items-center justify-between"
+        onPress={handlePress}
+      >
         <VStack gap={0} className="ml-1" onPress={onPress}>
           <Text className="font-tmedium text-lg text-primary">{name}</Text>
           <Text className="font-tmedium text-sm text-accent">
@@ -68,7 +86,14 @@ export const FoodCard = ({
             onPress={onAddPress}
           />
         ) : variant === "checkbox" ? (
-          <Checkbox size={20} checked={true} onCheckChange={onCheckboxChange} />
+          <Checkbox
+            size={20}
+            checked={status}
+            onCheckChange={() => {
+              if (onCheckboxChange) onCheckboxChange(!status)
+              if (onStatusPress) onStatusPress()
+            }}
+          />
         ) : (
           <IconButton
             testID="test-icon-more-button"
