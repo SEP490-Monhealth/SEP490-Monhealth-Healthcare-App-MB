@@ -1,10 +1,8 @@
-import React from "react"
+import React, { useEffect } from "react"
 
 import { View } from "react-native"
 
 import { useRouter } from "expo-router"
-
-import LoadingScreen from "@/app/loading"
 
 import { VStack } from "@/components/global/atoms"
 import { ArcProgress, WaterCard } from "@/components/global/molecules"
@@ -15,12 +13,16 @@ import { COLORS } from "@/constants/app"
 import { useAuth } from "@/contexts/AuthContext"
 
 import {
-  useUpdateReminderStatus,
-  useGetReminderByUserId
+  useGetReminderByUserId,
+  useUpdateReminderStatus
 } from "@/hooks/useReminder"
 import { useRouterHandlers } from "@/hooks/useRouter"
 
-export const WaterTab = () => {
+interface WaterTabProps {
+  onLoading: (isLoading: boolean) => void
+}
+
+export const WaterTab = ({ onLoading }: WaterTabProps) => {
   const router = useRouter()
   const { handleViewReminder } = useRouterHandlers()
 
@@ -30,6 +32,10 @@ export const WaterTab = () => {
   const userId = user?.userId
 
   const { data: remindersData, isLoading } = useGetReminderByUserId(userId)
+
+  useEffect(() => {
+    onLoading(!remindersData || isLoading)
+  }, [remindersData, isLoading, onLoading])
 
   const goalWater = 2000
 
@@ -49,10 +55,6 @@ export const WaterTab = () => {
 
   const toggleReminderStatus = (reminderId: string) => {
     patchReminder(reminderId)
-  }
-
-  if (!remindersData || isLoading) {
-    return <LoadingScreen />
   }
 
   return (
@@ -79,7 +81,7 @@ export const WaterTab = () => {
       />
 
       <VStack gap={12}>
-        {remindersData.map((item) => (
+        {remindersData?.map((item) => (
           <WaterCard
             key={item.reminderId}
             variant="checkbox"

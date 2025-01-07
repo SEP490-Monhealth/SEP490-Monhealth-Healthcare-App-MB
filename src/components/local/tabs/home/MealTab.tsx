@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 
 import { View } from "react-native"
 
@@ -20,9 +20,11 @@ import { useRouterHandlers } from "@/hooks/useRouter"
 
 import { formatDateYYYYMMDD, toFixed } from "@/utils/formatters"
 
-import LoadingScreen from "../../../../app/loading"
+interface MealTabProps {
+  onLoading: (isLoading: boolean) => void
+}
 
-export const MealTab = () => {
+export const MealTab = ({ onLoading }: MealTabProps) => {
   const router = useRouter()
   const { handleViewMeal } = useRouterHandlers()
 
@@ -35,6 +37,10 @@ export const MealTab = () => {
     userId,
     today
   )
+
+  useEffect(() => {
+    onLoading(!dailyMealData || isLoading)
+  }, [dailyMealData, isLoading, onLoading])
 
   const mealsData = dailyMealData?.items || []
 
@@ -94,13 +100,7 @@ export const MealTab = () => {
     }
   ]
 
-  const handleViewFoods = () => {
-    router.push("/foods")
-  }
-
-  if (!dailyMealData || isLoading) {
-    return <LoadingScreen />
-  }
+  const handleViewFoods = () => router.push("/foods")
 
   return (
     <View className="mt-4">

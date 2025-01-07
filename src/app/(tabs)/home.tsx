@@ -19,17 +19,22 @@ import {
 
 import { useAuth } from "@/contexts/AuthContext"
 
+import LoadingScreen from "../loading"
+
 function HomeScreen() {
   const { user } = useAuth()
   const userId = user?.userId
 
   const [activeTab, setActiveTab] = useState("meal")
+  const [loading, setLoading] = useState(false)
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab)
   }
 
   console.log(userId)
+
+  if (loading) <LoadingScreen />
 
   return (
     <Container>
@@ -51,15 +56,15 @@ function HomeScreen() {
             </TabsList>
 
             <TabsContent value="meal">
-              <MealTab />
+              <MealTab onLoading={setLoading} />
             </TabsContent>
 
             <TabsContent value="water">
-              <WaterTab />
+              <WaterTab onLoading={setLoading} />
             </TabsContent>
 
             <TabsContent value="activity">
-              <ActivityTab />
+              <ActivityTab onLoading={setLoading} />
             </TabsContent>
           </Tabs>
         </Content>
