@@ -14,7 +14,7 @@ export const getNutritionByFoodId = async (
       throw {
         isCustomError: true,
         message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn."
+          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
       }
     }
 
@@ -25,7 +25,7 @@ export const getNutritionByFoodId = async (
     } else {
       throw {
         isCustomError: true,
-        message: message || "Không thể lấy thông tin chi tiết dinh dưỡng."
+        message: message || "Không thể lấy thông tin chi tiết dinh dưỡng"
       }
     }
   } catch (error: any) {
@@ -36,7 +36,7 @@ export const getNutritionByFoodId = async (
       console.log("Lỗi không phải Axios:", error)
       throw {
         isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
+        message: "Đã xảy ra lỗi không mong muốn"
       }
     }
   }
@@ -52,7 +52,7 @@ export const getNutritionById = async (
       throw {
         isCustomError: true,
         message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn."
+          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
       }
     }
 
@@ -63,7 +63,7 @@ export const getNutritionById = async (
     } else {
       throw {
         isCustomError: true,
-        message: message || "Không thể lấy thông tin chi tiết dinh dưỡng."
+        message: message || "Không thể lấy thông tin chi tiết dinh dưỡng"
       }
     }
   } catch (error: any) {
@@ -74,50 +74,7 @@ export const getNutritionById = async (
       console.log("Lỗi không phải Axios:", error)
       throw {
         isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
-      }
-    }
-  }
-}
-
-export const updateNutrition = async (
-  nutritionId: string,
-  nutritionData: NutritionType
-): Promise<string> => {
-  try {
-    const response = await monAPI.put(
-      `/nutrition/${nutritionId}`,
-      nutritionData
-    )
-
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn."
-      }
-    }
-
-    const { success, message } = response.data
-
-    if (!success) {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể cập nhật thông tin dinh dưỡng."
-      }
-    }
-
-    console.log(message)
-    return message
-  } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
+        message: "Đã xảy ra lỗi không mong muốn"
       }
     }
   }

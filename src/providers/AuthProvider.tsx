@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
 import { AuthContext } from "@/contexts/AuthContext"
-import { useErrorHandler } from "@/contexts/ErrorContext"
+import { useError } from "@/contexts/ErrorContext"
 
 import { login, logout, register, whoIAm } from "@/services/authService"
 
@@ -15,7 +15,7 @@ interface UserPayload {
 }
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const handleError = useErrorHandler()
+  const handleError = useError()
 
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [user, setUser] = useState<UserPayload | null>(null)

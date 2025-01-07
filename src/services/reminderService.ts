@@ -18,7 +18,7 @@ export const getRemindersByUserId = async (
       throw {
         isCustomError: true,
         message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn."
+          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
       }
     }
 
@@ -29,7 +29,7 @@ export const getRemindersByUserId = async (
     } else {
       throw {
         isCustomError: true,
-        message: message || "Không thể lấy danh sách nhắc nhở."
+        message: message || "Không thể lấy danh sách nhắc nhở"
       }
     }
   } catch (error: any) {
@@ -40,7 +40,7 @@ export const getRemindersByUserId = async (
       console.log("Lỗi không phải Axios:", error)
       throw {
         isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
+        message: "Đã xảy ra lỗi không mong muốn"
       }
     }
   }
@@ -56,7 +56,7 @@ export const getReminderById = async (
       throw {
         isCustomError: true,
         message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn."
+          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
       }
     }
 
@@ -67,7 +67,7 @@ export const getReminderById = async (
     } else {
       throw {
         isCustomError: true,
-        message: message || "Không thể lấy thông tin chi tiết nhắc nhở."
+        message: message || "Không thể lấy thông tin chi tiết nhắc nhở"
       }
     }
   } catch (error: any) {
@@ -78,14 +78,15 @@ export const getReminderById = async (
       console.log("Lỗi không phải Axios:", error)
       throw {
         isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
+        message: "Đã xảy ra lỗi không mong muốn"
       }
     }
   }
 }
 
 export const createReminder = async (
-  newReminderData: CreateReminderType
+  newReminderData: CreateReminderType,
+  showDialog: (message: string) => void
 ): Promise<string> => {
   try {
     const response = await monAPI.post(`/reminders`, newReminderData)
@@ -94,7 +95,7 @@ export const createReminder = async (
       throw {
         isCustomError: true,
         message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn."
+          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
       }
     }
 
@@ -103,21 +104,27 @@ export const createReminder = async (
     if (!success) {
       throw {
         isCustomError: true,
-        message: message || "Không thể tạo nhắc nhở mới."
+        message: message || "Không thể tạo nhắc nhở mới"
       }
     }
+
+    showDialog(message || "Tạo nhắc nhở thành công")
 
     console.log(message)
     return message
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
+      showDialog("Đã xảy ra lỗi khi tạo nhắc nhở")
+
       console.log("Lỗi từ server:", error.response?.data || error.message)
       throw error
     } else {
+      showDialog("Đã xảy ra lỗi không mong muốn")
+
       console.log("Lỗi không phải Axios:", error)
       throw {
         isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
+        message: "Đã xảy ra lỗi không mong muốn"
       }
     }
   }
@@ -125,7 +132,8 @@ export const createReminder = async (
 
 export const updateReminder = async (
   reminderId: string,
-  reminderData: UpdateReminderType
+  reminderData: UpdateReminderType,
+  showDialog: (message: string) => void
 ): Promise<string> => {
   try {
     const response = await monAPI.put(`/reminders/${reminderId}`, reminderData)
@@ -134,7 +142,7 @@ export const updateReminder = async (
       throw {
         isCustomError: true,
         message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn."
+          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
       }
     }
 
@@ -143,21 +151,27 @@ export const updateReminder = async (
     if (!success) {
       throw {
         isCustomError: true,
-        message: message || "Không thể cập nhật nhắc nhở."
+        message: message || "Không thể cập nhật nhắc nhở"
       }
     }
+
+    showDialog(message || "Cập nhật nhắc nhở thành công")
 
     console.log(message)
     return message
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
+      showDialog("Đã xảy ra lỗi khi cập nhật nhắc nhở")
+
       console.log("Lỗi từ server:", error.response?.data || error.message)
       throw error
     } else {
+      showDialog("Đã xảy ra lỗi không mong muốn")
+
       console.log("Lỗi không phải Axios:", error)
       throw {
         isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
+        message: "Đã xảy ra lỗi không mong muốn"
       }
     }
   }
@@ -173,7 +187,7 @@ export const updateReminderStatus = async (
       throw {
         isCustomError: true,
         message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn."
+          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
       }
     }
 
@@ -182,7 +196,7 @@ export const updateReminderStatus = async (
     if (!success) {
       throw {
         isCustomError: true,
-        message: message || "Không thể cập nhật trạng thái."
+        message: message || "Không thể cập nhật trạng thái"
       }
     }
 
@@ -196,7 +210,7 @@ export const updateReminderStatus = async (
       console.log("Lỗi không phải Axios:", error)
       throw {
         isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
+        message: "Đã xảy ra lỗi không mong muốn"
       }
     }
   }
@@ -210,7 +224,7 @@ export const deleteReminder = async (reminderId: string): Promise<string> => {
       throw {
         isCustomError: true,
         message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn."
+          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
       }
     }
 
@@ -219,7 +233,7 @@ export const deleteReminder = async (reminderId: string): Promise<string> => {
     if (!success) {
       throw {
         isCustomError: true,
-        message: message || "Không thể xóa nhắc nhở."
+        message: message || "Không thể xóa nhắc nhở"
       }
     }
 
@@ -233,7 +247,7 @@ export const deleteReminder = async (reminderId: string): Promise<string> => {
       console.log("Lỗi không phải Axios:", error)
       throw {
         isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
+        message: "Đã xảy ra lỗi không mong muốn"
       }
     }
   }

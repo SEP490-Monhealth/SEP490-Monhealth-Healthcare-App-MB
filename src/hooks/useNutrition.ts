@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 
-import { useErrorHandler } from "@/contexts/ErrorContext"
+import { useError } from "@/contexts/ErrorContext"
 
 import { NutritionType } from "@/schemas/nutritionSchema"
 
@@ -10,7 +10,7 @@ import {
 } from "@/services/nutritionService"
 
 export const useGetNutritionByFoodId = (foodId: string) => {
-  const handleError = useErrorHandler()
+  const handleError = useError()
 
   return useQuery<NutritionType, Error>({
     queryKey: ["nutrition", foodId],
@@ -27,7 +27,7 @@ export const useGetNutritionByFoodId = (foodId: string) => {
 }
 
 export const useGetNutritionById = (nutritionId: string) => {
-  const handleError = useErrorHandler()
+  const handleError = useError()
 
   return useQuery<NutritionType, Error>({
     queryKey: ["nutrition", nutritionId],
@@ -40,21 +40,5 @@ export const useGetNutritionById = (nutritionId: string) => {
       }
     },
     staleTime: 1000 * 60 * 5
-  })
-}
-
-export const useUpdateNutrition = (nutritionId: string) => {
-  const handleError = useErrorHandler()
-
-  return useQuery<NutritionType, Error>({
-    queryKey: ["nutrition", nutritionId],
-    queryFn: async () => {
-      try {
-        return await getNutritionById(nutritionId)
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
-    }
   })
 }

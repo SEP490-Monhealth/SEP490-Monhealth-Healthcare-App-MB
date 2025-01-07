@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query"
 
-import { useErrorHandler } from "@/contexts/ErrorContext"
+import { useError } from "@/contexts/ErrorContext"
 
 import { CategoryType } from "@/schemas/categorySchema"
 
 import { getAllCategories } from "@/services/categoryService"
 
 export const useGetAllCategories = () => {
-  const handleError = useErrorHandler()
+  const handleError = useError()
 
   return useQuery<CategoryType[], Error>({
     queryKey: ["categories"],

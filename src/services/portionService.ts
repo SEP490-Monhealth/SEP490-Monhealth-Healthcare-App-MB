@@ -14,7 +14,7 @@ export const getPortionByFoodId = async (
       throw {
         isCustomError: true,
         message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn."
+          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
       }
     }
 
@@ -25,7 +25,7 @@ export const getPortionByFoodId = async (
     } else {
       throw {
         isCustomError: true,
-        message: message || "Không thể lấy thông tin chi tiết khẩu phần ăn."
+        message: message || "Không thể lấy thông tin chi tiết khẩu phần ăn"
       }
     }
   } catch (error: any) {
@@ -36,7 +36,7 @@ export const getPortionByFoodId = async (
       console.log("Lỗi không phải Axios:", error)
       throw {
         isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
+        message: "Đã xảy ra lỗi không mong muốn"
       }
     }
   }
@@ -52,7 +52,7 @@ export const getPortionById = async (
       throw {
         isCustomError: true,
         message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn."
+          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
       }
     }
 
@@ -63,7 +63,7 @@ export const getPortionById = async (
     } else {
       throw {
         isCustomError: true,
-        message: message || "Không thể lấy thông tin chi tiết khẩu phần ăn."
+        message: message || "Không thể lấy thông tin chi tiết khẩu phần ăn"
       }
     }
   } catch (error: any) {
@@ -74,14 +74,15 @@ export const getPortionById = async (
       console.log("Lỗi không phải Axios:", error)
       throw {
         isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
+        message: "Đã xảy ra lỗi không mong muốn"
       }
     }
   }
 }
 
 export const createPortion = async (
-  newPortionData: CreatePortionType
+  newPortionData: CreatePortionType,
+  showDialog: (message: string) => void
 ): Promise<string> => {
   try {
     const response = await monAPI.post(`/portions`, newPortionData)
@@ -90,7 +91,7 @@ export const createPortion = async (
       throw {
         isCustomError: true,
         message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn."
+          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
       }
     }
 
@@ -99,60 +100,27 @@ export const createPortion = async (
     if (!success) {
       throw {
         isCustomError: true,
-        message: message || "Không thể tạo khẩu phần ăn mới."
+        message: message || "Không thể tạo khẩu phần ăn mới"
       }
     }
+
+    showDialog(message || "Tạo khẩu phần ăn thành công")
 
     console.log(message)
     return message
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
+      showDialog("Đã xảy ra lỗi khi tạo khẩu phần ăn")
+
       console.log("Lỗi từ server:", error.response?.data || error.message)
       throw error
     } else {
+      showDialog("Đã xảy ra lỗi không mong muốn")
+
       console.log("Lỗi không phải Axios:", error)
       throw {
         isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
-      }
-    }
-  }
-}
-
-export const updatePortion = async (
-  portionId: string,
-  portionData: PortionType
-): Promise<string> => {
-  try {
-    const response = await monAPI.put(`/portions/${portionId}`, portionData)
-
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn."
-      }
-    }
-
-    const { success, message } = response.data
-
-    if (!success) {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể cập nhật khẩu phần ăn."
-      }
-    }
-
-    return message
-  } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
+        message: "Đã xảy ra lỗi không mong muốn"
       }
     }
   }

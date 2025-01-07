@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 
-import { useErrorHandler } from "@/contexts/ErrorContext"
+import { useError } from "@/contexts/ErrorContext"
 
 import { UserType } from "@/schemas/userSchema"
 
@@ -19,7 +19,7 @@ export const useGetAllUsers = (
   role?: string,
   status?: boolean
 ) => {
-  const handleError = useErrorHandler()
+  const handleError = useError()
 
   return useQuery<UserResponse, Error>({
     queryKey: ["users", page, limit, search, role, status],
@@ -36,7 +36,7 @@ export const useGetAllUsers = (
 }
 
 export const useGetUserById = (userId: string | undefined) => {
-  const handleError = useErrorHandler()
+  const handleError = useError()
 
   return useQuery<UserType, Error>({
     queryKey: ["user", userId],

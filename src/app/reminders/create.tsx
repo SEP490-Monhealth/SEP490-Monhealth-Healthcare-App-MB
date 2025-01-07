@@ -77,7 +77,7 @@ function ReminderCreateScreen() {
 
     addReminder(finalData, {
       onSuccess: () => {
-        router.replace("/reminders")
+        router.push("/reminders")
       }
     })
   }

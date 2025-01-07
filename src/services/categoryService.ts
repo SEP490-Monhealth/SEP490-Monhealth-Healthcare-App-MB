@@ -12,7 +12,7 @@ export const getAllCategories = async (): Promise<CategoryType[]> => {
       throw {
         isCustomError: true,
         message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn."
+          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
       }
     }
 
@@ -23,7 +23,7 @@ export const getAllCategories = async (): Promise<CategoryType[]> => {
     } else {
       throw {
         isCustomError: true,
-        message: message || "Không thể lấy danh sách danh mục."
+        message: message || "Không thể lấy danh sách danh mục"
       }
     }
   } catch (error: any) {
@@ -34,7 +34,7 @@ export const getAllCategories = async (): Promise<CategoryType[]> => {
       console.log("Lỗi không phải Axios:", error)
       throw {
         isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
+        message: "Đã xảy ra lỗi không mong muốn"
       }
     }
   }

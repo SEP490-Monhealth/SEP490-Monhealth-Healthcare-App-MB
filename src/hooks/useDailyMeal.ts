@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 
-import { useErrorHandler } from "@/contexts/ErrorContext"
+import { useError } from "@/contexts/ErrorContext"
 
 import { DailyMealType } from "@/schemas/dailyMealSchema"
 
@@ -10,7 +10,7 @@ export const useGetDailyMealByUserId = (
   userId: string | undefined,
   date: string
 ) => {
-  const handleError = useErrorHandler()
+  const handleError = useError()
 
   return useQuery<DailyMealType, Error>({
     queryKey: ["dailyMeal", userId, date],

@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-import { useErrorHandler } from "@/contexts/ErrorContext"
+import { useDialog } from "@/contexts/DialogContext"
+import { useError } from "@/contexts/ErrorContext"
 
 import { CreateFoodType, FoodType, UpdateFoodType } from "@/schemas/foodSchema"
 
@@ -29,7 +30,7 @@ export const useGetAllFoods = (
   popular?: boolean,
   status?: boolean
 ) => {
-  const handleError = useErrorHandler()
+  const handleError = useError()
 
   return useQuery<FoodResponse, Error>({
     queryKey: ["foods", page, limit, search, type, category, popular, status],
@@ -58,7 +59,7 @@ export const useGetFoodsByType = (
   page: number,
   limit: number
 ) => {
-  const handleError = useErrorHandler()
+  const handleError = useError()
 
   return useQuery<FoodResponse, Error>({
     queryKey: ["foods", type, page, limit],
@@ -79,7 +80,7 @@ export const useGetFoodsByCategory = (
   page: number,
   limit: number
 ) => {
-  const handleError = useErrorHandler()
+  const handleError = useError()
 
   return useQuery<FoodResponse, Error>({
     queryKey: ["foods", category, page, limit],
@@ -100,7 +101,7 @@ export const useGetFoodsByUserId = (
   page: number,
   limit: number
 ) => {
-  const handleError = useErrorHandler()
+  const handleError = useError()
 
   return useQuery<FoodResponse, Error>({
     queryKey: ["foods", userId, page, limit],
@@ -118,7 +119,7 @@ export const useGetFoodsByUserId = (
 }
 
 export const useGetFoodById = (foodId: string) => {
-  const handleError = useErrorHandler()
+  const handleError = useError()
 
   return useQuery<FoodType, Error>({
     queryKey: ["food", foodId],
@@ -136,12 +137,13 @@ export const useGetFoodById = (foodId: string) => {
 
 export const useCreateFood = () => {
   const queryClient = useQueryClient()
-  const handleError = useErrorHandler()
+  const handleError = useError()
+  const { showDialog } = useDialog()
 
   return useMutation<string, Error, CreateFoodType>({
     mutationFn: async (data) => {
       try {
-        return await createFood(data)
+        return await createFood(data, showDialog)
       } catch (error) {
         handleError(error)
         throw error
@@ -155,12 +157,13 @@ export const useCreateFood = () => {
 
 export const useUpdateFood = () => {
   const queryClient = useQueryClient()
-  const handleError = useErrorHandler()
+  const handleError = useError()
+  const { showDialog } = useDialog()
 
   return useMutation<string, Error, { foodId: string; food: UpdateFoodType }>({
     mutationFn: async ({ foodId, food }) => {
       try {
-        return await updateFood(foodId, food)
+        return await updateFood(foodId, food, showDialog)
       } catch (error) {
         handleError(error)
         throw error

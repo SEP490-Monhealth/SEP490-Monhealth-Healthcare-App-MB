@@ -18,7 +18,7 @@ export const login = async (
     if (!response || !response.data) {
       throw {
         isCustomError: true,
-        message: "Không nhận được phản hồi từ máy chủ."
+        message: "Không nhận được phản hồi từ máy chủ"
       }
     }
 
@@ -33,7 +33,7 @@ export const login = async (
     } else {
       throw {
         isCustomError: true,
-        message: message || "Đăng nhập không thành công."
+        message: message || "Đăng nhập không thành công"
       }
     }
   } catch (error: any) {
@@ -47,7 +47,7 @@ export const login = async (
       console.log("Lỗi không phải Axios (login):", error)
       throw {
         isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
+        message: "Đã xảy ra lỗi không mong muốn"
       }
     }
   }
@@ -70,7 +70,7 @@ export const register = async (
     if (!response || !response.data?.success) {
       throw {
         isCustomError: true,
-        message: response?.data?.message || "Đăng ký tài khoản thất bại."
+        message: response?.data?.message || "Đăng ký tài khoản thất bại"
       }
     }
   } catch (error: any) {
@@ -84,7 +84,7 @@ export const register = async (
       console.log("Lỗi không phải Axios (register):", error)
       throw {
         isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
+        message: "Đã xảy ra lỗi không mong muốn"
       }
     }
   }
@@ -97,7 +97,7 @@ export const logout = async (): Promise<void> => {
     if (!response || !response.data?.success) {
       throw {
         isCustomError: true,
-        message: response?.data?.message || "Đăng xuất thất bại."
+        message: response?.data?.message || "Đăng xuất thất bại"
       }
     }
   } catch (error: any) {
@@ -111,7 +111,7 @@ export const logout = async (): Promise<void> => {
       console.log("Lỗi không phải Axios (logout):", error)
       throw {
         isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
+        message: "Đã xảy ra lỗi không mong muốn"
       }
     }
   }
@@ -124,7 +124,7 @@ export const whoIAm = async () => {
     if (!response || !response.data) {
       throw {
         isCustomError: true,
-        message: "Không nhận được phản hồi từ máy chủ."
+        message: "Không nhận được phản hồi từ máy chủ"
       }
     }
 
@@ -135,7 +135,7 @@ export const whoIAm = async () => {
     } else {
       throw {
         isCustomError: true,
-        message: message || "Không thể lấy thông tin người dùng."
+        message: message || "Không thể lấy thông tin người dùng"
       }
     }
   } catch (error: any) {
@@ -149,7 +149,7 @@ export const whoIAm = async () => {
       console.log("Lỗi không phải Axios (whoIAm):", error)
       throw {
         isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
+        message: "Đã xảy ra lỗi không mong muốn"
       }
     }
   }

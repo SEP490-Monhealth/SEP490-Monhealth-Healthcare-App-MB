@@ -33,6 +33,7 @@ import { FoodNutrition, NutritionFacts } from "@/components/local/foods"
 import { COLORS, DATA } from "@/constants/app"
 
 import { useAuth } from "@/contexts/AuthContext"
+import { useDialog } from "@/contexts/DialogContext"
 import { useSaveFoods } from "@/contexts/SaveFoodContext"
 
 import { useGetFoodById } from "@/hooks/useFood"

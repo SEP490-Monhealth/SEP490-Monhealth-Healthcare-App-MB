@@ -1,14 +1,14 @@
 import { createContext, useContext } from "react"
 
-type ErrorHandler = (error: any) => void
+type ErrorType = (error: any) => void
 
-export const ErrorContext = createContext<ErrorHandler | undefined>(undefined)
+export const ErrorContext = createContext<ErrorType | undefined>(undefined)
 
-export const useErrorHandler = () => {
+export const useError = () => {
   const context = useContext(ErrorContext)
 
   if (!context) {
-    throw new Error("useErrorHandler must be used within an ErrorProvider")
+    throw new Error("useError must be used within an ErrorProvider")
   }
 
   return context

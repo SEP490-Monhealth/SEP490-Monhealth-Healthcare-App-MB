@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-import { useErrorHandler } from "@/contexts/ErrorContext"
+import { useDialog } from "@/contexts/DialogContext"
+import { useError } from "@/contexts/ErrorContext"
 
 import { CreatePortionType, PortionType } from "@/schemas/portionSchema"
 
@@ -11,7 +12,7 @@ import {
 } from "@/services/portionService"
 
 export const useGetPortionByFoodId = (foodId: string | undefined) => {
-  const handleError = useErrorHandler()
+  const handleError = useError()
 
   return useQuery<PortionType[], Error>({
     queryKey: ["portions", foodId],
@@ -29,7 +30,7 @@ export const useGetPortionByFoodId = (foodId: string | undefined) => {
 }
 
 export const useGetPortionById = (portionId: string | undefined) => {
-  const handleError = useErrorHandler()
+  const handleError = useError()
 
   return useQuery<PortionType, Error>({
     queryKey: ["portion", portionId],
@@ -48,12 +49,13 @@ export const useGetPortionById = (portionId: string | undefined) => {
 
 export const useCreatePortion = () => {
   const queryClient = useQueryClient()
-  const handleError = useErrorHandler()
+  const handleError = useError()
+  const { showDialog } = useDialog()
 
   return useMutation<string, Error, CreatePortionType>({
     mutationFn: async (portion) => {
       try {
-        return await createPortion(portion)
+        return await createPortion(portion, showDialog)
       } catch (error) {
         handleError(error)
         throw error
@@ -62,23 +64,5 @@ export const useCreatePortion = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["portions"] })
     }
-  })
-}
-
-export const useUpdatePortion = (portionId: string | undefined) => {
-  const handleError = useErrorHandler()
-
-  return useQuery<PortionType, Error>({
-    queryKey: ["portion", portionId],
-    queryFn: async () => {
-      try {
-        return await getPortionById(portionId)
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
-    },
-    enabled: !!portionId,
-    staleTime: 1000 * 60 * 5
   })
 }

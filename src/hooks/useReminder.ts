@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-import { useErrorHandler } from "@/contexts/ErrorContext"
+import { useDialog } from "@/contexts/DialogContext"
+import { useError } from "@/contexts/ErrorContext"
 
 import {
   CreateReminderType,
@@ -9,16 +10,16 @@ import {
 } from "@/schemas/reminderSchema"
 
 import {
-  updateReminderStatus,
   createReminder,
   deleteReminder,
   getReminderById,
   getRemindersByUserId,
-  updateReminder
+  updateReminder,
+  updateReminderStatus
 } from "@/services/reminderService"
 
 export const useGetReminderByUserId = (userId: string | undefined) => {
-  const handleError = useErrorHandler()
+  const handleError = useError()
 
   return useQuery<ReminderType[], Error>({
     queryKey: ["reminders", userId],
@@ -36,7 +37,7 @@ export const useGetReminderByUserId = (userId: string | undefined) => {
 }
 
 export const useGetReminderById = (reminderId: string | undefined) => {
-  const handleError = useErrorHandler()
+  const handleError = useError()
 
   return useQuery<ReminderType, Error>({
     queryKey: ["reminder", reminderId],
@@ -55,12 +56,13 @@ export const useGetReminderById = (reminderId: string | undefined) => {
 
 export const useCreateReminder = () => {
   const queryClient = useQueryClient()
-  const handleError = useErrorHandler()
+  const handleError = useError()
+  const { showDialog } = useDialog()
 
   return useMutation<string, Error, CreateReminderType>({
     mutationFn: async (reminder) => {
       try {
-        return await createReminder(reminder)
+        return await createReminder(reminder, showDialog)
       } catch (error) {
         handleError(error)
         throw error
@@ -74,7 +76,8 @@ export const useCreateReminder = () => {
 
 export const useUpdateReminder = () => {
   const queryClient = useQueryClient()
-  const handleError = useErrorHandler()
+  const handleError = useError()
+  const { showDialog } = useDialog()
 
   return useMutation<
     string,
@@ -83,7 +86,7 @@ export const useUpdateReminder = () => {
   >({
     mutationFn: async ({ reminderId, reminder }) => {
       try {
-        return await updateReminder(reminderId, reminder)
+        return await updateReminder(reminderId, reminder, showDialog)
       } catch (error) {
         handleError(error)
         throw error
@@ -98,7 +101,7 @@ export const useUpdateReminder = () => {
 
 export const useUpdateReminderStatus = () => {
   const queryClient = useQueryClient()
-  const handleError = useErrorHandler()
+  const handleError = useError()
 
   return useMutation<string, Error, string>({
     mutationFn: async (reminderId) => {
@@ -117,7 +120,7 @@ export const useUpdateReminderStatus = () => {
 
 export const useDeleteReminder = () => {
   const queryClient = useQueryClient()
-  const handleError = useErrorHandler()
+  const handleError = useError()
 
   return useMutation<string, Error, string>({
     mutationFn: async (reminderId) => {

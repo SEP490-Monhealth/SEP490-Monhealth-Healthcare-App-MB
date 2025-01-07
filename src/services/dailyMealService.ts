@@ -17,7 +17,7 @@ export const getDailyMealsByUserId = async (
       throw {
         isCustomError: true,
         message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn."
+          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
       }
     }
 
@@ -28,7 +28,7 @@ export const getDailyMealsByUserId = async (
     } else {
       throw {
         isCustomError: true,
-        message: message || "Không thể lấy danh sách bữa ăn."
+        message: message || "Không thể lấy danh sách bữa ăn"
       }
     }
   } catch (error: any) {
@@ -39,7 +39,7 @@ export const getDailyMealsByUserId = async (
       console.log("Lỗi không phải Axios:", error)
       throw {
         isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
+        message: "Đã xảy ra lỗi không mong muốn"
       }
     }
   }

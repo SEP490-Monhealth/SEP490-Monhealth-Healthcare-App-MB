@@ -14,7 +14,7 @@ export const getMealsByUserId = async (
       throw {
         isCustomError: true,
         message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn."
+          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
       }
     }
 
@@ -25,7 +25,7 @@ export const getMealsByUserId = async (
     } else {
       throw {
         isCustomError: true,
-        message: message || "Không thể lấy danh sách bữa ăn."
+        message: message || "Không thể lấy danh sách bữa ăn"
       }
     }
   } catch (error: any) {
@@ -36,7 +36,7 @@ export const getMealsByUserId = async (
       console.log("Lỗi không phải Axios:", error)
       throw {
         isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
+        message: "Đã xảy ra lỗi không mong muốn"
       }
     }
   }
@@ -52,7 +52,7 @@ export const getMealById = async (
       throw {
         isCustomError: true,
         message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn."
+          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
       }
     }
 
@@ -63,7 +63,7 @@ export const getMealById = async (
     } else {
       throw {
         isCustomError: true,
-        message: message || "Không thể lấy thông tin chi tiết bữa ăn."
+        message: message || "Không thể lấy thông tin chi tiết bữa ăn"
       }
     }
   } catch (error: any) {
@@ -74,14 +74,15 @@ export const getMealById = async (
       console.log("Lỗi không phải Axios:", error)
       throw {
         isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
+        message: "Đã xảy ra lỗi không mong muốn"
       }
     }
   }
 }
 
 export const createMeal = async (
-  newMealData: CreateMealType
+  newMealData: CreateMealType,
+  showDialog: (message: string) => void
 ): Promise<{ mealId: string; message: string }> => {
   try {
     const response = await monAPI.post("/meals", newMealData)
@@ -90,7 +91,7 @@ export const createMeal = async (
       throw {
         isCustomError: true,
         message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn."
+          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
       }
     }
 
@@ -99,9 +100,11 @@ export const createMeal = async (
     if (!success) {
       throw {
         isCustomError: true,
-        message: message || "Không thể tạo bữa ăn mới."
+        message: message || "Không thể tạo bữa ăn mới"
       }
     }
+
+    showDialog(message || "Tạo bữa ăn thành công")
 
     const mealId = data?.mealId
     return { mealId, message }
@@ -110,10 +113,12 @@ export const createMeal = async (
       console.log("Lỗi từ server:", error.response?.data || error.message)
       throw error
     } else {
+      showDialog("Đã xảy ra lỗi khi tạo bữa ăn")
+
       console.log("Lỗi không phải Axios:", error)
       throw {
         isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
+        message: "Đã xảy ra lỗi không mong muốn"
       }
     }
   }
@@ -129,7 +134,7 @@ export const getMealFoodsByMealId = async (
       throw {
         isCustomError: true,
         message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn."
+          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
       }
     }
 
@@ -140,7 +145,7 @@ export const getMealFoodsByMealId = async (
     } else {
       throw {
         isCustomError: true,
-        message: message || "Không thể lấy danh sách khẩu phần ăn."
+        message: message || "Không thể lấy danh sách khẩu phần ăn"
       }
     }
   } catch (error: any) {
@@ -151,7 +156,7 @@ export const getMealFoodsByMealId = async (
       console.log("Lỗi không phải Axios:", error)
       throw {
         isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
+        message: "Đã xảy ra lỗi không mong muốn"
       }
     }
   }
@@ -159,7 +164,8 @@ export const getMealFoodsByMealId = async (
 
 export const updateMealFood = async (
   mealFoodId: string | undefined,
-  quantity: number
+  quantity: number,
+  showDialog: (message: string) => void
 ): Promise<string> => {
   try {
     const response = await monAPI.put(`/meal/foods/${mealFoodId}/quantity`, {
@@ -170,7 +176,7 @@ export const updateMealFood = async (
       throw {
         isCustomError: true,
         message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn."
+          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
       }
     }
 
@@ -179,28 +185,35 @@ export const updateMealFood = async (
     if (!success) {
       throw {
         isCustomError: true,
-        message: message || "Không thể cập nhật số lượng khẩu phần ăn."
+        message: message || "Không thể cập nhật số lượng khẩu phần ăn"
       }
     }
+
+    showDialog(message || "Cập nhật số lượng thành công")
 
     console.log(message)
     return message
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
+      showDialog("Đã xảy ra lỗi khi cập nhật số lượng")
+
       console.log("Lỗi từ server:", error.response?.data || error.message)
       throw error
     } else {
+      showDialog("Đã xảy ra lỗi không mong muốn")
+
       console.log("Lỗi không phải Axios:", error)
       throw {
         isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
+        message: "Đã xảy ra lỗi không mong muốn"
       }
     }
   }
 }
 
 export const updateMealFoodStatus = async (
-  mealFoodId: string | undefined
+  mealFoodId: string | undefined,
+  showDialog: (message: string) => void
 ): Promise<string> => {
   try {
     const response = await monAPI.put(`/meal/${mealFoodId}/status`)
@@ -209,7 +222,7 @@ export const updateMealFoodStatus = async (
       throw {
         isCustomError: true,
         message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn."
+          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
       }
     }
 
@@ -218,21 +231,27 @@ export const updateMealFoodStatus = async (
     if (!success) {
       throw {
         isCustomError: true,
-        message: message || "Không thể cập nhật trạng thái bữa ăn."
+        message: message || "Không thể cập nhật trạng thái bữa ăn"
       }
     }
+
+    showDialog(message || "Cập nhật trạng thái thành công")
 
     console.log(message)
     return message
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
+      showDialog("Đã xảy ra lỗi khi cập nhật trạng thái")
+
       console.log("Lỗi từ server:", error.response?.data || error.message)
       throw error
     } else {
+      showDialog("Đã xảy ra lỗi không mong muốn")
+
       console.log("Lỗi không phải Axios:", error)
       throw {
         isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn."
+        message: "Đã xảy ra lỗi không mong muốn"
       }
     }
   }

@@ -20,7 +20,9 @@ function NoConnectionScreen() {
       if (state.isConnected) {
         router.back()
       } else {
-        console.log("No internet connection. Please try again.")
+        console.log(
+          "Không có kết nối mạng. Vui lòng kiểm tra kết nối internet của bạn và thử lại"
+        )
       }
     })
   }

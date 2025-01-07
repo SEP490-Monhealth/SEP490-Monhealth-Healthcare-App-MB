@@ -43,6 +43,8 @@ function MealDetailsScreen() {
     refetch: mealFoodRefetch
   } = useGetMealFoodsByMealId(mealId)
 
+  const mealType = mealData?.type || ""
+
   const calorieValue = mealData?.nutrition.calories || 0
   const calorieGoal = 1249
   const progress = Math.min((calorieValue / calorieGoal) * 100, 100)
@@ -61,7 +63,7 @@ function MealDetailsScreen() {
     <Container>
       <Header
         back
-        label={getMealTypeName(mealData?.type || "")}
+        label={getMealTypeName(mealType)}
         action={{
           icon: <Setting4 variant="Bold" size={20} color={COLORS.primary} />,
           href: `/(tabs)/schedule`
@@ -81,7 +83,7 @@ function MealDetailsScreen() {
                 size={240}
                 width={14}
                 fill={progress}
-                prefill
+                // prefill
                 arcSweepAngle={260}
                 rotation={230}
                 centerCircle

@@ -28,7 +28,7 @@ const DialogButton = ({
   style,
   textStyle
 }: DialogButtonProps) => (
-  <TouchableOpacity onPress={onPress} className={style}>
+  <TouchableOpacity activeOpacity={1} onPress={onPress} className={style}>
     <Text className={textStyle}>{text}</Text>
   </TouchableOpacity>
 )
@@ -39,7 +39,7 @@ export const Dialog = ({
   title,
   description,
   confirmText = "Đồng ý",
-  cancelText = "Hủy",
+  cancelText,
   onConfirm
 }: DialogProps) => {
   const handleConfirm = () => {
@@ -63,7 +63,7 @@ export const Dialog = ({
           </Text>
         </View>
 
-        <View className="mb-3 mt-4 w-full bg-border" style={{ height: 1 }} />
+        <View className="mb-3 mt-2 w-full bg-border" style={{ height: 1 }} />
 
         <HStack gap={12}>
           {cancelText && (
@@ -77,12 +77,8 @@ export const Dialog = ({
           <DialogButton
             onPress={onConfirm ? handleConfirm : onClose}
             text={confirmText}
-            style={`flex-1 rounded-xl ${
-              cancelText ? "bg-primary" : "bg-gray-100"
-            } px-4 py-2.5`}
-            textStyle={`text-center font-tmedium text-base ${
-              cancelText ? "text-white" : "text-primary"
-            }`}
+            style="flex-1 rounded-xl bg-primary px-4 py-2.5 "
+            textStyle="text-center font-tmedium text-base text-white"
           />
         </HStack>
       </VStack>

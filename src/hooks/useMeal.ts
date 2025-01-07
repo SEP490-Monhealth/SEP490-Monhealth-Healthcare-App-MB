@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-import { useErrorHandler } from "@/contexts/ErrorContext"
+import { useDialog } from "@/contexts/DialogContext"
+import { useError } from "@/contexts/ErrorContext"
 
 import { CreateMealType, MealFoodType, MealType } from "@/schemas/mealSchema"
 
@@ -14,7 +15,7 @@ import {
 } from "@/services/mealService"
 
 export const useGetMealByUserId = (userId: string | undefined) => {
-  const handleError = useErrorHandler()
+  const handleError = useError()
 
   return useQuery<MealType[], Error>({
     queryKey: ["meals", userId],
@@ -31,7 +32,7 @@ export const useGetMealByUserId = (userId: string | undefined) => {
 }
 
 export const useGetMealById = (mealId: string | undefined) => {
-  const handleError = useErrorHandler()
+  const handleError = useError()
 
   return useQuery<MealType, Error>({
     queryKey: ["meal", mealId],
@@ -50,7 +51,8 @@ export const useGetMealById = (mealId: string | undefined) => {
 
 export const useCreateMeal = () => {
   const queryClient = useQueryClient()
-  const handleError = useErrorHandler()
+  const handleError = useError()
+  const { showDialog } = useDialog()
 
   return useMutation<
     { mealId: string; message: string },
@@ -59,24 +61,24 @@ export const useCreateMeal = () => {
   >({
     mutationFn: async (meal) => {
       try {
-        return await createMeal(meal)
+        return await createMeal(meal, showDialog)
       } catch (error) {
         handleError(error)
         throw error
       }
     },
-    onSuccess: (response, variables) => {
+    onSuccess: (response) => {
       const { mealId } = response
 
-      queryClient.invalidateQueries({ queryKey: ["meals", variables.userId] })
       queryClient.invalidateQueries({ queryKey: ["meal", mealId] })
+      queryClient.invalidateQueries({ queryKey: ["meals"] })
       queryClient.invalidateQueries({ queryKey: ["dailyMeal"] })
     }
   })
 }
 
 export const useGetMealFoodsByMealId = (mealId: string | undefined) => {
-  const handleError = useErrorHandler()
+  const handleError = useError()
 
   return useQuery<MealFoodType[], Error>({
     queryKey: ["mealFoods", mealId],
@@ -95,12 +97,13 @@ export const useGetMealFoodsByMealId = (mealId: string | undefined) => {
 
 export const useUpdateMealFoodQuantity = () => {
   const queryClient = useQueryClient()
-  const handleError = useErrorHandler()
+  const handleError = useError()
+  const { showDialog } = useDialog()
 
   return useMutation<string, Error, { mealFoodId: string; quantity: number }>({
     mutationFn: async ({ mealFoodId, quantity }) => {
       try {
-        return await updateMealFood(mealFoodId, quantity)
+        return await updateMealFood(mealFoodId, quantity, showDialog)
       } catch (error) {
         handleError(error)
         throw error
@@ -116,12 +119,13 @@ export const useUpdateMealFoodQuantity = () => {
 
 export const useUpdateMealFoodQuantityStatus = () => {
   const queryClient = useQueryClient()
-  const handleError = useErrorHandler()
+  const handleError = useError()
+  const { showDialog } = useDialog()
 
   return useMutation<string, Error, { mealFoodId: string }>({
     mutationFn: async ({ mealFoodId }) => {
       try {
-        return await updateMealFoodStatus(mealFoodId)
+        return await updateMealFoodStatus(mealFoodId, showDialog)
       } catch (error) {
         handleError(error)
         throw error

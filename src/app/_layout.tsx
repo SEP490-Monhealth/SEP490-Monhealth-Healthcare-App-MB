@@ -10,6 +10,7 @@ import { StatusBar } from "expo-status-bar"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 import { AuthProvider } from "@/providers/AuthProvider"
+import { DialogProvider } from "@/providers/DialogProvider"
 import { ErrorProvider } from "@/providers/ErrorProvider"
 import { SaveFoodProvider } from "@/providers/SaveFoodProvider"
 
@@ -43,16 +44,18 @@ function AppLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <ErrorProvider>
-        <AuthProvider>
-          <SaveFoodProvider>
-            <GestureHandlerRootView style={{ flex: 1 }}>
-              <SafeAreaProvider>
-                <Stack screenOptions={{ headerShown: false }} />
-                <StatusBar style="auto" backgroundColor="#fff" />
-              </SafeAreaProvider>
-            </GestureHandlerRootView>
-          </SaveFoodProvider>
-        </AuthProvider>
+        <DialogProvider>
+          <AuthProvider>
+            <SaveFoodProvider>
+              <GestureHandlerRootView style={{ flex: 1 }}>
+                <SafeAreaProvider>
+                  <Stack screenOptions={{ headerShown: false }} />
+                  <StatusBar style="auto" backgroundColor="#fff" />
+                </SafeAreaProvider>
+              </GestureHandlerRootView>
+            </SaveFoodProvider>
+          </AuthProvider>
+        </DialogProvider>
       </ErrorProvider>
     </QueryClientProvider>
   )

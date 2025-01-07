@@ -66,7 +66,7 @@ function SetupScreen() {
       step: 1,
       title: "Ngày sinh",
       description:
-        "Vui lòng nhập ngày sinh của bạn để chúng tôi xác định độ tuổi.",
+        "Vui lòng nhập ngày sinh của bạn để chúng tôi xác định độ tuổi",
       component: SetupDateOfBirth,
       fields: ["dateOfBirth"],
       schema: dateOfBirthMetricSchema
@@ -74,7 +74,7 @@ function SetupScreen() {
     {
       step: 2,
       title: "Giới tính",
-      description: "Chọn giới tính của bạn để cá nhân hóa trải nghiệm.",
+      description: "Chọn giới tính của bạn để cá nhân hóa trải nghiệm",
       component: SetupGender,
       fields: ["gender"],
       schema: genderMetricSchema
@@ -83,7 +83,7 @@ function SetupScreen() {
       step: 3,
       title: "Chiều cao và cân nặng",
       description:
-        "Nhập chiều cao và cân nặng để tính toán chỉ số sức khỏe của bạn.",
+        "Nhập chiều cao và cân nặng để tính toán chỉ số sức khỏe của bạn",
       component: SetupHeightWeight,
       fields: ["height", "weight"],
       schema: heightWeightMetricSchema
@@ -92,7 +92,7 @@ function SetupScreen() {
       step: 4,
       title: "Mức độ hoạt động",
       description:
-        "Chọn mức độ hoạt động để dự đoán nhu cầu năng lượng của bạn.",
+        "Chọn mức độ hoạt động để dự đoán nhu cầu năng lượng của bạn",
       component: SetupActivityLevel,
       fields: ["activityLevel"],
       schema: activityLevelMetricSchema
@@ -100,7 +100,7 @@ function SetupScreen() {
     {
       step: 5,
       title: "Mục tiêu",
-      description: "Chọn mục tiêu sức khỏe của bạn để bắt đầu.",
+      description: "Chọn mục tiêu sức khỏe của bạn để bắt đầu",
       component: SetupGoal,
       fields: ["goal"],
       schema: typeGoalSchema
@@ -108,8 +108,7 @@ function SetupScreen() {
     {
       step: 6,
       title: "Danh mục yêu thích",
-      description:
-        "Chọn các danh mục bạn yêu thích để chúng tôi gợi ý phù hợp.",
+      description: "Chọn các danh mục bạn yêu thích để chúng tôi gợi ý phù hợp",
       component: SetupInterestCategories,
       fields: ["categories"],
       schema: nameCategorySchema
@@ -117,7 +116,7 @@ function SetupScreen() {
     // {
     //   step: 7,
     //   title: "Món ăn yêu thích",
-    //   description: "Chọn các món ăn bạn yêu thích để chúng tôi gợi ý phù hợp.",
+    //   description: "Chọn các món ăn bạn yêu thích để chúng tôi gợi ý phù hợp",
     //   component: SetupInterestFoods,
     //   fields: ["interestFoods"],
     //   schema: ,
@@ -149,7 +148,7 @@ function SetupScreen() {
     })
 
     Object.keys(data).forEach((key) => {
-      const keys = key.split(".")
+      const keys = key.split("")
       if (keys.length > 1) {
         const [parent, child] = keys
         updateField(parent, { ...formData[parent], [child]: data[key] })

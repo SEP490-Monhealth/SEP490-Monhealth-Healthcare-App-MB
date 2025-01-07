@@ -7,7 +7,7 @@ export const sampleNotificationData: NotificationType[] = [
 
     title: "Tới giờ uống nước",
     description:
-      "Hãy nhớ uống một ly nước để duy trì sức khỏe! Nước không chỉ giúp cơ thể bạn hoạt động tốt hơn mà còn giúp làn da của bạn luôn tươi tắn.",
+      "Hãy nhớ uống một ly nước để duy trì sức khỏe! Nước không chỉ giúp cơ thể bạn hoạt động tốt hơn mà còn giúp làn da của bạn luôn tươi tắn",
     type: "Reminder",
     href: "/reminders",
     status: true,
@@ -23,7 +23,7 @@ export const sampleNotificationData: NotificationType[] = [
 
     title: "Hệ thống thông báo bảo trì",
     description:
-      "Hãy nhớ uống một ly nước để duy trì sức khỏe! Nước không chỉ giúp cơ thể bạn hoạt động tốt hơn mà còn giúp làn da của bạn luôn tươi tắn.",
+      "Hãy nhớ uống một ly nước để duy trì sức khỏe! Nước không chỉ giúp cơ thể bạn hoạt động tốt hơn mà còn giúp làn da của bạn luôn tươi tắn",
     type: "Warning",
     href: "/reminders",
     status: false,
@@ -39,7 +39,7 @@ export const sampleNotificationData: NotificationType[] = [
 
     title: "Khải tỏi thích trò chơi",
     description:
-      "Hãy nhớ uống một ly nước để duy trì sức khỏe! Nước không chỉ giúp cơ thể bạn hoạt động tốt hơn mà còn giúp làn da của bạn luôn tươi tắn.",
+      "Hãy nhớ uống một ly nước để duy trì sức khỏe! Nước không chỉ giúp cơ thể bạn hoạt động tốt hơn mà còn giúp làn da của bạn luôn tươi tắn",
     type: "Suggestion",
     href: "/reminders",
     status: false,

@@ -14,8 +14,10 @@ export const SaveFoodContext = createContext<SaveFoodContextType | undefined>(
 
 export const useSaveFoods = () => {
   const context = useContext(SaveFoodContext)
+
   if (!context) {
     throw new Error("useSaveFoods must be used within a SaveFoodProvider")
   }
+  
   return context
 }

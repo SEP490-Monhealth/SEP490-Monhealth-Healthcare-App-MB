@@ -11,8 +11,7 @@ import {
   Content,
   Sheet,
   SheetRefProps,
-  SheetSelect,
-  VStack
+  SheetSelect
 } from "@/components/global/atoms"
 import {
   ErrorDisplay,
@@ -27,9 +26,9 @@ import { COLORS } from "@/constants/app"
 import { useAuth } from "@/contexts/AuthContext"
 
 import {
-  useUpdateReminderStatus,
   useDeleteReminder,
-  useGetReminderByUserId
+  useGetReminderByUserId,
+  useUpdateReminderStatus
 } from "@/hooks/useReminder"
 import { useRouterHandlers } from "@/hooks/useRouter"
 
