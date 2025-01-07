@@ -25,7 +25,7 @@ import { useAuth } from "@/contexts/AuthContext"
 import {
   useGetMealById,
   useGetMealFoodsByMealId,
-  useUpdateMealFoodQuantityStatus
+  useUpdateMealFoodStatus
 } from "@/hooks/useMeal"
 import { useRouterHandlers } from "@/hooks/useRouter"
 
@@ -39,7 +39,7 @@ function MealDetailsScreen() {
   const userId = user?.userId
   const date = formatDateYYYYMMDD(new Date())
 
-  const { mutate: updateMealFoodStatus } = useUpdateMealFoodQuantityStatus()
+  const { mutate: updateMealFoodStatus } = useUpdateMealFoodStatus()
 
   const { mealId } = useLocalSearchParams() as { mealId: string }
 
