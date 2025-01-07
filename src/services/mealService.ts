@@ -164,8 +164,7 @@ export const getMealFoodsByMealId = async (
 
 export const updateMealFood = async (
   mealFoodId: string | undefined,
-  quantity: number,
-  showDialog: (message: string) => void
+  quantity: number
 ): Promise<string> => {
   try {
     const response = await monAPI.put(`/meal/foods/${mealFoodId}/quantity`, {
@@ -189,19 +188,13 @@ export const updateMealFood = async (
       }
     }
 
-    showDialog(message || "Cập nhật số lượng thành công")
-
     console.log(message)
     return message
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
-      showDialog("Đã xảy ra lỗi khi cập nhật số lượng")
-
       console.log("Lỗi từ server:", error.response?.data || error.message)
       throw error
     } else {
-      showDialog("Đã xảy ra lỗi không mong muốn")
-
       console.log("Lỗi không phải Axios:", error)
       throw {
         isCustomError: true,
@@ -212,8 +205,7 @@ export const updateMealFood = async (
 }
 
 export const updateMealFoodStatus = async (
-  mealFoodId: string | undefined,
-  showDialog: (message: string) => void
+  mealFoodId: string | undefined
 ): Promise<string> => {
   try {
     const response = await monAPI.patch(`/meal/${mealFoodId}/status`)
@@ -235,19 +227,13 @@ export const updateMealFoodStatus = async (
       }
     }
 
-    showDialog(message || "Cập nhật trạng thái thành công")
-
     console.log(message)
     return message
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
-      showDialog("Đã xảy ra lỗi khi cập nhật trạng thái")
-
       console.log("Lỗi từ server:", error.response?.data || error.message)
       throw error
     } else {
-      showDialog("Đã xảy ra lỗi không mong muốn")
-
       console.log("Lỗi không phải Axios:", error)
       throw {
         isCustomError: true,

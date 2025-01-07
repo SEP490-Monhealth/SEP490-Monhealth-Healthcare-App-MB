@@ -71,7 +71,8 @@ export const useCreateMeal = () => {
       const { mealId } = response
 
       queryClient.invalidateQueries({ queryKey: ["meals"] })
-      queryClient.invalidateQueries({ queryKey: ["meals"] })
+      // queryClient.invalidateQueries({ queryKey: ["meals", variables.userId] })
+      queryClient.invalidateQueries({ queryKey: ["mealFoods", mealId] })
       queryClient.invalidateQueries({ queryKey: ["meal", mealId] })
       queryClient.invalidateQueries({ queryKey: ["dailyMeal"] })
     }
@@ -99,12 +100,11 @@ export const useGetMealFoodsByMealId = (mealId: string | undefined) => {
 export const useUpdateMealFoodQuantity = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
-  const { showDialog } = useDialog()
 
   return useMutation<string, Error, { mealFoodId: string; quantity: number }>({
     mutationFn: async ({ mealFoodId, quantity }) => {
       try {
-        return await updateMealFood(mealFoodId, quantity, showDialog)
+        return await updateMealFood(mealFoodId, quantity)
       } catch (error) {
         handleError(error)
         throw error
@@ -118,10 +118,9 @@ export const useUpdateMealFoodQuantity = () => {
   })
 }
 
-export const useUpdateMealFoodQuantityStatus = () => {
+export const useUpdateMealFoodStatus = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
-  const { showDialog } = useDialog()
 
   return useMutation<
     string,
@@ -130,7 +129,7 @@ export const useUpdateMealFoodQuantityStatus = () => {
   >({
     mutationFn: async ({ mealFoodId }) => {
       try {
-        return await updateMealFoodStatus(mealFoodId, showDialog)
+        return await updateMealFoodStatus(mealFoodId)
       } catch (error) {
         handleError(error)
         throw error

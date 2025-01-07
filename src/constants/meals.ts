@@ -15,7 +15,7 @@ export const sampleMealsData: MealType[] = [
       sugar: 29.9
     },
 
-    mealFoods: [
+    items: [
       {
         mealFoodId: "4d6c32b1-e274-4038-8434-5aae78f14a20",
         foodId: "72403979-2c88-4437-81b3-e4d7443bd0cf",
