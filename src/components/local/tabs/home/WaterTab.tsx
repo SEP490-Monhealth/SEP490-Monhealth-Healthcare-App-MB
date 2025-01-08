@@ -23,13 +23,14 @@ import { useRouterHandlers } from "@/hooks/useRouter"
 
 interface WaterTabProps {
   onLoading: (isLoading: boolean) => void
+  onOverlayLoading: (isLoading: boolean) => void
 }
 
-export const WaterTab = ({ onLoading }: WaterTabProps) => {
+export const WaterTab = ({ onLoading, onOverlayLoading }: WaterTabProps) => {
   const router = useRouter()
   const { handleViewReminder } = useRouterHandlers()
 
-  const { mutate: patchReminder } = useUpdateReminderStatus()
+  const { mutate: updateReminderStatus } = useUpdateReminderStatus()
 
   const { user } = useAuth()
   const userId = user?.userId
@@ -38,10 +39,6 @@ export const WaterTab = ({ onLoading }: WaterTabProps) => {
 
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()
-
-  useEffect(() => {
-    onLoading(!remindersData || isLoading)
-  }, [remindersData, isLoading, onLoading])
 
   const prefillReady = isFetching === 0 && isMutating === 0
 
@@ -62,13 +59,23 @@ export const WaterTab = ({ onLoading }: WaterTabProps) => {
   }
 
   const toggleReminderStatus = (reminderId: string) => {
-    patchReminder(reminderId)
+    updateReminderStatus(reminderId)
   }
+
+  useEffect(() => {
+    if (onLoading) {
+      onLoading(!remindersData || isLoading)
+    }
+  }, [remindersData, isLoading, onLoading])
+
+  useEffect(() => {
+    if (onOverlayLoading) {
+      onOverlayLoading(isFetching > 0 || isMutating > 0)
+    }
+  }, [isFetching, isMutating, onOverlayLoading])
 
   return (
     <View className="mt-6 h-full">
-      <LoadingOverlay visible={isFetching > 0 || isMutating > 0} />
-
       <ArcProgress
         size={240}
         width={14}

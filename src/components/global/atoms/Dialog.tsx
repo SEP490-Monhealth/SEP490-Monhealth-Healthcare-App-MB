@@ -70,14 +70,14 @@ export const Dialog = ({
             <DialogButton
               onPress={onClose}
               text={cancelText}
-              style="flex-1 rounded-xl bg-gray-100 px-4 py-2.5"
+              style="flex-1 rounded-xl bg-gray-100 px-4 py-3"
               textStyle="text-center font-tmedium text-base text-destructive"
             />
           )}
           <DialogButton
             onPress={onConfirm ? handleConfirm : onClose}
             text={confirmText}
-            style="flex-1 rounded-xl bg-primary px-4 py-2.5 "
+            style="flex-1 rounded-xl bg-primary px-4 py-3 "
             textStyle="text-center font-tmedium text-base text-white"
           />
         </HStack>

@@ -19,7 +19,7 @@ import {
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { LoadingScreen } from "../loading"
+import { LoadingOverlay, LoadingScreen } from "../loading"
 
 function HomeScreen() {
   const { user } = useAuth()
@@ -27,6 +27,7 @@ function HomeScreen() {
 
   const [activeTab, setActiveTab] = useState("meal")
   const [loading, setLoading] = useState(false)
+  const [overlayLoading, setOverlayLoading] = useState(false)
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab)
@@ -38,6 +39,8 @@ function HomeScreen() {
 
   return (
     <Container>
+      <LoadingOverlay visible={overlayLoading} />
+
       <HomeHeader fullName={user?.fullName} />
 
       <ScrollArea>
@@ -60,7 +63,10 @@ function HomeScreen() {
             </TabsContent>
 
             <TabsContent value="water">
-              <WaterTab onLoading={setLoading} />
+              <WaterTab
+                onLoading={setLoading}
+                onOverlayLoading={setOverlayLoading}
+              />
             </TabsContent>
 
             <TabsContent value="activity">

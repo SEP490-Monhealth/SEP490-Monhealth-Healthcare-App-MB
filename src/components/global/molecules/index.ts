@@ -1,5 +1,6 @@
 import { ArcProgress } from "./ArcProgress"
 import { CircularProgress } from "./CircularProgress"
+import { CounterText } from "./CounterText"
 import { CustomHeader } from "./CustomHeader"
 import { ErrorDisplay } from "./ErrorDisplay"
 import { FoodCard } from "./FoodCard"
@@ -16,6 +17,7 @@ import { WaterCard } from "./WaterCard"
 export {
   ArcProgress,
   CircularProgress,
+  CounterText,
   CustomHeader,
   ErrorDisplay,
   FoodCard,
