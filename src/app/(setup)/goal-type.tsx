@@ -45,13 +45,9 @@ function SetupGoalType({ control, errors }: SetupGoalTypeProps) {
     control
   })
 
-  const errorMessage = get(errors, "goalType.message", null)
-
   useEffect(() => {
     const bmi = calculateBMI(weight, height)
-    // console.log("Calculated BMI:", bmi)
-
-    if (bmi) {
+    if (bmi && !field.value) {
       if (bmi < 18.5) {
         field.onChange("WeightGain")
       } else if (bmi >= 18.5 && bmi < 24.9) {
@@ -65,6 +61,8 @@ function SetupGoalType({ control, errors }: SetupGoalTypeProps) {
   const handleSelectGoal = (value: string) => {
     field.onChange(value)
   }
+
+  const errorMessage = get(errors, "goalType.message", null)
 
   return (
     <VStack gap={12}>

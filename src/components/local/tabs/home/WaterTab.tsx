@@ -4,7 +4,6 @@ import { View } from "react-native"
 
 import { useRouter } from "expo-router"
 
-import { LoadingOverlay } from "@/app/loading"
 import { useIsFetching, useIsMutating } from "@tanstack/react-query"
 
 import { VStack } from "@/components/global/atoms"

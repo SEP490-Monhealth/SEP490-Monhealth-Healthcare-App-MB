@@ -148,10 +148,26 @@ function SetupScreen() {
     const { weightGoal } = data
     const { weight } = useSetupStore.getState()
 
-    if (weightGoal < weight) {
+    if (goalType === "WeightLoss" && weightGoal >= weight) {
       setError("weightGoal", {
         type: "manual",
-        message: "Mục tiêu cân nặng phải lớn hơn hoặc bằng cân nặng hiện tại"
+        message: "Mục tiêu giảm cân phải nhỏ hơn cân nặng hiện tại"
+      })
+      return
+    }
+
+    // if (goalType === "MaintainWeight" && weightGoal !== weight) {
+    //   setError("weightGoal", {
+    //     type: "manual",
+    //     message: "Mục tiêu duy trì cân nặng phải bằng cân nặng hiện tại"
+    //   })
+    //   return
+    // }
+
+    if (goalType === "WeightGain" && weightGoal <= weight) {
+      setError("weightGoal", {
+        type: "manual",
+        message: "Mục tiêu tăng cân phải lớn hơn cân nặng hiện tại"
       })
       return
     }
@@ -214,7 +230,7 @@ function SetupScreen() {
 
   const StepComponent = currentStepData.component
 
-  // console.log(errors)
+  console.log(errors)
 
   return (
     <Container dismissKeyboard>

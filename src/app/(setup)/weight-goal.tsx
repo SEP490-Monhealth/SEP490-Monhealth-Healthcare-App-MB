@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 
-import { Text } from "react-native"
+import { Text, TouchableOpacity } from "react-native"
 
 import { get } from "lodash"
 import {
@@ -27,15 +27,15 @@ function SetupWeightGoal({ control, setValue, errors }: SetupWeightGoalProps) {
   const { height, gender } = useSetupStore() as {
     height: number
     gender: "Male" | "Female"
-    weight: number
   }
+
   const [idealWeight, setIdealWeight] = useState<number | null>(null)
 
   useEffect(() => {
     if (height && (gender === "Male" || gender === "Female")) {
       const ibw = calculateIBW(height, gender)
       setIdealWeight(ibw)
-      setValue("weightGoal", ibw)
+      setValue("weightGoal", Number(ibw.toFixed(1)))
     }
   }, [height, gender, setValue])
 
@@ -49,14 +49,18 @@ function SetupWeightGoal({ control, setValue, errors }: SetupWeightGoalProps) {
         render={({ field: { onChange, value } }) => (
           <Input
             value={
-              value
-                ? value.toString()
-                : idealWeight !== null
-                  ? toFixed(idealWeight, 1)
-                  : ""
+              value !== null && value !== undefined ? value.toString() : ""
             }
-            placeholder={`Nhập cân nặng mục tiêu (Gợi ý: ${idealWeight !== null ? toFixed(idealWeight, 1) : "--"} kg)`}
-            onChangeText={(text) => onChange(parseFloat(text) || 0)}
+            placeholder={`Nhập cân nặng mục tiêu (Gợi ý: ${
+              idealWeight ? idealWeight.toFixed(1) : "--"
+            } kg)`}
+            onChangeText={(text) => {
+              const normalizedText = text.replace(",", ".")
+              if (/^\d*\.?\d*$/.test(normalizedText)) {
+                const parsedValue = parseFloat(normalizedText)
+                onChange(!isNaN(parsedValue) ? parsedValue : 0)
+              }
+            }}
             keyboardType="numeric"
             endIcon={
               <Text className="font-tmedium text-base text-primary">kg</Text>
@@ -68,9 +72,19 @@ function SetupWeightGoal({ control, setValue, errors }: SetupWeightGoalProps) {
       />
 
       {idealWeight !== null && (
-        <Text className="ml-1 mt-1 font-tregular text-sm text-accent">
-          Gợi ý cân nặng phù hợp: {toFixed(idealWeight, 1)} kg
-        </Text>
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => {
+            setValue("weightGoal", Number(toFixed(idealWeight, 1)))
+          }}
+        >
+          <Text className="ml-1 mt-1 font-tregular text-sm text-accent">
+            Gợi ý cân nặng phù hợp:{" "}
+            <Text className="font-tregular text-primary">
+              {toFixed(idealWeight, 1)} kg
+            </Text>
+          </Text>
+        </TouchableOpacity>
       )}
     </VStack>
   )

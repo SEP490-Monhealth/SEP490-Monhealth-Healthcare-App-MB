@@ -19,7 +19,7 @@ export const useSetupStore = create<SetupState>((set) => ({
   height: 0,
   weight: 0,
   activityLevel: 1.2,
-  goalType: "WeightLoss",
+  goalType: "",
   weightGoal: 0,
   categories: [],
 
@@ -36,7 +36,7 @@ export const useSetupStore = create<SetupState>((set) => ({
       height: 0,
       weight: 0,
       activityLevel: 1.2,
-      goalType: "WeightLoss",
+      goalType: "",
       weightGoal: 0,
       categories: []
     })
