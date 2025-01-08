@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 
 import { get } from "lodash"
 import { Scale, TrendingDown, TrendingUp } from "lucide-react-native"
@@ -7,6 +7,10 @@ import { Control, FieldValues, useController } from "react-hook-form"
 import { Chip, ErrorText, VStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/app"
+
+import { useSetupStore } from "@/stores/setupStore"
+
+import { calculateBMI } from "@/utils/calculations"
 
 const goalsData = [
   {
@@ -35,16 +39,32 @@ interface SetupGoalTypeProps {
 }
 
 function SetupGoalType({ control, errors }: SetupGoalTypeProps) {
+  const { weight, height } = useSetupStore()
   const { field } = useController({
-    name: "goal",
+    name: "goalType",
     control
   })
+
+  const errorMessage = get(errors, "goalType.message", null)
+
+  useEffect(() => {
+    const bmi = calculateBMI(weight, height)
+    // console.log("Calculated BMI:", bmi)
+
+    if (bmi) {
+      if (bmi < 18.5) {
+        field.onChange("WeightGain")
+      } else if (bmi >= 18.5 && bmi < 24.9) {
+        field.onChange("MaintainWeight")
+      } else if (bmi >= 25) {
+        field.onChange("WeightLoss")
+      }
+    }
+  }, [weight, height, field])
 
   const handleSelectGoal = (value: string) => {
     field.onChange(value)
   }
-
-  const errorMessage = get(errors, "goal.message", null)
 
   return (
     <VStack gap={12}>
@@ -73,7 +93,7 @@ function SetupGoalType({ control, errors }: SetupGoalTypeProps) {
         )
       })}
 
-      {errors.gender && <ErrorText text={errorMessage} />}
+      {errors.goalType && <ErrorText text={errorMessage} />}
     </VStack>
   )
 }

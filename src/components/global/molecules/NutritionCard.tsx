@@ -8,8 +8,6 @@ import { cn } from "@/lib/utils"
 
 import { toFixed } from "@/utils/formatters"
 
-import { CounterText } from "./CounterText"
-
 interface NutritionCardProps {
   reverse?: boolean
   label: string
@@ -39,7 +37,7 @@ export const NutritionCard = ({
         className={cn("font-tbold text-lg leading-5")}
         style={fillColor ? { color } : undefined}
       >
-        <CounterText value={toFixed(value, 2)} />
+        {toFixed(value, 2)}
         {showUnit ? unit : ""}
       </Text>
     </VStack>

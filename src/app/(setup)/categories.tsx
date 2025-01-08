@@ -13,13 +13,6 @@ function SetupCategories() {
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
 
-  const categories =
-    categoriesData?.map((c) => ({
-      name: c.name,
-      description: c.description,
-      image: c.image
-    })) || []
-
   const handleSelectCategory = (category: string) => {
     setSelectedCategories((prev) =>
       prev.includes(category)
@@ -28,7 +21,7 @@ function SetupCategories() {
     )
   }
 
-  console.log("Selected Categories:", selectedCategories)
+  // console.log("Selected Categories:", selectedCategories)
 
   if (!categoriesData) return <LoadingScreen />
 
@@ -38,7 +31,7 @@ function SetupCategories() {
         className="flex-row flex-wrap"
         style={{ rowGap: 16, columnGap: 12 }}
       >
-        {categories.map((category) => (
+        {categoriesData.map((category) => (
           <TouchableOpacity
             key={category.name}
             activeOpacity={0.7}
@@ -50,7 +43,11 @@ function SetupCategories() {
             }`}
           >
             <Image
-              source={category.image ? { uri: category.image } : undefined}
+              source={
+                typeof category.image === "string"
+                  ? { uri: category.image }
+                  : category.image
+              }
               className="mr-3 h-8 w-8"
             />
 

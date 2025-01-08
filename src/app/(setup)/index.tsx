@@ -29,7 +29,7 @@ import SetupActivityLevel from "./activity-level"
 import SetupInterestCategories from "./categories"
 import SetupDateOfBirth from "./date-of-birth"
 import SetupGender from "./gender"
-import SetupGoalType from "./goal"
+import SetupGoalType from "./goal-type"
 import SetupHeightWeight from "./height-weight"
 import SetupWeightGoal from "./weight-goal"
 
@@ -111,19 +111,19 @@ function SetupScreen() {
     },
     {
       step: 6,
+      title: "Mục tiêu cân nặng",
+      description: "Nhập mục tiêu cân nặng của bạn để theo dõi",
+      component: SetupWeightGoal,
+      fields: ["weightGoal"],
+      schema: weightGoalSchema
+    },
+    {
+      step: 7,
       title: "Danh mục yêu thích",
       description: "Chọn các danh mục bạn yêu thích để chúng tôi gợi ý phù hợp",
       component: SetupInterestCategories,
       fields: ["categories"],
       schema: nameCategorySchema
-    },
-    {
-      step: 7,
-      title: "Món ăn yêu thích",
-      description: "Chọn các món ăn bạn yêu thích để chúng tôi gợi ý phù hợp",
-      component: SetupWeightGoal,
-      fields: ["weightGoal"],
-      schema: weightGoalSchema
     }
   ]
 
@@ -137,18 +137,34 @@ function SetupScreen() {
     control,
     handleSubmit,
     setValue,
+    setError,
     formState: { errors }
   } = useForm({
     resolver: zodResolver(currentStepData.schema),
     defaultValues: formData
   })
 
-  const onSubmitStep = (data: Record<string, any>) => {
+  const onSubmitStep = (data: Record<string, any>, setError: any) => {
+    const { weightGoal } = data
+    const { weight } = useSetupStore.getState()
+
+    if (weightGoal < weight) {
+      setError("weightGoal", {
+        type: "manual",
+        message: "Mục tiêu cân nặng phải lớn hơn hoặc bằng cân nặng hiện tại"
+      })
+      return
+    }
+
     console.log("Submitted data:", data)
     // console.log("Errors after submit:", errors)
 
+    // Object.keys(data).forEach((key) => {
+    //   set(formData, key, data[key])
+    // })
+
     Object.keys(data).forEach((key) => {
-      set(formData, key, data[key])
+      updateField(key, data[key])
     })
 
     Object.keys(data).forEach((key) => {
@@ -170,7 +186,9 @@ function SetupScreen() {
         gender: formData.gender,
         height: formData.height,
         weight: formData.weight,
-        activityLevel: formData.activityLevel
+        activityLevel: formData.activityLevel,
+        goalType: formData.goalType,
+        weightGoal: formData.weightGoal
       }
 
       console.log(metricData)
@@ -182,7 +200,7 @@ function SetupScreen() {
 
       console.log("Final Form Data:", JSON.stringify(finalData, null, 2))
 
-      router.replace("/(setup)/summary")
+      // router.replace("/(setup)/summary")
     }
   }
 
@@ -195,6 +213,8 @@ function SetupScreen() {
   }
 
   const StepComponent = currentStepData.component
+
+  // console.log(errors)
 
   return (
     <Container dismissKeyboard>
@@ -220,7 +240,7 @@ function SetupScreen() {
 
       <Button
         size="lg"
-        onPress={handleSubmit(onSubmitStep)}
+        onPress={handleSubmit((data) => onSubmitStep(data, setError))}
         className="absolute bottom-0 left-6 right-6"
       >
         {currentStep === setupSteps.length ? "Hoàn thành" : "Tiếp tục"}

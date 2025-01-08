@@ -12,7 +12,7 @@ interface OTPInputProps {
 }
 
 export const OTPInput = ({ length = 4, onOTPChange }: OTPInputProps) => {
-  const [Otp, setOtp] = useState<string[]>(Array(length).fill(""))
+  const [otp, setOTP] = useState<string[]>(Array(length).fill(""))
   const [timer, setTimer] = useState(60)
   const inputs = useRef<Array<TextInput | null>>([])
 
@@ -26,9 +26,9 @@ export const OTPInput = ({ length = 4, onOTPChange }: OTPInputProps) => {
   }, [timer])
 
   const handleChange = (text: string, index: number) => {
-    const newOTP = [...Otp]
+    const newOTP = [...otp]
     newOTP[index] = text
-    setOtp(newOTP)
+    setOTP(newOTP)
 
     if (text && index < length - 1) {
       inputs.current[index + 1]?.focus()
@@ -44,14 +44,14 @@ export const OTPInput = ({ length = 4, onOTPChange }: OTPInputProps) => {
     index: number
   ) => {
     if (e.nativeEvent.key === "Backspace") {
-      const newOTP = [...Otp]
+      const newOTP = [...otp]
       if (index > 0 && !newOTP[index]) {
         newOTP[index - 1] = ""
-        setOtp(newOTP)
+        setOTP(newOTP)
         inputs.current[index - 1]?.focus()
       } else {
         newOTP[index] = ""
-        setOtp(newOTP)
+        setOTP(newOTP)
       }
 
       if (onOTPChange) {
@@ -62,7 +62,7 @@ export const OTPInput = ({ length = 4, onOTPChange }: OTPInputProps) => {
 
   return (
     <HStack className="justify-between">
-      {Otp.map((value, index) => (
+      {otp.map((value, index) => (
         <TextInput
           key={index}
           ref={(ref) => (inputs.current[index] = ref)}
