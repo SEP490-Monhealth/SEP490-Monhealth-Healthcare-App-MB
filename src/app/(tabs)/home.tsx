@@ -1,4 +1,6 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
+
+import { useLocalSearchParams } from "expo-router"
 
 import {
   Container,
@@ -25,7 +27,8 @@ function HomeScreen() {
   const { user } = useAuth()
   const userId = user?.userId
 
-  const [activeTab, setActiveTab] = useState("meal")
+  const { tab } = useLocalSearchParams()
+  const [activeTab, setActiveTab] = useState(tab || "meal")
   const [loading, setLoading] = useState(false)
 
   const handleTabChange = (tab: string) => {
@@ -33,6 +36,12 @@ function HomeScreen() {
   }
 
   console.log(userId)
+
+  useEffect(() => {
+    if (tab) {
+      setActiveTab(tab)
+    }
+  }, [tab])
 
   if (loading) <LoadingScreen />
 

@@ -11,7 +11,7 @@ interface TabsContextProps {
 const TabsContext = createContext<TabsContextProps | null>(null)
 
 interface TabsProps {
-  defaultValue: string
+  defaultValue: string | string[]
   children: React.ReactNode
   contentMarginTop?: number
   className?: string
@@ -23,7 +23,10 @@ export const Tabs: React.FC<TabsProps> = ({
   contentMarginTop = 4,
   className
 }) => {
-  const [selectedValue, setSelectedValue] = useState(defaultValue)
+  const initialValue = Array.isArray(defaultValue)
+    ? defaultValue[0]
+    : defaultValue
+  const [selectedValue, setSelectedValue] = useState(initialValue)
 
   return (
     <TabsContext.Provider

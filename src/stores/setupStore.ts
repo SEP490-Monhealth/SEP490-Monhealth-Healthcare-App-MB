@@ -14,11 +14,11 @@ interface SetupState {
 
 export const useSetupStore = create<SetupState>((set) => ({
   dateOfBirth: "",
-  gender: "",
+  gender: "Male",
   height: 0,
   weight: 0,
   activityLevel: 1.2,
-  goal: "",
+  goal: "WeightLoss",
   categories: [],
 
   updateField: (key, value) =>
@@ -30,11 +30,11 @@ export const useSetupStore = create<SetupState>((set) => ({
   reset: () =>
     set({
       dateOfBirth: "",
-      gender: "",
+      gender: "Male",
       height: 0,
       weight: 0,
       activityLevel: 1.2,
-      goal: "",
+      goal: "WeightLoss",
       categories: []
     })
 }))

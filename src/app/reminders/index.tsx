@@ -116,7 +116,7 @@ function ReminderScreen() {
   }
 
   const handleBack = () => {
-    router.push("/(tabs)/home")
+    router.replace({ pathname: "/(tabs)/home", params: { tab: "water" } })
   }
 
   if (!remindersData || isLoading) {
