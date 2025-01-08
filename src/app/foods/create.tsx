@@ -18,6 +18,8 @@ import { Header } from "@/components/global/organisms"
 
 import { useAuth } from "@/contexts/AuthContext"
 
+import { useCreateFood } from "@/hooks/useFood"
+
 import {
   informationFoodSchema,
   nutritionFoodSchema,
@@ -35,6 +37,8 @@ function FoodCreateScreen() {
 
   const { user } = useAuth()
   const userId = user?.userId
+
+  const { mutate: createFood } = useCreateFood()
 
   const { type, name, description, portion, nutrition, updateField } =
     useFoodStore()
@@ -113,10 +117,24 @@ function FoodCreateScreen() {
     } else {
       const finalData = {
         ...useFoodStore.getState(),
-        userId: formData.userId
+        userId: formData.userId,
+        nutrition: formData.nutrition || {
+          calories: 0,
+          protein: 0,
+          carbs: 0,
+          fat: 0,
+          fiber: 0,
+          sugar: 0
+        }
       }
 
       console.log("Final Form Data:", JSON.stringify(finalData, null, 2))
+
+      createFood(finalData, {
+        onSuccess: () => {
+          router.push("/foods")
+        }
+      })
     }
   }
 

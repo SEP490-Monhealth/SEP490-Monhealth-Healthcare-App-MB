@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 
 import { KeyboardAvoidingView, Platform, Text } from "react-native"
 
@@ -57,19 +57,38 @@ function FoodNutrition({ control, errors }: FoodNutritionProps) {
       key={name}
       name={name}
       control={control}
-      render={({ field: { onChange, value } }) => (
-        <Input
-          value={value?.toString() || ""}
-          placeholder={placeholder}
-          onChangeText={(text) => onChange(parseFloat(text) || 0)}
-          keyboardType="numeric"
-          alignRight
-          startIcon={<Text>{label}</Text>}
-          endIcon={<Text>{unit}</Text>}
-          alwaysShowEndIcon
-          errorMessage={get(errors, `${name}.message`, null)}
-        />
-      )}
+      render={({ field: { onChange, value } }) => {
+        const [inputValue, setInputValue] = useState(value?.toString() || "")
+
+        const handleChangeText = (text: string) => {
+          const normalizedText = text.replace(",", ".") // Chuyển dấu ',' thành '.'
+          setInputValue(normalizedText) // Cập nhật giá trị hiển thị
+
+          if (/^\d*\.?\d*$/.test(normalizedText)) {
+            // Nếu giá trị hợp lệ, chuyển thành số và cập nhật qua onChange
+            const parsedValue = parseFloat(normalizedText)
+            if (!isNaN(parsedValue)) {
+              onChange(parsedValue)
+            } else {
+              onChange(null) // Giá trị rỗng
+            }
+          }
+        }
+
+        return (
+          <Input
+            value={inputValue}
+            placeholder={placeholder}
+            onChangeText={handleChangeText}
+            keyboardType="numeric"
+            alignRight
+            startIcon={<Text>{label}</Text>}
+            endIcon={<Text>{unit}</Text>}
+            alwaysShowEndIcon
+            errorMessage={get(errors, `${name}.message`, null)}
+          />
+        )
+      }}
     />
   )
 
