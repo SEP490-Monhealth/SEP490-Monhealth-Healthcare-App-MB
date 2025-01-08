@@ -4,6 +4,9 @@ import { View } from "react-native"
 
 import { useRouter } from "expo-router"
 
+import { LoadingOverlay } from "@/app/loading"
+import { useIsFetching, useIsMutating } from "@tanstack/react-query"
+
 import { VStack } from "@/components/global/atoms"
 import { ArcProgress, WaterCard } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
@@ -33,9 +36,14 @@ export const WaterTab = ({ onLoading }: WaterTabProps) => {
 
   const { data: remindersData, isLoading } = useGetReminderByUserId(userId)
 
+  const isFetching = useIsFetching()
+  const isMutating = useIsMutating()
+
   useEffect(() => {
     onLoading(!remindersData || isLoading)
   }, [remindersData, isLoading, onLoading])
+
+  const prefillReady = isFetching === 0 && isMutating === 0
 
   const goalWater = 2000
 
@@ -58,12 +66,14 @@ export const WaterTab = ({ onLoading }: WaterTabProps) => {
   }
 
   return (
-    <View className="mt-6">
+    <View className="mt-6 h-full">
+      <LoadingOverlay visible={isFetching > 0 || isMutating > 0} />
+
       <ArcProgress
         size={240}
         width={14}
         fill={progress}
-        prefill
+        prefill={prefillReady}
         tintColor={COLORS.water}
         arcSweepAngle={260}
         rotation={230}

@@ -23,7 +23,7 @@ import { FoodType } from "@/schemas/foodSchema"
 
 import { getFoodsByUserId } from "@/services/foodService"
 
-import LoadingScreen from "../loading"
+import { LoadingScreen } from "../loading"
 
 function FoodUserScreen() {
   const { handleViewFood } = useRouterHandlers()

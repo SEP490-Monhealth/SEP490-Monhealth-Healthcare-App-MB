@@ -4,8 +4,9 @@ import { FlatList, View } from "react-native"
 
 import { useLocalSearchParams } from "expo-router"
 
-import LoadingScreen from "@/app/loading"
-import { Add, Setting4 } from "iconsax-react-native"
+import { LoadingOverlay, LoadingScreen } from "@/app/loading"
+import { useIsFetching, useIsMutating } from "@tanstack/react-query"
+import { Add } from "iconsax-react-native"
 
 import { Container, Content } from "@/components/global/atoms"
 import {
@@ -37,11 +38,14 @@ function MealDetailsScreen() {
 
   const { user } = useAuth()
   const userId = user?.userId
+  const { mealId } = useLocalSearchParams() as { mealId: string }
+
   const date = formatDateYYYYMMDD(new Date())
 
   const { mutate: updateMealFoodStatus } = useUpdateMealFoodStatus()
 
-  const { mealId } = useLocalSearchParams() as { mealId: string }
+  const isFetching = useIsFetching()
+  const isMutating = useIsMutating()
 
   const [isRefreshing, setIsRefreshing] = useState(false)
 
@@ -62,6 +66,8 @@ function MealDetailsScreen() {
   const calorieGoal = 1249
   const progress = Math.min((calorieValue / calorieGoal) * 100, 100)
 
+  const prefillReady = isFetching === 0 && isMutating === 0
+
   const onRefresh = async () => {
     setIsRefreshing(true)
     await Promise.all([mealRefetch(), mealFoodRefetch()])
@@ -77,11 +83,14 @@ function MealDetailsScreen() {
       console.error("User ID is undefined")
       return
     }
+
     updateMealFoodStatus({ mealFoodId, mealId, userId, date })
   }
 
   return (
     <Container>
+      <LoadingOverlay visible={isFetching > 0 || isMutating > 0} />
+
       <Header
         back
         label={getMealTypeName(mealType)}
@@ -104,7 +113,7 @@ function MealDetailsScreen() {
                 size={240}
                 width={14}
                 fill={progress}
-                // prefill
+                prefill={prefillReady}
                 arcSweepAngle={260}
                 rotation={230}
                 centerCircle

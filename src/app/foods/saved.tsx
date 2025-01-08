@@ -86,8 +86,7 @@ function FoodSavedScreen() {
             <ErrorDisplay
               imageSource={require("../../../public/images/monhealth-no-data-image.png")}
               title="Không có dữ liệu"
-              description="Bạn chưa lưu món ăn nào trong danh sách. Hãy thêm món ăn yêu
-                  thích của bạn!"
+              description="Bạn chưa lưu món ăn nào trong danh sách. Hãy thêm món ăn yêu thích của bạn!"
               marginTop={24}
             />
           )}

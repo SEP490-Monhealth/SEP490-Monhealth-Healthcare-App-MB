@@ -4,7 +4,7 @@ import { Text } from "react-native"
 
 import { router, useLocalSearchParams } from "expo-router"
 
-import LoadingScreen from "@/app/loading"
+import { LoadingScreen } from "@/app/loading"
 import { zodResolver } from "@hookform/resolvers/zod"
 import DateTimePicker, {
   DateTimePickerEvent

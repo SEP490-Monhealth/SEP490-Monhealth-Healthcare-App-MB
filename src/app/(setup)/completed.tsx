@@ -20,8 +20,7 @@ function SetupCompleted() {
         <ErrorDisplay
           imageSource={require("../../../public/images/monhealth-congratulations.png")}
           title="Chúc mừng bạn đã hoàn thành bước đầu tiên"
-          description="Các chỉ số sẽ giúp đề xuất chế độ dinh dưỡng, hoạt động thể chất,
-              và các mục tiêu phù hợp"
+          description="Các chỉ số sẽ giúp đề xuất chế độ dinh dưỡng, hoạt động thể chất, và các mục tiêu phù hợp"
         />
       </View>
 

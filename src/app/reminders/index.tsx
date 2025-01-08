@@ -34,7 +34,7 @@ import { useRouterHandlers } from "@/hooks/useRouter"
 
 import { ReminderType } from "@/schemas/reminderSchema"
 
-import LoadingScreen from "../loading"
+import { LoadingScreen } from "../loading"
 
 function ReminderScreen() {
   const WaterSheetRef = useRef<SheetRefProps>(null)
@@ -160,8 +160,7 @@ function ReminderScreen() {
               <ErrorDisplay
                 imageSource={require("../../../public/images/monhealth-no-data-image.png")}
                 title="Không có nhắc nhở"
-                description="Bạn chưa tạo nhắc nhở nào. Hãy thêm nhắc nhở để theo dõi
-                    lượng nước hàng ngày của bạn"
+                description="Bạn chưa tạo nhắc nhở nào. Hãy thêm nhắc nhở để theo dõi lượng nước hàng ngày của bạn"
                 marginTop={24}
               />
             )}

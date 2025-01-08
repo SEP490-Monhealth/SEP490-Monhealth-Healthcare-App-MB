@@ -9,6 +9,8 @@ import { Header } from "@/components/global/organisms"
 
 import { ListItem } from "@/components/local/tabs/profile"
 
+import { APP } from "@/constants/app"
+
 function ProfileScreen() {
   return (
     <Container>
@@ -38,8 +40,8 @@ function ProfileScreen() {
             />
           ))}
 
-          <Text className="mt-4 text-center font-dmedium text-base text-accent">
-            Version 1.0.0
+          <Text className="mt-4 text-center font-dregular text-base text-accent">
+            Monhealth - Version {APP.version}
           </Text>
         </Card>
         {/* </ScrollArea> */}

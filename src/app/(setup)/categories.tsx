@@ -2,11 +2,11 @@ import React, { useState } from "react"
 
 import { Image, Text, TouchableOpacity, View } from "react-native"
 
-import LoadingScreen from "@/app/loading"
-
 import { ScrollArea } from "@/components/global/atoms"
 
 import { sampleCategoriesData } from "@/constants/categories"
+
+import { LoadingScreen } from "../loading"
 
 function SetupCategories() {
   const categoriesData = sampleCategoriesData

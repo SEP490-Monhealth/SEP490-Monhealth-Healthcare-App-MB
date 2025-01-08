@@ -32,7 +32,7 @@ import { getAllFoods } from "@/services/foodService"
 
 import { getMealType } from "@/utils/helpers"
 
-import LoadingScreen from "../loading"
+import { LoadingScreen } from "../loading"
 
 function FoodsScreen() {
   const router = useRouter()

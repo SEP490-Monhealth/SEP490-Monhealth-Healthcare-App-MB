@@ -19,7 +19,7 @@ import {
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import LoadingScreen from "../loading"
+import { LoadingScreen } from "../loading"
 
 function HomeScreen() {
   const { user } = useAuth()

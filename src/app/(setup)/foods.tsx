@@ -1,10 +1,10 @@
 import React, { useState } from "react"
 
-import LoadingScreen from "@/app/loading"
-
 import { Chip, Container, ScrollArea } from "@/components/global/atoms"
 
 import { useGetFoodsByCategory } from "@/hooks/useFood"
+
+import { LoadingScreen } from "../loading"
 
 function SetupInterestFoods() {
   const { data: foodsData, isLoading } = useGetFoodsByCategory("Hải Sản", 1, 10)

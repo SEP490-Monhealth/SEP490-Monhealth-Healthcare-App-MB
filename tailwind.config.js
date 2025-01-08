@@ -28,14 +28,22 @@ module.exports = {
         border: {
           DEFAULT: "#E2E8F0" // Slate 200
         },
-        typography: {
-          DEFAULT: "#334155", // Slate 700
-          primary: "#94A3B8", // Slate 400
-          foreground: "#FFF" // White
-        },
         destructive: {
           DEFAULT: "#EF4444", // Red 500
           foreground: "#FEE2E2" // Red 100
+        },
+        bmi: {
+          underweight: "#3B82F6", // Blue 500
+          normal: "#22C55E", // Green 500
+          overweight: "#EAB308", // Yellow 500
+          obese: "#EF4444" // Red 500
+        },
+        nutrition: {
+          protein: "#EAB308", // Yellow 500
+          carbs: "#A855F7", // Purple 500
+          fat: "#EF4444", // Red 500
+          fiber: "#F97316", // Orange 500
+          sugar: "#60A5FA" // Blue 400
         }
       },
       fontFamily: {
