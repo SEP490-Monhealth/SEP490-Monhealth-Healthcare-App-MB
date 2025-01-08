@@ -170,7 +170,6 @@ export const parsePortion = (value: string, quantity: string) => {
  * @param timeString - Chuỗi thời gian theo định dạng "HH:mm".
  * @returns {Date} - Đối tượng Date với thời gian được đặt theo giờ và phút đã cho.
  */
-
 export const convertTimeStringToDate = (timeString: string): Date => {
   const [hours, minutes] = timeString.split(":").map(Number)
   const date = new Date()

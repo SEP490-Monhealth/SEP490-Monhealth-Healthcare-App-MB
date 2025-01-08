@@ -33,6 +33,7 @@ export const MealCard = ({
       <HStack gap={16} center>
         <TouchableOpacity
           activeOpacity={1}
+          onPress={onPress}
           className="flex h-12 w-12 items-center justify-center rounded-full bg-muted"
         >
           <Image
