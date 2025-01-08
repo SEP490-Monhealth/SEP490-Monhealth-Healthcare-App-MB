@@ -19,7 +19,8 @@ import {
   activityLevelMetricSchema,
   dateOfBirthMetricSchema,
   genderMetricSchema,
-  heightWeightMetricSchema
+  heightWeightMetricSchema,
+  weightGoalSchema
 } from "@/schemas/metricSchema"
 
 import { useSetupStore } from "@/stores/setupStore"
@@ -28,8 +29,9 @@ import SetupActivityLevel from "./activity-level"
 import SetupInterestCategories from "./categories"
 import SetupDateOfBirth from "./date-of-birth"
 import SetupGender from "./gender"
-import SetupGoal from "./goal"
+import SetupGoalType from "./goal"
 import SetupHeightWeight from "./height-weight"
+import SetupWeightGoal from "./weight-goal"
 
 function SetupScreen() {
   const router = useRouter()
@@ -43,7 +45,8 @@ function SetupScreen() {
     height,
     weight,
     activityLevel,
-    goal,
+    goalType,
+    weightGoal,
     categories,
     updateField
   } = useSetupStore()
@@ -57,7 +60,8 @@ function SetupScreen() {
     height,
     weight,
     activityLevel,
-    goal,
+    goalType,
+    weightGoal,
     categories
   }
 
@@ -101,8 +105,8 @@ function SetupScreen() {
       step: 5,
       title: "Mục tiêu",
       description: "Chọn mục tiêu sức khỏe của bạn để bắt đầu",
-      component: SetupGoal,
-      fields: ["goal"],
+      component: SetupGoalType,
+      fields: ["goalType"],
       schema: typeGoalSchema
     },
     {
@@ -112,15 +116,15 @@ function SetupScreen() {
       component: SetupInterestCategories,
       fields: ["categories"],
       schema: nameCategorySchema
+    },
+    {
+      step: 7,
+      title: "Món ăn yêu thích",
+      description: "Chọn các món ăn bạn yêu thích để chúng tôi gợi ý phù hợp",
+      component: SetupWeightGoal,
+      fields: ["weightGoal"],
+      schema: weightGoalSchema
     }
-    // {
-    //   step: 7,
-    //   title: "Món ăn yêu thích",
-    //   description: "Chọn các món ăn bạn yêu thích để chúng tôi gợi ý phù hợp",
-    //   component: SetupInterestFoods,
-    //   fields: ["interestFoods"],
-    //   schema: ,
-    // }
   ]
 
   const currentStepData = setupSteps.find((step) => step.step === currentStep)

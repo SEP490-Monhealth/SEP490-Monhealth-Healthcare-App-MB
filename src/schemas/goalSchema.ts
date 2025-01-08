@@ -102,7 +102,7 @@ export const createGoalSchema = baseGoalSchema.pick({
 })
 
 export const typeGoalSchema = z.object({
-  goal: z
+  goalType: z
     .string()
     .refine(
       (val) => ["WeightLoss", "MaintainWeight", "WeightGain"].includes(val),

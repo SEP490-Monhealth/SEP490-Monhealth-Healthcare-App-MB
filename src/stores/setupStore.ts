@@ -6,7 +6,8 @@ interface SetupState {
   height: number
   weight: number
   activityLevel: 1.2 | 1.375 | 1.55 | 1.725 | 1.9
-  goal: string
+  goalType: string
+  weightGoal: number
   categories: string[]
   updateField: (field: string, value: any) => void
   reset: () => void
@@ -18,7 +19,8 @@ export const useSetupStore = create<SetupState>((set) => ({
   height: 0,
   weight: 0,
   activityLevel: 1.2,
-  goal: "WeightLoss",
+  goalType: "WeightLoss",
+  weightGoal: 0,
   categories: [],
 
   updateField: (key, value) =>
@@ -34,7 +36,8 @@ export const useSetupStore = create<SetupState>((set) => ({
       height: 0,
       weight: 0,
       activityLevel: 1.2,
-      goal: "WeightLoss",
+      goalType: "WeightLoss",
+      weightGoal: 0,
       categories: []
     })
 }))

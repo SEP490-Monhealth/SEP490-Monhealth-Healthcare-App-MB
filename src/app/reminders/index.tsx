@@ -82,11 +82,13 @@ function ReminderScreen() {
     if (selectedReminder) {
       updateReminderStatus(selectedReminder)
     }
+
     closeReminderSheet()
   }
 
   const handleDeleteReminder = () => {
     closeReminderSheet()
+
     Alert.alert(
       "Xác nhận xóa",
       "Bạn có chắc chắn muốn xóa nhắc nhở?",

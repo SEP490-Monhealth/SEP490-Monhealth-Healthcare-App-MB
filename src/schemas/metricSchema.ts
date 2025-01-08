@@ -39,6 +39,7 @@ const baseMetricSchema = z.object({
     message:
       "Hệ số hoạt động không hợp lệ. Các giá trị hợp lệ: 1.2, 1.375, 1.55, 1.725, 1.9"
   }),
+
   goalType: z
     .string()
     .refine(
@@ -76,9 +77,22 @@ const baseMetricSchema = z.object({
   updatedBy: z.string()
 })
 
-export const metricSchema = baseMetricSchema.omit({
-  goalType: true,
-  weightGoal: true
+const metricSchema = baseMetricSchema.pick({
+  metricId: true,
+  userId: true,
+  dateOfBirth: true,
+  gender: true,
+  height: true,
+  weight: true,
+  activityLevel: true,
+  bmi: true,
+  bmr: true,
+  tdee: true,
+  ibw: true,
+  createdAt: true,
+  updatedAt: true,
+  createdBy: true,
+  updatedBy: true
 })
 
 export const createMetricSchema = baseMetricSchema.pick({
@@ -90,14 +104,6 @@ export const createMetricSchema = baseMetricSchema.pick({
   activityLevel: true,
   goalType: true,
   weightGoal: true
-})
-
-export const updateMetricSchema = baseMetricSchema.pick({
-  dateOfBirth: true,
-  gender: true,
-  height: true,
-  weight: true,
-  activityLevel: true
 })
 
 export const dateOfBirthMetricSchema = baseMetricSchema.pick({
@@ -117,6 +123,9 @@ export const activityLevelMetricSchema = baseMetricSchema.pick({
   activityLevel: true
 })
 
+export const weightGoalSchema = baseMetricSchema.pick({
+  weightGoal: true
+})
+
 export type MetricType = z.infer<typeof metricSchema>
 export type CreateMetricType = z.infer<typeof createMetricSchema>
-export type UpdateMetricType = z.infer<typeof updateMetricSchema>

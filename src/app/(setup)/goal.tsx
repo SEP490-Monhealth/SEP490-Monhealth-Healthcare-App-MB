@@ -29,12 +29,12 @@ const goalsData = [
   }
 ]
 
-interface SetupGoalProps {
+interface SetupGoalTypeProps {
   control: Control<FieldValues>
   errors: any
 }
 
-function SetupGoal({ control, errors }: SetupGoalProps) {
+function SetupGoalType({ control, errors }: SetupGoalTypeProps) {
   const { field } = useController({
     name: "goal",
     control
@@ -78,4 +78,4 @@ function SetupGoal({ control, errors }: SetupGoalProps) {
   )
 }
 
-export default SetupGoal
+export default SetupGoalType

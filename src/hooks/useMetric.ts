@@ -3,17 +3,12 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useDialog } from "@/contexts/DialogContext"
 import { useError } from "@/contexts/ErrorContext"
 
-import {
-  CreateMetricType,
-  MetricType,
-  UpdateMetricType
-} from "@/schemas/metricSchema"
+import { CreateMetricType, MetricType } from "@/schemas/metricSchema"
 
 import {
   createMetric,
   getMetricById,
-  getMetricsByUserId,
-  updateMetric
+  getMetricsByUserId
 } from "@/services/metricService"
 
 export const useGetMetricsByUserId = (metricId: string | undefined) => {
@@ -67,31 +62,6 @@ export const useCreateMetric = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["metrics"] })
-    }
-  })
-}
-
-export const useUpdateMetric = () => {
-  const queryClient = useQueryClient()
-  const handleError = useError()
-  const { showDialog } = useDialog()
-
-  return useMutation<
-    string,
-    Error,
-    { metricId: string; metric: UpdateMetricType }
-  >({
-    mutationFn: async ({ metricId, metric }) => {
-      try {
-        return await updateMetric(metricId, metric, showDialog)
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
-    },
-    onSuccess: (_data, { metricId }) => {
-      queryClient.invalidateQueries({ queryKey: ["metric", metricId] })
       queryClient.invalidateQueries({ queryKey: ["metrics"] })
     }
   })

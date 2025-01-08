@@ -41,7 +41,7 @@ function SetupDateOfBirth({
   const errorMessage = get(errors, "dateOfBirth.message", null)
 
   return (
-    <VStack gap={12} center>
+    <VStack center gap={12}>
       <DateTimePicker
         value={new Date(field.value || Date.now())}
         mode="date"
