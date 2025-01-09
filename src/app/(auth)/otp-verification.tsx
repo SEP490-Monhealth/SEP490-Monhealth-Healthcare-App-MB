@@ -40,7 +40,7 @@ function OTPVerificationScreen() {
   }
 
   const handleBack = () => {
-    router.push("/(auth)/forgot-password")
+    router.back()
   }
 
   const handleSubmit = () => {

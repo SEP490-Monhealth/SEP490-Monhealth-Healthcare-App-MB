@@ -53,7 +53,7 @@ function SignUpScreen() {
   })
 
   const handleBack = () => {
-    router.push("/(onboarding)/welcome")
+    router.back()
   }
 
   const handleSignIn = () => {

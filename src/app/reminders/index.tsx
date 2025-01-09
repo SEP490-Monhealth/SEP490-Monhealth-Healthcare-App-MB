@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react"
 
-import { Alert, SafeAreaView, View } from "react-native"
+import { SafeAreaView, View } from "react-native"
 import { FlatList } from "react-native"
 
 import { router } from "expo-router"
@@ -41,8 +41,6 @@ function ReminderScreen() {
   const WaterSheetRef = useRef<SheetRefProps>(null)
   const { handleViewReminder } = useRouterHandlers()
 
-  const [isDialogVisible, setDialogVisible] = useState(false)
-
   const { user } = useAuth()
   const userId = user?.userId
 
@@ -52,8 +50,10 @@ function ReminderScreen() {
     refetch
   } = useGetReminderByUserId(userId)
 
-  const { mutate: deleteReminder } = useDeleteReminder()
   const { mutate: updateReminderStatus } = useUpdateReminderStatus()
+  const { mutate: deleteReminder } = useDeleteReminder()
+
+  const [showDialog, setShowDialog] = useState(false)
 
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [selectedReminder, setSelectedReminder] = useState<string>("")
@@ -78,7 +78,7 @@ function ReminderScreen() {
   const handleDelete = () => {
     if (selectedReminder) {
       deleteReminder(selectedReminder)
-      setDialogVisible(false)
+      setShowDialog(false)
     }
   }
 
@@ -92,7 +92,7 @@ function ReminderScreen() {
 
   const handleDeleteReminder = () => {
     closeReminderSheet()
-    setDialogVisible(true)
+    setShowDialog(true)
   }
 
   const handleUpdateReminderWrapper = () => {
@@ -188,10 +188,10 @@ function ReminderScreen() {
       </Sheet>
 
       <Dialog
-        isVisible={isDialogVisible}
-        onClose={() => setDialogVisible(false)}
-        title="Xác nhận xóa"
-        description="Bạn có chắc chắn muốn xóa nhắc nhở?"
+        isVisible={showDialog}
+        onClose={() => setShowDialog(false)}
+        title="Xóa nhắc nhở"
+        description="Bạn có chắc chắn muốn xóa nhắc nhở này không?"
         confirmText="Xóa"
         cancelText="Hủy"
         onConfirm={handleDelete}

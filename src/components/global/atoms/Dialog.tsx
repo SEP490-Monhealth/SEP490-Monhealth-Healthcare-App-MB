@@ -53,7 +53,7 @@ export const Dialog = ({
       animationOut="fadeOut"
       isVisible={isVisible}
       onBackdropPress={onClose}
-      className="px-6"
+      className="px-4"
     >
       <VStack className="rounded-2xl bg-white p-6">
         <View>

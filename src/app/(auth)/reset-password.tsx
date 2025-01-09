@@ -40,7 +40,7 @@ function ForgotPasswordScreen() {
   })
 
   const handleBack = () => {
-    router.push("/(auth)/forgot-password")
+    router.back()
   }
 
   const onSubmit = (data: ResetPasswordType) => {

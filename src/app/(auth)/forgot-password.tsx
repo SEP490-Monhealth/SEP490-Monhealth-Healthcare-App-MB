@@ -36,7 +36,7 @@ function ForgotPasswordScreen() {
   })
 
   const handleBack = () => {
-    router.push("/(auth)/sign-in")
+    router.back()
   }
 
   const onSubmit = (data: PhoneNumberType) => {

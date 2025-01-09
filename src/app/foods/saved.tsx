@@ -24,7 +24,7 @@ function FoodSavedScreen() {
   const { saveFoodsData, clearFoodSaved } = useSaveFoods()
 
   const [isRefreshing, setIsRefreshing] = useState(false)
-  const [isDialogVisible, setDialogVisible] = useState(false)
+  const [isShowDialog, setShowDialog] = useState(false)
 
   const onRefresh = async () => {
     setIsRefreshing(true)
@@ -34,7 +34,7 @@ function FoodSavedScreen() {
   }
 
   const handleClearSavedFood = () => {
-    setDialogVisible(true)
+    setShowDialog(true)
   }
 
   return (
@@ -95,10 +95,10 @@ function FoodSavedScreen() {
       </Container>
 
       <Dialog
-        isVisible={isDialogVisible}
-        onClose={() => setDialogVisible(false)}
-        title="Xác nhận xóa"
-        description="Bạn có chắc chắn muốn xóa món ăn?"
+        isVisible={isShowDialog}
+        onClose={() => setShowDialog(false)}
+        title="Xóa món ăn đã lưu"
+        description="Bạn có chắc chắn muốn xóa tất cả món ăn đã lưu không?"
         confirmText="Xóa"
         cancelText="Hủy"
         onConfirm={clearFoodSaved}

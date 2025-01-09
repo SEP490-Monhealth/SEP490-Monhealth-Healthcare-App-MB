@@ -38,8 +38,8 @@ export const ListItem = ({
 
   const handleLogout = async () => {
     await logout()
-    router.replace("/(auth)/sign-in")
     setDialogVisible(false)
+    router.replace("/(auth)/sign-in")
   }
 
   const handlePress = () => {

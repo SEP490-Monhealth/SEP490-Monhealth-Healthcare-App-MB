@@ -43,15 +43,15 @@ function SignInScreen() {
   })
 
   const handleBack = () => {
-    router.replace("/(onboarding)/welcome")
+    router.back()
   }
 
   const handleSignUp = () => {
-    router.replace("/(auth)/sign-up")
+    router.push("/(auth)/sign-up")
   }
 
   const handleForgotPassword = () => {
-    router.replace("/(auth)/forgot-password")
+    router.push("/(auth)/forgot-password")
   }
 
   const onSubmit = async (loginData: LoginType) => {
