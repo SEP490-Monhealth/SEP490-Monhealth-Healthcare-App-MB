@@ -26,7 +26,7 @@ export const NutritionFacts = ({
   const nutritionItems = [
     {
       label: "Năng lượng (Calories)",
-      value: toFixed(nutritionData.calories, 0),
+      value: calculateValue(nutritionData.calories),
       unit: "kcal"
     },
     {

@@ -70,8 +70,8 @@ function ReminderCreateScreen() {
     }
   }
 
-  const onSubmit = (data: CreateReminderType) => {
-    const finalData = { ...data, userId }
+  const onSubmit = (newReminderData: CreateReminderType) => {
+    const finalData = { ...newReminderData, userId }
 
     // console.log(JSON.stringify(finalData, null, 2))
 

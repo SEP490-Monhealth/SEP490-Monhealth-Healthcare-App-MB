@@ -72,7 +72,7 @@ function FoodsScreen() {
         search,
         "Public",
         category === "Tất cả" ? "" : category,
-        false,
+        true,
         true
       )
 
@@ -210,6 +210,10 @@ function FoodsScreen() {
             onEndReachedThreshold={0.1}
             showsVerticalScrollIndicator={false}
             stickyHeaderIndices={[0]}
+            initialNumToRender={10}
+            maxToRenderPerBatch={5}
+            windowSize={5}
+            removeClippedSubviews
             ListHeaderComponent={ListHeaderComponent}
             renderItem={({ item }) => (
               <FoodCard
@@ -235,7 +239,6 @@ function FoodsScreen() {
                     height: 320
                   }}
                 />
-
                 <VStack>
                   <Text className="text-center font-tbold text-3xl text-primary">
                     Không có món ăn nào được tìm thấy
@@ -258,7 +261,6 @@ function FoodsScreen() {
                 <ListFooter />
               )
             }
-            // contentContainerClassName="min-h-full"
             ItemSeparatorComponent={() => <View className="h-3" />}
           />
         </VStack>

@@ -4,6 +4,7 @@ import {
   Dimensions,
   Keyboard,
   SafeAreaView,
+  Text,
   TouchableWithoutFeedback,
   View
 } from "react-native"
@@ -225,9 +226,14 @@ function FoodDetailsScreen() {
             <ScrollArea className="flex-1">
               <View onStartShouldSetResponder={() => true} className="pb-40">
                 <VStack>
+                  <Section label="Mô tả" margin={false} />
+
+                  <Text className="-mt-2 font-tregular text-base text-secondary">
+                    {foodData.description}
+                  </Text>
+
                   <Section
                     label="Khẩu phần ăn"
-                    margin={false}
                     action="Thêm mới"
                     onPress={handleCreatePortion}
                   />

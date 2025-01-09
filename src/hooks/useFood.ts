@@ -141,9 +141,9 @@ export const useCreateFood = () => {
   const { showDialog } = useDialog()
 
   return useMutation<string, Error, CreateFoodType>({
-    mutationFn: async (data) => {
+    mutationFn: async (food) => {
       try {
-        return await createFood(data, showDialog)
+        return await createFood(food, showDialog)
       } catch (error) {
         handleError(error)
         throw error

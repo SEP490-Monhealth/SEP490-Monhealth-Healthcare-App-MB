@@ -172,7 +172,7 @@ function ReminderScreen() {
         </Content>
       </View>
 
-      <Sheet ref={WaterSheetRef} dynamicHeight={210}>
+      <Sheet ref={WaterSheetRef} dynamicHeight={240}>
         <SheetSelect
           label={selectedReminderStatus ? "Tắt nhắc nhở" : "Bật nhắc nhở"}
           icon={
@@ -194,7 +194,7 @@ function ReminderScreen() {
         <SheetSelect
           variant="danger"
           label="Xóa"
-          icon={<Trash variant="Bold" size={24} color="#ef4444" />}
+          icon={<Trash variant="Bold" size={24} color={COLORS.destructive} />}
           onPress={handleDeleteReminder}
         />
       </Sheet>

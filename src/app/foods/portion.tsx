@@ -138,7 +138,7 @@ function FoodPortion({ control, errors, setValue }: FoodPortionProps) {
         </VStack>
       </VStack>
 
-      <Sheet ref={SheetRef}>
+      <Sheet ref={SheetRef} dynamicHeight={300}>
         {portionSizesData.map((portion) => (
           <SheetItem
             key={portion.value}

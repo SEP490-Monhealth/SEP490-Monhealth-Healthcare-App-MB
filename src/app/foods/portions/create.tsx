@@ -28,10 +28,13 @@ import { Header } from "@/components/global/organisms"
 import { DATA } from "@/constants/app"
 
 import { useCreatePortion } from "@/hooks/usePortion"
+import { useRouterHandlers } from "@/hooks/useRouter"
 
 import { CreatePortionType, createPortionSchema } from "@/schemas/portionSchema"
 
 function PortionCreateScreen() {
+  const { handleViewFood } = useRouterHandlers()
+
   const { foodId } = useLocalSearchParams() as { foodId: string }
 
   const { mutate: createPortion } = useCreatePortion()
@@ -70,10 +73,14 @@ function PortionCreateScreen() {
     closeSheet()
   }
 
-  const onSubmit = (data: CreatePortionType) => {
-    console.log("Submitted Data:", JSON.stringify(data, null, 2))
+  const onSubmit = (newPortionData: CreatePortionType) => {
+    console.log("Submitted Data:", JSON.stringify(newPortionData, null, 2))
 
-    createPortion(data)
+    createPortion(newPortionData, {
+      onSuccess: () => {
+        handleViewFood(foodId)
+      }
+    })
   }
 
   return (

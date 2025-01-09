@@ -23,6 +23,7 @@ export const COLORS = {
   primary: "#334155",
   secondary: "#64748b",
   accent: "#94a3b8",
+  destructive: "#ef4444",
 
   lemon: "#eab308",
   water: "#3b82f6",

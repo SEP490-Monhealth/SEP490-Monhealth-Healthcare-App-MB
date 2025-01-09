@@ -1,14 +1,29 @@
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
 
-import { FlatList, View } from "react-native"
+import {
+  FlatList,
+  Keyboard,
+  SafeAreaView,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View
+} from "react-native"
+import { Swipeable } from "react-native-gesture-handler"
 
 import { useLocalSearchParams } from "expo-router"
 
 import { LoadingOverlay, LoadingScreen } from "@/app/loading"
 import { useIsFetching, useIsMutating } from "@tanstack/react-query"
-import { Add } from "iconsax-react-native"
+import { Add, Edit2, Minus, Trash } from "iconsax-react-native"
+import { MoreHorizontal } from "lucide-react-native"
 
-import { Container, Content } from "@/components/global/atoms"
+import {
+  Container,
+  Content,
+  Sheet,
+  SheetRefProps,
+  SheetSelect
+} from "@/components/global/atoms"
 import {
   ArcProgress,
   FoodCard,
@@ -35,6 +50,7 @@ import { getMealTypeName } from "@/utils/helpers"
 
 function MealDetailsScreen() {
   const { handleViewFood } = useRouterHandlers()
+  const SheetRef = useRef<SheetRefProps>(null)
 
   const { user } = useAuth()
   const userId = user?.userId
@@ -47,7 +63,10 @@ function MealDetailsScreen() {
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()
 
-  const [isRefreshing, setIsRefreshing] = useState(false)
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
+  const [currentMealFoodId, setCurrentMealFoodId] = useState<string | null>(
+    null
+  )
 
   const {
     data: mealData,
@@ -87,67 +106,154 @@ function MealDetailsScreen() {
     updateMealFoodStatus({ mealFoodId, mealId, userId, date })
   }
 
+  const openSheet = () => {
+    SheetRef.current?.scrollTo(-240)
+  }
+
+  const closeSheet = () => {
+    SheetRef.current?.scrollTo(0)
+  }
+
+  const handleMoreMealFood = (mealFoodId: string) => {
+    console.log("More actions for food ID:", mealFoodId)
+    setCurrentMealFoodId(mealFoodId)
+    openSheet()
+  }
+
+  const handleIncreaseQuantity = (mealFoodId: string) => {
+    console.log(`Increase quantity for food ID: ${mealFoodId}`)
+    // Logic để tăng số lượng
+  }
+
+  const handleDecreaseQuantity = (mealFoodId: string) => {
+    console.log(`Decrease quantity for food ID: ${mealFoodId}`)
+    // Logic để giảm số lượng
+  }
+
+  const handleDeleteMealFood = (mealFoodId: string) => {
+    console.log(`Delete food with ID: ${mealFoodId}`)
+    // Logic để xóa món ăn
+  }
+
+  const mealFoodOptions = (mealFoodId: string) => [
+    {
+      label: "Tăng số lượng",
+      icon: <Add size={24} color={COLORS.primary} />,
+      onPress: () => handleIncreaseQuantity(mealFoodId)
+    },
+    {
+      label: "Giảm số lượng",
+      icon: <Minus size={24} color={COLORS.primary} />,
+      onPress: () => handleDecreaseQuantity(mealFoodId)
+    },
+    {
+      label: "Xóa món ăn",
+      icon: <Trash variant="Bold" size={24} color={COLORS.destructive} />,
+      onPress: () => handleDeleteMealFood(mealFoodId)
+    }
+  ]
+
+  const renderRightActions = (mealFoodId: string) => {
+    return (
+      <TouchableOpacity
+        activeOpacity={1}
+        onPress={() => handleMoreMealFood(mealFoodId)}
+        className="h-full w-20 items-center justify-center rounded-2xl border border-border bg-primary"
+      >
+        <MoreHorizontal size={24} color="white" />
+      </TouchableOpacity>
+    )
+  }
+
   return (
-    <Container>
-      <LoadingOverlay visible={isFetching > 0 || isMutating > 0} />
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <SafeAreaView className="flex-1 bg-background">
+        <Container>
+          <LoadingOverlay visible={isFetching > 0 || isMutating > 0} />
 
-      <Header
-        back
-        label={getMealTypeName(mealType)}
-        action={{
-          icon: <Add size={24} color={COLORS.primary} />,
-          href: `/foods`
-        }}
-      />
+          <Header
+            back
+            label={getMealTypeName(mealType)}
+            action={{
+              icon: <Add size={24} color={COLORS.primary} />,
+              href: `/foods`
+            }}
+          />
 
-      <Content className="mt-2">
-        <FlatList
-          data={mealFoodsData || []}
-          keyExtractor={(item, index) => `${item.foodId}-${index}`}
-          onRefresh={onRefresh}
-          refreshing={isRefreshing}
-          showsVerticalScrollIndicator={false}
-          ListHeaderComponent={() => (
-            <ListHeader>
-              <ArcProgress
-                size={240}
-                width={14}
-                fill={progress}
-                prefill={prefillReady}
-                arcSweepAngle={260}
-                rotation={230}
-                centerCircle
-                value={calorieValue}
-                maxValue={calorieGoal}
-                label="kcal"
-              />
+          <Content className="mt-2">
+            <FlatList
+              data={mealFoodsData || []}
+              keyExtractor={(item, index) => `${item.foodId}-${index}`}
+              onRefresh={onRefresh}
+              refreshing={isRefreshing}
+              showsVerticalScrollIndicator={false}
+              initialNumToRender={10}
+              maxToRenderPerBatch={5}
+              windowSize={5}
+              removeClippedSubviews
+              ListHeaderComponent={() => (
+                <ListHeader>
+                  <ArcProgress
+                    size={240}
+                    width={14}
+                    fill={progress}
+                    prefill={prefillReady}
+                    arcSweepAngle={260}
+                    rotation={230}
+                    centerCircle
+                    value={calorieValue}
+                    maxValue={calorieGoal}
+                    label="kcal"
+                  />
 
-              <NutritionSummary nutritionData={mealData.nutrition} />
+                  <NutritionSummary nutritionData={mealData.nutrition} />
 
-              <Section label="Chi tiết bữa ăn" />
-            </ListHeader>
-          )}
-          renderItem={({ item }) => (
-            <FoodCard
-              variant="checkbox"
-              name={item.name}
-              calories={item.nutrition?.calories}
-              quantity={item.quantity}
-              size={item.portion?.size}
-              weight={item.portion?.weight}
-              unit={item.portion?.unit}
-              status={item.status}
-              onPress={() => handleViewFood(item.foodId)}
-              onStatusPress={() => {
-                handleViewMealFood(item.mealFoodId)
-              }}
+                  <Section label="Chi tiết bữa ăn" />
+                </ListHeader>
+              )}
+              renderItem={({ item }) => (
+                <Swipeable
+                  renderRightActions={() => renderRightActions(item.mealFoodId)}
+                  overshootRight={false}
+                  overshootLeft={false}
+                  rightThreshold={40}
+                  friction={3}
+                >
+                  <FoodCard
+                    variant="checkbox"
+                    name={item.name}
+                    calories={item.nutrition?.calories}
+                    quantity={item.quantity}
+                    size={item.portion?.size}
+                    weight={item.portion?.weight}
+                    unit={item.portion?.unit}
+                    status={item.status}
+                    onPress={() => handleViewFood(item.foodId)}
+                    onStatusPress={() => {
+                      handleViewMealFood(item.mealFoodId)
+                    }}
+                  />
+                </Swipeable>
+              )}
+              ListFooterComponent={<ListFooter />}
+              ItemSeparatorComponent={() => <View className="h-3" />}
             />
-          )}
-          ListFooterComponent={<ListFooter />}
-          ItemSeparatorComponent={() => <View className="h-3" />}
-        />
-      </Content>
-    </Container>
+          </Content>
+        </Container>
+
+        <Sheet ref={SheetRef} dynamicHeight={240}>
+          {currentMealFoodId &&
+            mealFoodOptions(currentMealFoodId).map((option, index) => (
+              <SheetSelect
+                key={index}
+                label={option.label}
+                icon={option.icon}
+                onPress={option.onPress}
+              />
+            ))}
+        </Sheet>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   )
 }
 

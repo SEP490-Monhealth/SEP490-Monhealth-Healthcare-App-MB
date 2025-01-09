@@ -60,12 +60,17 @@ function SignUpScreen() {
     router.replace("/(auth)/sign-in")
   }
 
-  const onSubmit = async (data: RegisterType) => {
+  const onSubmit = async (registerData: RegisterType) => {
     setIsLoading(true)
-    // console.log(data)
+    // console.log(registerData)
 
     try {
-      await register(data.fullName, data.phoneNumber, data.email, data.password)
+      await register(
+        registerData.fullName,
+        registerData.phoneNumber,
+        registerData.email,
+        registerData.password
+      )
       router.replace("/(auth)/login")
     } catch (error: any) {
       console.log("Lỗi khi đăng ký:", error.response?.data || error.message)

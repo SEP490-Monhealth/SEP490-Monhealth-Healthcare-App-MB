@@ -39,6 +39,7 @@ export const foodSchema = baseFoodSchema.pick({
   type: true,
   category: true,
   name: true,
+  description: true,
   portion: true,
   nutrition: true,
   status: true,

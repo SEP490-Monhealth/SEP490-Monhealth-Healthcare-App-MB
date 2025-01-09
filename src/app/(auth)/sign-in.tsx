@@ -54,12 +54,12 @@ function SignInScreen() {
     router.replace("/(auth)/forgot-password")
   }
 
-  const onSubmit = async (data: LoginType) => {
+  const onSubmit = async (loginData: LoginType) => {
     setIsLoading(true)
-    // console.log(data)
+    // console.log(loginData)
 
     try {
-      await login(data.phoneNumber, data.password)
+      await login(loginData.phoneNumber, loginData.password)
       router.replace("/(tabs)/home")
     } catch (error: any) {
       console.log("Lỗi khi đăng nhập:", error.response?.data || error.message)
