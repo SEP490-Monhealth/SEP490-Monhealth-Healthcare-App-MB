@@ -9,6 +9,7 @@ import { Add, Edit2, Notification, Trash } from "iconsax-react-native"
 
 import {
   Content,
+  Dialog,
   Sheet,
   SheetRefProps,
   SheetSelect
@@ -39,6 +40,8 @@ import { LoadingScreen } from "../loading"
 function ReminderScreen() {
   const WaterSheetRef = useRef<SheetRefProps>(null)
   const { handleViewReminder } = useRouterHandlers()
+
+  const [isDialogVisible, setDialogVisible] = useState(false)
 
   const { user } = useAuth()
   const userId = user?.userId
@@ -75,6 +78,7 @@ function ReminderScreen() {
   const handleDelete = () => {
     if (selectedReminder) {
       deleteReminder(selectedReminder)
+      setDialogVisible(false)
     }
   }
 
@@ -88,23 +92,7 @@ function ReminderScreen() {
 
   const handleDeleteReminder = () => {
     closeReminderSheet()
-
-    Alert.alert(
-      "Xác nhận xóa",
-      "Bạn có chắc chắn muốn xóa nhắc nhở?",
-      [
-        {
-          text: "Hủy",
-          style: "cancel"
-        },
-        {
-          text: "Xóa",
-          onPress: handleDelete,
-          style: "destructive"
-        }
-      ],
-      { cancelable: true }
-    )
+    setDialogVisible(true)
   }
 
   const handleUpdateReminderWrapper = () => {
@@ -198,6 +186,16 @@ function ReminderScreen() {
           onPress={handleDeleteReminder}
         />
       </Sheet>
+
+      <Dialog
+        isVisible={isDialogVisible}
+        onClose={() => setDialogVisible(false)}
+        title="Xác nhận xóa"
+        description="Bạn có chắc chắn muốn xóa nhắc nhở?"
+        confirmText="Xóa"
+        cancelText="Hủy"
+        onConfirm={handleDelete}
+      />
     </SafeAreaView>
   )
 }

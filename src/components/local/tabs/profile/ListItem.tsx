@@ -1,10 +1,12 @@
-import React from "react"
+import React, { useState } from "react"
 
-import { Alert, Text, TouchableOpacity, View } from "react-native"
+import { Text, TouchableOpacity, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
 import { ChevronRight } from "lucide-react-native"
+
+import { Dialog } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/app"
 
@@ -32,22 +34,21 @@ export const ListItem = ({
   const router = useRouter()
   const { logout } = useAuth()
 
+  const [isDialogVisible, setDialogVisible] = useState(false)
+
+  const handleLogout = async () => {
+    await logout()
+    router.replace("/(auth)/sign-in")
+    setDialogVisible(false)
+  }
+
   const handlePress = () => {
     onPress?.()
 
     if (action) {
       switch (action) {
         case "logout":
-          Alert.alert("Đăng xuất", "Bạn có chắc chắn muốn đăng xuất không?", [
-            { text: "Hủy", style: "cancel" },
-            {
-              text: "Đồng ý",
-              onPress: async () => {
-                await logout()
-                router.replace("/(auth)/sign-in")
-              }
-            }
-          ])
+          setDialogVisible(true)
           break
         default:
           console.log(`Unhandled action: ${action}`)
@@ -59,21 +60,35 @@ export const ListItem = ({
   }
 
   return (
-    <TouchableOpacity
-      activeOpacity={0.7}
-      className="flex-row items-center justify-between border-b border-border py-4"
-      onPress={handlePress}
-    >
-      <View className="flex-row items-center">
-        {startIcon && <View className="mr-4">{startIcon}</View>}
-        <Text className="font-tmedium text-base text-primary">{label}</Text>
-      </View>
+    <>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        className="flex-row items-center justify-between border-b border-border py-4"
+        onPress={handlePress}
+      >
+        <View className="flex-row items-center">
+          {startIcon && <View className="mr-4">{startIcon}</View>}
+          <Text className="font-tmedium text-base text-primary">{label}</Text>
+        </View>
 
-      {endIcon ? (
-        <View>{endIcon}</View>
-      ) : (
-        !action && more && <ChevronRight size={20} color={COLORS.secondary} />
+        {endIcon ? (
+          <View>{endIcon}</View>
+        ) : (
+          !action && more && <ChevronRight size={20} color={COLORS.secondary} />
+        )}
+      </TouchableOpacity>
+
+      {action === "logout" && (
+        <Dialog
+          isVisible={isDialogVisible}
+          title="Đăng xuất"
+          description="Bạn có chắc chắn muốn đăng xuất không?"
+          confirmText="Đồng ý"
+          cancelText="Hủy"
+          onConfirm={handleLogout}
+          onClose={() => setDialogVisible(false)}
+        />
       )}
-    </TouchableOpacity>
+    </>
   )
 }
