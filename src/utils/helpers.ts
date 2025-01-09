@@ -176,3 +176,23 @@ export const convertTimeStringToDate = (timeString: string): Date => {
   date.setHours(hours, minutes, 0, 0)
   return date
 }
+
+/**
+ * Tìm kiếm một mục món ăn (`mealFood`) trong danh sách món ăn (`mealFoodsData`) dựa trên `mealFoodId`.
+ *
+ * @param {Array<any>} mealFoodsData - Mảng chứa danh sách các món ăn.
+ * @param {string} mealFoodId - ID của món ăn cần tìm kiếm.
+ * @returns {any | undefined} - Trả về món ăn tìm thấy hoặc `undefined` nếu không tồn tại.
+ *
+ * @example
+ * const mealFoodsData = [
+ *   { mealFoodId: "1", name: "Apple" },
+ *   { mealFoodId: "2", name: "Banana" }
+ * ];
+ *
+ * const result = findMealFoodById(mealFoodsData, "1");
+ * console.log(result); // { mealFoodId: "1", name: "Apple" }
+ */
+export const findMealFoodById = (mealFoodsData: any[], mealFoodId: string) => {
+  return mealFoodsData?.find((food) => food.mealFoodId === mealFoodId)
+}

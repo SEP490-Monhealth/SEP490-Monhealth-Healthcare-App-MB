@@ -14,7 +14,7 @@ import { useLocalSearchParams } from "expo-router"
 
 import { LoadingOverlay, LoadingScreen } from "@/app/loading"
 import { useIsFetching, useIsMutating } from "@tanstack/react-query"
-import { Add, Edit2, Minus, Trash } from "iconsax-react-native"
+import { Add, Minus, Trash } from "iconsax-react-native"
 import { MoreHorizontal } from "lucide-react-native"
 
 import {
@@ -41,12 +41,13 @@ import { useAuth } from "@/contexts/AuthContext"
 import {
   useGetMealById,
   useGetMealFoodsByMealId,
+  useUpdateMealFoodQuantity,
   useUpdateMealFoodStatus
 } from "@/hooks/useMeal"
 import { useRouterHandlers } from "@/hooks/useRouter"
 
 import { formatDateYYYYMMDD } from "@/utils/formatters"
-import { getMealTypeName } from "@/utils/helpers"
+import { findMealFoodById, getMealTypeName } from "@/utils/helpers"
 
 function MealDetailsScreen() {
   const { handleViewFood } = useRouterHandlers()
@@ -59,6 +60,7 @@ function MealDetailsScreen() {
   const date = formatDateYYYYMMDD(new Date())
 
   const { mutate: updateMealFoodStatus } = useUpdateMealFoodStatus()
+  const { mutate } = useUpdateMealFoodQuantity()
 
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()
@@ -115,43 +117,61 @@ function MealDetailsScreen() {
   }
 
   const handleMoreMealFood = (mealFoodId: string) => {
-    console.log("More actions for food ID:", mealFoodId)
     setCurrentMealFoodId(mealFoodId)
     openSheet()
   }
 
   const handleIncreaseQuantity = (mealFoodId: string) => {
-    console.log(`Increase quantity for food ID: ${mealFoodId}`)
-    // Logic để tăng số lượng
+    const mealFood = findMealFoodById(mealFoodsData, mealFoodId)
+
+    if (mealFood) {
+      const updatedQuantity = mealFood.quantity + 1
+      mutate({ mealFoodId, quantity: updatedQuantity, mealId })
+    }
   }
 
   const handleDecreaseQuantity = (mealFoodId: string) => {
-    console.log(`Decrease quantity for food ID: ${mealFoodId}`)
-    // Logic để giảm số lượng
+    const mealFood = findMealFoodById(mealFoodsData, mealFoodId)
+    if (mealFood) {
+      const updatedQuantity = mealFood.quantity - 1
+      mutate({ mealFoodId, quantity: updatedQuantity, mealId })
+    }
   }
 
   const handleDeleteMealFood = (mealFoodId: string) => {
-    console.log(`Delete food with ID: ${mealFoodId}`)
-    // Logic để xóa món ăn
+    const mealFood = findMealFoodById(mealFoodsData, mealFoodId)
+
+    if (mealFood) {
+      const updatedQuantity = 0
+      mutate({ mealFoodId, quantity: updatedQuantity, mealId })
+      closeSheet()
+    }
   }
 
-  const mealFoodOptions = (mealFoodId: string) => [
-    {
-      label: "Tăng số lượng",
-      icon: <Add size={24} color={COLORS.primary} />,
-      onPress: () => handleIncreaseQuantity(mealFoodId)
-    },
-    {
-      label: "Giảm số lượng",
-      icon: <Minus size={24} color={COLORS.primary} />,
-      onPress: () => handleDecreaseQuantity(mealFoodId)
-    },
-    {
-      label: "Xóa món ăn",
-      icon: <Trash variant="Bold" size={24} color={COLORS.destructive} />,
-      onPress: () => handleDeleteMealFood(mealFoodId)
-    }
-  ]
+  const mealFoodOptions = (mealFoodId: string) => {
+    const mealFood = findMealFoodById(mealFoodsData, mealFoodId)
+
+    return [
+      {
+        label: "Tăng số lượng",
+        icon: <Add size={24} color={COLORS.primary} />,
+        onPress: () => handleIncreaseQuantity(mealFoodId),
+        disabled: false
+      },
+      {
+        label: "Giảm số lượng",
+        icon: <Minus size={24} color={COLORS.primary} />,
+        onPress: () => handleDecreaseQuantity(mealFoodId),
+        disabled: mealFood?.quantity === 1
+      },
+      {
+        label: "Xóa món ăn",
+        icon: <Trash variant="Bold" size={24} color={COLORS.destructive} />,
+        onPress: () => handleDeleteMealFood(mealFoodId),
+        disabled: false
+      }
+    ]
+  }
 
   const renderRightActions = (mealFoodId: string) => {
     return (
@@ -248,6 +268,7 @@ function MealDetailsScreen() {
                 key={index}
                 label={option.label}
                 icon={option.icon}
+                disabled={option.disabled}
                 onPress={option.onPress}
               />
             ))}

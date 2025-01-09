@@ -101,7 +101,11 @@ export const useUpdateMealFoodQuantity = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
 
-  return useMutation<string, Error, { mealFoodId: string; quantity: number }>({
+  return useMutation<
+    string,
+    Error,
+    { mealFoodId: string; quantity: number; mealId: string }
+  >({
     mutationFn: async ({ mealFoodId, quantity }) => {
       try {
         return await updateMealFood(mealFoodId, quantity)
@@ -111,10 +115,11 @@ export const useUpdateMealFoodQuantity = () => {
       }
     },
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({
-        queryKey: ["mealFoods", variables.mealFoodId]
-      })
+      const { mealId } = variables
+
       queryClient.invalidateQueries({ queryKey: ["meals"] })
+      queryClient.invalidateQueries({ queryKey: ["meal", mealId] })
+      queryClient.invalidateQueries({ queryKey: ["mealFoods", mealId] })
     }
   })
 }

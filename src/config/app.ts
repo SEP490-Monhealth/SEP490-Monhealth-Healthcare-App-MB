@@ -1,5 +1,5 @@
 export const appConfig = {
-  apiUrl: "https://a8e4-2a09-bac5-d46a-25b9-00-3c2-18.ngrok-free.app/api/v1",
+  apiUrl: "https://8aec-116-100-42-148.ngrok-free.app/api/v1",
   theme: "light",
   language: "vi"
 }

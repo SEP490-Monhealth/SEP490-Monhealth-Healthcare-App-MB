@@ -167,9 +167,13 @@ export const updateMealFood = async (
   quantity: number
 ): Promise<string> => {
   try {
-    const response = await monAPI.put(`/meal/foods/${mealFoodId}/quantity`, {
-      quantity
-    })
+    const response = await monAPI.patch(
+      `/meal/foods/${mealFoodId}/quantity`,
+      null,
+      {
+        params: { quantity }
+      }
+    )
 
     if (!response || !response.data) {
       throw {
