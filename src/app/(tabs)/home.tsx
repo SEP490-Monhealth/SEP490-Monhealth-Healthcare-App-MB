@@ -36,7 +36,7 @@ function HomeScreen() {
     setActiveTab(tab)
   }
 
-  console.log(userId)
+  // console.log(userId)
 
   useEffect(() => {
     if (tab) {

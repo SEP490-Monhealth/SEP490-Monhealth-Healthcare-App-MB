@@ -27,7 +27,7 @@ const baseGoalSchema = z.object({
     .number()
     .min(1, { message: "Mục tiêu protein phải lớn hơn hoặc bằng 1" })
     .optional(),
-  carbGoal: z
+  carbsGoal: z
     .number()
     .min(1, { message: "Mục tiêu carbohydrate phải lớn hơn hoặc bằng 1" })
     .optional(),
@@ -74,7 +74,7 @@ export const goalSchema = baseGoalSchema.pick({
   weightGoal: true,
   caloriesGoal: true,
   proteinGoal: true,
-  carbGoal: true,
+  carbsGoal: true,
   fatGoal: true,
   fiberGoal: true,
   sugarGoal: true,
@@ -93,7 +93,7 @@ export const createGoalSchema = baseGoalSchema.pick({
   weightGoal: true,
   caloriesGoal: true,
   proteinGoal: true,
-  carbGoal: true,
+  carbsGoal: true,
   fatGoal: true,
   fiberGoal: true,
   sugarGoal: true,

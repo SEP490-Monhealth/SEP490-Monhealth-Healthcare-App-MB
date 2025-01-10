@@ -3,6 +3,16 @@ export const sampleMealsDailyData = [
     dailyMealId: "daubeba",
     userId: "123",
 
+    goal: {
+      type: "WeightGain",
+      caloriesGoal: 2000,
+      proteinGoal: 100,
+      carbsGoal: 200,
+      fatGoal: 50,
+      fiberGoal: 30,
+      sugarGoal: 50
+    },
+
     nutrition: {
       calories: 840,
       protein: 24.6,

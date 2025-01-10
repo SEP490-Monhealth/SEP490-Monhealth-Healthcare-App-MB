@@ -9,7 +9,7 @@ export const sampleGoalData: GoalType = {
 
   caloriesGoal: 1500,
   proteinGoal: 100,
-  carbGoal: 200,
+  carbsGoal: 200,
   fatGoal: 50,
   fiberGoal: 30,
   sugarGoal: 20,
