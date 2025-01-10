@@ -1,37 +1,37 @@
 import React, { useState } from "react"
 
-import { Dialog } from "@/components/global/atoms"
+import { Modal } from "@/components/global/atoms"
 
-import { DialogContext } from "@/contexts/DialogContext"
+import { ModalContext } from "@/contexts/ModalContext"
 
-export const DialogProvider: React.FC<{ children: React.ReactNode }> = ({
+export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({
   children
 }) => {
   const [isVisible, setIsVisible] = useState(false)
   const [message, setMessage] = useState("")
   const [title, setTitle] = useState("Thông báo")
 
-  const showDialog = (msg: string, dialogTitle = "Thông báo") => {
+  const showModal = (msg: string, ModalTitle = "Thông báo") => {
     setMessage(msg)
-    setTitle(dialogTitle)
+    setTitle(ModalTitle)
     setIsVisible(true)
   }
 
-  const closeDialog = () => {
+  const closeModal = () => {
     setIsVisible(false)
     setMessage("")
     setTitle("Thông báo")
   }
 
   return (
-    <DialogContext.Provider value={{ showDialog, closeDialog }}>
+    <ModalContext.Provider value={{ showModal, closeModal }}>
       {children}
-      <Dialog
+      <Modal
         isVisible={isVisible}
-        onClose={closeDialog}
+        onClose={closeModal}
         title={title}
         description={message}
       />
-    </DialogContext.Provider>
+    </ModalContext.Provider>
   )
 }

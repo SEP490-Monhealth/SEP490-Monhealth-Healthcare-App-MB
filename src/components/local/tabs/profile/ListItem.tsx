@@ -6,7 +6,7 @@ import { useRouter } from "expo-router"
 
 import { ChevronRight } from "lucide-react-native"
 
-import { Dialog } from "@/components/global/atoms"
+import { Modal } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/app"
 
@@ -34,11 +34,11 @@ export const ListItem = ({
   const router = useRouter()
   const { logout } = useAuth()
 
-  const [isDialogVisible, setDialogVisible] = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
   const handleLogout = async () => {
     await logout()
-    setDialogVisible(false)
+    setShowModal(false)
     router.replace("/(auth)/sign-in")
   }
 
@@ -48,7 +48,7 @@ export const ListItem = ({
     if (action) {
       switch (action) {
         case "logout":
-          setDialogVisible(true)
+          setShowModal(true)
           break
         default:
           console.log(`Unhandled action: ${action}`)
@@ -79,14 +79,14 @@ export const ListItem = ({
       </TouchableOpacity>
 
       {action === "logout" && (
-        <Dialog
-          isVisible={isDialogVisible}
+        <Modal
+          isVisible={showModal}
           title="Đăng xuất"
           description="Bạn có chắc chắn muốn đăng xuất không?"
           confirmText="Đồng ý"
           cancelText="Hủy"
           onConfirm={handleLogout}
-          onClose={() => setDialogVisible(false)}
+          onClose={() => setShowModal(false)}
         />
       )}
     </>

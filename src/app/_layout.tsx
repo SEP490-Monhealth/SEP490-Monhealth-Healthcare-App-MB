@@ -10,8 +10,8 @@ import { StatusBar } from "expo-status-bar"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 import { AuthProvider } from "@/providers/AuthProvider"
-import { DialogProvider } from "@/providers/DialogProvider"
 import { ErrorProvider } from "@/providers/ErrorProvider"
+import { ModalProvider } from "@/providers/ModalProvider"
 import { SaveFoodProvider } from "@/providers/SaveFoodProvider"
 
 import { MonFonts } from "@/styles/typography"
@@ -44,7 +44,7 @@ function AppLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <ErrorProvider>
-        <DialogProvider>
+        <ModalProvider>
           <AuthProvider>
             <SaveFoodProvider>
               <GestureHandlerRootView style={{ flex: 1 }}>
@@ -55,7 +55,7 @@ function AppLayout() {
               </GestureHandlerRootView>
             </SaveFoodProvider>
           </AuthProvider>
-        </DialogProvider>
+        </ModalProvider>
       </ErrorProvider>
     </QueryClientProvider>
   )

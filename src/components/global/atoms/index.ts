@@ -6,8 +6,8 @@ import { Checkbox } from "./Checkbox"
 import { Chip } from "./Chip"
 import { Container } from "./Container"
 import { Content } from "./Content"
-import { Dialog } from "./Dialog"
 import { Input } from "./Input"
+import { Modal } from "./Modal"
 import { OTPInput } from "./OTPInput"
 import { Progress } from "./Progress"
 import { Schedule } from "./Schedule"
@@ -31,8 +31,8 @@ export {
   Chip,
   Container,
   Content,
-  Dialog,
   Input,
+  Modal,
   OTPInput,
   Progress,
   Schedule,

@@ -9,7 +9,7 @@ import { Add, Edit2, Notification, Trash } from "iconsax-react-native"
 
 import {
   Content,
-  Dialog,
+  Modal,
   Sheet,
   SheetRefProps,
   SheetSelect
@@ -53,7 +53,7 @@ function ReminderScreen() {
   const { mutate: updateReminderStatus } = useUpdateReminderStatus()
   const { mutate: deleteReminder } = useDeleteReminder()
 
-  const [showDialog, setShowDialog] = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [selectedReminder, setSelectedReminder] = useState<string>("")
@@ -78,7 +78,7 @@ function ReminderScreen() {
   const handleDelete = () => {
     if (selectedReminder) {
       deleteReminder(selectedReminder)
-      setShowDialog(false)
+      setShowModal(false)
     }
   }
 
@@ -92,7 +92,7 @@ function ReminderScreen() {
 
   const handleDeleteReminder = () => {
     closeReminderSheet()
-    setShowDialog(true)
+    setShowModal(true)
   }
 
   const handleUpdateReminderWrapper = () => {
@@ -187,9 +187,9 @@ function ReminderScreen() {
         />
       </Sheet>
 
-      <Dialog
-        isVisible={showDialog}
-        onClose={() => setShowDialog(false)}
+      <Modal
+        isVisible={showModal}
+        onClose={() => setShowModal(false)}
         title="Xóa nhắc nhở"
         description="Bạn có chắc chắn muốn xóa nhắc nhở này không?"
         confirmText="Xóa"

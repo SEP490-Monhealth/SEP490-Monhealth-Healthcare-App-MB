@@ -224,7 +224,7 @@ export const getFoodById = async (foodId: string): Promise<FoodType> => {
 
 export const createFood = async (
   newFoodData: CreateFoodType,
-  showDialog: (message: string) => void
+  showModal: (message: string) => void
 ): Promise<string> => {
   try {
     const response = await monAPI.post(`/foods`, newFoodData)
@@ -246,18 +246,18 @@ export const createFood = async (
       }
     }
 
-    showDialog(message || "Tạo món ăn mới thành công")
+    showModal(message || "Tạo món ăn mới thành công")
 
     console.log(message)
     return message
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
-      showDialog("Đã xảy ra lỗi khi tạo món ăn")
+      showModal("Đã xảy ra lỗi khi tạo món ăn")
 
       console.log("Lỗi từ server:", error.response?.data || error.message)
       throw error
     } else {
-      showDialog("Đã xảy ra lỗi không mong muốn")
+      showModal("Đã xảy ra lỗi không mong muốn")
 
       console.log("Lỗi không phải Axios:", error)
       throw {
@@ -271,7 +271,7 @@ export const createFood = async (
 export const updateFood = async (
   foodId: string,
   food: UpdateFoodType,
-  showDialog: (message: string) => void
+  showModal: (message: string) => void
 ): Promise<string> => {
   try {
     const response = await monAPI.put(`/foods/${foodId}`, food)
@@ -293,18 +293,18 @@ export const updateFood = async (
       }
     }
 
-    showDialog(message || "Cập nhật món ăn thành công")
+    showModal(message || "Cập nhật món ăn thành công")
 
     console.log(message)
     return message
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
-      showDialog("Đã xảy ra lỗi khi cập nhật món ăn")
+      showModal("Đã xảy ra lỗi khi cập nhật món ăn")
 
       console.log("Lỗi từ server:", error.response?.data || error.message)
       throw error
     } else {
-      showDialog("Đã xảy ra lỗi không mong muốn")
+      showModal("Đã xảy ra lỗi không mong muốn")
 
       console.log("Lỗi không phải Axios:", error)
       throw {

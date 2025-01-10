@@ -10,9 +10,7 @@ import Animated, {
 
 import { useRouter } from "expo-router"
 
-import { Edit2 } from "iconsax-react-native"
-
-import { Button, Container, HStack, VStack } from "@/components/global/atoms"
+import { Button, Container, VStack } from "@/components/global/atoms"
 
 import { useSetupStore } from "@/stores/setupStore"
 

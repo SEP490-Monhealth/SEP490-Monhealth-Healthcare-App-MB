@@ -86,7 +86,7 @@ export const getReminderById = async (
 
 export const createReminder = async (
   newReminderData: CreateReminderType,
-  showDialog: (message: string) => void
+  showModal: (message: string) => void
 ): Promise<string> => {
   try {
     const response = await monAPI.post(`/reminders`, newReminderData)
@@ -108,18 +108,18 @@ export const createReminder = async (
       }
     }
 
-    showDialog(message || "Tạo nhắc nhở thành công")
+    showModal(message || "Tạo nhắc nhở thành công")
 
     console.log(message)
     return message
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
-      showDialog("Đã xảy ra lỗi khi tạo nhắc nhở")
+      showModal("Đã xảy ra lỗi khi tạo nhắc nhở")
 
       console.log("Lỗi từ server:", error.response?.data || error.message)
       throw error
     } else {
-      showDialog("Đã xảy ra lỗi không mong muốn")
+      showModal("Đã xảy ra lỗi không mong muốn")
 
       console.log("Lỗi không phải Axios:", error)
       throw {
@@ -133,7 +133,7 @@ export const createReminder = async (
 export const updateReminder = async (
   reminderId: string,
   reminderData: UpdateReminderType,
-  showDialog: (message: string) => void
+  showModal: (message: string) => void
 ): Promise<string> => {
   try {
     const response = await monAPI.put(`/reminders/${reminderId}`, reminderData)
@@ -155,18 +155,18 @@ export const updateReminder = async (
       }
     }
 
-    showDialog(message || "Cập nhật nhắc nhở thành công")
+    showModal(message || "Cập nhật nhắc nhở thành công")
 
     console.log(message)
     return message
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
-      showDialog("Đã xảy ra lỗi khi cập nhật nhắc nhở")
+      showModal("Đã xảy ra lỗi khi cập nhật nhắc nhở")
 
       console.log("Lỗi từ server:", error.response?.data || error.message)
       throw error
     } else {
-      showDialog("Đã xảy ra lỗi không mong muốn")
+      showModal("Đã xảy ra lỗi không mong muốn")
 
       console.log("Lỗi không phải Axios:", error)
       throw {

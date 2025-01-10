@@ -82,7 +82,7 @@ export const getPortionById = async (
 
 export const createPortion = async (
   newPortionData: CreatePortionType,
-  showDialog: (message: string) => void
+  showModal: (message: string) => void
 ): Promise<string> => {
   try {
     const response = await monAPI.post(`/portions`, newPortionData)
@@ -104,18 +104,18 @@ export const createPortion = async (
       }
     }
 
-    showDialog(message || "Tạo khẩu phần ăn thành công")
+    showModal(message || "Tạo khẩu phần ăn thành công")
 
     console.log(message)
     return message
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
-      showDialog("Đã xảy ra lỗi khi tạo khẩu phần ăn")
+      showModal("Đã xảy ra lỗi khi tạo khẩu phần ăn")
 
       console.log("Lỗi từ server:", error.response?.data || error.message)
       throw error
     } else {
-      showDialog("Đã xảy ra lỗi không mong muốn")
+      showModal("Đã xảy ra lỗi không mong muốn")
 
       console.log("Lỗi không phải Axios:", error)
       throw {

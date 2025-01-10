@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-import { useDialog } from "@/contexts/DialogContext"
 import { useError } from "@/contexts/ErrorContext"
+import { useModal } from "@/contexts/ModalContext"
 
 import { CreateMealType, MealFoodType, MealType } from "@/schemas/mealSchema"
 
@@ -10,7 +10,7 @@ import {
   getMealById,
   getMealFoodsByMealId,
   getMealsByUserId,
-  updateMealFood,
+  updateMealFoodQuantity,
   updateMealFoodStatus
 } from "@/services/mealService"
 
@@ -52,7 +52,7 @@ export const useGetMealById = (mealId: string | undefined) => {
 export const useCreateMeal = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
-  const { showDialog } = useDialog()
+  const { showModal } = useModal()
 
   return useMutation<
     { mealId: string; message: string },
@@ -61,7 +61,7 @@ export const useCreateMeal = () => {
   >({
     mutationFn: async (meal) => {
       try {
-        return await createMeal(meal, showDialog)
+        return await createMeal(meal, showModal)
       } catch (error) {
         handleError(error)
         throw error
@@ -101,20 +101,38 @@ export const useUpdateMealFoodQuantity = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
 
-  return useMutation<string, Error, { mealFoodId: string; quantity: number }>({
+  return useMutation<
+    string,
+    Error,
+    {
+      mealFoodId: string
+      quantity: number
+      mealId: string
+      userId: string
+      date: string
+    }
+  >({
     mutationFn: async ({ mealFoodId, quantity }) => {
       try {
-        return await updateMealFood(mealFoodId, quantity)
+        return await updateMealFoodQuantity(mealFoodId, quantity)
       } catch (error) {
         handleError(error)
         throw error
       }
     },
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({
-        queryKey: ["mealFoods", variables.mealFoodId]
-      })
+      //   queryClient.invalidateQueries({
+      //     queryKey: ["mealFoods", variables.mealFoodId]
+      //   })
+      //   queryClient.invalidateQueries({ queryKey: ["meals"] })
+      // }
+
+      const { mealId, userId, date } = variables
+
       queryClient.invalidateQueries({ queryKey: ["meals"] })
+      queryClient.invalidateQueries({ queryKey: ["meal", mealId] })
+      queryClient.invalidateQueries({ queryKey: ["mealFoods", mealId] })
+      queryClient.invalidateQueries({ queryKey: ["dailyMeal", userId, date] })
     }
   })
 }

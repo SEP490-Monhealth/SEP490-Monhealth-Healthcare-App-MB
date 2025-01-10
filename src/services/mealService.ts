@@ -82,7 +82,7 @@ export const getMealById = async (
 
 export const createMeal = async (
   newMealData: CreateMealType,
-  showDialog: (message: string) => void
+  showModal: (message: string) => void
 ): Promise<{ mealId: string; message: string }> => {
   try {
     const response = await monAPI.post("/meals", newMealData)
@@ -104,7 +104,7 @@ export const createMeal = async (
       }
     }
 
-    showDialog(message || "Tạo bữa ăn thành công")
+    showModal(message || "Tạo bữa ăn thành công")
 
     const mealId = data?.mealId
     return { mealId, message }
@@ -113,7 +113,7 @@ export const createMeal = async (
       console.log("Lỗi từ server:", error.response?.data || error.message)
       throw error
     } else {
-      showDialog("Đã xảy ra lỗi khi tạo bữa ăn")
+      showModal("Đã xảy ra lỗi khi tạo bữa ăn")
 
       console.log("Lỗi không phải Axios:", error)
       throw {
@@ -162,14 +162,18 @@ export const getMealFoodsByMealId = async (
   }
 }
 
-export const updateMealFood = async (
+export const updateMealFoodQuantity = async (
   mealFoodId: string | undefined,
   quantity: number
 ): Promise<string> => {
   try {
-    const response = await monAPI.put(`/meal/foods/${mealFoodId}/quantity`, {
-      quantity
-    })
+    const response = await monAPI.patch(
+      `/meal/foods/${mealFoodId}/quantity`,
+      null,
+      {
+        params: { quantity }
+      }
+    )
 
     if (!response || !response.data) {
       throw {

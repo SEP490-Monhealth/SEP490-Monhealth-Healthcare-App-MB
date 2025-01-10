@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-import { useDialog } from "@/contexts/DialogContext"
+import { useModal } from "@/contexts/ModalContext"
 import { useError } from "@/contexts/ErrorContext"
 
 import { CreatePortionType, PortionType } from "@/schemas/portionSchema"
@@ -50,12 +50,12 @@ export const useGetPortionById = (portionId: string | undefined) => {
 export const useCreatePortion = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
-  const { showDialog } = useDialog()
+  const { showModal } = useModal()
 
   return useMutation<string, Error, CreatePortionType>({
     mutationFn: async (portion) => {
       try {
-        return await createPortion(portion, showDialog)
+        return await createPortion(portion, showModal)
       } catch (error) {
         handleError(error)
         throw error

@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-import { useDialog } from "@/contexts/DialogContext"
+import { useModal } from "@/contexts/ModalContext"
 import { useError } from "@/contexts/ErrorContext"
 
 import {
@@ -57,12 +57,12 @@ export const useGetReminderById = (reminderId: string | undefined) => {
 export const useCreateReminder = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
-  const { showDialog } = useDialog()
+  const { showModal } = useModal()
 
   return useMutation<string, Error, CreateReminderType>({
     mutationFn: async (reminder) => {
       try {
-        return await createReminder(reminder, showDialog)
+        return await createReminder(reminder, showModal)
       } catch (error) {
         handleError(error)
         throw error
@@ -77,7 +77,7 @@ export const useCreateReminder = () => {
 export const useUpdateReminder = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
-  const { showDialog } = useDialog()
+  const { showModal } = useModal()
 
   return useMutation<
     string,
@@ -86,7 +86,7 @@ export const useUpdateReminder = () => {
   >({
     mutationFn: async ({ reminderId, reminder }) => {
       try {
-        return await updateReminder(reminderId, reminder, showDialog)
+        return await updateReminder(reminderId, reminder, showModal)
       } catch (error) {
         handleError(error)
         throw error

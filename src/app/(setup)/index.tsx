@@ -3,7 +3,6 @@ import React, { useState } from "react"
 import { useRouter } from "expo-router"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { set } from "lodash"
 import { useForm } from "react-hook-form"
 
 import { Button, Container, Content, Progress } from "@/components/global/atoms"
@@ -155,14 +154,6 @@ function SetupScreen() {
       })
       return
     }
-
-    // if (goalType === "MaintainWeight" && weightGoal !== weight) {
-    //   setError("weightGoal", {
-    //     type: "manual",
-    //     message: "Mục tiêu duy trì cân nặng phải bằng cân nặng hiện tại"
-    //   })
-    //   return
-    // }
 
     if (goalType === "WeightGain" && weightGoal <= weight) {
       setError("weightGoal", {

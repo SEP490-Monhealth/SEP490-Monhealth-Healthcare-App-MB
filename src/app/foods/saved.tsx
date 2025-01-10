@@ -1,10 +1,10 @@
 import React, { useState } from "react"
 
-import { Alert, FlatList, View } from "react-native"
+import { FlatList, View } from "react-native"
 
 import { Edit2 } from "iconsax-react-native"
 
-import { Button, Container, Content, Dialog } from "@/components/global/atoms"
+import { Button, Container, Content, Modal } from "@/components/global/atoms"
 import {
   ErrorDisplay,
   FoodCard,
@@ -24,7 +24,7 @@ function FoodSavedScreen() {
   const { saveFoodsData, clearFoodSaved } = useSaveFoods()
 
   const [isRefreshing, setIsRefreshing] = useState(false)
-  const [isShowDialog, setShowDialog] = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
   const onRefresh = async () => {
     setIsRefreshing(true)
@@ -34,7 +34,7 @@ function FoodSavedScreen() {
   }
 
   const handleClearSavedFood = () => {
-    setShowDialog(true)
+    setShowModal(true)
   }
 
   return (
@@ -94,9 +94,9 @@ function FoodSavedScreen() {
         )}
       </Container>
 
-      <Dialog
-        isVisible={isShowDialog}
-        onClose={() => setShowDialog(false)}
+      <Modal
+        isVisible={showModal}
+        onClose={() => setShowModal(false)}
         title="Xóa món ăn đã lưu"
         description="Bạn có chắc chắn muốn xóa tất cả món ăn đã lưu không?"
         confirmText="Xóa"

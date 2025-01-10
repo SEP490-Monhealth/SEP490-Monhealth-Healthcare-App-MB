@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-import { useDialog } from "@/contexts/DialogContext"
+import { useModal } from "@/contexts/ModalContext"
 import { useError } from "@/contexts/ErrorContext"
 
 import { CreateFoodType, FoodType, UpdateFoodType } from "@/schemas/foodSchema"
@@ -138,12 +138,12 @@ export const useGetFoodById = (foodId: string) => {
 export const useCreateFood = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
-  const { showDialog } = useDialog()
+  const { showModal } = useModal()
 
   return useMutation<string, Error, CreateFoodType>({
     mutationFn: async (food) => {
       try {
-        return await createFood(food, showDialog)
+        return await createFood(food, showModal)
       } catch (error) {
         handleError(error)
         throw error
@@ -158,12 +158,12 @@ export const useCreateFood = () => {
 export const useUpdateFood = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
-  const { showDialog } = useDialog()
+  const { showModal } = useModal()
 
   return useMutation<string, Error, { foodId: string; food: UpdateFoodType }>({
     mutationFn: async ({ foodId, food }) => {
       try {
-        return await updateFood(foodId, food, showDialog)
+        return await updateFood(foodId, food, showModal)
       } catch (error) {
         handleError(error)
         throw error
