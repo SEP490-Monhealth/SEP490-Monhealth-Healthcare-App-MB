@@ -24,7 +24,7 @@ function FoodSavedScreen() {
   const { saveFoodsData, clearFoodSaved } = useSaveFoods()
 
   const [isRefreshing, setIsRefreshing] = useState(false)
-  const [showModal, setShowModal] = useState(false)
+  const [isModalVisible, setIsModalVisible] = useState(false)
 
   const onRefresh = async () => {
     setIsRefreshing(true)
@@ -34,7 +34,7 @@ function FoodSavedScreen() {
   }
 
   const handleClearSavedFood = () => {
-    setShowModal(true)
+    setIsModalVisible(true)
   }
 
   return (
@@ -95,8 +95,9 @@ function FoodSavedScreen() {
       </Container>
 
       <Modal
-        isVisible={showModal}
-        onClose={() => setShowModal(false)}
+        variant="alert"
+        isVisible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
         title="Xóa món ăn đã lưu"
         description="Bạn có chắc chắn muốn xóa tất cả món ăn đã lưu không?"
         confirmText="Xóa"

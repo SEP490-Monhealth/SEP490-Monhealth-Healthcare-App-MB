@@ -53,7 +53,7 @@ function ReminderScreen() {
   const { mutate: updateReminderStatus } = useUpdateReminderStatus()
   const { mutate: deleteReminder } = useDeleteReminder()
 
-  const [showModal, setShowModal] = useState(false)
+  const [isModalVisible, setIsModalVisible] = useState(false)
 
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [selectedReminder, setSelectedReminder] = useState<string>("")
@@ -78,7 +78,7 @@ function ReminderScreen() {
   const handleDelete = () => {
     if (selectedReminder) {
       deleteReminder(selectedReminder)
-      setShowModal(false)
+      setIsModalVisible(false)
     }
   }
 
@@ -92,7 +92,7 @@ function ReminderScreen() {
 
   const handleDeleteReminder = () => {
     closeReminderSheet()
-    setShowModal(true)
+    setIsModalVisible(true)
   }
 
   const handleUpdateReminderWrapper = () => {
@@ -188,8 +188,9 @@ function ReminderScreen() {
       </Sheet>
 
       <Modal
-        isVisible={showModal}
-        onClose={() => setShowModal(false)}
+        variant="alert"
+        isVisible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
         title="Xóa nhắc nhở"
         description="Bạn có chắc chắn muốn xóa nhắc nhở này không?"
         confirmText="Xóa"

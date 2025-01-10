@@ -24,6 +24,7 @@ import {
   SheetRefProps,
   SheetSelect
 } from "@/components/global/atoms"
+import { Modal } from "@/components/global/atoms/Modal"
 import {
   ArcProgress,
   FoodCard,
@@ -78,7 +79,7 @@ const MealFoodOptions = React.memo(
   }
 )
 
-const RenderRightActions = React.memo(({ mealFoodId, onPress }: any) => {
+const RenderRightActions = React.memo(({ onPress }: any) => {
   return (
     <TouchableOpacity
       activeOpacity={1}
@@ -98,7 +99,6 @@ function MealDetailsScreen() {
   const userId = user?.userId
 
   const { mealId } = useLocalSearchParams() as { mealId: string }
-
   const date = formatDateYYYYMMDD(new Date())
 
   const { mutate: updateMealFoodStatus } = useUpdateMealFoodStatus()
@@ -107,7 +107,11 @@ function MealDetailsScreen() {
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()
 
-  const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
+  const [isRefreshing, setIsRefreshing] = useState(false)
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [selectedMealFoodId, setSelectedMealFoodId] = useState<string | null>(
+    null
+  )
   const [currentMealFoodId, setCurrentMealFoodId] = useState<string | null>(
     null
   )
@@ -125,7 +129,6 @@ function MealDetailsScreen() {
   } = useGetMealFoodsByMealId(mealId)
 
   const mealType = useMemo(() => mealData?.type || "", [mealData])
-
   const calorieGoal = 1249
   const calorieValue = mealData?.nutrition.calories || 0
   const progress = Math.min((calorieValue / calorieGoal) * 100, 100)
@@ -147,7 +150,6 @@ function MealDetailsScreen() {
   const handleUpdateMealFoodStatus = useCallback(
     (mealFoodId: string) => {
       if (!userId) return
-
       updateMealFoodStatus({ mealFoodId, mealId, userId, date })
     },
     [userId, mealId, date, updateMealFoodStatus]
@@ -177,17 +179,32 @@ function MealDetailsScreen() {
     [userId, mealFoodsData, mealId, date, updateMealFoodQuantity, closeSheet]
   )
 
-  const handleDeleteMealFood = useCallback(
-    (mealFoodId: string) => {
-      if (!userId) return
+  const handleDeleteMealFood = useCallback(() => {
+    if (!selectedMealFoodId || !userId) return
 
-      updateMealFoodQuantity(
-        { mealFoodId, quantity: 0, mealId, userId, date },
-        { onSuccess: () => closeSheet() }
-      )
-    },
-    [userId, mealId, date, updateMealFoodQuantity, closeSheet]
-  )
+    updateMealFoodQuantity(
+      { mealFoodId: selectedMealFoodId, quantity: 0, mealId, userId, date },
+      {
+        onSuccess: () => {
+          setIsModalVisible(false)
+          setSelectedMealFoodId(null)
+          closeSheet()
+        }
+      }
+    )
+  }, [
+    selectedMealFoodId,
+    userId,
+    mealId,
+    date,
+    updateMealFoodQuantity,
+    closeSheet
+  ])
+
+  const handleOpenDeleteModal = useCallback((mealFoodId: string) => {
+    setSelectedMealFoodId(mealFoodId)
+    setIsModalVisible(true)
+  }, [])
 
   if (!mealData || isLoadingMeal || !mealFoodsData || isLoadingMealFoods) {
     return <LoadingScreen />
@@ -243,7 +260,6 @@ function MealDetailsScreen() {
                 <Swipeable
                   renderRightActions={() => (
                     <RenderRightActions
-                      mealFoodId={item.mealFoodId}
                       onPress={() => {
                         setCurrentMealFoodId(item.mealFoodId)
                         openSheet()
@@ -280,13 +296,23 @@ function MealDetailsScreen() {
         <Sheet ref={SheetRef} dynamicHeight={240}>
           {currentMealFoodId && (
             <MealFoodOptions
-              mealFoodId={currentMealFoodId}
               onIncrease={() => handleQuantityChange(currentMealFoodId, 1)}
               onDecrease={() => handleQuantityChange(currentMealFoodId, -1)}
-              onDelete={() => handleDeleteMealFood(currentMealFoodId)}
+              onDelete={() => handleOpenDeleteModal(currentMealFoodId)}
             />
           )}
         </Sheet>
+
+        <Modal
+          variant="alert"
+          isVisible={isModalVisible}
+          onClose={() => setIsModalVisible(false)}
+          title="Xóa món ăn"
+          description="Bạn có chắc chắn muốn xóa món ăn này không?"
+          confirmText="Xóa"
+          cancelText="Hủy"
+          onConfirm={handleDeleteMealFood}
+        />
       </SafeAreaView>
     </TouchableWithoutFeedback>
   )

@@ -16,9 +16,9 @@ interface ToggleProps {
 export const Toggle = ({
   value,
   onValueChange,
-  trackColor = { false: "#F5F5F5", true: "#E0F7FA" },
-  thumbColorFalse = "#E3F2FD",
-  thumbColorTrue = "#B2EBF2"
+  trackColor = { false: "#38bdf8", true: "#0ea5e9" },
+  thumbColorFalse = "#f1f5f9",
+  thumbColorTrue = "#f8fafc"
 }: ToggleProps) => {
   return (
     <Switch

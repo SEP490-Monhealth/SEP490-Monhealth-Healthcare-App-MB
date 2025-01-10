@@ -18,6 +18,7 @@ const ModalButton = ({ onPress, text, style, textStyle }: ModalButtonProps) => (
 )
 
 interface ModalProps {
+  variant?: "confirm" | "alert"
   isVisible: boolean
   onClose: () => void
   title: string
@@ -28,6 +29,7 @@ interface ModalProps {
 }
 
 export const Modal = ({
+  variant = "confirm",
   isVisible,
   onClose,
   title,
@@ -55,6 +57,11 @@ export const Modal = ({
       }).start(() => setVisible(false))
     }
   }, [isVisible])
+
+  const variantStyles = {
+    confirm: "bg-primary",
+    alert: "bg-destructive"
+  }
 
   const handleConfirm = () => {
     if (onConfirm) onConfirm()
@@ -93,10 +100,11 @@ export const Modal = ({
               textStyle="text-center font-tmedium text-base text-destructive"
             />
           )}
+
           <ModalButton
             onPress={onConfirm ? handleConfirm : onClose}
             text={confirmText}
-            style="flex-1 rounded-xl bg-primary px-4 py-3 "
+            style={`flex-1 rounded-xl ${variantStyles[variant]} px-4 py-3`}
             textStyle="text-center font-tmedium text-base text-white"
           />
         </HStack>

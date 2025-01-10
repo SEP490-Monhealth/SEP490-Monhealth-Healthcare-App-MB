@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 
 import { Text, TouchableOpacity, View } from "react-native"
 
@@ -6,11 +6,7 @@ import { useRouter } from "expo-router"
 
 import { ChevronRight } from "lucide-react-native"
 
-import { Modal } from "@/components/global/atoms"
-
 import { COLORS } from "@/constants/app"
-
-import { useAuth } from "@/contexts/AuthContext"
 
 interface ListItemProps {
   startIcon?: React.ReactNode
@@ -32,63 +28,31 @@ export const ListItem = ({
   onPress
 }: ListItemProps) => {
   const router = useRouter()
-  const { logout } = useAuth()
-
-  const [showModal, setShowModal] = useState(false)
-
-  const handleLogout = async () => {
-    await logout()
-    setShowModal(false)
-    router.replace("/(auth)/sign-in")
-  }
 
   const handlePress = () => {
     onPress?.()
 
-    if (action) {
-      switch (action) {
-        case "logout":
-          setShowModal(true)
-          break
-        default:
-          console.log(`Unhandled action: ${action}`)
-          break
-      }
-    } else if (route) {
+    if (route) {
       router.push(route)
     }
   }
 
   return (
-    <>
-      <TouchableOpacity
-        activeOpacity={0.7}
-        className="flex-row items-center justify-between border-b border-border py-4"
-        onPress={handlePress}
-      >
-        <View className="flex-row items-center">
-          {startIcon && <View className="mr-4">{startIcon}</View>}
-          <Text className="font-tmedium text-base text-primary">{label}</Text>
-        </View>
+    <TouchableOpacity
+      activeOpacity={0.7}
+      className="flex-row items-center justify-between border-b border-border py-4"
+      onPress={handlePress}
+    >
+      <View className="flex-row items-center">
+        {startIcon && <View className="mr-4">{startIcon}</View>}
+        <Text className="font-tmedium text-base text-primary">{label}</Text>
+      </View>
 
-        {endIcon ? (
-          <View>{endIcon}</View>
-        ) : (
-          !action && more && <ChevronRight size={20} color={COLORS.secondary} />
-        )}
-      </TouchableOpacity>
-
-      {action === "logout" && (
-        <Modal
-          isVisible={showModal}
-          title="Đăng xuất"
-          description="Bạn có chắc chắn muốn đăng xuất không?"
-          confirmText="Đồng ý"
-          cancelText="Hủy"
-          onConfirm={handleLogout}
-          onClose={() => setShowModal(false)}
-        />
+      {endIcon ? (
+        <View>{endIcon}</View>
+      ) : (
+        !action && more && <ChevronRight size={20} color={COLORS.secondary} />
       )}
-    </>
+    </TouchableOpacity>
   )
 }
