@@ -11,7 +11,19 @@ export const ErrorProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const handleError = (error: any) => {
     const statusCode = error.response?.status
+    const errorMessage = error.response?.data?.message
+
     console.log("Trạng thái lỗi:", statusCode)
+
+    if (
+      statusCode === 500 &&
+      (errorMessage === "Bữa ăn không tồn tại" ||
+        errorMessage ===
+          "Bữa ăn không tồn tại hoặc không có món ăn nào trong bữa")
+    ) {
+      router.replace("/home")
+      return
+    }
 
     switch (statusCode) {
       case 400:

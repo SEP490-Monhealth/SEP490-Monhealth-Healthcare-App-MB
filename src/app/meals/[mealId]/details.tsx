@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react"
+import React, { useCallback, useMemo, useRef, useState } from "react"
 
 import {
   FlatList,
@@ -14,7 +14,7 @@ import { useLocalSearchParams } from "expo-router"
 
 import { LoadingOverlay, LoadingScreen } from "@/app/loading"
 import { useIsFetching, useIsMutating } from "@tanstack/react-query"
-import { Add, Edit2, Minus, Trash } from "iconsax-react-native"
+import { Add, Minus, Trash } from "iconsax-react-native"
 import { MoreHorizontal } from "lucide-react-native"
 
 import {
@@ -41,6 +41,7 @@ import { useAuth } from "@/contexts/AuthContext"
 import {
   useGetMealById,
   useGetMealFoodsByMealId,
+  useUpdateMealFoodQuantity,
   useUpdateMealFoodStatus
 } from "@/hooks/useMeal"
 import { useRouterHandlers } from "@/hooks/useRouter"
@@ -48,17 +49,60 @@ import { useRouterHandlers } from "@/hooks/useRouter"
 import { formatDateYYYYMMDD } from "@/utils/formatters"
 import { getMealTypeName } from "@/utils/helpers"
 
+const MealFoodOptions = React.memo(
+  ({ onIncrease, onDecrease, onDelete }: any) => {
+    return [
+      {
+        label: "Tăng số lượng",
+        icon: <Add size={24} color={COLORS.primary} />,
+        onPress: onIncrease
+      },
+      {
+        label: "Giảm số lượng",
+        icon: <Minus size={24} color={COLORS.primary} />,
+        onPress: onDecrease
+      },
+      {
+        label: "Xóa món ăn",
+        icon: <Trash variant="Bold" size={24} color={COLORS.destructive} />,
+        onPress: onDelete
+      }
+    ].map((option, index) => (
+      <SheetSelect
+        key={index}
+        label={option.label}
+        icon={option.icon}
+        onPress={option.onPress}
+      />
+    ))
+  }
+)
+
+const RenderRightActions = React.memo(({ mealFoodId, onPress }: any) => {
+  return (
+    <TouchableOpacity
+      activeOpacity={1}
+      onPress={onPress}
+      className="h-full w-20 items-center justify-center rounded-2xl border border-border bg-primary"
+    >
+      <MoreHorizontal size={24} color="white" />
+    </TouchableOpacity>
+  )
+})
+
 function MealDetailsScreen() {
   const { handleViewFood } = useRouterHandlers()
   const SheetRef = useRef<SheetRefProps>(null)
 
   const { user } = useAuth()
   const userId = user?.userId
+
   const { mealId } = useLocalSearchParams() as { mealId: string }
 
   const date = formatDateYYYYMMDD(new Date())
 
   const { mutate: updateMealFoodStatus } = useUpdateMealFoodStatus()
+  const { mutate: updateMealFoodQuantity } = useUpdateMealFoodQuantity()
 
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()
@@ -73,96 +117,80 @@ function MealDetailsScreen() {
     isLoading: isLoadingMeal,
     refetch: mealRefetch
   } = useGetMealById(mealId)
+
   const {
     data: mealFoodsData,
     isLoading: isLoadingMealFoods,
     refetch: mealFoodRefetch
   } = useGetMealFoodsByMealId(mealId)
 
-  const mealType = mealData?.type || ""
+  const mealType = useMemo(() => mealData?.type || "", [mealData])
 
-  const calorieValue = mealData?.nutrition.calories || 0
   const calorieGoal = 1249
+  const calorieValue = mealData?.nutrition.calories || 0
   const progress = Math.min((calorieValue / calorieGoal) * 100, 100)
 
-  const prefillReady = isFetching === 0 && isMutating === 0
+  const prefillReady = useMemo(
+    () => isFetching === 0 && isMutating === 0,
+    [isFetching, isMutating]
+  )
 
-  const onRefresh = async () => {
+  const onRefresh = useCallback(async () => {
     setIsRefreshing(true)
     await Promise.all([mealRefetch(), mealFoodRefetch()])
     setIsRefreshing(false)
-  }
+  }, [mealRefetch, mealFoodRefetch])
+
+  const openSheet = useCallback(() => SheetRef.current?.scrollTo(-240), [])
+  const closeSheet = useCallback(() => SheetRef.current?.scrollTo(0), [])
+
+  const handleUpdateMealFoodStatus = useCallback(
+    (mealFoodId: string) => {
+      if (!userId) return
+
+      updateMealFoodStatus({ mealFoodId, mealId, userId, date })
+    },
+    [userId, mealId, date, updateMealFoodStatus]
+  )
+
+  const handleQuantityChange = useCallback(
+    (mealFoodId: string, change: number) => {
+      if (!userId) return
+
+      const currentFood = mealFoodsData?.find(
+        (food) => food.mealFoodId === mealFoodId
+      )
+
+      if (currentFood) {
+        updateMealFoodQuantity(
+          {
+            mealFoodId,
+            quantity: currentFood.quantity + change,
+            mealId,
+            userId,
+            date
+          },
+          { onSuccess: () => closeSheet() }
+        )
+      }
+    },
+    [userId, mealFoodsData, mealId, date, updateMealFoodQuantity, closeSheet]
+  )
+
+  const handleDeleteMealFood = useCallback(
+    (mealFoodId: string) => {
+      if (!userId) return
+
+      updateMealFoodQuantity(
+        { mealFoodId, quantity: 0, mealId, userId, date },
+        { onSuccess: () => closeSheet() }
+      )
+    },
+    [userId, mealId, date, updateMealFoodQuantity, closeSheet]
+  )
 
   if (!mealData || isLoadingMeal || !mealFoodsData || isLoadingMealFoods) {
     return <LoadingScreen />
-  }
-
-  const handleViewMealFood = (mealFoodId: string) => {
-    if (!userId) {
-      console.error("User ID is undefined")
-      return
-    }
-
-    updateMealFoodStatus({ mealFoodId, mealId, userId, date })
-  }
-
-  const openSheet = () => {
-    SheetRef.current?.scrollTo(-240)
-  }
-
-  const closeSheet = () => {
-    SheetRef.current?.scrollTo(0)
-  }
-
-  const handleMoreMealFood = (mealFoodId: string) => {
-    console.log("More actions for food ID:", mealFoodId)
-    setCurrentMealFoodId(mealFoodId)
-    openSheet()
-  }
-
-  const handleIncreaseQuantity = (mealFoodId: string) => {
-    console.log(`Increase quantity for food ID: ${mealFoodId}`)
-    // Logic để tăng số lượng
-  }
-
-  const handleDecreaseQuantity = (mealFoodId: string) => {
-    console.log(`Decrease quantity for food ID: ${mealFoodId}`)
-    // Logic để giảm số lượng
-  }
-
-  const handleDeleteMealFood = (mealFoodId: string) => {
-    console.log(`Delete food with ID: ${mealFoodId}`)
-    // Logic để xóa món ăn
-  }
-
-  const mealFoodOptions = (mealFoodId: string) => [
-    {
-      label: "Tăng số lượng",
-      icon: <Add size={24} color={COLORS.primary} />,
-      onPress: () => handleIncreaseQuantity(mealFoodId)
-    },
-    {
-      label: "Giảm số lượng",
-      icon: <Minus size={24} color={COLORS.primary} />,
-      onPress: () => handleDecreaseQuantity(mealFoodId)
-    },
-    {
-      label: "Xóa món ăn",
-      icon: <Trash variant="Bold" size={24} color={COLORS.destructive} />,
-      onPress: () => handleDeleteMealFood(mealFoodId)
-    }
-  ]
-
-  const renderRightActions = (mealFoodId: string) => {
-    return (
-      <TouchableOpacity
-        activeOpacity={1}
-        onPress={() => handleMoreMealFood(mealFoodId)}
-        className="h-full w-20 items-center justify-center rounded-2xl border border-border bg-primary"
-      >
-        <MoreHorizontal size={24} color="white" />
-      </TouchableOpacity>
-    )
   }
 
   return (
@@ -213,11 +241,19 @@ function MealDetailsScreen() {
               )}
               renderItem={({ item }) => (
                 <Swipeable
-                  renderRightActions={() => renderRightActions(item.mealFoodId)}
+                  renderRightActions={() => (
+                    <RenderRightActions
+                      mealFoodId={item.mealFoodId}
+                      onPress={() => {
+                        setCurrentMealFoodId(item.mealFoodId)
+                        openSheet()
+                      }}
+                    />
+                  )}
                   overshootRight={false}
                   overshootLeft={false}
                   rightThreshold={40}
-                  friction={3}
+                  friction={2}
                 >
                   <FoodCard
                     variant="checkbox"
@@ -229,9 +265,9 @@ function MealDetailsScreen() {
                     unit={item.portion?.unit}
                     status={item.status}
                     onPress={() => handleViewFood(item.foodId)}
-                    onStatusPress={() => {
-                      handleViewMealFood(item.mealFoodId)
-                    }}
+                    onStatusPress={() =>
+                      handleUpdateMealFoodStatus(item.mealFoodId)
+                    }
                   />
                 </Swipeable>
               )}
@@ -242,15 +278,14 @@ function MealDetailsScreen() {
         </Container>
 
         <Sheet ref={SheetRef} dynamicHeight={240}>
-          {currentMealFoodId &&
-            mealFoodOptions(currentMealFoodId).map((option, index) => (
-              <SheetSelect
-                key={index}
-                label={option.label}
-                icon={option.icon}
-                onPress={option.onPress}
-              />
-            ))}
+          {currentMealFoodId && (
+            <MealFoodOptions
+              mealFoodId={currentMealFoodId}
+              onIncrease={() => handleQuantityChange(currentMealFoodId, 1)}
+              onDecrease={() => handleQuantityChange(currentMealFoodId, -1)}
+              onDelete={() => handleDeleteMealFood(currentMealFoodId)}
+            />
+          )}
         </Sheet>
       </SafeAreaView>
     </TouchableWithoutFeedback>

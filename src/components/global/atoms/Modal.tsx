@@ -33,7 +33,7 @@ export const Modal = ({
   title,
   description,
   confirmText = "Đồng ý",
-  cancelText = "Hủy",
+  cancelText,
   onConfirm
 }: ModalProps) => {
   const [visible, setVisible] = useState(isVisible)

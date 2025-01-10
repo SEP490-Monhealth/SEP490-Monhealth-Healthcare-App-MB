@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useRef, useState } from "react"
 
 import { Text, View } from "react-native"
 import { AnimatedCircularProgress } from "react-native-circular-progress"
@@ -94,13 +94,19 @@ export const ArcProgress = ({
   label = "",
   className = ""
 }: ArcProgressProps) => {
+  const [currentFill, setCurrentFill] = useState(fill)
+
+  useEffect(() => {
+    setCurrentFill(fill)
+  }, [fill])
+
   return (
     <View className={cn("relative items-center", className)}>
       <AnimatedCircularProgress
         size={size}
         width={width}
         fill={fill}
-        prefill={prefill ? 0 : fill}
+        prefill={prefill ? currentFill : fill}
         tintColor={tintColor}
         backgroundColor={backgroundColor}
         arcSweepAngle={arcSweepAngle}
