@@ -64,12 +64,12 @@ export const MealTab = ({ onLoading }: MealTabProps) => {
     return (existingMeal || defaultMeal) as typeof defaultMeal
   })
 
-  const calorieGoal = 1249
+  const caloriesGoal = 1249
 
   const caloriesData = {
     label: "Calories",
     value: dailyMealData?.nutrition?.calories || 0,
-    targetValue: calorieGoal
+    targetValue: caloriesGoal
   }
 
   const nutritionData = [
@@ -100,6 +100,8 @@ export const MealTab = ({ onLoading }: MealTabProps) => {
     }
   ]
 
+  const caloriesProgress = (caloriesData.value / caloriesGoal) * 100
+
   const handleViewFoods = () => router.push("/foods")
 
   return (
@@ -115,9 +117,9 @@ export const MealTab = ({ onLoading }: MealTabProps) => {
 
       <Progress
         height={8}
-        progress={(caloriesData.value / calorieGoal) * 100}
+        progress={caloriesProgress}
         labelStart="Mục tiêu hằng ngày"
-        labelEnd={`${toFixed((caloriesData.value / calorieGoal) * 100, 0)}%`}
+        labelEnd={`${toFixed(caloriesProgress, 0)}%`}
         className="mt-8"
       />
 

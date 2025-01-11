@@ -262,6 +262,7 @@ function SetupScreen() {
   return (
     <Container dismissKeyboard>
       <CustomHeader
+        back={currentStep === 1 ? false : true}
         content={
           <Progress
             height={14}

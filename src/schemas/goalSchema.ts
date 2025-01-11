@@ -92,7 +92,6 @@ export const weightGoalSchema = baseGoalSchema.pick({
 })
 
 export const nutritionGoalSchema = baseGoalSchema.pick({
-  type: true,
   caloriesGoal: true,
   proteinGoal: true,
   carbsGoal: true,

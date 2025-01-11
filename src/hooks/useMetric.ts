@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-import { useModal } from "@/contexts/ModalContext"
 import { useError } from "@/contexts/ErrorContext"
+import { useModal } from "@/contexts/ModalContext"
 
 import { CreateMetricType, MetricType } from "@/schemas/metricSchema"
 

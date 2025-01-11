@@ -25,7 +25,7 @@ export const NutritionSummary = ({ nutritionData }: NutritionSummaryProps) => {
           key={index}
           label={nutrient.label}
           value={toFixed(nutrient.value, 1)}
-          targetValue={nutrient.targetValue}
+          targetValue={toFixed(nutrient.targetValue)}
           color={getNutritionColor(nutrient.label)}
         />
       ))}
