@@ -1,68 +1,80 @@
-import React, { useState } from "react"
+import React from "react"
 
 import { Image, Text, TouchableOpacity, View } from "react-native"
 
-import { ScrollArea } from "@/components/global/atoms"
+import { get } from "lodash"
+import { Control, FieldValues, useController } from "react-hook-form"
+
+import { ErrorText, ScrollArea, VStack } from "@/components/global/atoms"
 
 import { sampleCategoriesData } from "@/constants/categories"
 
-import { LoadingScreen } from "../loading"
+interface SetupCategoriesProps {
+  control: Control<FieldValues>
+  errors: any
+}
 
-function SetupCategories() {
+function SetupCategories({ control, errors }: SetupCategoriesProps) {
   const categoriesData = sampleCategoriesData
 
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+  const { field } = useController({
+    name: "categories",
+    control
+  })
 
   const handleSelectCategory = (category: string) => {
-    setSelectedCategories((prev) =>
-      prev.includes(category)
-        ? prev.filter((item) => item !== category)
-        : [...prev, category]
-    )
+    const currentValue = field.value || []
+    if (currentValue.includes(category)) {
+      field.onChange(currentValue.filter((item: string) => item !== category))
+    } else {
+      field.onChange([...currentValue, category])
+    }
   }
 
-  // console.log("Selected Categories:", selectedCategories)
-
-  if (!categoriesData) return <LoadingScreen />
+  const errorMessage = get(errors, "categories.message", null)
 
   return (
     <ScrollArea>
-      <View
-        className="flex-row flex-wrap"
-        style={{ rowGap: 16, columnGap: 12 }}
-      >
-        {categoriesData.map((category) => (
-          <TouchableOpacity
-            key={category.name}
-            activeOpacity={0.7}
-            onPress={() => handleSelectCategory(category.name)}
-            className={`flex-row items-center rounded-2xl border-2 bg-muted px-4 py-2.5 ${
-              selectedCategories.includes(category.name)
-                ? "border-primary"
-                : "border-border"
-            }`}
-          >
-            <Image
-              source={
-                typeof category.image === "string"
-                  ? { uri: category.image }
-                  : category.image
-              }
-              className="mr-3 h-8 w-8"
-            />
-
-            <Text
-              className={`font-tmedium text-base ${
-                selectedCategories.includes(category.name)
-                  ? "text-primary"
-                  : "text-black"
+      <VStack gap={12}>
+        <View
+          className="flex-row flex-wrap"
+          style={{ rowGap: 16, columnGap: 12 }}
+        >
+          {categoriesData.map((category) => (
+            <TouchableOpacity
+              key={category.name}
+              activeOpacity={0.7}
+              onPress={() => handleSelectCategory(category.name)}
+              className={`flex-row items-center rounded-2xl border-2 bg-muted px-4 py-2.5 ${
+                (field.value || []).includes(category.name)
+                  ? "border-primary"
+                  : "border-border"
               }`}
             >
-              {category.name}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+              <Image
+                source={
+                  typeof category.image === "string"
+                    ? { uri: category.image }
+                    : category.image
+                }
+                className="mr-3 h-8 w-8"
+              />
+
+              <Text
+                className={`font-tmedium text-base ${
+                  (field.value || []).includes(category.name)
+                    ? "text-primary"
+                    : "text-black"
+                }`}
+              >
+                {category.name}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        {errorMessage && <ErrorText text={errorMessage} />}
+      </VStack>
     </ScrollArea>
   )
 }

@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react"
 
+import { useRouter } from "expo-router"
+
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
 import { AuthContext } from "@/contexts/AuthContext"
 import { useError } from "@/contexts/ErrorContext"
 
 import { login, logout, register, whoIAm } from "@/services/authService"
+import { getMetricsByUserId } from "@/services/metricService"
 
 interface UserPayload {
   userId: string
@@ -15,11 +18,13 @@ interface UserPayload {
 }
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const router = useRouter()
   const handleError = useError()
 
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [user, setUser] = useState<UserPayload | null>(null)
   const [loading, setLoading] = useState(true)
+  const [hasMetrics, setHasMetrics] = useState(false)
 
   const checkAuthentication = async () => {
     try {
@@ -30,11 +35,25 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (token) {
         const userInfo = await whoIAm()
         setUser(userInfo)
+
+        const metricsData = await getMetricsByUserId(userInfo.userId)
+        const metricsExist = metricsData && metricsData.length > 0
+        setHasMetrics(metricsExist)
+
+        if (metricsExist) {
+          router.replace("/(tabs)/home")
+        } else {
+          router.replace("/(setup)")
+        }
+      } else {
+        router.replace("/(auth)/sign-in")
       }
     } catch (error) {
       handleError(error)
       setIsAuthenticated(false)
       setUser(null)
+      setHasMetrics(false)
+      router.replace("/(auth)/sign-in")
     } finally {
       setLoading(false)
     }
@@ -53,6 +72,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       const userInfo = await whoIAm()
       setUser(userInfo)
+
+      const metricsData = await getMetricsByUserId(userInfo.userId)
+
+      if (metricsData && metricsData.length > 0) {
+        router.replace("/(tabs)/home")
+      } else {
+        router.replace("/(setup)")
+      }
     } catch (error) {
       handleError(error)
       throw error
@@ -82,6 +109,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       await AsyncStorage.removeItem("refreshToken")
       setIsAuthenticated(false)
       setUser(null)
+      router.replace("/(auth)/sign-in")
     } catch (error) {
       handleError(error)
       throw error
@@ -93,6 +121,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         isAuthenticated,
         user,
+        hasMetrics,
         login: handleLogin,
         register: handleRegister,
         logout: handleLogout,

@@ -71,7 +71,7 @@ function SignUpScreen() {
         registerData.email,
         registerData.password
       )
-      router.replace("/(auth)/login")
+      // router.replace("/(auth)/sign-in")
     } catch (error: any) {
       console.log("Lỗi khi đăng ký:", error.response?.data || error.message)
     } finally {

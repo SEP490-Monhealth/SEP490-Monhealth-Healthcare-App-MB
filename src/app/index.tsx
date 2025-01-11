@@ -10,7 +10,7 @@ import { useAuth } from "@/contexts/AuthContext"
 
 function AppIndex() {
   const router = useRouter()
-  const { isAuthenticated, loading } = useAuth()
+  const { isAuthenticated, hasMetrics, loading } = useAuth()
 
   const fadeAnim = useRef(new Animated.Value(0)).current
   const rotateAnim = useRef(new Animated.Value(0)).current
@@ -57,10 +57,15 @@ function AppIndex() {
         })
       ])
     ]).start()
+
     const timeout = setTimeout(() => {
       if (!loading) {
         if (isAuthenticated) {
-          router.replace("/(tabs)/home")
+          if (hasMetrics) {
+            router.replace("/(tabs)/home")
+          } else {
+            router.replace("/(setup)")
+          }
         } else {
           router.replace("/(onboarding)")
         }
@@ -68,7 +73,7 @@ function AppIndex() {
     }, 2000)
 
     return () => clearTimeout(timeout)
-  }, [loading, isAuthenticated, router])
+  }, [loading, isAuthenticated, hasMetrics, router])
 
   const rotate = rotateAnim.interpolate({
     inputRange: [0, 1],

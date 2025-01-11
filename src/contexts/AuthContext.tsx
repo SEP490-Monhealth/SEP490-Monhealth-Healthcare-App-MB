@@ -10,6 +10,7 @@ interface UserPayload {
 interface AuthContextType {
   isAuthenticated: boolean
   user: UserPayload | null
+  hasMetrics: boolean
   login: (phoneNumber: string, password: string) => Promise<void>
   register: (
     fullName: string,

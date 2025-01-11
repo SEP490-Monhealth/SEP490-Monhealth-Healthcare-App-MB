@@ -30,8 +30,12 @@ export const categorySchema = baseCategorySchema.pick({
   image: true
 })
 
-export const nameCategorySchema = baseCategorySchema.pick({
-  name: true
+const categoryNameValidation = baseCategorySchema.shape.name
+
+export const nameCategorySchema = z.object({
+  categories: z
+    .array(categoryNameValidation)
+    .min(5, { message: "Bạn phải chọn ít nhất 5 danh mục" })
 })
 
 export type CategoryType = z.infer<typeof categorySchema>

@@ -60,7 +60,8 @@ function SignInScreen() {
 
     try {
       await login(loginData.phoneNumber, loginData.password)
-      router.replace("/(tabs)/home")
+      // router.replace("/(tabs)/home")
+      // router.replace("/(setup)")
     } catch (error: any) {
       console.log("Lỗi khi đăng nhập:", error.response?.data || error.message)
     } finally {

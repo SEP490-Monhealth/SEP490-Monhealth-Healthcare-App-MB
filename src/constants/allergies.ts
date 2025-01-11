@@ -1,4 +1,6 @@
-export const sampleAllergiesData = [
+import { AllergyType } from "@/schemas/allergySchema"
+
+export const sampleAllergiesData: AllergyType[] = [
   {
     allergyId: "b8f6417e-2aac-442e-aac4-de4d809c572c",
     name: "Hải sản",

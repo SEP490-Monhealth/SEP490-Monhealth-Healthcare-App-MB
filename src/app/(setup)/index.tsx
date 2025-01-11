@@ -12,6 +12,7 @@ import { COLORS } from "@/constants/app"
 
 import { useAuth } from "@/contexts/AuthContext"
 
+import { nameAllergySchema } from "@/schemas/allergySchema"
 import { nameCategorySchema } from "@/schemas/categorySchema"
 import { typeGoalSchema } from "@/schemas/goalSchema"
 import {
@@ -25,12 +26,22 @@ import {
 import { useSetupStore } from "@/stores/setupStore"
 
 import SetupActivityLevel from "./activity-level"
-import SetupInterestCategories from "./categories"
+import SetupAllergies from "./allergies"
+import SetupCategories from "./categories"
 import SetupDateOfBirth from "./date-of-birth"
 import SetupGender from "./gender"
 import SetupGoalType from "./goal-type"
 import SetupHeightWeight from "./height-weight"
 import SetupWeightGoal from "./weight-goal"
+
+interface SetupStepsProps {
+  step: number
+  title: string
+  description: string
+  component: React.FC<any>
+  fields: string[]
+  schema: any
+}
 
 function SetupScreen() {
   const router = useRouter()
@@ -64,12 +75,11 @@ function SetupScreen() {
     categories
   }
 
-  const setupSteps = [
+  const setupSteps: SetupStepsProps[] = [
     {
       step: 1,
       title: "Ngày sinh",
-      description:
-        "Vui lòng nhập ngày sinh của bạn để chúng tôi xác định độ tuổi",
+      description: "Nhập ngày sinh để xác định tuổi của bạn",
       component: SetupDateOfBirth,
       fields: ["dateOfBirth"],
       schema: dateOfBirthMetricSchema
@@ -77,7 +87,7 @@ function SetupScreen() {
     {
       step: 2,
       title: "Giới tính",
-      description: "Chọn giới tính của bạn để cá nhân hóa trải nghiệm",
+      description: "Chọn giới tính để cá nhân hóa trải nghiệm",
       component: SetupGender,
       fields: ["gender"],
       schema: genderMetricSchema
@@ -85,8 +95,7 @@ function SetupScreen() {
     {
       step: 3,
       title: "Chiều cao và cân nặng",
-      description:
-        "Nhập chiều cao và cân nặng để tính toán chỉ số sức khỏe của bạn",
+      description: "Nhập chiều cao và cân nặng hiện tại",
       component: SetupHeightWeight,
       fields: ["height", "weight"],
       schema: heightWeightMetricSchema
@@ -94,8 +103,7 @@ function SetupScreen() {
     {
       step: 4,
       title: "Mức độ hoạt động",
-      description:
-        "Chọn mức độ hoạt động để dự đoán nhu cầu năng lượng của bạn",
+      description: "Chọn mức độ hoạt động hàng ngày",
       component: SetupActivityLevel,
       fields: ["activityLevel"],
       schema: activityLevelMetricSchema
@@ -103,7 +111,7 @@ function SetupScreen() {
     {
       step: 5,
       title: "Mục tiêu",
-      description: "Chọn mục tiêu sức khỏe của bạn để bắt đầu",
+      description: "Xác định mục tiêu sức khỏe của bạn",
       component: SetupGoalType,
       fields: ["goalType"],
       schema: typeGoalSchema
@@ -111,7 +119,7 @@ function SetupScreen() {
     {
       step: 6,
       title: "Mục tiêu cân nặng",
-      description: "Nhập mục tiêu cân nặng của bạn để theo dõi",
+      description: "Nhập cân nặng mục tiêu mong muốn",
       component: SetupWeightGoal,
       fields: ["weightGoal"],
       schema: weightGoalSchema
@@ -119,10 +127,18 @@ function SetupScreen() {
     {
       step: 7,
       title: "Danh mục yêu thích",
-      description: "Chọn các danh mục bạn yêu thích để chúng tôi gợi ý phù hợp",
-      component: SetupInterestCategories,
+      description: "Chọn danh mục bạn yêu thích",
+      component: SetupCategories,
       fields: ["categories"],
       schema: nameCategorySchema
+    },
+    {
+      step: 8,
+      title: "Dị ứng",
+      description: "Cho biết thực phẩm bạn dị ứng",
+      component: SetupAllergies,
+      fields: ["allergies"],
+      schema: nameAllergySchema
     }
   ]
 
@@ -193,12 +209,30 @@ function SetupScreen() {
         gender: formData.gender,
         height: formData.height,
         weight: formData.weight,
-        activityLevel: formData.activityLevel,
+        activityLevel: formData.activityLevel
+      }
+
+      const goalData = {
         goalType: formData.goalType,
         weightGoal: formData.weightGoal
       }
 
-      console.log(metricData)
+      const categoryData = {
+        categories: formData.categories
+      }
+
+      const allergyData = {
+        allergies: formData.allergies
+      }
+
+      console.log("metric", metricData)
+      console.log("goal", goalData)
+      console.log("categories", categoryData)
+      console.log("allergies", allergyData)
+
+      const newMetricData = { ...metricData, ...goalData }
+
+      console.log("new metric data", newMetricData)
 
       const finalData = {
         userId: formData.userId,
@@ -207,7 +241,7 @@ function SetupScreen() {
 
       console.log("Final Form Data:", JSON.stringify(finalData, null, 2))
 
-      // router.replace("/(setup)/summary")
+      router.replace("/(setup)/summary")
     }
   }
 
@@ -242,7 +276,7 @@ function SetupScreen() {
           description={currentStepData.description}
         />
 
-        <StepComponent control={control} errors={errors} setValue={setValue} />
+        <StepComponent control={control} setValue={setValue} errors={errors} />
       </Content>
 
       <Button
