@@ -44,9 +44,9 @@ function SetupCategories({ control, errors }: SetupCategoriesProps) {
             <TouchableOpacity
               key={category.name}
               activeOpacity={0.7}
-              onPress={() => handleSelectCategory(category.name)}
+              onPress={() => handleSelectCategory(category.categoryId)}
               className={`flex-row items-center rounded-2xl border-2 bg-muted px-4 py-2.5 ${
-                (field.value || []).includes(category.name)
+                (field.value || []).includes(category.categoryId)
                   ? "border-primary"
                   : "border-border"
               }`}

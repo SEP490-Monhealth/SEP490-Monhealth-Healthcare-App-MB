@@ -1,3 +1,4 @@
+import { AllergyCard } from "./AllergyCard"
 import { ArcProgress } from "./ArcProgress"
 import { CircularProgress } from "./CircularProgress"
 import { CounterText } from "./CounterText"
@@ -15,6 +16,7 @@ import { StepHeader } from "./SetupHeader"
 import { WaterCard } from "./WaterCard"
 
 export {
+  AllergyCard,
   ArcProgress,
   CircularProgress,
   CounterText,

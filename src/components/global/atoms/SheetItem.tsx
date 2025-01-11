@@ -30,6 +30,7 @@ interface SheetSelectProps {
   variant?: "default" | "danger"
   label: string
   icon: React.ReactNode
+  disabled?: boolean
   onPress?: () => void
 }
 
@@ -37,13 +38,15 @@ export const SheetSelect = ({
   variant = "default",
   icon,
   label,
+  disabled = false,
   onPress
 }: SheetSelectProps) => {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      onPress={onPress}
-      className="px-4 py-3"
+      onPress={!disabled ? onPress : undefined}
+      className={`px-4 py-3 ${disabled ? "opacity-30" : ""}`}
+      disabled={disabled}
     >
       <HStack center>
         <View className="mr-4">{icon}</View>

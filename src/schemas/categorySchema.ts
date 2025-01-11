@@ -30,11 +30,11 @@ export const categorySchema = baseCategorySchema.pick({
   image: true
 })
 
-const categoryNameValidation = baseCategorySchema.shape.name
+const categoryIdValidation = baseCategorySchema.shape.categoryId
 
-export const nameCategorySchema = z.object({
+export const idCategorySchema = z.object({
   categories: z
-    .array(categoryNameValidation)
+    .array(categoryIdValidation)
     .min(5, { message: "Bạn phải chọn ít nhất 5 danh mục" })
 })
 

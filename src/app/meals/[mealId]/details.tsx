@@ -51,22 +51,25 @@ import { formatDateYYYYMMDD } from "@/utils/formatters"
 import { getMealTypeName } from "@/utils/helpers"
 
 const MealFoodOptions = React.memo(
-  ({ onIncrease, onDecrease, onDelete }: any) => {
+  ({ onIncrease, onDecrease, onDelete, quantity }: any) => {
     return [
       {
         label: "Tăng số lượng",
         icon: <Add size={24} color={COLORS.primary} />,
-        onPress: onIncrease
+        onPress: onIncrease,
+        disabled: false
       },
       {
         label: "Giảm số lượng",
         icon: <Minus size={24} color={COLORS.primary} />,
-        onPress: onDecrease
+        onPress: onDecrease,
+        disabled: quantity === 1
       },
       {
         label: "Xóa món ăn",
         icon: <Trash variant="Bold" size={24} color={COLORS.destructive} />,
-        onPress: onDelete
+        onPress: onDelete,
+        disabled: false
       }
     ].map((option, index) => (
       <SheetSelect
@@ -74,6 +77,7 @@ const MealFoodOptions = React.memo(
         label={option.label}
         icon={option.icon}
         onPress={option.onPress}
+        disabled={option.disabled}
       />
     ))
   }
@@ -172,11 +176,14 @@ function MealDetailsScreen() {
             userId,
             date
           },
-          { onSuccess: () => closeSheet() }
+          {
+            onSuccess: () => {
+            }
+          }
         )
       }
     },
-    [userId, mealFoodsData, mealId, date, updateMealFoodQuantity, closeSheet]
+    [userId, mealFoodsData, mealId, date, updateMealFoodQuantity]
   )
 
   const handleDeleteMealFood = useCallback(() => {
@@ -299,6 +306,11 @@ function MealDetailsScreen() {
               onIncrease={() => handleQuantityChange(currentMealFoodId, 1)}
               onDecrease={() => handleQuantityChange(currentMealFoodId, -1)}
               onDelete={() => handleOpenDeleteModal(currentMealFoodId)}
+              quantity={
+                mealFoodsData?.find(
+                  (food) => food.mealFoodId === currentMealFoodId
+                )?.quantity || 1
+              }
             />
           )}
         </Sheet>
