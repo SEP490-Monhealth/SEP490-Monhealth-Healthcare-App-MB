@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import { Text, View } from "react-native"
 import { AnimatedCircularProgress } from "react-native-circular-progress"

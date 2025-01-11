@@ -63,7 +63,7 @@ const MealFoodOptions = React.memo(
         label: "Giảm số lượng",
         icon: <Minus size={24} color={COLORS.primary} />,
         onPress: onDecrease,
-        disabled: quantity === 1
+        disabled: quantity <= 1
       },
       {
         label: "Xóa món ăn",
@@ -154,6 +154,7 @@ function MealDetailsScreen() {
   const handleUpdateMealFoodStatus = useCallback(
     (mealFoodId: string) => {
       if (!userId) return
+
       updateMealFoodStatus({ mealFoodId, mealId, userId, date })
     },
     [userId, mealId, date, updateMealFoodStatus]
@@ -175,10 +176,6 @@ function MealDetailsScreen() {
             mealId,
             userId,
             date
-          },
-          {
-            onSuccess: () => {
-            }
           }
         )
       }

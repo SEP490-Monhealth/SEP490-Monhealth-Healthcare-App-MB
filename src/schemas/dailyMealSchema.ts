@@ -1,5 +1,6 @@
 import { z } from "zod"
 
+import { nutritionGoalSchema } from "./goalSchema"
 import { nutritionSchema } from "./nutritionSchema"
 
 const mealItemsSchema = z.object({
@@ -33,6 +34,8 @@ const mealItemsSchema = z.object({
 const dailyMealSchema = z.object({
   dailyMealId: z.string(),
   userId: z.string(),
+
+  goal: nutritionGoalSchema,
 
   nutrition: nutritionSchema,
 

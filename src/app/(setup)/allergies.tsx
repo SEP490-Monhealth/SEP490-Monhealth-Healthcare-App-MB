@@ -2,10 +2,8 @@ import React from "react"
 
 import { FlatList, View } from "react-native"
 
-import { get } from "lodash"
 import { Control, FieldValues, useController } from "react-hook-form"
 
-import { ErrorText } from "@/components/global/atoms"
 import {
   AllergyCard,
   ListFooter,
@@ -14,14 +12,11 @@ import {
 
 import { sampleAllergiesData } from "@/constants/allergies"
 
-import { AllergyBasicType } from "@/schemas/allergySchema"
-
 interface SetupAllergiesProps {
   control: Control<FieldValues>
-  errors: any
 }
 
-function SetupAllergies({ control, errors }: SetupAllergiesProps) {
+function SetupAllergies({ control }: SetupAllergiesProps) {
   const allergiesData = sampleAllergiesData
 
   const { field } = useController({
@@ -29,7 +24,7 @@ function SetupAllergies({ control, errors }: SetupAllergiesProps) {
     control
   })
 
-  const handleSelectAllergy = (allergy: string) => {
+  const handleSelectAllergies = (allergy: string) => {
     const currentValue = field.value || []
     const updatedValue = currentValue.includes(allergy)
       ? currentValue.filter((item: string) => item !== allergy)
@@ -40,27 +35,24 @@ function SetupAllergies({ control, errors }: SetupAllergiesProps) {
     console.log("Selected Allergies:", updatedValue)
   }
 
-  const errorMessage = get(errors, "allergies.message", null)
-
   return (
-    <View className="flex-1 flex-col gap-10">
-      <FlatList<AllergyBasicType>
+    <View className="flex-1 pb-24">
+      <FlatList
         data={allergiesData || []}
         keyExtractor={(item) => item.allergyId}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={<ListHeader />}
-        renderItem={({ item }: { item: AllergyBasicType }) => (
+        renderItem={({ item }) => (
           <AllergyCard
             key={item.allergyId}
             name={item.name}
             isSelected={(field.value || []).includes(item.allergyId)}
-            onPress={() => handleSelectAllergy(item.allergyId)}
+            onPress={() => handleSelectAllergies(item.allergyId)}
           />
         )}
-        ListFooterComponent={<ListFooter className="pb-28" />}
-        ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
+        ListFooterComponent={<ListFooter />}
+        ItemSeparatorComponent={() => <View className="h-3" />}
       />
-      {errorMessage && <ErrorText text={errorMessage} />}
     </View>
   )
 }

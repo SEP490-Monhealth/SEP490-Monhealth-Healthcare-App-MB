@@ -95,17 +95,6 @@ const metricSchema = baseMetricSchema.pick({
   updatedBy: true
 })
 
-export const createMetricSchema = baseMetricSchema.pick({
-  userId: true,
-  dateOfBirth: true,
-  gender: true,
-  height: true,
-  weight: true,
-  activityLevel: true,
-  goalType: true,
-  weightGoal: true
-})
-
 export const dateOfBirthMetricSchema = baseMetricSchema.pick({
   dateOfBirth: true
 })
@@ -124,6 +113,17 @@ export const activityLevelMetricSchema = baseMetricSchema.pick({
 })
 
 export const weightGoalSchema = baseMetricSchema.pick({
+  weightGoal: true
+})
+
+export const createMetricSchema = baseMetricSchema.pick({
+  userId: true,
+  dateOfBirth: true,
+  gender: true,
+  height: true,
+  weight: true,
+  activityLevel: true,
+  goalType: true,
   weightGoal: true
 })
 

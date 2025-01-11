@@ -61,16 +61,15 @@ function FoodNutrition({ control, errors }: FoodNutritionProps) {
         const [inputValue, setInputValue] = useState(value?.toString() || "")
 
         const handleChangeText = (text: string) => {
-          const normalizedText = text.replace(",", ".") // Chuyển dấu ',' thành '.'
-          setInputValue(normalizedText) // Cập nhật giá trị hiển thị
+          const normalizedText = text.replace(",", ".")
+          setInputValue(normalizedText)
 
           if (/^\d*\.?\d*$/.test(normalizedText)) {
-            // Nếu giá trị hợp lệ, chuyển thành số và cập nhật qua onChange
             const parsedValue = parseFloat(normalizedText)
             if (!isNaN(parsedValue)) {
               onChange(parsedValue)
             } else {
-              onChange(null) // Giá trị rỗng
+              onChange(null)
             }
           }
         }

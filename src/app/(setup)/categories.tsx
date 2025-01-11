@@ -22,7 +22,7 @@ function SetupCategories({ control, errors }: SetupCategoriesProps) {
     control
   })
 
-  const handleSelectCategory = (category: string) => {
+  const handleSelectCategories = (category: string) => {
     const currentValue = field.value || []
     if (currentValue.includes(category)) {
       field.onChange(currentValue.filter((item: string) => item !== category))
@@ -44,7 +44,7 @@ function SetupCategories({ control, errors }: SetupCategoriesProps) {
             <TouchableOpacity
               key={category.name}
               activeOpacity={0.7}
-              onPress={() => handleSelectCategory(category.categoryId)}
+              onPress={() => handleSelectCategories(category.categoryId)}
               className={`flex-row items-center rounded-2xl border-2 bg-muted px-4 py-2.5 ${
                 (field.value || []).includes(category.categoryId)
                   ? "border-primary"

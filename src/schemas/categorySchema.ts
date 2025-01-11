@@ -23,18 +23,16 @@ const baseCategorySchema = z.object({
   updatedBy: z.string()
 })
 
-export const categorySchema = baseCategorySchema.pick({
+const categorySchema = baseCategorySchema.pick({
   categoryId: true,
   name: true,
   description: true,
   image: true
 })
 
-const categoryIdValidation = baseCategorySchema.shape.categoryId
-
-export const idCategorySchema = z.object({
+export const categorySetupSchema = z.object({
   categories: z
-    .array(categoryIdValidation)
+    .array(baseCategorySchema.shape.categoryId)
     .min(5, { message: "Bạn phải chọn ít nhất 5 danh mục" })
 })
 

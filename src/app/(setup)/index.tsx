@@ -12,8 +12,8 @@ import { COLORS } from "@/constants/app"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { idAllergySchema } from "@/schemas/allergySchema"
-import { idCategorySchema } from "@/schemas/categorySchema"
+import { allergySetupSchema } from "@/schemas/allergySchema"
+import { categorySetupSchema } from "@/schemas/categorySchema"
 import { typeGoalSchema } from "@/schemas/goalSchema"
 import {
   activityLevelMetricSchema,
@@ -132,7 +132,7 @@ function SetupScreen() {
       description: "Chọn danh mục bạn yêu thích",
       component: SetupCategories,
       fields: ["categories"],
-      schema: idCategorySchema
+      schema: categorySetupSchema
     },
     {
       step: 8,
@@ -140,7 +140,7 @@ function SetupScreen() {
       description: "Cho biết thực phẩm bạn dị ứng",
       component: SetupAllergies,
       fields: ["allergies"],
-      schema: idAllergySchema
+      schema: allergySetupSchema
     }
   ]
 

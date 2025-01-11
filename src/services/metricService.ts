@@ -2,11 +2,7 @@ import axios from "axios"
 
 import monAPI from "@/lib/monAPI"
 
-import {
-  CreateMetricType,
-  MetricType,
-  UpdateMetricType
-} from "@/schemas/metricSchema"
+import { CreateMetricType, MetricType } from "@/schemas/metricSchema"
 
 export const getMetricsByUserId = async (
   userId: string | undefined

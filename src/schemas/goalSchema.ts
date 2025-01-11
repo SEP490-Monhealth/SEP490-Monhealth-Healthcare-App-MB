@@ -87,6 +87,28 @@ export const goalSchema = baseGoalSchema.pick({
   updatedBy: true
 })
 
+export const weightGoalSchema = baseGoalSchema.pick({
+  weightGoal: true
+})
+
+export const nutritionGoalSchema = baseGoalSchema.pick({
+  type: true,
+  caloriesGoal: true,
+  proteinGoal: true,
+  carbsGoal: true,
+  fatGoal: true,
+  fiberGoal: true,
+  sugarGoal: true
+})
+
+export const waterGoalSchema = baseGoalSchema.pick({
+  waterGoal: true
+})
+
+export const exerciseGoalSchema = baseGoalSchema.pick({
+  exerciseGoal: true
+})
+
 export const createGoalSchema = baseGoalSchema.pick({
   userId: true,
   type: true,
@@ -114,4 +136,8 @@ export const typeGoalSchema = z.object({
 })
 
 export type GoalType = z.infer<typeof goalSchema>
+export type WeightGoalType = z.infer<typeof weightGoalSchema>
+export type NutritionGoalType = z.infer<typeof nutritionGoalSchema>
+export type WaterGoalType = z.infer<typeof waterGoalSchema>
+export type ExerciseGoalType = z.infer<typeof exerciseGoalSchema>
 export type CreateGoalType = z.infer<typeof createGoalSchema>

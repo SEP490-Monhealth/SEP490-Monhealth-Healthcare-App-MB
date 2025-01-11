@@ -13,6 +13,8 @@ const baseNotificationSchema = z.object({
 
   status: z.boolean(),
 
+  isRead: z.boolean(),
+
   createdAt: z.string(),
   updatedAt: z.string(),
   createdBy: z.string(),

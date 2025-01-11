@@ -19,22 +19,14 @@ const baseAllergySchema = z.object({
   updatedBy: z.string()
 })
 
-export const allergySchema = baseAllergySchema.pick({
+const allergySchema = baseAllergySchema.pick({
   allergyId: true,
   name: true,
   description: true
 })
 
-export const basicAllergySchema = baseAllergySchema.pick({
-  allergyId: true,
-  name: true
-})
-
-const allergyIdValidation = baseAllergySchema.shape.allergyId
-
-export const idAllergySchema = z.object({
-  allergies: z.array(allergyIdValidation).default([])
+export const allergySetupSchema = z.object({
+  allergies: z.array(baseAllergySchema.shape.allergyId).default([])
 })
 
 export type AllergyType = z.infer<typeof allergySchema>
-export type AllergyBasicType = z.infer<typeof basicAllergySchema>
