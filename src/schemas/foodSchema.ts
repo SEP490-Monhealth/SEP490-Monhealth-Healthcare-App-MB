@@ -33,7 +33,7 @@ const baseFoodSchema = z.object({
   updatedBy: z.string()
 })
 
-export const foodSchema = baseFoodSchema.pick({
+const foodSchema = baseFoodSchema.pick({
   foodId: true,
   userId: true,
   type: true,

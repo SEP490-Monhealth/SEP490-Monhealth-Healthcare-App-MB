@@ -67,7 +67,7 @@ const baseGoalSchema = z.object({
   updatedBy: z.string()
 })
 
-export const goalSchema = baseGoalSchema.pick({
+const goalSchema = baseGoalSchema.pick({
   goalId: true,
   userId: true,
   type: true,

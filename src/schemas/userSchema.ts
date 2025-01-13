@@ -2,6 +2,7 @@ import { z } from "zod"
 
 const baseUserSchema = z.object({
   userId: z.string(),
+  subscriptionId: z.string(),
 
   fullName: z
     .string()
@@ -34,13 +35,10 @@ const baseUserSchema = z.object({
 
   role: z
     .string()
-    .refine(
-      (val) => ["Member", "Consultant", "Manager", "Admin"].includes(val),
-      {
-        message:
-          "Vai trò phải là một trong các giá trị: Member, Consultant, Manager, Admin"
-      }
-    ),
+    .refine((val) => ["User", "Member", "Consultant", "Admin"].includes(val), {
+      message:
+        "Vai trò phải là một trong các giá trị: User, Member, Consultant, Admin"
+    }),
 
   status: z.boolean(),
 
@@ -50,7 +48,7 @@ const baseUserSchema = z.object({
   updatedBy: z.string()
 })
 
-export const userSchema = baseUserSchema
+const userSchema = baseUserSchema
 
 export const createUpdateUserSchema = baseUserSchema.pick({
   fullName: true,

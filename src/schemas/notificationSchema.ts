@@ -4,11 +4,14 @@ const baseNotificationSchema = z.object({
   notificationId: z.string(),
   userId: z.string(),
 
-  title: z.string(),
-  description: z.string(),
   type: z
     .string()
-    .refine((val) => ["System", "Reminder", "Activity"].includes(val)),
+    .refine((val) =>
+      ["System", "Reminder", "Activity", "Booking"].includes(val)
+    ),
+  message: z
+    .string()
+    .nonempty({ message: "Nội dung thông báo không được để trống" }),
   href: z.string(),
 
   status: z.boolean(),
@@ -21,6 +24,6 @@ const baseNotificationSchema = z.object({
   updatedBy: z.string()
 })
 
-export const notificationSchema = baseNotificationSchema
+const notificationSchema = baseNotificationSchema
 
 export type NotificationType = z.infer<typeof notificationSchema>
