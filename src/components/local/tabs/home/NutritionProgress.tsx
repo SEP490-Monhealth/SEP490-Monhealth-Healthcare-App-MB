@@ -29,7 +29,10 @@ export const NutritionProgress = ({
       style={{ width: 240, height: 240 }}
     >
       {nutritionData.map((nutrient, index) => {
-        const fill = (nutrient.value / nutrient.targetValue) * 100
+        const fill =
+          nutrient.targetValue > 0
+            ? (nutrient.value / nutrient.targetValue) * 100
+            : 0
 
         return (
           <View key={index} className="absolute items-center">

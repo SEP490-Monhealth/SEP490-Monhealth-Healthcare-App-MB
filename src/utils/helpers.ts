@@ -74,7 +74,7 @@ export const getMealType = (lang: string = "vi") => {
   const selectedLang =
     mealTypes[lang as keyof typeof mealTypes] || mealTypes["vi"] // Default to Vietnamese
 
-  if (hours < 12) {
+  if (hours < 10) {
     return selectedLang.breakfast
   } else if (hours < 18) {
     return selectedLang.lunch

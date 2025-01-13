@@ -16,6 +16,7 @@ import {
 import { useAuth } from "@/contexts/AuthContext"
 
 import { useGetDailyMealByUserId } from "@/hooks/useDailyMeal"
+import { useGetNutritionGoal } from "@/hooks/useGoal"
 import { useRouterHandlers } from "@/hooks/useRouter"
 
 import { formatDateYYYYMMDD, toFixed } from "@/utils/formatters"
@@ -33,14 +34,26 @@ export const MealTab = ({ onLoading }: MealTabProps) => {
 
   const today = formatDateYYYYMMDD(new Date())
 
-  const { data: dailyMealData, isLoading } = useGetDailyMealByUserId(
-    userId,
-    today
-  )
+  const { data: dailyMealData, isLoading: isDailyMealLoading } =
+    useGetDailyMealByUserId(userId, today)
+
+  const { data: nutritionGoalData, isLoading: isGoalLoading } =
+    useGetNutritionGoal(userId)
 
   useEffect(() => {
-    onLoading(!dailyMealData || isLoading)
-  }, [dailyMealData, isLoading, onLoading])
+    onLoading(
+      !dailyMealData ||
+        isDailyMealLoading ||
+        !nutritionGoalData ||
+        isGoalLoading
+    )
+  }, [
+    dailyMealData,
+    isDailyMealLoading,
+    nutritionGoalData,
+    isGoalLoading,
+    onLoading
+  ])
 
   const mealsData = dailyMealData?.items || []
 
@@ -64,7 +77,8 @@ export const MealTab = ({ onLoading }: MealTabProps) => {
     return (existingMeal || defaultMeal) as typeof defaultMeal
   })
 
-  const caloriesGoal = 1249
+  const caloriesValue = dailyMealData?.nutrition?.calories || 0
+  const caloriesGoal = nutritionGoalData?.caloriesGoal || 0
 
   const caloriesData = {
     label: "Calories",
@@ -76,31 +90,32 @@ export const MealTab = ({ onLoading }: MealTabProps) => {
     {
       label: "Protein",
       value: dailyMealData?.nutrition?.protein || 0,
-      targetValue: 90
+      targetValue: nutritionGoalData?.proteinGoal || 0
     },
     {
       label: "Carbs",
       value: dailyMealData?.nutrition?.carbs || 0,
-      targetValue: 144
+      targetValue: nutritionGoalData?.carbsGoal || 0
     },
     {
       label: "Fat",
       value: dailyMealData?.nutrition?.fat || 0,
-      targetValue: 35
+      targetValue: nutritionGoalData?.fatGoal || 0
     },
     {
       label: "Fiber",
       value: dailyMealData?.nutrition?.fiber || 0,
-      targetValue: 28
+      targetValue: nutritionGoalData?.fiberGoal || 0
     },
     {
       label: "Sugar",
       value: dailyMealData?.nutrition?.sugar || 0,
-      targetValue: 25
+      targetValue: nutritionGoalData?.sugarGoal || 0
     }
   ]
 
-  const caloriesProgress = (caloriesData.value / caloriesGoal) * 100
+  const caloriesProgress =
+    caloriesGoal > 0 ? (caloriesValue / caloriesGoal) * 100 : 0
 
   const handleViewFoods = () => router.push("/foods")
 

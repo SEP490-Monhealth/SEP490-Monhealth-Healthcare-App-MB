@@ -21,8 +21,9 @@ function SetupAllergies({ control }: SetupAllergiesProps) {
     control
   })
 
-  const handleSelectAllergy = (allergy: string) => {
+  const handleSelectAllergies = (allergy: string) => {
     const currentValue = field.value || []
+
     if (currentValue.includes(allergy)) {
       field.onChange(currentValue.filter((item: string) => item !== allergy))
     } else {
@@ -38,9 +39,9 @@ function SetupAllergies({ control }: SetupAllergiesProps) {
       >
         {allergiesData.map((allergy) => (
           <TouchableOpacity
-            key={allergy.name}
+            key={allergy.allergyId}
             activeOpacity={0.7}
-            onPress={() => handleSelectAllergy(allergy.allergyId)}
+            onPress={() => handleSelectAllergies(allergy.allergyId)}
             className={`flex-row items-center rounded-2xl border-2 bg-muted px-4 py-2.5 ${
               (field.value || []).includes(allergy.allergyId)
                 ? "border-primary"

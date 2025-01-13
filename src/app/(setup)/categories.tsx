@@ -24,6 +24,7 @@ function SetupCategories({ control, errors }: SetupCategoriesProps) {
 
   const handleSelectCategories = (category: string) => {
     const currentValue = field.value || []
+    
     if (currentValue.includes(category)) {
       field.onChange(currentValue.filter((item: string) => item !== category))
     } else {
@@ -42,7 +43,7 @@ function SetupCategories({ control, errors }: SetupCategoriesProps) {
         >
           {categoriesData.map((category) => (
             <TouchableOpacity
-              key={category.name}
+              key={category.categoryId}
               activeOpacity={0.7}
               onPress={() => handleSelectCategories(category.categoryId)}
               className={`flex-row items-center rounded-2xl border-2 bg-muted px-4 py-2.5 ${

@@ -1,12 +1,11 @@
 import {
-  Chart2,
+  Activity,
   Command,
   I3Dcube,
   Lock1,
   Logout,
   NotificationStatus,
-  Profile,
-  Verify
+  Profile
 } from "iconsax-react-native"
 
 import { COLORS } from "@/constants/app"
@@ -14,7 +13,7 @@ import { COLORS } from "@/constants/app"
 export const generalItems = [
   {
     icon: <Profile variant="Bold" size={24} color={COLORS.accent} />,
-    label: "Hồ sơ cá nhân",
+    label: "Thông tin cá nhân",
     route: "/users/user-information"
   },
   {
@@ -23,19 +22,19 @@ export const generalItems = [
     route: "/users/health-tracking"
   },
   {
-    icon: <Chart2 variant="Bold" size={24} color={COLORS.accent} />,
-    label: "Thống kê sức khỏe",
-    route: "/users/health-stats"
+    icon: <Activity variant="Bold" size={24} color={COLORS.accent} />,
+    label: "Hoạt động thể chất",
+    route: "/users/activity-tracking"
   },
   {
     icon: <NotificationStatus variant="Bold" size={24} color={COLORS.accent} />,
-    label: "Nhắc nhở",
+    label: "Nhắc nhở và thông báo",
     route: "/users/reminders"
   },
   {
     icon: <Lock1 variant="Bold" size={24} color={COLORS.accent} />,
-    label: "Cài đặt bảo mật",
-    route: "/users/security-settings"
+    label: "Bảo mật và quyền riêng tư",
+    route: "/users/privacy-settings"
   }
 ]
 
@@ -43,12 +42,7 @@ export const aboutItems = [
   {
     icon: <I3Dcube variant="Bold" size={24} color={COLORS.accent} />,
     label: "Thông tin ứng dụng",
-    route: "/about"
-  },
-  {
-    icon: <Verify variant="Bold" size={24} color={COLORS.accent} />,
-    label: "Phản hồi và đánh giá",
-    route: "/feedback"
+    route: "/app-about"
   },
   {
     icon: <Logout variant="Bold" size={24} color={COLORS.accent} />,

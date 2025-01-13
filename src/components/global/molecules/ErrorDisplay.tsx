@@ -29,8 +29,8 @@ export const ErrorDisplay = ({
       <Animated.Image
         source={imageSource}
         style={{
-          width: 320,
-          height: 320,
+          width: 270,
+          height: 270,
           opacity: fadeAnim,
           transform: [{ scale: scaleAnim }]
         }}
