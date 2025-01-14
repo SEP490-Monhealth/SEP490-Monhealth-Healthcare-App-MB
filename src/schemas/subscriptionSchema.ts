@@ -7,7 +7,7 @@ const baseSubscriptionSchema = z.object({
     .string()
     .nonempty({ message: "Tên gói không được để trống" })
     .refine((val) => ["Basic", "Premium"].includes(val), {
-      message: "Tên gói phải là Basic hoặc Premium"
+      message: "Tên gói không hợp lệ. Chỉ chấp nhận: Basic, Premium"
     }),
   price: z.number().min(0, { message: "Giá gói phải lớn hơn 0" }),
 

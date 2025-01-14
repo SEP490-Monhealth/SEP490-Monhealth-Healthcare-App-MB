@@ -11,7 +11,7 @@ export const mealFoodSchema = z.object({
     .nonempty({ message: "Tên món ăn không được để trống" })
     .max(100, { message: "Tên món ăn không được dài hơn 100 ký tự" })
     .regex(/^[a-zA-Z0-9\s\u00C0-\u024F\u1E00-\u1EFF]*$/, {
-      message: "Tên món ăn chỉ được chứa chữ cái, số và khoảng trắng"  
+      message: "Tên món ăn chỉ được chứa chữ cái, số và khoảng trắng"
     }),
 
   quantity: z.number().min(1, { message: "Số lượng phải lớn hơn hoặc bằng 1" }),
@@ -53,7 +53,7 @@ export const mealSchema = z.object({
     .string()
     .refine((val) => ["Breakfast", "Lunch", "Dinner", "Snack"].includes(val), {
       message:
-        "Bữa ăn phải là một trong các giá trị: Breakfast, Lunch, Dinner, Snack"
+        "Loại bữa ăn không hợp lệ. Chỉ chấp nhận: Breakfast, Lunch, Dinner, Snack"
     }),
 
   nutrition: nutritionSchema,

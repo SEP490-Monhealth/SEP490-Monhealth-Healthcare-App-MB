@@ -9,7 +9,29 @@ const baseFoodSchema = z.object({
   foodId: z.string(),
   userId: z.string(),
 
-  type: z.string(),
+  foodType: z.string(),
+  mealType: z.array(
+    z
+      .string()
+      .refine(
+        (val) => ["Breakfast", "Lunch", "Dinner", "Snack"].includes(val),
+        {
+          message:
+            "Loại bữa ăn không hợp lệ. Chỉ chấp nhận: Breakfast, Lunch, Dinner, Snack"
+        }
+      )
+  ),
+  dishType: z
+    .string()
+    .refine(
+      (val) =>
+        ["Main Dish", "Side Dish", "Dessert", "Drink", "Snack"].includes(val),
+      {
+        message:
+          "Loại món ăn không hợp lệ. Chỉ chấp nhận: Main Dish, Side Dish, Dessert, Drink, Snack"
+      }
+    ),
+
   category: z.string(),
   name: z
     .string()
@@ -38,7 +60,7 @@ const baseFoodSchema = z.object({
 export const foodSchema = baseFoodSchema.pick({
   foodId: true,
   userId: true,
-  type: true,
+  foodType: true,
   category: true,
   name: true,
   description: true,
@@ -65,7 +87,9 @@ export const foodUserSchema = z.object({
 
 export const createFoodSchema = baseFoodSchema.pick({
   userId: true,
-  type: true,
+  foodType: true,
+  mealType: true,
+  dishType: true,
   name: true,
   description: true,
   portion: true,
@@ -73,7 +97,9 @@ export const createFoodSchema = baseFoodSchema.pick({
 })
 
 export const informationFoodSchema = baseFoodSchema.pick({
-  type: true,
+  foodType: true,
+  mealType: true,
+  dishType: true,
   name: true,
   description: true
 })

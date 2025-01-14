@@ -37,7 +37,7 @@ const baseUserSchema = z.object({
     .string()
     .refine((val) => ["User", "Member", "Consultant", "Admin"].includes(val), {
       message:
-        "Vai trò phải là một trong các giá trị: User, Member, Consultant, Admin"
+        "Vai trò không hợp lệ. Chỉ chấp nhận: User, Member, Consultant, Admin"
     }),
 
   status: z.boolean(),

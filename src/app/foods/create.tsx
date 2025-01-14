@@ -40,14 +40,14 @@ function FoodCreateScreen() {
 
   const { mutate: createFood } = useCreateFood()
 
-  const { type, name, description, portion, nutrition, updateField } =
+  const { foodType, name, description, portion, nutrition, updateField } =
     useFoodStore()
 
   const [currentStep, setCurrentStep] = useState(1)
 
   const formData: Record<string, any> = {
     userId,
-    type,
+    foodType,
     name,
     description,
     portion,
@@ -59,7 +59,7 @@ function FoodCreateScreen() {
       step: 1,
       title: "Tạo món ăn",
       component: FoodInformation,
-      fields: ["type", "name", "description"],
+      fields: ["foodType", "name", "description"],
       schema: informationFoodSchema
     },
     {

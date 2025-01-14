@@ -58,7 +58,7 @@ const baseGoalSchema = z.object({
     .string()
     .refine((val) => ["Abandoned", "Active", "Completed"].includes(val), {
       message:
-        "Trạng thái phải là một trong các giá trị: Bỏ dở, Đang hoạt động, Hoàn thành"
+        "Trạng thái mục tiêu không hợp lệ. Chỉ chấp nhận: Abandoned, Active, Completed"
     }),
 
   createdAt: z.string(),

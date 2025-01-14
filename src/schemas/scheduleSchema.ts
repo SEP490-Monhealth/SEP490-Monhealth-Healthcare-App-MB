@@ -13,7 +13,7 @@ const baseScheduleSchema = z.object({
     }),
 
   status: z.string().refine((val) => ["Available", "Booked"].includes(val), {
-    message: "Trạng thái phải là: Available hoặc Booked"
+    message: "Trạng thái không hợp lệ. Chỉ chấp nhận: Available, Booked"
   }),
 
   createdAt: z.string(),

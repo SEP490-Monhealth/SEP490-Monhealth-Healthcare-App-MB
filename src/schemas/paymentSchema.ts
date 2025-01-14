@@ -10,7 +10,8 @@ const basePaymentSchema = z.object({
   status: z
     .string()
     .refine((val) => ["Pending", "Success", "Failed"].includes(val), {
-      message: "Trạng thái thanh toán phải là Pending, Success hoặc Failed"
+      message:
+        "Trạng thái không hợp lệ. Chỉ chấp nhận: Pending, Success, Failed"
     }),
 
   createdAt: z.string(),

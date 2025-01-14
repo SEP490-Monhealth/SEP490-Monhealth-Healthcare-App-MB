@@ -25,7 +25,7 @@ const baseMetricSchema = z.object({
       { message: "Tuổi phải nằm trong khoảng từ 15 đến 120" }
     ),
   gender: z.string().refine((val) => ["Male", "Female"].includes(val), {
-    message: "Giới tính không hợp lệ. Chỉ chấp nhận 'Nam' hoặc 'Nữ'"
+    message: "Giới tính không hợp lệ. Chỉ chấp nhận: Nam hoặc Nữ"
   }),
   height: z
     .number()

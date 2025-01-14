@@ -9,7 +9,7 @@ const mealItemsSchema = z.object({
     .string()
     .refine((val) => ["Breakfast", "Lunch", "Dinner", "Snack"].includes(val), {
       message:
-        "Bữa ăn phải là một trong các giá trị: Breakfast, Lunch, Dinner, Snack"
+        "Loại bữa ăn không hợp lệ. Chỉ chấp nhận: Breakfast, Lunch, Dinner, Snack"
     }),
 
   calories: z
