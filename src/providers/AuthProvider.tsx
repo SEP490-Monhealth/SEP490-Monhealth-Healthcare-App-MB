@@ -10,6 +10,8 @@ import { useError } from "@/contexts/ErrorContext"
 import { login, logout, register, whoIAm } from "@/services/authService"
 import { getMetricsByUserId } from "@/services/metricService"
 
+import { delay } from "@/utils/helpers"
+
 interface UserPayload {
   userId: string
   fullName: string
@@ -40,19 +42,25 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const metricsExist = metricsData && metricsData.length > 0
         setHasMetrics(metricsExist)
 
+        await delay(2000)
+
         if (metricsExist) {
           router.replace("/(tabs)/home")
         } else {
           router.replace("/(setup)")
         }
       } else {
+        await delay(2000)
         router.replace("/(auth)/sign-in")
       }
     } catch (error) {
       handleError(error)
+
       setIsAuthenticated(false)
       setUser(null)
       setHasMetrics(false)
+
+      await delay(2000)
       router.replace("/(auth)/sign-in")
     } finally {
       setLoading(false)
@@ -94,8 +102,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   ) => {
     try {
       await register(fullName, email, phoneNumber, password)
-
       await handleLogin(phoneNumber, password)
+
+      const userInfo = await whoIAm()
+      const metricsData = await getMetricsByUserId(userInfo.userId)
+      const metricsExist = metricsData && metricsData.length > 0
+
+      if (!metricsExist) {
+        setHasMetrics(false)
+        router.replace("/(setup)")
+      }
     } catch (error) {
       handleError(error)
       throw error
@@ -109,6 +125,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       await AsyncStorage.removeItem("refreshToken")
       setIsAuthenticated(false)
       setUser(null)
+      setHasMetrics(false)
       router.replace("/(auth)/sign-in")
     } catch (error) {
       handleError(error)

@@ -34,7 +34,7 @@ export const NutritionCard = ({
       </HStack>
 
       <Text className="font-tbold text-sm text-primary">
-        {value}/{targetValue} g
+        {value} / {targetValue}g
       </Text>
     </View>
   )

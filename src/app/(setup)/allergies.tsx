@@ -41,9 +41,9 @@ function SetupAllergies({ control }: SetupAllergiesProps) {
           <TouchableOpacity
             key={allergy.allergyId}
             activeOpacity={0.7}
-            onPress={() => handleSelectAllergies(allergy.allergyId)}
+            onPress={() => handleSelectAllergies(allergy.name)}
             className={`flex-row items-center rounded-2xl border-2 bg-muted px-4 py-2.5 ${
-              (field.value || []).includes(allergy.allergyId)
+              (field.value || []).includes(allergy.name)
                 ? "border-primary"
                 : "border-border"
             }`}

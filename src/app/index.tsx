@@ -2,16 +2,9 @@ import React, { useEffect, useRef } from "react"
 
 import { Animated, Text } from "react-native"
 
-import { useRouter } from "expo-router"
-
 import { Container, Content } from "@/components/global/atoms"
 
-import { useAuth } from "@/contexts/AuthContext"
-
 function AppIndex() {
-  const router = useRouter()
-  const { isAuthenticated, hasMetrics, loading } = useAuth()
-
   const fadeAnim = useRef(new Animated.Value(0)).current
   const rotateAnim = useRef(new Animated.Value(0)).current
   const scaleAnim = useRef(new Animated.Value(0.5)).current
@@ -57,23 +50,7 @@ function AppIndex() {
         })
       ])
     ]).start()
-
-    const timeout = setTimeout(() => {
-      if (!loading) {
-        if (isAuthenticated) {
-          if (hasMetrics) {
-            router.replace("/(tabs)/home")
-          } else {
-            router.replace("/(setup)")
-          }
-        } else {
-          router.replace("/(onboarding)")
-        }
-      }
-    }, 2000)
-
-    return () => clearTimeout(timeout)
-  }, [loading, isAuthenticated, hasMetrics, router])
+  }, [])
 
   const rotate = rotateAnim.interpolate({
     inputRange: [0, 1],

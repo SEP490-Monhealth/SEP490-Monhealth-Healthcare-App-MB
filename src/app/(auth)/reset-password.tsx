@@ -50,7 +50,7 @@ function ForgotPasswordScreen() {
 
   return (
     <Container>
-      <Content>
+      <Content className="mt-12">
         <VStack gap={64}>
           <IconButton
             icon={<ArrowLeft size={24} color={COLORS.primary} />}

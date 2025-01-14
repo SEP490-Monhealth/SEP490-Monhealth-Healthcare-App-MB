@@ -71,7 +71,8 @@ function SignUpScreen() {
         registerData.email,
         registerData.password
       )
-      // router.replace("/(auth)/sign-in")
+
+      router.replace("/(setup)")
     } catch (error: any) {
       console.log("Lỗi khi đăng ký:", error.response?.data || error.message)
     } finally {
@@ -83,7 +84,7 @@ function SignUpScreen() {
 
   return (
     <Container>
-      <Content>
+      <Content className="mt-12">
         <VStack gap={64}>
           <IconButton
             icon={<ArrowLeft size={24} color={COLORS.primary} />}

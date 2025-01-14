@@ -2,7 +2,6 @@ import { z } from "zod"
 
 const baseSubscriptionSchema = z.object({
   subscriptionId: z.string(),
-  userId: z.string(),
 
   name: z
     .string()

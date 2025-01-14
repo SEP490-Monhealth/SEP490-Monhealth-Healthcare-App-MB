@@ -140,7 +140,7 @@ export const MealTab = ({ onLoading }: MealTabProps) => {
 
       <Section
         label="Bữa ăn hôm nay"
-        action="Món ăn"
+        action="Thêm món ăn"
         onPress={handleViewFoods}
       />
 

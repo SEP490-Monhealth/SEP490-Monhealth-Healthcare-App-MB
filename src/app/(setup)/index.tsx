@@ -181,7 +181,7 @@ function SetupScreen() {
       return
     }
 
-    console.log("Submitted data:", data)
+    // console.log("Submitted data:", data)
     // console.log("Errors after submit:", errors)
 
     // Object.keys(data).forEach((key) => {
@@ -227,10 +227,10 @@ function SetupScreen() {
         allergies: formData.allergies
       }
 
-      console.log("metric", metricData)
-      console.log("goal", goalData)
-      console.log("categories", categoryData)
-      console.log("allergies", allergyData)
+      // console.log("metric", metricData)
+      // console.log("goal", goalData)
+      // console.log("categories", categoryData)
+      // console.log("allergies", allergyData)
 
       const newMetricData = { ...metricData, ...goalData }
 

@@ -11,6 +11,7 @@ import Animated, {
 import { useRouter } from "expo-router"
 
 import { Button, Container, VStack } from "@/components/global/atoms"
+import { CounterText } from "@/components/global/molecules"
 
 import { useSetupStore } from "@/stores/setupStore"
 
@@ -105,7 +106,7 @@ function SetupSummary() {
 
               <View className="flex-row items-end gap-2">
                 <Text className="font-tbold text-6xl text-primary">
-                  {toFixed(tdee ?? 0, 0)}
+                  <CounterText value={toFixed(tdee ?? 0, 0)} />
                 </Text>
                 <Text className="mb-3 font-tmedium text-xl text-accent">
                   kcal

@@ -1,6 +1,13 @@
 import { COLORS } from "@/constants/app"
 
 /**
+ *
+ * @param ms
+ * @returns
+ */
+export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
+/**
  * Capitalize: Chuyển ký tự đầu tiên thành in hoa
  * @param str Chuỗi cần chuyển đổi
  * @returns Chuỗi đã capitalize
