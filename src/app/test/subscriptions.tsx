@@ -30,22 +30,17 @@ function SubscriptionScreen() {
       <Header back label="Gói đăng kí" />
 
       <Content className="mt-2">
-        <IntroHeader
-          title="Nâng cấp trải nghiệm của bạn"
-          description={
-            <VStack>
-              <Text className="font-tregular text-lg text-accent">
-                Đặt lịch với chuyên gia dinh dưỡng & sức khỏe
-              </Text>
-              <Text className="font-tregular text-lg text-accent">
-                Lập kế hoạch cá nhân hóa về dinh dưỡng & bài tập
-              </Text>
-              <Text className="font-tregular text-lg text-accent">
-                Theo dõi mục tiêu sức khỏe với công cụ phân tích chi tiết
-              </Text>
-            </VStack>
-          }
-        />
+        <VStack>
+          <Text className="font-tregular text-lg text-accent">
+            Đặt lịch với chuyên gia dinh dưỡng & sức khỏe
+          </Text>
+          <Text className="font-tregular text-lg text-accent">
+            Lập kế hoạch cá nhân hóa về dinh dưỡng & bài tập
+          </Text>
+          <Text className="font-tregular text-lg text-accent">
+            Theo dõi mục tiêu sức khỏe với công cụ phân tích chi tiết
+          </Text>
+        </VStack>
 
         <FlatList
           data={subscriptionData || []}

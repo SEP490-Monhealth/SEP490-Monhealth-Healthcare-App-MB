@@ -37,15 +37,16 @@ export const SubscriptionCard = ({
           <Text className="font-tmedium text-lg text-primary">
             {formatCurrency(price)}
           </Text>
+          
           <HStack>
-            <Text className="font-tregular text-base text-accent">
-              {time} tháng
-            </Text>
             {discount > 0 && (
               <Text className="font-tregular text-base text-accent">
                 (Tiết kiệm {discount}%)
               </Text>
             )}
+            <Text className="font-tregular text-base text-accent">
+              {time} tháng
+            </Text>
           </HStack>
         </VStack>
       </HStack>

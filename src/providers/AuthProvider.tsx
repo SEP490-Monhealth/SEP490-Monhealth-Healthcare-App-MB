@@ -87,7 +87,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (metricsExist) {
         router.replace("/(tabs)/home")
       } else {
-        router.replace("/(setup)")
+        router.replace("/(onboarding)")
       }
     } catch (error) {
       handleError(error)

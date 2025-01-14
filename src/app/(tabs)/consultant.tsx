@@ -24,19 +24,19 @@ function AssistantScreen() {
   }
 
   const handleViewSubscription = () => {
-    router.push("/(setup)/subscriptions")
+    router.push("/test/subscriptions")
   }
 
   const handleViewSignUp = () => {
-    router.push("/(setup)/sign-up")
+    router.push("/test/consultant-sign-up")
   }
 
   const handleViewCertificate = () => {
-    router.push("/(setup)/certification")
+    router.push("/test/certification")
   }
 
   const handleViewService = () => {
-    router.push("/(setup)/service")
+    router.push("/test/service")
   }
 
   return (

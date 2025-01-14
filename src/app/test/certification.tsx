@@ -35,8 +35,9 @@ import {
 import { convertToISOString, formatDate } from "@/utils/formatters"
 
 function CertificationScreen() {
-  const [isLoading, setIsLoading] = useState(false)
   const SheetRef = useRef<SheetRefProps>(null)
+
+  const [isLoading, setIsLoading] = useState(false)
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [currentInputType, setCurrentInputType] = useState<
     "issueDate" | "expiryDate"
