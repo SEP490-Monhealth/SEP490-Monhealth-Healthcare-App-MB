@@ -7,46 +7,45 @@ import { formatCurrency } from "@/utils/helpers"
 import { Card, HStack, VStack } from "../atoms"
 
 interface SubscriptionCardProps {
-  name: string
+  duration: number
   price: number
   discount: number
-  time: number
   isSelected?: boolean
   onPress?: () => void
 }
 
 export const SubscriptionCard = ({
-  name,
+  duration,
   price,
   discount,
-  time,
   isSelected,
   onPress
 }: SubscriptionCardProps) => {
   return (
     <Card
-      className={`rounded-2xl border-2 ${
+      className={`h-24 justify-center rounded-2xl border-2 ${
         isSelected ? "border-primary" : "border-border"
       }`}
       onPress={onPress}
     >
       <HStack className="w-full items-center justify-between">
-        <Text className="font-tmedium text-lg text-primary">{name}</Text>
+        <Text className="font-tmedium text-lg text-primary">
+          {duration} tháng
+        </Text>
 
         <VStack className="items-end">
           <Text className="font-tmedium text-lg text-primary">
             {formatCurrency(price)}
           </Text>
-          
+
           <HStack>
             {discount > 0 && (
               <Text className="font-tregular text-base text-accent">
                 (Tiết kiệm {discount}%)
               </Text>
             )}
-            <Text className="font-tregular text-base text-accent">
-              {time} tháng
-            </Text>
+
+            <Text className="font-tregular text-base text-accent">/ tháng</Text>
           </HStack>
         </VStack>
       </HStack>
