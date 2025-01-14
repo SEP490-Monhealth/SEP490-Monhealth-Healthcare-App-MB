@@ -30,7 +30,7 @@ const mealItemsSchema = z.object({
     .max(500, { message: "Chất béo không được vượt quá 500g" })
 })
 
-const dailyMealSchema = z.object({
+export const dailyMealSchema = z.object({
   dailyMealId: z.string(),
   userId: z.string(),
 

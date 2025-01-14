@@ -1,11 +1,13 @@
 import { COLORS } from "@/constants/app"
+import { TipsData } from "@/constants/tips"
 
 /**
- *
- * @param ms
- * @returns
+ * Tạm dừng thực thi trong một khoảng thời gian nhất định.
+ * @param ms - Thời gian tạm dừng (tính bằng mili giây).
+ * @returns Một promise sẽ hoàn thành sau khoảng thời gian đã chỉ định.
  */
-export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+export const delay = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms))
 
 /**
  * Capitalize: Chuyển ký tự đầu tiên thành in hoa
@@ -182,4 +184,13 @@ export const convertTimeStringToDate = (timeString: string): Date => {
   const date = new Date()
   date.setHours(hours, minutes, 0, 0)
   return date
+}
+
+/**
+ * Lấy ngẫu nhiên một lời khuyên (tip).
+ * @returns Nội dung lời khuyên (tipContent).
+ */
+export const getRandomTip = () => {
+  const randomIndex = Math.floor(Math.random() * TipsData.length)
+  return TipsData[randomIndex].tipContent
 }

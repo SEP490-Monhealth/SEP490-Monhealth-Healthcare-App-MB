@@ -19,9 +19,9 @@ const baseServiceSchema = z.object({
   updatedBy: z.string()
 })
 
-const serviceSchema = baseServiceSchema
+export const serviceSchema = baseServiceSchema
 
-const createUpdateServiceSchema = serviceSchema.pick({
+export const createUpdateServiceSchema = serviceSchema.pick({
   name: true,
   description: true,
   price: true

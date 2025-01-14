@@ -188,7 +188,6 @@ function ReminderScreen() {
       </Sheet>
 
       <Modal
-        variant="alert"
         isVisible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
         title="Xóa nhắc nhở"

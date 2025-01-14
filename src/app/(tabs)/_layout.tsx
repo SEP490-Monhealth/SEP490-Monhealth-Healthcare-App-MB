@@ -35,7 +35,7 @@ function TabLayout() {
           paddingHorizontal: 12
         },
         tabBarButton: (props) => {
-          // @ts-ignore toi met moi roi
+          // @ts-ignore toi qua met moi roi
           const newProps: TouchableOpacityProps = {
             ...props,
             delayLongPress: props.delayLongPress ?? undefined,
@@ -72,7 +72,7 @@ function TabLayout() {
       />
 
       <Tabs.Screen
-        name="assistant"
+        name="consultant"
         options={{
           tabBarLabel: ({ focused }) => (
             <Text
@@ -101,7 +101,7 @@ function TabLayout() {
           tabBarLabel: () => null,
           tabBarIcon: () => (
             <View className="h-20 w-20 items-center justify-center rounded-full border-[6px] border-white bg-primary">
-              <Sound color="#fff" size={24} variant="Bold" />
+              <Sound variant="Bold" size={24} color="#fff" />
             </View>
           )
         }}

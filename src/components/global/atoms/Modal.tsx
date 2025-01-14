@@ -20,6 +20,7 @@ const ModalButton = ({ onPress, text, style, textStyle }: ModalButtonProps) => (
 interface ModalProps {
   variant?: "confirm" | "alert"
   isVisible: boolean
+  dismissable?: boolean
   onClose: () => void
   title: string
   description: string
@@ -31,6 +32,7 @@ interface ModalProps {
 export const Modal = ({
   variant = "confirm",
   isVisible,
+  dismissable = false,
   onClose,
   title,
   description,
@@ -71,12 +73,14 @@ export const Modal = ({
   if (!visible) return null
 
   return (
-    <View className="absolute inset-0 z-50 flex items-center justify-center px-10">
-      <TouchableOpacity
-        className="absolute inset-0 bg-black/50"
-        onPress={onClose}
-        activeOpacity={1}
-      />
+    <View className="absolute inset-0 z-50 flex items-center justify-center bg-black/50 px-10">
+      {dismissable && (
+        <TouchableOpacity
+          className="absolute inset-0 bg-black/50"
+          onPress={onClose}
+          activeOpacity={1}
+        />
+      )}
 
       <Animated.View
         style={{ opacity: fadeAnim }}

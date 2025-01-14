@@ -48,7 +48,7 @@ const baseUserSchema = z.object({
   updatedBy: z.string()
 })
 
-const userSchema = baseUserSchema
+export const userSchema = baseUserSchema
 
 export const createUpdateUserSchema = baseUserSchema.pick({
   fullName: true,

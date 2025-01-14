@@ -1,5 +1,7 @@
 import { z } from "zod"
 
+import { allergySetupSchema } from "./allergySchema"
+import { categorySetupSchema } from "./categorySchema"
 import { nutritionSchema } from "./nutritionSchema"
 import { portionSchema } from "./portionSchema"
 
@@ -33,7 +35,7 @@ const baseFoodSchema = z.object({
   updatedBy: z.string()
 })
 
-const foodSchema = baseFoodSchema.pick({
+export const foodSchema = baseFoodSchema.pick({
   foodId: true,
   userId: true,
   type: true,
@@ -54,6 +56,11 @@ export const foodSaveSchema = baseFoodSchema.pick({
   name: true,
   portion: true,
   nutrition: true
+})
+
+export const foodUserSchema = z.object({
+  categories: categorySetupSchema.shape.categories,
+  allergies: allergySetupSchema.shape.allergies
 })
 
 export const createFoodSchema = baseFoodSchema.pick({
@@ -86,5 +93,6 @@ export const updateFoodSchema = baseFoodSchema.pick({
 
 export type FoodType = z.infer<typeof foodSchema>
 export type SaveFoodType = z.infer<typeof foodSaveSchema>
+export type FoodUserType = z.infer<typeof foodUserSchema>
 export type CreateFoodType = z.infer<typeof createFoodSchema>
 export type UpdateFoodType = z.infer<typeof updateFoodSchema>

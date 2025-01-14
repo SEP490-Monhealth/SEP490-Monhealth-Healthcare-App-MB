@@ -12,6 +12,9 @@ import { COLORS } from "@/constants/app"
 
 import { useAuth } from "@/contexts/AuthContext"
 
+import { useCreateUserFoods } from "@/hooks/useFood"
+import { useCreateMetric } from "@/hooks/useMetric"
+
 import { allergySetupSchema } from "@/schemas/allergySchema"
 import { categorySetupSchema } from "@/schemas/categorySchema"
 import { typeGoalSchema } from "@/schemas/goalSchema"
@@ -23,8 +26,9 @@ import {
   weightGoalSchema
 } from "@/schemas/metricSchema"
 
-import { useSetupStore } from "@/stores/setupStore"
+import { useUserSetupStore } from "@/stores/userSetupStore"
 
+import { LoadingOverlay } from "../loading"
 import SetupActivityLevel from "./activity-level"
 import SetupAllergies from "./allergies"
 import SetupCategories from "./categories"
@@ -49,6 +53,9 @@ function SetupScreen() {
   const { user } = useAuth()
   const userId = user?.userId
 
+  const { mutate: createMetric } = useCreateMetric()
+  const { mutate: createUserFoods } = useCreateUserFoods(userId || "")
+
   const {
     dateOfBirth,
     gender,
@@ -60,9 +67,10 @@ function SetupScreen() {
     categories,
     allergies,
     updateField
-  } = useSetupStore()
+  } = useUserSetupStore()
 
   const [currentStep, setCurrentStep] = useState(1)
+  const [isLoading, setIsLoading] = useState(false)
 
   const formData: Record<string, any> = {
     userId,
@@ -161,9 +169,9 @@ function SetupScreen() {
     defaultValues: formData
   })
 
-  const onSubmitStep = (data: Record<string, any>, setError: any) => {
+  const onSubmitStep = async (data: Record<string, any>, setError: any) => {
     const { weightGoal } = data
-    const { weight } = useSetupStore.getState()
+    const { weight } = useUserSetupStore.getState()
 
     if (goalType === "WeightLoss" && weightGoal >= weight) {
       setError("weightGoal", {
@@ -181,69 +189,78 @@ function SetupScreen() {
       return
     }
 
-    // console.log("Submitted data:", data)
-    // console.log("Errors after submit:", errors)
-
-    // Object.keys(data).forEach((key) => {
-    //   set(formData, key, data[key])
-    // })
-
     Object.keys(data).forEach((key) => {
       updateField(key, data[key])
     })
 
-    Object.keys(data).forEach((key) => {
-      const keys = key.split("")
-      if (keys.length > 1) {
-        const [parent, child] = keys
-        updateField(parent, { ...formData[parent], [child]: data[key] })
-      } else {
-        updateField(key, data[key])
-      }
-    })
+    const updatedState = useUserSetupStore.getState()
 
     if (currentStep < setupSteps.length) {
       setCurrentStep(currentStep + 1)
     } else {
+      const userData = {
+        userId: formData.userId
+      }
+
       const metricData = {
-        userId: formData.userId,
-        dateOfBirth: formData.dateOfBirth,
-        gender: formData.gender,
-        height: formData.height,
-        weight: formData.weight,
-        activityLevel: formData.activityLevel
+        dateOfBirth: updatedState.dateOfBirth,
+        gender: updatedState.gender,
+        height: updatedState.height,
+        weight: updatedState.weight,
+        activityLevel: updatedState.activityLevel
       }
 
       const goalData = {
-        goalType: formData.goalType,
-        weightGoal: formData.weightGoal
+        goalType: updatedState.goalType,
+        weightGoal: updatedState.weightGoal
       }
 
       const categoryData = {
-        categories: formData.categories
+        categories: updatedState.categories
       }
 
       const allergyData = {
-        allergies: formData.allergies
+        allergies: updatedState.allergies
       }
 
-      // console.log("metric", metricData)
-      // console.log("goal", goalData)
-      // console.log("categories", categoryData)
-      // console.log("allergies", allergyData)
-
-      const newMetricData = { ...metricData, ...goalData }
-
-      console.log("new metric data", newMetricData)
-
-      const finalData = {
-        userId: formData.userId,
-        ...useSetupStore.getState()
+      const newMetricData = {
+        ...userData,
+        ...metricData,
+        ...goalData
       }
 
-      console.log("Final Form Data:", JSON.stringify(finalData, null, 2))
+      const newUserFoodsData = { ...categoryData, ...allergyData }
 
-      router.replace("/(setup)/summary")
+      // console.log("new metric data", JSON.stringify(newMetricData, null, 2))
+      // console.log(
+      //   "new user foods data",
+      //   JSON.stringify(newUserFoodsData, null, 2)
+      // )
+
+      setIsLoading(true)
+
+      try {
+        await Promise.all([
+          new Promise((resolve, reject) =>
+            createMetric(newMetricData, {
+              onSuccess: resolve,
+              onError: reject
+            })
+          ),
+          new Promise((resolve, reject) =>
+            createUserFoods(newUserFoodsData, {
+              onSuccess: resolve,
+              onError: reject
+            })
+          )
+        ])
+
+        router.replace("/(setup)/summary")
+      } catch (error) {
+        console.error("Error during setup submission:", error)
+      } finally {
+        setIsLoading(false)
+      }
     }
   }
 
@@ -257,10 +274,10 @@ function SetupScreen() {
 
   const StepComponent = currentStepData.component
 
-  console.log(errors)
-
   return (
     <Container dismissKeyboard>
+      {isLoading && <LoadingOverlay visible={isLoading} />}
+
       <CustomHeader
         back={currentStep === 1 ? false : true}
         content={

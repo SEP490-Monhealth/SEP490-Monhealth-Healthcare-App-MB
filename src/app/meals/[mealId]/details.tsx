@@ -169,15 +169,13 @@ function MealDetailsScreen() {
       )
 
       if (currentFood) {
-        updateMealFoodQuantity(
-          {
-            mealFoodId,
-            quantity: currentFood.quantity + change,
-            mealId,
-            userId,
-            date
-          }
-        )
+        updateMealFoodQuantity({
+          mealFoodId,
+          quantity: currentFood.quantity + change,
+          mealId,
+          userId,
+          date
+        })
       }
     },
     [userId, mealFoodsData, mealId, date, updateMealFoodQuantity]
@@ -313,7 +311,6 @@ function MealDetailsScreen() {
         </Sheet>
 
         <Modal
-          variant="alert"
           isVisible={isModalVisible}
           onClose={() => setIsModalVisible(false)}
           title="Xóa món ăn"

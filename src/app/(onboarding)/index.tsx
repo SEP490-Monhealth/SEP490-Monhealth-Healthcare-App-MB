@@ -36,7 +36,7 @@ function OnboardingScreen() {
     if (currentIndex < onboardingData.length - 1) {
       setCurrentIndex((prev) => prev + 1)
     } else {
-      router.replace("/(onboarding)/welcome")
+      router.replace("/(setup)")
     }
   }
 

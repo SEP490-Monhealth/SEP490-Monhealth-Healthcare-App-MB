@@ -17,6 +17,6 @@ const baseSubscriptionSchema = z.object({
   updatedBy: z.string()
 })
 
-const subscriptionSchema = baseSubscriptionSchema
+export const subscriptionSchema = baseSubscriptionSchema
 
 export type SubscriptionType = z.infer<typeof subscriptionSchema>

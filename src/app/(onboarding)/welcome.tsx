@@ -9,36 +9,37 @@ import { Button, Container, Content, VStack } from "@/components/global/atoms"
 function WelcomeScreen() {
   const router = useRouter()
 
-  const handleSignInGoogle = () => {
-    router.replace("/(tabs)/home")
+  const handleUser = () => {
+    router.push("/(auth)/sign-in")
   }
 
-  const handleSignInEmail = () => {
-    router.push("/(auth)/sign-in")
+  const handleConsultant = () => {
+    router.push("/(auth)/consultant-sign-in")
   }
 
   return (
     <Container>
-      <Content className="mt-24 justify-between">
+      <Content className="mb-4 mt-24 justify-between">
         <VStack gap={12}>
           <Text className="font-tbold text-4xl text-primary">
-            Hoàn thành {"\n"}
-            mục tiêu sức khỏe {"\n"}
-            của bạn
+            Hãy cho{"\n"}
+            Chúng tôi biết{"\n"}
+            Bạn là ai?
           </Text>
 
           <Text className="font-tregular text-xl text-accent">
-            Với công cụ theo dõi dinh dưỡng và bài tập cá nhân hóa
+            Trở thành người dùng để theo dõi sức khỏe hoặc chuyên viên để hỗ trợ
+            người khác
           </Text>
         </VStack>
 
-        <VStack gap={20} className="mb-4">
+        <VStack gap={20}>
           <VStack gap={12}>
-            <Button variant="secondary" onPress={handleSignInGoogle}>
-              Google
+            <Button variant="secondary" onPress={handleConsultant}>
+              Tôi là chuyên viên tư vấn
             </Button>
 
-            <Button onPress={handleSignInEmail}>Tiếp tục</Button>
+            <Button onPress={handleUser}>Tôi là người dùng</Button>
           </VStack>
 
           <Text className="text-center text-accent">
@@ -50,7 +51,7 @@ function WelcomeScreen() {
             <Text className="font-tmedium text-primary active:underline">
               Chính sách quyền riêng tư
             </Text>{" "}
-            của chúng tôi.
+            của chúng tôi
           </Text>
         </VStack>
       </Content>

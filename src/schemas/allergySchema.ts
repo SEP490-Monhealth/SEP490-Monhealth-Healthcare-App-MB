@@ -5,10 +5,7 @@ const baseAllergySchema = z.object({
   name: z
     .string()
     .nonempty({ message: "Tên dị ứng không được để trống" })
-    .max(100, { message: "Tên dị ứng không được dài hơn 100 ký tự" })
-    .regex(/^[a-zA-Z0-9\s\u00C0-\u024F\u1E00-\u1EFF]*$/, {
-      message: "Tên dị ứng chỉ được chứa chữ cái, số và khoảng trắng"
-    }),
+    .max(100, { message: "Tên dị ứng không được dài hơn 100 ký tự" }),
   description: z.string().max(500, {
     message: "Mô tả dị ứng không được dài hơn 500 ký tự"
   }),
@@ -19,14 +16,14 @@ const baseAllergySchema = z.object({
   updatedBy: z.string()
 })
 
-const allergySchema = baseAllergySchema.pick({
+export const allergySchema = baseAllergySchema.pick({
   allergyId: true,
   name: true,
   description: true
 })
 
 export const allergySetupSchema = z.object({
-  allergies: z.array(baseAllergySchema.shape.allergyId).default([])
+  allergies: z.array(baseAllergySchema.shape.name).default([])
 })
 
 export type AllergyType = z.infer<typeof allergySchema>

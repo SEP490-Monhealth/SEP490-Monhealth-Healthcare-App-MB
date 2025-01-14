@@ -3,7 +3,6 @@ import axios from "axios"
 import monAPI from "@/lib/monAPI"
 
 import {
-  CreateGoalType,
   GoalType,
   NutritionGoalType,
   WaterGoalType,

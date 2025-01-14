@@ -5,6 +5,7 @@ import { View } from "react-native"
 import { useRouter } from "expo-router"
 
 import { HStack, Progress, VStack } from "@/components/global/atoms"
+import { TipText } from "@/components/global/atoms/Typography"
 import { MealCard } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
 
@@ -20,6 +21,7 @@ import { useGetNutritionGoal } from "@/hooks/useGoal"
 import { useRouterHandlers } from "@/hooks/useRouter"
 
 import { formatDateYYYYMMDD, toFixed } from "@/utils/formatters"
+import { getRandomTip } from "@/utils/helpers"
 
 interface MealTabProps {
   onLoading: (isLoading: boolean) => void
@@ -156,6 +158,10 @@ export const MealTab = ({ onLoading }: MealTabProps) => {
           />
         ))}
       </VStack>
+
+      <View className="mt-8">
+        <TipText text={getRandomTip()} />
+      </View>
     </View>
   )
 }

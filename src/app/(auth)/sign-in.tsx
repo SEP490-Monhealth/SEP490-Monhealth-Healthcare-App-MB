@@ -23,9 +23,6 @@ import { useAuth } from "@/contexts/AuthContext"
 
 import { LoginType, loginSchema } from "@/schemas/userSchema"
 
-import { whoIAm } from "@/services/authService"
-import { getMetricsByUserId } from "@/services/metricService"
-
 function SignInScreen() {
   const router = useRouter()
   const { login } = useAuth()
@@ -63,18 +60,6 @@ function SignInScreen() {
 
     try {
       await login(loginData.phoneNumber, loginData.password)
-      // router.replace("/(tabs)/home")
-      // router.replace("/(setup)")
-
-      const userInfo = await whoIAm()
-      const metricsData = await getMetricsByUserId(userInfo.userId)
-      const metricsExist = metricsData && metricsData.length > 0
-
-      if (metricsExist) {
-        router.replace("/(tabs)/home")
-      } else {
-        router.replace("/(setup)")
-      }
     } catch (error: any) {
       console.log("Lỗi khi đăng nhập:", error.response?.data || error.message)
     } finally {

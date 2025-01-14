@@ -13,7 +13,7 @@ import { useRouter } from "expo-router"
 import { Button, Container, VStack } from "@/components/global/atoms"
 import { CounterText } from "@/components/global/molecules"
 
-import { useSetupStore } from "@/stores/setupStore"
+import { useSetupStore } from "@/stores/userSetupStore"
 
 import { calculateBMR, calculateTDEE } from "@/utils/calculations"
 import { toFixed } from "@/utils/formatters"
@@ -21,9 +21,21 @@ import { toFixed } from "@/utils/formatters"
 function SetupSummary() {
   const router = useRouter()
 
-  const { dateOfBirth, gender, height, weight, activityLevel } = useSetupStore()
+  const { dateOfBirth, gender, height, weight, goalType, activityLevel } =
+    useSetupStore()
 
-  const [tdee, setTDEE] = useState<number | null>(null)
+  const [caloriesGoal, setCaloriesGoal] = useState(0)
+  const [isEditing, setIsEditing] = useState(false)
+
+  useEffect(() => {
+    fireScale.value = withRepeat(withTiming(1.1, { duration: 700 }), -1, true)
+  }, [])
+
+  const fireScale = useSharedValue(1)
+
+  const fireStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: fireScale.value }]
+  }))
 
   useEffect(() => {
     const age = new Date().getFullYear() - new Date(dateOfBirth).getFullYear()
@@ -36,27 +48,21 @@ function SetupSummary() {
     )
     const calculatedTDEE = calculateTDEE(calculatedBMR, activityLevel)
 
-    setTDEE(calculatedTDEE)
-  }, [dateOfBirth, gender, height, weight, activityLevel])
-
-  const [isEditing, setIsEditing] = useState(false)
-
-  const fireScale = useSharedValue(1)
-
-  useEffect(() => {
-    fireScale.value = withRepeat(withTiming(1.1, { duration: 700 }), -1, true)
-  }, [])
-
-  const fireStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: fireScale.value }]
-  }))
+    if (goalType === "WeightLoss") {
+      setCaloriesGoal(calculatedTDEE * 0.8)
+    } else if (goalType === "WeightGain") {
+      setCaloriesGoal(calculatedTDEE * 1.1)
+    } else {
+      setCaloriesGoal(calculatedTDEE)
+    }
+  }, [dateOfBirth, gender, height, weight, goalType, activityLevel])
 
   const handleSave = () => {
     setIsEditing(false)
   }
 
   const handleFinished = () => {
-    console.log(tdee)
+    console.log(caloriesGoal)
 
     router.push("/(setup)/completed")
   }
@@ -79,9 +85,9 @@ function SetupSummary() {
             {isEditing ? (
               <TextInput
                 maxLength={4}
-                value={String(tdee)}
+                value={String(toFixed(caloriesGoal, 0))}
                 placeholder="0"
-                onChangeText={(text) => setTDEE(Number(text) || 0)}
+                onChangeText={(text) => setCaloriesGoal(Number(text) || 0)}
                 keyboardType="numeric"
                 className="h-16 w-48 border-b border-border text-center font-tbold text-5xl text-primary"
               />
@@ -106,7 +112,7 @@ function SetupSummary() {
 
               <View className="flex-row items-end gap-2">
                 <Text className="font-tbold text-6xl text-primary">
-                  <CounterText value={toFixed(tdee ?? 0, 0)} />
+                  <CounterText value={toFixed(caloriesGoal ?? 0, 0)} />
                 </Text>
                 <Text className="mb-3 font-tmedium text-xl text-accent">
                   kcal

@@ -47,11 +47,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         if (metricsExist) {
           router.replace("/(tabs)/home")
         } else {
-          router.replace("/(setup)")
+          router.replace("/(onboarding)/welcome")
         }
       } else {
         await delay(2000)
-        router.replace("/(auth)/sign-in")
+        router.replace("/(onboarding)/welcome")
       }
     } catch (error) {
       handleError(error)
@@ -82,8 +82,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(userInfo)
 
       const metricsData = await getMetricsByUserId(userInfo.userId)
+      const metricsExist = metricsData && metricsData.length > 0
 
-      if (metricsData && metricsData.length > 0) {
+      if (metricsExist) {
         router.replace("/(tabs)/home")
       } else {
         router.replace("/(setup)")
@@ -103,15 +104,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       await register(fullName, email, phoneNumber, password)
       await handleLogin(phoneNumber, password)
-
-      const userInfo = await whoIAm()
-      const metricsData = await getMetricsByUserId(userInfo.userId)
-      const metricsExist = metricsData && metricsData.length > 0
-
-      if (!metricsExist) {
-        setHasMetrics(false)
-        router.replace("/(setup)")
-      }
     } catch (error) {
       handleError(error)
       throw error

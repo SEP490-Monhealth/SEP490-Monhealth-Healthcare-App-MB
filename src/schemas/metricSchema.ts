@@ -77,7 +77,7 @@ const baseMetricSchema = z.object({
   updatedBy: z.string()
 })
 
-const metricSchema = baseMetricSchema.pick({
+export const metricSchema = baseMetricSchema.pick({
   metricId: true,
   userId: true,
   dateOfBirth: true,

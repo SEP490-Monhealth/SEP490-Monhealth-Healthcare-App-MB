@@ -24,7 +24,7 @@ function ProfileScreen() {
   const handleLogout = async () => {
     await logout()
     setIsModalVisible(false)
-    router.replace("/(auth)/sign-in")
+    router.replace("/(onboarding)/welcome")
   }
 
   const handleAction = (action: string | undefined) => {
@@ -72,7 +72,6 @@ function ProfileScreen() {
       </Container>
 
       <Modal
-        variant="alert"
         isVisible={isModalVisible}
         title="Đăng xuất"
         description="Bạn có chắc chắn muốn đăng xuất không?"

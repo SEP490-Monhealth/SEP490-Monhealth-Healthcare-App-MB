@@ -3,7 +3,7 @@ import { z } from "zod"
 import { nutritionFoodSchema, nutritionSchema } from "./nutritionSchema"
 import { portionSchema } from "./portionSchema"
 
-const mealFoodSchema = z.object({
+export const mealFoodSchema = z.object({
   mealFoodId: z.string(),
   foodId: z.string(),
   name: z
@@ -45,7 +45,7 @@ const createMealFoodSchema = z.object({
   unit: z.string().nonempty({ message: "Đơn vị đo lường không được để trống" })
 })
 
-const mealSchema = z.object({
+export const mealSchema = z.object({
   mealId: z.string(),
   userId: z.string(),
 

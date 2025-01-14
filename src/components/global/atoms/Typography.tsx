@@ -4,6 +4,8 @@ import { LampOn } from "iconsax-react-native"
 
 import { COLORS } from "@/constants/app"
 
+import { HStack, VStack } from "./Stack"
+
 interface TextProps {
   text: string
 }
@@ -18,8 +20,15 @@ export const ErrorText = ({ text }: TextProps) => {
 
 export const TipText = ({ text }: TextProps) => {
   return (
-    <Text className="mt-1 text-center font-tregular text-sm text-secondary">
-      <LampOn variant="Bold" size="24" color={COLORS.lemon} /> {text}
-    </Text>
+    <VStack center>
+      <HStack center gap={6}>
+        <LampOn variant="Bold" size={20} color={COLORS.lemon} />
+        <Text className="font-tmedium text-lg text-primary">Bạn có biết?</Text>
+      </HStack>
+
+      <Text className="text-center font-tregular text-sm text-secondary">
+        "{text}"
+      </Text>
+    </VStack>
   )
 }

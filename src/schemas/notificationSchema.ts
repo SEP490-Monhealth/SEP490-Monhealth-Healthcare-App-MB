@@ -24,6 +24,6 @@ const baseNotificationSchema = z.object({
   updatedBy: z.string()
 })
 
-const notificationSchema = baseNotificationSchema
+export const notificationSchema = baseNotificationSchema
 
 export type NotificationType = z.infer<typeof notificationSchema>

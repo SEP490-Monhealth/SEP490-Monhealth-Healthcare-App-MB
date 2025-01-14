@@ -8,7 +8,7 @@ import { Chip, ErrorText, VStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/app"
 
-import { useSetupStore } from "@/stores/setupStore"
+import { useSetupStore } from "@/stores/userSetupStore"
 
 import { calculateBMI } from "@/utils/calculations"
 

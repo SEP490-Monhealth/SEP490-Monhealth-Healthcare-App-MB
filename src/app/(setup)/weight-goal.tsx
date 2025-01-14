@@ -12,7 +12,7 @@ import {
 
 import { Input, VStack } from "@/components/global/atoms"
 
-import { useSetupStore } from "@/stores/setupStore"
+import { useSetupStore } from "@/stores/userSetupStore"
 
 import { calculateIBW } from "@/utils/calculations"
 import { toFixed } from "@/utils/formatters"
