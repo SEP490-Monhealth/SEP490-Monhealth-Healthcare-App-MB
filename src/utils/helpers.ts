@@ -176,3 +176,16 @@ export const convertTimeStringToDate = (timeString: string): Date => {
   date.setHours(hours, minutes, 0, 0)
   return date
 }
+
+/**
+ * Hàm formatCurrency
+ * Chuyển đổi số sang định dạng tiền tệ Việt Nam (VND).
+ *
+ * @param value - Giá trị số cần định dạng
+ * @returns Chuỗi định dạng tiền tệ, ví dụ: "99.000 VND"
+ */
+export const formatCurrency = (value: number): string => {
+  return value
+    .toLocaleString("vi-VN", { style: "currency", currency: "VND" })
+    .replace("₫", "VND")
+}

@@ -21,7 +21,7 @@ const baseServiceSchema = z.object({
 
 const serviceSchema = baseServiceSchema
 
-const createUpdateServiceSchema = serviceSchema.pick({
+export const createUpdateServiceSchema = serviceSchema.pick({
   name: true,
   description: true,
   price: true
