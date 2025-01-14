@@ -45,7 +45,7 @@ function ServiceScreen() {
 
   return (
     <Container dismissKeyboard>
-      <Content className="mt-2 justify-center">
+      <Content className="mt-2">
         <StepHeader
           title="Thiết lập thông tin dịch vụ"
           description="Nhập thông tin về dịch vụ bạn cung cấp để người dùng có thể tìm thấy bạn dễ dàng hơn"

@@ -1,6 +1,12 @@
 import React, { useRef, useState } from "react"
 
-import { Text, View } from "react-native"
+import {
+  Keyboard,
+  SafeAreaView,
+  Text,
+  TouchableWithoutFeedback,
+  View
+} from "react-native"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import DateTimePicker, {
@@ -16,14 +22,12 @@ import { Controller, useForm } from "react-hook-form"
 
 import {
   Button,
-  Container,
   Content,
   Input,
   Sheet,
   SheetRefProps,
   VStack
 } from "@/components/global/atoms"
-import { StepHeader } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/app"
 
@@ -36,14 +40,13 @@ import { convertToISOString, formatDate } from "@/utils/formatters"
 
 function CertificationScreen() {
   const SheetRef = useRef<SheetRefProps>(null)
+  const sheetHeight = 300
 
   const [isLoading, setIsLoading] = useState(false)
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [currentInputType, setCurrentInputType] = useState<
     "issueDate" | "expiryDate"
   >()
-
-  const sheetHeight = 280
 
   const {
     control,
@@ -87,15 +90,18 @@ function CertificationScreen() {
   }
 
   return (
-    <>
-      <Container dismissKeyboard>
-        <Content className="mt-2 justify-center">
-          <VStack gap={64}>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <SafeAreaView className="h-full flex-1 bg-background">
+        <View className="flex-1 px-6">
+          <Content className="mt-2">
             <View>
-              <StepHeader
-                title="Chuyên môn và chứng chỉ"
-                description="Hãy chọn lĩnh vực chuyên môn của bạn và tải lên chứng chỉ để tôi xác minh"
-              />
+              <Text className="mb-2 font-tbold text-3xl text-primary">
+                Chuyên môn và chứng chỉ
+              </Text>
+              <Text className="font-tregular text-xl text-accent">
+                Hãy chọn lĩnh vực chuyên môn của bạn và tải lên chứng chỉ để tôi
+                xác minh
+              </Text>
 
               <VStack gap={12} className="mt-8">
                 <Controller
@@ -145,9 +151,9 @@ function CertificationScreen() {
                   control={control}
                   render={({ field: { value } }) => (
                     <Input
+                      disabled
                       value={value}
                       placeholder="Nhập ngày cấp"
-                      editable={false}
                       startIcon={
                         <CalendarAdd
                           variant="Bold"
@@ -166,9 +172,9 @@ function CertificationScreen() {
                   control={control}
                   render={({ field: { value } }) => (
                     <Input
+                      disabled
                       value={value}
                       placeholder="Nhập ngày hết hạn"
-                      editable={false}
                       startIcon={
                         <CalendarRemove
                           variant="Bold"
@@ -195,21 +201,22 @@ function CertificationScreen() {
                 *Vui lòng đảm bảo chứng chỉ hợp lệ trước khi tiếp tục
               </Text>
             </View>
-          </VStack>
-        </Content>
-      </Container>
+          </Content>
+        </View>
 
-      <Sheet ref={SheetRef}>
-        <View className="mb-10 items-center justify-center">
+        <Sheet ref={SheetRef} dynamicHeight={sheetHeight}>
           <DateTimePicker
             value={selectedDate || new Date()}
             mode="date"
             display="spinner"
+            minimumDate={new Date(1904, 0, 1)}
+            maximumDate={new Date()}
             onChange={handleDateChange}
+            locale="vi"
           />
-        </View>
-      </Sheet>
-    </>
+        </Sheet>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   )
 }
 

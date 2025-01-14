@@ -23,12 +23,12 @@ export const SubscriptionCard = ({
 }: SubscriptionCardProps) => {
   return (
     <Card
-      className={`h-24 justify-center rounded-2xl border-2 ${
+      onPress={onPress}
+      className={`rounded-2xl border-2 ${
         isSelected ? "border-primary" : "border-border"
       }`}
-      onPress={onPress}
     >
-      <HStack className="w-full items-center justify-between">
+      <HStack center className="justify-between">
         <Text className="font-tmedium text-lg text-primary">
           {duration} tháng
         </Text>
@@ -38,15 +38,9 @@ export const SubscriptionCard = ({
             {formatCurrency(price)}
           </Text>
 
-          <HStack>
-            {discount > 0 && (
-              <Text className="font-tregular text-base text-accent">
-                (Tiết kiệm {discount}%)
-              </Text>
-            )}
-
-            <Text className="font-tregular text-base text-accent">/ tháng</Text>
-          </HStack>
+          <Text className="font-tregular text-base text-accent">
+            {discount > 0 && `(Tiết kiệm ${discount}%)`} / tháng
+          </Text>
         </VStack>
       </HStack>
     </Card>

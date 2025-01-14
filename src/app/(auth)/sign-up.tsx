@@ -52,13 +52,9 @@ function SignUpScreen() {
     }
   })
 
-  const handleBack = () => {
-    router.back()
-  }
+  const handleBack = () => router.back()
 
-  const handleSignIn = () => {
-    router.replace("/(auth)/sign-in")
-  }
+  const handleSignIn = () => router.replace("/(auth)/sign-in")
 
   const onSubmit = async (registerData: RegisterType) => {
     setIsLoading(true)

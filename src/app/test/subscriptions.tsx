@@ -1,12 +1,21 @@
 import React, { useState } from "react"
 
-import { FlatList, Text, View } from "react-native"
+import { Text, View } from "react-native"
 
-import { Button, Container, Content, VStack } from "@/components/global/atoms"
-import { ListHeader } from "@/components/global/molecules"
+import { Star } from "iconsax-react-native"
+
+import {
+  Button,
+  Container,
+  Content,
+  HStack,
+  VStack
+} from "@/components/global/atoms"
+import { StepHeader } from "@/components/global/molecules"
 import { SubscriptionCard } from "@/components/global/molecules/SubscriptionCard"
 import { Header } from "@/components/global/organisms"
 
+import { COLORS } from "@/constants/app"
 import { sampleSubscriptionsData } from "@/constants/subscriptions"
 
 import { useAuth } from "@/contexts/AuthContext"
@@ -15,81 +24,67 @@ function SubscriptionScreen() {
   const { user } = useAuth()
   const userId = user?.userId
 
-  const [selectedSubscription, setSelectedSubscription] = useState<{
-    duration: number | 0
-  }>({
-    duration: 0
-  })
-
   const subscriptionData = sampleSubscriptionsData[1]
 
-  const handleSubscriptionPress = (duration: number) => {
-    setSelectedSubscription({
-      duration
-    })
+  const [selectedPlan, setSelectedPlan] = useState(3)
+
+  const handlePlanPress = (duration: number) => {
+    setSelectedPlan(duration)
   }
 
-  const handleCompletePress = () => {
-    if (selectedSubscription.duration) {
+  const handlePaymentPress = () => {
+    if (selectedPlan) {
       const selectedDetails = {
+        userId: userId,
         subscriptionId: subscriptionData.subscriptionId,
-        duration: selectedSubscription.duration * 30,
-        userId: userId
+        duration: selectedPlan * 30
       }
+
       console.log("Selected subscription:", selectedDetails)
     }
   }
 
   return (
     <Container>
-      <Header back label="Gói đăng kí" />
+      <Header back label="Gói đăng ký" />
 
       <Content className="mt-2">
-        <VStack gap={20}>
-          {subscriptionData && subscriptionData.features && (
-            <VStack>
-              <Text className="font-tbold text-2xl text-primary">
-                Nâng cấp trải nghiệm của bạn
-              </Text>
-              {subscriptionData.features.map((feature, index) => (
-                <Text key={index} className="font-tregular text-lg text-accent">
-                  {feature}
-                </Text>
-              ))}
-            </VStack>
-          )}
+        <StepHeader
+          title={subscriptionData.name}
+          description="Nâng cấp trải nghiệm của bạn"
+        />
 
-          <FlatList
-            data={subscriptionData?.plans || []}
-            keyExtractor={(item) => item.duration.toString()}
-            showsVerticalScrollIndicator={false}
-            ListHeaderComponent={<ListHeader />}
-            renderItem={({ item }) => (
+        <View className="flex-1">
+          {subscriptionData.features.map((feature, index) => (
+            <HStack key={index} center>
+              <Star variant="Bold" size={28} color={COLORS.lemon} />
+              <Text className="flex-1 font-tregular text-base text-secondary">
+                {feature}
+              </Text>
+            </HStack>
+          ))}
+
+          <VStack gap={12} className="mt-6">
+            {subscriptionData?.plans.map((item, index) => (
               <SubscriptionCard
-                key={item.duration}
+                key={index}
                 duration={item.duration}
                 price={item.price}
                 discount={item.discount}
-                isSelected={item.duration === selectedSubscription.duration}
-                onPress={() => handleSubscriptionPress(item.duration)}
+                isSelected={item.duration === selectedPlan}
+                onPress={() => handlePlanPress(item.duration)}
               />
-            )}
-            ListFooterComponent={
-              <Text className="mt-10 text-center font-tregular text-accent">
-                Chọn gói 6 tháng để tiết kiệm 20% và nhận trọn vẹn các tính năng
-                cao cấp!
-              </Text>
-            }
-            ItemSeparatorComponent={() => <View className="h-3" />}
-          />
-        </VStack>
+            ))}
+          </VStack>
+
+          <Text className="mt-8 text-center font-tregular text-secondary">
+            Chọn gói 6 tháng để tiết kiệm 20% và nhận trọn vẹn các tính năng cao
+            cấp!
+          </Text>
+        </View>
       </Content>
 
-      <Button
-        size="lg"
-        className="absolute bottom-0 left-6 right-6"
-        onPress={handleCompletePress}
-      >
+      <Button size="lg" className="mb-4" onPress={handlePaymentPress}>
         Thanh toán
       </Button>
     </Container>

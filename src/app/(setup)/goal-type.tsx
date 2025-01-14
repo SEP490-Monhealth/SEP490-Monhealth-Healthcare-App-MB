@@ -8,7 +8,7 @@ import { Chip, ErrorText, VStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/app"
 
-import { useSetupStore } from "@/stores/userSetupStore"
+import { useUserSetupStore } from "@/stores/userSetupStore"
 
 import { calculateBMI } from "@/utils/calculations"
 
@@ -39,7 +39,7 @@ interface SetupGoalTypeProps {
 }
 
 function SetupGoalType({ control, errors }: SetupGoalTypeProps) {
-  const { weight, height } = useSetupStore()
+  const { weight, height } = useUserSetupStore()
   const { field } = useController({
     name: "goalType",
     control

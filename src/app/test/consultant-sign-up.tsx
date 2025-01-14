@@ -2,6 +2,8 @@ import React, { useState } from "react"
 
 import { Text, View } from "react-native"
 
+import { useRouter } from "expo-router"
+
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Call, Eye, EyeSlash, Lock1, Profile, Sms } from "iconsax-react-native"
 import { Controller, useForm } from "react-hook-form"
@@ -13,13 +15,14 @@ import {
   Input,
   VStack
 } from "@/components/global/atoms"
-import { StepHeader } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/app"
 
 import { RegisterType, registerSchema } from "@/schemas/userSchema"
 
 function SignUpScreen() {
+  const router = useRouter()
+
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
@@ -37,6 +40,8 @@ function SignUpScreen() {
     }
   })
 
+  const handleBack = () => router.back()
+
   const onSubmit = async (registerData: RegisterType) => {
     setIsLoading(true)
 
@@ -44,14 +49,18 @@ function SignUpScreen() {
 
     setIsLoading(false)
   }
+
   return (
     <Container dismissKeyboard>
-      <Content className="mt-2 justify-center">
-        <VStack>
-          <StepHeader
-            title="Thông tin cá nhân"
-            description="Vui lòng nhập các thông tin cá nhân của bạn để bắt đầu đăng kí làm chuyên viên tư vấn"
-          />
+      <Content className="mt-12">
+        <View>
+          <Text className="mb-2 font-tbold text-3xl text-primary">
+            Thông tin cá nhân
+          </Text>
+          <Text className="font-tregular text-xl text-accent">
+            Vui lòng nhập các thông tin cá nhân của bạn để bắt đầu đăng ký làm
+            chuyên viên tư vấn
+          </Text>
 
           <VStack gap={12} className="mt-8">
             <Controller
@@ -145,9 +154,9 @@ function SignUpScreen() {
           </Button>
 
           <Text className="mt-4 text-center font-tregular text-primary">
-            *Vui lòng kiểm tra kĩ thông tin trước khi nhắn đăng kí
+            *Vui lòng kiểm tra kĩ thông tin trước khi nhắn đăng ký
           </Text>
-        </VStack>
+        </View>
       </Content>
     </Container>
   )
