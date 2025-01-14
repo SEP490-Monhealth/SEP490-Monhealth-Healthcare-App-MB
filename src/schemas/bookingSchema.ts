@@ -31,7 +31,7 @@ const baseBookingSchema = z.object({
   updatedBy: z.string()
 })
 
-const bookingSchema = baseBookingSchema
+export const bookingSchema = baseBookingSchema
 
 export const createBookingSchema = bookingSchema.pick({
   userId: true,

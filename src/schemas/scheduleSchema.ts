@@ -22,7 +22,7 @@ const baseScheduleSchema = z.object({
   updatedBy: z.string()
 })
 
-const scheduleSchema = baseScheduleSchema
+export const scheduleSchema = baseScheduleSchema
 
 export const createScheduleSchema = scheduleSchema.pick({
   consultantId: true,

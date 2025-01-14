@@ -22,7 +22,7 @@ const baseCertificateSchema = z.object({
   updatedBy: z.string()
 })
 
-const certificateSchema = baseCertificateSchema
+export const certificateSchema = baseCertificateSchema
 
 export const createCertificateSchema = certificateSchema.pick({
   userId: true,

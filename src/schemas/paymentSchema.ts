@@ -4,7 +4,7 @@ const basePaymentSchema = z.object({
   paymentId: z.string(),
   bookingId: z.string(),
   subscriptionId: z.string(),
-  
+
   amount: z.number(),
 
   status: z
@@ -19,7 +19,7 @@ const basePaymentSchema = z.object({
   updatedBy: z.string()
 })
 
-const paymentSchema = basePaymentSchema
+export const paymentSchema = basePaymentSchema
 
 export const createBookingPaymentSchema = paymentSchema.pick({
   bookingId: true,

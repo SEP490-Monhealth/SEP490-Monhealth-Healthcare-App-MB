@@ -1,6 +1,6 @@
 import { ReminderType } from "@/schemas/reminderSchema"
 
-export const sampleReminderData: ReminderType[] = [
+export const sampleRemindersData: ReminderType[] = [
   {
     reminderId: "001",
     userId: "123",
