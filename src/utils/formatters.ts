@@ -127,3 +127,12 @@ export const formatTimeAgo = (date: string | Date): string => {
   if (months < 12) return `${months} tháng trước`
   return `${years} năm trước`
 }
+
+/**
+ * Chuyển đổi chuỗi ngày từ dd/MM/yyyy sang ISO string
+ * @param dateString Chuỗi ngày định dạng dd/MM/yyyy
+ * @returns Chuỗi ngày định dạng ISO string
+ */
+export const convertToISOString = (dateString: string): string => {
+  return new Date(dateString.split("/").reverse().join("-")).toISOString()
+}

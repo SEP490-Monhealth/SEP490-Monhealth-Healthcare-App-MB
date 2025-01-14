@@ -23,6 +23,22 @@ function AssistantScreen() {
     router.push("/(setup)/summary")
   }
 
+  const handleViewSubscription = () => {
+    router.push("/(setup)/subscriptions")
+  }
+
+  const handleViewSignUp = () => {
+    router.push("/(setup)/sign-up")
+  }
+
+  const handleViewCertificate = () => {
+    router.push("/(setup)/certification")
+  }
+
+  const handleViewService = () => {
+    router.push("/(setup)/service")
+  }
+
   return (
     <Container>
       <Content className="mt-2 pb-12">
@@ -41,6 +57,22 @@ function AssistantScreen() {
 
           <Button size="lg" onPress={handleViewGoalSetup}>
             Mục tiêu
+          </Button>
+
+          <Button size="lg" onPress={handleViewSubscription}>
+            Gói đăng kí
+          </Button>
+
+          <Button size="lg" onPress={handleViewSignUp}>
+            Đăng kí consultant
+          </Button>
+
+          <Button size="lg" onPress={handleViewCertificate}>
+            Chứng chỉ
+          </Button>
+
+          <Button size="lg" onPress={handleViewService}>
+            Dịch vụ
           </Button>
         </VStack>
       </Content>

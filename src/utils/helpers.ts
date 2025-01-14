@@ -194,3 +194,14 @@ export const getRandomTip = () => {
   const randomIndex = Math.floor(Math.random() * TipsData.length)
   return TipsData[randomIndex].tipContent
 }
+
+/**
+ * Chuyển đổi số sang định dạng tiền tệ Việt Nam (VND).
+ * @param value - Giá trị số cần định dạng
+ * @returns Chuỗi định dạng tiền tệ, ví dụ: "10.000 VND"
+ */
+export const formatCurrency = (value: number): string => {
+  return value
+    .toLocaleString("vi-VN", { style: "currency", currency: "VND" })
+    .replace("₫", "VND")
+}
