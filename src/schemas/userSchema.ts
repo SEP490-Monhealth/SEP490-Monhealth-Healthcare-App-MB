@@ -67,8 +67,8 @@ export const passwordSchema = baseUserSchema.pick({
 })
 
 export const resetPasswordSchema = z.object({
-  password: baseUserSchema.shape.password,
-  confirmPassword: baseUserSchema.shape.password
+  password: passwordSchema.shape.password,
+  confirmPassword: passwordSchema.shape.password
 })
 
 export const loginSchema = baseUserSchema.pick({
@@ -83,6 +83,42 @@ export const registerSchema = baseUserSchema.pick({
   password: true
 })
 
+const PasswordSchema = z
+  .object({
+    password: z
+      .string()
+      .min(6, { message: "Mật khẩu phải có ít nhất 6 ký tự" })
+      .max(128, { message: "Mật khẩu không được dài hơn 128 ký tự" }),
+
+    newPassword: z
+      .string()
+      .min(6, { message: "Mật khẩu mới phải có ít nhất 6 ký tự" })
+      .max(128, { message: "Mật khẩu mới không được dài hơn 128 ký tự" })
+      .regex(/[A-Z]/, {
+        message: "Mật khẩu mới phải chứa ít nhất một chữ cái viết hoa"
+      })
+      .regex(/[a-z]/, {
+        message: "Mật khẩu mới phải chứa ít nhất một chữ cái thường"
+      })
+      .regex(/[0-9]/, {
+        message: "Mật khẩu mới phải chứa ít nhất một chữ số"
+      })
+      .regex(/[^A-Za-z0-9]/, {
+        message: "Mật khẩu mới phải chứa ít nhất một ký tự đặc biệt"
+      }),
+
+    confirmPassword: z
+      .string()
+      .min(6, { message: "Xác nhận mật khẩu phải có ít nhất 6 ký tự" })
+      .max(128, { message: "Xác nhận mật khẩu không được dài hơn 128 ký tự" })
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Mật khẩu mới không khớp nhau",
+    path: ["confirmPassword"]
+  })
+
+export const updatePasswordSchema = PasswordSchema
+
 export type UserType = z.infer<typeof userSchema>
 export type CreateUserType = z.infer<typeof createUpdateUserSchema>
 export type PhoneNumberType = z.infer<typeof phoneNumberSchema>
@@ -90,3 +126,4 @@ export type PasswordType = z.infer<typeof passwordSchema>
 export type ResetPasswordType = z.infer<typeof resetPasswordSchema>
 export type LoginType = z.infer<typeof loginSchema>
 export type RegisterType = z.infer<typeof registerSchema>
+export type UpdatePasswordType = z.infer<typeof updatePasswordSchema>
