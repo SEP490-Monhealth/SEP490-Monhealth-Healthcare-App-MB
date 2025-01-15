@@ -2,11 +2,11 @@ import React, { ReactNode, useEffect, useState } from "react"
 
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
-import { SaveFoodContext } from "@/contexts/SaveFoodContext"
+import { FoodSavedContext } from "@/contexts/FoodSavedContext"
 
 import { SaveFoodType } from "@/schemas/foodSchema"
 
-export const SaveFoodProvider = ({ children }: { children: ReactNode }) => {
+export const FoodSavedProvider = ({ children }: { children: ReactNode }) => {
   const [saveFoodsData, setSaveFoodsData] = useState<SaveFoodType[]>([])
 
   const loadSavedFoods = async () => {
@@ -54,7 +54,7 @@ export const SaveFoodProvider = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <SaveFoodContext.Provider
+    <FoodSavedContext.Provider
       value={{
         saveFoodsData,
         toggleSaveFood,
@@ -62,6 +62,6 @@ export const SaveFoodProvider = ({ children }: { children: ReactNode }) => {
       }}
     >
       {children}
-    </SaveFoodContext.Provider>
+    </FoodSavedContext.Provider>
   )
 }
