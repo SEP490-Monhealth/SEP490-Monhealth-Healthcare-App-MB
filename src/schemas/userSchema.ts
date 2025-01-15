@@ -67,8 +67,8 @@ export const passwordSchema = baseUserSchema.pick({
 })
 
 export const resetPasswordSchema = z.object({
-  password: baseUserSchema.shape.password,
-  confirmPassword: baseUserSchema.shape.password
+  password: passwordSchema.shape.password,
+  confirmPassword: passwordSchema.shape.password
 })
 
 export const loginSchema = baseUserSchema.pick({

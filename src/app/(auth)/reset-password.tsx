@@ -95,12 +95,12 @@ function ForgotPasswordScreen() {
               />
 
               <Controller
-                name="password"
+                name="confirmPassword"
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value}
-                    placeholder="Nhập mật khẩu"
+                    placeholder="Nhập lại mật khẩu"
                     onChangeText={onChange}
                     isSecure={!showConfirmPassword}
                     onToggleSecure={() =>
@@ -110,7 +110,7 @@ function ForgotPasswordScreen() {
                       <Lock1 variant="Bold" size={20} color={COLORS.primary} />
                     }
                     endIcon={
-                      showPassword ? (
+                      showConfirmPassword ? (
                         <Eye variant="Bold" size={20} color={COLORS.primary} />
                       ) : (
                         <EyeSlash variant="Bold" size={20} color="#cbd5e1" />
