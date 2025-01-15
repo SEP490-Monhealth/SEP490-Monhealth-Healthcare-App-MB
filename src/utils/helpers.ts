@@ -137,15 +137,15 @@ export const getMealTypeName = (mealType: string): string => {
 export const getMealTypeImage = (mealType: string) => {
   switch (mealType) {
     case "Breakfast":
-      return require("../../public/icons/sandwich.png")
+      return require("../../public/icons/meals/sandwich.png")
     case "Lunch":
-      return require("../../public/icons/rice.png")
+      return require("../../public/icons/meals/rice.png")
     case "Dinner":
-      return require("../../public/icons/roast-chicken.png")
+      return require("../../public/icons/meals/roast-chicken.png")
     case "Snack":
-      return require("../../public/icons/cupcake.png")
+      return require("../../public/icons/meals/cupcake.png")
     default:
-      return require("../../public/icons/dish.png")
+      return require("../../public/icons/meals/dish.png")
   }
 }
 

@@ -106,7 +106,6 @@ export const otpSchema = z.object({
     .regex(/^\d{6}$/, { message: "Mã OTP chỉ được chứa chữ số" })
 })
 
-export type OtpVerificationType = z.infer<typeof otpSchema>
 export type UserType = z.infer<typeof userSchema>
 export type CreateUserType = z.infer<typeof createUpdateUserSchema>
 export type PhoneNumberType = z.infer<typeof phoneNumberSchema>
@@ -115,3 +114,4 @@ export type ResetPasswordType = z.infer<typeof resetPasswordSchema>
 export type UpdatePasswordType = z.infer<typeof updatePasswordSchema>
 export type LoginType = z.infer<typeof loginSchema>
 export type RegisterType = z.infer<typeof registerSchema>
+export type OtpVerificationType = z.infer<typeof otpSchema>
