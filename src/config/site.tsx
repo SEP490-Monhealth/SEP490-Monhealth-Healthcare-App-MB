@@ -1,5 +1,6 @@
 import {
   Activity,
+  Award,
   Command,
   I3Dcube,
   Lock1,
@@ -42,7 +43,12 @@ export const aboutItems = [
   {
     icon: <I3Dcube variant="Bold" size={24} color={COLORS.accent} />,
     label: "Thông tin ứng dụng",
-    route: "/app-about"
+    route: "/settings/app-about"
+  },
+  {
+    icon: <Award variant="Bold" size={24} color={COLORS.accent} />,
+    label: "Gói đăng ký",
+    route: "/users/subscriptions"
   },
   {
     icon: <Logout variant="Bold" size={24} color={COLORS.accent} />,

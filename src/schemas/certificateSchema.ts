@@ -12,7 +12,7 @@ const baseCertificateSchema = z.object({
   expiryDate: z
     .string()
     .nonempty({ message: "Ngày hết hạn không được để trống" }),
-  images: z.string().url({ message: "Link ảnh không hợp lệ" }),
+  images: z.string().url({ message: "Đường dẫn hình ảnh không hợp lệ" }),
 
   status: z.boolean(),
 

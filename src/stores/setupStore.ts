@@ -1,6 +1,6 @@
 import { create } from "zustand"
 
-interface UserSetupState {
+interface setupStoreProps {
   dateOfBirth: string
   gender: string
   height: number
@@ -14,14 +14,24 @@ interface UserSetupState {
   reset: () => void
 }
 
-export const useUserSetupStore = create<UserSetupState>((set) => ({
-  dateOfBirth: "2003-08-27T00:00:00.000Z",
+export const useSetupStore = create<setupStoreProps>((set) => ({
+  // dateOfBirth: "2003-08-27T00:00:00.000Z",
+  // gender: "Male",
+  // height: 170,
+  // weight: 50,
+  // activityLevel: 1.375,
+  // goalType: "WeightGain",
+  // weightGoal: 66,
+  // categories: [],
+  // allergies: [],
+
+  dateOfBirth: "",
   gender: "Male",
-  height: 170,
-  weight: 50,
-  activityLevel: 1.375,
-  goalType: "WeightGain",
-  weightGoal: 66,
+  height: 0,
+  weight: 0,
+  activityLevel: 1.2,
+  goalType: "",
+  weightGoal: 0,
   categories: [],
   allergies: [],
 

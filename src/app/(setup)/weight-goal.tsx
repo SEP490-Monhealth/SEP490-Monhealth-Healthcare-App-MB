@@ -12,7 +12,7 @@ import {
 
 import { Input, VStack } from "@/components/global/atoms"
 
-import { useUserSetupStore } from "@/stores/userSetupStore"
+import { useSetupStore } from "@/stores/setupStore"
 
 import { calculateIBW } from "@/utils/calculations"
 import { toFixed } from "@/utils/formatters"
@@ -24,7 +24,7 @@ interface SetupWeightGoalProps {
 }
 
 function SetupWeightGoal({ control, setValue, errors }: SetupWeightGoalProps) {
-  const { height, gender } = useUserSetupStore() as {
+  const { height, gender } = useSetupStore() as {
     height: number
     gender: "Male" | "Female"
   }

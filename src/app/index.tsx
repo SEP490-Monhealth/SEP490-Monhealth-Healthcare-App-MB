@@ -71,11 +71,11 @@ function AppIndex() {
         />
 
         <Animated.Text
+          className="font-dbold text-5xl text-primary"
           style={{
             opacity: textFadeAnim,
             transform: [{ translateY: textTranslateAnim }]
           }}
-          className="font-dbold text-5xl text-primary"
         >
           Mon<Text className="font-dbold text-yellow-500">Health</Text>
         </Animated.Text>

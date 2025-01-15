@@ -13,7 +13,7 @@ import { useRouter } from "expo-router"
 import { Button, Container, VStack } from "@/components/global/atoms"
 import { CounterText } from "@/components/global/molecules"
 
-import { useUserSetupStore } from "@/stores/userSetupStore"
+import { useSetupStore } from "@/stores/setupStore"
 
 import { calculateAge, calculateBMR, calculateTDEE } from "@/utils/calculations"
 import { toFixed } from "@/utils/formatters"
@@ -22,7 +22,7 @@ function SetupSummary() {
   const router = useRouter()
 
   const { dateOfBirth, gender, height, weight, goalType, activityLevel } =
-    useUserSetupStore()
+    useSetupStore()
 
   const [caloriesGoal, setCaloriesGoal] = useState(0)
   const [isEditing, setIsEditing] = useState(false)

@@ -26,7 +26,7 @@ import {
   weightGoalSchema
 } from "@/schemas/metricSchema"
 
-import { useUserSetupStore } from "@/stores/userSetupStore"
+import { useSetupStore } from "@/stores/setupStore"
 
 import { LoadingOverlay } from "../loading"
 import SetupActivityLevel from "./activity-level"
@@ -67,7 +67,7 @@ function SetupScreen() {
     categories,
     allergies,
     updateField
-  } = useUserSetupStore()
+  } = useSetupStore()
 
   const [currentStep, setCurrentStep] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
@@ -171,7 +171,7 @@ function SetupScreen() {
 
   const onSubmitStep = async (data: Record<string, any>, setError: any) => {
     const { weightGoal } = data
-    const { weight } = useUserSetupStore.getState()
+    const { weight } = useSetupStore.getState()
 
     if (goalType === "WeightLoss" && weightGoal >= weight) {
       setError("weightGoal", {
@@ -193,7 +193,7 @@ function SetupScreen() {
       updateField(key, data[key])
     })
 
-    const updatedState = useUserSetupStore.getState()
+    const updatedState = useSetupStore.getState()
 
     if (currentStep < setupSteps.length) {
       setCurrentStep(currentStep + 1)
