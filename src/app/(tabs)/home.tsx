@@ -13,10 +13,10 @@ import {
 } from "@/components/global/atoms"
 
 import {
-  ActivityTab,
   HomeHeader,
   MealTab,
-  WaterTab
+  WaterTab,
+  WorkoutTab
 } from "@/components/local/tabs/home"
 
 import { useAuth } from "@/contexts/AuthContext"
@@ -79,7 +79,7 @@ function HomeScreen() {
             </TabsContent>
 
             <TabsContent value="activity">
-              <ActivityTab onLoading={setLoading} />
+              <WorkoutTab onLoading={setLoading} />
             </TabsContent>
           </Tabs>
         </Content>

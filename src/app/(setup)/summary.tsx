@@ -15,7 +15,7 @@ import { CounterText } from "@/components/global/molecules"
 
 import { useUserSetupStore } from "@/stores/userSetupStore"
 
-import { calculateBMR, calculateTDEE } from "@/utils/calculations"
+import { calculateAge, calculateBMR, calculateTDEE } from "@/utils/calculations"
 import { toFixed } from "@/utils/formatters"
 
 function SetupSummary() {
@@ -38,7 +38,9 @@ function SetupSummary() {
   }))
 
   useEffect(() => {
-    const age = new Date().getFullYear() - new Date(dateOfBirth).getFullYear()
+    const age = calculateAge(dateOfBirth)
+
+    console.log(age)
 
     const calculatedBMR = calculateBMR(
       weight,
@@ -47,6 +49,8 @@ function SetupSummary() {
       gender as "Male" | "Female"
     )
     const calculatedTDEE = calculateTDEE(calculatedBMR, activityLevel)
+
+    console.log(calculatedTDEE)
 
     if (goalType === "WeightLoss") {
       setCaloriesGoal(calculatedTDEE * 0.8)

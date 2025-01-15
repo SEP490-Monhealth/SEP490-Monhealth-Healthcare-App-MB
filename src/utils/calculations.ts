@@ -95,3 +95,21 @@ export const calculateIBW = (
     return 45.5 + 0.91 * (height - 152.4) // Công thức IBW cho nữ
   }
 }
+
+export const calculateAge = (dateOfBirth: string): number => {
+  const birthDate = new Date(dateOfBirth)
+  const today = new Date()
+
+  let age = today.getFullYear() - birthDate.getFullYear()
+
+  // So sánh tháng và ngày để điều chỉnh nếu sinh nhật chưa qua
+  if (
+    today.getMonth() < birthDate.getMonth() || // Tháng hiện tại nhỏ hơn tháng sinh
+    (today.getMonth() === birthDate.getMonth() &&
+      today.getDate() < birthDate.getDate()) // Cùng tháng nhưng ngày hiện tại nhỏ hơn ngày sinh
+  ) {
+    age--
+  }
+
+  return age
+}

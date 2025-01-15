@@ -2,7 +2,7 @@ import React, { useState } from "react"
 
 import { Text, View } from "react-native"
 
-import { Star } from "iconsax-react-native"
+import { Award } from "iconsax-react-native"
 
 import {
   Button,
@@ -57,7 +57,7 @@ function SubscriptionScreen() {
         <View className="flex-1 gap-1">
           {premiumSubscription.features.map((feature, index) => (
             <HStack key={index} center gap={6}>
-              <Star variant="Bold" size={24} color={COLORS.lemon} />
+              <Award variant="Bold" size={20} color={COLORS.lemon} />
               <Text className="flex-1 font-tmedium text-base text-secondary">
                 {feature}
               </Text>

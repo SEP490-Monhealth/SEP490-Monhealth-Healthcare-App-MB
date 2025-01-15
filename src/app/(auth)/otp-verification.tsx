@@ -40,11 +40,12 @@ function OTPVerificationScreen() {
   }
 
   const handleBack = () => {
-    router.back()
+    router.replace("/(auth)/forgot-password")
   }
 
   const handleSubmit = () => {
     console.log(otpValue)
+    router.replace("/(auth)/reset-password")
   }
 
   const handleResendOTP = () => {

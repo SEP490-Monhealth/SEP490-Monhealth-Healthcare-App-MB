@@ -110,7 +110,7 @@ function ForgotPasswordScreen() {
                       <Lock1 variant="Bold" size={20} color={COLORS.primary} />
                     }
                     endIcon={
-                      showPassword ? (
+                      showConfirmPassword ? (
                         <Eye variant="Bold" size={20} color={COLORS.primary} />
                       ) : (
                         <EyeSlash variant="Bold" size={20} color="#cbd5e1" />
