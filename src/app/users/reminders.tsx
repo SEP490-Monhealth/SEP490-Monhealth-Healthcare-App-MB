@@ -7,11 +7,24 @@ import { Header } from "@/components/global/organisms"
 
 import { ListItem } from "@/components/local/tabs/profile"
 
-function RemindersScreen() {
-  const [isEnabled, setIsEnabled] = useState(false)
+const reminderOptions = [
+  { key: "notifications", label: "Bật thông báo" },
+  { key: "reminders", label: "Bật nhắc nhở" }
+]
 
-  const toggleSwitch = () => {
-    setIsEnabled((prev) => !prev)
+function RemindersScreen() {
+  const [reminderSettings, setReminderSettings] = useState<
+    Record<string, boolean>
+  >({
+    notifications: false,
+    reminders: false
+  })
+
+  const toggleSwitch = (key: string) => {
+    setReminderSettings((prev) => ({
+      ...prev,
+      [key]: !prev[key]
+    }))
   }
 
   return (
@@ -20,16 +33,38 @@ function RemindersScreen() {
 
       <Content>
         <VStack className="mt-2">
-          <ListItem
-            label="Bật thông báo"
-            endIcon={<Toggle value={isEnabled} onValueChange={toggleSwitch} />}
-            more={false}
-            onPress={toggleSwitch}
-          />
+          {reminderOptions.map((option) => (
+            <ListItem
+              key={option.key}
+              label={option.label}
+              endIcon={
+                <Toggle
+                  value={reminderSettings[option.key]}
+                  onValueChange={() => toggleSwitch(option.key)}
+                />
+              }
+              more={false}
+              onPress={() => toggleSwitch(option.key)}
+            />
+          ))}
 
-          {isEnabled && (
+          {reminderSettings.notifications && reminderSettings.reminders && (
             <Text className="mt-2 text-base text-accent">
-              Thông báo đã được bật, bạn sẽ nhận các nhắc nhở hàng ngày.
+              Bạn đã bật thông báo và nhắc nhở. Hãy sẵn sàng nhận thông tin cập
+              nhật và nhắc nhở hàng ngày!
+            </Text>
+          )}
+
+          {reminderSettings.notifications && !reminderSettings.reminders && (
+            <Text className="mt-2 text-base text-accent">
+              Thông báo đã được bật, bạn sẽ nhận được thông tin cập nhật quan
+              trọng.
+            </Text>
+          )}
+
+          {!reminderSettings.notifications && reminderSettings.reminders && (
+            <Text className="mt-2 text-base text-accent">
+              Nhắc nhở đã được bật, bạn sẽ nhận thông báo nhắc nhở hàng ngày.
             </Text>
           )}
         </VStack>
