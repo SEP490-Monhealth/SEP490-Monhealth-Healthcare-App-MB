@@ -98,6 +98,7 @@ const RenderRightActions = React.memo(({ onPress }: any) => {
 function MealDetailsScreen() {
   const { handleViewFood } = useRouterHandlers()
   const SheetRef = useRef<SheetRefProps>(null)
+  const swipeableRef = useRef<Swipeable>(null)
 
   const { user } = useAuth()
   const userId = user?.userId
@@ -148,8 +149,15 @@ function MealDetailsScreen() {
     setIsRefreshing(false)
   }, [mealRefetch, mealFoodRefetch])
 
-  const openSheet = useCallback(() => SheetRef.current?.scrollTo(-240), [])
-  const closeSheet = useCallback(() => SheetRef.current?.scrollTo(0), [])
+  const openSheet = useCallback(() => {
+    SheetRef.current?.scrollTo(-240)
+    swipeableRef.current?.close()
+  }, [])
+
+  const closeSheet = useCallback(() => {
+    SheetRef.current?.scrollTo(0)
+    swipeableRef.current?.close()
+  }, [])
 
   const handleUpdateMealFoodStatus = useCallback(
     (mealFoodId: string) => {
@@ -260,6 +268,7 @@ function MealDetailsScreen() {
               )}
               renderItem={({ item }) => (
                 <Swipeable
+                  ref={swipeableRef}
                   renderRightActions={() => (
                     <RenderRightActions
                       onPress={() => {
