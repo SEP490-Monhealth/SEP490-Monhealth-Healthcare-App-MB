@@ -4,7 +4,9 @@ import { Text, TouchableOpacity, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
+import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowLeft } from "iconsax-react-native"
+import { Controller, useForm } from "react-hook-form"
 
 import {
   Button,
@@ -17,11 +19,23 @@ import { IconButton } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/app"
 
+import { OtpVerificationType, otpSchema } from "@/schemas/userSchema"
+
 function OTPVerificationScreen() {
   const router = useRouter()
-
-  const [otpValue, setOtpValue] = useState("")
   const [timeLeft, setTimeLeft] = useState(30)
+  const [isClear, setIsClear] = useState(false)
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<OtpVerificationType>({
+    resolver: zodResolver(otpSchema),
+    defaultValues: {
+      otp: ""
+    }
+  })
 
   useEffect(() => {
     let timer: NodeJS.Timeout
@@ -35,26 +49,24 @@ function OTPVerificationScreen() {
     return () => clearInterval(timer)
   }, [timeLeft])
 
-  const handleOtpChange = (otp: string) => {
-    setOtpValue(otp)
-  }
-
   const handleBack = () => {
     router.replace("/(auth)/forgot-password")
   }
 
-  const handleSubmit = () => {
-    console.log(otpValue)
+  const onSubmit = (data: OtpVerificationType) => {
+    console.log("OTP Submitted:", data)
     router.replace("/(auth)/reset-password")
   }
 
   const handleResendOTP = () => {
+    setIsClear(true)
     setTimeLeft(30)
+    setTimeout(() => setIsClear(false), 100)
     console.log("Resend OTP")
   }
 
   return (
-    <Container>
+    <Container dismissKeyboard>
       <Content className="mt-12">
         <VStack gap={64}>
           <IconButton
@@ -72,7 +84,23 @@ function OTPVerificationScreen() {
             </Text>
 
             <VStack gap={12} className="mt-8">
-              <OTPInput length={6} onOTPChange={handleOtpChange} />
+              <Controller
+                name="otp"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <OTPInput
+                    length={6}
+                    value={value}
+                    onOTPChange={onChange}
+                    isClear={isClear}
+                  />
+                )}
+              />
+              {errors.otp && (
+                <Text className="text-sm text-red-500">
+                  {errors.otp.message}
+                </Text>
+              )}
 
               {timeLeft !== 0 ? (
                 <Text className="text-center font-tregular text-accent">
@@ -90,7 +118,7 @@ function OTPVerificationScreen() {
               )}
             </VStack>
 
-            <Button onPress={handleSubmit} className="mt-8">
+            <Button onPress={handleSubmit(onSubmit)} className="mt-8">
               Xác nhận
             </Button>
           </View>

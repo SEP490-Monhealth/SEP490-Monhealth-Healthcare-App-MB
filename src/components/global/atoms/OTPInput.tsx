@@ -8,13 +8,41 @@ import { HStack } from "./Stack"
 
 interface OTPInputProps {
   length?: number
+  value?: string
   onOTPChange?: (OTP: string) => void
+  isClear?: boolean
 }
 
-export const OTPInput = ({ length = 4, onOTPChange }: OTPInputProps) => {
+export const OTPInput = ({
+  length = 4,
+  value = "",
+  onOTPChange,
+  isClear = false
+}: OTPInputProps) => {
   const [otp, setOTP] = useState<string[]>(Array(length).fill(""))
   const [timer, setTimer] = useState(60)
   const inputs = useRef<Array<TextInput | null>>([])
+
+  useEffect(() => {
+    if (value) {
+      const newOTP = value.split("").slice(0, length)
+      while (newOTP.length < length) {
+        newOTP.push("")
+      }
+      setOTP(newOTP)
+    }
+  }, [value, length])
+
+  useEffect(() => {
+    if (isClear) {
+      const clearedOTP = Array(length).fill("")
+      setOTP(clearedOTP)
+      inputs.current[0]?.focus()
+      if (onOTPChange) {
+        onOTPChange(clearedOTP.join(""))
+      }
+    }
+  }, [isClear, length, onOTPChange])
 
   useEffect(() => {
     if (timer > 0) {
@@ -62,11 +90,11 @@ export const OTPInput = ({ length = 4, onOTPChange }: OTPInputProps) => {
 
   return (
     <HStack className="justify-between">
-      {otp.map((value, index) => (
+      {otp.map((char, index) => (
         <TextInput
           key={index}
           ref={(ref) => (inputs.current[index] = ref)}
-          value={value}
+          value={char}
           onChangeText={(text) => handleChange(text, index)}
           onKeyPress={(e) => handleKeyPress(e, index)}
           keyboardType="number-pad"
