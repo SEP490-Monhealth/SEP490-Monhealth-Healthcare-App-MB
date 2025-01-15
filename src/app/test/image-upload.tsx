@@ -112,6 +112,7 @@ function ImageUpload() {
       result = await ImagePicker.launchImageLibraryAsync(options)
     } else {
       const { status } = await ImagePicker.requestCameraPermissionsAsync()
+
       if (status === "denied") {
         alert(
           "Quyền truy cập camera đã bị từ chối. Vui lòng vào cài đặt thiết bị để cấp quyền."
@@ -165,6 +166,7 @@ function ImageUpload() {
       },
       async () => {
         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
+
         setImages((prev) =>
           prev.map((img) =>
             img.uri === uri
@@ -177,7 +179,7 @@ function ImageUpload() {
   }
 
   const handleDeleteImage = async (uri: string, fileName: string) => {
-    const storageRef = ref(storage, `Monhealth/tests/${fileName}`)
+    const storageRef = ref(storage, `Monhealth/certificates/${fileName}`)
 
     try {
       await deleteObject(storageRef)
@@ -202,7 +204,12 @@ function ImageUpload() {
                   onPress={openSheet}
                 >
                   <VStack center gap={8}>
-                    <Gallery variant="Bold" size={36} color={COLORS.secondary} />
+                    <Gallery
+                      variant="Bold"
+                      size={36}
+                      color={COLORS.secondary}
+                    />
+                    
                     <Text className="font-tmedium text-base text-secondary">
                       Nhấn để chọn hoặc chụp ảnh
                     </Text>
