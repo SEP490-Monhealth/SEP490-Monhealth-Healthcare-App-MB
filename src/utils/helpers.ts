@@ -205,3 +205,16 @@ export const formatCurrency = (value: number): string => {
     .toLocaleString("vi-VN", { style: "currency", currency: "VND" })
     .replace("₫", "VND")
 }
+
+/**
+ * Tạo chuỗi UUID ngẫu nhiên.
+ * @returns Chuỗi UUID ngẫu nhiên
+ */
+export const generateUUID = (): string => {
+  const template = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
+  return template.replace(/[xy]/g, (char) => {
+    const random = (Math.random() * 16) | 0 // Lấy số ngẫu nhiên từ 0 đến 15
+    const value = char === "x" ? random : (random & 0x3) | 0x8 // Đảm bảo tính hợp lệ cho bit 13 và 16
+    return value.toString(16) // Chuyển thành số hệ thập lục phân
+  })
+}

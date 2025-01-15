@@ -46,7 +46,7 @@ export const SheetSelect = ({
       activeOpacity={0.7}
       disabled={disabled}
       onPress={!disabled ? onPress : undefined}
-      className={`px-4 py-3 ${disabled ? "opacity-30" : ""}`}
+      className={`border-b border-border px-4 py-3 ${disabled ? "opacity-30" : "opacity-100"}`}
     >
       <HStack center>
         <View className="mr-4">{icon}</View>

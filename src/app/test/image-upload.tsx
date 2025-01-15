@@ -1,16 +1,57 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 
-import { Image, Text, TouchableOpacity, View } from "react-native"
+import {
+  ActivityIndicator,
+  Image,
+  Keyboard,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View
+} from "react-native"
 
 import * as FileSystem from "expo-file-system"
 import * as ImagePicker from "expo-image-picker"
 
-import { PictureFrame } from "iconsax-react-native"
+import { storage } from "@/config/firebase"
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytesResumable
+} from "firebase/storage"
+import { Camera, Gallery, GalleryAdd } from "iconsax-react-native"
 import { X } from "lucide-react-native"
 
-import { Button, Card, Container, VStack } from "@/components/global/atoms"
+import {
+  Button,
+  Card,
+  Content,
+  ScrollArea,
+  Sheet,
+  SheetRefProps,
+  SheetSelect,
+  VStack
+} from "@/components/global/atoms"
+import { Header } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/app"
+
+import { generateUUID } from "@/utils/helpers"
+
+const uploadOptions = [
+  {
+    label: "Chọn ảnh từ thư viện",
+    value: "library",
+    icon: <GalleryAdd variant="Bold" size={24} color={COLORS.primary} />
+  },
+  {
+    label: "Chụp ảnh từ camera",
+    value: "camera",
+    icon: <Camera variant="Bold" size={24} color={COLORS.primary} />
+  }
+]
 
 const imgDir = FileSystem.documentDirectory + "images/"
 
@@ -22,7 +63,20 @@ const ensureDirExists = async () => {
 }
 
 function ImageUpload() {
-  const [images, setImages] = useState<any[]>([])
+  const SheetRef = useRef<SheetRefProps>(null)
+  const sheetHeight = 200
+
+  const openSheet = () => {
+    SheetRef.current?.scrollTo(-sheetHeight)
+  }
+
+  const closeSheet = () => {
+    SheetRef.current?.scrollTo(0)
+  }
+
+  const [images, setImages] = useState<
+    { uri: string; fileName: string; uploading: boolean; progress: number }[]
+  >([])
 
   useEffect(() => {
     loadImages()
@@ -32,15 +86,24 @@ function ImageUpload() {
     await ensureDirExists()
     const files = await FileSystem.readDirectoryAsync(imgDir)
     if (files.length > 0) {
-      setImages(files.map((f) => imgDir + f))
+      setImages(
+        files.map((f) => ({
+          uri: imgDir + f,
+          fileName: f,
+          uploading: false,
+          progress: 0
+        }))
+      )
     }
   }
 
-  const selectImage = async (useLibrary: boolean) => {
+  const handleSelectImage = async (useLibrary: boolean) => {
+    closeSheet()
     let result
+
     const options: ImagePicker.ImagePickerOptions = {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
+      // allowsEditing: true,
       aspect: [16, 9],
       quality: 1.0
     }
@@ -48,63 +111,169 @@ function ImageUpload() {
     if (useLibrary) {
       result = await ImagePicker.launchImageLibraryAsync(options)
     } else {
-      await ImagePicker.requestCameraPermissionsAsync()
-      result = await ImagePicker.launchCameraAsync(options)
+      const { status } = await ImagePicker.requestCameraPermissionsAsync()
+      if (status === "denied") {
+        alert(
+          "Quyền truy cập camera đã bị từ chối. Vui lòng vào cài đặt thiết bị để cấp quyền."
+        )
+        return
+      }
+
+      if (status === "granted") {
+        result = await ImagePicker.launchCameraAsync(options)
+      }
     }
 
-    if (!result.canceled) {
-      saveImage(result.assets[0].uri)
+    if (result && !result.canceled && result.assets?.length) {
+      handleUploadImage(result.assets[0].uri)
     }
   }
 
-  const saveImage = async (uri: string) => {
-    await ensureDirExists()
-    const filename = new Date().getTime() + ".jpeg"
-    const dest = imgDir + filename
-    await FileSystem.copyAsync({ from: uri, to: dest })
-    setImages([...images, dest])
+  const handleUploadImage = async (uri: string) => {
+    const uuid = generateUUID()
+    const extension = uri.split(".").pop()
+    const fileName = `${uuid}.${extension}`
+    const storageRef = ref(storage, `Monhealth/certificates/${fileName}`)
+
+    const newImage = { uri, fileName, uploading: true, progress: 0 }
+    setImages((prev) => [...prev, newImage])
+
+    const response = await fetch(uri)
+    const blob = await response.blob()
+
+    const uploadTask = uploadBytesResumable(storageRef, blob)
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const uploadProgress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        )
+        setImages((prev) =>
+          prev.map((img) =>
+            img.uri === uri ? { ...img, progress: uploadProgress } : img
+          )
+        )
+      },
+      (error) => {
+        console.error("Upload failed:", error)
+        setImages((prev) =>
+          prev.map((img) =>
+            img.uri === uri ? { ...img, uploading: false } : img
+          )
+        )
+      },
+      async () => {
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
+        setImages((prev) =>
+          prev.map((img) =>
+            img.uri === uri
+              ? { uri: downloadURL, fileName, uploading: false, progress: 100 }
+              : img
+          )
+        )
+      }
+    )
   }
 
-  const deleteImage = async (uri: string) => {
-    await FileSystem.deleteAsync(uri)
-    setImages(images.filter((i) => i !== uri))
+  const handleDeleteImage = async (uri: string, fileName: string) => {
+    const storageRef = ref(storage, `Monhealth/tests/${fileName}`)
+
+    try {
+      await deleteObject(storageRef)
+      console.log("File deleted successfully from Firebase:", fileName)
+      setImages((prev) => prev.filter((img) => img.uri !== uri))
+    } catch (error) {
+      console.error("Failed to delete file from Firebase:", error)
+    }
   }
 
   return (
-    <Container>
-      <VStack gap={20}>
-        <Card className="h-48 justify-center" onPress={() => selectImage(true)}>
-          <VStack className="items-center gap-2">
-            <PictureFrame variant="Bold" size={36} color={COLORS.primary} />
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <SafeAreaView className="h-full flex-1 bg-background">
+        <View className="flex-1 px-6">
+          <Header back label="Chứng chỉ" />
 
-            <Text className="font-tmedium text-base text-accent">
-              Tải hình ảnh lên
-            </Text>
-          </VStack>
-        </Card>
+          <Content className="mt-2">
+            <ScrollArea className="flex-1">
+              <VStack gap={20}>
+                <Card
+                  className="h-48 justify-center border-2"
+                  onPress={openSheet}
+                >
+                  <VStack center gap={8}>
+                    <Gallery variant="Bold" size={36} color={COLORS.secondary} />
+                    <Text className="font-tmedium text-base text-secondary">
+                      Nhấn để chọn hoặc chụp ảnh
+                    </Text>
+                  </VStack>
+                </Card>
 
-        <Button onPress={() => selectImage(false)}>Chụp ảnh</Button>
-      </VStack>
+                <Button>Xác nhận</Button>
 
-      <View className="mt-5 flex-row flex-wrap gap-4">
-        {images.map((item, index) => (
-          <View key={index} className="relative">
-            <Image
-              className="rounded-lg"
-              source={{ uri: item }}
-              style={{ height: 105, width: 105 }}
+                <View className="flex-row flex-wrap">
+                  {images.map((item, index) => (
+                    <View
+                      key={index}
+                      style={{
+                        width: "30%",
+                        aspectRatio: 1,
+                        margin: "1.5%"
+                      }}
+                    >
+                      <Image
+                        source={{ uri: item.uri }}
+                        className="h-full w-full rounded-xl"
+                      />
+
+                      {item.uploading && (
+                        <View
+                          className="absolute inset-0 items-center justify-center rounded-xl"
+                          style={{
+                            backgroundColor: "rgba(0,0,0,0.7)"
+                          }}
+                        >
+                          <ActivityIndicator
+                            size="small"
+                            color="#fff"
+                            className="py-1"
+                          />
+
+                          <Text className="font-tmedium text-sm text-white">
+                            {item.progress}%
+                          </Text>
+                        </View>
+                      )}
+
+                      <TouchableOpacity
+                        activeOpacity={0.7}
+                        onPress={() =>
+                          handleDeleteImage(item.uri, item.fileName)
+                        }
+                        className="absolute right-2 top-2 rounded-full bg-border p-1"
+                      >
+                        <X size={14} color={COLORS.primary} />
+                      </TouchableOpacity>
+                    </View>
+                  ))}
+                </View>
+              </VStack>
+            </ScrollArea>
+          </Content>
+        </View>
+
+        <Sheet ref={SheetRef} dynamicHeight={sheetHeight}>
+          {uploadOptions.map((option) => (
+            <SheetSelect
+              key={option.value}
+              label={option.label}
+              icon={option.icon}
+              onPress={() => handleSelectImage(option.value === "library")}
             />
-
-            <TouchableOpacity
-              onPress={() => deleteImage(item)}
-              className="absolute right-1 top-1 items-center justify-center rounded-full bg-gray-200/65 p-1"
-            >
-              <X size={12} color={COLORS.primary} />
-            </TouchableOpacity>
-          </View>
-        ))}
-      </View>
-    </Container>
+          ))}
+        </Sheet>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   )
 }
 

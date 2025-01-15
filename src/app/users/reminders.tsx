@@ -31,8 +31,8 @@ function RemindersScreen() {
     <Container>
       <Header back label="Nhắc nhở" />
 
-      <Content>
-        <VStack className="mt-2">
+      <Content className="mt-2">
+        <VStack>
           {reminderOptions.map((option) => (
             <ListItem
               key={option.key}
