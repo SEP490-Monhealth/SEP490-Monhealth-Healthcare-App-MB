@@ -23,6 +23,10 @@ function AssistantScreen() {
     router.push("/test/service")
   }
 
+  const handleViewImageUpload = () => {
+    router.push("/test/image-upload")
+  }
+
   return (
     <Container>
       <Content className="mt-2 pb-12">
@@ -41,6 +45,10 @@ function AssistantScreen() {
 
           <Button size="lg" onPress={handleViewService}>
             Dịch vụ
+          </Button>
+
+          <Button size="lg" onPress={handleViewImageUpload}>
+            Upload ảnh
           </Button>
         </VStack>
       </Content>
