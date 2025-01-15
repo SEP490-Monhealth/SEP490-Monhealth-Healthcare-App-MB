@@ -24,23 +24,23 @@ function SubscriptionScreen() {
   const { user } = useAuth()
   const userId = user?.userId
 
-  const subscriptionData = sampleSubscriptionsData[1]
+  const premiumSubscription = sampleSubscriptionsData[1]
 
   const [selectedPlan, setSelectedPlan] = useState(3)
 
-  const handlePlanPress = (duration: number) => {
+  const handlePlanSelect = (duration: number) => {
     setSelectedPlan(duration)
   }
 
-  const handlePaymentPress = () => {
+  const handlePayment = () => {
     if (selectedPlan) {
-      const selectedDetails = {
+      const paymentDetails = {
         userId: userId,
-        subscriptionId: subscriptionData.subscriptionId,
+        subscriptionId: premiumSubscription.subscriptionId,
         duration: selectedPlan * 30
       }
 
-      console.log("Selected subscription:", selectedDetails)
+      console.log("Selected subscription:", paymentDetails)
     }
   }
 
@@ -50,41 +50,41 @@ function SubscriptionScreen() {
 
       <Content className="mt-2">
         <StepHeader
-          title={subscriptionData.name}
+          title={premiumSubscription.name}
           description="Nâng cấp trải nghiệm của bạn"
         />
 
-        <View className="flex-1">
-          {subscriptionData.features.map((feature, index) => (
-            <HStack key={index} center>
-              <Star variant="Bold" size={28} color={COLORS.lemon} />
-              <Text className="flex-1 font-tregular text-base text-secondary">
+        <View className="flex-1 gap-1">
+          {premiumSubscription.features.map((feature, index) => (
+            <HStack key={index} center gap={6}>
+              <Star variant="Bold" size={24} color={COLORS.lemon} />
+              <Text className="flex-1 font-tmedium text-base text-secondary">
                 {feature}
               </Text>
             </HStack>
           ))}
 
           <VStack gap={12} className="mt-6">
-            {subscriptionData?.plans.map((item, index) => (
+            {premiumSubscription.plans.map((item, index) => (
               <SubscriptionCard
                 key={index}
                 duration={item.duration}
                 price={item.price}
                 discount={item.discount}
                 isSelected={item.duration === selectedPlan}
-                onPress={() => handlePlanPress(item.duration)}
+                onPress={() => handlePlanSelect(item.duration)}
               />
             ))}
           </VStack>
 
-          <Text className="mt-8 text-center font-tregular text-secondary">
+          <Text className="mt-2 text-center font-tregular text-secondary">
             Chọn gói 6 tháng để tiết kiệm 20% và nhận trọn vẹn các tính năng cao
             cấp!
           </Text>
         </View>
       </Content>
 
-      <Button size="lg" className="mb-4" onPress={handlePaymentPress}>
+      <Button size="lg" className="mb-4" onPress={handlePayment}>
         Thanh toán
       </Button>
     </Container>

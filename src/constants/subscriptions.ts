@@ -9,9 +9,9 @@ export const sampleSubscriptionsData = [
     subscriptionId: "b743cc4e-cb7d-4f94-bc91-a2631d4506fa",
     name: "Gói cao cấp (Premium)",
     features: [
-      "Lập kế hoạch cá nhân hóa về dinh dưỡng & bài tập",
-      "Theo dõi mục tiêu sức khỏe với công cụ phân tích chi tiết",
-      "Đặt lịch với chuyên gia dinh dưỡng & sức khỏe"
+      "Gợi ý bữa ăn cá nhân hóa theo tuần",
+      "Xem báo cáo dinh dưỡng hàng tuần",
+      "Tương tác với chuyên viên tư vấn sức khỏe"
     ],
     plans: [
       {
