@@ -151,7 +151,8 @@ export const MealTab = ({ onLoading }: MealTabProps) => {
           <MealCard
             key={item.mealId}
             type={item.type as "Breakfast" | "Lunch" | "Dinner" | "Snack"}
-            calories={item.calories}
+            totalFoods={item.foods?.length || 0}
+            totalCalories={item.calories}
             onPress={() =>
               item.isDefault ? handleViewFoods() : handleViewMeal(item.mealId)
             }

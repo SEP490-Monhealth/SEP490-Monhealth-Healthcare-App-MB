@@ -15,7 +15,7 @@ import { Header } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/app"
 
-import { useSaveFoods } from "@/contexts/SaveFoodContext"
+import { useSaveFoods } from "@/contexts/FoodSavedContext"
 
 import { useRouterHandlers } from "@/hooks/useRouter"
 

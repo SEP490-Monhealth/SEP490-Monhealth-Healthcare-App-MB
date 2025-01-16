@@ -6,6 +6,8 @@ import { MoreHorizontal } from "lucide-react-native"
 
 import { COLORS } from "@/constants/app"
 
+import { toFixed } from "@/utils/formatters"
+
 import { Card, Checkbox, HStack, Toggle, VStack } from "../atoms"
 import { IconButton } from "./IconButton"
 
@@ -61,7 +63,7 @@ export const WaterCard = ({
           <VStack gap={0} className="ml-1">
             <Text className="font-tmedium text-lg text-primary">{time}</Text>
             <Text className="font-tmedium text-sm text-accent">
-              {name}, {volume} ml
+              {name}, {toFixed(volume, 0)} ml
             </Text>
           </VStack>
         </HStack>

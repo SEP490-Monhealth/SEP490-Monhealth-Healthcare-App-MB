@@ -14,14 +14,16 @@ import { Card, HStack, Progress } from "../atoms"
 
 interface MealCardProps {
   type: "Breakfast" | "Lunch" | "Dinner" | "Snack"
-  calories: number
+  totalFoods: number
+  totalCalories: number
   progress?: number
   onPress?: () => void
 }
 
 export const MealCard = ({
   type = "Breakfast",
-  calories,
+  totalFoods,
+  totalCalories,
   progress,
   onPress
 }: MealCardProps) => {
@@ -52,7 +54,7 @@ export const MealCard = ({
             {getMealTypeName(type)}
           </Text>
 
-          {progress !== undefined && (
+          {progress && (
             <Progress
               testID="progress-bar"
               progress={progress}
@@ -61,7 +63,7 @@ export const MealCard = ({
           )}
 
           <Text className="font-tmedium text-sm text-accent">
-            {toFixed(calories, 0)} kcal
+            {totalFoods} món ăn • {toFixed(totalCalories, 0)} kcal
           </Text>
         </View>
       </HStack>
