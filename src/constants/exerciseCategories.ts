@@ -1,7 +1,8 @@
-export const sampleTypesData = [
+export const sampleExerciseCategoriesData = [
   {
     typeId: "7780ccb5-aa16-4f88-a662-04971892dae0",
     name: "Yoga",
+
     description:
       "Các bài tập tập trung vào việc cải thiện sự linh hoạt, thăng bằng, và giảm căng thẳng thông qua các tư thế và kỹ thuật thở. Phù hợp cho mọi lứa tuổi và thể trạng",
     image: require("../../public/icons/workouts/yoga.png")

@@ -15,5 +15,14 @@ export const useRouterHandlers = () => {
     router.push(`/reminders/${reminderId}/details`)
   }
 
-  return { handleViewFood, handleViewMeal, handleViewReminder }
+  const handleViewExerciseCategory = (typeId: string) => {
+    router.push(`/workouts/${typeId}/details`)
+  }
+
+  return {
+    handleViewFood,
+    handleViewMeal,
+    handleViewReminder,
+    handleViewExerciseCategory
+  }
 }

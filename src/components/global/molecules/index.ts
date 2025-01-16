@@ -4,6 +4,7 @@ import { CircularProgress } from "./CircularProgress"
 import { CounterText } from "./CounterText"
 import { CustomHeader } from "./CustomHeader"
 import { ErrorDisplay } from "./ErrorDisplay"
+import { ExerciseCategoryCard } from "./ExerciseCategoryCard"
 import { FoodCard } from "./FoodCard"
 import { IconButton } from "./IconButton"
 import { ListFooter } from "./ListFooter"
@@ -13,7 +14,6 @@ import { NotificationCard } from "./NotificationCard"
 import { NutritionCard } from "./NutritionCard"
 import { NutritionItem } from "./NutritionItem"
 import { StepHeader } from "./SetupHeader"
-import { TypeCard } from "./TypeCard"
 import { WaterCard } from "./WaterCard"
 
 export {
@@ -32,6 +32,6 @@ export {
   NutritionCard,
   NutritionItem,
   StepHeader,
-  TypeCard,
+  ExerciseCategoryCard,
   WaterCard
 }
