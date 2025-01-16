@@ -9,13 +9,13 @@ import { aboutItems, generalItems } from "@/config/site"
 import { Card, Container, Content, Modal } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import { ListItem } from "@/components/local/tabs/profile"
+import { ListItem } from "@/components/local/tabs/settings"
 
 import { APP } from "@/constants/app"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-function ProfileScreen() {
+function SettingsScreen() {
   const router = useRouter()
   const { logout } = useAuth()
 
@@ -84,4 +84,4 @@ function ProfileScreen() {
   )
 }
 
-export default ProfileScreen
+export default SettingsScreen

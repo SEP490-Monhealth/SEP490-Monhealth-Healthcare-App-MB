@@ -5,7 +5,7 @@ import { Text } from "react-native"
 import { Container, Content, Toggle, VStack } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import { ListItem } from "@/components/local/tabs/profile"
+import { ListItem } from "@/components/local/tabs/settings"
 
 const reminderOptions = [
   { key: "notifications", label: "Bật thông báo" },

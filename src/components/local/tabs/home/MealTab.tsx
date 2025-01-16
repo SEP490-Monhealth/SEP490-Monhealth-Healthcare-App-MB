@@ -4,6 +4,8 @@ import { View } from "react-native"
 
 import { useRouter } from "expo-router"
 
+import { useIsFetching, useIsMutating } from "@tanstack/react-query"
+
 import { HStack, Progress, VStack } from "@/components/global/atoms"
 import { TipText } from "@/components/global/atoms/Typography"
 import { MealCard } from "@/components/global/molecules"
@@ -25,9 +27,10 @@ import { getRandomTip } from "@/utils/helpers"
 
 interface MealTabProps {
   onLoading: (isLoading: boolean) => void
+  onOverlayLoading: (isLoading: boolean) => void
 }
 
-export const MealTab = ({ onLoading }: MealTabProps) => {
+export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
   const router = useRouter()
   const { handleViewMeal } = useRouterHandlers()
 
@@ -42,13 +45,33 @@ export const MealTab = ({ onLoading }: MealTabProps) => {
   const { data: nutritionGoalData, isLoading: isGoalLoading } =
     useGetNutritionGoal(userId)
 
+  const isFetching = useIsFetching()
+  const isMutating = useIsMutating()
+
+  // useEffect(() => {
+  //   onLoading(
+  //     !dailyMealData ||
+  //       isDailyMealLoading ||
+  //       !nutritionGoalData ||
+  //       isGoalLoading
+  //   )
+  // }, [
+  //   dailyMealData,
+  //   isDailyMealLoading,
+  //   nutritionGoalData,
+  //   isGoalLoading,
+  //   onLoading
+  // ])
+
   useEffect(() => {
-    onLoading(
-      !dailyMealData ||
-        isDailyMealLoading ||
-        !nutritionGoalData ||
-        isGoalLoading
-    )
+    if (onLoading) {
+      onLoading(
+        !dailyMealData ||
+          isDailyMealLoading ||
+          !nutritionGoalData ||
+          isGoalLoading
+      )
+    }
   }, [
     dailyMealData,
     isDailyMealLoading,
@@ -56,6 +79,12 @@ export const MealTab = ({ onLoading }: MealTabProps) => {
     isGoalLoading,
     onLoading
   ])
+
+  useEffect(() => {
+    if (onOverlayLoading) {
+      onOverlayLoading(isFetching > 0 || isMutating > 0)
+    }
+  }, [isFetching, isMutating, onOverlayLoading])
 
   const mealsData = dailyMealData?.items || []
 

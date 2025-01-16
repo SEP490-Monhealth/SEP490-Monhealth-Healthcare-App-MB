@@ -10,10 +10,10 @@ import {
 import { Tabs } from "expo-router"
 
 import {
-  ClipboardTick,
-  DirectboxDefault,
+  DirectNormal,
+  FavoriteChart,
   Home2,
-  Profile,
+  Setting,
   Sound
 } from "iconsax-react-native"
 
@@ -72,7 +72,7 @@ function TabLayout() {
       />
 
       <Tabs.Screen
-        name="consultant"
+        name="report"
         options={{
           tabBarLabel: ({ focused }) => (
             <Text
@@ -82,11 +82,11 @@ function TabLayout() {
                 color: focused ? primaryColor : accentColor
               }}
             >
-              Hỏi đáp
+              Báo cáo
             </Text>
           ),
           tabBarIcon: ({ focused }) => (
-            <DirectboxDefault
+            <FavoriteChart
               variant={focused ? "Bold" : "Linear"}
               color={focused ? primaryColor : accentColor}
               size={22}
@@ -108,7 +108,7 @@ function TabLayout() {
       />
 
       <Tabs.Screen
-        name="report"
+        name="consultant"
         options={{
           tabBarLabel: ({ focused }) => (
             <Text
@@ -118,11 +118,11 @@ function TabLayout() {
                 color: focused ? primaryColor : accentColor
               }}
             >
-              Báo cáo
+              Chuyên viên
             </Text>
           ),
           tabBarIcon: ({ focused }) => (
-            <ClipboardTick
+            <DirectNormal
               variant={focused ? "Bold" : "Linear"}
               color={focused ? primaryColor : accentColor}
               size={22}
@@ -132,7 +132,7 @@ function TabLayout() {
       />
 
       <Tabs.Screen
-        name="profile"
+        name="settings"
         options={{
           tabBarLabel: ({ focused }) => (
             <Text
@@ -142,11 +142,11 @@ function TabLayout() {
                 color: focused ? primaryColor : accentColor
               }}
             >
-              Hồ sơ
+              Cài đặt
             </Text>
           ),
           tabBarIcon: ({ focused }) => (
-            <Profile
+            <Setting
               variant={focused ? "Bold" : "Linear"}
               color={focused ? primaryColor : accentColor}
               size={22}

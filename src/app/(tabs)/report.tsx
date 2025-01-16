@@ -1,5 +1,7 @@
 import React from "react"
 
+import { Profile } from "iconsax-react-native"
+
 import {
   Container,
   Content,
@@ -13,27 +15,30 @@ import { Header } from "@/components/global/organisms"
 
 import { MealTab } from "@/components/local/tabs/report"
 
+import { COLORS } from "@/constants/app"
 import { sampleFoodsData } from "@/constants/foods"
 
 function ReportScreen() {
-  const today = new Date()
-
   const foodsData = sampleFoodsData
 
   return (
     <Container>
-      <Header label="Báo cáo" />
+      <Header
+        label="Báo cáo"
+        action={{
+          icon: <Profile variant="Bold" size={20} color={COLORS.primary} />,
+          href: "/settings/user-information"
+        }}
+      />
 
       <Content className="mt-2 pb-12">
         <VStack gap={20}>
           <Tabs defaultValue="meal" contentMarginTop={12}>
             <VStack gap={20}>
-              <Schedule initialDate={today} />
-
               <TabsList>
-                <TabsTrigger value="meal">Dinh dưỡng</TabsTrigger>
+                <TabsTrigger value="meal">Bữa ăn</TabsTrigger>
                 <TabsTrigger value="water">Nước</TabsTrigger>
-                <TabsTrigger value="activity">Bài tập</TabsTrigger>
+                <TabsTrigger value="activity">Luyện tập</TabsTrigger>
               </TabsList>
             </VStack>
 

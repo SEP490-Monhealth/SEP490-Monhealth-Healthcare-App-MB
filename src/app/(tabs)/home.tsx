@@ -27,6 +27,8 @@ function HomeScreen() {
   const { user } = useAuth()
   const userId = user?.userId
 
+  console.log(user)
+
   const { tab } = useLocalSearchParams()
   const [activeTab, setActiveTab] = useState(tab || "meal")
   const [loading, setLoading] = useState(false)
@@ -62,13 +64,16 @@ function HomeScreen() {
               <TabsTrigger value="water" onChange={handleTabChange}>
                 Nước
               </TabsTrigger>
-              <TabsTrigger value="activity" onChange={handleTabChange}>
+              <TabsTrigger value="workout" onChange={handleTabChange}>
                 Luyện tập
               </TabsTrigger>
             </TabsList>
 
             <TabsContent value="meal">
-              <MealTab onLoading={setLoading} />
+              <MealTab
+                onLoading={setLoading}
+                onOverlayLoading={setOverlayLoading}
+              />
             </TabsContent>
 
             <TabsContent value="water">
@@ -78,7 +83,7 @@ function HomeScreen() {
               />
             </TabsContent>
 
-            <TabsContent value="activity">
+            <TabsContent value="workout">
               <WorkoutTab onLoading={setLoading} />
             </TabsContent>
           </Tabs>

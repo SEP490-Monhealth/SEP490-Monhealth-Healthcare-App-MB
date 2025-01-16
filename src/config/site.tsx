@@ -15,27 +15,27 @@ export const generalItems = [
   {
     icon: <Profile variant="Bold" size={24} color={COLORS.accent} />,
     label: "Thông tin cá nhân",
-    route: "/users/user-information"
+    route: "/settings/user-information"
   },
   {
     icon: <Command variant="Bold" size={24} color={COLORS.accent} />,
     label: "Theo dõi sức khỏe",
-    route: "/users/health-tracking"
+    route: "/settings/health-tracking"
   },
   {
     icon: <Activity variant="Bold" size={24} color={COLORS.accent} />,
     label: "Hoạt động thể chất",
-    route: "/users/activity-tracking"
+    route: "/settings/activity-tracking"
   },
   {
     icon: <NotificationStatus variant="Bold" size={24} color={COLORS.accent} />,
     label: "Nhắc nhở và thông báo",
-    route: "/users/reminders"
+    route: "/settings/reminders"
   },
   {
     icon: <Lock1 variant="Bold" size={24} color={COLORS.accent} />,
     label: "Bảo mật và quyền riêng tư",
-    route: "/users/privacy-settings"
+    route: "/settings/privacy-settings"
   }
 ]
 
@@ -48,7 +48,7 @@ export const aboutItems = [
   {
     icon: <Award variant="Bold" size={24} color={COLORS.accent} />,
     label: "Gói đăng ký",
-    route: "/users/subscriptions"
+    route: "/settings/subscriptions"
   },
   {
     icon: <Logout variant="Bold" size={24} color={COLORS.accent} />,
