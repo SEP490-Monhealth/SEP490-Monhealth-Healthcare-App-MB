@@ -1,6 +1,4 @@
-import { NotificationType } from "@/schemas/notificationSchema"
-
-export const sampleNotificationData: NotificationType[] = [
+export const sampleNotificationData = [
   {
     notificationId: "001",
     userId: "123",
@@ -9,7 +7,7 @@ export const sampleNotificationData: NotificationType[] = [
     description:
       "Hãy nhớ uống một ly nước để duy trì sức khỏe! Nước không chỉ giúp cơ thể bạn hoạt động tốt hơn mà còn giúp làn da của bạn luôn tươi tắn",
     type: "Reminder",
-    href: "/reminders",
+    href: "/water-reminders",
     status: true,
 
     createdAt: "2025-01-06T19:45:00Z",
@@ -25,7 +23,7 @@ export const sampleNotificationData: NotificationType[] = [
     description:
       "Hãy nhớ uống một ly nước để duy trì sức khỏe! Nước không chỉ giúp cơ thể bạn hoạt động tốt hơn mà còn giúp làn da của bạn luôn tươi tắn",
     type: "Warning",
-    href: "/reminders",
+    href: "/water-reminders",
     status: false,
 
     createdAt: "2025-01-05T00:00:00Z",
@@ -41,7 +39,7 @@ export const sampleNotificationData: NotificationType[] = [
     description:
       "Hãy nhớ uống một ly nước để duy trì sức khỏe! Nước không chỉ giúp cơ thể bạn hoạt động tốt hơn mà còn giúp làn da của bạn luôn tươi tắn",
     type: "Suggestion",
-    href: "/reminders",
+    href: "/water-reminders",
     status: false,
 
     createdAt: "2025-01-05T00:00:00Z",

@@ -20,23 +20,23 @@ import {
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import { useGetReminderById, useUpdateReminder } from "@/hooks/useReminder"
+import { useGetWaterReminderById, useUpdateWaterReminder } from "@/hooks/useWaterReminder"
 
 import {
-  UpdateReminderType,
-  updateReminderSchema
-} from "@/schemas/reminderSchema"
+  UpdateWaterReminderType,
+  updateWaterReminderSchema
+} from "@/schemas/waterReminderSchema"
 
 import { convertTimeStringToDate } from "@/utils/helpers"
 
-function ReminderDetailsScreen() {
-  const { reminderId } = useLocalSearchParams() as {
-    reminderId: string
+function WaterReminderDetailsScreen() {
+  const { waterReminderId } = useLocalSearchParams() as {
+    waterReminderId: string
   }
 
-  const { mutate: updateReminder } = useUpdateReminder()
+  const { mutate: updateWaterReminder } = useUpdateWaterReminder()
 
-  const { data: reminderData, isLoading } = useGetReminderById(reminderId)
+  const { data: waterReminderData, isLoading } = useGetWaterReminderById(waterReminderId)
 
   const [time, setTime] = useState(new Date())
 
@@ -45,18 +45,18 @@ function ReminderDetailsScreen() {
     handleSubmit,
     setValue,
     formState: { errors }
-  } = useForm<UpdateReminderType>({
-    resolver: zodResolver(updateReminderSchema)
+  } = useForm<UpdateWaterReminderType>({
+    resolver: zodResolver(updateWaterReminderSchema)
   })
 
   useEffect(() => {
-    if (reminderData) {
-      setValue("name", reminderData.name)
-      setValue("time", reminderData.time)
-      setValue("volume", reminderData.volume)
-      setTime(convertTimeStringToDate(reminderData.time))
+    if (waterReminderData) {
+      setValue("name", waterReminderData.name)
+      setValue("time", waterReminderData.time)
+      setValue("volume", waterReminderData.volume)
+      setTime(convertTimeStringToDate(waterReminderData.time))
     }
-  }, [reminderData, setValue])
+  }, [waterReminderData, setValue])
 
   if (isLoading) {
     return <LoadingScreen />
@@ -76,9 +76,9 @@ function ReminderDetailsScreen() {
     }
   }
 
-  const onSubmit = (data: UpdateReminderType) => {
-    updateReminder(
-      { reminderId, reminder: data },
+  const onSubmit = (data: UpdateWaterReminderType) => {
+    updateWaterReminder(
+      { waterReminderId, waterReminder: data },
       {
         onSuccess: () => {
           router.replace("/reminders")
@@ -147,4 +147,4 @@ function ReminderDetailsScreen() {
   )
 }
 
-export default ReminderDetailsScreen
+export default WaterReminderDetailsScreen
