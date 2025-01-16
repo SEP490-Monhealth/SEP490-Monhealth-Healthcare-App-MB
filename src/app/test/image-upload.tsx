@@ -190,6 +190,11 @@ function ImageUpload() {
     }
   }
 
+  const handleConfirm = () => {
+    const uris = images.map((img) => img.uri)
+    console.log("images:", uris)
+  }
+
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView className="h-full flex-1 bg-background">
@@ -209,14 +214,14 @@ function ImageUpload() {
                       size={36}
                       color={COLORS.secondary}
                     />
-                    
+
                     <Text className="font-tmedium text-base text-secondary">
                       Nhấn để chọn hoặc chụp ảnh
                     </Text>
                   </VStack>
                 </Card>
 
-                <Button>Xác nhận</Button>
+                <Button onPress={handleConfirm}>Xác nhận</Button>
 
                 <View className="flex-row flex-wrap">
                   {images.map((item, index) => (
