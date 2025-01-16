@@ -13,6 +13,7 @@ import { NotificationCard } from "./NotificationCard"
 import { NutritionCard } from "./NutritionCard"
 import { NutritionItem } from "./NutritionItem"
 import { StepHeader } from "./SetupHeader"
+import { TypeCard } from "./TypeCard"
 import { WaterCard } from "./WaterCard"
 
 export {
@@ -31,5 +32,6 @@ export {
   NutritionCard,
   NutritionItem,
   StepHeader,
+  TypeCard,
   WaterCard
 }
