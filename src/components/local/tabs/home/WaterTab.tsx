@@ -80,7 +80,7 @@ export const WaterTab = ({ onLoading, onOverlayLoading }: WaterTabProps) => {
         width={14}
         fill={progress}
         prefill={prefillReady}
-        tintColor={COLORS.water}
+        tintColor={COLORS.PRIMARY.water}
         arcSweepAngle={260}
         rotation={230}
         centerCircle

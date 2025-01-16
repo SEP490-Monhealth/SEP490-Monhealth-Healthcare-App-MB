@@ -284,7 +284,7 @@ function SetupScreen() {
           <Progress
             height={14}
             progress={(currentStep / setupSteps.length) * 100}
-            color={COLORS.lemon}
+            color={COLORS.PRIMARY.lemon}
           />
         }
         onBackPress={handleBack}

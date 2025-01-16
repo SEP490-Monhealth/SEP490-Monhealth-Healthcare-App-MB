@@ -22,7 +22,7 @@ export const TipText = ({ text }: TextProps) => {
   return (
     <VStack center>
       <HStack center gap={6}>
-        <LampOn variant="Bold" size={20} color={COLORS.lemon} />
+        <LampOn variant="Bold" size={20} color={COLORS.PRIMARY.lemon} />
         <Text className="font-tmedium text-lg text-primary">Bạn có biết?</Text>
       </HStack>
 

@@ -25,8 +25,12 @@ export const COLORS = {
   accent: "#94a3b8",
   destructive: "#ef4444",
 
-  lemon: "#eab308",
-  water: "#3b82f6",
+  PRIMARY: {
+    nutrition: "#f59e0b",
+    water: "#0ea5e9",
+    workout: "#f43f5e",
+    lemon: "#eab308"
+  },
 
   BMI: {
     low: "#22c55e",

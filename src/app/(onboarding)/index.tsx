@@ -63,7 +63,7 @@ function OnboardingScreen() {
           <Progress
             height={12}
             progress={(currentIndex + 1) * (100 / onboardingData.length)}
-            color={COLORS.lemon}
+            color={COLORS.PRIMARY.lemon}
           />
         </View>
       </VStack>

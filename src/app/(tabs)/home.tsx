@@ -57,13 +57,13 @@ function HomeScreen() {
           <Tabs defaultValue={activeTab} contentMarginTop={8}>
             <TabsList center gap={32}>
               <TabsTrigger value="meal" onChange={handleTabChange}>
-                Dinh dưỡng
+                Bữa ăn
               </TabsTrigger>
               <TabsTrigger value="water" onChange={handleTabChange}>
                 Nước
               </TabsTrigger>
               <TabsTrigger value="activity" onChange={handleTabChange}>
-                Bài tập
+                Luyện tập
               </TabsTrigger>
             </TabsList>
 

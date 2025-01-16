@@ -57,7 +57,7 @@ function SubscriptionScreen() {
         <View className="flex-1 gap-1">
           {premiumSubscription.features.map((feature, index) => (
             <HStack key={index} center gap={6}>
-              <Award variant="Bold" size={20} color={COLORS.lemon} />
+              <Award variant="Bold" size={20} color={COLORS.PRIMARY.lemon} />
               <Text className="flex-1 font-tmedium text-base text-secondary">
                 {feature}
               </Text>
