@@ -3,14 +3,14 @@ import axios from "axios"
 import monAPI from "@/lib/monAPI"
 
 import {
-  CreateReminderType,
-  ReminderType,
-  UpdateReminderType
-} from "@/schemas/reminderSchema"
+  CreateWaterReminderType,
+  WaterReminderType,
+  UpdateWaterReminderType
+} from "@/schemas/waterReminderSchema"
 
-export const getRemindersByUserId = async (
+export const getWaterRemindersByUserId = async (
   userId: string | undefined
-): Promise<ReminderType[]> => {
+): Promise<WaterReminderType[]> => {
   try {
     const response = await monAPI.get(`/reminders/user/${userId}`)
 
@@ -25,7 +25,7 @@ export const getRemindersByUserId = async (
     const { success, message, data } = response.data
 
     if (success) {
-      return data as ReminderType[]
+      return data as WaterReminderType[]
     } else {
       throw {
         isCustomError: true,
@@ -46,11 +46,11 @@ export const getRemindersByUserId = async (
   }
 }
 
-export const getReminderById = async (
-  reminderId: string | undefined
-): Promise<ReminderType> => {
+export const getWaterReminderById = async (
+  waterReminderId: string | undefined
+): Promise<WaterReminderType> => {
   try {
-    const response = await monAPI.get(`/reminders/${reminderId}`)
+    const response = await monAPI.get(`/reminders/${waterReminderId}`)
 
     if (!response || !response.data) {
       throw {
@@ -63,7 +63,7 @@ export const getReminderById = async (
     const { success, message, data } = response.data
 
     if (success) {
-      return data as ReminderType
+      return data as WaterReminderType
     } else {
       throw {
         isCustomError: true,
@@ -84,12 +84,12 @@ export const getReminderById = async (
   }
 }
 
-export const createReminder = async (
-  newReminderData: CreateReminderType,
+export const createWaterReminder = async (
+  newWaterReminderData: CreateWaterReminderType,
   showModal: (message: string) => void
 ): Promise<string> => {
   try {
-    const response = await monAPI.post(`/reminders`, newReminderData)
+    const response = await monAPI.post(`/reminders`, newWaterReminderData)
 
     if (!response || !response.data) {
       throw {
@@ -130,13 +130,13 @@ export const createReminder = async (
   }
 }
 
-export const updateReminder = async (
-  reminderId: string,
-  reminderData: UpdateReminderType,
+export const updateWaterReminder = async (
+  waterReminderId: string,
+  waterReminderData: UpdateWaterReminderType,
   showModal: (message: string) => void
 ): Promise<string> => {
   try {
-    const response = await monAPI.put(`/reminders/${reminderId}`, reminderData)
+    const response = await monAPI.put(`/reminders/${waterReminderId}`, waterReminderData)
 
     if (!response || !response.data) {
       throw {
@@ -177,11 +177,11 @@ export const updateReminder = async (
   }
 }
 
-export const updateReminderStatus = async (
-  reminderId: string
+export const updateWaterReminderStatus = async (
+  waterReminderId: string
 ): Promise<string> => {
   try {
-    const response = await monAPI.patch(`/reminders/${reminderId}/status`)
+    const response = await monAPI.patch(`/reminders/${waterReminderId}/status`)
 
     if (!response || !response.data) {
       throw {
@@ -216,9 +216,9 @@ export const updateReminderStatus = async (
   }
 }
 
-export const deleteReminder = async (reminderId: string): Promise<string> => {
+export const deleteWaterReminder = async (waterReminderId: string): Promise<string> => {
   try {
-    const response = await monAPI.delete(`/reminders/${reminderId}`)
+    const response = await monAPI.delete(`/reminders/${waterReminderId}`)
 
     if (!response || !response.data) {
       throw {

@@ -1,6 +1,4 @@
-import { FoodType } from "@/schemas/foodSchema"
-
-export const sampleFoodsData: FoodType[] = [
+export const sampleFoodsData = [
   {
     foodId: "599cfc95-4108-4dcc-9c5a-077173251f8b",
     type: "Public",

@@ -28,6 +28,10 @@ function VoiceScreen() {
     router.push("/test/certificate-upload")
   }
 
+  const handleViewExerciseCategories = () => {
+    router.push("/workouts")
+  }
+
   return (
     <Container>
       <Header
@@ -54,6 +58,10 @@ function VoiceScreen() {
 
           <Button size="lg" onPress={handleViewImageUpload}>
             Upload ảnh
+          </Button>
+
+          <Button size="lg" onPress={handleViewExerciseCategories}>
+            Bài tập
           </Button>
         </VStack>
       </Content>

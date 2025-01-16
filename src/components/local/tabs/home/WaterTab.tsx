@@ -15,9 +15,9 @@ import { COLORS } from "@/constants/app"
 import { useAuth } from "@/contexts/AuthContext"
 
 import {
-  useGetReminderByUserId,
-  useUpdateReminderStatus
-} from "@/hooks/useReminder"
+  useGetWaterReminderByUserId,
+  useUpdateWaterReminderStatus
+} from "@/hooks/useWaterReminder"
 import { useRouterHandlers } from "@/hooks/useRouter"
 
 interface WaterTabProps {
@@ -27,45 +27,44 @@ interface WaterTabProps {
 
 export const WaterTab = ({ onLoading, onOverlayLoading }: WaterTabProps) => {
   const router = useRouter()
-  const { handleViewReminder } = useRouterHandlers()
+  const { handleViewWaterReminder } = useRouterHandlers()
 
-  const { mutate: updateReminderStatus } = useUpdateReminderStatus()
+  const { mutate: updateWaterReminderStatus } = useUpdateWaterReminderStatus()
 
   const { user } = useAuth()
   const userId = user?.userId
 
-  const { data: remindersData, isLoading } = useGetReminderByUserId(userId)
+  const { data: waterRemindersData, isLoading } =
+    useGetWaterReminderByUserId(userId)
 
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()
 
   const prefillReady = isFetching === 0 && isMutating === 0
 
-  const goalWater = 2000
+  const waterGoal = 2000
 
-  const totalConsumedWater = remindersData
-    ? remindersData.reduce(
-        (total, reminder) =>
-          reminder.status ? total + reminder.volume : total,
+  const totalConsumedWater = waterRemindersData
+    ? waterRemindersData.reduce(
+        (total, waterReminder) =>
+          waterReminder.status ? total + waterReminder.volume : total,
         0
       )
     : 0
 
-  const progress = Math.min((totalConsumedWater / goalWater) * 100, 100)
+  const progress = Math.min((totalConsumedWater / waterGoal) * 100, 100)
 
-  const handleUpdateReminder = () => {
-    router.push("/reminders")
-  }
+  const handleUpdateWaterReminder = () => router.push("/water-reminders")
 
-  const toggleReminderStatus = (reminderId: string) => {
-    updateReminderStatus(reminderId)
+  const toggleReminderStatus = (waterReminderId: string) => {
+    updateWaterReminderStatus(waterReminderId)
   }
 
   useEffect(() => {
     if (onLoading) {
-      onLoading(!remindersData || isLoading)
+      onLoading(!waterRemindersData || isLoading)
     }
-  }, [remindersData, isLoading, onLoading])
+  }, [waterRemindersData, isLoading, onLoading])
 
   useEffect(() => {
     if (onOverlayLoading) {
@@ -85,7 +84,7 @@ export const WaterTab = ({ onLoading, onOverlayLoading }: WaterTabProps) => {
         rotation={230}
         centerCircle
         value={totalConsumedWater}
-        maxValue={goalWater}
+        maxValue={waterGoal}
         label="ml"
       />
 
@@ -93,20 +92,20 @@ export const WaterTab = ({ onLoading, onOverlayLoading }: WaterTabProps) => {
         label="Nhắc nhở mỗi ngày"
         margin={false}
         action="Chỉnh sửa"
-        onPress={handleUpdateReminder}
+        onPress={handleUpdateWaterReminder}
       />
 
       <VStack gap={12}>
-        {remindersData?.map((item) => (
+        {waterRemindersData?.map((item) => (
           <WaterCard
-            key={item.reminderId}
+            key={item.waterReminderId}
             variant="checkbox"
             name={item.name}
             time={item.time}
             volume={item.volume}
             status={item.status}
-            onMorePress={() => handleViewReminder(item.reminderId)}
-            onCheckboxChange={() => toggleReminderStatus(item.reminderId)}
+            onMorePress={() => handleViewWaterReminder(item.waterReminderId)}
+            onCheckboxChange={() => toggleReminderStatus(item.waterReminderId)}
           />
         ))}
       </VStack>

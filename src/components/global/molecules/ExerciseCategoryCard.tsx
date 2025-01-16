@@ -4,23 +4,23 @@ import { Image, Text, TouchableOpacity } from "react-native"
 
 import { Card, HStack, VStack } from "../atoms"
 
-interface TypeCardProps {
+interface ExerciseCategoryCardProps {
   name: string
   image: any
-  totalExercises: number
-  durationRanger: string
-  totalCaloriesBurned: number
+  totalExercises?: number
+  durationRanger?: string
+  totalCaloriesBurned?: number
   onPress?: () => void
 }
 
-export const TypeCard = ({
+export const ExerciseCategoryCard = ({
   name,
   image,
-  durationRanger,
-  totalExercises,
-  totalCaloriesBurned,
+  durationRanger = "7 - 15",
+  totalExercises = 30,
+  totalCaloriesBurned = 10,
   onPress
-}: TypeCardProps) => {
+}: ExerciseCategoryCardProps) => {
   return (
     <Card onPress={onPress}>
       <HStack className="w-full items-center justify-between">
@@ -35,7 +35,7 @@ export const TypeCard = ({
           <VStack gap={0} className="ml-1">
             <Text className="font-tmedium text-lg text-primary">{name}</Text>
             <Text className="font-tmedium text-sm text-accent">
-              {durationRanger} phút • {totalExercises} bài tập • ~
+              {durationRanger} phút • {totalExercises} bài tập ~{" "}
               {totalCaloriesBurned} kcal/phút
             </Text>
           </VStack>

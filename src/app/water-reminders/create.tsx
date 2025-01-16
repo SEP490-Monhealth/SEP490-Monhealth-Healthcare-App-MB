@@ -21,20 +21,20 @@ import { Header } from "@/components/global/organisms"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useCreateReminder } from "@/hooks/useReminder"
+import { useCreateWaterReminder } from "@/hooks/useWaterReminder"
 
 import {
-  CreateReminderType,
-  createReminderSchema
-} from "@/schemas/reminderSchema"
+  CreateWaterReminderType,
+  createWaterReminderSchema
+} from "@/schemas/waterReminderSchema"
 
-function ReminderCreateScreen() {
+function WaterReminderCreateScreen() {
   const router = useRouter()
 
   const { user } = useAuth()
   const userId = user?.userId || ""
 
-  const { mutate: addReminder } = useCreateReminder()
+  const { mutate: addReminder } = useCreateWaterReminder()
 
   const [time, setTime] = useState(new Date())
 
@@ -43,8 +43,8 @@ function ReminderCreateScreen() {
     handleSubmit,
     setValue,
     formState: { errors }
-  } = useForm<CreateReminderType>({
-    resolver: zodResolver(createReminderSchema),
+  } = useForm<CreateWaterReminderType>({
+    resolver: zodResolver(createWaterReminderSchema),
     defaultValues: {
       userId: userId || "",
       name: "",
@@ -70,14 +70,14 @@ function ReminderCreateScreen() {
     }
   }
 
-  const onSubmit = (newReminderData: CreateReminderType) => {
-    const finalData = { ...newReminderData, userId }
+  const onSubmit = (newWaterReminderData: CreateWaterReminderType) => {
+    const finalData = { ...newWaterReminderData, userId }
 
     // console.log(JSON.stringify(finalData, null, 2))
 
     addReminder(finalData, {
       onSuccess: () => {
-        router.replace("/reminders")
+        router.replace("/water-reminders")
       }
     })
   }
@@ -143,4 +143,4 @@ function ReminderCreateScreen() {
   )
 }
 
-export default ReminderCreateScreen
+export default WaterReminderCreateScreen

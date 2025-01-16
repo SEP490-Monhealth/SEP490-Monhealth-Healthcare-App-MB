@@ -27,19 +27,19 @@ import { COLORS } from "@/constants/app"
 import { useAuth } from "@/contexts/AuthContext"
 
 import {
-  useDeleteReminder,
-  useGetReminderByUserId,
-  useUpdateReminderStatus
-} from "@/hooks/useReminder"
+  useDeleteWaterReminder,
+  useGetWaterReminderByUserId,
+  useUpdateWaterReminderStatus
+} from "@/hooks/useWaterReminder"
 import { useRouterHandlers } from "@/hooks/useRouter"
 
-import { ReminderType } from "@/schemas/reminderSchema"
+import { WaterReminderType } from "@/schemas/waterReminderSchema"
 
 import { LoadingScreen } from "../loading"
 
-function ReminderScreen() {
+function WaterReminderScreen() {
   const WaterSheetRef = useRef<SheetRefProps>(null)
-  const { handleViewReminder } = useRouterHandlers()
+  const { handleViewWaterReminder } = useRouterHandlers()
 
   const { user } = useAuth()
   const userId = user?.userId
@@ -48,10 +48,10 @@ function ReminderScreen() {
     data: remindersData,
     isLoading,
     refetch
-  } = useGetReminderByUserId(userId)
+  } = useGetWaterReminderByUserId(userId)
 
-  const { mutate: updateReminderStatus } = useUpdateReminderStatus()
-  const { mutate: deleteReminder } = useDeleteReminder()
+  const { mutate: updateWaterReminderStatus } = useUpdateWaterReminderStatus()
+  const { mutate: deleteWaterReminder } = useDeleteWaterReminder()
 
   const [isModalVisible, setIsModalVisible] = useState(false)
 
@@ -59,11 +59,11 @@ function ReminderScreen() {
   const [selectedReminder, setSelectedReminder] = useState<string>("")
 
   const selectedReminderStatus = remindersData?.find(
-    (reminder) => reminder.reminderId === selectedReminder
+    (waterReminder) => waterReminder.waterReminderId === selectedReminder
   )?.status
 
-  const openMealSheet = (reminder: ReminderType) => {
-    setSelectedReminder(reminder.reminderId)
+  const openMealSheet = (waterReminder: WaterReminderType) => {
+    setSelectedReminder(waterReminder.waterReminderId)
     WaterSheetRef.current?.scrollTo(-240)
   }
 
@@ -77,14 +77,14 @@ function ReminderScreen() {
 
   const handleDelete = () => {
     if (selectedReminder) {
-      deleteReminder(selectedReminder)
+      deleteWaterReminder(selectedReminder)
       setIsModalVisible(false)
     }
   }
 
   const handleUpdateReminderStatus = () => {
     if (selectedReminder) {
-      updateReminderStatus(selectedReminder)
+      updateWaterReminderStatus(selectedReminder)
     }
 
     closeReminderSheet()
@@ -100,8 +100,8 @@ function ReminderScreen() {
     handleUpdateReminder(selectedReminder)
   }
 
-  const handleUpdateReminder = (reminderId: string) => {
-    handleViewReminder(reminderId)
+  const handleUpdateReminder = (waterReminderId: string) => {
+    handleViewWaterReminder(waterReminderId)
     closeReminderSheet()
   }
 
@@ -129,20 +129,20 @@ function ReminderScreen() {
         <Content className="mt-2">
           <FlatList
             data={remindersData || []}
-            keyExtractor={(item) => item.reminderId}
+            keyExtractor={(item) => item.waterReminderId}
             onRefresh={onRefresh}
             refreshing={isRefreshing}
             showsVerticalScrollIndicator={false}
             ListHeaderComponent={<ListHeader />}
             renderItem={({ item }) => (
               <WaterCard
-                key={item.reminderId}
+                key={item.waterReminderId}
                 variant="more"
                 name={item.name}
                 time={item.time}
                 volume={item.volume}
                 status={item.status}
-                onPress={() => handleViewReminder(item.reminderId)}
+                onPress={() => handleViewWaterReminder(item.waterReminderId)}
                 onMorePress={() => openMealSheet(item)}
               />
             )}
@@ -200,4 +200,4 @@ function ReminderScreen() {
   )
 }
 
-export default ReminderScreen
+export default WaterReminderScreen
