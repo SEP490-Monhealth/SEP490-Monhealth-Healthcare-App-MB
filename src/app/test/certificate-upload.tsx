@@ -62,7 +62,7 @@ const ensureDirExists = async () => {
   }
 }
 
-function ImageUpload() {
+function CertificateUpload() {
   const SheetRef = useRef<SheetRefProps>(null)
   const sheetHeight = 200
 
@@ -75,12 +75,25 @@ function ImageUpload() {
   }
 
   const [images, setImages] = useState<
-    { uri: string; fileName: string; uploading: boolean; progress: number }[]
+    {
+      uri: string
+      fileName: string
+      uploading: boolean
+      deleting?: boolean
+      progress: number
+    }[]
   >([])
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     loadImages()
   }, [])
+
+  useEffect(() => {
+    const hasUploading = images.some((img) => img.uploading)
+    const hasDeleting = images.some((img) => img.deleting)
+    setIsLoading(hasUploading || hasDeleting)
+  }, [images])
 
   const loadImages = async () => {
     await ensureDirExists()
@@ -103,7 +116,6 @@ function ImageUpload() {
 
     const options: ImagePicker.ImagePickerOptions = {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      // allowsEditing: true,
       aspect: [16, 9],
       quality: 1.0
     }
@@ -179,6 +191,10 @@ function ImageUpload() {
   }
 
   const handleDeleteImage = async (uri: string, fileName: string) => {
+    setImages((prev) =>
+      prev.map((img) => (img.uri === uri ? { ...img, deleting: true } : img))
+    )
+
     const storageRef = ref(storage, `Monhealth/certificates/${fileName}`)
 
     try {
@@ -187,10 +203,16 @@ function ImageUpload() {
       setImages((prev) => prev.filter((img) => img.uri !== uri))
     } catch (error) {
       console.error("Failed to delete file from Firebase:", error)
+    } finally {
+      setImages((prev) =>
+        prev.map((img) => (img.uri === uri ? { ...img, deleting: false } : img))
+      )
     }
   }
 
   const handleConfirm = () => {
+    if (isLoading) return
+
     const uris = images.map((img) => img.uri)
     console.log("images:", uris)
   }
@@ -221,7 +243,9 @@ function ImageUpload() {
                   </VStack>
                 </Card>
 
-                <Button onPress={handleConfirm}>Xác nhận</Button>
+                <Button disabled={isLoading} onPress={handleConfirm}>
+                  Xác nhận
+                </Button>
 
                 <View className="flex-row flex-wrap">
                   {images.map((item, index) => (
@@ -238,7 +262,7 @@ function ImageUpload() {
                         className="h-full w-full rounded-xl"
                       />
 
-                      {item.uploading && (
+                      {(item.uploading || item.deleting) && (
                         <View
                           className="absolute inset-0 items-center justify-center rounded-xl"
                           style={{
@@ -257,15 +281,17 @@ function ImageUpload() {
                         </View>
                       )}
 
-                      <TouchableOpacity
-                        activeOpacity={0.7}
-                        onPress={() =>
-                          handleDeleteImage(item.uri, item.fileName)
-                        }
-                        className="absolute right-2 top-2 rounded-full bg-border p-1"
-                      >
-                        <X size={14} color={COLORS.primary} />
-                      </TouchableOpacity>
+                      {!item.uploading && !item.deleting && (
+                        <TouchableOpacity
+                          activeOpacity={0.7}
+                          onPress={() =>
+                            handleDeleteImage(item.uri, item.fileName)
+                          }
+                          className="absolute right-2 top-2 rounded-full bg-border p-1"
+                        >
+                          <X size={14} color={COLORS.primary} />
+                        </TouchableOpacity>
+                      )}
                     </View>
                   ))}
                 </View>
@@ -289,4 +315,4 @@ function ImageUpload() {
   )
 }
 
-export default ImageUpload
+export default CertificateUpload

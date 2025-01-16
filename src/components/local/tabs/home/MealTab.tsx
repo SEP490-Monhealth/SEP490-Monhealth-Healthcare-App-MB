@@ -92,12 +92,31 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
     {
       mealId: "default-breakfast",
       type: "Breakfast",
+      totalFoods: 0,
       calories: 0,
       isDefault: true
     },
-    { mealId: "default-lunch", type: "Lunch", calories: 0, isDefault: true },
-    { mealId: "default-dinner", type: "Dinner", calories: 0, isDefault: true },
-    { mealId: "default-snack", type: "Snack", calories: 0, isDefault: true }
+    {
+      mealId: "default-lunch",
+      type: "Lunch",
+      totalFoods: 0,
+      calories: 0,
+      isDefault: true
+    },
+    {
+      mealId: "default-dinner",
+      type: "Dinner",
+      totalFoods: 0,
+      calories: 0,
+      isDefault: true
+    },
+    {
+      mealId: "default-snack",
+      type: "Snack",
+      totalFoods: 0,
+      calories: 0,
+      isDefault: true
+    }
   ]
 
   const mergedMealsData = defaultMeals.map((defaultMeal) => {
@@ -180,7 +199,7 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
           <MealCard
             key={item.mealId}
             type={item.type as "Breakfast" | "Lunch" | "Dinner" | "Snack"}
-            totalFoods={item.foods?.length || 0}
+            totalFoods={item.totalFoods}
             totalCalories={item.calories}
             onPress={() =>
               item.isDefault ? handleViewFoods() : handleViewMeal(item.mealId)

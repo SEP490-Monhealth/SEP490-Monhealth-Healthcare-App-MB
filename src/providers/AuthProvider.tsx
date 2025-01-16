@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 
 import { useRouter } from "expo-router"
 
+import { LoadingScreen } from "@/app/loading"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
 import { AuthContext } from "@/contexts/AuthContext"
@@ -23,10 +24,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter()
   const handleError = useError()
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
+
   const [user, setUser] = useState<UserPayload | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [hasMetrics, setHasMetrics] = useState(false)
+  const [role, setRole] = useState<string | null>(null)
+
+  const [loading, setLoading] = useState<boolean>(true)
+  const [hasMetrics, setHasMetrics] = useState<boolean>(false)
 
   const checkAuthentication = async () => {
     try {
@@ -37,17 +41,26 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (token) {
         const userInfo = await whoIAm()
         setUser(userInfo)
+        setRole(userInfo?.role)
 
-        const metricsData = await getMetricsByUserId(userInfo.userId)
-        const metricsExist = metricsData && metricsData.length > 0
-        setHasMetrics(metricsExist)
+        if (userInfo.role === "User") {
+          const metricsData = await getMetricsByUserId(userInfo.userId)
+          const metricsExist = metricsData && metricsData.length > 0
+          setHasMetrics(metricsExist)
 
-        await delay(2000)
+          await delay(2000)
 
-        if (metricsExist) {
-          router.replace("/(tabs)/home")
+          if (metricsExist) {
+            router.replace("/(tabs)/home")
+          } else {
+            router.replace("/(onboarding)/welcome")
+          }
+        } else if (userInfo.role === "Consultant") {
+          await delay(2000)
+          router.replace("/(consultant-tabs)/dashboard")
         } else {
-          router.replace("/(onboarding)/welcome")
+          await delay(2000)
+          router.replace("/(auth)/sign-in")
         }
       } else {
         await delay(2000)
@@ -80,14 +93,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       const userInfo = await whoIAm()
       setUser(userInfo)
+      setRole(userInfo?.role)
 
-      const metricsData = await getMetricsByUserId(userInfo.userId)
-      const metricsExist = metricsData && metricsData.length > 0
+      if (userInfo.role === "User") {
+        const metricsData = await getMetricsByUserId(userInfo.userId)
+        const metricsExist = metricsData && metricsData.length > 0
 
-      if (metricsExist) {
-        router.replace("/(tabs)/home")
+        if (metricsExist) {
+          router.replace("/(tabs)/home")
+        } else {
+          router.replace("/(onboarding)")
+        }
+      } else if (userInfo.role === "Consultant") {
+        router.replace("/(consultant-tabs)")
       } else {
-        router.replace("/(onboarding)")
+        router.replace("/(auth)/sign-in")
       }
     } catch (error) {
       handleError(error)
@@ -125,11 +145,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
+  if (loading) <LoadingScreen />
+
   return (
     <AuthContext.Provider
       value={{
         isAuthenticated,
         user,
+        role,
         hasMetrics,
         login: handleLogin,
         register: handleRegister,

@@ -25,7 +25,7 @@ function VoiceScreen() {
   }
 
   const handleViewImageUpload = () => {
-    router.push("/test/image-upload")
+    router.push("/test/certificate-upload")
   }
 
   return (

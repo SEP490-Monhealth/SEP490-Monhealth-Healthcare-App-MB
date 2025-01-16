@@ -14,7 +14,7 @@ import { Card, HStack, Progress } from "../atoms"
 
 interface MealCardProps {
   type: "Breakfast" | "Lunch" | "Dinner" | "Snack"
-  totalFoods: number
+  totalFoods?: number
   totalCalories: number
   progress?: number
   onPress?: () => void
@@ -22,7 +22,7 @@ interface MealCardProps {
 
 export const MealCard = ({
   type = "Breakfast",
-  totalFoods,
+  totalFoods = 0,
   totalCalories,
   progress,
   onPress

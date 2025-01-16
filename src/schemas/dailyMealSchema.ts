@@ -12,6 +12,8 @@ const mealItemsSchema = z.object({
         "Loại bữa ăn không hợp lệ. Chỉ chấp nhận: Breakfast, Lunch, Dinner, Snack"
     }),
 
+  totalFoods: z.number(),
+
   calories: z
     .number()
     .min(1, { message: "Calories phải lớn hơn hoặc bằng 1" })
