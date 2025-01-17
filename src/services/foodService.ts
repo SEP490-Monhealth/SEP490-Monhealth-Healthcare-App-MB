@@ -19,14 +19,14 @@ export const getAllFoods = async (
   page: number,
   limit?: number,
   category?: string,
-  foodType?: string,
   search?: string,
+  isPublic?: boolean,
   popular?: boolean,
   status?: boolean
 ): Promise<FoodResponse> => {
   try {
     const response = await monAPI.get(`/foods`, {
-      params: { page, limit, category, foodType, search, popular, status }
+      params: { page, limit, category, search, isPublic, popular, status }
     })
 
     if (!response || !response.data) {

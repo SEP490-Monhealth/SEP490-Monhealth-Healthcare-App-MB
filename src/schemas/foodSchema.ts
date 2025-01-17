@@ -30,7 +30,7 @@ const baseFoodSchema = z
     foodId: z.string(),
     userId: z.string(),
 
-    foodType: z.string(),
+    // foodType: z.string(),
     mealType: z.array(
       z.string().refine((val) => mealTypes.includes(val), {
         message:
@@ -59,6 +59,8 @@ const baseFoodSchema = z
 
     nutrition: nutritionSchema,
 
+    isPublic: z.boolean(),
+
     status: z.boolean()
   })
   .merge(auditSchema)
@@ -67,12 +69,13 @@ export const foodSchema = baseFoodSchema
   .pick({
     foodId: true,
     userId: true,
-    foodType: true,
+    // foodType: true,
     category: true,
     name: true,
     description: true,
     portion: true,
     nutrition: true,
+    isPublic: true,
     status: true
   })
   .merge(auditSchema)
@@ -91,21 +94,23 @@ export const foodUserSchema = z.object({
 
 export const createFoodSchema = baseFoodSchema.pick({
   userId: true,
-  foodType: true,
-  mealType: true,
-  dishType: true,
+  // foodType: true,
+  // mealType: true,
+  // dishType: true,
   name: true,
   description: true,
   portion: true,
-  nutrition: true
+  nutrition: true,
+  isPublic: true
 })
 
 export const informationFoodSchema = baseFoodSchema.pick({
-  foodType: true,
-  mealType: true,
-  dishType: true,
+  // foodType: true,
+  // mealType: true,
+  // dishType: true,
   name: true,
-  description: true
+  description: true,
+  isPublic: true
 })
 
 export const portionFoodSchema = baseFoodSchema.pick({
@@ -118,7 +123,8 @@ export const nutritionFoodSchema = baseFoodSchema.pick({
 
 export const updateFoodSchema = baseFoodSchema.pick({
   name: true,
-  description: true
+  description: true,
+  isPublic: true
 })
 
 export type FoodAllergyType = z.infer<typeof foodAllergySchema>

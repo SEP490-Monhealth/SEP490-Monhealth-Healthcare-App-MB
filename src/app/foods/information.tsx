@@ -13,11 +13,11 @@ interface FoodInformationProps {
 }
 
 function FoodInformation({ control, errors, setValue }: FoodInformationProps) {
-  const [selectedType, setSelectedType] = useState("User")
+  const [isPublic, setIsPublic] = useState(false)
 
-  const handleTypeSelect = (type: string) => {
-    setSelectedType(type)
-    setValue("type", type)
+  const handleVisibilitySelect = (value: boolean) => {
+    setIsPublic(value)
+    setValue("isPublic", value)
   }
 
   return (
@@ -71,14 +71,14 @@ function FoodInformation({ control, errors, setValue }: FoodInformationProps) {
           <HStack gap={12} className="justify-end">
             <Chip
               label="Cá nhân"
-              selected={selectedType === "User"}
-              onPress={() => handleTypeSelect("User")}
+              selected={!isPublic}
+              onPress={() => handleVisibilitySelect(false)}
             />
 
             <Chip
               label="Công khai"
-              selected={selectedType === "Public"}
-              onPress={() => handleTypeSelect("Public")}
+              selected={isPublic}
+              onPress={() => handleVisibilitySelect(true)}
             />
           </HStack>
         </VStack>

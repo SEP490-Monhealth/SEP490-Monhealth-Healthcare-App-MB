@@ -71,8 +71,8 @@ function FoodsScreen() {
         1,
         newLimit,
         category === "Tất cả" ? "" : category,
-        "Public",
         search,
+        true,
         true,
         true
       )

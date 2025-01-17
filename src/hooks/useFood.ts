@@ -30,8 +30,8 @@ export const useGetAllFoods = (
   page: number,
   limit?: number,
   category?: string,
-  foodType?: string,
   search?: string,
+  isPublic?: boolean,
   popular?: boolean,
   status?: boolean
 ) => {
@@ -43,8 +43,8 @@ export const useGetAllFoods = (
       page,
       limit,
       category,
-      foodType,
       search,
+      isPublic,
       popular,
       status
     ],
@@ -54,8 +54,8 @@ export const useGetAllFoods = (
           page,
           limit,
           category,
-          foodType,
           search,
+          isPublic,
           popular,
           status
         )
