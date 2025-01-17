@@ -2,7 +2,7 @@ import { z } from "zod"
 
 import { nutritionSchema } from "./nutritionSchema"
 
-const mealItemsSchema = z.object({
+const mealItemSchema = z.object({
   mealId: z.string(),
 
   type: z
@@ -29,7 +29,10 @@ const mealItemsSchema = z.object({
   fat: z
     .number()
     .min(1, { message: "Chất béo phải lớn hơn hoặc bằng 1" })
-    .max(500, { message: "Chất béo không được vượt quá 500g" })
+    .max(500, { message: "Chất béo không được vượt quá 500g" }),
+
+  createdAt: z.string(),
+  updatedAt: z.string()
 })
 
 export const dailyMealSchema = z.object({
@@ -38,13 +41,11 @@ export const dailyMealSchema = z.object({
 
   nutrition: nutritionSchema,
 
-  items: z.array(mealItemsSchema),
+  items: z.array(mealItemSchema),
 
   createdAt: z.string(),
-  updatedAt: z.string(),
-  createdBy: z.string(),
-  updatedBy: z.string()
+  updatedAt: z.string()
 })
 
-export type MealItemsType = z.infer<typeof mealItemsSchema>
+export type MealItemsType = z.infer<typeof mealItemSchema>
 export type DailyMealType = z.infer<typeof dailyMealSchema>

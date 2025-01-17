@@ -82,7 +82,9 @@ function FoodNutrition({ control, errors }: FoodNutritionProps) {
             keyboardType="numeric"
             alignRight
             startIcon={<Text>{label}</Text>}
-            endIcon={<Text>{unit}</Text>}
+            endIcon={
+              <Text className="font-tregular text-sm text-accent">{unit}</Text>
+            }
             alwaysShowEndIcon
             errorMessage={get(errors, `${name}.message`, null)}
           />

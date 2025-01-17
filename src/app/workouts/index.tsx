@@ -4,18 +4,21 @@ import { FlatList, View } from "react-native"
 
 import { Container, Content } from "@/components/global/atoms"
 import {
-  ExerciseCategoryCard,
+  CategoryCard,
   ListFooter,
   ListHeader
 } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
-import { sampleExerciseCategoriesData } from "@/constants/exerciseCategories"
+import { sampleCategoriesData } from "@/constants/categories"
 
 import { useRouterHandlers } from "@/hooks/useRouter"
 
 function WorkoutScreen() {
-  const exerciseCategoriesData = sampleExerciseCategoriesData
+  const categoriesData = sampleCategoriesData
+  const filteredCategoriesData = categoriesData.filter(
+    (c) => c.type === "Exercise"
+  )
 
   const [isRefreshing, setIsRefreshing] = useState(false)
 
@@ -32,18 +35,18 @@ function WorkoutScreen() {
 
       <Content>
         <FlatList
-          data={exerciseCategoriesData || []}
-          keyExtractor={(item) => item.typeId}
+          data={filteredCategoriesData || []}
+          keyExtractor={(item) => item.categoryId}
           onRefresh={onRefresh}
           refreshing={isRefreshing}
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={<ListHeader />}
           renderItem={({ item }) => (
-            <ExerciseCategoryCard
-              key={item.typeId}
+            <CategoryCard
+              key={item.categoryId}
               name={item.name}
               image={item.image}
-              onPress={() => handleViewExerciseCategory(item.typeId)}
+              onPress={() => handleViewExerciseCategory(item.categoryId)}
             />
           )}
           ListFooterComponent={<ListFooter />}

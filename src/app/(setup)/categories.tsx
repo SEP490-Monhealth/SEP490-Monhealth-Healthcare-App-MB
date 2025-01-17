@@ -16,6 +16,7 @@ interface SetupCategoriesProps {
 
 function SetupCategories({ control, errors }: SetupCategoriesProps) {
   const categoriesData = sampleCategoriesData
+  const filteredCategoriesData = categoriesData.filter((c) => c.type === "Food")
 
   const { field } = useController({
     name: "categories",
@@ -41,7 +42,7 @@ function SetupCategories({ control, errors }: SetupCategoriesProps) {
           className="flex-row flex-wrap"
           style={{ rowGap: 16, columnGap: 12 }}
         >
-          {categoriesData.map((category) => (
+          {filteredCategoriesData.map((category) => (
             <TouchableOpacity
               key={category.categoryId}
               activeOpacity={0.7}

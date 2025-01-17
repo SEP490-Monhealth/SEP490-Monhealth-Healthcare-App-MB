@@ -9,6 +9,7 @@ import { Scanner, SearchNormal1 } from "iconsax-react-native"
 import { Container, Content, Input, VStack } from "@/components/global/atoms"
 import {
   CustomHeader,
+  ErrorDisplay,
   FoodCard,
   ListFooter,
   ListHeader
@@ -69,9 +70,9 @@ function FoodsScreen() {
       const { foods: newFoods, totalItems: total } = await getAllFoods(
         1,
         newLimit,
-        search,
-        "Public",
         category === "Tất cả" ? "" : category,
+        "Public",
+        search,
         true,
         true
       )
@@ -230,25 +231,12 @@ function FoodsScreen() {
               />
             )}
             ListEmptyComponent={() => (
-              <VStack center gap={20} className="mt-8">
-                <Image
-                  source={require("../../../public/images/monhealth-no-data-image.png")}
-                  className="items-center"
-                  style={{
-                    width: 320,
-                    height: 320
-                  }}
-                />
-                <VStack>
-                  <Text className="text-center font-tbold text-3xl text-primary">
-                    Không có món ăn nào được tìm thấy
-                  </Text>
-                  <Text className="text-center font-tmedium text-lg text-accent">
-                    Vui lòng thử tìm kiếm lại hoặc thay đổi danh mục để hiển thị
-                    kết quả
-                  </Text>
-                </VStack>
-              </VStack>
+              <ErrorDisplay
+                imageSource={require("../../../public/images/monhealth-no-data-image.png")}
+                title="Không có món ăn nào được tìm thấy"
+                description="Vui lòng thử tìm kiếm lại hoặc thay đổi danh mục để hiển thị kết quả"
+                marginTop={24}
+              />
             )}
             ListFooterComponent={
               hasMore ? (

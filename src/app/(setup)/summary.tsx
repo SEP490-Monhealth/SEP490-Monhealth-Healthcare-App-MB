@@ -40,7 +40,7 @@ function SetupSummary() {
   useEffect(() => {
     const age = calculateAge(dateOfBirth)
 
-    console.log(age)
+    // console.log(age)
 
     const calculatedBMR = calculateBMR(
       weight,
@@ -50,7 +50,7 @@ function SetupSummary() {
     )
     const calculatedTDEE = calculateTDEE(calculatedBMR, activityLevel)
 
-    console.log(calculatedTDEE)
+    // console.log(calculatedTDEE)
 
     if (goalType === "WeightLoss") {
       setCaloriesGoal(calculatedTDEE * 0.8)
@@ -66,7 +66,7 @@ function SetupSummary() {
   }
 
   const handleFinished = () => {
-    console.log(caloriesGoal)
+    // console.log(caloriesGoal)
 
     router.push("/(setup)/completed")
   }

@@ -29,24 +29,33 @@ interface FoodResponse {
 export const useGetAllFoods = (
   page: number,
   limit?: number,
-  search?: string,
-  type?: string,
   category?: string,
+  foodType?: string,
+  search?: string,
   popular?: boolean,
   status?: boolean
 ) => {
   const handleError = useError()
 
   return useQuery<FoodResponse, Error>({
-    queryKey: ["foods", page, limit, search, type, category, popular, status],
+    queryKey: [
+      "foods",
+      page,
+      limit,
+      category,
+      foodType,
+      search,
+      popular,
+      status
+    ],
     queryFn: async () => {
       try {
         return await getAllFoods(
           page,
           limit,
-          search,
-          type,
           category,
+          foodType,
+          search,
           popular,
           status
         )

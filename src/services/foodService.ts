@@ -18,15 +18,15 @@ interface FoodResponse {
 export const getAllFoods = async (
   page: number,
   limit?: number,
-  search?: string,
-  foodType?: string,
   category?: string,
+  foodType?: string,
+  search?: string,
   popular?: boolean,
   status?: boolean
 ): Promise<FoodResponse> => {
   try {
     const response = await monAPI.get(`/foods`, {
-      params: { page, limit, search, foodType, category, popular, status }
+      params: { page, limit, category, foodType, search, popular, status }
     })
 
     if (!response || !response.data) {

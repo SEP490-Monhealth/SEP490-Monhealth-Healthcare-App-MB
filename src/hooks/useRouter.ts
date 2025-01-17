@@ -12,11 +12,11 @@ export const useRouterHandlers = () => {
   }
 
   const handleViewWaterReminder = (waterReminderId: string) => {
-    router.push(`/waterReminders/${waterReminderId}/details`)
+    router.push(`/water-reminders/${waterReminderId}/details`)
   }
 
-  const handleViewExerciseCategory = (typeId: string) => {
-    router.push(`/workouts/${typeId}/details`)
+  const handleViewExerciseCategory = (categoryId: string) => {
+    router.push(`/workouts/${categoryId}/details`)
   }
 
   return {

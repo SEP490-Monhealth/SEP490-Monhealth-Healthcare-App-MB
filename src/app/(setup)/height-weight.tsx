@@ -28,7 +28,7 @@ function SetupHeightWeight({ control, errors }: SetupHeightWeightProps) {
             onChangeText={(text) => onChange(parseFloat(text) || 0)}
             keyboardType="numeric"
             endIcon={
-              <Text className="font-tmedium text-base text-primary">cm</Text>
+              <Text className="font-tregular text-sm text-accent">cm</Text>
             }
             canClearText
             errorMessage={errorHeightMessage}
@@ -46,7 +46,7 @@ function SetupHeightWeight({ control, errors }: SetupHeightWeightProps) {
             onChangeText={(text) => onChange(parseFloat(text) || 0)}
             keyboardType="numeric"
             endIcon={
-              <Text className="font-tmedium text-base text-primary">kg</Text>
+              <Text className="font-tregular text-sm text-accent">kg</Text>
             }
             canClearText
             errorMessage={errorWeightMessage}

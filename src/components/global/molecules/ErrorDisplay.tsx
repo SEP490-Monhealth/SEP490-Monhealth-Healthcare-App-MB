@@ -38,7 +38,7 @@ export const ErrorDisplay = ({
 
       <VStack>
         <Animated.Text
-          className="text-center font-tbold text-3xl text-primary"
+          className="text-center font-tbold text-2xl text-primary"
           style={{
             opacity: textFadeAnim,
             transform: [{ translateY: textTranslateAnim }]
@@ -48,7 +48,7 @@ export const ErrorDisplay = ({
         </Animated.Text>
 
         <Animated.Text
-          className="text-center font-tmedium text-lg text-accent"
+          className="text-center font-tmedium text-base text-accent"
           style={{
             opacity: textFadeAnim,
             transform: [{ translateY: textTranslateAnim }]

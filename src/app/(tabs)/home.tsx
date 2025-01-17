@@ -27,7 +27,7 @@ function HomeScreen() {
   const { user } = useAuth()
   const userId = user?.userId
 
-  console.log(user)
+  // console.log(user)
 
   const { tab } = useLocalSearchParams()
   const [activeTab, setActiveTab] = useState(tab || "meal")

@@ -63,7 +63,7 @@ function SetupWeightGoal({ control, setValue, errors }: SetupWeightGoalProps) {
             }}
             keyboardType="numeric"
             endIcon={
-              <Text className="font-tmedium text-base text-primary">kg</Text>
+              <Text className="font-tregular text-sm text-accent">kg</Text>
             }
             canClearText
             errorMessage={errorMessage}
