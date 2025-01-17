@@ -34,7 +34,7 @@ function WaterReminderCreateScreen() {
   const { user } = useAuth()
   const userId = user?.userId || ""
 
-  const { mutate: addReminder } = useCreateWaterReminder()
+  const { mutate: addWaterReminder } = useCreateWaterReminder()
 
   const [time, setTime] = useState(new Date())
 
@@ -75,7 +75,7 @@ function WaterReminderCreateScreen() {
 
     // console.log(JSON.stringify(finalData, null, 2))
 
-    addReminder(finalData, {
+    addWaterReminder(finalData, {
       onSuccess: () => {
         router.replace("/water-reminders")
       }
@@ -122,7 +122,7 @@ function WaterReminderCreateScreen() {
                   onChangeText={(text) => onChange(parseFloat(text) || 0)}
                   keyboardType="numeric"
                   endIcon={
-                    <Text className="font-tmedium text-base text-primary">
+                    <Text className="font-tregular text-sm text-accent">
                       ml
                     </Text>
                   }

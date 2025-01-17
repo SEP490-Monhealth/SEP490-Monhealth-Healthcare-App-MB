@@ -2,6 +2,11 @@ import { z } from "zod"
 
 const baseCategorySchema = z.object({
   categoryId: z.string(),
+
+  type: z.string().refine((val) => ["Food", "Exercise"].includes(val), {
+    message: "Loại danh mục không hợp lệ. Chỉ chấp nhận: Food, Exercise"
+  }),
+
   name: z
     .string()
     .nonempty({ message: "Tên danh mục không được để trống" })
@@ -25,6 +30,7 @@ const baseCategorySchema = z.object({
 
 export const categorySchema = baseCategorySchema.pick({
   categoryId: true,
+  type: true,
   name: true,
   description: true,
   image: true

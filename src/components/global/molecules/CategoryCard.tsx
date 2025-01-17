@@ -4,7 +4,7 @@ import { Image, Text, TouchableOpacity } from "react-native"
 
 import { Card, HStack, VStack } from "../atoms"
 
-interface ExerciseCategoryCardProps {
+interface CategoryCardProps {
   name: string
   image: any
   totalExercises?: number
@@ -13,14 +13,14 @@ interface ExerciseCategoryCardProps {
   onPress?: () => void
 }
 
-export const ExerciseCategoryCard = ({
+export const CategoryCard = ({
   name,
   image,
   durationRanger = "7 - 15",
   totalExercises = 30,
   totalCaloriesBurned = 10,
   onPress
-}: ExerciseCategoryCardProps) => {
+}: CategoryCardProps) => {
   return (
     <Card onPress={onPress}>
       <HStack className="w-full items-center justify-between">

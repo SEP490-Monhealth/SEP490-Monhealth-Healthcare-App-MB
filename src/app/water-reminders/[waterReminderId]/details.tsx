@@ -20,7 +20,10 @@ import {
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import { useGetWaterReminderById, useUpdateWaterReminder } from "@/hooks/useWaterReminder"
+import {
+  useGetWaterReminderById,
+  useUpdateWaterReminder
+} from "@/hooks/useWaterReminder"
 
 import {
   UpdateWaterReminderType,
@@ -36,7 +39,8 @@ function WaterReminderDetailsScreen() {
 
   const { mutate: updateWaterReminder } = useUpdateWaterReminder()
 
-  const { data: waterReminderData, isLoading } = useGetWaterReminderById(waterReminderId)
+  const { data: waterReminderData, isLoading } =
+    useGetWaterReminderById(waterReminderId)
 
   const [time, setTime] = useState(new Date())
 
@@ -78,10 +82,10 @@ function WaterReminderDetailsScreen() {
 
   const onSubmit = (data: UpdateWaterReminderType) => {
     updateWaterReminder(
-      { waterReminderId, waterReminder: data },
+      { waterReminderId, waterReminderData: data },
       {
         onSuccess: () => {
-          router.replace("/reminders")
+          router.replace("/water-reminders")
         }
       }
     )
@@ -126,7 +130,7 @@ function WaterReminderDetailsScreen() {
                   onChangeText={(text) => onChange(parseFloat(text) || 0)}
                   keyboardType="numeric"
                   endIcon={
-                    <Text className="font-tmedium text-base text-primary">
+                    <Text className="font-tregular text-sm text-accent">
                       ml
                     </Text>
                   }

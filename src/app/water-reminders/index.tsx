@@ -18,7 +18,7 @@ import {
   ErrorDisplay,
   ListFooter,
   ListHeader,
-  WaterCard
+  WaterReminderCard
 } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
@@ -26,12 +26,12 @@ import { COLORS } from "@/constants/app"
 
 import { useAuth } from "@/contexts/AuthContext"
 
+import { useRouterHandlers } from "@/hooks/useRouter"
 import {
   useDeleteWaterReminder,
   useGetWaterReminderByUserId,
   useUpdateWaterReminderStatus
 } from "@/hooks/useWaterReminder"
-import { useRouterHandlers } from "@/hooks/useRouter"
 
 import { WaterReminderType } from "@/schemas/waterReminderSchema"
 
@@ -122,7 +122,7 @@ function WaterReminderScreen() {
           label="Nhắc nhở uống nước"
           action={{
             icon: <Add size={24} color={COLORS.primary} />,
-            href: "/reminders/create"
+            href: "/water-reminders/create"
           }}
         />
 
@@ -135,7 +135,7 @@ function WaterReminderScreen() {
             showsVerticalScrollIndicator={false}
             ListHeaderComponent={<ListHeader />}
             renderItem={({ item }) => (
-              <WaterCard
+              <WaterReminderCard
                 key={item.waterReminderId}
                 variant="more"
                 name={item.name}
