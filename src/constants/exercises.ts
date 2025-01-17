@@ -1,6 +1,6 @@
 import { ExerciseType } from "@/schemas/exercieSchema"
 
-export const sampleExerciseData: ExerciseType[] = [
+export const sampleExercisesData: ExerciseType[] = [
   {
     exerciseId: "51887443-a218-4f3d-aeec-5ae67bf0a9e6",
     categoryId: "d27e49f7-de9a-41bb-914b-0a2436617568",

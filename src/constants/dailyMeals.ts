@@ -1,4 +1,4 @@
-export const sampleMealsDailyData = [
+export const sampleDailyMealsData = [
   {
     dailyMealId: "daubeba",
     userId: "123",
