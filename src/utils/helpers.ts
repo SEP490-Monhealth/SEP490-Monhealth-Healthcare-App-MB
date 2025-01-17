@@ -115,6 +115,38 @@ export const getNutritionColor = (label: string) => {
 }
 
 /**
+ * Lấy màu sắc đại diện cho từng bài tập
+ * @param label Tên bài tập (Thời gian, Kcal, Bước chân)
+ * @returns Màu sắc đại diện cho bài tập (dùng trong UI)
+ */
+export const getExerciseColor = (label: string) => {
+  switch (label) {
+    case "Thời gian":
+      return COLORS.EXERCISE.duration
+    case "Calo":
+      return COLORS.EXERCISE.calories
+    case "Bước chân":
+      return COLORS.EXERCISE.steps
+  }
+}
+
+/**
+ * Trả về đơn vị phù hợp dựa trên label.
+ * @param label - Nhãn để xác định đơn vị.
+ * @returns Đơn vị tương ứng dưới dạng chuỗi.
+ */
+export const getUnitByLabel = (label: string) => {
+  switch (label) {
+    case "Thời gian":
+      return "phút"
+    case "Bước chân":
+      return "bước"
+    case "Calo":
+      return "kcal"
+  }
+}
+
+/**
  * Chuyển đổi mealType từ tiếng Anh sang tiếng Việt.
  * @param mealType - Loại bữa ăn bằng tiếng Anh (Breakfast, Lunch, Dinner, Snack)
  * @returns Loại bữa ăn bằng tiếng Việt (Bữa sáng, Bữa trưa, Bữa tối, Bữa phụ)
