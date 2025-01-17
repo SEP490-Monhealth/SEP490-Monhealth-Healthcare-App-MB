@@ -28,7 +28,7 @@ function VoiceScreen() {
     router.push("/test/certificate-upload")
   }
 
-  const handleViewExerciseCategories = () => {
+  const handleViewCategories = () => {
     router.push(`/categories/${"Exercise"}`)
   }
 
@@ -45,7 +45,7 @@ function VoiceScreen() {
       <Content className="mt-2 pb-12">
         <VStack gap={20}>
           <Button size="lg" onPress={handleViewSignUp}>
-            Đăng kí consultant
+            Đăng ký consultant
           </Button>
 
           <Button size="lg" onPress={handleViewCertificate}>
@@ -60,7 +60,7 @@ function VoiceScreen() {
             Upload ảnh
           </Button>
 
-          <Button size="lg" onPress={handleViewExerciseCategories}>
+          <Button size="lg" onPress={handleViewCategories}>
             Bài tập
           </Button>
         </VStack>

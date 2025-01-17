@@ -8,7 +8,7 @@ const baseWorkoutSchema = z
     dailyActivityId: z.string(),
     userId: z.string(),
 
-    workoutName: z
+    name: z
       .string()
       .nonempty({ message: "Tên bài tập không được để trống" })
       .max(100, { message: "Tên bài tập không được dài hơn 100 ký tự" }),
