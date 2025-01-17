@@ -46,6 +46,12 @@ export const COLORS = {
     sugar: "#60a5fa"
   },
 
+  EXERCISE: {
+    duration: "#f59e0b",
+    calories: "#d946ef",
+    steps: "#2563eb"
+  },
+
   NOTIFICATIONS: {
     reminder: "#ca8a04",
     suggestion: "#16a34a",

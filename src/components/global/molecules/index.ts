@@ -15,6 +15,7 @@ import { NutritionCard } from "./NutritionCard"
 import { NutritionItem } from "./NutritionItem"
 import { StepHeader } from "./SetupHeader"
 import { WaterReminderCard } from "./WaterReminderCard"
+import { WorkoutCard } from "./WorkoutCard"
 
 export {
   AllergyCard,
@@ -33,5 +34,6 @@ export {
   NutritionCard,
   NutritionItem,
   StepHeader,
-  WaterReminderCard
+  WaterReminderCard,
+  WorkoutCard
 }
