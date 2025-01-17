@@ -8,7 +8,6 @@ const baseWaterReminderSchema = z.object({
     .string()
     .min(3, "Tên nhắc nhở phải có ít nhất 3 ký tự")
     .max(50, "Tên nhắc nhở không được quá 50 ký tự"),
-
   time: z
     .string()
     .nonempty({ message: "Thời gian không được để trống" })
@@ -35,13 +34,15 @@ export const createWaterReminderSchema = baseWaterReminderSchema.pick({
   userId: true,
   name: true,
   time: true,
-  volume: true
+  volume: true,
+  isRecurring: true
 })
 
 export const updateWaterReminderSchema = baseWaterReminderSchema.pick({
   name: true,
   time: true,
-  volume: true
+  volume: true,
+  isRecurring: true
 })
 
 export type WaterReminderType = z.infer<typeof waterReminderSchema>

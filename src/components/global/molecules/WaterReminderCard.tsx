@@ -11,7 +11,7 @@ import { toFixed } from "@/utils/formatters"
 import { Card, Checkbox, HStack, Toggle, VStack } from "../atoms"
 import { IconButton } from "./IconButton"
 
-interface WaterCardProps {
+interface WaterReminderCardProps {
   variant?: "checkbox" | "switch" | "more"
   name?: string
   time: string
@@ -23,7 +23,7 @@ interface WaterCardProps {
   onMorePress?: () => void
 }
 
-export const WaterCard = ({
+export const WaterReminderCard = ({
   variant,
   name,
   time,
@@ -33,7 +33,7 @@ export const WaterCard = ({
   onCheckboxChange,
   onSwitchChange,
   onMorePress
-}: WaterCardProps) => {
+}: WaterReminderCardProps) => {
   const handlePress = () => {
     if (variant === "switch" && onSwitchChange) {
       onSwitchChange(!status)
@@ -52,11 +52,7 @@ export const WaterCard = ({
           >
             <Image
               source={require("../../../../public/icons/glass-of-water.png")}
-              style={{
-                width: 24,
-                height: 24,
-                resizeMode: "cover"
-              }}
+              style={{ width: 24, height: 24 }}
             />
           </TouchableOpacity>
 

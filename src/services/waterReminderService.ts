@@ -4,15 +4,15 @@ import monAPI from "@/lib/monAPI"
 
 import {
   CreateWaterReminderType,
-  WaterReminderType,
-  UpdateWaterReminderType
+  UpdateWaterReminderType,
+  WaterReminderType
 } from "@/schemas/waterReminderSchema"
 
 export const getWaterRemindersByUserId = async (
   userId: string | undefined
 ): Promise<WaterReminderType[]> => {
   try {
-    const response = await monAPI.get(`/reminders/user/${userId}`)
+    const response = await monAPI.get(`/water-reminders/user/${userId}`)
 
     if (!response || !response.data) {
       throw {
@@ -50,7 +50,7 @@ export const getWaterReminderById = async (
   waterReminderId: string | undefined
 ): Promise<WaterReminderType> => {
   try {
-    const response = await monAPI.get(`/reminders/${waterReminderId}`)
+    const response = await monAPI.get(`/water-reminders/${waterReminderId}`)
 
     if (!response || !response.data) {
       throw {
@@ -89,7 +89,7 @@ export const createWaterReminder = async (
   showModal: (message: string) => void
 ): Promise<string> => {
   try {
-    const response = await monAPI.post(`/reminders`, newWaterReminderData)
+    const response = await monAPI.post(`/water-reminders`, newWaterReminderData)
 
     if (!response || !response.data) {
       throw {
@@ -136,7 +136,10 @@ export const updateWaterReminder = async (
   showModal: (message: string) => void
 ): Promise<string> => {
   try {
-    const response = await monAPI.put(`/reminders/${waterReminderId}`, waterReminderData)
+    const response = await monAPI.put(
+      `/water-reminders/${waterReminderId}`,
+      waterReminderData
+    )
 
     if (!response || !response.data) {
       throw {
@@ -177,11 +180,11 @@ export const updateWaterReminder = async (
   }
 }
 
-export const updateWaterReminderStatus = async (
+export const deleteWaterReminder = async (
   waterReminderId: string
 ): Promise<string> => {
   try {
-    const response = await monAPI.patch(`/reminders/${waterReminderId}/status`)
+    const response = await monAPI.delete(`/water-reminders/${waterReminderId}`)
 
     if (!response || !response.data) {
       throw {
@@ -196,7 +199,7 @@ export const updateWaterReminderStatus = async (
     if (!success) {
       throw {
         isCustomError: true,
-        message: message || "Không thể cập nhật trạng thái"
+        message: message || "Không thể xóa nhắc nhở"
       }
     }
 
@@ -216,9 +219,13 @@ export const updateWaterReminderStatus = async (
   }
 }
 
-export const deleteWaterReminder = async (waterReminderId: string): Promise<string> => {
+export const updateWaterReminderStatus = async (
+  waterReminderId: string
+): Promise<string> => {
   try {
-    const response = await monAPI.delete(`/reminders/${waterReminderId}`)
+    const response = await monAPI.patch(
+      `/water-reminders/${waterReminderId}/status`
+    )
 
     if (!response || !response.data) {
       throw {
@@ -233,7 +240,7 @@ export const deleteWaterReminder = async (waterReminderId: string): Promise<stri
     if (!success) {
       throw {
         isCustomError: true,
-        message: message || "Không thể xóa nhắc nhở"
+        message: message || "Không thể cập nhật trạng thái"
       }
     }
 

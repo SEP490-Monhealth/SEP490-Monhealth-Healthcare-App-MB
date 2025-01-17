@@ -2,12 +2,12 @@ import React from "react"
 
 import { fireEvent, render, screen } from "@testing-library/react-native"
 
-import { WaterCard } from "@/components/global/molecules"
+import { WaterReminderCard } from "@/components/global/molecules"
 
-describe("WaterCard Component", () => {
+describe("WaterReminderCard Component", () => {
   it("renders the time, name, and volume correctly", () => {
     render(
-      <WaterCard
+      <WaterReminderCard
         time="08:00"
         name="Morning Water"
         volume={250}
@@ -25,7 +25,7 @@ describe("WaterCard Component", () => {
   it("renders with the 'switch' variant and calls onSwitchChange when toggled", () => {
     const onSwitchChangeMock = jest.fn()
     render(
-      <WaterCard
+      <WaterReminderCard
         variant="switch"
         time="08:00"
         name="Morning Water"
@@ -45,7 +45,7 @@ describe("WaterCard Component", () => {
   it("renders with the 'more' variant and calls onMorePress when pressed", () => {
     const onMorePressMock = jest.fn()
     render(
-      <WaterCard
+      <WaterReminderCard
         variant="more"
         time="08:00"
         name="Morning Water"
@@ -63,7 +63,7 @@ describe("WaterCard Component", () => {
 
   it("does not call onSwitchChange if 'switch' variant is used but no handler is provided", () => {
     render(
-      <WaterCard
+      <WaterReminderCard
         variant="switch"
         time="08:00"
         name="Morning Water"
@@ -81,7 +81,7 @@ describe("WaterCard Component", () => {
 
   it("renders the default image for the water icon", () => {
     render(
-      <WaterCard
+      <WaterReminderCard
         time="08:00"
         name="Morning Water"
         volume={250}
@@ -97,7 +97,7 @@ describe("WaterCard Component", () => {
 
   it("renders the correct variant component ('switch' or 'more')", () => {
     render(
-      <WaterCard
+      <WaterReminderCard
         variant="switch"
         time="08:00"
         name="Morning Water"
@@ -110,7 +110,7 @@ describe("WaterCard Component", () => {
     expect(toggle).toBeTruthy()
 
     render(
-      <WaterCard
+      <WaterReminderCard
         variant="more"
         time="08:00"
         name="Morning Water"

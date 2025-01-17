@@ -7,7 +7,7 @@ import { useRouter } from "expo-router"
 import { useIsFetching, useIsMutating } from "@tanstack/react-query"
 
 import { VStack } from "@/components/global/atoms"
-import { ArcProgress, WaterCard } from "@/components/global/molecules"
+import { ArcProgress, WaterReminderCard } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/app"
@@ -97,7 +97,7 @@ export const WaterTab = ({ onLoading, onOverlayLoading }: WaterTabProps) => {
 
       <VStack gap={12}>
         {waterRemindersData?.map((item) => (
-          <WaterCard
+          <WaterReminderCard
             key={item.waterReminderId}
             variant="checkbox"
             name={item.name}

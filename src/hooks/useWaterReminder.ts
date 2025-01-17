@@ -62,9 +62,9 @@ export const useCreateWaterReminder = () => {
   const { showModal } = useModal()
 
   return useMutation<string, Error, CreateWaterReminderType>({
-    mutationFn: async (waterReminder) => {
+    mutationFn: async (newWaterReminderData) => {
       try {
-        return await createWaterReminder(waterReminder, showModal)
+        return await createWaterReminder(newWaterReminderData, showModal)
       } catch (error) {
         handleError(error)
         throw error
@@ -84,13 +84,13 @@ export const useUpdateWaterReminder = () => {
   return useMutation<
     string,
     Error,
-    { waterReminderId: string; waterReminder: UpdateWaterReminderType }
+    { waterReminderId: string; waterReminderData: UpdateWaterReminderType }
   >({
-    mutationFn: async ({ waterReminderId, waterReminder }) => {
+    mutationFn: async ({ waterReminderId, waterReminderData }) => {
       try {
         return await updateWaterReminder(
           waterReminderId,
-          waterReminder,
+          waterReminderData,
           showModal
         )
       } catch (error) {
