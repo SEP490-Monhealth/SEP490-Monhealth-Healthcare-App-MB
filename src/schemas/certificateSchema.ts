@@ -1,28 +1,44 @@
 import { z } from "zod"
 
-const baseCertificateSchema = z.object({
-  certificateId: z.string(),
-  userId: z.string(),
+import { timestampSchema } from "./commonSchema"
 
-  name: z
-    .string()
-    .nonempty({ message: "Tên chứng chỉ không được để trống" })
-    .max(100, { message: "Tên chứng chỉ không được dài hơn 100 ký tự" }),
-  issueDate: z.string().nonempty({ message: "Ngày cấp không được để trống" }),
-  expiryDate: z
-    .string()
-    .nonempty({ message: "Ngày hết hạn không được để trống" }),
-  images: z.string().url({ message: "Đường dẫn hình ảnh không hợp lệ" }),
+const certificateImageSchema = z
+  .object({
+    certificateImageId: z.string(),
+    certificateId: z.string(),
+    url: z.string().url({ message: "Đường dẫn hình ảnh không hợp lệ" })
+  })
+  .merge(timestampSchema)
 
-  status: z.boolean(),
+const baseCertificateSchema = z
+  .object({
+    certificateId: z.string(),
+    userId: z.string(),
 
-  createdAt: z.string(),
-  updatedAt: z.string(),
-  createdBy: z.string(),
-  updatedBy: z.string()
+    name: z
+      .string()
+      .nonempty({ message: "Tên chứng chỉ không được để trống" })
+      .max(100, { message: "Tên chứng chỉ không được dài hơn 100 ký tự" }),
+    issueDate: z.string().nonempty({ message: "Ngày cấp không được để trống" }),
+    expiryDate: z
+      .string()
+      .nonempty({ message: "Ngày hết hạn không được để trống" }),
+    images: z.array(
+      z.string().url({ message: "Đường dẫn hình ảnh không hợp lệ" })
+    ),
+
+    status: z.boolean()
+  })
+  .merge(timestampSchema)
+
+export const certificateSchema = baseCertificateSchema.pick({
+  certificateId: true,
+  userId: true,
+  name: true,
+  issueDate: true,
+  expiryDate: true,
+  images: true
 })
-
-export const certificateSchema = baseCertificateSchema
 
 export const createCertificateSchema = certificateSchema.pick({
   userId: true,
@@ -31,6 +47,8 @@ export const createCertificateSchema = certificateSchema.pick({
   expiryDate: true,
   images: true
 })
+
+export type CertificateImageType = z.infer<typeof certificateImageSchema>
 
 export type CertificateType = z.infer<typeof certificateSchema>
 export type CreateCertificateType = z.infer<typeof createCertificateSchema>

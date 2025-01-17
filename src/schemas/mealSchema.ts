@@ -1,32 +1,35 @@
 import { z } from "zod"
 
+import { timestampSchema } from "./commonSchema"
 import { nutritionFoodSchema, nutritionSchema } from "./nutritionSchema"
 import { portionSchema } from "./portionSchema"
 
-export const mealFoodSchema = z.object({
-  mealFoodId: z.string(),
-  foodId: z.string(),
-  name: z
-    .string()
-    .nonempty({ message: "Tên món ăn không được để trống" })
-    .max(100, { message: "Tên món ăn không được dài hơn 100 ký tự" })
-    .regex(/^[a-zA-Z0-9\s\u00C0-\u024F\u1E00-\u1EFF]*$/, {
-      message: "Tên món ăn chỉ được chứa chữ cái, số và khoảng trắng"
-    }),
+const meals = ["Breakfast", "Lunch", "Dinner", "Snack"]
 
-  quantity: z.number().min(1, { message: "Số lượng phải lớn hơn hoặc bằng 1" }),
+const mealFoodSchema = z
+  .object({
+    mealFoodId: z.string(),
+    foodId: z.string(),
 
-  portion: portionSchema,
+    name: z
+      .string()
+      .nonempty({ message: "Tên món ăn không được để trống" })
+      .max(100, { message: "Tên món ăn không được dài hơn 100 ký tự" })
+      .regex(/^[a-zA-Z0-9\s\u00C0-\u024F\u1E00-\u1EFF]*$/, {
+        message: "Tên món ăn chỉ được chứa chữ cái, số và khoảng trắng"
+      }),
 
-  nutrition: nutritionFoodSchema,
+    quantity: z
+      .number()
+      .min(1, { message: "Số lượng phải lớn hơn hoặc bằng 1" }),
 
-  status: z.boolean(),
+    portion: portionSchema,
 
-  createdAt: z.string(),
-  updatedAt: z.string(),
-  createdBy: z.string(),
-  updatedBy: z.string()
-})
+    nutrition: nutritionFoodSchema,
+
+    status: z.boolean()
+  })
+  .merge(timestampSchema)
 
 const createMealFoodSchema = z.object({
   foodId: z.string(),
@@ -45,39 +48,33 @@ const createMealFoodSchema = z.object({
   unit: z.string().nonempty({ message: "Đơn vị đo lường không được để trống" })
 })
 
-export const mealSchema = z.object({
-  mealId: z.string(),
-  userId: z.string(),
+export const mealSchema = z
+  .object({
+    mealId: z.string(),
+    userId: z.string(),
 
-  type: z
-    .string()
-    .refine((val) => ["Breakfast", "Lunch", "Dinner", "Snack"].includes(val), {
+    type: z.string().refine((val) => meals.includes(val), {
       message:
         "Loại bữa ăn không hợp lệ. Chỉ chấp nhận: Breakfast, Lunch, Dinner, Snack"
     }),
 
-  nutrition: nutritionSchema,
-
-  createdAt: z.string(),
-  updatedAt: z.string(),
-  createdBy: z.string(),
-  updatedBy: z.string()
-})
+    nutrition: nutritionSchema
+  })
+  .merge(timestampSchema)
 
 export const createMealSchema = z.object({
   userId: z.string(),
 
-  type: z
-    .string()
-    .refine((val) => ["Breakfast", "Lunch", "Dinner", "Snack"].includes(val), {
-      message:
-        "Bữa ăn phải là một trong các giá trị: Breakfast, Lunch, Dinner, Snack"
-    }),
+  type: z.string().refine((val) => meals.includes(val), {
+    message:
+      "Bữa ăn phải là một trong các giá trị: Breakfast, Lunch, Dinner, Snack"
+  }),
 
   items: z.array(createMealFoodSchema)
 })
 
 export type MealFoodType = z.infer<typeof mealFoodSchema>
 export type CreateMealFoodType = z.infer<typeof createMealFoodSchema>
+
 export type MealType = z.infer<typeof mealSchema>
 export type CreateMealType = z.infer<typeof createMealSchema>

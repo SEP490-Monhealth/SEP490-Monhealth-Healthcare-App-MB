@@ -5,7 +5,7 @@ import monAPI from "@/lib/monAPI"
 import {
   GoalType,
   NutritionGoalType,
-  WaterGoalType,
+  WaterIntakeGoalType,
   WeightGoalType
 } from "@/schemas/goalSchema"
 
@@ -163,7 +163,7 @@ export const getNutritionGoalByUserId = async (
 
 export const getWaterGoalByUserId = async (
   userId: string | undefined
-): Promise<WaterGoalType> => {
+): Promise<WaterIntakeGoalType> => {
   try {
     const response = await monAPI.get(`/goals/user/${userId}/water`)
 
@@ -178,7 +178,7 @@ export const getWaterGoalByUserId = async (
     const { success, message, data } = response.data
 
     if (success) {
-      return data as WaterGoalType
+      return data as WaterIntakeGoalType
     } else {
       throw {
         isCustomError: true,

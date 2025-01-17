@@ -2,76 +2,80 @@ import { z } from "zod"
 
 import { allergySetupSchema } from "./allergySchema"
 import { categorySetupSchema } from "./categorySchema"
+import { auditSchema, timestampSchema } from "./commonSchema"
 import { nutritionSchema } from "./nutritionSchema"
 import { portionSchema } from "./portionSchema"
 
-const baseFoodSchema = z.object({
-  foodId: z.string(),
-  userId: z.string(),
+const mealTypes = ["Breakfast", "Lunch", "Dinner", "Snack"]
+const dishTypes = ["Main Dish", "Side Dish", "Dessert", "Drink", "Snack"]
 
-  foodType: z.string(),
-  mealType: z.array(
-    z
-      .string()
-      .refine(
-        (val) => ["Breakfast", "Lunch", "Dinner", "Snack"].includes(val),
-        {
-          message:
-            "Loại bữa ăn không hợp lệ. Chỉ chấp nhận: Breakfast, Lunch, Dinner, Snack"
-        }
-      )
-  ),
-  dishType: z
-    .string()
-    .refine(
-      (val) =>
-        ["Main Dish", "Side Dish", "Dessert", "Drink", "Snack"].includes(val),
-      {
+const foodAllergySchema = z
+  .object({
+    foodAllergyId: z.string(),
+    foodId: z.string(),
+    allergyId: z.string()
+  })
+  .merge(timestampSchema)
+
+const foodPortionSchema = z
+  .object({
+    foodPortionId: z.string(),
+    foodId: z.string(),
+    portionId: z.string()
+  })
+  .merge(timestampSchema)
+
+const baseFoodSchema = z
+  .object({
+    foodId: z.string(),
+    userId: z.string(),
+
+    foodType: z.string(),
+    mealType: z.array(
+      z.string().refine((val) => mealTypes.includes(val), {
         message:
-          "Loại món ăn không hợp lệ. Chỉ chấp nhận: Main Dish, Side Dish, Dessert, Drink, Snack"
-      }
+          "Loại bữa ăn không hợp lệ. Chỉ chấp nhận: Breakfast, Lunch, Dinner, Snack"
+      })
     ),
-
-  category: z.string(),
-  name: z
-    .string()
-    .nonempty({ message: "Tên món ăn không được để trống" })
-    .max(100, { message: "Tên món ăn không được dài hơn 100 ký tự" })
-    .regex(/^[a-zA-Z0-9\s\u00C0-\u024F\u1E00-\u1EFF]*$/, {
-      message: "Tên món ăn chỉ được chứa chữ cái, số và khoảng trắng"
+    dishType: z.string().refine((val) => dishTypes.includes(val), {
+      message:
+        "Loại món ăn không hợp lệ. Chỉ chấp nhận: Main Dish, Side Dish, Dessert, Drink, Snack"
     }),
-  description: z
-    .string()
-    .nonempty({ message: "Mô tả món ăn không được để trống" })
-    .max(500, { message: "Mô tả món ăn không được dài hơn 500 ký tự" }),
 
-  portion: portionSchema,
+    category: z.string(),
+    name: z
+      .string()
+      .nonempty({ message: "Tên món ăn không được để trống" })
+      .max(100, { message: "Tên món ăn không được dài hơn 100 ký tự" })
+      .regex(/^[a-zA-Z0-9\s\u00C0-\u024F\u1E00-\u1EFF]*$/, {
+        message: "Tên món ăn chỉ được chứa chữ cái, số và khoảng trắng"
+      }),
+    description: z
+      .string()
+      .nonempty({ message: "Mô tả món ăn không được để trống" })
+      .max(500, { message: "Mô tả món ăn không được dài hơn 500 ký tự" }),
 
-  nutrition: nutritionSchema,
+    portion: portionSchema,
 
-  status: z.boolean(),
+    nutrition: nutritionSchema,
 
-  createdAt: z.string(),
-  updatedAt: z.string(),
-  createdBy: z.string(),
-  updatedBy: z.string()
-})
+    status: z.boolean()
+  })
+  .merge(auditSchema)
 
-export const foodSchema = baseFoodSchema.pick({
-  foodId: true,
-  userId: true,
-  foodType: true,
-  category: true,
-  name: true,
-  description: true,
-  portion: true,
-  nutrition: true,
-  status: true,
-  createdAt: true,
-  updatedAt: true,
-  createdBy: true,
-  updatedBy: true
-})
+export const foodSchema = baseFoodSchema
+  .pick({
+    foodId: true,
+    userId: true,
+    foodType: true,
+    category: true,
+    name: true,
+    description: true,
+    portion: true,
+    nutrition: true,
+    status: true
+  })
+  .merge(auditSchema)
 
 export const foodSaveSchema = baseFoodSchema.pick({
   foodId: true,
@@ -117,8 +121,11 @@ export const updateFoodSchema = baseFoodSchema.pick({
   description: true
 })
 
+export type FoodAllergyType = z.infer<typeof foodAllergySchema>
+export type FoodPortionType = z.infer<typeof foodPortionSchema>
+
 export type FoodType = z.infer<typeof foodSchema>
-export type SaveFoodType = z.infer<typeof foodSaveSchema>
+export type FoodSaveType = z.infer<typeof foodSaveSchema>
 export type FoodUserType = z.infer<typeof foodUserSchema>
 export type CreateFoodType = z.infer<typeof createFoodSchema>
 export type UpdateFoodType = z.infer<typeof updateFoodSchema>

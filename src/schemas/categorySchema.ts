@@ -1,40 +1,35 @@
 import { z } from "zod"
 
-const baseCategorySchema = z.object({
-  categoryId: z.string(),
+import { timestampSchema } from "./commonSchema"
 
-  type: z.string().refine((val) => ["Food", "Exercise"].includes(val), {
-    message: "Loại danh mục không hợp lệ. Chỉ chấp nhận: Food, Exercise"
-  }),
+const categories = ["Food", "Exercise"]
 
-  name: z
-    .string()
-    .nonempty({ message: "Tên danh mục không được để trống" })
-    .max(100, { message: "Tên danh mục không được dài hơn 100 ký tự" })
-    .regex(/^[a-zA-Z0-9\s\u00C0-\u024F\u1E00-\u1EFF]*$/, {
-      message: "Tên danh mục chỉ được chứa chữ cái, số và khoảng trắng"
+const baseCategorySchema = z
+  .object({
+    categoryId: z.string(),
+
+    type: z.string().refine((val) => categories.includes(val), {
+      message: "Loại danh mục không hợp lệ. Chỉ chấp nhận: Food, Exercise"
     }),
-  description: z
-    .string()
-    .max(500, {
-      message: "Mô tả danh mục không được dài hơn 500 ký tự"
-    })
-    .optional(),
-  image: z.string().optional(),
 
-  createdAt: z.string(),
-  updatedAt: z.string(),
-  createdBy: z.string(),
-  updatedBy: z.string()
-})
+    name: z
+      .string()
+      .nonempty({ message: "Tên danh mục không được để trống" })
+      .max(100, { message: "Tên danh mục không được dài hơn 100 ký tự" })
+      .regex(/^[a-zA-Z0-9\s\u00C0-\u024F\u1E00-\u1EFF]*$/, {
+        message: "Tên danh mục chỉ được chứa chữ cái, số và khoảng trắng"
+      }),
+    description: z
+      .string()
+      .max(500, {
+        message: "Mô tả danh mục không được dài hơn 500 ký tự"
+      })
+      .optional(),
+    image: z.string().optional()
+  })
+  .merge(timestampSchema)
 
-export const categorySchema = baseCategorySchema.pick({
-  categoryId: true,
-  type: true,
-  name: true,
-  description: true,
-  image: true
-})
+export const categorySchema = baseCategorySchema
 
 export const categorySetupSchema = z.object({
   categories: z

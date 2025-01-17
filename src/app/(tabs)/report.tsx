@@ -5,7 +5,6 @@ import { Profile } from "iconsax-react-native"
 import {
   Container,
   Content,
-  Schedule,
   TabsList,
   TabsTrigger,
   VStack

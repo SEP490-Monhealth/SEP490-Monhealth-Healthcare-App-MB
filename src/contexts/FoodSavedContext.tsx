@@ -1,10 +1,10 @@
 import { createContext, useContext } from "react"
 
-import { SaveFoodType } from "@/schemas/foodSchema"
+import { FoodSaveType } from "@/schemas/foodSchema"
 
 export interface FoodSavedContextType {
-  saveFoodsData: SaveFoodType[]
-  toggleSaveFood: (food: SaveFoodType) => Promise<void>
+  saveFoodsData: FoodSaveType[]
+  toggleSaveFood: (food: FoodSaveType) => Promise<void>
   clearFoodSaved: () => Promise<void>
 }
 

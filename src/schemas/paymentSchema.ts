@@ -1,24 +1,23 @@
 import { z } from "zod"
 
-const basePaymentSchema = z.object({
-  paymentId: z.string(),
-  bookingId: z.string(),
-  subscriptionId: z.string(),
+import { auditSchema } from "./commonSchema"
 
-  amount: z.number(),
+const basePaymentSchema = z
+  .object({
+    paymentId: z.string(),
+    bookingId: z.string(),
+    subscriptionId: z.string(),
 
-  status: z
-    .string()
-    .refine((val) => ["Pending", "Success", "Failed"].includes(val), {
-      message:
-        "Trạng thái không hợp lệ. Chỉ chấp nhận: Pending, Success, Failed"
-    }),
+    amount: z.number(),
 
-  createdAt: z.string(),
-  updatedAt: z.string(),
-  createdBy: z.string(),
-  updatedBy: z.string()
-})
+    status: z
+      .string()
+      .refine((val) => ["Pending", "Success", "Failed"].includes(val), {
+        message:
+          "Trạng thái không hợp lệ. Chỉ chấp nhận: Pending, Success, Failed"
+      })
+  })
+  .merge(auditSchema)
 
 export const paymentSchema = basePaymentSchema
 

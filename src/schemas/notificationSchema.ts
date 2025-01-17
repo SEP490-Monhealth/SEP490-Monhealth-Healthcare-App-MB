@@ -1,29 +1,28 @@
 import { z } from "zod"
 
-const baseNotificationSchema = z.object({
-  notificationId: z.string(),
-  userId: z.string(),
+import { auditSchema } from "./commonSchema"
 
-  type: z
-    .string()
-    .refine((val) =>
-      ["System", "Reminder", "Activity", "Booking"].includes(val)
-    ),
-  message: z
-    .string()
-    .nonempty({ message: "Nội dung thông báo không được để trống" }),
-  href: z.string(),
+const baseNotificationSchema = z
+  .object({
+    notificationId: z.string(),
+    userId: z.string(),
 
-  status: z.boolean(),
+    type: z
+      .string()
+      .refine((val) =>
+        ["System", "Reminder", "Activity", "Booking"].includes(val)
+      ),
+    message: z
+      .string()
+      .nonempty({ message: "Nội dung thông báo không được để trống" }),
+    href: z.string(),
 
-  isRead: z.boolean(),
+    status: z.boolean(),
 
-  createdAt: z.string(),
-  updatedAt: z.string(),
-  createdBy: z.string(),
-  updatedBy: z.string()
-})
-
+    isRead: z.boolean()
+  })
+  .merge(auditSchema)
+  
 export const notificationSchema = baseNotificationSchema
 
 export type NotificationType = z.infer<typeof notificationSchema>

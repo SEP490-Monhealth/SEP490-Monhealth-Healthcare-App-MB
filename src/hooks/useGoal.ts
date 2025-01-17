@@ -5,7 +5,7 @@ import { useError } from "@/contexts/ErrorContext"
 import {
   GoalType,
   NutritionGoalType,
-  WaterGoalType,
+  WaterIntakeGoalType,
   WeightGoalType
 } from "@/schemas/goalSchema"
 
@@ -92,7 +92,7 @@ export const useGetNutritionGoal = (userId: string | undefined) => {
 export const useGetWaterGoal = (userId: string | undefined) => {
   const handleError = useError()
 
-  return useQuery<WaterGoalType, Error>({
+  return useQuery<WaterIntakeGoalType, Error>({
     queryKey: ["water-goal", userId],
     queryFn: async () => {
       try {

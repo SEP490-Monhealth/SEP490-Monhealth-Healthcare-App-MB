@@ -4,10 +4,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 
 import { FoodSavedContext } from "@/contexts/FoodSavedContext"
 
-import { SaveFoodType } from "@/schemas/foodSchema"
+import { FoodSaveType } from "@/schemas/foodSchema"
 
 export const FoodSavedProvider = ({ children }: { children: ReactNode }) => {
-  const [saveFoodsData, setSaveFoodsData] = useState<SaveFoodType[]>([])
+  const [saveFoodsData, setSaveFoodsData] = useState<FoodSaveType[]>([])
 
   const loadSavedFoods = async () => {
     try {
@@ -27,7 +27,7 @@ export const FoodSavedProvider = ({ children }: { children: ReactNode }) => {
     loadSavedFoods()
   }, [])
 
-  const toggleSaveFood = async (food: SaveFoodType) => {
+  const toggleSaveFood = async (food: FoodSaveType) => {
     try {
       const isFoodSaved = saveFoodsData.some(
         (saved) => saved.foodId === food.foodId

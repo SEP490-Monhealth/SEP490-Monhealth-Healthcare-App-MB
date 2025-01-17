@@ -1,4 +1,4 @@
-import { Text, View } from "react-native"
+import { View } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -6,8 +6,6 @@ import { LoadingOverlay } from "@/app/loading"
 import { useIsFetching, useIsMutating } from "@tanstack/react-query"
 
 import { Section } from "@/components/global/organisms"
-
-import { calculateHealthMetrics } from "@/utils/calculations"
 
 interface WorkoutTabProps {
   onLoading: (isLoading: boolean) => void

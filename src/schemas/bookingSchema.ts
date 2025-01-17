@@ -1,35 +1,35 @@
 import { z } from "zod"
 
-const baseBookingSchema = z.object({
-  bookingId: z.string(),
-  serviceId: z.string(),
-  userId: z.string(),
-  consultantId: z.string(),
+import { auditSchema } from "./commonSchema"
 
-  date: z
-    .string()
-    .nonempty({ message: "Ngày không được để trống" })
-    .refine((val) => new Date(val) >= new Date(), {
-      message: "Ngày không được là ngày trong quá khứ"
-    }),
+const baseBookingSchema = z
+  .object({
+    bookingId: z.string(),
+    serviceId: z.string(),
+    userId: z.string(),
+    consultantId: z.string(),
 
-  notes: z.string().optional(),
+    date: z
+      .string()
+      .nonempty({ message: "Ngày không được để trống" })
+      .refine((val) => new Date(val) >= new Date(), {
+        message: "Ngày không được là ngày trong quá khứ"
+      }),
 
-  status: z
-    .string()
-    .refine(
-      (val) => ["Pending", "Confirmed", "Completed", "Cancelled"].includes(val),
-      {
-        message:
-          "Trạng thái phải là: Pending, Confirmed, Completed, hoặc Cancelled"
-      }
-    ),
+    notes: z.string().optional(),
 
-  createdAt: z.string(),
-  updatedAt: z.string(),
-  createdBy: z.string(),
-  updatedBy: z.string()
-})
+    status: z
+      .string()
+      .refine(
+        (val) =>
+          ["Pending", "Confirmed", "Completed", "Cancelled"].includes(val),
+        {
+          message:
+            "Trạng thái phải là: Pending, Confirmed, Completed, hoặc Cancelled"
+        }
+      )
+  })
+  .merge(auditSchema)
 
 export const bookingSchema = baseBookingSchema
 

@@ -1,26 +1,25 @@
 import { z } from "zod"
 
-const baseScheduleSchema = z.object({
-  scheduleId: z.string(),
-  consultantId: z.string(),
+import { timestampSchema } from "./commonSchema"
 
-  date: z.string().nonempty({ message: "Ngày không được để trống" }),
-  time: z
-    .string()
-    .nonempty({ message: "Thời gian không được để trống" })
-    .regex(/^([01]\d|2[0-3]):([0-5]\d)$/, {
-      message: "Thời gian phải có định dạng HH:mm"
-    }),
+const baseScheduleSchema = z
+  .object({
+    scheduleId: z.string(),
+    consultantId: z.string(),
 
-  status: z.string().refine((val) => ["Available", "Booked"].includes(val), {
-    message: "Trạng thái không hợp lệ. Chỉ chấp nhận: Available, Booked"
-  }),
+    date: z.string().nonempty({ message: "Ngày không được để trống" }),
+    time: z
+      .string()
+      .nonempty({ message: "Thời gian không được để trống" })
+      .regex(/^([01]\d|2[0-3]):([0-5]\d)$/, {
+        message: "Thời gian phải có định dạng HH:mm"
+      }),
 
-  createdAt: z.string(),
-  updatedAt: z.string(),
-  createdBy: z.string(),
-  updatedBy: z.string()
-})
+    status: z.string().refine((val) => ["Available", "Booked"].includes(val), {
+      message: "Trạng thái không hợp lệ. Chỉ chấp nhận: Available, Booked"
+    })
+  })
+  .merge(timestampSchema)
 
 export const scheduleSchema = baseScheduleSchema
 
