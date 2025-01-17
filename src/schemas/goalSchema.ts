@@ -49,13 +49,13 @@ const baseGoalSchema = z
       .min(1, { message: "Mục tiêu nước uống phải lớn hơn hoặc bằng 1" })
       .optional(),
 
-    exerciseDurationGoal: z
+    workoutDurationGoal: z
       .number()
       .min(1, {
         message: "Mục tiêu thời gian tập luyện phải lớn hơn hoặc bằng 1"
       })
       .optional(),
-    exerciseCaloriesGoal: z
+    caloriesBurnedGoal: z
       .number()
       .min(1, {
         message: "Mục tiêu calo tập luyện phải lớn hơn hoặc bằng 1"
@@ -91,8 +91,8 @@ export const goalSchema = baseGoalSchema
     fiberGoal: true,
     sugarGoal: true,
     waterIntakesGoal: true,
-    exerciseDurationGoal: true,
-    exerciseCaloriesGoal: true,
+    workoutDurationGoal: true,
+    caloriesBurnedGoal: true,
     stepsGoal: true,
     status: true
   })
@@ -116,8 +116,8 @@ export const waterIntakeGoalSchema = baseGoalSchema.pick({
 })
 
 export const exerciseGoalSchema = baseGoalSchema.pick({
-  exerciseDurationGoal: true,
-  exerciseCaloriesGoal: true
+  workoutDurationGoal: true,
+  caloriesBurnedGoal: true
 })
 
 export const stepsGoalSchema = baseGoalSchema.pick({
@@ -135,8 +135,8 @@ export const createGoalSchema = baseGoalSchema.pick({
   fiberGoal: true,
   sugarGoal: true,
   waterIntakesGoal: true,
-  exerciseDurationGoal: true,
-  exerciseCaloriesGoal: true,
+  workoutDurationGoal: true,
+  caloriesBurnedGoal: true,
   stepsGoal: true
 })
 
