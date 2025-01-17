@@ -1,15 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-import { useModal } from "@/contexts/ModalContext"
 import { useError } from "@/contexts/ErrorContext"
+import { useModal } from "@/contexts/ModalContext"
 
 import { CreatePortionType, PortionType } from "@/schemas/portionSchema"
 
-import {
-  createPortion,
-  getPortionByFoodId,
-  getPortionById
-} from "@/services/portionService"
+import { createPortion, getPortionByFoodId } from "@/services/portionService"
 
 export const useGetPortionByFoodId = (foodId: string | undefined) => {
   const handleError = useError()
@@ -25,24 +21,6 @@ export const useGetPortionByFoodId = (foodId: string | undefined) => {
       }
     },
     enabled: !!foodId,
-    staleTime: 1000 * 60 * 5
-  })
-}
-
-export const useGetPortionById = (portionId: string | undefined) => {
-  const handleError = useError()
-
-  return useQuery<PortionType, Error>({
-    queryKey: ["portion", portionId],
-    queryFn: async () => {
-      try {
-        return await getPortionById(portionId)
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
-    },
-    enabled: !!portionId,
     staleTime: 1000 * 60 * 5
   })
 }

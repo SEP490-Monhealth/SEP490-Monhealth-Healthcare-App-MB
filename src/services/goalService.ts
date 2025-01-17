@@ -161,7 +161,7 @@ export const getNutritionGoalByUserId = async (
   }
 }
 
-export const getWaterGoalByUserId = async (
+export const getWaterIntakeGoalByUserId = async (
   userId: string | undefined
 ): Promise<WaterIntakeGoalType> => {
   try {

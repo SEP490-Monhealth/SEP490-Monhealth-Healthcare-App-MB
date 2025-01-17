@@ -4,7 +4,7 @@ import monAPI from "@/lib/monAPI"
 
 import { CategoryType } from "@/schemas/categorySchema"
 
-export const getAllCategories = async (): Promise<CategoryType[]> => {
+export const getAllCategoriesByType = async (): Promise<CategoryType[]> => {
   try {
     const response = await monAPI.get(`/categories`)
 

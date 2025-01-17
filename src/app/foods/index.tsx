@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react"
 
-import { ActivityIndicator, FlatList, Image, Text, View } from "react-native"
+import { ActivityIndicator, FlatList, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -22,7 +22,7 @@ import { COLORS } from "@/constants/app"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useGetAllCategories } from "@/hooks/useCategory"
+import { useGetAllCategoriesByType } from "@/hooks/useCategory"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useCreateMeal } from "@/hooks/useMeal"
 import { useRouterHandlers } from "@/hooks/useRouter"
@@ -59,7 +59,7 @@ function FoodsScreen() {
   const debouncedSelectedCategory: string = useDebounce(selectedCategory, 0)
 
   const { data: categoriesData, isLoading: isCategoriesLoading } =
-    useGetAllCategories()
+    useGetAllCategoriesByType()
 
   const fetchFoods = async (
     newLimit: number,

@@ -107,14 +107,14 @@ export const useUpdateWaterReminder = () => {
   })
 }
 
-export const useUpdateWaterReminderStatus = () => {
+export const useDeleteWaterReminder = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
 
   return useMutation<string, Error, string>({
     mutationFn: async (waterReminderId) => {
       try {
-        return await updateWaterReminderStatus(waterReminderId)
+        return await deleteWaterReminder(waterReminderId)
       } catch (error) {
         handleError(error)
         throw error
@@ -126,14 +126,14 @@ export const useUpdateWaterReminderStatus = () => {
   })
 }
 
-export const useDeleteWaterReminder = () => {
+export const useUpdateWaterReminderStatus = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
 
   return useMutation<string, Error, string>({
     mutationFn: async (waterReminderId) => {
       try {
-        return await deleteWaterReminder(waterReminderId)
+        return await updateWaterReminderStatus(waterReminderId)
       } catch (error) {
         handleError(error)
         throw error
