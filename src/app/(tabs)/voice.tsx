@@ -29,7 +29,7 @@ function VoiceScreen() {
   }
 
   const handleViewExerciseCategories = () => {
-    router.push("/workouts")
+    router.push(`/categories/${"Exercise"}`)
   }
 
   return (

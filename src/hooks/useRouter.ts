@@ -15,14 +15,14 @@ export const useRouterHandlers = () => {
     router.push(`/water-reminders/${waterReminderId}/details`)
   }
 
-  const handleViewExerciseCategory = (categoryId: string) => {
-    router.push(`/workouts/${categoryId}/details`)
+  const handleViewCategory = (categoryType: string) => {
+    router.push(`/categories/${categoryType}`)
   }
 
   return {
     handleViewFood,
     handleViewMeal,
     handleViewWaterReminder,
-    handleViewExerciseCategory
+    handleViewCategory
   }
 }
