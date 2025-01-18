@@ -13,13 +13,12 @@ import { Section } from "@/components/global/organisms"
 
 import { sampleWorkoutDailyData } from "@/constants/dailyWorkouts"
 
-import { useRouterHandlers } from "@/hooks/useRouter"
+import { useAuth } from "@/contexts/AuthContext"
 
 import { formatDateYYYYMMDD, toFixed } from "@/utils/formatters"
 
 import { WorkoutProgress } from "./WorkoutProgress"
 import { WorkoutSummary } from "./WorkoutSummary"
-import { useAuth } from "@/contexts/AuthContext"
 
 interface WorkoutTabProps {
   onLoading: (isLoading: boolean) => void
@@ -37,46 +36,54 @@ export const WorkoutTab = ({
 
   const today = formatDateYYYYMMDD(new Date())
 
-  const workoutsData = sampleWorkoutDailyData[0]
+  const workoutData = sampleWorkoutDailyData[0]
 
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()
 
   const workoutGoalData = {
-    workoutDurationGoal: 100,
+    caloriesIntakeGoal: 200,
     caloriesBurnedGoal: 500,
+    workoutDurationGoal: 100,
     stepsGoal: 1300
   }
 
   const caloriesBurnedGoal = workoutGoalData?.caloriesBurnedGoal || 0
-  const caloriesValue = workoutsData?.progress?.calories || 0
+  const caloriesBurnedValue = workoutData?.progress?.caloriesBurned || 0
 
   const caloriesData = {
     label: "Calories",
-    value: workoutsData?.progress?.calories || 0,
+    value: workoutData?.progress?.caloriesBurned || 0,
     targetValue: caloriesBurnedGoal
   }
 
   const workoutsData = [
     {
-      label: "Thời gian",
-      value: workoutsData?.progress?.duration || 0,
-      targetValue: workoutGoalData?.workoutDurationGoal || 0
+      label: "Đã nạp",
+      value: workoutData?.progress?.caloriesBurned || 0,
+      targetValue: workoutGoalData?.caloriesIntakeGoal || 0
     },
     {
-      label: "Calo",
-      value: workoutsData?.progress?.calories || 0,
+      label: "Đã đốt",
+      value: workoutData?.progress?.caloriesBurned || 0,
       targetValue: workoutGoalData?.caloriesBurnedGoal || 0
     },
     {
-      label: "Bước chân",
-      value: workoutsData?.progress?.steps || 0,
+      label: "Thời gian",
+      value: workoutData?.progress?.duration || 0,
+      targetValue: workoutGoalData?.workoutDurationGoal || 0
+    },
+    {
+      label: "Số bước",
+      value: workoutData?.progress?.steps || 0,
       targetValue: workoutGoalData?.stepsGoal || 0
     }
   ]
 
   const dailyCaloriesBurnedGoal =
-    caloriesBurnedGoal > 0 ? (caloriesValue / caloriesBurnedGoal) * 100 : 0
+    caloriesBurnedGoal > 0
+      ? (caloriesBurnedValue / caloriesBurnedGoal) * 100
+      : 0
 
   useEffect(() => {
     if (onOverlayLoading) {
@@ -96,7 +103,10 @@ export const WorkoutTab = ({
 
       <HStack center className="justify-between">
         <WorkoutSummary workoutsData={workoutsData} />
-        <WorkoutProgress calorieData={caloriesData} workoutsData={workoutsData} />
+        <WorkoutProgress
+          calorieData={caloriesData}
+          workoutsData={workoutsData}
+        />
       </HStack>
 
       <Progress
