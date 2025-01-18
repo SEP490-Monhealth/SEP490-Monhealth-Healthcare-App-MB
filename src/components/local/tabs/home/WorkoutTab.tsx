@@ -124,7 +124,7 @@ export const WorkoutTab = ({
       />
 
       <VStack gap={12}>
-        {workoutsData.items.map((item) => (
+        {workoutData.items.map((item) => (
           <WorkoutCard
             key={item.workoutId}
             name={item.name}
