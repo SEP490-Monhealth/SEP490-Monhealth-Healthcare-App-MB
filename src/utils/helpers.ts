@@ -121,12 +121,16 @@ export const getNutritionColor = (label: string) => {
  */
 export const getWorkoutColor = (label: string) => {
   switch (label) {
+    case "Đã nạp":
+      return COLORS.WORKOUT.caloriesIntake
+    case "Đã đốt":
+      return COLORS.WORKOUT.caloriesBurned
     case "Thời gian":
       return COLORS.WORKOUT.duration
-    case "Calories":
-      return COLORS.WORKOUT.calories
-    case "Bước chân":
+    case "Số bước":
       return COLORS.WORKOUT.steps
+    default:
+      return COLORS.secondary
   }
 }
 
@@ -137,12 +141,14 @@ export const getWorkoutColor = (label: string) => {
  */
 export const getWorkoutUnit = (label: string) => {
   switch (label) {
+    case "Đã nạp":
+      return "kcal"
+    case "Đã đốt":
+      return "kcal"
     case "Thời gian":
       return "phút"
-    case "Bước chân":
+    case "Số bước":
       return "bước"
-    case "Calo":
-      return "kcal"
   }
 }
 

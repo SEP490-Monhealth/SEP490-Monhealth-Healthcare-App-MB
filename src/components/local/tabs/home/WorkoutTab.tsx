@@ -13,8 +13,6 @@ import { Section } from "@/components/global/organisms"
 
 import { sampleWorkoutDailyData } from "@/constants/dailyWorkouts"
 
-import { useRouterHandlers } from "@/hooks/useRouter"
-
 import { toFixed } from "@/utils/formatters"
 
 import { WorkoutProgress } from "./WorkoutProgress"
@@ -35,36 +33,42 @@ export const WorkoutTab = ({
   const isMutating = useIsMutating()
 
   const goalData = {
-    workoutDurationGoal: 100,
+    caloriesIntakeGoal: 200,
     caloriesBurnedGoal: 500,
+    workoutDurationGoal: 100,
     stepsGoal: 1300
   }
 
   const caloriesBurnedGoal = goalData?.caloriesBurnedGoal || 0
-  const caloriesValue = workoutsData?.progress?.calories || 0
+  const caloriesValue = workoutsData?.progress?.caloriesBurned || 0
 
   const caloriesProgress =
     caloriesBurnedGoal > 0 ? (caloriesValue / caloriesBurnedGoal) * 100 : 0
 
   const caloriesData = {
     label: "Calories",
-    value: workoutsData?.progress?.calories || 0,
+    value: workoutsData?.progress?.caloriesBurned || 0,
     targetValue: caloriesBurnedGoal
   }
 
   const workoutData = [
+    {
+      label: "Đã nạp",
+      value: workoutsData?.progress?.caloriesBurned || 0,
+      targetValue: goalData?.caloriesIntakeGoal || 0
+    },
+    {
+      label: "Đã đốt",
+      value: workoutsData?.progress?.caloriesBurned || 0,
+      targetValue: goalData?.caloriesBurnedGoal || 0
+    },
     {
       label: "Thời gian",
       value: workoutsData?.progress?.duration || 0,
       targetValue: goalData?.workoutDurationGoal || 0
     },
     {
-      label: "Calo",
-      value: workoutsData?.progress?.calories || 0,
-      targetValue: goalData?.caloriesBurnedGoal || 0
-    },
-    {
-      label: "Bước chân",
+      label: "Số bước",
       value: workoutsData?.progress?.steps || 0,
       targetValue: goalData?.stepsGoal || 0
     }

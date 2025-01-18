@@ -4,8 +4,9 @@ export const sampleWorkoutDailyData = [
     userId: "123",
 
     progress: {
-      duration: 50,
-      calories: 300,
+      duration: 70,
+      caloriesIntake: 100,
+      caloriesBurned: 100,
       steps: 500
     },
 

@@ -26,7 +26,7 @@ export const WorkoutSummary = ({ workoutData }: WorkoutSummaryProps) => {
           label={exercise.label}
           value={toFixed(exercise.value, 1)}
           targetValue={toFixed(exercise.targetValue)}
-          color={getWorkoutColor(exercise.label) || "#334155"}
+          color={getWorkoutColor(exercise.label)}
         />
       ))}
     </VStack>
