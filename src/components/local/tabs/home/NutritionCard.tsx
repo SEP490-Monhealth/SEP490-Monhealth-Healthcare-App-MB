@@ -22,11 +22,7 @@ export const NutritionCard = ({
       <HStack gap={6} center>
         <View
           className="rounded-full"
-          style={{
-            width: 10,
-            height: 10,
-            backgroundColor: color
-          }}
+          style={{ width: 10, height: 10, backgroundColor: color }}
         />
         <Text className="font-tmedium text-base leading-4 text-accent">
           {label}
@@ -34,7 +30,7 @@ export const NutritionCard = ({
       </HStack>
 
       <Text className="font-tbold text-sm text-primary">
-        {value} / {targetValue}g
+        {value}/{targetValue} g
       </Text>
     </View>
   )

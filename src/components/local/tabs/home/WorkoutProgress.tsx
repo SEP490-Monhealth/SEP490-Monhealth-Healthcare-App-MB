@@ -6,7 +6,7 @@ import { VStack } from "@/components/global/atoms"
 import { CircularProgress } from "@/components/global/molecules"
 
 import { toFixed } from "@/utils/formatters"
-import { getExerciseColor, getNutritionColor } from "@/utils/helpers"
+import { getWorkoutColor } from "@/utils/helpers"
 
 export interface WorkoutProps {
   label: string
@@ -16,22 +16,22 @@ export interface WorkoutProps {
 
 interface WorkoutProgressProps {
   calorieData: WorkoutProps
-  progressData: WorkoutProps[]
+  workoutData: WorkoutProps[]
 }
 
 export const WorkoutProgress = ({
   calorieData,
-  progressData
+  workoutData
 }: WorkoutProgressProps) => {
   return (
     <View
       className="relative items-center justify-center"
       style={{ width: 240, height: 240 }}
     >
-      {progressData.map((exercise, index) => {
+      {workoutData.map((workout, index) => {
         const fill =
-          exercise.targetValue > 0
-            ? (exercise.value / exercise.targetValue) * 100
+          workout.targetValue > 0
+            ? (workout.value / workout.targetValue) * 100
             : 0
 
         return (
@@ -40,7 +40,7 @@ export const WorkoutProgress = ({
               size={240 - index * 30}
               width={6}
               fill={fill}
-              tintColor={getExerciseColor(exercise.label)}
+              tintColor={getWorkoutColor(workout.label)}
             />
           </View>
         )
@@ -48,8 +48,9 @@ export const WorkoutProgress = ({
 
       <VStack center>
         <Image
-          source={require("../../../../../public/images/monhealth-fire-image.png")}
+          source={require("../../../../../public/images/monhealth-workout-image.png")}
           resizeMode="cover"
+          className="-rotate-45"
           style={{ width: 24, height: 24 }}
         />
 

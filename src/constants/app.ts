@@ -46,7 +46,7 @@ export const COLORS = {
     sugar: "#60a5fa"
   },
 
-  EXERCISE: {
+  WORKOUT: {
     duration: "#f59e0b",
     calories: "#d946ef",
     steps: "#2563eb"

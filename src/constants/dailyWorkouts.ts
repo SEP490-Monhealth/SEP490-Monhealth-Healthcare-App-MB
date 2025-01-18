@@ -1,6 +1,6 @@
 export const sampleWorkoutDailyData = [
   {
-    dailyWorkoutId: "khaitoideptrai",
+    dailyWorkoutId: "khaitoiiathui",
     userId: "123",
 
     progress: {

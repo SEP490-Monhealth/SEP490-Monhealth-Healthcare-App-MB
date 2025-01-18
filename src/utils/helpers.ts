@@ -119,14 +119,14 @@ export const getNutritionColor = (label: string) => {
  * @param label Tên bài tập (Thời gian, Kcal, Bước chân)
  * @returns Màu sắc đại diện cho bài tập (dùng trong UI)
  */
-export const getExerciseColor = (label: string) => {
+export const getWorkoutColor = (label: string) => {
   switch (label) {
     case "Thời gian":
-      return COLORS.EXERCISE.duration
-    case "Calo":
-      return COLORS.EXERCISE.calories
+      return COLORS.WORKOUT.duration
+    case "Calories":
+      return COLORS.WORKOUT.calories
     case "Bước chân":
-      return COLORS.EXERCISE.steps
+      return COLORS.WORKOUT.steps
   }
 }
 
@@ -135,7 +135,7 @@ export const getExerciseColor = (label: string) => {
  * @param label - Nhãn để xác định đơn vị.
  * @returns Đơn vị tương ứng dưới dạng chuỗi.
  */
-export const getUnitByLabel = (label: string) => {
+export const getWorkoutUnit = (label: string) => {
   switch (label) {
     case "Thời gian":
       return "phút"

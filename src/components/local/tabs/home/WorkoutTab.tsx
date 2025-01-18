@@ -1,80 +1,94 @@
+import { useEffect } from "react"
+
 import { View } from "react-native"
 
-import { useRouter } from "expo-router"
+import { router } from "expo-router"
 
 import { LoadingOverlay } from "@/app/loading"
 import { useIsFetching, useIsMutating } from "@tanstack/react-query"
 
-import { Content, HStack, Progress } from "@/components/global/atoms"
+import { HStack, Progress, VStack } from "@/components/global/atoms"
 import { WorkoutCard } from "@/components/global/molecules/WorkoutCard"
 import { Section } from "@/components/global/organisms"
 
-import { sampleWorkoutDailyData } from "@/constants/dailyWorkoutExsample"
-import { sampleWorkoutGoalData } from "@/constants/dailyWorkoutGoal"
+import { sampleWorkoutDailyData } from "@/constants/dailyWorkouts"
+
+import { useRouterHandlers } from "@/hooks/useRouter"
 
 import { toFixed } from "@/utils/formatters"
 
-import { ExerciseSummary } from "./ExerciseSummary"
 import { WorkoutProgress } from "./WorkoutProgress"
+import { WorkoutSummary } from "./WorkoutSummary"
 
 interface WorkoutTabProps {
   onLoading: (isLoading: boolean) => void
+  onOverlayLoading: (isLoading: boolean) => void
 }
 
-export const WorkoutTab = ({ onLoading }: WorkoutTabProps) => {
-  const router = useRouter()
-
-  const dataWorkout = sampleWorkoutDailyData[0]
-  const dataGoal = sampleWorkoutGoalData
-  const caloriesGoal = dataGoal?.exerciseCaloriesGoal || 0
-  const caloriesValue = dataWorkout?.progress?.calories || 0
+export const WorkoutTab = ({
+  onLoading,
+  onOverlayLoading
+}: WorkoutTabProps) => {
+  const workoutsData = sampleWorkoutDailyData[0]
 
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()
 
-  const handleViewWorkouts = () => router.push("/workouts")
+  const goalData = {
+    workoutDurationGoal: 100,
+    caloriesBurnedGoal: 500,
+    stepsGoal: 1300
+  }
+
+  const caloriesBurnedGoal = goalData?.caloriesBurnedGoal || 0
+  const caloriesValue = workoutsData?.progress?.calories || 0
+
+  const caloriesProgress =
+    caloriesBurnedGoal > 0 ? (caloriesValue / caloriesBurnedGoal) * 100 : 0
+
+  const caloriesData = {
+    label: "Calories",
+    value: workoutsData?.progress?.calories || 0,
+    targetValue: caloriesBurnedGoal
+  }
+
+  const workoutData = [
+    {
+      label: "Thời gian",
+      value: workoutsData?.progress?.duration || 0,
+      targetValue: goalData?.workoutDurationGoal || 0
+    },
+    {
+      label: "Calo",
+      value: workoutsData?.progress?.calories || 0,
+      targetValue: goalData?.caloriesBurnedGoal || 0
+    },
+    {
+      label: "Bước chân",
+      value: workoutsData?.progress?.steps || 0,
+      targetValue: goalData?.stepsGoal || 0
+    }
+  ]
 
   const handleViewWorkout = (workoutId: string) => {
     console.log(workoutId)
   }
 
-  const caloriesProgress =
-    caloriesGoal > 0 ? (caloriesValue / caloriesGoal) * 100 : 0
-
-  const caloriesData = {
-    label: "Calories",
-    value: dataWorkout?.progress?.calories || 0,
-    targetValue: caloriesGoal
-  }
-
-  const progressData = [
-    {
-      label: "Thời gian",
-      value: dataWorkout?.progress?.duration || 0,
-      targetValue: dataGoal?.exerciseDurationGoal || 0
-    },
-    {
-      label: "Bước chân",
-      value: dataWorkout?.progress?.steps || 0,
-      targetValue: dataGoal?.stepsGoal || 0
-    },
-    {
-      label: "Calo",
-      value: dataWorkout?.progress?.calories || 0,
-      targetValue: dataGoal?.exerciseCaloriesGoal || 0
+  useEffect(() => {
+    if (onOverlayLoading) {
+      onOverlayLoading(isFetching > 0 || isMutating > 0)
     }
-  ]
+  }, [isFetching, isMutating, onOverlayLoading])
+
+  const handleViewWorkouts = () => router.push("/categories/Exercise")
 
   return (
     <View className="mt-6 h-full">
       <LoadingOverlay visible={isFetching > 0 || isMutating > 0} />
 
       <HStack center className="justify-between">
-        <ExerciseSummary progressData={progressData} />
-        <WorkoutProgress
-          calorieData={caloriesData}
-          progressData={progressData}
-        />
+        <WorkoutSummary workoutData={workoutData} />
+        <WorkoutProgress calorieData={caloriesData} workoutData={workoutData} />
       </HStack>
 
       <Progress
@@ -91,20 +105,19 @@ export const WorkoutTab = ({ onLoading }: WorkoutTabProps) => {
         onPress={handleViewWorkouts}
       />
 
-      <Content>
-        {dataWorkout.items.map((item) => (
-          <View key={item.workoutId} className="mb-3">
-            <WorkoutCard
-              name={item.name}
-              image={item.image}
-              totalDuration={item.totalDuration}
-              totalCaloriesBurned={item.totalCaloriesBurned}
-              totalExercise={item.totalExercise}
-              onPress={() => handleViewWorkout(item.workoutId)}
-            />
-          </View>
+      <VStack gap={12}>
+        {workoutsData.items.map((item) => (
+          <WorkoutCard
+            key={item.workoutId}
+            name={item.name}
+            image={item.image}
+            totalDuration={item.totalDuration}
+            totalCaloriesBurned={item.totalCaloriesBurned}
+            totalExercise={item.totalExercise}
+            onPress={() => handleViewWorkout(item.workoutId)}
+          />
         ))}
-      </Content>
+      </VStack>
     </View>
   )
 }

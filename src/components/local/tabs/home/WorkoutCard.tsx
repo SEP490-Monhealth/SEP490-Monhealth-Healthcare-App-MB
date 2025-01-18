@@ -4,7 +4,7 @@ import { Text, View } from "react-native"
 
 import { HStack } from "@/components/global/atoms"
 
-import { getUnitByLabel } from "@/utils/helpers"
+import { getWorkoutUnit } from "@/utils/helpers"
 
 interface WorkoutCardProps {
   label: string
@@ -19,17 +19,14 @@ export const WorkoutCard = ({
   targetValue,
   color
 }: WorkoutCardProps) => {
-  const unit = getUnitByLabel(label)
+  const unit = getWorkoutUnit(label)
+
   return (
     <View>
       <HStack gap={6} center>
         <View
           className="rounded-full"
-          style={{
-            width: 10,
-            height: 10,
-            backgroundColor: color
-          }}
+          style={{ width: 10, height: 10, backgroundColor: color }}
         />
         <Text className="font-tmedium text-base leading-4 text-accent">
           {label}
@@ -37,7 +34,7 @@ export const WorkoutCard = ({
       </HStack>
 
       <Text className="font-tbold text-sm text-primary">
-        {value} / {targetValue} {unit}
+        {value}/{targetValue} {unit}
       </Text>
     </View>
   )

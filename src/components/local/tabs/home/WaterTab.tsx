@@ -14,11 +14,11 @@ import { COLORS } from "@/constants/app"
 
 import { useAuth } from "@/contexts/AuthContext"
 
+import { useRouterHandlers } from "@/hooks/useRouter"
 import {
   useGetWaterReminderByUserId,
   useUpdateWaterReminderStatus
 } from "@/hooks/useWaterReminder"
-import { useRouterHandlers } from "@/hooks/useRouter"
 
 interface WaterTabProps {
   onLoading: (isLoading: boolean) => void

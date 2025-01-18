@@ -1,4 +1,3 @@
-import { ExerciseSummary } from "./ExerciseSummary"
 import { HomeHeader } from "./HomeHeader"
 import { MealTab } from "./MealTab"
 import { NutritionCard } from "./NutritionCard"
@@ -7,10 +6,11 @@ import { NutritionSummary } from "./NutritionSummary"
 import { WaterTab } from "./WaterTab"
 import { WorkoutCard } from "./WorkoutCard"
 import { WorkoutProgress } from "./WorkoutProgress"
+import { WorkoutSummary } from "./WorkoutSummary"
 import { WorkoutTab } from "./WorkoutTab"
 
 export {
-  ExerciseSummary,
+  WorkoutSummary,
   HomeHeader,
   MealTab,
   NutritionCard,

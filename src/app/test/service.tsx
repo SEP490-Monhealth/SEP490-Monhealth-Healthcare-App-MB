@@ -98,7 +98,7 @@ function ServiceScreen() {
                 keyboardType="numeric"
                 endIcon={
                   <Text className="font-tregular text-sm text-accent">
-                    VND / giờ
+                    VND/giờ
                   </Text>
                 }
                 canClearText

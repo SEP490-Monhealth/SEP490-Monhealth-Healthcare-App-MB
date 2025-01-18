@@ -2,7 +2,7 @@ import React, { useState } from "react"
 
 import { FlatList, View } from "react-native"
 
-import { useLocalSearchParams } from "expo-router"
+import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { SearchNormal1 } from "iconsax-react-native"
 
@@ -17,14 +17,12 @@ import {
 import { COLORS } from "@/constants/app"
 import { sampleCategoriesData } from "@/constants/categories"
 
-import { useRouterHandlers } from "@/hooks/useRouter"
-
 function CategoriesScreen() {
+  const router = useRouter()
+
   const { categoryType } = useLocalSearchParams() as {
     categoryType: string
   }
-
-  const { handleViewCategory } = useRouterHandlers()
 
   const categoriesData = sampleCategoriesData
   const filteredCategoriesData = categoriesData.filter(
@@ -38,6 +36,8 @@ function CategoriesScreen() {
     setIsRefreshing(true)
     setIsRefreshing(false)
   }
+
+  const handleViewWorkouts = () => router.push("/categories/Exercise")
 
   return (
     <Container>
@@ -60,13 +60,13 @@ function CategoriesScreen() {
           onRefresh={onRefresh}
           refreshing={isRefreshing}
           showsVerticalScrollIndicator={false}
-          ListHeaderComponent={<ListHeader />}
+          ListHeaderComponent={<ListHeader className="pt-4" />}
           renderItem={({ item }) => (
             <CategoryCard
               key={item.categoryId}
               name={item.name}
               image={item.image}
-              onPress={() => handleViewCategory(item.categoryId)}
+              onPress={() => handleViewWorkouts}
             />
           )}
           ListFooterComponent={<ListFooter />}

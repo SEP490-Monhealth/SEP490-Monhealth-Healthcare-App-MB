@@ -16,7 +16,7 @@ interface CategoryCardProps {
 export const CategoryCard = ({
   name,
   image,
-  durationRanger = "7 - 15",
+  durationRanger = "7-15",
   totalExercises = 30,
   totalCaloriesBurned = 10,
   onPress
@@ -35,7 +35,7 @@ export const CategoryCard = ({
           <VStack gap={0} className="ml-1">
             <Text className="font-tmedium text-lg text-primary">{name}</Text>
             <Text className="font-tmedium text-sm text-accent">
-              {durationRanger} phút • {totalExercises} bài tập ~{" "}
+              {durationRanger} phút • {totalExercises} bài tập •{" "}
               {totalCaloriesBurned} kcal/phút
             </Text>
           </VStack>
