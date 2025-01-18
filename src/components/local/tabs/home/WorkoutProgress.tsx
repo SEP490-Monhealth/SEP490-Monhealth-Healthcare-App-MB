@@ -16,19 +16,19 @@ export interface WorkoutProps {
 
 interface WorkoutProgressProps {
   calorieData: WorkoutProps
-  workoutData: WorkoutProps[]
+  workoutsData: WorkoutProps[]
 }
 
 export const WorkoutProgress = ({
   calorieData,
-  workoutData
+  workoutsData
 }: WorkoutProgressProps) => {
   return (
     <View
       className="relative items-center justify-center"
       style={{ width: 240, height: 240 }}
     >
-      {workoutData.map((workout, index) => {
+      {workoutsData.map((workout, index) => {
         const fill =
           workout.targetValue > 0
             ? (workout.value / workout.targetValue) * 100

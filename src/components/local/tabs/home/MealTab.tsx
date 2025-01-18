@@ -164,7 +164,7 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
     }
   ]
 
-  const caloriesProgress =
+  const dailyCaloriesIntakeProgress =
     caloriesGoal > 0 ? (caloriesValue / caloriesGoal) * 100 : 0
 
   const handleViewFoods = () => router.push("/foods")
@@ -182,9 +182,9 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
 
       <Progress
         height={8}
-        progress={caloriesProgress}
+        progress={dailyCaloriesIntakeProgress}
         labelStart="Mục tiêu hằng ngày"
-        labelEnd={`${toFixed(caloriesProgress, 0)}%`}
+        labelEnd={`${toFixed(dailyCaloriesIntakeProgress, 0)}%`}
         className="mt-8"
       />
 

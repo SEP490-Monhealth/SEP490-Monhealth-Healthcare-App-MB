@@ -14,13 +14,13 @@ export interface WorkoutProps {
 }
 
 interface WorkoutSummaryProps {
-  workoutData: WorkoutProps[]
+  workoutsData: WorkoutProps[]
 }
 
-export const WorkoutSummary = ({ workoutData }: WorkoutSummaryProps) => {
+export const WorkoutSummary = ({ workoutsData }: WorkoutSummaryProps) => {
   return (
     <VStack gap={12}>
-      {workoutData.map((exercise, index) => (
+      {workoutsData.map((exercise, index) => (
         <WorkoutCard
           key={index}
           label={exercise.label}
