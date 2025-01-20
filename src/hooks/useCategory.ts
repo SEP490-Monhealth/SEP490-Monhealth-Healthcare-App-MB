@@ -4,16 +4,16 @@ import { useError } from "@/contexts/ErrorContext"
 
 import { CategoryType } from "@/schemas/categorySchema"
 
-import { getAllCategoriesByType } from "@/services/categoryService"
+import { getCategoriesByTypes } from "@/services/categoryService"
 
-export const useGetAllCategoriesByType = () => {
+export const useGetCategoriesByType = (type: "Food" | "Exercise") => {
   const handleError = useError()
 
   return useQuery<CategoryType[], Error>({
-    queryKey: ["categories"],
+    queryKey: ["categories", type],
     queryFn: async () => {
       try {
-        return await getAllCategoriesByType()
+        return await getCategoriesByTypes(type)
       } catch (error) {
         handleError(error)
         throw error

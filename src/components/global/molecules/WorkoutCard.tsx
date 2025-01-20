@@ -27,12 +27,12 @@ export const WorkoutCard = ({
         <HStack gap={12} center onPress={onPress}>
           <TouchableOpacity
             activeOpacity={1}
-            className="flex h-16 w-16 items-center justify-center rounded-full bg-muted"
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-muted"
           >
-            <Image source={image} style={{ width: 36, height: 36 }} />
+            <Image source={image} style={{ width: 24, height: 24 }} />
           </TouchableOpacity>
 
-          <VStack gap={0} className="ml-1">
+          <VStack gap={0}>
             <Text className="font-tmedium text-lg text-primary">{name}</Text>
             <Text className="font-tmedium text-sm text-accent">
               {totalDuration} phút • {totalExercise} bài tập •{" "}

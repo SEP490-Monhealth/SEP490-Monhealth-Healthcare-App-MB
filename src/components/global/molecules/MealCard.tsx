@@ -1,7 +1,6 @@
 import React from "react"
 
 import { Image, Text, TouchableOpacity } from "react-native"
-import { View } from "react-native"
 
 import { ChevronRight } from "lucide-react-native"
 
@@ -10,7 +9,7 @@ import { COLORS } from "@/constants/app"
 import { toFixed } from "@/utils/formatters"
 import { getMealTypeImage, getMealTypeName } from "@/utils/helpers"
 
-import { Card, HStack, Progress } from "../atoms"
+import { Card, HStack, Progress, VStack } from "../atoms"
 
 interface MealCardProps {
   type: "Breakfast" | "Lunch" | "Dinner" | "Snack"
@@ -41,15 +40,11 @@ export const MealCard = ({
           <Image
             testID="test-meal-image"
             source={getMealTypeImage(type)}
-            style={{
-              width: 24,
-              height: 24,
-              resizeMode: "cover"
-            }}
+            style={{ width: 24, height: 24 }}
           />
         </TouchableOpacity>
 
-        <View>
+        <VStack gap={0}>
           <Text className="font-tmedium text-lg text-primary">
             {getMealTypeName(type)}
           </Text>
@@ -65,7 +60,7 @@ export const MealCard = ({
           <Text className="font-tmedium text-sm text-accent">
             {totalFoods} món ăn • {toFixed(totalCalories, 0)} kcal
           </Text>
-        </View>
+        </VStack>
       </HStack>
 
       {!progress && (

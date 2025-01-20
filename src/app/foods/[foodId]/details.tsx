@@ -165,7 +165,7 @@ function FoodDetailsScreen() {
       ]
     }
 
-    console.log(JSON.stringify(mealData, null, 2))
+    // console.log(JSON.stringify(mealData, null, 2))
 
     addMeal(mealData)
   }

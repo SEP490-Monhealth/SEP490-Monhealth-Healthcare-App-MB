@@ -22,7 +22,7 @@ export const sampleDailyMealsData = [
       sugar: 29.9
     },
 
-    meals: [
+    items: [
       {
         mealId: "1",
         type: "Breakfast",
@@ -58,8 +58,6 @@ export const sampleDailyMealsData = [
     ],
 
     createdAt: "2025-01-06T00:00:00Z",
-    updatedAt: "2025-01-06T00:00:00Z",
-    createdBy: "asd",
-    updatedBy: "asd"
+    updatedAt: "2025-01-06T00:00:00Z"
   }
 ]

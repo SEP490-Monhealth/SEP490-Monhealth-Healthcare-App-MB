@@ -88,7 +88,7 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
 
   const mealsData = dailyMealData?.items || []
 
-  const defaultMeals = [
+  const defaultMealsData = [
     {
       mealId: "default-breakfast",
       type: "Breakfast",
@@ -119,7 +119,7 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
     }
   ]
 
-  const mergedMealsData = defaultMeals.map((defaultMeal) => {
+  const mergedMealsData = defaultMealsData.map((defaultMeal) => {
     const existingMeal = mealsData.find(
       (meal) => meal.type === defaultMeal.type
     )
@@ -163,7 +163,7 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
       targetValue: nutritionGoalData?.sugarGoal || 0
     }
   ]
-
+ 
   const dailyCaloriesIntakeProgress =
     caloriesGoal > 0 ? (caloriesValue / caloriesGoal) * 100 : 0
 

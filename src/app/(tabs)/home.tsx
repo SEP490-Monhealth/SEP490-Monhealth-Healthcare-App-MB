@@ -84,7 +84,10 @@ function HomeScreen() {
             </TabsContent>
 
             <TabsContent value="workout">
-              <WorkoutTab onLoading={setLoading} />
+              <WorkoutTab
+                onLoading={setLoading}
+                onOverlayLoading={setOverlayLoading}
+              />
             </TabsContent>
           </Tabs>
         </Content>

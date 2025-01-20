@@ -104,7 +104,8 @@ function MealDetailsScreen() {
   const userId = user?.userId
 
   const { mealId } = useLocalSearchParams() as { mealId: string }
-  const date = formatDateYYYYMMDD(new Date())
+
+  const today = formatDateYYYYMMDD(new Date())
 
   const { mutate: updateMealFoodStatus } = useUpdateMealFoodStatus()
   const { mutate: updateMealFoodQuantity } = useUpdateMealFoodQuantity()
@@ -163,9 +164,9 @@ function MealDetailsScreen() {
     (mealFoodId: string) => {
       if (!userId) return
 
-      updateMealFoodStatus({ mealFoodId, mealId, userId, date })
+      updateMealFoodStatus({ mealFoodId, mealId, userId, today })
     },
-    [userId, mealId, date, updateMealFoodStatus]
+    [mealId, userId, today, updateMealFoodStatus]
   )
 
   const handleQuantityChange = useCallback(
@@ -182,18 +183,18 @@ function MealDetailsScreen() {
           quantity: currentFood.quantity + change,
           mealId,
           userId,
-          date
+          today
         })
       }
     },
-    [userId, mealFoodsData, mealId, date, updateMealFoodQuantity]
+    [userId, mealFoodsData, mealId, today, updateMealFoodQuantity]
   )
 
   const handleDeleteMealFood = useCallback(() => {
     if (!selectedMealFoodId || !userId) return
 
     updateMealFoodQuantity(
-      { mealFoodId: selectedMealFoodId, quantity: 0, mealId, userId, date },
+      { mealFoodId: selectedMealFoodId, quantity: 0, mealId, userId, today },
       {
         onSuccess: () => {
           setIsModalVisible(false)
@@ -206,7 +207,7 @@ function MealDetailsScreen() {
     selectedMealFoodId,
     userId,
     mealId,
-    date,
+    today,
     updateMealFoodQuantity,
     closeSheet
   ])

@@ -47,10 +47,10 @@ export const COLORS = {
   },
 
   WORKOUT: {
-    caloriesIntake: "#4ade80",
+    caloriesIntake: "#16a34a",
     caloriesBurned: "#ef4444",
     duration: "#f97316",
-    steps: "#60a5fa"
+    steps: "#3b82f6"
   },
 
   NOTIFICATIONS: {

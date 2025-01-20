@@ -22,7 +22,7 @@ import { COLORS } from "@/constants/app"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useGetAllCategoriesByType } from "@/hooks/useCategory"
+import { useGetCategoriesByType } from "@/hooks/useCategory"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useCreateMeal } from "@/hooks/useMeal"
 import { useRouterHandlers } from "@/hooks/useRouter"
@@ -59,7 +59,7 @@ function FoodsScreen() {
   const debouncedSelectedCategory: string = useDebounce(selectedCategory, 0)
 
   const { data: categoriesData, isLoading: isCategoriesLoading } =
-    useGetAllCategoriesByType()
+    useGetCategoriesByType("Food")
 
   const fetchFoods = async (
     newLimit: number,
