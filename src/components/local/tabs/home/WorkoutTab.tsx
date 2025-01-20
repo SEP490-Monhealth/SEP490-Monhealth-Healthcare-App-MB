@@ -98,15 +98,14 @@ export const WorkoutTab = ({
   }
 
   return (
-    <View className="mt-6 h-full">
-      <LoadingOverlay visible={isFetching > 0 || isMutating > 0} />
-
+    <View className="mt-4">
       <HStack center className="justify-between">
-        <WorkoutSummary workoutsData={workoutsData} />
         <WorkoutProgress
           calorieData={caloriesData}
           workoutsData={workoutsData}
         />
+
+        <WorkoutSummary workoutsData={workoutsData} />
       </HStack>
 
       <Progress

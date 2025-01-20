@@ -6,8 +6,8 @@ import { auditSchema, timestampSchema } from "./commonSchema"
 import { nutritionSchema } from "./nutritionSchema"
 import { portionSchema } from "./portionSchema"
 
-const mealTypes = ["Breakfast", "Lunch", "Dinner", "Snack"]
-const dishTypes = ["Main Dish", "Side Dish", "Dessert", "Drink", "Snack"]
+const meals = ["Breakfast", "Lunch", "Dinner", "Snack"]
+const dishes = ["Main Dish", "Side Dish", "Dessert", "Drink", "Snack"]
 
 const foodAllergySchema = z
   .object({
@@ -32,12 +32,12 @@ const baseFoodSchema = z
 
     // foodType: z.string(),
     mealType: z.array(
-      z.string().refine((val) => mealTypes.includes(val), {
+      z.string().refine((val) => meals.includes(val), {
         message:
           "Loại bữa ăn không hợp lệ. Chỉ chấp nhận: Breakfast, Lunch, Dinner, Snack"
       })
     ),
-    dishType: z.string().refine((val) => dishTypes.includes(val), {
+    dishType: z.string().refine((val) => dishes.includes(val), {
       message:
         "Loại món ăn không hợp lệ. Chỉ chấp nhận: Main Dish, Side Dish, Dessert, Drink, Snack"
     }),

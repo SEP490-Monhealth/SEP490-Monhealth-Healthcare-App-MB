@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { Text } from "react-native"
+import { Text, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -14,7 +14,9 @@ import {
   Button,
   Container,
   Content,
+  HStack,
   Input,
+  Toggle,
   VStack
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
@@ -52,7 +54,8 @@ function WaterReminderCreateScreen() {
         hour: "2-digit",
         minute: "2-digit"
       }),
-      volume: 0
+      volume: 0,
+      isRecurring: false
     }
   })
 
@@ -132,6 +135,20 @@ function WaterReminderCreateScreen() {
                 />
               )}
             />
+
+            <HStack center className="px-1">
+              <Text className="flex-1 font-tregular text-lg text-secondary">
+                Lặp lại mỗi ngày
+              </Text>
+
+              <Controller
+                name="isRecurring"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Toggle value={value} onValueChange={onChange} />
+                )}
+              />
+            </HStack>
           </VStack>
 
           <Button size="lg" onPress={handleSubmit(onSubmit)}>

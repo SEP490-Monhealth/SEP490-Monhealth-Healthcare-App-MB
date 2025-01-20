@@ -109,7 +109,7 @@ export const useUpdateMealFoodQuantity = () => {
       quantity: number
       mealId: string
       userId: string
-      date: string
+      today: string
     }
   >({
     mutationFn: async ({ mealFoodId, quantity }) => {
@@ -127,12 +127,12 @@ export const useUpdateMealFoodQuantity = () => {
       //   queryClient.invalidateQueries({ queryKey: ["meals"] })
       // }
 
-      const { mealId, userId, date } = variables
+      const { mealId, userId, today } = variables
 
       queryClient.invalidateQueries({ queryKey: ["meals"] })
       queryClient.invalidateQueries({ queryKey: ["meal", mealId] })
       queryClient.invalidateQueries({ queryKey: ["mealFoods", mealId] })
-      queryClient.invalidateQueries({ queryKey: ["dailyMeal", userId, date] })
+      queryClient.invalidateQueries({ queryKey: ["dailyMeal", userId, today] })
     }
   })
 }
@@ -144,7 +144,7 @@ export const useUpdateMealFoodStatus = () => {
   return useMutation<
     string,
     Error,
-    { mealFoodId: string; mealId: string; userId: string; date: string }
+    { mealFoodId: string; mealId: string; userId: string; today: string }
   >({
     mutationFn: async ({ mealFoodId }) => {
       try {
@@ -155,12 +155,12 @@ export const useUpdateMealFoodStatus = () => {
       }
     },
     onSuccess: (_, variables) => {
-      const { mealId, userId, date } = variables
+      const { mealId, userId, today } = variables
 
       queryClient.invalidateQueries({ queryKey: ["meals"] })
       queryClient.invalidateQueries({ queryKey: ["meal", mealId] })
       queryClient.invalidateQueries({ queryKey: ["mealFoods", mealId] })
-      queryClient.invalidateQueries({ queryKey: ["dailyMeal", userId, date] })
+      queryClient.invalidateQueries({ queryKey: ["dailyMeal", userId, today] })
     }
   })
 }

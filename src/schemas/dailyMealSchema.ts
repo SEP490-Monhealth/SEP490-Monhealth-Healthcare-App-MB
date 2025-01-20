@@ -3,19 +3,16 @@ import { z } from "zod"
 import { timestampSchema } from "./commonSchema"
 import { nutritionSchema } from "./nutritionSchema"
 
+const meals = ["Breakfast", "Lunch", "Dinner", "Snack"]
+
 const mealFoodSchema = z
   .object({
     mealFoodId: z.string(),
 
-    type: z
-      .string()
-      .refine(
-        (val) => ["Breakfast", "Lunch", "Dinner", "Snack"].includes(val),
-        {
-          message:
-            "Loại bữa ăn không hợp lệ. Chỉ chấp nhận: Breakfast, Lunch, Dinner, Snack"
-        }
-      ),
+    type: z.string().refine((val) => meals.includes(val), {
+      message:
+        "Loại bữa ăn không hợp lệ. Chỉ chấp nhận: Breakfast, Lunch, Dinner, Snack"
+    }),
 
     totalFoods: z.number(),
 

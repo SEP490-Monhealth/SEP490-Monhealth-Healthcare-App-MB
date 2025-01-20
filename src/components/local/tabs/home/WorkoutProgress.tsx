@@ -37,7 +37,7 @@ export const WorkoutProgress = ({
         return (
           <View key={index} className="absolute items-center">
             <CircularProgress
-              size={240 - index * 30}
+              size={232 - index * 30}
               width={6}
               fill={fill}
               tintColor={getWorkoutColor(workout.label)}
