@@ -2,14 +2,14 @@ import axios from "axios"
 
 import monAPI from "@/lib/monAPI"
 
-import { DailyMealType } from "@/schemas/dailyMealSchema"
+import { DailyWaterIntakeType } from "@/schemas/dailyWaterIntakeSchema"
 
-export const getDailyMealsByUserId = async (
+export const getDailyWaterIntakesByUserId = async (
   userId: string | undefined,
   date: string
-): Promise<DailyMealType> => {
+): Promise<DailyWaterIntakeType> => {
   try {
-    const response = await monAPI.get(`/daily-meals/user`, {
+    const response = await monAPI.get(`/daily-water-intakes/user`, {
       params: { userId, date }
     })
 
@@ -24,11 +24,11 @@ export const getDailyMealsByUserId = async (
     const { success, message, data } = response.data
 
     if (success) {
-      return data as DailyMealType
+      return data as DailyWaterIntakeType
     } else {
       throw {
         isCustomError: true,
-        message: message || "Không thể lấy danh sách bữa ăn"
+        message: message || "Không thể lấy danh sách nước uống"
       }
     }
   } catch (error: any) {

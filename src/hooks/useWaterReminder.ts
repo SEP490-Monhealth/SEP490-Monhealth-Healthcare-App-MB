@@ -15,6 +15,7 @@ import {
   getWaterReminderById,
   getWaterRemindersByUserId,
   updateWaterReminder,
+  updateWaterReminderDrunk,
   updateWaterReminderStatus
 } from "@/services/waterReminderService"
 
@@ -141,6 +142,34 @@ export const useUpdateWaterReminderStatus = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["waterReminders"] })
+    }
+  })
+}
+
+export const useUpdateWaterReminderDrunk = () => {
+  const queryClient = useQueryClient()
+  const handleError = useError()
+
+  return useMutation<
+    string,
+    Error,
+    { waterReminderId: string; userId: string; today: string }
+  >({
+    mutationFn: async ({ waterReminderId }) => {
+      try {
+        return await updateWaterReminderDrunk(waterReminderId)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    onSuccess: (_, variables) => {
+      const { userId, today } = variables
+
+      queryClient.invalidateQueries({ queryKey: ["waterReminders"] })
+      queryClient.invalidateQueries({
+        queryKey: ["dailyWaterIntake", userId, today]
+      })
     }
   })
 }

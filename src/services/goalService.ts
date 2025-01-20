@@ -165,7 +165,7 @@ export const getWaterIntakeGoalByUserId = async (
   userId: string | undefined
 ): Promise<WaterIntakeGoalType> => {
   try {
-    const response = await monAPI.get(`/goals/user/${userId}/water`)
+    const response = await monAPI.get(`/goals/user/${userId}/water-intake`)
 
     if (!response || !response.data) {
       throw {

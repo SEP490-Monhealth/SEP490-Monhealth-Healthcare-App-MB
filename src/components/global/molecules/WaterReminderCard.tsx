@@ -16,7 +16,7 @@ interface WaterReminderCardProps {
   name?: string
   time: string
   volume: number
-  status: boolean
+  isDrunk: boolean
   onPress?: () => void
   onCheckboxChange?: (value: boolean) => void
   onSwitchChange?: (value: boolean) => void
@@ -28,7 +28,7 @@ export const WaterReminderCard = ({
   name,
   time,
   volume,
-  status,
+  isDrunk,
   onPress,
   onCheckboxChange,
   onSwitchChange,
@@ -36,9 +36,9 @@ export const WaterReminderCard = ({
 }: WaterReminderCardProps) => {
   const handlePress = () => {
     if (variant === "switch" && onSwitchChange) {
-      onSwitchChange(!status)
+      onSwitchChange(!isDrunk)
     } else if (variant === "checkbox" && onCheckboxChange) {
-      onCheckboxChange(!status)
+      onCheckboxChange(!isDrunk)
     }
   }
 
@@ -65,11 +65,11 @@ export const WaterReminderCard = ({
         </HStack>
 
         {variant === "switch" ? (
-          <Toggle value={status} onValueChange={onSwitchChange ?? (() => {})} />
+          <Toggle value={isDrunk} onValueChange={onSwitchChange ?? (() => {})} />
         ) : variant === "checkbox" ? (
           <Checkbox
             size={20}
-            checked={status}
+            checked={isDrunk}
             onCheckChange={onCheckboxChange}
           />
         ) : (

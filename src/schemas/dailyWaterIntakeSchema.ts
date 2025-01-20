@@ -14,4 +14,4 @@ export const dailyWaterIntakeSchema = z
   })
   .merge(timestampSchema)
 
-export type DailyMealType = z.infer<typeof dailyWaterIntakeSchema>
+export type DailyWaterIntakeType = z.infer<typeof dailyWaterIntakeSchema>

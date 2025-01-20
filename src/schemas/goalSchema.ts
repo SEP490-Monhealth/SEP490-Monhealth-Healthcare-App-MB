@@ -2,14 +2,14 @@ import { z } from "zod"
 
 import { timestampSchema } from "./commonSchema"
 
-const goalTypes = ["WeightLoss", "MaintainWeight", "WeightGain"] as const
+const goals = ["WeightLoss", "MaintainWeight", "WeightGain"]
 
 const baseGoalSchema = z
   .object({
     goalId: z.string(),
     userId: z.string(),
 
-    type: z.string().refine((val) => goalTypes.includes(val), {
+    type: z.string().refine((val) => goals.includes(val), {
       message:
         "Mục tiêu phải là một trong các giá trị: Giảm cân, Duy trì cân nặng, Tăng cân"
     }),
