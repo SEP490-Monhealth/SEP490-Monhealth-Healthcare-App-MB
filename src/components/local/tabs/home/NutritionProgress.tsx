@@ -23,13 +23,16 @@ export const NutritionProgress = ({
   calorieData,
   nutritionData
 }: NutritionProgressProps) => {
+  const caloriesValue = toFixed(calorieData.value, 0)
+  const caloriesGoal = toFixed(calorieData.targetValue, 0)
+
   return (
     <View
       className="relative items-center justify-center"
       style={{ width: 240, height: 240 }}
     >
       {nutritionData.map((nutrient, index) => {
-        const fill =
+        const progress =
           nutrient.targetValue > 0
             ? (nutrient.value / nutrient.targetValue) * 100
             : 0
@@ -39,7 +42,7 @@ export const NutritionProgress = ({
             <CircularProgress
               size={240 - index * 30}
               width={6}
-              fill={fill}
+              fill={progress}
               tintColor={getNutritionColor(nutrient.label)}
             />
           </View>
@@ -54,13 +57,11 @@ export const NutritionProgress = ({
         />
 
         <Text className="-mb-2 font-tbold text-base text-primary">
-          {calorieData
-            ? `${toFixed(calorieData.value, 0)} / ${toFixed(calorieData.targetValue, 0)}`
-            : "0 / 0"}
+          {caloriesValue} / {caloriesGoal}
         </Text>
 
         <Text className="font-tmedium text-sm text-accent">
-          {calorieData.label === "Calories" && "Kcal"}
+          {calorieData.label === "Calories" && "kcal"}
         </Text>
       </VStack>
     </View>

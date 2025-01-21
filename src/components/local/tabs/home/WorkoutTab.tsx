@@ -48,10 +48,10 @@ export const WorkoutTab = ({
     stepsGoal: 1300
   }
 
-  const caloriesBurnedGoal = workoutGoalData?.caloriesBurnedGoal || 0
   const caloriesBurnedValue = workoutData?.progress?.caloriesBurned || 0
+  const caloriesBurnedGoal = workoutGoalData?.caloriesBurnedGoal || 0
 
-  const caloriesData = {
+  const caloriesBurnedData = {
     label: "Calories",
     value: workoutData?.progress?.caloriesBurned || 0,
     targetValue: caloriesBurnedGoal
@@ -62,11 +62,6 @@ export const WorkoutTab = ({
       label: "Đã nạp",
       value: workoutData?.progress?.caloriesBurned || 0,
       targetValue: workoutGoalData?.caloriesIntakeGoal || 0
-    },
-    {
-      label: "Đã đốt",
-      value: workoutData?.progress?.caloriesBurned || 0,
-      targetValue: workoutGoalData?.caloriesBurnedGoal || 0
     },
     {
       label: "Thời gian",
@@ -93,15 +88,13 @@ export const WorkoutTab = ({
 
   const handleViewWorkouts = () => router.push("/categories/Exercise")
 
-  const handleViewWorkout = (workoutId: string) => {
-    console.log(workoutId)
-  }
+  const handleViewWorkout = (workoutId: string) => console.log(workoutId)
 
   return (
     <View className="mt-4">
       <HStack center className="justify-between">
         <WorkoutProgress
-          calorieData={caloriesData}
+          calorieData={caloriesBurnedData}
           workoutsData={workoutsData}
         />
 

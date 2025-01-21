@@ -6,11 +6,9 @@ import { useRouter } from "expo-router"
 
 import { useIsFetching, useIsMutating } from "@tanstack/react-query"
 
-import { VStack } from "@/components/global/atoms"
-import { ArcProgress, WaterReminderCard } from "@/components/global/molecules"
+import { HStack, VStack } from "@/components/global/atoms"
+import { WaterReminderCard } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
-
-import { COLORS } from "@/constants/app"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -23,6 +21,8 @@ import {
 } from "@/hooks/useWaterReminder"
 
 import { formatDateYYYYMMDD } from "@/utils/formatters"
+
+import { WaterIntakeProgress } from "./WaterIntakeProgress"
 
 interface WaterTabProps {
   onLoading: (isLoading: boolean) => void
@@ -49,12 +49,13 @@ export const WaterTab = ({ onLoading, onOverlayLoading }: WaterTabProps) => {
 
   const { mutate: updateWaterReminderDrunk } = useUpdateWaterReminderDrunk()
 
-  const waterIntakeGoal = waterIntakeGoalData?.waterIntakesGoal || 0
+  const waterIntakesValue = dailyWaterIntakeData?.volume || 0
+  const waterIntakesGoal = waterIntakeGoalData?.waterIntakesGoal || 0
 
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()
 
-  const prefillReady = isFetching === 0 && isMutating === 0
+  // const prefillReady = isFetching === 0 && isMutating === 0
 
   useEffect(() => {
     if (onLoading) {
@@ -83,10 +84,8 @@ export const WaterTab = ({ onLoading, onOverlayLoading }: WaterTabProps) => {
     }
   }, [isFetching, isMutating, onOverlayLoading])
 
-  const dailyWaterIntakeProgress =
-    dailyWaterIntakeData?.volume && waterIntakeGoal > 0
-      ? (dailyWaterIntakeData?.volume / waterIntakeGoal) * 100
-      : 0
+  // const dailyWaterIntakeProgress =
+  //   waterIntakesGoal > 0 ? (waterIntakesValue / waterIntakesGoal) * 100 : 0
 
   const handleUpdateWaterReminder = () => router.push("/water-reminders")
 
@@ -99,9 +98,19 @@ export const WaterTab = ({ onLoading, onOverlayLoading }: WaterTabProps) => {
     [updateWaterReminderDrunk]
   )
 
+  const data = {
+    label: "Water",
+    value: waterIntakesValue,
+    targetValue: waterIntakesGoal
+  }
+
   return (
     <View className="mt-6 h-full">
-      <ArcProgress
+      <HStack className="justify-center">
+        <WaterIntakeProgress waterIntakeData={data} />
+      </HStack>
+
+      {/* <ArcProgress
         size={240}
         width={14}
         fill={dailyWaterIntakeProgress}
@@ -111,15 +120,15 @@ export const WaterTab = ({ onLoading, onOverlayLoading }: WaterTabProps) => {
         rotation={230}
         centerCircle
         value={dailyWaterIntakeData?.volume || 0}
-        maxValue={waterIntakeGoal}
+        maxValue={waterIntakesGoal}
         label="ml"
-      />
+      /> */}
 
       <Section
         label="Nhắc nhở mỗi ngày"
-        margin={false}
         action="Chỉnh sửa"
         onPress={handleUpdateWaterReminder}
+        className="mt-8"
       />
 
       <VStack gap={12}>
