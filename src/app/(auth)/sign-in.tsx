@@ -2,7 +2,7 @@ import React, { useState } from "react"
 
 import { Text, TouchableOpacity, View } from "react-native"
 
-import { useRouter } from "expo-router"
+import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowLeft, Eye, EyeSlash, Lock1, Sms } from "iconsax-react-native"
@@ -25,7 +25,25 @@ import { LoginType, loginSchema } from "@/schemas/userSchema"
 
 function SignInScreen() {
   const router = useRouter()
+  const { userType = "user" } = useLocalSearchParams() as {
+    userType: "user" | "consultant"
+  }
+
   const { login } = useAuth()
+
+  const signInData: { [key: string]: { title: string; description: string } } =
+    {
+      user: {
+        title: "Đăng nhập",
+        description: "Đăng nhập để tiếp tục theo dõi sức khỏe của bạn"
+      },
+      consultant: {
+        title: "Đăng nhập",
+        description: "Đăng nhập để hỗ trợ người dùng theo dõi sức khỏe"
+      }
+    }
+
+  const { title, description } = signInData[userType] || signInData.user
 
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -44,7 +62,7 @@ function SignInScreen() {
 
   const handleBack = () => router.back()
 
-  const handleSignUp = () => router.push("/(auth)/sign-up")
+  const handleSignUp = () => router.push(`/(auth)/sign-up?userType=${userType}`)
 
   const handleForgotPassword = () => router.push("/(auth)/forgot-password")
 
@@ -72,10 +90,10 @@ function SignInScreen() {
 
           <View>
             <Text className="mb-2 font-tbold text-4xl text-primary">
-              Đăng Nhập
+              {title}
             </Text>
             <Text className="font-tregular text-xl text-accent">
-              Đăng nhập để tiếp tục theo dõi sức khỏe của bạn
+              {description}
             </Text>
 
             <VStack gap={12} className="mt-8">

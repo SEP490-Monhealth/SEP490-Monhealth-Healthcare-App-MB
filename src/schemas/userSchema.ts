@@ -73,16 +73,6 @@ export const passwordSchema = baseUserSchema.pick({
   password: true
 })
 
-export const resetPasswordSchema = z
-  .object({
-    password: passwordSchema.shape.password,
-    confirmPassword: passwordSchema.shape.password
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Mật khẩu mới và xác nhận mật khẩu không khớp",
-    path: ["confirmPassword"]
-  })
-
 export const updatePasswordSchema = z
   .object({
     oldPassword: passwordSchema.shape.password,
@@ -106,6 +96,16 @@ export const registerSchema = baseUserSchema.pick({
   password: true
 })
 
+export const resetPasswordSchema = z
+  .object({
+    password: passwordSchema.shape.password,
+    confirmPassword: passwordSchema.shape.password
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Mật khẩu mới và xác nhận mật khẩu không khớp",
+    path: ["confirmPassword"]
+  })
+
 export const otpSchema = z.object({
   otp: z
     .string()
@@ -119,8 +119,8 @@ export type UserType = z.infer<typeof userSchema>
 export type CreateUserType = z.infer<typeof createUpdateUserSchema>
 export type PhoneNumberType = z.infer<typeof phoneNumberSchema>
 export type PasswordType = z.infer<typeof passwordSchema>
-export type ResetPasswordType = z.infer<typeof resetPasswordSchema>
 export type UpdatePasswordType = z.infer<typeof updatePasswordSchema>
 export type LoginType = z.infer<typeof loginSchema>
 export type RegisterType = z.infer<typeof registerSchema>
+export type ResetPasswordType = z.infer<typeof resetPasswordSchema>
 export type OtpVerificationType = z.infer<typeof otpSchema>

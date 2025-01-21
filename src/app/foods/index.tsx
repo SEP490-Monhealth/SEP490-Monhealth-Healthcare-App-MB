@@ -111,11 +111,11 @@ function FoodsScreen() {
   useEffect(() => {
     fetchFoods(limit, debouncedSearchQuery, debouncedSelectedCategory)
 
-    const timeout = setTimeout(() => {
-      setIsLoading(false)
-    }, 1000)
+    // const timeout = setTimeout(() => {
+    setIsLoading(false)
+    // }, 1000)
 
-    return () => clearTimeout(timeout)
+    // return () => clearTimeout(timeout)
   }, [debouncedSearchQuery, debouncedSelectedCategory])
 
   useEffect(() => {
@@ -145,7 +145,7 @@ function FoodsScreen() {
       ]
     }
 
-    console.log(JSON.stringify(mealData, null, 2))
+    // console.log(JSON.stringify(mealData, null, 2))
 
     addMeal(mealData, {
       onSuccess: () => {
@@ -180,7 +180,7 @@ function FoodsScreen() {
     )
   }, [categoriesData, selectedCategory])
 
-  if (isLoading || (isCategoriesLoading && !categoriesData)) {
+  if (!categoriesData || isCategoriesLoading || !foods || isLoading) {
     return <LoadingScreen />
   }
 

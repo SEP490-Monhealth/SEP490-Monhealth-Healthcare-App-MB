@@ -2,7 +2,7 @@ import React, { useState } from "react"
 
 import { Text, TouchableOpacity, View } from "react-native"
 
-import { useRouter } from "expo-router"
+import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
@@ -33,7 +33,25 @@ import { RegisterType, registerSchema } from "@/schemas/userSchema"
 
 function SignUpScreen() {
   const router = useRouter()
+  const { userType = "user" } = useLocalSearchParams() as {
+    userType: "user" | "consultant"
+  }
+
   const { register } = useAuth()
+
+  const signUpData: { [key: string]: { title: string; description: string } } =
+    {
+      user: {
+        title: "Đăng Ký",
+        description: "Đăng ký để theo dõi sức khỏe và dinh dưỡng hàng ngày"
+      },
+      consultant: {
+        title: "Đăng Ký",
+        description: "Đăng ký để hỗ trợ người dùng theo dõi sức khỏe"
+      }
+    }
+
+  const { title, description } = signUpData[userType] || signUpData.user
 
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -61,14 +79,18 @@ function SignUpScreen() {
     // console.log(registerData)
 
     try {
-      await register(
-        registerData.fullName,
-        registerData.phoneNumber,
-        registerData.email,
-        registerData.password
-      )
-
-      router.replace("/(setup)")
+      if (userType === "user") {
+        await register(
+          registerData.fullName,
+          registerData.phoneNumber,
+          registerData.email,
+          registerData.password
+        )
+        
+        router.replace("/(setup)")
+      } else {
+        console.log("Đăng ký chuyên viên tư vấn")
+      }
     } catch (error: any) {
       console.log("Lỗi khi đăng ký:", error.response?.data || error.message)
     } finally {
@@ -89,10 +111,10 @@ function SignUpScreen() {
 
           <View>
             <Text className="mb-2 font-tbold text-4xl text-primary">
-              Đăng Ký
+              {title}
             </Text>
             <Text className="font-tregular text-xl text-accent">
-              Đăng ký để theo dõi sức khỏe và dinh dưỡng hàng ngày
+              {description}
             </Text>
 
             <VStack gap={12} className="mt-8">
