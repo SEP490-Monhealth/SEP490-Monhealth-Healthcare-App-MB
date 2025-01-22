@@ -1,42 +1,54 @@
 import { create } from "zustand"
 
+interface ImageType {
+  uri: string
+  fileName: string
+  uploading: boolean
+  deleting?: boolean
+  progress: number
+}
+
 interface setupConsultantStoreProps {
-  fullName: string
-  phoneNumber: string
-  email: string
-  password: string
-  certificateName: string
+  expertise: string
+  name: string
   issueDate: string
   expiryDate: string
-  images: string[]
-  updateField: (field: string, value: any) => void
+  images: ImageType[]
+  updateField: (field: string, value: any, append?: boolean) => void
   reset: () => void
 }
 
 export const useConsultantSetupStore = create<setupConsultantStoreProps>(
   (set) => ({
-    fullName: "Van Huu Toan",
-    phoneNumber: "0792766979",
-    email: "toanvhse171981@fpt.edu.vn",
-    password: "123As@",
-    certificateName: "",
+    expertise: "",
+    name: "",
     issueDate: "",
     expiryDate: "",
     images: [],
 
-    updateField: (key, value) =>
-      set((state) => ({
-        ...state,
-        [key]: value
-      })),
+    updateField: (key, value, append = false) =>
+      set((state) => {
+        if (key === "images") {
+          const updatedArray = append
+            ? [...state[key], ...value].filter((img) => img && img.uri)
+            : value.filter((img: ImageType) => img && img.uri)
+
+          return {
+            ...state,
+            [key]: updatedArray
+          }
+        }
+
+        return {
+          ...state,
+          [key]: value
+        }
+      }),
 
     reset: () =>
       set({
-        fullName: "",
-        phoneNumber: "",
-        email: "",
-        password: "",
-        certificateName: "",
+        expertise: "",
+        name: "",
         issueDate: "",
         expiryDate: "",
         images: []

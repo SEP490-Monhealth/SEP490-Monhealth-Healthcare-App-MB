@@ -160,9 +160,9 @@ function SetupScreen() {
 
   const {
     control,
-    handleSubmit,
     setValue,
     setError,
+    handleSubmit,
     formState: { errors }
   } = useForm({
     resolver: zodResolver(currentStepData.schema),

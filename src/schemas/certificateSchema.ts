@@ -15,6 +15,9 @@ const baseCertificateSchema = z
     certificateId: z.string(),
     userId: z.string(),
 
+    expertise: z
+      .string()
+      .nonempty({ message: "Chuyên môn không được để trống" }),
     name: z
       .string()
       .nonempty({ message: "Tên chứng chỉ không được để trống" })
@@ -23,9 +26,9 @@ const baseCertificateSchema = z
     expiryDate: z
       .string()
       .nonempty({ message: "Ngày hết hạn không được để trống" }),
-    images: z.array(
-      z.string().url({ message: "Đường dẫn hình ảnh không hợp lệ" })
-    ),
+    images: z
+      .array(z.string().nonempty("Đường dẫn hình ảnh không hợp lệ"))
+      .min(1, { message: "Cần ít nhất một hình ảnh" }),
 
     status: z.boolean()
   })
@@ -34,6 +37,7 @@ const baseCertificateSchema = z
 export const certificateSchema = baseCertificateSchema.pick({
   certificateId: true,
   userId: true,
+  expertise: true,
   name: true,
   issueDate: true,
   expiryDate: true,
@@ -42,6 +46,7 @@ export const certificateSchema = baseCertificateSchema.pick({
 
 export const createCertificateSchema = certificateSchema.pick({
   userId: true,
+  expertise: true,
   name: true,
   issueDate: true,
   expiryDate: true,
