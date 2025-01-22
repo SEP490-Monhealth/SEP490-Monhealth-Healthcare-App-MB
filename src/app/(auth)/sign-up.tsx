@@ -5,15 +5,7 @@ import { Text, TouchableOpacity, View } from "react-native"
 import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import {
-  ArrowLeft,
-  Call,
-  Eye,
-  EyeSlash,
-  Lock1,
-  Profile,
-  Sms
-} from "iconsax-react-native"
+import { Call, Eye, EyeSlash, Lock1, Profile, Sms } from "iconsax-react-native"
 import { Controller, useForm } from "react-hook-form"
 
 import {
@@ -23,7 +15,7 @@ import {
   Input,
   VStack
 } from "@/components/global/atoms"
-import { IconButton } from "@/components/global/molecules"
+import { Header } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/app"
 
@@ -70,8 +62,6 @@ function SignUpScreen() {
     }
   })
 
-  const handleBack = () => router.back()
-
   const handleSignIn = () => router.replace("/(auth)/sign-in")
 
   const onSubmit = async (registerData: RegisterType) => {
@@ -86,7 +76,7 @@ function SignUpScreen() {
           registerData.email,
           registerData.password
         )
-        
+
         router.replace("/(setup)")
       } else {
         console.log("Đăng ký chuyên viên tư vấn")
@@ -104,10 +94,7 @@ function SignUpScreen() {
     <Container>
       <Content className="mt-12">
         <VStack gap={64}>
-          <IconButton
-            icon={<ArrowLeft size={24} color={COLORS.primary} />}
-            onPress={handleBack}
-          />
+          <Header back />
 
           <View>
             <Text className="mb-2 font-tbold text-4xl text-primary">

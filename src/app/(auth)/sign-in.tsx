@@ -5,7 +5,7 @@ import { Text, TouchableOpacity, View } from "react-native"
 import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowLeft, Eye, EyeSlash, Lock1, Sms } from "iconsax-react-native"
+import { Eye, EyeSlash, Lock1, Sms } from "iconsax-react-native"
 import { Controller, useForm } from "react-hook-form"
 
 import {
@@ -15,7 +15,7 @@ import {
   Input,
   VStack
 } from "@/components/global/atoms"
-import { IconButton } from "@/components/global/molecules"
+import { Header } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/app"
 
@@ -60,8 +60,6 @@ function SignInScreen() {
     }
   })
 
-  const handleBack = () => router.back()
-
   const handleSignUp = () => router.push(`/(auth)/sign-up?userType=${userType}`)
 
   const handleForgotPassword = () => router.push("/(auth)/forgot-password")
@@ -83,10 +81,7 @@ function SignInScreen() {
     <Container>
       <Content className="mt-12">
         <VStack gap={64}>
-          <IconButton
-            icon={<ArrowLeft size={24} color={COLORS.primary} />}
-            onPress={handleBack}
-          />
+          <Header back />
 
           <View>
             <Text className="mb-2 font-tbold text-4xl text-primary">

@@ -13,7 +13,7 @@ function VoiceScreen() {
   const router = useRouter()
 
   const handleViewSignUp = () => {
-    router.push("/test/consultant-sign-up")
+    router.push("/test/expertise")
   }
 
   const handleViewCertificate = () => {
@@ -28,8 +28,8 @@ function VoiceScreen() {
     router.push("/test/certificate-upload")
   }
 
-  const handleViewCategories = () => {
-    router.push(`/categories/${"Exercise"}`)
+  const handleViewLocalImage = () => {
+    router.push("/test/local-image")
   }
 
   return (
@@ -60,8 +60,8 @@ function VoiceScreen() {
             Upload ảnh
           </Button>
 
-          <Button size="lg" onPress={handleViewCategories}>
-            Bài tập
+          <Button size="lg" onPress={handleViewLocalImage}>
+            Local Image
           </Button>
         </VStack>
       </Content>

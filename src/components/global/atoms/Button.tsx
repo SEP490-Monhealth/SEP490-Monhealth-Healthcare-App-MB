@@ -35,7 +35,7 @@ export const Button: React.FC<ButtonProps> = ({
       text: "text-primary-foreground"
     },
     secondary: {
-      container: disabled ? "bg-gray-300" : "bg-border",
+      container: disabled ? "bg-muted" : "bg-border",
       text: "text-primary"
     },
     danger: {

@@ -52,7 +52,7 @@ export const SheetSelect = ({
         <View className="mr-4">{icon}</View>
         <Text
           className={`font-tmedium text-lg ${
-            variant === "danger" ? "text-destructive" : "text-primary"
+            variant === "danger" ? "text-destructive" : "text-secondary"
           }`}
         >
           {label}

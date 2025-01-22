@@ -129,7 +129,7 @@ function FoodDetailsScreen() {
     setQuantity(text)
   }
 
-  const handlePortionChange = (selectedItem: string) => {
+  const handleSelectPortion = (selectedItem: string) => {
     setSelectedPortion(selectedItem)
 
     if (selectedItem === "g" || selectedItem === "ml") {
@@ -326,7 +326,7 @@ function FoodDetailsScreen() {
               key={portion}
               item={portion}
               isSelected={selectedPortion === portion}
-              onSelect={handlePortionChange}
+              onSelect={handleSelectPortion}
             />
           ))}
         </Sheet>

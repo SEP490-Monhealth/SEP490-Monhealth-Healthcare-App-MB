@@ -16,6 +16,7 @@ import {
   VStack
 } from "@/components/global/atoms"
 import { IconButton } from "@/components/global/molecules"
+import { Header } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/app"
 
@@ -69,10 +70,7 @@ function OTPVerificationScreen() {
     <Container dismissKeyboard>
       <Content className="mt-12">
         <VStack gap={64}>
-          <IconButton
-            icon={<ArrowLeft size={24} color={COLORS.primary} />}
-            onPress={handleBack}
-          />
+          <Header back />
 
           <View>
             <Text className="mb-2 font-tbold text-3xl text-primary">

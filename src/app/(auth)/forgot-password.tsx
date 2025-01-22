@@ -5,7 +5,7 @@ import { Text, View } from "react-native"
 import { useRouter } from "expo-router"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowLeft, Call } from "iconsax-react-native"
+import { Call } from "iconsax-react-native"
 import { Controller, useForm } from "react-hook-form"
 
 import {
@@ -15,7 +15,7 @@ import {
   Input,
   VStack
 } from "@/components/global/atoms"
-import { IconButton } from "@/components/global/molecules"
+import { Header } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/app"
 
@@ -35,10 +35,6 @@ function ForgotPasswordScreen() {
     }
   })
 
-  const handleBack = () => {
-    router.back()
-  }
-
   const onSubmit = (data: PhoneNumberType) => {
     console.log(data)
     router.push("/(auth)/otp-verification")
@@ -48,10 +44,7 @@ function ForgotPasswordScreen() {
     <Container>
       <Content className="mt-12">
         <VStack gap={64}>
-          <IconButton
-            icon={<ArrowLeft size={24} color={COLORS.primary} />}
-            onPress={handleBack}
-          />
+          <Header back />
 
           <View>
             <Text className="mb-2 font-tbold text-3xl text-primary">

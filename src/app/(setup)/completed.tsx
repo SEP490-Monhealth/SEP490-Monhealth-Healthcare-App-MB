@@ -4,7 +4,7 @@ import { View } from "react-native"
 
 import { useRouter } from "expo-router"
 
-import { Button, Container, HStack } from "@/components/global/atoms"
+import { Button, Container } from "@/components/global/atoms"
 import { ErrorDisplay } from "@/components/global/molecules"
 
 function SetupCompleted() {
@@ -24,14 +24,9 @@ function SetupCompleted() {
         />
       </View>
 
-      <HStack gap={12} className="mb-4">
-        <Button variant="secondary" className="flex-1">
-          Chia sẻ
-        </Button>
-        <Button onPress={handleDone} className="flex-1">
-          Trang chủ
-        </Button>
-      </HStack>
+      <Button onPress={handleDone} className="mb-4">
+        Hoàn thành
+      </Button>
     </Container>
   )
 }

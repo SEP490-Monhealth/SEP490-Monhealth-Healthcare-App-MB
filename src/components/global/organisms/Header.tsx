@@ -17,7 +17,7 @@ interface ActionProps {
 }
 
 interface HeaderProps {
-  label: string
+  label?: string
   back?: boolean
   action?: ActionProps
   onBackPress?: () => void
@@ -25,7 +25,7 @@ interface HeaderProps {
 }
 
 export const Header = ({
-  label,
+  label = "",
   back = false,
   action,
   onBackPress,

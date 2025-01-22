@@ -4,8 +4,8 @@ import { NutritionType } from "@/schemas/nutritionSchema"
 import { PortionType } from "@/schemas/portionSchema"
 
 interface CreateFoodState {
-  // mealType: string[]
-  // dishType: string
+  mealType: string[]
+  dishType: string[]
   name: string
   description: string
   portion: PortionType
@@ -16,8 +16,8 @@ interface CreateFoodState {
 }
 
 export const useFoodStore = create<CreateFoodState>((set) => ({
-  // mealType: [],
-  // dishType: "",
+  mealType: [],
+  dishType: [],
   name: "",
   description: "",
   portion: {
@@ -34,15 +34,17 @@ export const useFoodStore = create<CreateFoodState>((set) => ({
     sugar: 0
   },
   isPublic: true,
+
   updateField: (field, value) =>
     set((state) => ({
       ...state,
       [field]: value
     })),
+
   reset: () =>
     set(() => ({
-      // mealType: [],
-      // dishType: "",
+      mealType: [],
+      dishType: [],
       name: "",
       description: "",
       portion: {
