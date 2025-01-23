@@ -15,6 +15,8 @@ import { sampleWorkoutDailyData } from "@/constants/dailyWorkouts"
 
 import { useAuth } from "@/contexts/AuthContext"
 
+import { useRouterHandlers } from "@/hooks/useRouter"
+
 import { formatDateYYYYMMDD, toFixed } from "@/utils/formatters"
 
 import { WorkoutProgress } from "./WorkoutProgress"
@@ -88,8 +90,7 @@ export const WorkoutTab = ({
 
   const handleViewWorkouts = () => router.push("/categories/Exercise")
 
-  const handleViewWorkout = (workoutId: string) => console.log(workoutId)
-
+  const { handleViewWorkout } = useRouterHandlers()
   return (
     <View className="mt-4">
       <HStack center className="justify-between">

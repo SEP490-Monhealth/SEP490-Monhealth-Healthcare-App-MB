@@ -19,10 +19,15 @@ export const useRouterHandlers = () => {
     router.push("/workouts")
   }
 
+  const handleViewWorkout = (workoutId: string) => {
+    router.push(`/workouts/${workoutId}/details`)
+  }
+
   return {
     handleViewFood,
     handleViewMeal,
     handleViewWaterReminder,
-    handleViewWorkouts
+    handleViewWorkouts,
+    handleViewWorkout
   }
 }

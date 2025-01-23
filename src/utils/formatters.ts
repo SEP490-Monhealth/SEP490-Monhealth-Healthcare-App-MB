@@ -136,3 +136,19 @@ export const formatTimeAgo = (date: string | Date): string => {
 export const convertToISOString = (dateString: string): string => {
   return new Date(dateString.split("/").reverse().join("-")).toISOString()
 }
+
+/**
+ * Chuyển đổi một khoảng thời gian tính bằng giây sang chuỗi định dạng MM:SS.
+ *
+ * @param {number} seconds - Thời gian tính bằng giây.
+ * @returns {string} - Chuỗi thời gian đã được định dạng theo kiểu MM:SS.
+ *
+ * Ví dụ:
+ * formatDuration(120) => "02:00"
+ * formatDuration(35) => "00:35"
+ */
+export const formatDuration = (seconds: number): string => {
+  const minutes = Math.floor(seconds / 60)
+  const remainingSeconds = seconds % 60
+  return `${String(minutes).padStart(2, "0")}:${String(remainingSeconds).padStart(2, "0")}`
+}

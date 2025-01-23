@@ -31,16 +31,33 @@ const baseFoodSchema = z
     userId: z.string(),
 
     // foodType: z.string(),
-    mealType: z.array(
-      z.string().refine((val) => meals.includes(val), {
-        message:
-          "Loại bữa ăn không hợp lệ. Chỉ chấp nhận: Breakfast, Lunch, Dinner, Snack"
-      })
-    ),
-    dishType: z.string().refine((val) => dishes.includes(val), {
-      message:
-        "Loại món ăn không hợp lệ. Chỉ chấp nhận: Main Dish, Side Dish, Dessert, Drink, Snack"
-    }),
+    mealType: z
+      .array(
+        z
+          .string()
+          .refine(
+            (val) => ["Breakfast", "Lunch", "Dinner", "Snack"].includes(val),
+            {
+              message: "Loại bữa ăn không hợp lệ"
+            }
+          )
+      )
+      .min(1, { message: "Bạn cần chọn ít nhất một bữa ăn" }),
+    dishType: z
+      .array(
+        z
+          .string()
+          .refine(
+            (val) =>
+              ["Main Dish", "Side Dish", "Dessert", "Drink", "Snack"].includes(
+                val
+              ),
+            {
+              message: "Loại món ăn không hợp lệ"
+            }
+          )
+      )
+      .min(1, { message: "Bạn cần chọn ít nhất một loại món ăn" }),
 
     category: z.string(),
     name: z
@@ -106,8 +123,8 @@ export const createFoodSchema = baseFoodSchema.pick({
 
 export const informationFoodSchema = baseFoodSchema.pick({
   // foodType: true,
-  // mealType: true,
-  // dishType: true,
+  mealType: true,
+  dishType: true,
   name: true,
   description: true,
   isPublic: true
