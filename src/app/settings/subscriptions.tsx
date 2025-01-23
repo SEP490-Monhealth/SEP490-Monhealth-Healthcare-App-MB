@@ -58,13 +58,13 @@ function SubscriptionScreen() {
           {premiumSubscription.features.map((feature, index) => (
             <HStack key={index} center gap={6}>
               <Award variant="Bold" size={20} color={COLORS.PRIMARY.lemon} />
-              <Text className="flex-1 font-tmedium text-base text-secondary">
+              <Text className="flex-1 font-tregular text-lg text-secondary">
                 {feature}
               </Text>
             </HStack>
           ))}
 
-          <VStack gap={12} className="mt-6">
+          <VStack gap={12} className="mt-8">
             {premiumSubscription.plans.map((item, index) => (
               <SubscriptionCard
                 key={index}

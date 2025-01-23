@@ -1,6 +1,4 @@
-import { SubscriptionType } from "@/schemas/subscriptionSchema"
-
-export const sampleSubscriptionsData: SubscriptionType[] = [
+export const sampleSubscriptionsData = [
   {
     subscriptionId: "af1d42fa-b5d2-469e-918b-724d8db19009",
     name: "Gói cơ bản (Basic)",

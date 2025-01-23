@@ -122,7 +122,7 @@ function SetupExpertise() {
 
   const handleCertificateUpload = (expertise: string) => {
     router.push({
-      pathname: "/test/certificate-upload",
+      pathname: "/(consultant-setup)/certificate-upload",
       params: { expertise }
     })
   }
@@ -256,7 +256,7 @@ function SetupExpertise() {
                 onPress={handleSubmit(onSubmit)}
                 className="bottom-4"
               >
-                asd
+                Gửi yêu cầu
               </Button>
             </Content>
           </Container>

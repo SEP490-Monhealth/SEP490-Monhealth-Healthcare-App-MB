@@ -13,11 +13,7 @@ function VoiceScreen() {
   const router = useRouter()
 
   const handleViewSignUp = () => {
-    router.push("/test/expertise")
-  }
-
-  const handleViewCertificate = () => {
-    router.push("/test/certification")
+    router.push("/(consultant-setup)/expertise")
   }
 
   const handleViewService = () => {
@@ -25,7 +21,7 @@ function VoiceScreen() {
   }
 
   const handleViewImageUpload = () => {
-    router.push("/test/certificate-upload")
+    router.push("/(consultant-setup)/certificate-upload")
   }
 
   const handleViewLocalImage = () => {
@@ -46,10 +42,6 @@ function VoiceScreen() {
         <VStack gap={20}>
           <Button size="lg" onPress={handleViewSignUp}>
             Đăng ký consultant
-          </Button>
-
-          <Button size="lg" onPress={handleViewCertificate}>
-            Chứng chỉ
           </Button>
 
           <Button size="lg" onPress={handleViewService}>

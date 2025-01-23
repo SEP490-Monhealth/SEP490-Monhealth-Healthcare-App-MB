@@ -38,9 +38,10 @@ export const WaterIntakeProgress = ({
       <View className="absolute items-center">
         <CircularProgress
           size={240}
-          width={8}
+          width={10}
           fill={progress}
           tintColor={COLORS.PRIMARY.water}
+          rotation={0}
         />
       </View>
 
