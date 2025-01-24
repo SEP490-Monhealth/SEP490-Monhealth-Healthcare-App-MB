@@ -15,9 +15,9 @@ export const sampleWorkoutDailyData = [
         workoutId: "001",
         name: "Yoga",
         image: require("../../public/icons/workouts/yoga.png"),
-        totalExercise: 5,
-        totalDuration: 30,
-        totalCaloriesBurned: 170
+        totalExercise: 4,
+        totalDuration: 45,
+        totalCaloriesBurned: 250
       },
       {
         workoutId: "002",

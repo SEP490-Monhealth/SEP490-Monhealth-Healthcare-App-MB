@@ -32,7 +32,7 @@ function PrivacySettingScreen() {
   } = useForm<UpdatePasswordType>({
     resolver: zodResolver(updatePasswordSchema),
     defaultValues: {
-      password: "",
+      oldPassword: "",
       newPassword: "",
       confirmPassword: ""
     }
@@ -41,9 +41,9 @@ function PrivacySettingScreen() {
   const onSubmit = (data: UpdatePasswordType) => {
     setIsLoading(true)
     // console.log("Submit:", data)
-    const { password, newPassword } = data
+    const { oldPassword, newPassword } = data
 
-    const payload = { password, newPassword }
+    const payload = { oldPassword, newPassword }
 
     console.log("Submit Payload:", payload)
 
@@ -57,7 +57,7 @@ function PrivacySettingScreen() {
       <Content className="mt-2">
         <VStack gap={12}>
           <Controller
-            name="password"
+            name="oldPassword"
             control={control}
             render={({ field: { onChange, value } }) => (
               <Input
@@ -78,7 +78,7 @@ function PrivacySettingScreen() {
                 }
                 alwaysShowEndIcon
                 canClearText
-                errorMessage={errors.password?.message}
+                errorMessage={errors.oldPassword?.message}
               />
             )}
           />
