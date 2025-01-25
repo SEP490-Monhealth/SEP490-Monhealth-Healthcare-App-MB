@@ -104,7 +104,10 @@ function SetupExpertise() {
     DateSheetRef.current?.scrollTo(-sheetHeight)
   }
 
-  const closeSheet = () => ExpertiseSheetRef.current?.scrollTo(0)
+  const closeSheet = () => {
+    ExpertiseSheetRef.current?.scrollTo(0)
+    DateSheetRef.current?.scrollTo(0)
+  }
 
   const handleSelectDate = (_: DateTimePickerEvent, date?: Date) => {
     if (date && inputDateType) {
@@ -143,124 +146,119 @@ function SetupExpertise() {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView className="flex-1 bg-background">
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          className="flex-1"
-        >
-          <Container>
-            <Header back />
+        <Container>
+          <Header back />
 
-            <Content className="mt-4">
-              <ScrollArea>
-                <StepHeader
-                  title="Chứng chỉ chuyên môn"
-                  description="Vui lòng nhập thông tin chứng chỉ chuyên môn của bạn"
+          <Content className="mt-4">
+            <ScrollArea>
+              <StepHeader
+                title="Chứng chỉ chuyên môn"
+                description="Vui lòng nhập thông tin chứng chỉ chuyên môn của bạn"
+              />
+
+              <VStack gap={12}>
+                <Controller
+                  name="expertise"
+                  control={control}
+                  render={({ field: { value } }) => {
+                    const selectedLabel = expertiseData.find(
+                      (item) => item.value === value
+                    )?.label
+
+                    return (
+                      <Select
+                        defaultValue="Chọn chuyên môn"
+                        value={selectedLabel}
+                        onPress={openExpertiseSheet}
+                      />
+                    )
+                  }}
                 />
 
-                <VStack gap={12}>
-                  <Controller
-                    name="expertise"
-                    control={control}
-                    render={({ field: { value } }) => {
-                      const selectedLabel = expertiseData.find(
-                        (item) => item.value === value
-                      )?.label
-
-                      return (
-                        <Select
-                          defaultValue="Chọn chuyên môn"
-                          value={selectedLabel}
-                          onPress={openExpertiseSheet}
-                        />
-                      )
+                <VStack>
+                  <Button
+                    disabled={!expertiseValue}
+                    variant="secondary"
+                    onPress={() => {
+                      const expertise = getValues("expertise")
+                      if (expertise) {
+                        handleCertificateUpload(expertise)
+                      }
                     }}
-                  />
+                  >
+                    Thêm hình ảnh
+                  </Button>
 
-                  <VStack>
-                    <Button
-                      disabled={!expertiseValue}
-                      variant="secondary"
-                      onPress={() => {
-                        const expertise = getValues("expertise")
-                        if (expertise) {
-                          handleCertificateUpload(expertise)
-                        }
-                      }}
-                    >
-                      Thêm hình ảnh
-                    </Button>
-
-                    {images.length > 0 ? (
-                      images
-                        .filter((image) => image && image.uri)
-                        .map((image, index) => (
-                          <Text
-                            key={index}
-                            className="font-tregular text-base text-secondary"
-                          >
-                            {image.fileName}
-                          </Text>
-                        ))
-                    ) : (
-                      <Text className="font-tregular text-gray-500">
-                        Không có hình ảnh nào để hiển thị
-                      </Text>
-                    )}
-                  </VStack>
-
-                  <Controller
-                    name="name"
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Input
-                        value={value}
-                        placeholder="Nhập tên chứng chỉ"
-                        onChangeText={onChange}
-                        errorMessage={errors.name?.message}
-                      />
-                    )}
-                  />
-
-                  <Controller
-                    name="issueDate"
-                    control={control}
-                    render={({ field: { value } }) => (
-                      <Input
-                        disabled
-                        value={value ? formatISODate(value, "dd/MM/yyyy") : ""}
-                        placeholder="Nhập ngày cấp"
-                        onPress={() => openDateSheet("issueDate")}
-                        errorMessage={errors.issueDate?.message}
-                      />
-                    )}
-                  />
-
-                  <Controller
-                    name="expiryDate"
-                    control={control}
-                    render={({ field: { value } }) => (
-                      <Input
-                        disabled
-                        value={value ? formatISODate(value, "dd/MM/yyyy") : ""}
-                        placeholder="Nhập ngày hết hạn"
-                        onPress={() => openDateSheet("expiryDate")}
-                        errorMessage={errors.expiryDate?.message}
-                      />
-                    )}
-                  />
+                  {images.length > 0 ? (
+                    images
+                      .filter((image) => image && image.uri)
+                      .map((image, index) => (
+                        <Text
+                          key={index}
+                          className="font-tregular text-base text-secondary"
+                        >
+                          {image.fileName}
+                        </Text>
+                      ))
+                  ) : (
+                    <Text className="font-tregular text-gray-500">
+                      Không có hình ảnh nào để hiển thị
+                    </Text>
+                  )}
                 </VStack>
-              </ScrollArea>
 
-              <Button
-                size="lg"
-                onPress={handleSubmit(onSubmit)}
-                className="bottom-4"
-              >
-                Gửi yêu cầu
-              </Button>
-            </Content>
-          </Container>
-        </KeyboardAvoidingView>
+                <Controller
+                  name="name"
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Input
+                      value={value}
+                      placeholder="Nhập tên chứng chỉ"
+                      onChangeText={onChange}
+                      errorMessage={errors.name?.message}
+                    />
+                  )}
+                />
+
+                <Controller
+                  name="issueDate"
+                  control={control}
+                  render={({ field: { value } }) => (
+                    <Input
+                      disabled
+                      value={value ? formatISODate(value, "dd/MM/yyyy") : ""}
+                      placeholder="Nhập ngày cấp"
+                      onPress={() => openDateSheet("issueDate")}
+                      errorMessage={errors.issueDate?.message}
+                    />
+                  )}
+                />
+
+                <Controller
+                  name="expiryDate"
+                  control={control}
+                  render={({ field: { value } }) => (
+                    <Input
+                      disabled
+                      value={value ? formatISODate(value, "dd/MM/yyyy") : ""}
+                      placeholder="Nhập ngày hết hạn"
+                      onPress={() => openDateSheet("expiryDate")}
+                      errorMessage={errors.expiryDate?.message}
+                    />
+                  )}
+                />
+              </VStack>
+            </ScrollArea>
+
+            <Button
+              size="lg"
+              onPress={handleSubmit(onSubmit)}
+              className="bottom-4"
+            >
+              Gửi yêu cầu
+            </Button>
+          </Content>
+        </Container>
 
         <Sheet ref={ExpertiseSheetRef} dynamicHeight={sheetHeight}>
           {expertiseData.map((expertise) => (

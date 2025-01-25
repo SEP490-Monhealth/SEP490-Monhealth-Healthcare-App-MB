@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 
 import {
   Keyboard,
@@ -13,8 +13,16 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { set } from "lodash"
 import { useForm } from "react-hook-form"
 
-import { Button, Content } from "@/components/global/atoms"
+import {
+  Button,
+  Content,
+  Sheet,
+  SheetItem,
+  SheetRefProps
+} from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
+
+import { DATA } from "@/constants/app"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -38,15 +46,31 @@ function FoodCreateScreen() {
   const { user } = useAuth()
   const userId = user?.userId
 
+  const SheetMealRef = useRef<SheetRefProps>(null)
+  const SheetDishRef = useRef<SheetRefProps>(null)
+
+  const sheetMealHeight = 280
+  const sheetDishHeight = 320
+
   const { mutate: createFood } = useCreateFood()
 
-  const { name, description, portion, nutrition, isPublic, updateField } =
-    useFoodStore()
+  const {
+    mealType,
+    dishType,
+    name,
+    description,
+    portion,
+    nutrition,
+    isPublic,
+    updateField
+  } = useFoodStore()
 
   const [currentStep, setCurrentStep] = useState(1)
 
   const formData: Record<string, any> = {
     userId,
+    mealType,
+    dishType,
     name,
     description,
     portion,
@@ -138,6 +162,26 @@ function FoodCreateScreen() {
     }
   }
 
+  const openMealSheet = () => SheetMealRef.current?.scrollTo(-sheetMealHeight)
+  const openDishSheet = () => SheetDishRef.current?.scrollTo(-sheetDishHeight)
+
+  const toggleSelection = (list: string[], value: string, field: string) => {
+    const updatedList = list.includes(value)
+      ? list.filter((item) => item !== value)
+      : [...list, value]
+
+    const sortOrder =
+      field === "mealType"
+        ? DATA.MEALS.map((meal) => meal.value)
+        : DATA.DISHES.map((dish) => dish.value)
+
+    const orderedList = updatedList.sort(
+      (a, b) => sortOrder.indexOf(a) - sortOrder.indexOf(b)
+    )
+
+    updateField(field, orderedList)
+  }
+
   const handleBack = () => {
     if (currentStep === 1) {
       router.back()
@@ -160,29 +204,40 @@ function FoodCreateScreen() {
             control={control}
             errors={errors}
             setValue={setValue}
+            openMealSheet={openMealSheet}
+            openDishSheet={openDishSheet}
           />
         </Content>
 
         <Button
           size="lg"
           onPress={handleSubmit(onSubmitStep)}
-          className="absolute bottom-16 left-6 right-6"
+          className="absolute bottom-12 left-6 right-6"
         >
           {currentStep === steps.length ? "Tạo mới" : "Tiếp tục"}
         </Button>
 
-        {/* <VStack
-          gap={12}
-          className="absolute bottom-16 w-full bg-background px-6"
-        >
-          <Button variant="secondary" onPress={handleBack}>
-            {currentStep === 1 ? "Hủy" : "Quay lại"}
-          </Button>
+        <Sheet ref={SheetMealRef} dynamicHeight={sheetMealHeight}>
+          {DATA.MEALS.map((meal) => (
+            <SheetItem
+              key={meal.value}
+              item={meal.label}
+              isSelected={mealType.includes(meal.value)}
+              onSelect={() => toggleSelection(mealType, meal.value, "mealType")}
+            />
+          ))}
+        </Sheet>
 
-          <Button onPress={handleSubmit(onSubmitStep)}>
-            {currentStep === steps.length ? "Tạo mới" : "Tiếp tục"}
-          </Button>
-        </VStack> */}
+        <Sheet ref={SheetDishRef} dynamicHeight={sheetDishHeight}>
+          {DATA.DISHES.map((dish) => (
+            <SheetItem
+              key={dish.value}
+              item={dish.label}
+              isSelected={dishType.includes(dish.value)}
+              onSelect={() => toggleSelection(dishType, dish.value, "dishType")}
+            />
+          ))}
+        </Sheet>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   )

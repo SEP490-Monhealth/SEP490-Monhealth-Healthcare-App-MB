@@ -4,19 +4,43 @@ import { Text } from "react-native"
 
 import { Control, Controller, FieldValues } from "react-hook-form"
 
-import { Card, Chip, HStack, Input, VStack } from "@/components/global/atoms"
+import {
+  Card,
+  Chip,
+  HStack,
+  Input,
+  Select,
+  VStack
+} from "@/components/global/atoms"
+
+import { DATA } from "@/constants/app"
+
+import { useFoodStore } from "@/stores/foodStore"
+
+import { getLabelsFromValues } from "@/utils/helpers"
 
 interface FoodInformationProps {
   control: Control<FieldValues>
   errors: any
   setValue: any
+  openMealSheet: () => void
+  openDishSheet: () => void
 }
 
-function FoodInformation({ control, errors, setValue }: FoodInformationProps) {
-  const [isPublic, setIsPublic] = useState(false)
+function FoodInformation({
+  control,
+  errors,
+  setValue,
+  openMealSheet,
+  openDishSheet
+}: FoodInformationProps) {
+  const { mealType, dishType, isPublic, updateField } = useFoodStore()
+
+  // const [isPublic, setIsPublic] = useState(false)
 
   const handleVisibilitySelect = (value: boolean) => {
-    setIsPublic(value)
+    // setIsPublic(value)
+    updateField("isPublic", value)
     setValue("isPublic", value)
   }
 
@@ -54,12 +78,24 @@ function FoodInformation({ control, errors, setValue }: FoodInformationProps) {
             />
           )}
         />
+
+        <Select
+          defaultValue="Phù hợp với bữa ăn"
+          value={getLabelsFromValues(mealType, DATA.MEALS).join(", ") || ""}
+          onPress={openMealSheet}
+        />
+
+        <Select
+          defaultValue="Loại món ăn"
+          value={getLabelsFromValues(dishType, DATA.DISHES).join(", ") || ""}
+          onPress={openDishSheet}
+        />
       </VStack>
 
       <Card activeOpacity={1}>
         <VStack gap={12}>
           <VStack>
-            <Text className="font-tbold text-lg text-primary">
+            <Text className="font-tmedium text-lg text-primary">
               Bạn muốn lưu món ăn này như thế nào?
             </Text>
             <Text className="font-tregular text-sm text-accent">
