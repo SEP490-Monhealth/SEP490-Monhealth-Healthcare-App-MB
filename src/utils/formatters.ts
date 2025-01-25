@@ -1,6 +1,17 @@
 import { format, parseISO } from "date-fns"
 
 /**
+ * Chuyển đổi số sang định dạng tiền tệ Việt Nam (VND).
+ * @param value - Giá trị số cần định dạng.
+ * @returns Chuỗi định dạng tiền tệ, ví dụ: "10.000 VND".
+ */
+export const formatCurrency = (value: number): string => {
+  return value
+    .toLocaleString("vi-VN", { style: "currency", currency: "VND" })
+    .replace("₫", "VND")
+}
+
+/**
  * Định dạng ngày/thời gian
  * @param date Ngày (Date hoặc chuỗi)
  * @param formatStr Chuỗi định dạng (mặc định: dd/MM/yyyy)
@@ -142,10 +153,6 @@ export const convertToISOString = (dateString: string): string => {
  *
  * @param {number} seconds - Thời gian tính bằng giây.
  * @returns {string} - Chuỗi thời gian đã được định dạng theo kiểu MM:SS.
- *
- * Ví dụ:
- * formatDuration(120) => "02:00"
- * formatDuration(35) => "00:35"
  */
 export const formatDuration = (seconds: number): string => {
   const minutes = Math.floor(seconds / 60)

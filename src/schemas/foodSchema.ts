@@ -1,13 +1,15 @@
 import { z } from "zod"
 
+import { DishTypeEnum, MealTypeEnum } from "@/constants/enums"
+
 import { allergySetupSchema } from "./allergySchema"
 import { categorySetupSchema } from "./categorySchema"
 import { auditSchema, timestampSchema } from "./commonSchema"
 import { nutritionSchema } from "./nutritionSchema"
 import { portionSchema } from "./portionSchema"
 
-const meals = ["Breakfast", "Lunch", "Dinner", "Snack"]
-const dishes = ["Main Dish", "Side Dish", "Dessert", "Drink", "Snack"]
+const MealType = z.nativeEnum(MealTypeEnum)
+const DishType = z.nativeEnum(DishTypeEnum)
 
 const foodAllergySchema = z
   .object({
@@ -32,31 +34,11 @@ const baseFoodSchema = z
 
     // foodType: z.string(),
     mealType: z
-      .array(
-        z
-          .string()
-          .refine(
-            (val) => ["Breakfast", "Lunch", "Dinner", "Snack"].includes(val),
-            {
-              message: "Loại bữa ăn không hợp lệ"
-            }
-          )
-      )
+      .array(MealType)
       .min(1, { message: "Bạn cần chọn ít nhất một bữa ăn" }),
+
     dishType: z
-      .array(
-        z
-          .string()
-          .refine(
-            (val) =>
-              ["Main Dish", "Side Dish", "Dessert", "Drink", "Snack"].includes(
-                val
-              ),
-            {
-              message: "Loại món ăn không hợp lệ"
-            }
-          )
-      )
+      .array(DishType)
       .min(1, { message: "Bạn cần chọn ít nhất một loại món ăn" }),
 
     category: z.string(),

@@ -10,20 +10,41 @@ export const delay = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms))
 
 /**
- * Capitalize: Chuyển ký tự đầu tiên thành in hoa
- * @param str Chuỗi cần chuyển đổi
- * @returns Chuỗi đã capitalize
+ * Chuyển ký tự đầu tiên của chuỗi thành in hoa.
+ * @param str - Chuỗi cần chuyển đổi.
+ * @returns Chuỗi đã được capitalize.
  */
 export const capitalize = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
 /**
- * Kiểm tra giá trị có phải null hoặc undefined
- * @param value Giá trị cần kiểm tra
- * @returns true nếu là null hoặc undefined
+ * Tạo chuỗi UUID ngẫu nhiên.
+ * @returns Chuỗi UUID ngẫu nhiên.
  */
-export const isNil = (value: any) => value === null || value === undefined
+export const generateUUID = (): string => {
+  const template = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
+  return template.replace(/[xy]/g, (char) => {
+    const random = (Math.random() * 16) | 0
+    const value = char === "x" ? random : (random & 0x3) | 0x8
+    return value.toString(16)
+  })
+}
+
+/**
+ * Lấy lời chào phù hợp dựa trên thời gian hiện tại.
+ * @returns Lời chào bằng tiếng Việt (Chào buổi sáng, Chào buổi chiều, Chào buổi tối).
+ */
+export const getGreeting = () => {
+  const date = new Date()
+  const hours = date.getHours()
+
+  if (hours < 12) {
+    return "Chào buổi sáng,"
+  } else if (hours < 18) {
+    return "Chào buổi chiều,"
+  } else return "Chào buổi tối,"
+}
 
 /**
  * Lấy chữ cái viết tắt từ tên hoặc chuỗi
@@ -42,24 +63,9 @@ export const getInitials = (name: string) => {
 }
 
 /**
- * Lấy lời chào phù hợp dựa trên thời gian hiện tại
- * @returns Lời chào bằng tiếng Việt (Chào buổi sáng, Chào buổi chiều, Chào buổi tối)
- */
-export const getGreeting = () => {
-  const date = new Date()
-  const hours = date.getHours()
-
-  if (hours < 12) {
-    return "Chào buổi sáng,"
-  } else if (hours < 18) {
-    return "Chào buổi chiều,"
-  } else return "Chào buổi tối,"
-}
-
-/**
- * Lấy loại bữa ăn dựa trên thời gian hiện tại
- * @param {string} lang - Ngôn ngữ ("vi" cho tiếng Việt, "en" cho tiếng Anh)
- * @returns Loại bữa ăn theo ngôn ngữ (mặc định là tiếng Việt)
+ * Lấy loại bữa ăn dựa trên thời gian hiện tại.
+ * @param lang - Ngôn ngữ ("vi" cho tiếng Việt, "en" cho tiếng Anh).
+ * @returns Loại bữa ăn theo ngôn ngữ (mặc định là tiếng Việt).
  */
 export const getMealType = (lang: string = "vi") => {
   const date = new Date()
@@ -233,26 +239,12 @@ export const getRandomTip = () => {
   return TipsData[randomIndex].tipContent
 }
 
-/**
- * Chuyển đổi số sang định dạng tiền tệ Việt Nam (VND).
- * @param value - Giá trị số cần định dạng
- * @returns Chuỗi định dạng tiền tệ, ví dụ: "10.000 VND"
- */
-export const formatCurrency = (value: number): string => {
-  return value
-    .toLocaleString("vi-VN", { style: "currency", currency: "VND" })
-    .replace("₫", "VND")
-}
-
-/**
- * Tạo chuỗi UUID ngẫu nhiên.
- * @returns Chuỗi UUID ngẫu nhiên
- */
-export const generateUUID = (): string => {
-  const template = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
-  return template.replace(/[xy]/g, (char) => {
-    const random = (Math.random() * 16) | 0 // Lấy số ngẫu nhiên từ 0 đến 15
-    const value = char === "x" ? random : (random & 0x3) | 0x8 // Đảm bảo tính hợp lệ cho bit 13 và 16
-    return value.toString(16) // Chuyển thành số hệ thập lục phân
+export const getLabelsFromValues = (
+  values: string[],
+  data: { label: string; value: string }[]
+) => {
+  return values.map((value) => {
+    const item = data.find((d) => d.value === value)
+    return item ? item.label : value
   })
 }

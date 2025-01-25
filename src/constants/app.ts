@@ -8,10 +8,17 @@ export const APP = {
 
 export const DATA = {
   MEALS: [
-    { label: "Bữa sáng", value: "Breakfast" },
-    { label: "Bữa trưa", value: "Lunch" },
-    { label: "Bữa tối", value: "Dinner" },
-    { label: "Bữa phụ", value: "Snack" }
+    { label: "Bữa sáng", value: "Breakfast", dishes: ["Main Dish (70%)"] },
+    { label: "Bữa trưa", value: "Lunch", dishes: ["Main Dish (50%)", "Side Dish (30%)", "Dessert (10%)"] },
+    { label: "Bữa tối", value: "Dinner", dishes: ["Main Dish (50%)", "Side Dish (30%)", "Dessert (10%)"] },
+    { label: "Bữa phụ", value: "Snack", dishes: ["Snack (70%)"] },
+  ],
+  DISHES: [
+    { label: "Món chính", value: "Main Dish" },
+    { label: "Món phụ", value: "Side Dish" },
+    { label: "Món tráng miệng", value: "Dessert" },
+    { label: "Đồ uống", value: "Drink" },
+    { label: "Đồ ăn vặt", value: "Snack" }
   ],
   UNITS: [
     { label: "g (gram)", value: "g" },

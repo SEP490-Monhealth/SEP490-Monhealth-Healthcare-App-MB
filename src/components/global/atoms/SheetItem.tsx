@@ -18,7 +18,7 @@ export const SheetItem = ({ item, isSelected, onSelect }: SheetItemProps) => {
       className="border-b border-border py-3"
     >
       <Text
-        className={`text-center ${isSelected ? "font-tmedium text-lg text-primary" : "text-base text-accent"}`}
+        className={`text-center transition-all duration-150 ${isSelected ? "font-tmedium text-lg text-primary" : "text-base text-accent"}`}
       >
         {item}
       </Text>

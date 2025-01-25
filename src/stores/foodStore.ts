@@ -1,11 +1,13 @@
 import { create } from "zustand"
 
+import { DishTypeEnum, MealTypeEnum } from "@/constants/enums"
+
 import { NutritionType } from "@/schemas/nutritionSchema"
 import { PortionType } from "@/schemas/portionSchema"
 
 interface CreateFoodState {
-  mealType: string[]
-  dishType: string[]
+  mealType: MealTypeEnum[]
+  dishType: DishTypeEnum[]
   name: string
   description: string
   portion: PortionType
