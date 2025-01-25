@@ -4,7 +4,6 @@ import { Dimensions, Pressable, View } from "react-native"
 import { Gesture, GestureDetector } from "react-native-gesture-handler"
 import Animated, {
   interpolate,
-  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withSpring
@@ -96,9 +95,10 @@ export const Sheet = forwardRef<SheetRefProps, SheetProps>(
       }
     })
 
-    const handleOverlayPress = () => {
-      runOnJS(scrollTo)(0)
-    }
+    const handleOverlayPress = useCallback(() => {
+      "worklet"
+      scrollTo(0)
+    }, [scrollTo])
 
     return (
       <>

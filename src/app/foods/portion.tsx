@@ -28,14 +28,8 @@ interface FoodPortionProps {
 }
 
 const portionSizesData = [
-  {
-    label: "g (gram)",
-    value: "g"
-  },
-  {
-    label: "ml (mililiter)",
-    value: "ml"
-  }
+  { label: "g (gram)", value: "g" },
+  { label: "ml (mililiter)", value: "ml" }
 ]
 
 function FoodPortion({ control, errors, setValue }: FoodPortionProps) {
@@ -68,7 +62,7 @@ function FoodPortion({ control, errors, setValue }: FoodPortionProps) {
 
   return (
     <>
-      <VStack gap={20} className="px-6">
+      <VStack gap={20}>
         <VStack gap={8}>
           <VStack>
             <Controller

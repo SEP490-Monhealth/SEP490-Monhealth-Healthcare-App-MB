@@ -1,50 +1,44 @@
-import { ExerciseType } from "@/schemas/exercieSchema"
+import { DifficultyLevelEnum } from "./enums"
 
-export const sampleExercisesData: ExerciseType[] = [
+export const sampleExercisesData = [
   {
-    exerciseId: "51887443-a218-4f3d-aeec-5ae67bf0a9e6",
-    categoryId: "d27e49f7-de9a-41bb-914b-0a2436617568",
-
-    exerciseName: "Chống đẩy",
-    exerciseDescription:
-      "Bài tập tăng cường sức mạnh cơ thể ở phần thân trên được thực hiện ở tư thế nằm sấp.",
-    image: "../../public/icons/workouts/balance-training.png",
-    duration: 30,
-    caloriesBurned: 300,
-    instructions:
-      "1. Bắt đầu ở tư thế plank. \n2. Hạ thấp người cho đến khi ngực gần chạm sàn. \n3. Đẩy người lên vị trí bắt đầu. \n4. Lặp lại.",
-
-    intensityLevel: "Medium",
-    difficultyLevel: "Medium",
-
-    status: true,
-
-    createdAt: "2025-01-06T00:00:00Z",
-    updatedAt: "2025-01-06T00:00:00Z",
-    createdBy: "asd",
-    updatedBy: "asd"
+    exerciseId: "befbdedd-8795-4f9a-842a-00ea9b770f55",
+    userId: "3026595f-1414-4b74-be8f-11b7f6e7f4f6",
+    category: "Upper Body",
+    name: "Roof Kickback",
+    instructions: "Đứng gập người về trước, đẩy tay ra sau, giữ thẳng",
+    duration: 45,
+    caloriesBurned: 7,
+    difficulty: DifficultyLevelEnum.Hard
   },
   {
-    exerciseId: "fbd54efc-410d-4e9c-a99e-31d84ff89eba",
-    categoryId: "d27e49f7-de9a-41bb-914b-0a2436617568",
-
-    exerciseName: "Squat",
-    exerciseDescription:
-      "Bài tập tăng cường sức mạnh phần thân dưới, nhắm vào đùi, hông và mông.",
-    image: "../../public/icons/workouts/stretching.png",
+    exerciseId: "05ece9e8-b50d-4269-acb5-023e839d1c42",
+    userId: "3026595f-1414-4b74-be8f-11b7f6e7f4f6",
+    category: "Cardio",
+    name: "Pop Squats",
+    instructions: "Nhảy sang tư thế squat, sau đó nhảy trở về",
     duration: 30,
-    caloriesBurned: 270,
-    instructions:
-      "1. Đứng thẳng với hai chân rộng bằng vai. \n2. Hạ thấp hông cho đến khi đùi song song với sàn. \n3. Quay trở lại vị trí bắt đầu. \n4. Lặp lại.",
-
-    intensityLevel: "Low",
-    difficultyLevel: "Low",
-
-    status: true,
-
-    createdAt: "2025-01-06T01:00:00Z",
-    updatedAt: "2025-01-06T01:00:00Z",
-    createdBy: "asd",
-    updatedBy: "asd"
+    caloriesBurned: 9,
+    difficulty: DifficultyLevelEnum.Medium
+  },
+  {
+    exerciseId: "14399a61-ccab-4af5-91fb-04fdc1f92c20",
+    userId: "3026595f-1414-4b74-be8f-11b7f6e7f4f6",
+    category: "Mobility",
+    name: "Bridges",
+    instructions: "Nằm ngửa, nâng hông lên cao, giữ lưng thẳng",
+    duration: 45,
+    caloriesBurned: 4,
+    difficulty: DifficultyLevelEnum.Medium
+  },
+  {
+    exerciseId: "2ec9ee3b-2768-4ae4-9246-05cdac76a8a6",
+    userId: "3026595f-1414-4b74-be8f-11b7f6e7f4f6",
+    category: "Lower Body",
+    name: "Single Calf Raises",
+    instructions: "Đứng một chân, nâng gót chân lên xuống",
+    duration: 30,
+    caloriesBurned: 5,
+    difficulty: DifficultyLevelEnum.Easy
   }
 ]

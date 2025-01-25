@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 
 import { Text } from "react-native"
 
@@ -45,7 +45,7 @@ function FoodInformation({
   }
 
   return (
-    <VStack gap={32} className="px-6">
+    <VStack gap={32}>
       <VStack gap={12}>
         <Controller
           name="name"
@@ -81,13 +81,13 @@ function FoodInformation({
 
         <Select
           defaultValue="Phù hợp với bữa ăn"
-          value={getLabelsFromValues(mealType, DATA.MEALS).join(", ") || ""}
+          value={getLabelsFromValues(mealType, DATA.MEALS).join(", ")}
           onPress={openMealSheet}
         />
 
         <Select
           defaultValue="Loại món ăn"
-          value={getLabelsFromValues(dishType, DATA.DISHES).join(", ") || ""}
+          value={getLabelsFromValues(dishType, DATA.DISHES).join(", ")}
           onPress={openDishSheet}
         />
       </VStack>

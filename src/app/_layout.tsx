@@ -1,6 +1,10 @@
 import React, { useEffect } from "react"
 
 import { GestureHandlerRootView } from "react-native-gesture-handler"
+import {
+  ReanimatedLogLevel,
+  configureReanimatedLogger
+} from "react-native-reanimated"
 import { SafeAreaProvider } from "react-native-safe-area-context"
 
 import { useFonts } from "expo-font"
@@ -19,6 +23,11 @@ import { MonFonts } from "@/styles/typography"
 import "../styles/globals.css"
 
 SplashScreen.preventAutoHideAsync()
+
+configureReanimatedLogger({
+  strict: false,
+  level: ReanimatedLogLevel.warn
+})
 
 function AppLayout() {
   const queryClient = new QueryClient()

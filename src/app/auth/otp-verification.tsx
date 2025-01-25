@@ -5,7 +5,6 @@ import { Text, TouchableOpacity, View } from "react-native"
 import { useRouter } from "expo-router"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowLeft } from "iconsax-react-native"
 import { Controller, useForm } from "react-hook-form"
 
 import {
@@ -15,15 +14,13 @@ import {
   OTPInput,
   VStack
 } from "@/components/global/atoms"
-import { IconButton } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
-
-import { COLORS } from "@/constants/app"
 
 import { OtpVerificationType, otpSchema } from "@/schemas/userSchema"
 
 function OTPVerificationScreen() {
   const router = useRouter()
+
   const [timeLeft, setTimeLeft] = useState(30)
   const [isClear, setIsClear] = useState(false)
 
@@ -49,10 +46,6 @@ function OTPVerificationScreen() {
 
     return () => clearInterval(timer)
   }, [timeLeft])
-
-  const handleBack = () => {
-    router.replace("/auth/forgot-password")
-  }
 
   const onSubmit = (data: OtpVerificationType) => {
     console.log("OTP Submitted:", data)

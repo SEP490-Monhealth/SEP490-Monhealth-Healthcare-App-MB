@@ -30,6 +30,7 @@ const foodPortionSchema = z
 const baseFoodSchema = z
   .object({
     foodId: z.string(),
+    category: z.string(),
     userId: z.string(),
 
     // foodType: z.string(),
@@ -41,7 +42,6 @@ const baseFoodSchema = z
       .array(DishType)
       .min(1, { message: "Bạn cần chọn ít nhất một loại món ăn" }),
 
-    category: z.string(),
     name: z
       .string()
       .nonempty({ message: "Tên món ăn không được để trống" })
@@ -69,6 +69,8 @@ export const foodSchema = baseFoodSchema
     foodId: true,
     userId: true,
     // foodType: true,
+    mealType: true,
+    dishType: true,
     category: true,
     name: true,
     description: true,
@@ -94,8 +96,8 @@ export const foodUserSchema = z.object({
 export const createFoodSchema = baseFoodSchema.pick({
   userId: true,
   // foodType: true,
-  // mealType: true,
-  // dishType: true,
+  mealType: true,
+  dishType: true,
   name: true,
   description: true,
   portion: true,

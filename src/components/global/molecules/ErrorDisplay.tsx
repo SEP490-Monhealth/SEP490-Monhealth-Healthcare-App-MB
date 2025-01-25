@@ -6,6 +6,8 @@ import { VStack } from "@/components/global/atoms"
 
 import { useAnimation } from "@/hooks/useAnimation"
 
+import { cn } from "@/lib/utils"
+
 interface ErrorDisplayProps {
   imageSource: any
   title: string
@@ -25,7 +27,7 @@ export const ErrorDisplay = ({
   const marginClass = marginTop ? `mt-${marginTop}` : "mt-0"
 
   return (
-    <VStack center gap={32} className={marginClass}>
+    <VStack center gap={32} className={cn("px-6", marginClass)}>
       <Animated.Image
         source={imageSource}
         style={{
@@ -38,7 +40,7 @@ export const ErrorDisplay = ({
 
       <VStack>
         <Animated.Text
-          className="text-center font-tbold text-2xl text-primary"
+          className="text-center font-tbold text-3xl text-primary"
           style={{
             opacity: textFadeAnim,
             transform: [{ translateY: textTranslateAnim }]
@@ -48,7 +50,7 @@ export const ErrorDisplay = ({
         </Animated.Text>
 
         <Animated.Text
-          className="text-center font-tmedium text-base text-accent"
+          className="text-center font-tmedium text-lg text-accent"
           style={{
             opacity: textFadeAnim,
             transform: [{ translateY: textTranslateAnim }]

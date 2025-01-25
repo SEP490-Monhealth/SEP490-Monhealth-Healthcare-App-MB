@@ -14,14 +14,14 @@ import {
 import ExerciseCard from "@/components/global/molecules/ExerciseCard"
 import { Header, Section } from "@/components/global/organisms"
 
-import { sampleWorkoutData } from "@/constants/workouts"
+import { sampleWorkoutsData } from "@/constants/workouts"
 
 function WorkoutDetailsScreen() {
   const router = useRouter()
 
   const { workoutId } = useLocalSearchParams() as { workoutId: string }
 
-  const workoutData = sampleWorkoutData
+  const workoutData = sampleWorkoutsData
 
   const handleViewExercise = (exerciseId: string) => {
     console.log(exerciseId)

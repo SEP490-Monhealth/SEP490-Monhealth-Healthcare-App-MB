@@ -13,6 +13,7 @@ interface CreateFoodState {
   portion: PortionType
   nutrition?: NutritionType
   isPublic: boolean
+
   updateField: (field: string, value: any) => void
   reset: () => void
 }
@@ -40,7 +41,9 @@ export const useFoodStore = create<CreateFoodState>((set) => ({
   updateField: (field, value) =>
     set((state) => ({
       ...state,
-      [field]: value
+      [field]: Array.isArray(value)
+        ? value.map((v) => v as MealTypeEnum | DishTypeEnum)
+        : value
     })),
 
   reset: () =>

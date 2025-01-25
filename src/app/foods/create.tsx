@@ -1,11 +1,6 @@
 import { useRef, useState } from "react"
 
-import {
-  Keyboard,
-  SafeAreaView,
-  TouchableWithoutFeedback,
-  View
-} from "react-native"
+import { Keyboard, SafeAreaView, TouchableWithoutFeedback } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -15,6 +10,7 @@ import { useForm } from "react-hook-form"
 
 import {
   Button,
+  Container,
   Content,
   Sheet,
   SheetItem,
@@ -23,6 +19,7 @@ import {
 import { Header } from "@/components/global/organisms"
 
 import { DATA } from "@/constants/app"
+import { DishTypeEnum, MealTypeEnum } from "@/constants/enums"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -165,21 +162,27 @@ function FoodCreateScreen() {
   const openMealSheet = () => SheetMealRef.current?.scrollTo(-sheetMealHeight)
   const openDishSheet = () => SheetDishRef.current?.scrollTo(-sheetDishHeight)
 
-  const toggleSelection = (list: string[], value: string, field: string) => {
+  const toggleSelection = (
+    list: (MealTypeEnum | DishTypeEnum)[],
+    value: MealTypeEnum | DishTypeEnum,
+    field: "mealType" | "dishType"
+  ) => {
     const updatedList = list.includes(value)
       ? list.filter((item) => item !== value)
       : [...list, value]
 
-    const sortOrder =
+    const sortOrder = (
       field === "mealType"
         ? DATA.MEALS.map((meal) => meal.value)
         : DATA.DISHES.map((dish) => dish.value)
+    ) as (MealTypeEnum | DishTypeEnum)[]
 
     const orderedList = updatedList.sort(
       (a, b) => sortOrder.indexOf(a) - sortOrder.indexOf(b)
     )
 
     updateField(field, orderedList)
+    setValue(field, orderedList)
   }
 
   const handleBack = () => {
@@ -195,35 +198,41 @@ function FoodCreateScreen() {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView className="h-full flex-1 bg-background">
-        <View className="px-6">
+        <Container>
           <Header back label={currentStepData.title} onBackPress={handleBack} />
-        </View>
 
-        <Content className="mt-2">
-          <StepComponent
-            control={control}
-            errors={errors}
-            setValue={setValue}
-            openMealSheet={openMealSheet}
-            openDishSheet={openDishSheet}
-          />
-        </Content>
+          <Content className="mt-2">
+            <StepComponent
+              control={control}
+              errors={errors}
+              setValue={setValue}
+              openMealSheet={openMealSheet}
+              openDishSheet={openDishSheet}
+            />
+          </Content>
 
-        <Button
-          size="lg"
-          onPress={handleSubmit(onSubmitStep)}
-          className="absolute bottom-12 left-6 right-6"
-        >
-          {currentStep === steps.length ? "Tạo mới" : "Tiếp tục"}
-        </Button>
+          <Button
+            size="lg"
+            onPress={handleSubmit(onSubmitStep)}
+            className="absolute bottom-12 left-6 right-6"
+          >
+            {currentStep === steps.length ? "Tạo mới" : "Tiếp tục"}
+          </Button>
+        </Container>
 
         <Sheet ref={SheetMealRef} dynamicHeight={sheetMealHeight}>
           {DATA.MEALS.map((meal) => (
             <SheetItem
               key={meal.value}
               item={meal.label}
-              isSelected={mealType.includes(meal.value)}
-              onSelect={() => toggleSelection(mealType, meal.value, "mealType")}
+              isSelected={mealType.includes(meal.value as MealTypeEnum)}
+              onSelect={() => {
+                toggleSelection(
+                  mealType,
+                  meal.value as MealTypeEnum,
+                  "mealType"
+                )
+              }}
             />
           ))}
         </Sheet>
@@ -233,8 +242,14 @@ function FoodCreateScreen() {
             <SheetItem
               key={dish.value}
               item={dish.label}
-              isSelected={dishType.includes(dish.value)}
-              onSelect={() => toggleSelection(dishType, dish.value, "dishType")}
+              isSelected={dishType.includes(dish.value as DishTypeEnum)}
+              onSelect={() =>
+                toggleSelection(
+                  dishType,
+                  dish.value as DishTypeEnum,
+                  "dishType"
+                )
+              }
             />
           ))}
         </Sheet>

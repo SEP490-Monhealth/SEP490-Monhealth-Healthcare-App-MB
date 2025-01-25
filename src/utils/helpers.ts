@@ -252,12 +252,12 @@ export const parsePortion = (
  * @returns Mảng các nhãn tương ứng với giá trị đầu vào.
  */
 export const getLabelsFromValues = (
-  values: string[],
-  data: { label: string; value: string }[]
+  values: number[],
+  data: { label: string; value: number }[]
 ): string[] => {
   return values.map((value) => {
-    const item = data.find((d) => d.value === value)
-    return item ? item.label : value
+    const item = data.find((d) => d.value === value) // So khớp kiểu number
+    return item ? item.label : value.toString() // Trả về label hoặc chính giá trị
   })
 }
 

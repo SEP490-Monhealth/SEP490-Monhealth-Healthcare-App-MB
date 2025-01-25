@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { Text, View } from "react-native"
+import { Text } from "react-native"
 
 import { useRouter } from "expo-router"
 

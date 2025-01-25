@@ -99,7 +99,7 @@ function FoodNutrition({ control, errors }: FoodNutritionProps) {
       className="flex-1"
     >
       <ScrollArea>
-        <VStack gap={12} className="px-6 pb-40">
+        <VStack gap={12} className="pb-40">
           <VStack>
             <Section label="Dinh dưỡng cơ bản" />
             <VStack gap={12}>
