@@ -106,72 +106,58 @@ export const sampleCategoriesData: CategoryType[] = [
     updatedAt: "2025-01-06T00:00:00Z"
   },
   {
+    categoryId: "c440673d-c842-4aad-aa44-4a9b314529c4",
+    type: "Exercise",
+    name: "Cơ bụng",
+    image: require("../../public/icons/workouts/core.png"),
+    createdAt: "2025-01-06T00:00:00Z",
+    updatedAt: "2025-01-06T00:00:00Z"
+  },
+  {
     categoryId: "7780ccb5-aa16-4f88-a662-04971892dae0",
     type: "Exercise",
-    name: "Yoga",
-    description:
-      "Các bài tập tập trung vào việc cải thiện sự linh hoạt, thăng bằng, và giảm căng thẳng thông qua các tư thế và kỹ thuật thở. Phù hợp cho mọi lứa tuổi và thể trạng",
-    image: require("../../public/icons/workouts/yoga.png"),
+    name: "Thân dưới",
+    image: require("../../public/icons/workouts/lower-body.png"),
     createdAt: "2025-01-06T00:00:00Z",
     updatedAt: "2025-01-06T00:00:00Z"
   },
   {
     categoryId: "8d95160a-e5c0-49b7-b016-b97e3479c54b",
     type: "Exercise",
-    name: "Stretching",
-    description:
-      "Bài tập kéo giãn cơ giúp cải thiện biên độ chuyển động, giảm đau nhức cơ bắp, và tăng cường sự linh hoạt. Thường được sử dụng như phần khởi động hoặc thư giãn sau buổi tập",
-    image: require("../../public/icons/workouts/stretching.png"),
+    name: "Thân trên",
+    image: require("../../public/icons/workouts/upper-body.png"),
     createdAt: "2025-01-06T00:00:00Z",
     updatedAt: "2025-01-06T00:00:00Z"
   },
   {
     categoryId: "045d39cf-5865-4e2a-9cd1-fd76628bdab4",
     type: "Exercise",
-    name: "Cardio",
-    description:
-      "Các bài tập aerobic giúp tăng nhịp tim, cải thiện sức khỏe tim mạch, và đốt cháy calo nhanh. Thích hợp để giảm cân hoặc cải thiện thể lực tổng thể",
+    name: "Tim mạch",
     image: require("../../public/icons/workouts/cardio.png"),
-    createdAt: "2025-01-06T00:00:00Z",
-    updatedAt: "2025-01-06T00:00:00Z"
-  },
-  {
-    categoryId: "c440673d-c842-4aad-aa44-4a9b314529c4",
-    type: "Exercise",
-    name: "Core",
-    description:
-      "Các bài tập tăng cường sức mạnh cơ bụng, lưng dưới, và vùng thân trung tâm. Giúp cải thiện tư thế, thăng bằng, và giảm nguy cơ chấn thương",
-    image: require("../../public/icons/workouts/core.png"),
     createdAt: "2025-01-06T00:00:00Z",
     updatedAt: "2025-01-06T00:00:00Z"
   },
   {
     categoryId: "a1c1ef2d-6697-49d3-857b-882b288ffeef",
     type: "Exercise",
-    name: "Breathing Exercises",
-    description:
-      "Các bài tập tập trung vào kỹ thuật thở sâu và có kiểm soát. Giúp thư giãn, giảm stress, và cải thiện khả năng hấp thụ oxy",
-    image: require("../../public/icons/workouts/breathing-exercises.png"),
+    name: "Cân bằng",
+    image: require("../../public/icons/workouts/balance.png"),
     createdAt: "2025-01-06T00:00:00Z",
     updatedAt: "2025-01-06T00:00:00Z"
   },
   {
     categoryId: "d7c2a84c-2136-4f62-8d8e-4d70ec123f4f",
     type: "Exercise",
-    name: "Balance Training",
-    description:
-      "Các bài tập giúp tăng cường khả năng thăng bằng và sự ổn định của cơ thể. Đặc biệt hữu ích cho người lớn tuổi hoặc những ai cần cải thiện khả năng giữ thăng bằng",
-    image: require("../../public/icons/workouts/balance-training.png"),
+    name: "Linh hoạt",
+    image: require("../../public/icons/workouts/flexibility.png"),
     createdAt: "2025-01-06T00:00:00Z",
     updatedAt: "2025-01-06T00:00:00Z"
   },
   {
     categoryId: "cb81e687-8e2f-4814-99a6-808777410e02",
     type: "Exercise",
-    name: "Pilates",
-    description:
-      "Bài tập kết hợp giữa các động tác chậm, có kiểm soát, tập trung vào sức mạnh cơ lõi, sự linh hoạt và tư thế. Phù hợp để cải thiện cơ bắp và giảm căng thẳng",
-    image: require("../../public/icons/workouts/pilates.png"),
+    name: "Khởi động",
+    image: require("../../public/icons/workouts/mobility.png"),
     createdAt: "2025-01-06T00:00:00Z",
     updatedAt: "2025-01-06T00:00:00Z"
   }
