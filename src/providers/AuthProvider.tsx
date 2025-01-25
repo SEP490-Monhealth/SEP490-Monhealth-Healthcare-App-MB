@@ -51,20 +51,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           await delay(2000)
 
           if (metricsExist) {
-            router.replace("/(tabs)/home")
+            router.replace("/tabs/home")
           } else {
-            router.replace("/(onboarding)/welcome")
+            router.replace("/onboarding/welcome")
           }
         } else if (userInfo.role === "Consultant") {
           await delay(2000)
           router.replace("/(consultant-tabs)/dashboard")
         } else {
           await delay(2000)
-          router.replace("/(auth)/sign-in")
+          router.replace("/auth/sign-in")
         }
       } else {
         await delay(2000)
-        router.replace("/(onboarding)/welcome")
+        router.replace("/onboarding/welcome")
       }
     } catch (error) {
       handleError(error)
@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setHasMetrics(false)
 
       await delay(2000)
-      router.replace("/(auth)/sign-in")
+      router.replace("/auth/sign-in")
     } finally {
       setLoading(false)
     }
@@ -100,14 +100,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const metricsExist = metricsData && metricsData.length > 0
 
         if (metricsExist) {
-          router.replace("/(tabs)/home")
+          router.replace("/tabs/home")
         } else {
-          router.replace("/(onboarding)")
+          router.replace("/onboarding")
         }
       } else if (userInfo.role === "Consultant") {
         router.replace("/(consultant-tabs)")
       } else {
-        router.replace("/(auth)/sign-in")
+        router.replace("/auth/sign-in")
       }
     } catch (error) {
       handleError(error)
@@ -138,7 +138,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setIsAuthenticated(false)
       setUser(null)
       setHasMetrics(false)
-      router.replace("/(auth)/sign-in")
+      router.replace("/auth/sign-in")
     } catch (error) {
       handleError(error)
       throw error

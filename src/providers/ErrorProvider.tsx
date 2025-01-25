@@ -35,7 +35,7 @@ export const ErrorProvider: React.FC<{ children: React.ReactNode }> = ({
       case 401:
         console.log("[AUTH] Lỗi 401: Chưa đăng nhập hoặc phiên đã hết hạn")
         alert("[AUTH] Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại")
-        router.replace("/(auth)/sign-in")
+        router.replace("/auth/sign-in")
         break
       case 403:
         console.log("[AUTH] Lỗi 403: Không có quyền truy cập")

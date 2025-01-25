@@ -28,13 +28,17 @@ function VoiceScreen() {
     router.push("/test/local-image")
   }
 
+  const handleViewMealSuggestion = () => {
+    router.push("/test/meal-suggestions")
+  }
+
   return (
     <Container>
       <Header
         label="AI Voice"
         action={{
           icon: <Microphone variant="Bold" size={20} color={COLORS.primary} />,
-          href: "/(tabs)/home"
+          href: "/tabs/home"
         }}
       />
 
@@ -54,6 +58,10 @@ function VoiceScreen() {
 
           <Button size="lg" onPress={handleViewLocalImage}>
             Local Image
+          </Button>
+
+          <Button size="lg" onPress={handleViewMealSuggestion}>
+            Meal Suggestions
           </Button>
         </VStack>
       </Content>

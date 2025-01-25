@@ -54,7 +54,7 @@ function SetupScreen() {
   const userId = user?.userId
 
   const { mutate: createMetric } = useCreateMetric()
-  const { mutate: createUserFoods } = useCreateUserFoods(userId || "")
+  const { mutate: createUserFoods } = useCreateUserFoods()
 
   const {
     dateOfBirth,
@@ -229,7 +229,7 @@ function SetupScreen() {
         ...goalData
       }
 
-      const newUserFoodsData = { ...categoryData, ...allergyData }
+      const newUserFoodsData = { ...userData, ...categoryData, ...allergyData }
 
       // console.log("new metric data", JSON.stringify(newMetricData, null, 2))
       // console.log(
@@ -255,7 +255,7 @@ function SetupScreen() {
           )
         ])
 
-        router.replace("/(setup)/summary")
+        router.replace("/setup/summary")
       } catch (error) {
         console.error("Error during setup submission:", error)
       } finally {

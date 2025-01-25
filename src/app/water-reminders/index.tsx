@@ -106,7 +106,7 @@ function WaterReminderScreen() {
   }
 
   const handleBack = () => {
-    router.replace({ pathname: "/(tabs)/home", params: { tab: "water" } })
+    router.replace({ pathname: "/tabs/home", params: { tab: "water" } })
   }
 
   if (!remindersData || isLoading) {

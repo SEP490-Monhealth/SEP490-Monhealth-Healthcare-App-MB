@@ -41,7 +41,7 @@ function ForgotPasswordScreen() {
 
   const onSubmit = (data: ResetPasswordType) => {
     console.log(data)
-    router.push("/(auth)/sign-in")
+    router.push("/auth/sign-in")
   }
 
   return (

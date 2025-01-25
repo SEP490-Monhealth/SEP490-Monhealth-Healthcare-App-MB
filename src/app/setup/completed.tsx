@@ -11,7 +11,7 @@ function SetupCompleted() {
   const router = useRouter()
 
   const handleDone = () => {
-    router.replace("/(tabs)/home")
+    router.replace("/tabs/home")
   }
 
   return (

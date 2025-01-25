@@ -12,12 +12,10 @@ import {
   TabsTrigger
 } from "@/components/global/atoms"
 
-import {
-  HomeHeader,
-  MealTab,
-  WaterTab,
-  WorkoutTab
-} from "@/components/local/tabs/home"
+import { HomeHeader } from "@/components/local/tabs/home"
+import { MealTab } from "@/components/local/tabs/home/MealTab"
+import { WaterTab } from "@/components/local/tabs/home/WaterTab"
+import { WorkoutTab } from "@/components/local/tabs/home/WorkoutTab"
 
 import { useAuth } from "@/contexts/AuthContext"
 

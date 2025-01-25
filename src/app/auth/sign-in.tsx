@@ -23,25 +23,29 @@ import { useAuth } from "@/contexts/AuthContext"
 
 import { LoginType, loginSchema } from "@/schemas/userSchema"
 
+interface SignInDataType {
+  title: string
+  description: string
+}
+
+const signInData: Record<string, SignInDataType> = {
+  User: {
+    title: "Đăng nhập",
+    description: "Đăng nhập để tiếp tục theo dõi sức khỏe của bạn"
+  },
+  Consultant: {
+    title: "Đăng nhập",
+    description: "Đăng nhập để hỗ trợ người dùng theo dõi sức khỏe"
+  }
+}
+
 function SignInScreen() {
   const router = useRouter()
-  const { userType = "user" } = useLocalSearchParams() as {
-    userType: "user" | "consultant"
+  const { userType = "User" } = useLocalSearchParams() as {
+    userType: "User" | "Consultant"
   }
 
   const { login } = useAuth()
-
-  const signInData: { [key: string]: { title: string; description: string } } =
-    {
-      user: {
-        title: "Đăng nhập",
-        description: "Đăng nhập để tiếp tục theo dõi sức khỏe của bạn"
-      },
-      consultant: {
-        title: "Đăng nhập",
-        description: "Đăng nhập để hỗ trợ người dùng theo dõi sức khỏe"
-      }
-    }
 
   const { title, description } = signInData[userType] || signInData.user
 
@@ -60,9 +64,9 @@ function SignInScreen() {
     }
   })
 
-  const handleSignUp = () => router.push(`/(auth)/sign-up?userType=${userType}`)
+  const handleSignUp = () => router.push(`/auth/sign-up?userType=${userType}`)
 
-  const handleForgotPassword = () => router.push("/(auth)/forgot-password")
+  const handleForgotPassword = () => router.push("/auth/forgot-password")
 
   const onSubmit = async (loginData: LoginType) => {
     setIsLoading(true)

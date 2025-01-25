@@ -2,7 +2,7 @@ import React from "react"
 
 import { Router, useRouter } from "expo-router"
 
-import WelcomeScreen from "@/app/(onboarding)/welcome"
+import WelcomeScreen from "@/app/onboarding/welcome"
 import { fireEvent, render } from "@testing-library/react-native"
 
 // Mock the useRouter hook
@@ -45,7 +45,7 @@ describe("WelcomeScreen", () => {
     fireEvent.press(getByText("Google"))
 
     // Verify navigation
-    expect(router.replace).toHaveBeenCalledWith("/(tabs)/home")
+    expect(router.replace).toHaveBeenCalledWith("/tabs/home")
   })
 
   it("navigates to sign-in screen when 'Tiếp tục' is pressed", () => {
@@ -55,7 +55,7 @@ describe("WelcomeScreen", () => {
     fireEvent.press(getByText("Tiếp tục"))
 
     // Verify navigation
-    expect(router.push).toHaveBeenCalledWith("/(auth)/sign-in")
+    expect(router.push).toHaveBeenCalledWith("/auth/sign-in")
   })
 
   it("renders terms and privacy policy text", () => {

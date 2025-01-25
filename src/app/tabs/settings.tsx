@@ -24,7 +24,7 @@ function SettingsScreen() {
   const handleLogout = async () => {
     await logout()
     setIsModalVisible(false)
-    router.replace("/(onboarding)/welcome")
+    router.replace("/onboarding/welcome")
   }
 
   const handleAction = (action: string | undefined) => {

@@ -62,7 +62,7 @@ function SignUpScreen() {
     }
   })
 
-  const handleSignIn = () => router.replace("/(auth)/sign-in")
+  const handleSignIn = () => router.replace("/auth/sign-in")
 
   const onSubmit = async (registerData: RegisterType) => {
     setIsLoading(true)
@@ -77,7 +77,7 @@ function SignUpScreen() {
           registerData.password
         )
 
-        router.replace("/(setup)")
+        router.replace("/setup")
       } else {
         console.log("Đăng ký chuyên viên tư vấn")
       }

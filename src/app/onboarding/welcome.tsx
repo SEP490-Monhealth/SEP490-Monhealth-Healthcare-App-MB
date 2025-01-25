@@ -10,17 +10,11 @@ function WelcomeScreen() {
   const router = useRouter()
 
   const handleUser = () => {
-    router.push({
-      pathname: "/(auth)/sign-in",
-      params: { userType: "user" }
-    })
+    router.push("/auth/sign-in?userType=User")
   }
 
   const handleConsultant = () => {
-    router.push({
-      pathname: "/(auth)/sign-in",
-      params: { userType: "consultant" }
-    })
+    router.push("/auth/sign-in?userType=Consultant")
   }
 
   return (

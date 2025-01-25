@@ -1,5 +1,7 @@
 import React from "react"
 
+import { Text } from "react-native"
+
 import { Profile } from "iconsax-react-native"
 
 import {
@@ -12,14 +14,9 @@ import {
 import { Tabs, TabsContent } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import { MealTab } from "@/components/local/tabs/report"
-
 import { COLORS } from "@/constants/app"
-import { sampleFoodsData } from "@/constants/foods"
 
 function ReportScreen() {
-  const foodsData = sampleFoodsData
-
   return (
     <Container>
       <Header
@@ -42,13 +39,13 @@ function ReportScreen() {
             </VStack>
 
             <TabsContent value="meal">
-              <MealTab foodsData={foodsData} />
+              <Text>asd</Text>
             </TabsContent>
             <TabsContent value="water">
-              <MealTab foodsData={foodsData} />
+              <Text>asd</Text>
             </TabsContent>
             <TabsContent value="activity">
-              <MealTab foodsData={foodsData} />
+              <Text>asd</Text>
             </TabsContent>
           </Tabs>
         </VStack>

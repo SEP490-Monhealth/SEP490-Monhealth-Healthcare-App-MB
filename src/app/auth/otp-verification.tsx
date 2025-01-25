@@ -51,12 +51,12 @@ function OTPVerificationScreen() {
   }, [timeLeft])
 
   const handleBack = () => {
-    router.replace("/(auth)/forgot-password")
+    router.replace("/auth/forgot-password")
   }
 
   const onSubmit = (data: OtpVerificationType) => {
     console.log("OTP Submitted:", data)
-    router.replace("/(auth)/reset-password")
+    router.replace("/auth/reset-password")
   }
 
   const handleResendOTP = () => {

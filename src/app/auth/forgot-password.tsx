@@ -37,7 +37,7 @@ function ForgotPasswordScreen() {
 
   const onSubmit = (data: PhoneNumberType) => {
     console.log(data)
-    router.push("/(auth)/otp-verification")
+    router.push("/auth/otp-verification")
   }
 
   return (

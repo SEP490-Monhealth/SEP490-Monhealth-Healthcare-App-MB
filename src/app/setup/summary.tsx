@@ -68,7 +68,7 @@ function SetupSummary() {
   const handleFinished = () => {
     // console.log(caloriesGoal)
 
-    router.push("/(setup)/completed")
+    router.push("/setup/completed")
   }
 
   return (
