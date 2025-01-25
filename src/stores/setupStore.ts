@@ -10,6 +10,7 @@ interface setupStoreProps {
   weightGoal: number
   categories: string[]
   allergies: string[]
+
   updateField: (field: string, value: any) => void
   reset: () => void
 }
@@ -22,8 +23,19 @@ export const useSetupStore = create<setupStoreProps>((set) => ({
   // activityLevel: 1.375,
   // goalType: "WeightGain",
   // weightGoal: 66,
-  // categories: [],
-  // allergies: [],
+  // categories: [
+  //   "Hải sản",
+  //   "Thịt",
+  //   "Rau củ",
+  //   "Món ngọt",
+  //   "Đồ uống",
+  //   "Món lên men",
+  //   "Trái cây",
+  //   "Đồ ăn nhanh",
+  //   "Bánh các loại",
+  //   "Đồ ăn vặt"
+  // ],
+  // allergies: ["Sữa bò", "Hạt cây", "Đậu nành", "Động vật có vỏ"],
 
   dateOfBirth: "",
   gender: "Male",

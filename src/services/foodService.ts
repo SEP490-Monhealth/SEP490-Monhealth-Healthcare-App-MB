@@ -230,15 +230,9 @@ export const createFood = async (
   }
 }
 
-export const createUserFood = async (
-  userId: string | undefined,
-  newUserFoodsData: FoodUserType
-) => {
+export const createUserFood = async (newUserFoodsData: FoodUserType) => {
   try {
-    const response = await monAPI.post(
-      `/user-foods/${userId}`,
-      newUserFoodsData
-    )
+    const response = await monAPI.post("/user-foods", newUserFoodsData)
 
     if (!response || !response.data) {
       throw {

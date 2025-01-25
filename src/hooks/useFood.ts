@@ -148,21 +148,17 @@ export const useCreateFood = () => {
   })
 }
 
-export const useCreateUserFoods = (userId: string | undefined) => {
-  const queryClient = useQueryClient()
+export const useCreateUserFoods = () => {
   const handleError = useError()
 
   return useMutation<string, Error, FoodUserType>({
     mutationFn: async (newUserFoodsData) => {
       try {
-        return await createUserFood(userId, newUserFoodsData)
+        return await createUserFood(newUserFoodsData)
       } catch (error) {
         handleError(error)
         throw error
       }
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["foods"] })
     }
   })
 }

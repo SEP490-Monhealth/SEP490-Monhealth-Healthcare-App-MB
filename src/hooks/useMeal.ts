@@ -14,7 +14,7 @@ import {
   updateMealFoodStatus
 } from "@/services/mealService"
 
-export const useGetMealByUserId = (userId: string | undefined) => {
+export const useGetMealsByUserId = (userId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<MealType[], Error>({

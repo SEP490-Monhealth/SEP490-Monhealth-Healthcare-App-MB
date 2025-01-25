@@ -49,6 +49,7 @@ function WorkoutDetailsScreen() {
                   name={exercise.name}
                   duration={exercise.duration}
                   caloriesBurned={exercise.caloriesBurned}
+                  difficulty={exercise.difficultyLevel}
                   onPress={() => handleViewExercise(exercise.exerciseId)}
                 />
               ))}
