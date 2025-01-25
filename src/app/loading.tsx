@@ -25,7 +25,7 @@ export function LoadingOverlay({ visible }: LoadingOverlayProps) {
   if (!visible) return null
 
   return (
-    <View style={styles.overlay}>
+    <View className="items-center justify-center" style={styles.overlay}>
       <LottieView
         source={require("../../public/videos/monhealth-loading.json")}
         autoPlay
@@ -40,8 +40,6 @@ const styles = StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: "rgba(255, 255, 255, 0.7)",
-    justifyContent: "center",
-    alignItems: "center",
     zIndex: 1000
   }
 })

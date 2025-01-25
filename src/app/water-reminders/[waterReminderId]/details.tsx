@@ -30,7 +30,7 @@ import {
   updateWaterReminderSchema
 } from "@/schemas/waterReminderSchema"
 
-import { convertTimeStringToDate } from "@/utils/helpers"
+import { convertDate } from "@/utils/helpers"
 
 function WaterReminderDetailsScreen() {
   const { waterReminderId } = useLocalSearchParams() as {
@@ -58,7 +58,7 @@ function WaterReminderDetailsScreen() {
       setValue("name", waterReminderData.name)
       setValue("time", waterReminderData.time)
       setValue("volume", waterReminderData.volume)
-      setTime(convertTimeStringToDate(waterReminderData.time))
+      setTime(convertDate(waterReminderData.time))
     }
   }, [waterReminderData, setValue])
 

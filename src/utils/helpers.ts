@@ -12,9 +12,9 @@ export const delay = (ms: number) =>
 /**
  * Chuyển ký tự đầu tiên của chuỗi thành in hoa.
  * @param str - Chuỗi cần chuyển đổi.
- * @returns Chuỗi đã được capitalize.
+ * @returns Chuỗi đã được viết hoa ký tự đầu tiên.
  */
-export const capitalize = (str: string) => {
+export const capitalize = (str: string): string => {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
@@ -32,10 +32,35 @@ export const generateUUID = (): string => {
 }
 
 /**
+ * Lấy chữ cái viết tắt từ tên hoặc chuỗi.
+ * @param name - Tên hoặc chuỗi cần lấy chữ cái viết tắt.
+ * @returns Chữ cái viết tắt (tối đa 2 chữ cái đầu tiên).
+ */
+export const getInitials = (name: string): string => {
+  const words = name
+    .trim()
+    .split(" ")
+    .filter((word) => word.length > 0)
+  return words
+    .slice(0, 2)
+    .map((word) => word[0].toUpperCase())
+    .join("")
+}
+
+/**
+ * Lấy ngẫu nhiên một lời khuyên (tip).
+ * @returns Nội dung lời khuyên (tipContent).
+ */
+export const getRandomTip = (): string => {
+  const randomIndex = Math.floor(Math.random() * TipsData.length)
+  return TipsData[randomIndex].tipContent
+}
+
+/**
  * Lấy lời chào phù hợp dựa trên thời gian hiện tại.
  * @returns Lời chào bằng tiếng Việt (Chào buổi sáng, Chào buổi chiều, Chào buổi tối).
  */
-export const getGreeting = () => {
+export const getGreeting = (): string => {
   const date = new Date()
   const hours = date.getHours()
 
@@ -43,23 +68,21 @@ export const getGreeting = () => {
     return "Chào buổi sáng,"
   } else if (hours < 18) {
     return "Chào buổi chiều,"
-  } else return "Chào buổi tối,"
+  } else {
+    return "Chào buổi tối,"
+  }
 }
 
 /**
- * Lấy chữ cái viết tắt từ tên hoặc chuỗi
- * @param name Tên hoặc chuỗi cần lấy chữ cái viết tắt
- * @returns Chữ cái viết tắt (tối đa 2 chữ cái đầu tiên)
+ * Chuyển đổi chuỗi thời gian (HH:mm) thành đối tượng Date với ngày hiện tại.
+ * @param timeString - Chuỗi thời gian theo định dạng "HH:mm".
+ * @returns {Date} - Đối tượng Date với thời gian được đặt theo giờ và phút đã cho.
  */
-export const getInitials = (name: string) => {
-  const words = name
-    .trim()
-    .split(" ")
-    .filter((word) => word.length > 0) // Lọc các từ rỗng
-  return words
-    .slice(0, 2) // Lấy tối đa 2 từ đầu tiên
-    .map((word) => word[0].toUpperCase()) // Lấy chữ cái đầu tiên và chuyển thành chữ hoa
-    .join("") // Kết hợp các chữ cái lại với nhau
+export const convertDate = (timeString: string): Date => {
+  const [hours, minutes] = timeString.split(":").map(Number)
+  const date = new Date()
+  date.setHours(hours, minutes, 0, 0)
+  return date
 }
 
 /**
@@ -87,7 +110,7 @@ export const getMealType = (lang: string = "vi") => {
   }
 
   const selectedLang =
-    mealTypes[lang as keyof typeof mealTypes] || mealTypes["vi"] // Default to Vietnamese
+    mealTypes[lang as keyof typeof mealTypes] || mealTypes["vi"]
 
   if (hours < 10) {
     return selectedLang.breakfast
@@ -121,11 +144,11 @@ export const getNutritionColor = (label: string) => {
 }
 
 /**
- * Lấy màu sắc đại diện cho từng bài tập
- * @param label Tên bài tập (Thời gian, Kcal, Bước chân)
- * @returns Màu sắc đại diện cho bài tập (dùng trong UI)
+ * Lấy màu sắc đại diện cho từng bài tập.
+ * @param label - Tên bài tập (Thời gian, Kcal, Bước chân).
+ * @returns Màu sắc đại diện cho bài tập (dùng trong UI).
  */
-export const getWorkoutColor = (label: string) => {
+export const getWorkoutColor = (label: string): string => {
   switch (label) {
     case "Đã nạp":
       return COLORS.WORKOUT.caloriesIntake
@@ -141,29 +164,30 @@ export const getWorkoutColor = (label: string) => {
 }
 
 /**
- * Trả về đơn vị phù hợp dựa trên label.
+ * Trả về đơn vị phù hợp dựa trên label bài tập.
  * @param label - Nhãn để xác định đơn vị.
  * @returns Đơn vị tương ứng dưới dạng chuỗi.
  */
-export const getWorkoutUnit = (label: string) => {
+export const getWorkoutUnit = (label: string): string => {
   switch (label) {
     case "Đã nạp":
-      return "kcal"
     case "Đã đốt":
       return "kcal"
     case "Thời gian":
       return "phút"
     case "Số bước":
       return "bước"
+    default:
+      return ""
   }
 }
 
 /**
  * Chuyển đổi mealType từ tiếng Anh sang tiếng Việt.
- * @param mealType - Loại bữa ăn bằng tiếng Anh (Breakfast, Lunch, Dinner, Snack)
- * @returns Loại bữa ăn bằng tiếng Việt (Bữa sáng, Bữa trưa, Bữa tối, Bữa phụ)
+ * @param mealType - Loại bữa ăn bằng tiếng Anh (Breakfast, Lunch, Dinner, Snack).
+ * @returns Loại bữa ăn bằng tiếng Việt (Bữa sáng, Bữa trưa, Bữa tối, Bữa phụ).
  */
-export const getMealTypeName = (mealType: string): string => {
+export const translateMealType = (mealType: string): string => {
   const translations: Record<string, string> = {
     Breakfast: "Bữa sáng",
     Lunch: "Bữa trưa",
@@ -174,11 +198,11 @@ export const getMealTypeName = (mealType: string): string => {
 }
 
 /**
- * Lấy hình ảnh đại diện cho từng loại bữa ăn
- * @param mealType - Loại bữa ăn (Breakfast, Lunch, Dinner, Snack)
- * @returns Hình ảnh đại diện của loại bữa ăn
+ * Lấy hình ảnh đại diện cho từng loại bữa ăn.
+ * @param mealType - Loại bữa ăn (Breakfast, Lunch, Dinner, Snack).
+ * @returns Hình ảnh đại diện của loại bữa ăn.
  */
-export const getMealTypeImage = (mealType: string) => {
+export const getMealTypeImage = (mealType: string): any => {
   switch (mealType) {
     case "Breakfast":
       return require("../../public/icons/meals/sandwich.png")
@@ -195,14 +219,17 @@ export const getMealTypeImage = (mealType: string) => {
 
 /**
  * Phân tích một chuỗi khẩu phần (portion) và trả về thông tin chi tiết về kích thước, trọng lượng và đơn vị khẩu phần.
- * @param value Chuỗi mô tả khẩu phần, ví dụ: `"ly (200 ml)"` hoặc `"g"`.
- * @param quantity Giá trị số lượng mặc định nếu không có thông tin trọng lượng hoặc đơn vị trong chuỗi.
+ * @param value - Chuỗi mô tả khẩu phần, ví dụ: "ly (200 ml)" hoặc "g".
+ * @param quantity - Giá trị số lượng mặc định nếu không có thông tin trọng lượng hoặc đơn vị trong chuỗi.
  * @returns Đối tượng chứa:
- * - `portionSize`: Kích thước khẩu phần (ví dụ: `"ly"`, `"phần"`).
+ * - `portionSize`: Kích thước khẩu phần (ví dụ: "ly", "phần").
  * - `portionWeight`: Trọng lượng hoặc thể tích khẩu phần (ví dụ: `200`).
- * - `portionUnit`: Đơn vị khẩu phần (ví dụ: `"ml"`, `"g"`).
+ * - `portionUnit`: Đơn vị khẩu phần (ví dụ: "ml", "g").
  */
-export const parsePortion = (value: string, quantity: string) => {
+export const parsePortion = (
+  value: string,
+  quantity: string
+): { portionSize: string; portionWeight: number; portionUnit: string } => {
   const selectedPortionMatch = value.match(/(.+?) \((\d+) (\w+)\)/)
 
   let portionSize = selectedPortionMatch ? selectedPortionMatch[1] : value
@@ -219,32 +246,30 @@ export const parsePortion = (value: string, quantity: string) => {
 }
 
 /**
- * Chuyển đổi chuỗi thời gian (HH:mm) thành đối tượng Date với ngày hiện tại.
- * @param timeString - Chuỗi thời gian theo định dạng "HH:mm".
- * @returns {Date} - Đối tượng Date với thời gian được đặt theo giờ và phút đã cho.
+ * Lấy nhãn (label) từ danh sách giá trị.
+ * @param values - Mảng giá trị cần lấy nhãn.
+ * @param data - Mảng dữ liệu chứa cặp {label, value}.
+ * @returns Mảng các nhãn tương ứng với giá trị đầu vào.
  */
-export const convertTimeStringToDate = (timeString: string): Date => {
-  const [hours, minutes] = timeString.split(":").map(Number)
-  const date = new Date()
-  date.setHours(hours, minutes, 0, 0)
-  return date
-}
-
-/**
- * Lấy ngẫu nhiên một lời khuyên (tip).
- * @returns Nội dung lời khuyên (tipContent).
- */
-export const getRandomTip = () => {
-  const randomIndex = Math.floor(Math.random() * TipsData.length)
-  return TipsData[randomIndex].tipContent
-}
-
 export const getLabelsFromValues = (
   values: string[],
   data: { label: string; value: string }[]
-) => {
+): string[] => {
   return values.map((value) => {
     const item = data.find((d) => d.value === value)
     return item ? item.label : value
   })
+}
+
+/**
+ * Lấy giá trị chuỗi tương ứng từ enum.
+ * @param value - Giá trị số của enum.
+ * @param enumObj - Enum được sử dụng để ánh xạ.
+ * @returns Chuỗi tương ứng với giá trị enum.
+ */
+export function getEnumValue<T extends Record<number, string>>(
+  value: number,
+  enumObj: T
+): string {
+  return enumObj[value] ?? "Unknown"
 }

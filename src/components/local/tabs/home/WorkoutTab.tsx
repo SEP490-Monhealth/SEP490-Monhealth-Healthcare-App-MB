@@ -91,6 +91,7 @@ export const WorkoutTab = ({
   const handleViewWorkouts = () => router.push("/categories/Exercise")
 
   const { handleViewWorkout } = useRouterHandlers()
+  
   return (
     <View className="mt-4">
       <HStack center className="justify-between">

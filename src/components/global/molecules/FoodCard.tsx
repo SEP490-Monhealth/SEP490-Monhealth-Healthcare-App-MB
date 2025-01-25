@@ -66,9 +66,9 @@ export const FoodCard = ({
           <Text className="font-tmedium text-sm text-accent">
             {toFixed(Number(calories), 0) ?? 0} kcal
             {size
-              ? ` • ${quantity} ${size.toLowerCase()}`
-              : ` • ${quantity} phần`}
-            {weight && unit ? ` • ${weight} ${unit}` : ""}
+              ? ` - ${quantity} ${size.toLowerCase()}`
+              : ` - ${quantity} phần`}
+            {weight && unit ? ` - ${weight} ${unit}` : ""}
           </Text>
         </VStack>
 

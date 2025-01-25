@@ -35,7 +35,7 @@ export const WorkoutCard = ({
           <VStack gap={0}>
             <Text className="font-tmedium text-lg text-primary">{name}</Text>
             <Text className="font-tmedium text-sm text-accent">
-              {totalCaloriesBurned} kcal • {totalDuration} phút •{" "}
+              {totalCaloriesBurned} kcal - {totalDuration} phút -{" "}
               {totalExercise} bài tập
             </Text>
           </VStack>

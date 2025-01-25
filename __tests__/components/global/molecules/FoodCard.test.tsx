@@ -35,14 +35,14 @@ describe("FoodCard Component", () => {
     )
 
     expect(screen.getByText("Pizza")).toBeTruthy()
-    expect(screen.getByText("300 kcal • Medium • 200 g")).toBeTruthy()
+    expect(screen.getByText("300 kcal - Medium - 200 g")).toBeTruthy()
   })
 
   it("renders correctly for add variant", () => {
     render(<FoodCard variant="add" foodId="123" name="Burger" />)
 
     expect(screen.getByText("Burger")).toBeTruthy()
-    expect(screen.getByText("0 kcal • 1 phần • 0 g")).toBeTruthy()
+    expect(screen.getByText("0 kcal - 1 phần - 0 g")).toBeTruthy()
     expect(screen.getByTestId("test-icon-add-button")).toBeTruthy()
   })
 
@@ -59,7 +59,7 @@ describe("FoodCard Component", () => {
     )
 
     expect(screen.getByText("Salad")).toBeTruthy()
-    expect(screen.getByText("0 kcal • 1 phần • 0 g")).toBeTruthy()
+    expect(screen.getByText("0 kcal - 1 phần - 0 g")).toBeTruthy()
     expect(screen.getByTestId("test-icon-more-button")).toBeTruthy()
   })
 

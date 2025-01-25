@@ -7,7 +7,7 @@ import { ChevronRight } from "lucide-react-native"
 import { COLORS } from "@/constants/app"
 
 import { toFixed } from "@/utils/formatters"
-import { getMealTypeImage, getMealTypeName } from "@/utils/helpers"
+import { getMealTypeImage, translateMealType } from "@/utils/helpers"
 
 import { Card, HStack, Progress, VStack } from "../atoms"
 
@@ -46,7 +46,7 @@ export const MealCard = ({
 
         <VStack gap={0}>
           <Text className="font-tmedium text-lg text-primary">
-            {getMealTypeName(type)}
+            {translateMealType(type)}
           </Text>
 
           {progress && (
@@ -58,7 +58,7 @@ export const MealCard = ({
           )}
 
           <Text className="font-tmedium text-sm text-accent">
-            {totalFoods} món ăn • {toFixed(totalCalories, 0)} kcal
+            {totalFoods} món ăn - {toFixed(totalCalories, 0)} kcal
           </Text>
         </VStack>
       </HStack>

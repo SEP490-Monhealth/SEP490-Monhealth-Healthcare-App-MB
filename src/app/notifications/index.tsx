@@ -15,8 +15,9 @@ import { Header } from "@/components/global/organisms"
 import { sampleNotificationData } from "@/constants/notifications"
 
 function NotificationScreen() {
-  const [isRefreshing, setIsRefreshing] = useState(false)
   const notificationData = sampleNotificationData
+  
+  const [isRefreshing, setIsRefreshing] = useState(false)
 
   const onRefresh = async () => {
     setIsRefreshing(true)

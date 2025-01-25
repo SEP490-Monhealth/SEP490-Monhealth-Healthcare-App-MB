@@ -48,7 +48,7 @@ import {
 import { useRouterHandlers } from "@/hooks/useRouter"
 
 import { formatDateYYYYMMDD } from "@/utils/formatters"
-import { getMealTypeName } from "@/utils/helpers"
+import { translateMealType } from "@/utils/helpers"
 
 const MealFoodOptions = React.memo(
   ({ onIncrease, onDecrease, onDelete, quantity }: any) => {
@@ -229,7 +229,7 @@ function MealDetailsScreen() {
 
           <Header
             back
-            label={getMealTypeName(mealType)}
+            label={translateMealType(mealType)}
             action={{
               icon: <Add size={24} color={COLORS.primary} />,
               href: `/foods`
