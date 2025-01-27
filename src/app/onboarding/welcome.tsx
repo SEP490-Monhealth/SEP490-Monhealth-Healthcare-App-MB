@@ -21,7 +21,7 @@ function WelcomeScreen() {
     <Container>
       <Content className="mb-4 mt-24 justify-between">
         <VStack gap={12}>
-          <Text className="font-tbold text-4xl text-primary">
+          <Text className="font-tbold text-4xl leading-10 text-primary">
             Hãy cho{"\n"}
             Chúng tôi biết{"\n"}
             Bạn là ai?

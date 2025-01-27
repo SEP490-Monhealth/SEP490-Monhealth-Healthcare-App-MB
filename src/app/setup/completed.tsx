@@ -24,7 +24,7 @@ function SetupCompleted() {
         />
       </View>
 
-      <Button onPress={handleDone} className="mb-4">
+      <Button size="lg" onPress={handleDone} className="mb-4">
         Hoàn thành
       </Button>
     </Container>

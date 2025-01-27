@@ -5,11 +5,12 @@
     "Thịt",
     "Rau củ",
     "Món ngọt",
+    "Món lên men",
     "Đồ uống",
     "Trái cây",
     "Đồ ăn nhanh",
     "Bánh các loại",
     "Đồ ăn vặt"
   ],
-  "allergies": []
+  "allergies": ["Sữa bò", "Hạt cây", "Đậu nành", "Động vật có vỏ"]
 }

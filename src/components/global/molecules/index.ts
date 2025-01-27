@@ -13,7 +13,7 @@ import { MealCard } from "./MealCard"
 import { NotificationCard } from "./NotificationCard"
 import { NutritionCard } from "./NutritionCard"
 import { NutritionItem } from "./NutritionItem"
-import { StepHeader } from "./SetupHeader"
+import { StepHeader } from "./StepHeader"
 import { WaterReminderCard } from "./WaterReminderCard"
 import { WorkoutCard } from "./WorkoutCard"
 

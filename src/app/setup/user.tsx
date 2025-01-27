@@ -12,9 +12,6 @@ import { COLORS } from "@/constants/app"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useCreateUserFoods } from "@/hooks/useFood"
-import { useCreateMetric } from "@/hooks/useMetric"
-
 import { allergySetupSchema } from "@/schemas/allergySchema"
 import { categorySetupSchema } from "@/schemas/categorySchema"
 import { typeGoalSchema } from "@/schemas/goalSchema"
@@ -53,9 +50,6 @@ function SetupScreen() {
   const { user } = useAuth()
   const userId = user?.userId
 
-  const { mutate: createMetric } = useCreateMetric()
-  const { mutate: createUserFoods } = useCreateUserFoods()
-
   const {
     dateOfBirth,
     gender,
@@ -66,7 +60,10 @@ function SetupScreen() {
     weightGoal,
     categories,
     allergies,
-    updateField
+    updateField,
+    setMetricData,
+    setUserFoodsData,
+    saveUserFoodsDataStorage
   } = useSetupStore()
 
   const [currentStep, setCurrentStep] = useState(1)
@@ -230,6 +227,7 @@ function SetupScreen() {
       }
 
       const newUserFoodsData = { ...userData, ...categoryData, ...allergyData }
+      const newUserFoodStorageData = { ...categoryData, ...allergyData }
 
       // console.log("new metric data", JSON.stringify(newMetricData, null, 2))
       // console.log(
@@ -240,27 +238,40 @@ function SetupScreen() {
       setIsLoading(true)
 
       try {
-        await Promise.all([
-          new Promise((resolve, reject) =>
-            createMetric(newMetricData, {
-              onSuccess: resolve,
-              onError: reject
-            })
-          ),
-          new Promise((resolve, reject) =>
-            createUserFoods(newUserFoodsData, {
-              onSuccess: resolve,
-              onError: reject
-            })
-          )
-        ])
+        setMetricData(newMetricData)
+        setUserFoodsData(newUserFoodsData)
 
-        router.replace("/setup/summary")
+        await saveUserFoodsDataStorage(newUserFoodStorageData)
+
+        router.replace("/setup/meal-suggestions")
       } catch (error) {
-        console.error("Error during setup submission:", error)
+        console.error("Đã có lỗi không mong muốn: ", error)
       } finally {
         setIsLoading(false)
       }
+
+      // try {
+      //   await Promise.all([
+      //     new Promise((resolve, reject) =>
+      //       createMetric(newMetricData, {
+      //         onSuccess: resolve,
+      //         onError: reject
+      //       })
+      //     ),
+      //     new Promise((resolve, reject) =>
+      //       createUserFoods(newUserFoodsData, {
+      //         onSuccess: resolve,
+      //         onError: reject
+      //       })
+      //     )
+      //   ])
+
+      //   router.replace("/setup/summary")
+      // } catch (error) {
+      //   console.error("Error during setup submission:", error)
+      // } finally {
+      //   setIsLoading(false)
+      // }
     }
   }
 

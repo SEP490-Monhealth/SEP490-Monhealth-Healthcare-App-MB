@@ -97,6 +97,7 @@ const RenderRightActions = React.memo(({ onPress }: any) => {
 
 function MealDetailsScreen() {
   const { handleViewFood } = useRouterHandlers()
+
   const SheetRef = useRef<SheetRefProps>(null)
   const swipeableRef = useRef<Swipeable>(null)
 
@@ -135,8 +136,9 @@ function MealDetailsScreen() {
   } = useGetMealFoodsByMealId(mealId)
 
   const mealType = useMemo(() => mealData?.type || "", [mealData])
-  const calorieGoal = 1249
+
   const calorieValue = mealData?.nutrition.calories || 0
+  const calorieGoal = 1249
   const progress = Math.min((calorieValue / calorieGoal) * 100, 100)
 
   const prefillReady = useMemo(
@@ -223,7 +225,7 @@ function MealDetailsScreen() {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <SafeAreaView className="flex-1 bg-background">
+      <SafeAreaView className="flex-1">
         <Container>
           <LoadingOverlay visible={isFetching > 0 || isMutating > 0} />
 

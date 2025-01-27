@@ -163,7 +163,7 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
       targetValue: nutritionGoalData?.sugarGoal || 0
     }
   ]
- 
+
   const dailyCaloriesIntakeProgress =
     caloriesGoal > 0 ? (caloriesValue / caloriesGoal) * 100 : 0
 

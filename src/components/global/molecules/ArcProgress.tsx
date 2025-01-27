@@ -52,7 +52,12 @@ const CenterCircle = ({
           : ""}
       </Text>
 
-      <Text className={cn("font-tmedium text-accent", sizeClass.description)}>
+      <Text
+        className={cn(
+          "text-center font-tmedium text-accent",
+          sizeClass.description
+        )}
+      >
         {label}
       </Text>
     </View>
