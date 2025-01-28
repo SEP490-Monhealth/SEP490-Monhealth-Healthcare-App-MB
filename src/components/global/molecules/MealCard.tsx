@@ -58,7 +58,7 @@ export const MealCard = ({
           )}
 
           <Text className="font-tmedium text-sm text-accent">
-            {totalFoods} món ăn - {toFixed(totalCalories, 0)} kcal
+            {totalFoods} món ăn • {toFixed(totalCalories, 0)} kcal
           </Text>
         </VStack>
       </HStack>

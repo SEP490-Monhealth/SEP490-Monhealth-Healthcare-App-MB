@@ -1,4 +1,5 @@
 import { Alarm, NotificationBing, Reserve } from "iconsax-react-native"
+
 import { DishTypeEnum, MealTypeEnum } from "./enums"
 
 export const APP = {
@@ -9,15 +10,35 @@ export const APP = {
 
 export const DATA = {
   MEALS: [
-    { label: "Bữa sáng", value: MealTypeEnum.Breakfast, dishes: ["MainDish (70%)"] },
-    { label: "Bữa trưa", value: MealTypeEnum.Lunch, dishes: ["MainDish (50%)", "SideDish (30%)", "Dessert (10%)"] },
-    { label: "Bữa tối", value: MealTypeEnum.Dinner, dishes: ["MainDish (50%)", "SideDish (30%)", "Dessert (10%)"] },
-    { label: "Bữa phụ", value: MealTypeEnum.Snack, dishes: ["Snack (70%)"] },
+    {
+      label: "Bữa sáng",
+      eLabel: "Breakfast",
+      value: MealTypeEnum.Breakfast,
+      dishes: ["MainDish (80%)"]
+    },
+    {
+      label: "Bữa trưa",
+      eLabel: "Lunch",
+      value: MealTypeEnum.Lunch,
+      dishes: ["MainDish (50%)", "SideDish (30%)", "Dessert (10%)"]
+    },
+    {
+      label: "Bữa tối",
+      eLabel: "Dinner",
+      value: MealTypeEnum.Dinner,
+      dishes: ["MainDish (50%)", "SideDish (30%)", "Dessert (10%)"]
+    },
+    {
+      label: "Bữa phụ",
+      eLabel: "Snack",
+      value: MealTypeEnum.Snack,
+      dishes: ["Snack (70%)"]
+    }
   ],
   DISHES: [
     { label: "Món chính", value: DishTypeEnum.MainDish },
     { label: "Món phụ", value: DishTypeEnum.SideDish },
-    { label: "Món tráng miệng",value: DishTypeEnum.Dessert },
+    { label: "Món tráng miệng", value: DishTypeEnum.Dessert },
     { label: "Đồ uống", value: DishTypeEnum.Drink },
     { label: "Đồ ăn vặt", value: DishTypeEnum.Snack }
   ],

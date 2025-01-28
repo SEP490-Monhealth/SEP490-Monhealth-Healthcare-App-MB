@@ -59,13 +59,16 @@ export const WaterReminderCard = ({
           <VStack gap={0} className="ml-1">
             <Text className="font-tmedium text-lg text-primary">{time}</Text>
             <Text className="font-tmedium text-sm text-accent">
-              {name}, {toFixed(volume, 0)} ml
+              {name} • {toFixed(volume, 0)} ml
             </Text>
           </VStack>
         </HStack>
 
         {variant === "switch" ? (
-          <Toggle value={isDrunk} onValueChange={onSwitchChange ?? (() => {})} />
+          <Toggle
+            value={isDrunk}
+            onValueChange={onSwitchChange ?? (() => {})}
+          />
         ) : variant === "checkbox" ? (
           <Checkbox
             size={20}

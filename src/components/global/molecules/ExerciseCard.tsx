@@ -31,7 +31,7 @@ const ExerciseCard = ({
         <View className="flex-1">
           <Text className="font-tmedium text-lg text-primary">{name}</Text>
           <Text className="font-tmedium text-sm text-accent">
-            {getEnumValue(difficulty, DifficultyLevelEnum)} -{" "}
+            {getEnumValue(difficulty, DifficultyLevelEnum)} •{" "}
             {caloriesBurned * duration} kcal
           </Text>
         </View>

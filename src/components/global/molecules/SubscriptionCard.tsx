@@ -2,7 +2,7 @@ import React from "react"
 
 import { Text } from "react-native"
 
-import { formatCurrency } from "@/utils/helpers"
+import { formatCurrency } from "@/utils/formatters"
 
 import { Card, HStack, VStack } from "../atoms"
 

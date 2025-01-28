@@ -35,7 +35,7 @@ export const CategoryCard = ({
           <VStack gap={0} className="ml-1">
             <Text className="font-tmedium text-lg text-primary">{name}</Text>
             <Text className="font-tmedium text-sm text-accent">
-              {durationRanger} phút - {totalExercises} bài tập -{" "}
+              {durationRanger} phút • {totalExercises} bài tập •{" "}
               {totalCaloriesBurned} kcal/phút
             </Text>
           </VStack>

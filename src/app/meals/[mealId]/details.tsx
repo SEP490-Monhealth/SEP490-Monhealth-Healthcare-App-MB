@@ -225,7 +225,7 @@ function MealDetailsScreen() {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <SafeAreaView className="flex-1">
+      <SafeAreaView className="flex-1 bg-background">
         <Container>
           <LoadingOverlay visible={isFetching > 0 || isMutating > 0} />
 
