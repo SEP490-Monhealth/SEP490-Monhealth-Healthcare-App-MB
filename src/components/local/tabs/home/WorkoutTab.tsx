@@ -46,7 +46,7 @@ export const WorkoutTab = ({
   const workoutGoalData = {
     caloriesIntakeGoal: 200,
     caloriesBurnedGoal: 500,
-    workoutDurationGoal: 100,
+    durationGoal: 100,
     stepsGoal: 1300
   }
 
@@ -68,7 +68,7 @@ export const WorkoutTab = ({
     {
       label: "Thời gian",
       value: workoutData?.progress?.duration || 0,
-      targetValue: workoutGoalData?.workoutDurationGoal || 0
+      targetValue: workoutGoalData?.durationGoal || 0
     },
     {
       label: "Số bước",

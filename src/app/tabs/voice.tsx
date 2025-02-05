@@ -29,7 +29,11 @@ function VoiceScreen() {
   }
 
   const handleViewMealSuggestion = () => {
-    router.push("/test/meal-suggestions")
+    router.push("/setup/meal-suggestions")
+  }
+
+  const handleViewSummary = () => {
+    router.push("/setup/summary")
   }
 
   return (
@@ -62,6 +66,10 @@ function VoiceScreen() {
 
           <Button size="lg" onPress={handleViewMealSuggestion}>
             Meal Suggestions
+          </Button>
+
+          <Button size="lg" onPress={handleViewSummary}>
+            Summary
           </Button>
         </VStack>
       </Content>

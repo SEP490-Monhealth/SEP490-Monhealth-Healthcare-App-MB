@@ -41,6 +41,7 @@ import { useCreateMeal } from "@/hooks/useMeal"
 import { useGetNutritionByFoodId } from "@/hooks/useNutrition"
 import { useGetPortionByFoodId } from "@/hooks/usePortion"
 
+import { toFixed } from "@/utils/formatters"
 import { getMealType, parsePortion } from "@/utils/helpers"
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window")
@@ -75,8 +76,10 @@ function FoodDetailsScreen() {
   const formattedPortionData = [
     "g",
     "ml",
-    ...(portionData?.map(
-      (portion) => `${portion.size} (${portion.weight} ${portion.unit})`
+    ...(portionData?.map((portion) =>
+      portion.size && portion.size.trim() !== ""
+        ? `${portion.size} (${toFixed(portion.weight, 1)} ${portion.unit})`
+        : `${toFixed(portion.weight, 1)} ${portion.unit}`
     ) || [])
   ].map((portion) => portion.toLowerCase())
 
@@ -125,8 +128,8 @@ function FoodDetailsScreen() {
     })
   }
 
-  const handleQuantityChange = (text: string) => {
-    setQuantity(text)
+  const handleQuantityChange = (number: string) => {
+    setQuantity(number)
   }
 
   const handleSelectPortion = (selectedItem: string) => {
@@ -147,12 +150,13 @@ function FoodDetailsScreen() {
       quantity
     )
 
-    const selectedMealValue =
-      DATA.MEALS.find((meal) => meal.label === selectedMeal)?.value || ""
+    const selectedMealValue = DATA.MEALS.find(
+      (meal) => meal.label === selectedMeal
+    )
 
     const mealData = {
       userId: userId || "",
-      type: selectedMealValue,
+      type: selectedMealValue?.eLabel || "Snack",
       items: [
         {
           foodId: foodId,
@@ -264,6 +268,10 @@ function FoodDetailsScreen() {
                       </View>
                     </HStack>
                   </VStack>
+
+                  <Button onPress={handleAddFood} className="mt-4">
+                    Thêm vào bữa ăn
+                  </Button>
                 </VStack>
 
                 <VStack gap={8}>
@@ -290,14 +298,6 @@ function FoodDetailsScreen() {
                 </VStack>
               </View>
             </ScrollArea>
-
-            <Button
-              size="lg"
-              onPress={handleAddFood}
-              className="absolute bottom-4 w-full"
-            >
-              Thêm vào bữa ăn
-            </Button>
           </Content>
         </Container>
 

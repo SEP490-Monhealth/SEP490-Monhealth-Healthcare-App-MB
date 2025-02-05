@@ -154,13 +154,9 @@ function FoodsScreen() {
     })
   }
 
-  const handleViewUserFoods = () => {
-    router.push("/foods/user")
-  }
+  const handleViewUserFoods = () => router.push("/foods/user")
 
-  const handleScanFood = () => {
-    router.push("/foods/test-camera")
-  }
+  const handleScanFood = () => router.push("/foods/test-camera")
 
   const ListHeaderComponent = useMemo(() => {
     return (

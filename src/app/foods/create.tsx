@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import React, { useState } from "react"
 
 import { Keyboard, SafeAreaView, TouchableWithoutFeedback } from "react-native"
 
@@ -8,18 +8,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { set } from "lodash"
 import { useForm } from "react-hook-form"
 
-import {
-  Button,
-  Container,
-  Content,
-  Sheet,
-  SheetItem,
-  SheetRefProps
-} from "@/components/global/atoms"
+import { Button, Container, Content } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
-
-import { DATA } from "@/constants/app"
-import { DishTypeEnum, MealTypeEnum } from "@/constants/enums"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -43,17 +33,17 @@ function FoodCreateScreen() {
   const { user } = useAuth()
   const userId = user?.userId
 
-  const SheetMealRef = useRef<SheetRefProps>(null)
-  const SheetDishRef = useRef<SheetRefProps>(null)
+  // const SheetMealRef = useRef<SheetRefProps>(null)
+  // const SheetDishRef = useRef<SheetRefProps>(null)
 
-  const sheetMealHeight = 280
-  const sheetDishHeight = 320
+  // const sheetMealHeight = 280
+  // const sheetDishHeight = 320
 
   const { mutate: createFood } = useCreateFood()
 
   const {
-    mealType,
-    dishType,
+    // mealType,
+    // dishType,
     name,
     description,
     portion,
@@ -66,8 +56,8 @@ function FoodCreateScreen() {
 
   const formData: Record<string, any> = {
     userId,
-    mealType,
-    dishType,
+    // mealType,
+    // dishType,
     name,
     description,
     portion,
@@ -159,31 +149,31 @@ function FoodCreateScreen() {
     }
   }
 
-  const openMealSheet = () => SheetMealRef.current?.scrollTo(-sheetMealHeight)
-  const openDishSheet = () => SheetDishRef.current?.scrollTo(-sheetDishHeight)
+  // const openMealSheet = () => SheetMealRef.current?.scrollTo(-sheetMealHeight)
+  // const openDishSheet = () => SheetDishRef.current?.scrollTo(-sheetDishHeight)
 
-  const toggleSelection = (
-    list: (MealTypeEnum | DishTypeEnum)[],
-    value: MealTypeEnum | DishTypeEnum,
-    field: "mealType" | "dishType"
-  ) => {
-    const updatedList = list.includes(value)
-      ? list.filter((item) => item !== value)
-      : [...list, value]
+  // const toggleSelection = (
+  //   list: (MealTypeEnum | DishTypeEnum)[],
+  //   value: MealTypeEnum | DishTypeEnum,
+  //   field: "mealType" | "dishType"
+  // ) => {
+  //   const updatedList = list.includes(value)
+  //     ? list.filter((item) => item !== value)
+  //     : [...list, value]
 
-    const sortOrder = (
-      field === "mealType"
-        ? DATA.MEALS.map((meal) => meal.value)
-        : DATA.DISHES.map((dish) => dish.value)
-    ) as (MealTypeEnum | DishTypeEnum)[]
+  //   const sortOrder = (
+  //     field === "mealType"
+  //       ? DATA.MEALS.map((meal) => meal.value)
+  //       : DATA.DISHES.map((dish) => dish.value)
+  //   ) as (MealTypeEnum | DishTypeEnum)[]
 
-    const orderedList = updatedList.sort(
-      (a, b) => sortOrder.indexOf(a) - sortOrder.indexOf(b)
-    )
+  //   const orderedList = updatedList.sort(
+  //     (a, b) => sortOrder.indexOf(a) - sortOrder.indexOf(b)
+  //   )
 
-    updateField(field, orderedList)
-    setValue(field, orderedList)
-  }
+  //   updateField(field, orderedList)
+  //   setValue(field, orderedList)
+  // }
 
   const handleBack = () => {
     if (currentStep === 1) {
@@ -206,8 +196,8 @@ function FoodCreateScreen() {
               control={control}
               errors={errors}
               setValue={setValue}
-              openMealSheet={openMealSheet}
-              openDishSheet={openDishSheet}
+              // openMealSheet={openMealSheet}
+              // openDishSheet={openDishSheet}
             />
           </Content>
 
@@ -220,7 +210,7 @@ function FoodCreateScreen() {
           </Button>
         </Container>
 
-        <Sheet ref={SheetMealRef} dynamicHeight={sheetMealHeight}>
+        {/* <Sheet ref={SheetMealRef} dynamicHeight={sheetMealHeight}>
           {DATA.MEALS.map((meal) => (
             <SheetItem
               key={meal.value}
@@ -252,7 +242,7 @@ function FoodCreateScreen() {
               }
             />
           ))}
-        </Sheet>
+        </Sheet> */}
       </SafeAreaView>
     </TouchableWithoutFeedback>
   )
