@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react"
 
 import {
   Keyboard,
+  Text,
   TextInput,
   TextInputProps,
   TouchableOpacity,
@@ -16,6 +17,7 @@ type InputProps = Omit<TextInputProps, "value"> & {
   testID?: string
   disabled?: boolean
   value?: string
+  label?: string
   placeholder?: string
   onChangeText?: (text: string) => void
   keyboardType?: "default" | "numeric" | "email-address" | "phone-pad"
@@ -37,6 +39,7 @@ export const Input: React.FC<InputProps> = ({
   testID,
   disabled = false,
   value,
+  label = "",
   placeholder = "",
   onChangeText,
   keyboardType = "default",
@@ -78,6 +81,14 @@ export const Input: React.FC<InputProps> = ({
 
   return (
     <View testID={testID || "test-input"}>
+      {label && (
+        <Text
+          className={`mb-1 ml-1 font-tmedium text-base ${hasError ? "text-destructive" : "text-accent"}`}
+        >
+          {label}
+        </Text>
+      )}
+
       <View
         className={`flex-row items-center rounded-2xl border px-4 py-1 ${className} ${
           hasError ? "border-destructive bg-red-50" : "border-border bg-white"

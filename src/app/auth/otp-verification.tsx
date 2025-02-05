@@ -61,8 +61,8 @@ function OTPVerificationScreen() {
 
   return (
     <Container dismissKeyboard>
-      <Content className="mt-12">
-        <VStack gap={64}>
+      <Content className="mt-2">
+        <VStack gap={40}>
           <Header back />
 
           <View>
@@ -74,7 +74,7 @@ function OTPVerificationScreen() {
               trình khôi phục mật khẩu
             </Text>
 
-            <VStack gap={12} className="mt-8">
+            <VStack gap={8} className="mt-8">
               <Controller
                 name="otp"
                 control={control}
@@ -87,6 +87,7 @@ function OTPVerificationScreen() {
                   />
                 )}
               />
+
               {errors.otp && (
                 <Text className="text-sm text-red-500">
                   {errors.otp.message}

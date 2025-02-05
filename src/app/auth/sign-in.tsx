@@ -83,8 +83,8 @@ function SignInScreen() {
 
   return (
     <Container>
-      <Content className="mt-12">
-        <VStack gap={64}>
+      <Content className="mt-2">
+        <VStack gap={40}>
           <Header back />
 
           <View>
@@ -95,13 +95,14 @@ function SignInScreen() {
               {description}
             </Text>
 
-            <VStack gap={12} className="mt-8">
+            <VStack gap={8} className="mt-8">
               <Controller
                 name="phoneNumber"
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value}
+                    label="Số điện thoại"
                     placeholder="Nhập số điện thoại"
                     onChangeText={onChange}
                     keyboardType="phone-pad"
@@ -120,6 +121,7 @@ function SignInScreen() {
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value}
+                    label="Mật khẩu"
                     placeholder="Nhập mật khẩu"
                     onChangeText={onChange}
                     isSecure={!showPassword}

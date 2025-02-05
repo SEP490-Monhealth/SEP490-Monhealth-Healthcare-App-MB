@@ -42,8 +42,8 @@ function ForgotPasswordScreen() {
 
   return (
     <Container>
-      <Content className="mt-12">
-        <VStack gap={64}>
+      <Content className="mt-2">
+        <VStack gap={40}>
           <Header back />
 
           <View>
@@ -62,6 +62,7 @@ function ForgotPasswordScreen() {
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value}
+                    label="Số điện thoại"
                     placeholder="Nhập số điện thoại"
                     onChangeText={onChange}
                     keyboardType="phone-pad"

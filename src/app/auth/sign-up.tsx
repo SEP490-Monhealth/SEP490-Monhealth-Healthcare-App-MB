@@ -92,8 +92,8 @@ function SignUpScreen() {
 
   return (
     <Container>
-      <Content className="mt-12">
-        <VStack gap={64}>
+      <Content className="mt-2">
+        <VStack gap={40}>
           <Header back />
 
           <View>
@@ -104,13 +104,14 @@ function SignUpScreen() {
               {description}
             </Text>
 
-            <VStack gap={12} className="mt-8">
+            <VStack gap={8} className="mt-8">
               <Controller
                 name="fullName"
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value}
+                    label="Họ và tên"
                     placeholder="Nhập họ và tên"
                     onChangeText={onChange}
                     keyboardType="default"
@@ -133,6 +134,7 @@ function SignUpScreen() {
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value}
+                    label="Số điện thoại"
                     placeholder="Nhập số điện thoại"
                     onChangeText={onChange}
                     keyboardType="phone-pad"
@@ -151,6 +153,7 @@ function SignUpScreen() {
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value}
+                    label="Email"
                     placeholder="Nhập địa chỉ email"
                     onChangeText={onChange}
                     keyboardType="email-address"
@@ -169,6 +172,7 @@ function SignUpScreen() {
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value}
+                    label="Mật khẩu"
                     placeholder="Nhập mật khẩu"
                     onChangeText={onChange}
                     isSecure={!showPassword}

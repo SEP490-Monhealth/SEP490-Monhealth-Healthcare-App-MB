@@ -46,8 +46,8 @@ function ForgotPasswordScreen() {
 
   return (
     <Container>
-      <Content className="mt-12">
-        <VStack gap={64}>
+      <Content className="mt-2">
+        <VStack gap={40}>
           <Header back />
 
           <View>
@@ -59,13 +59,14 @@ function ForgotPasswordScreen() {
               lại mật khẩu của bạn
             </Text>
 
-            <VStack gap={12} className="mt-8">
+            <VStack gap={8} className="mt-8">
               <Controller
                 name="password"
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value}
+                    label="Mật khẩu"
                     placeholder="Nhập mật khẩu"
                     onChangeText={onChange}
                     isSecure={!showPassword}
@@ -93,6 +94,7 @@ function ForgotPasswordScreen() {
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value}
+                    label="Xác nhận mật khẩu"
                     placeholder="Nhập lại mật khẩu"
                     onChangeText={onChange}
                     isSecure={!showConfirmPassword}
