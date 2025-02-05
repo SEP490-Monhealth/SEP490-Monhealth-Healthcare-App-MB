@@ -1,4 +1,4 @@
-export enum RoleEnum {
+export enum Role {
   User,
   Member,
   Consultant,
@@ -6,41 +6,59 @@ export enum RoleEnum {
 }
 
 // Setup - Goal
-export enum GenderEnum {
+export enum Gender {
   Male,
   Female
 }
 
-export enum GoalTypeEnum {
+export enum GoalType {
   WeightLoss,
   Maintenance,
   WeightGain
 }
 
+export enum CategoryType {
+  Food,
+  Exercise
+}
+
 // Food - Meal
-export enum MealTypeEnum {
+export enum FoodType {
+  Carbohydrate,
+  Protein,
+  Vegetables,
+  Fruits,
+  Fats,
+  Dairy,
+  Soup,
+  Liquids,
+  Snacks,
+  Desserts
+}
+
+export enum MealType {
   Breakfast,
   Lunch,
   Dinner,
   Snack
 }
 
-export enum DishTypeEnum {
+export enum DishType {
   MainDish,
   SideDish,
+  Soup,
   Dessert,
-  Drink,
-  Snack
+  Drink
 }
 
 // Exercise - Workout
-export enum DifficultyLevelEnum {
+export enum DifficultyLevel {
   Easy,
   Medium,
   Hard
 }
 
-export enum IntensityLevelEnum {
+export enum IntensityLevel {
   Low,
   Medium,
   High

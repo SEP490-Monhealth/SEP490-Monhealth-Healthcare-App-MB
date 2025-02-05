@@ -2,7 +2,7 @@ import { z } from "zod"
 
 import { timestampSchema } from "./commonSchema"
 
-const userSubscriptionSchema = z
+export const userSubscriptionSchema = z
   .object({
     userSubscriptionId: z.string(),
     subscriptionId: z.string(),

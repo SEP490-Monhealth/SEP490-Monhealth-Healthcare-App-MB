@@ -1,6 +1,13 @@
-import { Alarm, NotificationBing, Reserve } from "iconsax-react-native"
+import {
+  Alarm,
+  Man,
+  NotificationBing,
+  Reserve,
+  Woman
+} from "iconsax-react-native"
+import { Scale, TrendingDown, TrendingUp } from "lucide-react-native"
 
-import { DishTypeEnum, MealTypeEnum } from "./enums"
+import { DishType, Gender, GoalType, MealType } from "./enums"
 
 export const APP = {
   name: "Monhealth -  Healthcare App",
@@ -13,38 +20,62 @@ export const DATA = {
     {
       label: "Bữa sáng",
       eLabel: "Breakfast",
-      value: MealTypeEnum.Breakfast,
+      value: MealType.Breakfast,
       dishes: ["MainDish (80%)"]
     },
     {
       label: "Bữa trưa",
       eLabel: "Lunch",
-      value: MealTypeEnum.Lunch,
+      value: MealType.Lunch,
       dishes: ["MainDish (50%)", "SideDish (30%)", "Dessert (10%)"]
     },
     {
       label: "Bữa tối",
       eLabel: "Dinner",
-      value: MealTypeEnum.Dinner,
+      value: MealType.Dinner,
       dishes: ["MainDish (50%)", "SideDish (30%)", "Dessert (10%)"]
     },
     {
       label: "Bữa phụ",
       eLabel: "Snack",
-      value: MealTypeEnum.Snack,
+      value: MealType.Snack,
       dishes: ["Snack (70%)"]
     }
   ],
   DISHES: [
-    { label: "Món chính", value: DishTypeEnum.MainDish },
-    { label: "Món phụ", value: DishTypeEnum.SideDish },
-    { label: "Món tráng miệng", value: DishTypeEnum.Dessert },
-    { label: "Đồ uống", value: DishTypeEnum.Drink },
-    { label: "Đồ ăn vặt", value: DishTypeEnum.Snack }
+    { label: "Món chính", value: DishType.MainDish },
+    { label: "Món phụ", value: DishType.SideDish },
+    { label: "Món canh", value: DishType.Soup },
+    { label: "Món tráng miệng", value: DishType.Dessert },
+    { label: "Đồ uống", value: DishType.Drink }
   ],
   UNITS: [
     { label: "g (gram)", value: "g" },
     { label: "ml (mililit)", value: "ml" }
+  ],
+  GENDERS: [
+    { label: "Nam", value: Gender.Male, icon: Man },
+    { label: "Nữ", value: Gender.Female, icon: Woman }
+  ],
+  GOALS: [
+    {
+      label: "Giảm cân",
+      value: GoalType.WeightLoss,
+      description: "Mục tiêu giảm cân và duy trì vóc dáng",
+      icon: TrendingDown
+    },
+    {
+      label: "Duy trì cân nặng",
+      value: GoalType.Maintenance,
+      description: "Mục tiêu duy trì cân nặng hiện tại",
+      icon: Scale
+    },
+    {
+      label: "Tăng cân",
+      value: GoalType.WeightGain,
+      description: "Mục tiêu tăng cân và cải thiện cơ thể",
+      icon: TrendingUp
+    }
   ]
 }
 

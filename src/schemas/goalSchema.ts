@@ -1,18 +1,17 @@
 import { z } from "zod"
 
+import { GoalType as GoalTypeE } from "@/constants/enums"
+
 import { timestampSchema } from "./commonSchema"
 
-const goals = ["WeightLoss", "MaintainWeight", "WeightGain"]
+const GoalTypeEnum = z.nativeEnum(GoalTypeE)
 
 const baseGoalSchema = z
   .object({
     goalId: z.string(),
     userId: z.string(),
 
-    type: z.string().refine((val) => goals.includes(val), {
-      message:
-        "Mục tiêu phải là một trong các giá trị: Giảm cân, Duy trì cân nặng, Tăng cân"
-    }),
+    type: GoalTypeEnum,
 
     weightGoal: z
       .number()
@@ -49,16 +48,16 @@ const baseGoalSchema = z
       .min(1, { message: "Mục tiêu nước uống phải lớn hơn hoặc bằng 1" })
       .optional(),
 
-    workoutDurationGoal: z
-      .number()
-      .min(1, {
-        message: "Mục tiêu thời gian tập luyện phải lớn hơn hoặc bằng 1"
-      })
-      .optional(),
     caloriesBurnedGoal: z
       .number()
       .min(1, {
         message: "Mục tiêu calo tập luyện phải lớn hơn hoặc bằng 1"
+      })
+      .optional(),
+    durationGoal: z
+      .number()
+      .min(1, {
+        message: "Mục tiêu thời gian tập luyện phải lớn hơn hoặc bằng 1"
       })
       .optional(),
 
@@ -91,8 +90,8 @@ export const goalSchema = baseGoalSchema
     fiberGoal: true,
     sugarGoal: true,
     waterIntakesGoal: true,
-    workoutDurationGoal: true,
     caloriesBurnedGoal: true,
+    durationGoal: true,
     stepsGoal: true,
     status: true
   })
@@ -116,7 +115,7 @@ export const waterIntakeGoalSchema = baseGoalSchema.pick({
 })
 
 export const exerciseGoalSchema = baseGoalSchema.pick({
-  workoutDurationGoal: true,
+  durationGoal: true,
   caloriesBurnedGoal: true
 })
 
@@ -135,21 +134,13 @@ export const createGoalSchema = baseGoalSchema.pick({
   fiberGoal: true,
   sugarGoal: true,
   waterIntakesGoal: true,
-  workoutDurationGoal: true,
   caloriesBurnedGoal: true,
+  durationGoal: true,
   stepsGoal: true
 })
 
 export const typeGoalSchema = z.object({
-  goalType: z
-    .string()
-    .refine(
-      (val) => ["WeightLoss", "MaintainWeight", "WeightGain"].includes(val),
-      {
-        message:
-          "Mục tiêu phải là một trong các giá trị: Giảm cân, Duy trì cân nặng, Tăng cân"
-      }
-    )
+  goalType: GoalTypeEnum
 })
 
 export type GoalType = z.infer<typeof goalSchema>

@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-import { DishTypeEnum, MealTypeEnum } from "@/constants/enums"
+import { DishType, FoodType as EFoodType, MealType } from "@/constants/enums"
 
 import { allergySetupSchema } from "./allergySchema"
 import { categorySetupSchema } from "./categorySchema"
@@ -8,10 +8,11 @@ import { auditSchema, timestampSchema } from "./commonSchema"
 import { nutritionSchema } from "./nutritionSchema"
 import { portionSchema } from "./portionSchema"
 
-const MealType = z.nativeEnum(MealTypeEnum)
-const DishType = z.nativeEnum(DishTypeEnum)
+const FoodTypeEnum = z.nativeEnum(EFoodType)
+const MealTypeEnum = z.nativeEnum(MealType)
+const DishTypeEnum = z.nativeEnum(DishType)
 
-const foodAllergySchema = z
+export const foodAllergySchema = z
   .object({
     foodAllergyId: z.string(),
     foodId: z.string(),
@@ -19,7 +20,7 @@ const foodAllergySchema = z
   })
   .merge(timestampSchema)
 
-const foodPortionSchema = z
+export const foodPortionSchema = z
   .object({
     foodPortionId: z.string(),
     foodId: z.string(),
@@ -33,13 +34,12 @@ const baseFoodSchema = z
     category: z.string(),
     userId: z.string(),
 
-    // foodType: z.string(),
+    foodType: FoodTypeEnum,
     mealType: z
-      .array(MealType)
+      .array(MealTypeEnum)
       .min(1, { message: "Bạn cần chọn ít nhất một bữa ăn" }),
-
     dishType: z
-      .array(DishType)
+      .array(DishTypeEnum)
       .min(1, { message: "Bạn cần chọn ít nhất một loại món ăn" }),
 
     name: z
@@ -96,8 +96,8 @@ export const foodUserSchema = z.object({
 export const createFoodSchema = baseFoodSchema.pick({
   userId: true,
   // foodType: true,
-  mealType: true,
-  dishType: true,
+  // mealType: true,
+  // dishType: true,
   name: true,
   description: true,
   portion: true,

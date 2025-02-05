@@ -9,6 +9,7 @@ import { Button, Container, Content, Progress } from "@/components/global/atoms"
 import { CustomHeader, StepHeader } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/app"
+import { GoalType } from "@/constants/enums"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -170,7 +171,7 @@ function SetupScreen() {
     const { weightGoal } = data
     const { weight } = useSetupStore.getState()
 
-    if (goalType === "WeightLoss" && weightGoal >= weight) {
+    if (goalType === GoalType.WeightLoss && weightGoal >= weight) {
       setError("weightGoal", {
         type: "manual",
         message: "Mục tiêu giảm cân phải nhỏ hơn cân nặng hiện tại"
@@ -178,7 +179,7 @@ function SetupScreen() {
       return
     }
 
-    if (goalType === "WeightGain" && weightGoal <= weight) {
+    if (goalType === GoalType.WeightGain && weightGoal <= weight) {
       setError("weightGoal", {
         type: "manual",
         message: "Mục tiêu tăng cân phải lớn hơn cân nặng hiện tại"
@@ -229,11 +230,11 @@ function SetupScreen() {
       const newUserFoodsData = { ...userData, ...categoryData, ...allergyData }
       const newUserFoodStorageData = { ...categoryData, ...allergyData }
 
-      // console.log("new metric data", JSON.stringify(newMetricData, null, 2))
-      // console.log(
-      //   "new user foods data",
-      //   JSON.stringify(newUserFoodsData, null, 2)
-      // )
+      console.log("new metric data", JSON.stringify(newMetricData, null, 2))
+      console.log(
+        "new user foods data",
+        JSON.stringify(newUserFoodsData, null, 2)
+      )
 
       setIsLoading(true)
 

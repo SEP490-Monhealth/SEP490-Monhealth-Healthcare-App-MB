@@ -2,7 +2,7 @@ import { z } from "zod"
 
 import { timestampSchema } from "./commonSchema"
 
-const certificateImageSchema = z
+export const certificateImageSchema = z
   .object({
     certificateImageId: z.string(),
     certificateId: z.string(),

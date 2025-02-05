@@ -1,8 +1,11 @@
 import { z } from "zod"
 
+import { Gender, GoalType } from "@/constants/enums"
+
 import { timestampSchema } from "./commonSchema"
 
-const genders = ["Male", "Female"]
+const GenderEnum = z.nativeEnum(Gender)
+const GoalTypeEnum = z.nativeEnum(GoalType)
 const activityLevels = [1.2, 1.375, 1.55, 1.725, 1.9]
 
 const baseMetricSchema = z
@@ -28,9 +31,7 @@ const baseMetricSchema = z
         },
         { message: "Tuổi phải nằm trong khoảng từ 15 đến 120" }
       ),
-    gender: z.string().refine((val) => genders.includes(val), {
-      message: "Giới tính không hợp lệ. Chỉ chấp nhận: Nam hoặc Nữ"
-    }),
+    gender: GenderEnum,
     height: z
       .number()
       .min(50, { message: "Chiều cao tối thiểu là 50 cm" })
@@ -46,15 +47,7 @@ const baseMetricSchema = z
           "Hệ số hoạt động không hợp lệ. Các giá trị hợp lệ: 1.2, 1.375, 1.55, 1.725, 1.9"
       }),
 
-    goalType: z
-      .string()
-      .refine(
-        (val) => ["WeightLoss", "MaintainWeight", "WeightGain"].includes(val),
-        {
-          message:
-            "Mục tiêu phải là một trong các giá trị: Giảm cân, Duy trì cân nặng, Tăng cân"
-        }
-      ),
+    goalType: GoalTypeEnum,
     weightGoal: z
       .number()
       .min(1, { message: "Trọng lượng mục tiêu phải lớn hơn hoặc bằng 1" })

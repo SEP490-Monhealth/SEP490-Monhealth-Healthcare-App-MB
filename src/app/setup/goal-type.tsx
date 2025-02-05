@@ -1,37 +1,16 @@
 import React, { useEffect } from "react"
 
 import { get } from "lodash"
-import { Scale, TrendingDown, TrendingUp } from "lucide-react-native"
 import { Control, FieldValues, useController } from "react-hook-form"
 
 import { Chip, ErrorText, VStack } from "@/components/global/atoms"
 
-import { COLORS } from "@/constants/app"
+import { COLORS, DATA } from "@/constants/app"
+import { GoalType } from "@/constants/enums"
 
 import { useSetupStore } from "@/stores/setupStore"
 
 import { calculateBMI } from "@/utils/calculations"
-
-const goalsData = [
-  {
-    label: "Giảm cân",
-    value: "WeightLoss",
-    description: "Mục tiêu giảm cân và duy trì vóc dáng",
-    icon: TrendingDown
-  },
-  {
-    label: "Duy trì cân nặng",
-    value: "MaintainWeight",
-    description: "Mục tiêu duy trì cân nặng hiện tại",
-    icon: Scale
-  },
-  {
-    label: "Tăng cân",
-    value: "WeightGain",
-    description: "Mục tiêu tăng cân và cải thiện cơ thể",
-    icon: TrendingUp
-  }
-]
 
 interface SetupGoalTypeProps {
   control: Control<FieldValues>
@@ -47,18 +26,18 @@ function SetupGoalType({ control, errors }: SetupGoalTypeProps) {
 
   useEffect(() => {
     const bmi = calculateBMI(weight, height)
-    if (bmi && !field.value) {
+    if (bmi && field.value === undefined) {
       if (bmi < 18.5) {
-        field.onChange("WeightGain")
+        field.onChange(GoalType.WeightGain)
       } else if (bmi >= 18.5 && bmi < 24.9) {
-        field.onChange("MaintainWeight")
+        field.onChange(GoalType.Maintenance)
       } else if (bmi >= 25) {
-        field.onChange("WeightLoss")
+        field.onChange(GoalType.WeightLoss)
       }
     }
-  }, [weight, height, field])
+  }, [weight, height])
 
-  const handleSelectGoal = (value: string) => {
+  const handleSelectGoal = (value: GoalType) => {
     field.onChange(value)
   }
 
@@ -66,7 +45,7 @@ function SetupGoalType({ control, errors }: SetupGoalTypeProps) {
 
   return (
     <VStack gap={12}>
-      {goalsData.map((goal) => {
+      {DATA.GOALS.map((goal) => {
         const Icon = goal.icon
 
         return (

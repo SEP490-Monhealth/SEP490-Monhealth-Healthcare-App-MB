@@ -1,16 +1,16 @@
 import { z } from "zod"
 
+import { CategoryType as CategoryTypeE } from "@/constants/enums"
+
 import { timestampSchema } from "./commonSchema"
 
-const categories = ["Food", "Exercise"]
+const CategoryTypeEnum = z.nativeEnum(CategoryTypeE)
 
 const baseCategorySchema = z
   .object({
     categoryId: z.string(),
 
-    type: z.string().refine((val) => categories.includes(val), {
-      message: "Loại danh mục không hợp lệ. Chỉ chấp nhận: Food, Exercise"
-    }),
+    type: CategoryTypeEnum,
 
     name: z
       .string()

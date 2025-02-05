@@ -1,13 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { create } from "zustand"
 
+import { Gender, GoalType } from "@/constants/enums"
+
 interface setupStoreProps {
   dateOfBirth: string
-  gender: string
+  gender: Gender
   height: number
   weight: number
   activityLevel: 1.2 | 1.375 | 1.55 | 1.725 | 1.9
-  goalType: string
+  goalType: GoalType
   weightGoal: number
   categories: string[]
   allergies: string[]
@@ -26,11 +28,11 @@ interface setupStoreProps {
 
 export const useSetupStore = create<setupStoreProps>((set) => ({
   dateOfBirth: "2003-08-27T00:00:00.000Z",
-  gender: "Male",
+  gender: Gender.Male,
   height: 170,
   weight: 50,
   activityLevel: 1.375,
-  goalType: "WeightGain",
+  goalType: GoalType.WeightGain,
   weightGoal: 66,
   categories: [
     "Hải sản",
@@ -47,11 +49,11 @@ export const useSetupStore = create<setupStoreProps>((set) => ({
   allergies: ["Sữa bò", "Hạt cây", "Đậu nành", "Động vật có vỏ"],
 
   // dateOfBirth: "",
-  // gender: "Male",
+  // gender: Gender.Male,
   // height: 0,
   // weight: 0,
   // activityLevel: 1.2,
-  // goalType: "",
+  // goalType: GoalType.Maintenance,
   // weightGoal: 0,
   // categories: [],
   // allergies: [],
@@ -82,11 +84,11 @@ export const useSetupStore = create<setupStoreProps>((set) => ({
   reset: () =>
     set({
       dateOfBirth: "",
-      gender: "Male",
+      gender: Gender.Male,
       height: 0,
       weight: 0,
       activityLevel: 1.2,
-      goalType: "",
+      goalType: GoalType.Maintenance,
       weightGoal: 0,
       categories: [],
       allergies: []

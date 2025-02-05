@@ -3,7 +3,7 @@ import React from "react"
 import { Text } from "react-native"
 import { View } from "react-native"
 
-import { DifficultyLevelEnum } from "@/constants/enums"
+import { DifficultyLevel } from "@/constants/enums"
 
 import { formatDuration } from "@/utils/formatters"
 import { getEnumValue } from "@/utils/helpers"
@@ -14,7 +14,7 @@ interface ExerciseCardProps {
   name: string
   duration: number
   caloriesBurned: number
-  difficulty: DifficultyLevelEnum
+  difficulty: DifficultyLevel
   onPress?: () => void
 }
 
@@ -31,7 +31,7 @@ const ExerciseCard = ({
         <View className="flex-1">
           <Text className="font-tmedium text-lg text-primary">{name}</Text>
           <Text className="font-tmedium text-sm text-accent">
-            {getEnumValue(difficulty, DifficultyLevelEnum)} •{" "}
+            {getEnumValue(difficulty, DifficultyLevel)} •{" "}
             {caloriesBurned * duration} kcal
           </Text>
         </View>

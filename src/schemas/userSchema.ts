@@ -4,7 +4,7 @@ import { auditSchema, timestampSchema } from "./commonSchema"
 
 const roles = ["User", "Member", "Consultant", "Admin"]
 
-const userAllergySchema = z
+export const userAllergySchema = z
   .object({
     userAllergyId: z.string(),
     userId: z.string(),

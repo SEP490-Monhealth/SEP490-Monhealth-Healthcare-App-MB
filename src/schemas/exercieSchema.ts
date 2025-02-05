@@ -1,12 +1,10 @@
 import { z } from "zod"
 
-import { DifficultyLevelEnum } from "@/constants/enums"
+import { DifficultyLevel } from "@/constants/enums"
 
 import { auditSchema } from "./commonSchema"
 
-const levels = ["Low", "Medium", "High"]
-
-const DifficultyLevel = z.nativeEnum(DifficultyLevelEnum)
+const DifficultyLevelEnum = z.nativeEnum(DifficultyLevel)
 
 const baseExerciseSchema = z
   .object({
@@ -35,7 +33,7 @@ const baseExerciseSchema = z
       }),
     image: z.string().nonempty({ message: "Hình ảnh không được để trống" }),
 
-    difficulty: DifficultyLevel,
+    difficulty: DifficultyLevelEnum,
 
     status: z.boolean()
   })

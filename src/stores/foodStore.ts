@@ -1,13 +1,11 @@
 import { create } from "zustand"
 
-import { DishTypeEnum, MealTypeEnum } from "@/constants/enums"
-
 import { NutritionType } from "@/schemas/nutritionSchema"
 import { PortionType } from "@/schemas/portionSchema"
 
 interface CreateFoodState {
-  mealType: MealTypeEnum[]
-  dishType: DishTypeEnum[]
+  // mealType: MealTypeEnum[]
+  // dishType: DishTypeEnum[]
   name: string
   description: string
   portion: PortionType
@@ -19,8 +17,8 @@ interface CreateFoodState {
 }
 
 export const useFoodStore = create<CreateFoodState>((set) => ({
-  mealType: [],
-  dishType: [],
+  // mealType: [],
+  // dishType: [],
   name: "",
   description: "",
   portion: {
@@ -38,18 +36,24 @@ export const useFoodStore = create<CreateFoodState>((set) => ({
   },
   isPublic: true,
 
+  // updateField: (field, value) =>
+  //   set((state) => ({
+  //     ...state,
+  //     [field]: Array.isArray(value)
+  //       ? value.map((v) => v as MealTypeEnum | DishTypeEnum)
+  //       : value
+  //   })),
+
   updateField: (field, value) =>
     set((state) => ({
       ...state,
-      [field]: Array.isArray(value)
-        ? value.map((v) => v as MealTypeEnum | DishTypeEnum)
-        : value
+      [field]: value
     })),
 
   reset: () =>
     set(() => ({
-      mealType: [],
-      dishType: [],
+      // mealType: [],
+      // dishType: [],
       name: "",
       description: "",
       portion: {

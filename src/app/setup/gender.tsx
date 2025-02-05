@@ -1,25 +1,12 @@
 import React from "react"
 
-import { Man, Woman } from "iconsax-react-native"
 import { get } from "lodash"
 import { Control, FieldValues, useController } from "react-hook-form"
 
 import { Chip, ErrorText, VStack } from "@/components/global/atoms"
 
-import { COLORS } from "@/constants/app"
-
-const gendersData = [
-  {
-    label: "Nam",
-    value: "Male",
-    icon: Man
-  },
-  {
-    label: "Nữ",
-    value: "Female",
-    icon: Woman
-  }
-]
+import { COLORS, DATA } from "@/constants/app"
+import { Gender } from "@/constants/enums"
 
 interface SetupGenderProps {
   control: Control<FieldValues>
@@ -32,7 +19,7 @@ function SetupGender({ control, errors }: SetupGenderProps) {
     control
   })
 
-  const handleSelectGender = (value: string) => {
+  const handleSelectGender = (value: Gender) => {
     field.onChange(value)
   }
 
@@ -40,7 +27,7 @@ function SetupGender({ control, errors }: SetupGenderProps) {
 
   return (
     <VStack gap={12}>
-      {gendersData.map((gender) => {
+      {DATA.GENDERS.map((gender) => {
         const Icon = gender.icon
 
         return (

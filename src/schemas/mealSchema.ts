@@ -6,7 +6,7 @@ import { portionSchema } from "./portionSchema"
 
 const meals = ["Breakfast", "Lunch", "Dinner", "Snack"]
 
-const mealFoodSchema = z
+export const mealFoodSchema = z
   .object({
     mealFoodId: z.string(),
     foodId: z.string(),

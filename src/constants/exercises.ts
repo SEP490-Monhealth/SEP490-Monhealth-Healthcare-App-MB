@@ -1,4 +1,4 @@
-import { DifficultyLevelEnum } from "./enums"
+import { DifficultyLevel } from "./enums"
 
 export const sampleExercisesData = [
   {
@@ -9,7 +9,7 @@ export const sampleExercisesData = [
     instructions: "Đứng gập người về trước, đẩy tay ra sau, giữ thẳng",
     duration: 45,
     caloriesBurned: 7,
-    difficulty: DifficultyLevelEnum.Hard
+    difficulty: DifficultyLevel.Hard
   },
   {
     exerciseId: "05ece9e8-b50d-4269-acb5-023e839d1c42",
@@ -19,7 +19,7 @@ export const sampleExercisesData = [
     instructions: "Nhảy sang tư thế squat, sau đó nhảy trở về",
     duration: 30,
     caloriesBurned: 9,
-    difficulty: DifficultyLevelEnum.Medium
+    difficulty: DifficultyLevel.Medium
   },
   {
     exerciseId: "14399a61-ccab-4af5-91fb-04fdc1f92c20",
@@ -29,7 +29,7 @@ export const sampleExercisesData = [
     instructions: "Nằm ngửa, nâng hông lên cao, giữ lưng thẳng",
     duration: 45,
     caloriesBurned: 4,
-    difficulty: DifficultyLevelEnum.Medium
+    difficulty: DifficultyLevel.Medium
   },
   {
     exerciseId: "2ec9ee3b-2768-4ae4-9246-05cdac76a8a6",
@@ -39,6 +39,6 @@ export const sampleExercisesData = [
     instructions: "Đứng một chân, nâng gót chân lên xuống",
     duration: 30,
     caloriesBurned: 5,
-    difficulty: DifficultyLevelEnum.Easy
+    difficulty: DifficultyLevel.Easy
   }
 ]
