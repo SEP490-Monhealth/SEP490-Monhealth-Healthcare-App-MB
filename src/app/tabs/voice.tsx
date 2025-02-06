@@ -28,6 +28,10 @@ function VoiceScreen() {
     router.push("/test/local-image")
   }
 
+  const handleViewCaloriesRatio = () => {
+    router.push("/test/calories-ratio")
+  }
+
   return (
     <Container>
       <Header
@@ -54,6 +58,10 @@ function VoiceScreen() {
 
           <Button size="lg" onPress={handleViewLocalImage}>
             Local Image
+          </Button>
+
+          <Button size="lg" onPress={handleViewCaloriesRatio}>
+            Tỉ lệ kcal
           </Button>
         </VStack>
       </Content>
