@@ -21,25 +21,29 @@ export const DATA = {
       label: "Bữa sáng",
       eLabel: "Breakfast",
       value: MealType.Breakfast,
-      dishes: ["MainDish (80%)"]
+      ratio: 30,
+      dishes: ["MainDish (100%)"]
     },
     {
       label: "Bữa trưa",
       eLabel: "Lunch",
       value: MealType.Lunch,
-      dishes: ["MainDish (50%)", "SideDish (30%)", "Dessert (10%)"]
+      ratio: 35,
+      dishes: ["MainDish (55%)", "SideDish (30%)", "Dessert (15%)"]
     },
     {
       label: "Bữa tối",
       eLabel: "Dinner",
       value: MealType.Dinner,
-      dishes: ["MainDish (50%)", "SideDish (30%)", "Dessert (10%)"]
+      ratio: 25,
+      dishes: ["MainDish (60%)", "SideDish (30%)", "Dessert (10%)"]
     },
     {
       label: "Bữa phụ",
       eLabel: "Snack",
       value: MealType.Snack,
-      dishes: ["Snack (70%)"]
+      ratio: 10,
+      dishes: ["MainDish (80%)", "SideDish (20%)"]
     }
   ],
   DISHES: [
@@ -83,6 +87,7 @@ export const COLORS = {
   primary: "#334155",
   secondary: "#64748b",
   accent: "#94a3b8",
+  border: "#e2e8f0",
   destructive: "#ef4444",
 
   PRIMARY: {

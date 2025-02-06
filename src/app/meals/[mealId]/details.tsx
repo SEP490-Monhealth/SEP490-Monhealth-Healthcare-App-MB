@@ -35,10 +35,11 @@ import { Header, Section } from "@/components/global/organisms"
 
 import { NutritionSummary } from "@/components/local/meals"
 
-import { COLORS } from "@/constants/app"
+import { COLORS, DATA } from "@/constants/app"
 
 import { useAuth } from "@/contexts/AuthContext"
 
+import { useGetNutritionGoal } from "@/hooks/useGoal"
 import {
   useGetMealById,
   useGetMealFoodsByMealId,
@@ -123,6 +124,9 @@ function MealDetailsScreen() {
     null
   )
 
+  const { data: goalData, isLoading: isLoadingGoal } =
+    useGetNutritionGoal(userId)
+
   const {
     data: mealData,
     isLoading: isLoadingMeal,
@@ -137,9 +141,13 @@ function MealDetailsScreen() {
 
   const mealType = useMemo(() => mealData?.type || "", [mealData])
 
+  const caloriesRatio =
+    DATA.MEALS.find((meal) => meal.eLabel === mealType)?.ratio || 0
+
+  const caloriesGoal = ((goalData?.caloriesGoal ?? 0) * caloriesRatio) / 100
+
   const calorieValue = mealData?.nutrition.calories || 0
-  const calorieGoal = 1249
-  const progress = Math.min((calorieValue / calorieGoal) * 100, 100)
+  const progress = Math.min((calorieValue / caloriesGoal) * 100, 100)
 
   const prefillReady = useMemo(
     () => isFetching === 0 && isMutating === 0,
@@ -219,7 +227,14 @@ function MealDetailsScreen() {
     setIsModalVisible(true)
   }, [])
 
-  if (!mealData || isLoadingMeal || !mealFoodsData || isLoadingMealFoods) {
+  if (
+    !goalData ||
+    isLoadingGoal ||
+    !mealData ||
+    isLoadingMeal ||
+    !mealFoodsData ||
+    isLoadingMealFoods
+  ) {
     return <LoadingScreen />
   }
 
@@ -260,7 +275,7 @@ function MealDetailsScreen() {
                     rotation={230}
                     centerCircle
                     value={calorieValue}
-                    maxValue={calorieGoal}
+                    maxValue={caloriesGoal}
                     label="kcal"
                   />
 
