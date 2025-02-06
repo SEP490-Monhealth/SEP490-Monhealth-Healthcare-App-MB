@@ -28,14 +28,6 @@ function VoiceScreen() {
     router.push("/test/local-image")
   }
 
-  const handleViewMealSuggestion = () => {
-    router.push("/setup/meal-suggestions")
-  }
-
-  const handleViewSummary = () => {
-    router.push("/setup/summary")
-  }
-
   return (
     <Container>
       <Header
@@ -62,14 +54,6 @@ function VoiceScreen() {
 
           <Button size="lg" onPress={handleViewLocalImage}>
             Local Image
-          </Button>
-
-          <Button size="lg" onPress={handleViewMealSuggestion}>
-            Meal Suggestions
-          </Button>
-
-          <Button size="lg" onPress={handleViewSummary}>
-            Summary
           </Button>
         </VStack>
       </Content>

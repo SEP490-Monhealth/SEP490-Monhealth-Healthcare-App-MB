@@ -40,6 +40,8 @@ function WorkoutDetailsScreen() {
               {workoutData.description}
             </Text>
 
+            <Button className="mt-4">Bắt đầu</Button>
+
             <Section label="Danh sách bài tập" />
 
             <VStack gap={12}>
@@ -49,17 +51,13 @@ function WorkoutDetailsScreen() {
                   name={exercise.name}
                   duration={exercise.duration}
                   caloriesBurned={exercise.caloriesBurned}
-                  difficulty={exercise.difficultyLevel}
+                  difficulty={exercise.difficulty}
                   onPress={() => handleViewExercise(exercise.exerciseId)}
                 />
               ))}
             </VStack>
           </VStack>
         </ScrollArea>
-
-        <Button size="lg" className="absolute bottom-4 w-full">
-          Hoàn thành
-        </Button>
       </Content>
     </Container>
   )

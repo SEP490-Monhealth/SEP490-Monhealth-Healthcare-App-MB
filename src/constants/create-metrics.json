@@ -1,10 +1,10 @@
 {
   "userId": "9d7e87a9-b070-4607-a0b0-2d2322aece9b",
   "dateOfBirth": "2003-08-27T00:00:00.000Z",
-  "gender": "Male",
+  "gender": 0,
   "height": 170,
   "weight": 50,
   "activityLevel": 1.375,
-  "goalType": "WeightGain",
+  "goalType": 2,
   "weightGoal": 66
 }

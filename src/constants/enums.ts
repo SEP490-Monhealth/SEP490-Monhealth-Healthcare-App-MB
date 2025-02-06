@@ -24,16 +24,13 @@ export enum CategoryType {
 
 // Food - Meal
 export enum FoodType {
-  Carbohydrate,
+  Carbs,
   Protein,
   Vegetables,
-  Fruits,
-  Fats,
-  Dairy,
   Soup,
-  Liquids,
-  Snacks,
-  Desserts
+  Dessert,
+  Drink,
+  Snacks
 }
 
 export enum MealType {

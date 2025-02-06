@@ -32,7 +32,7 @@ function SubscriptionScreen() {
     setSelectedPlan(duration)
   }
 
-  const handlePayment = () => {
+  const handleUpgrade = () => {
     if (selectedPlan) {
       const paymentDetails = {
         userId: userId,
@@ -48,23 +48,25 @@ function SubscriptionScreen() {
     <Container>
       <Header back label="Gói đăng ký" />
 
-      <Content className="mt-2">
+      <Content className="mt-2 pb-12">
         <StepHeader
           title={premiumSubscription.name}
           description="Nâng cấp trải nghiệm của bạn"
         />
 
-        <View className="flex-1 gap-1">
-          {premiumSubscription.features.map((feature, index) => (
-            <HStack key={index} center gap={6}>
-              <Award variant="Bold" size={20} color={COLORS.PRIMARY.lemon} />
-              <Text className="flex-1 font-tregular text-lg text-secondary">
-                {feature}
-              </Text>
-            </HStack>
-          ))}
+        <View className="flex-1 justify-between gap-1">
+          <VStack>
+            {premiumSubscription.features.map((feature, index) => (
+              <HStack key={index} center gap={6}>
+                <Award variant="Bold" size={20} color={COLORS.PRIMARY.lemon} />
+                <Text className="flex-1 font-tregular text-lg text-secondary">
+                  {feature}
+                </Text>
+              </HStack>
+            ))}
+          </VStack>
 
-          <VStack gap={12} className="mt-8">
+          <VStack gap={12}>
             {premiumSubscription.plans.map((item, index) => (
               <SubscriptionCard
                 key={index}
@@ -75,16 +77,16 @@ function SubscriptionScreen() {
                 onPress={() => handlePlanSelect(item.duration)}
               />
             ))}
-          </VStack>
 
-          <Text className="mt-2 text-center font-tregular text-secondary">
-            Chọn gói 6 tháng để tiết kiệm 20% và nhận trọn vẹn các tính năng cao
-            cấp!
-          </Text>
+            <Text className="mt-2 text-center font-tregular text-secondary">
+              Chọn gói 6 tháng để tiết kiệm 20% và nhận trọn vẹn các tính năng
+              cao cấp!
+            </Text>
+          </VStack>
         </View>
       </Content>
 
-      <Button size="lg" className="mb-4" onPress={handlePayment}>
+      <Button size="lg" onPress={handleUpgrade} className="mb-4">
         Thanh toán
       </Button>
     </Container>
