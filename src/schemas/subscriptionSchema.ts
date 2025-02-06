@@ -2,11 +2,12 @@ import { z } from "zod"
 
 import { timestampSchema } from "./commonSchema"
 
-export const userSubscriptionSchema = z
+export const baseUserSubscriptionSchema = z
   .object({
     userSubscriptionId: z.string(),
     subscriptionId: z.string(),
     userId: z.string(),
+    duration: z.number().min(0, { message: "Thời gian phải lớn hơn 0" }),
     expiresAt: z.string()
   })
   .merge(timestampSchema)
@@ -27,5 +28,12 @@ const baseSubscriptionSchema = z
 
 export const subscriptionSchema = baseSubscriptionSchema
 
+export const upgradeSubscriptionSchema = baseUserSubscriptionSchema.pick({
+  userId: true,
+  subscriptionId: true,
+  duration: true
+})
+
+export type UserSubscriptionType = z.infer<typeof baseUserSubscriptionSchema>
 export type SubscriptionType = z.infer<typeof subscriptionSchema>
-export type UserSubscriptionType = z.infer<typeof userSubscriptionSchema>
+export type UpgradeSubscriptionType = z.infer<typeof upgradeSubscriptionSchema>

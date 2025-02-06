@@ -23,10 +23,33 @@ import { useAuth } from "@/contexts/AuthContext"
 function SubscriptionScreen() {
   const { user } = useAuth()
   const userId = user?.userId
+  const [selectedPlan, setSelectedPlan] = useState(3)
 
   const premiumSubscription = sampleSubscriptionsData[1]
 
-  const [selectedPlan, setSelectedPlan] = useState(3)
+  const featuresData = [
+    "Gợi ý bữa ăn cá nhân hóa theo tuần",
+    "Xem báo cáo dinh dưỡng hàng tuần",
+    "Tương tác với chuyên viên tư vấn sức khỏe"
+  ]
+
+  const plansData = [
+    {
+      duration: 1,
+      price: premiumSubscription.price,
+      discount: 0
+    },
+    {
+      duration: 3,
+      price: premiumSubscription.price * 0.9,
+      discount: 10
+    },
+    {
+      duration: 6,
+      price: premiumSubscription.price * 0.8,
+      discount: 20
+    }
+  ]
 
   const handlePlanSelect = (duration: number) => {
     setSelectedPlan(duration)
@@ -56,7 +79,7 @@ function SubscriptionScreen() {
 
         <View className="flex-1 justify-between gap-1">
           <VStack>
-            {premiumSubscription.features.map((feature, index) => (
+            {featuresData.map((feature, index) => (
               <HStack key={index} center gap={6}>
                 <Award variant="Bold" size={20} color={COLORS.PRIMARY.lemon} />
                 <Text className="flex-1 font-tregular text-lg text-secondary">
@@ -67,7 +90,7 @@ function SubscriptionScreen() {
           </VStack>
 
           <VStack gap={12}>
-            {premiumSubscription.plans.map((item, index) => (
+            {plansData.map((item, index) => (
               <SubscriptionCard
                 key={index}
                 duration={item.duration}
