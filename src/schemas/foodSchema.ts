@@ -107,8 +107,8 @@ export const createFoodSchema = baseFoodSchema.pick({
 
 export const informationFoodSchema = baseFoodSchema.pick({
   // foodType: true,
-  mealType: true,
-  dishType: true,
+  // mealType: true,
+  // dishType: true,
   name: true,
   description: true,
   isPublic: true

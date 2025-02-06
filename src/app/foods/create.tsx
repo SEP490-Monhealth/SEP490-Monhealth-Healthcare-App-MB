@@ -1,6 +1,11 @@
 import React, { useState } from "react"
 
-import { Keyboard, SafeAreaView, TouchableWithoutFeedback } from "react-native"
+import {
+  Keyboard,
+  SafeAreaView,
+  TouchableWithoutFeedback,
+  View
+} from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -188,27 +193,27 @@ function FoodCreateScreen() {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView className="h-full flex-1 bg-background">
-        <Container>
+        <View className="px-6">
           <Header back label={currentStepData.title} onBackPress={handleBack} />
+        </View>
 
-          <Content className="mt-2">
-            <StepComponent
-              control={control}
-              errors={errors}
-              setValue={setValue}
-              // openMealSheet={openMealSheet}
-              // openDishSheet={openDishSheet}
-            />
-          </Content>
+        <Content className="mt-2">
+          <StepComponent
+            control={control}
+            errors={errors}
+            setValue={setValue}
+            // openMealSheet={openMealSheet}
+            // openDishSheet={openDishSheet}
+          />
+        </Content>
 
-          <Button
-            size="lg"
-            onPress={handleSubmit(onSubmitStep)}
-            className="absolute bottom-12 left-6 right-6"
-          >
-            {currentStep === steps.length ? "Tạo mới" : "Tiếp tục"}
-          </Button>
-        </Container>
+        <Button
+          size="lg"
+          onPress={handleSubmit(onSubmitStep)}
+          className="absolute bottom-12 left-6 right-6"
+        >
+          {currentStep === steps.length ? "Tạo mới" : "Tiếp tục"}
+        </Button>
 
         {/* <Sheet ref={SheetMealRef} dynamicHeight={sheetMealHeight}>
           {DATA.MEALS.map((meal) => (

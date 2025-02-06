@@ -35,7 +35,7 @@ function FoodInformation({
   }
 
   return (
-    <VStack gap={32}>
+    <VStack gap={32} className="px-6">
       <VStack gap={12}>
         <Controller
           name="name"
@@ -43,6 +43,7 @@ function FoodInformation({
           render={({ field: { onChange, value } }) => (
             <Input
               value={value}
+              label="Tên"
               placeholder="Nhập tên món ăn"
               onChangeText={onChange}
               keyboardType="default"
@@ -58,6 +59,7 @@ function FoodInformation({
           render={({ field: { onChange, value } }) => (
             <Input
               value={value}
+              label="Mô tả"
               placeholder="Nhập mô tả món ăn"
               onChangeText={onChange}
               keyboardType="default"

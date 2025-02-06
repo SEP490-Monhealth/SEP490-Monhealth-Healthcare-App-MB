@@ -7,6 +7,7 @@ import { ArrowDown2 } from "iconsax-react-native"
 import { cn } from "@/lib/utils"
 
 interface SelectProps {
+  label?: string
   defaultValue: string
   value?: string
   onPress: () => void
@@ -15,6 +16,7 @@ interface SelectProps {
 }
 
 export const Select = ({
+  label,
   defaultValue,
   value,
   onPress,
@@ -25,6 +27,14 @@ export const Select = ({
 
   return (
     <View>
+      {label && (
+        <Text
+          className={`mb-1 ml-1 font-tregular text-base ${hasError ? "text-destructive" : "text-primary"}`}
+        >
+          {label}
+        </Text>
+      )}
+
       <TouchableOpacity
         activeOpacity={0.7}
         onPress={onPress}

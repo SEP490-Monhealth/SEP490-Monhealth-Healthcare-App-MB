@@ -62,7 +62,6 @@ function ForgotPasswordScreen() {
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value}
-                    label="Số điện thoại"
                     placeholder="Nhập số điện thoại"
                     onChangeText={onChange}
                     keyboardType="phone-pad"

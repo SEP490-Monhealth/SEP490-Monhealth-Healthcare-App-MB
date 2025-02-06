@@ -113,12 +113,10 @@ function FoodDetailsScreen() {
   }, [formattedPortionData])
 
   const openMealSheet = () => MealSheetRef.current?.scrollTo(-300)
-
   const openPortionSheet = () =>
     PortionSheetRef.current?.scrollTo(-portionSheetHeight)
 
   const closeMealSheet = () => MealSheetRef.current?.scrollTo(0)
-
   const closePortionSheet = () => PortionSheetRef.current?.scrollTo(0)
 
   const handleCreatePortion = () => {

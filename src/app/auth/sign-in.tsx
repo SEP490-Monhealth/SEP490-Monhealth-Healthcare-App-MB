@@ -102,7 +102,6 @@ function SignInScreen() {
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value}
-                    label="Số điện thoại"
                     placeholder="Nhập số điện thoại"
                     onChangeText={onChange}
                     keyboardType="phone-pad"
@@ -121,7 +120,6 @@ function SignInScreen() {
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value}
-                    label="Mật khẩu"
                     placeholder="Nhập mật khẩu"
                     onChangeText={onChange}
                     isSecure={!showPassword}

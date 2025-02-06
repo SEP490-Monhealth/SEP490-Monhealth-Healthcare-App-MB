@@ -81,7 +81,11 @@ function FoodNutrition({ control, errors }: FoodNutritionProps) {
             onChangeText={handleChangeText}
             keyboardType="numeric"
             alignRight
-            startIcon={<Text>{label}</Text>}
+            startIcon={
+              <Text className="font-tregular text-base text-primary">
+                {label}
+              </Text>
+            }
             endIcon={
               <Text className="font-tregular text-sm text-accent">{unit}</Text>
             }
@@ -96,7 +100,7 @@ function FoodNutrition({ control, errors }: FoodNutritionProps) {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      className="flex-1"
+      className="flex-1 px-6"
     >
       <ScrollArea>
         <VStack gap={12} className="pb-40">

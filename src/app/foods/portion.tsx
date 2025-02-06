@@ -62,7 +62,7 @@ function FoodPortion({ control, errors, setValue }: FoodPortionProps) {
 
   return (
     <>
-      <VStack gap={20}>
+      <VStack gap={20} className="px-6">
         <VStack gap={8}>
           <VStack>
             <Controller
@@ -71,6 +71,7 @@ function FoodPortion({ control, errors, setValue }: FoodPortionProps) {
               render={({ field: { onChange, value } }) => (
                 <Input
                   value={value}
+                  label="Kích thước"
                   placeholder="Nhập khẩu phần ăn"
                   onChangeText={onChange}
                   keyboardType="default"
@@ -78,10 +79,6 @@ function FoodPortion({ control, errors, setValue }: FoodPortionProps) {
                 />
               )}
             />
-
-            <Text className="ml-1 font-tregular text-sm text-accent">
-              Ví dụ: "Phần", "Hộp", "Lon", v.v.
-            </Text>
           </VStack>
 
           <HStack center gap={8}>
@@ -92,6 +89,7 @@ function FoodPortion({ control, errors, setValue }: FoodPortionProps) {
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value ? value.toString() : ""}
+                    label="Khối lượng"
                     placeholder="1"
                     onChangeText={(text) => onChange(parseFloat(text) || 0)}
                     keyboardType="numeric"
@@ -102,6 +100,7 @@ function FoodPortion({ control, errors, setValue }: FoodPortionProps) {
 
             <View style={{ flex: 3 }}>
               <Select
+                label="Đơn vị"
                 defaultValue="Chọn đơn vị"
                 value={
                   portionSizesData.find((item) => item.value === selectedUnit)
@@ -113,7 +112,19 @@ function FoodPortion({ control, errors, setValue }: FoodPortionProps) {
           </HStack>
         </VStack>
 
-        <VStack>
+        <VStack gap={8}>
+          <Text className="ml-1 font-tregular text-sm text-accent">
+            Bạn có thể nhập đơn vị tùy chỉnh như "Phần", "Hộp", "Lon",...
+          </Text>
+
+          <Text className="ml-1 font-tregular text-sm text-accent">
+            Nhập số lượng thực tế, đơn vị có thể chọn bên cạnh.
+          </Text>
+
+          <Text className="ml-1 font-tregular text-sm text-accent">
+            Chọn "g" cho gram hoặc "ml" cho mililiter.
+          </Text>
+
           {typeof sizeError === "string" && (
             <Text className="ml-1 font-tregular text-base text-destructive">
               {sizeError}

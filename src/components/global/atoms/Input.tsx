@@ -83,7 +83,7 @@ export const Input: React.FC<InputProps> = ({
     <View testID={testID || "test-input"}>
       {label && (
         <Text
-          className={`mb-1 ml-1 font-tmedium text-base ${hasError ? "text-destructive" : "text-accent"}`}
+          className={`mb-1 ml-1 font-tregular text-base ${hasError ? "text-destructive" : "text-primary"}`}
         >
           {label}
         </Text>

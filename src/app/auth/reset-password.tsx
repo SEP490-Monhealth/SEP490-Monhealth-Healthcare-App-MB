@@ -66,7 +66,6 @@ function ForgotPasswordScreen() {
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value}
-                    label="Mật khẩu"
                     placeholder="Nhập mật khẩu"
                     onChangeText={onChange}
                     isSecure={!showPassword}
@@ -94,7 +93,6 @@ function ForgotPasswordScreen() {
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value}
-                    label="Xác nhận mật khẩu"
                     placeholder="Nhập lại mật khẩu"
                     onChangeText={onChange}
                     isSecure={!showConfirmPassword}
