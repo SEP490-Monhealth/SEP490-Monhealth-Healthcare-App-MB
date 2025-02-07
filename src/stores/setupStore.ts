@@ -6,11 +6,12 @@ import { Gender, GoalType } from "@/constants/enums"
 interface setupStoreProps {
   dateOfBirth: string
   gender: Gender
-  height: number
-  weight: number
+  height: number | undefined
+  weight: number | undefined
   activityLevel: 1.2 | 1.375 | 1.55 | 1.725 | 1.9
   goalType: GoalType
-  weightGoal: number
+  weightGoal: number | undefined
+  caloriesRatio: number
   categories: string[]
   allergies: string[]
 
@@ -27,36 +28,38 @@ interface setupStoreProps {
 }
 
 export const useSetupStore = create<setupStoreProps>((set) => ({
-  dateOfBirth: "2003-08-27T00:00:00.000Z",
-  gender: Gender.Male,
-  height: 170,
-  weight: 50,
-  activityLevel: 1.375,
-  goalType: GoalType.WeightGain,
-  weightGoal: 66,
-  categories: [
-    "Hải sản",
-    "Thịt",
-    "Rau củ",
-    "Món ngọt",
-    "Đồ uống",
-    "Món lên men",
-    "Trái cây",
-    "Đồ ăn nhanh",
-    "Bánh các loại",
-    "Đồ ăn vặt"
-  ],
-  allergies: ["Sữa bò", "Hạt cây", "Đậu nành", "Động vật có vỏ"],
-
-  // dateOfBirth: "",
+  // dateOfBirth: "2003-08-27T00:00:00.000Z",
   // gender: Gender.Male,
-  // height: 0,
-  // weight: 0,
-  // activityLevel: 1.2,
-  // goalType: GoalType.Maintenance,
-  // weightGoal: 0,
-  // categories: [],
-  // allergies: [],
+  // height: 170,
+  // weight: 50,
+  // activityLevel: 1.375,
+  // goalType: GoalType.WeightGain,
+  // weightGoal: 66,
+  // caloriesRatio: 1,
+  // categories: [
+  //   "Hải sản",
+  //   "Thịt",
+  //   "Rau củ",
+  //   "Món ngọt",
+  //   "Đồ uống",
+  //   "Món lên men",
+  //   "Trái cây",
+  //   "Đồ ăn nhanh",
+  //   "Bánh các loại",
+  //   "Đồ ăn vặt"
+  // ],
+  // allergies: ["Sữa bò", "Hạt cây", "Đậu nành", "Động vật có vỏ"],
+
+  dateOfBirth: "",
+  gender: Gender.Male,
+  height: undefined,
+  weight: undefined,
+  activityLevel: 1.2,
+  goalType: GoalType.Maintenance,
+  weightGoal: undefined,
+  caloriesRatio: 1,
+  categories: [],
+  allergies: [],
 
   newMetricData: undefined,
   newUserFoodsData: undefined,
@@ -85,11 +88,12 @@ export const useSetupStore = create<setupStoreProps>((set) => ({
     set({
       dateOfBirth: "",
       gender: Gender.Male,
-      height: 0,
-      weight: 0,
+      height: undefined,
+      weight: undefined,
       activityLevel: 1.2,
       goalType: GoalType.Maintenance,
-      weightGoal: 0,
+      weightGoal: undefined,
+      caloriesRatio: 1,
       categories: [],
       allergies: []
     })

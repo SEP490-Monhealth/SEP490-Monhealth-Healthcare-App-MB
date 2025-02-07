@@ -21,7 +21,9 @@ import { useSetupStore } from "@/stores/setupStore"
 
 function SetupMealSuggestions() {
   const router = useRouter()
+
   const { newMetricData, newUserFoodsData } = useSetupStore()
+
   const { mutate: createMetric } = useCreateMetric()
   const { mutate: createUserFoods } = useCreateUserFoods()
 

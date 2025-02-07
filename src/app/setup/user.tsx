@@ -15,7 +15,7 @@ import { useAuth } from "@/contexts/AuthContext"
 
 import { allergySetupSchema } from "@/schemas/allergySchema"
 import { categorySetupSchema } from "@/schemas/categorySchema"
-import { typeGoalSchema } from "@/schemas/goalSchema"
+import { caloriesRatioSchema, typeGoalSchema } from "@/schemas/goalSchema"
 import {
   activityLevelMetricSchema,
   dateOfBirthMetricSchema,
@@ -29,6 +29,7 @@ import { useSetupStore } from "@/stores/setupStore"
 import { LoadingOverlay } from "../loading"
 import SetupActivityLevel from "./activity-level"
 import SetupAllergies from "./allergies"
+import SetupCaloriesRatio from "./calories-ratio"
 import SetupCategories from "./categories"
 import SetupDateOfBirth from "./date-of-birth"
 import SetupGender from "./gender"
@@ -83,9 +84,8 @@ function SetupScreen() {
     allergies
   }
 
-  const setupSteps: SetupStepsProps[] = [
+  const baseSteps: Omit<SetupStepsProps, "step">[] = [
     {
-      step: 1,
       title: "Ngày sinh",
       description: "Nhập ngày sinh để xác định tuổi của bạn",
       component: SetupDateOfBirth,
@@ -93,7 +93,6 @@ function SetupScreen() {
       schema: dateOfBirthMetricSchema
     },
     {
-      step: 2,
       title: "Giới tính",
       description: "Chọn giới tính để cá nhân hóa trải nghiệm",
       component: SetupGender,
@@ -101,7 +100,6 @@ function SetupScreen() {
       schema: genderMetricSchema
     },
     {
-      step: 3,
       title: "Chiều cao và cân nặng",
       description: "Nhập chiều cao và cân nặng hiện tại",
       component: SetupHeightWeight,
@@ -109,7 +107,6 @@ function SetupScreen() {
       schema: heightWeightMetricSchema
     },
     {
-      step: 4,
       title: "Mức độ hoạt động",
       description: "Chọn mức độ hoạt động hàng ngày",
       component: SetupActivityLevel,
@@ -117,7 +114,6 @@ function SetupScreen() {
       schema: activityLevelMetricSchema
     },
     {
-      step: 5,
       title: "Mục tiêu",
       description: "Xác định mục tiêu sức khỏe của bạn",
       component: SetupGoalType,
@@ -125,15 +121,32 @@ function SetupScreen() {
       schema: typeGoalSchema
     },
     {
-      step: 6,
       title: "Mục tiêu cân nặng",
       description: "Nhập cân nặng mục tiêu mong muốn",
       component: SetupWeightGoal,
       fields: ["weightGoal"],
       schema: weightGoalSchema
-    },
+    }
+  ]
+
+  if (goalType !== GoalType.Maintenance) {
+    baseSteps.push({
+      title:
+        goalType === GoalType.WeightLoss
+          ? "Tốc độ giảm cân"
+          : "Tốc độ tăng cân",
+      description:
+        goalType === GoalType.WeightLoss
+          ? "Chọn tốc độ giảm cân phù hợp với cơ thể của bạn"
+          : "Chọn tốc độ tăng cân phù hợp với cơ thể của bạn",
+      component: SetupCaloriesRatio,
+      fields: ["caloriesRatio"],
+      schema: caloriesRatioSchema
+    })
+  }
+
+  baseSteps.push(
     {
-      step: 7,
       title: "Danh mục yêu thích",
       description: "Chọn danh mục bạn yêu thích",
       component: SetupCategories,
@@ -141,14 +154,18 @@ function SetupScreen() {
       schema: categorySetupSchema
     },
     {
-      step: 8,
       title: "Dị ứng",
       description: "Cho biết thực phẩm bạn dị ứng",
       component: SetupAllergies,
       fields: ["allergies"],
       schema: allergySetupSchema
     }
-  ]
+  )
+
+  const setupSteps: SetupStepsProps[] = baseSteps.map((step, index) => ({
+    step: index + 1,
+    ...step
+  }))
 
   const currentStepData = setupSteps.find((step) => step.step === currentStep)
 
@@ -169,7 +186,9 @@ function SetupScreen() {
 
   const onSubmitStep = async (data: Record<string, any>, setError: any) => {
     const { weightGoal } = data
-    const { weight } = useSetupStore.getState()
+
+    // const { weight } = useSetupStore.getState()
+    const weight = useSetupStore.getState().weight ?? 0
 
     if (goalType === GoalType.WeightLoss && weightGoal >= weight) {
       setError("weightGoal", {
@@ -210,7 +229,8 @@ function SetupScreen() {
 
       const goalData = {
         goalType: updatedState.goalType,
-        weightGoal: updatedState.weightGoal
+        weightGoal: updatedState.weightGoal,
+        caloriesRatio: updatedState.caloriesRatio
       }
 
       const categoryData = {
@@ -230,11 +250,11 @@ function SetupScreen() {
       const newUserFoodsData = { ...userData, ...categoryData, ...allergyData }
       const newUserFoodStorageData = { ...categoryData, ...allergyData }
 
-      console.log("new metric data", JSON.stringify(newMetricData, null, 2))
-      console.log(
-        "new user foods data",
-        JSON.stringify(newUserFoodsData, null, 2)
-      )
+      // console.log("new metric data", JSON.stringify(newMetricData, null, 2))
+      // console.log(
+      //   "new user foods data",
+      //   JSON.stringify(newUserFoodsData, null, 2)
+      // )
 
       setIsLoading(true)
 

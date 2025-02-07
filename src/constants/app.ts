@@ -80,6 +80,43 @@ export const DATA = {
       description: "Mục tiêu tăng cân và cải thiện cơ thể",
       icon: TrendingUp
     }
+  ],
+  CALORIES_RATIO: [
+    {
+      label: "Giảm cân chậm",
+      description: "0.25kg / tuần",
+      value: 0.9
+    },
+    {
+      label: "Giảm cân trung bình",
+      description: "0.5kg / tuần",
+      value: 0.8
+    },
+    {
+      label: "Giảm cân nhanh",
+      description: "0.75kg / tuần",
+      value: 0.7
+    },
+    {
+      label: "Duy trì cân nặng",
+      description: "Không thay đổi",
+      value: 1
+    },
+    {
+      label: "Tăng cân chậm",
+      description: "0.25kg / tuần",
+      value: 1.1
+    },
+    {
+      label: "Tăng cân trung bình",
+      description: "0.5kg / tuần",
+      value: 1.2
+    },
+    {
+      label: "Giảm cân nhanh",
+      description: "0.75kg / tuần",
+      value: 1.3
+    }
   ]
 }
 

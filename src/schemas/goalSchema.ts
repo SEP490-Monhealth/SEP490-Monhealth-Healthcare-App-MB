@@ -13,6 +13,8 @@ const baseGoalSchema = z
 
     type: GoalTypeEnum,
 
+    caloriesRatio: z.number().optional(),
+
     weightGoal: z
       .number()
       .min(1, { message: "Trọng lượng mục tiêu phải lớn hơn hoặc bằng 1" })
@@ -141,6 +143,10 @@ export const createGoalSchema = baseGoalSchema.pick({
 
 export const typeGoalSchema = z.object({
   goalType: GoalTypeEnum
+})
+
+export const caloriesRatioSchema = baseGoalSchema.pick({
+  caloriesRatio: true
 })
 
 export type GoalType = z.infer<typeof goalSchema>

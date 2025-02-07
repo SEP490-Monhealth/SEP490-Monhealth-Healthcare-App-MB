@@ -26,6 +26,7 @@ function SetupGoalType({ control, errors }: SetupGoalTypeProps) {
 
   useEffect(() => {
     const bmi = calculateBMI(weight, height)
+
     if (bmi && field.value === undefined) {
       if (bmi < 18.5) {
         field.onChange(GoalType.WeightGain)
