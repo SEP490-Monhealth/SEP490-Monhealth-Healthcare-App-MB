@@ -23,6 +23,7 @@ import { useAuth } from "@/contexts/AuthContext"
 function SubscriptionScreen() {
   const { user } = useAuth()
   const userId = user?.userId
+
   const [selectedPlan, setSelectedPlan] = useState(3)
 
   const premiumSubscription = sampleSubscriptionsData[1]
@@ -35,36 +36,34 @@ function SubscriptionScreen() {
 
   const plansData = [
     {
-      duration: 1,
+      duration: 30,
       price: premiumSubscription.price,
       discount: 0
     },
     {
-      duration: 3,
-      price: premiumSubscription.price * 0.9,
+      duration: 90,
+      price: premiumSubscription.price,
       discount: 10
     },
     {
-      duration: 6,
-      price: premiumSubscription.price * 0.8,
+      duration: 180,
+      price: premiumSubscription.price,
       discount: 20
     }
   ]
 
-  const handlePlanSelect = (duration: number) => {
+  const handleSelectPlan = (duration: number) => {
     setSelectedPlan(duration)
   }
 
   const handleUpgrade = () => {
-    if (selectedPlan) {
-      const paymentDetails = {
-        userId: userId,
-        subscriptionId: premiumSubscription.subscriptionId,
-        duration: selectedPlan * 30
-      }
-
-      console.log("Selected subscription:", paymentDetails)
+    const upgradeData = {
+      userId: userId,
+      subscriptionId: premiumSubscription.subscriptionId,
+      duration: selectedPlan
     }
+
+    console.log("Selected subscription:", upgradeData)
   }
 
   return (
@@ -97,7 +96,7 @@ function SubscriptionScreen() {
                 price={item.price}
                 discount={item.discount}
                 isSelected={item.duration === selectedPlan}
-                onPress={() => handlePlanSelect(item.duration)}
+                onPress={() => handleSelectPlan(item.duration)}
               />
             ))}
 
