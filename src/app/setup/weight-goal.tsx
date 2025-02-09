@@ -12,6 +12,8 @@ import {
 
 import { Input, VStack } from "@/components/global/atoms"
 
+import { Gender } from "@/constants/enums"
+
 import { useSetupStore } from "@/stores/setupStore"
 
 import { calculateIBW } from "@/utils/calculations"
@@ -26,13 +28,13 @@ interface SetupWeightGoalProps {
 function SetupWeightGoal({ control, setValue, errors }: SetupWeightGoalProps) {
   const { height, gender } = useSetupStore() as {
     height: number
-    gender: "Male" | "Female"
+    gender: Gender
   }
 
   const [idealWeight, setIdealWeight] = useState<number | null>(null)
 
   useEffect(() => {
-    if (height && (gender === "Male" || gender === "Female")) {
+    if (height && (Gender.Male || Gender.Female)) {
       const ibw = calculateIBW(height, gender)
       setIdealWeight(ibw)
       setValue("weightGoal", Number(ibw.toFixed(1)))

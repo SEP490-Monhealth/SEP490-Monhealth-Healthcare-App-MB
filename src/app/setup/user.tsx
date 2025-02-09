@@ -187,23 +187,24 @@ function SetupScreen() {
   const onSubmitStep = async (data: Record<string, any>, setError: any) => {
     const { weightGoal } = data
 
-    // const { weight } = useSetupStore.getState()
-    const weight = useSetupStore.getState().weight ?? 0
+    const { weight } = useSetupStore.getState()
 
-    if (goalType === GoalType.WeightLoss && weightGoal >= weight) {
-      setError("weightGoal", {
-        type: "manual",
-        message: "Mục tiêu giảm cân phải nhỏ hơn cân nặng hiện tại"
-      })
-      return
-    }
+    if (weight !== undefined) {
+      if (goalType === GoalType.WeightLoss && weightGoal >= weight) {
+        setError("weightGoal", {
+          type: "manual",
+          message: "Mục tiêu giảm cân phải nhỏ hơn cân nặng hiện tại"
+        })
+        return
+      }
 
-    if (goalType === GoalType.WeightGain && weightGoal <= weight) {
-      setError("weightGoal", {
-        type: "manual",
-        message: "Mục tiêu tăng cân phải lớn hơn cân nặng hiện tại"
-      })
-      return
+      if (goalType === GoalType.WeightGain && weightGoal <= weight) {
+        setError("weightGoal", {
+          type: "manual",
+          message: "Mục tiêu tăng cân phải lớn hơn cân nặng hiện tại"
+        })
+        return
+      }
     }
 
     Object.keys(data).forEach((key) => {

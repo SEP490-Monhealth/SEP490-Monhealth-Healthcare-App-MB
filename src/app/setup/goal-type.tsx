@@ -19,21 +19,28 @@ interface SetupGoalTypeProps {
 
 function SetupGoalType({ control, errors }: SetupGoalTypeProps) {
   const { weight, height } = useSetupStore()
+
   const { field } = useController({
     name: "goalType",
     control
   })
 
   useEffect(() => {
-    const bmi = calculateBMI(weight, height)
+    if (weight !== undefined && height !== undefined) {
+      const bmi = calculateBMI(weight, height)
 
-    if (bmi && field.value === undefined) {
+      let suggestedGoal: GoalType
+
       if (bmi < 18.5) {
-        field.onChange(GoalType.WeightGain)
+        suggestedGoal = GoalType.WeightGain
       } else if (bmi >= 18.5 && bmi < 24.9) {
-        field.onChange(GoalType.Maintenance)
-      } else if (bmi >= 25) {
-        field.onChange(GoalType.WeightLoss)
+        suggestedGoal = GoalType.Maintenance
+      } else {
+        suggestedGoal = GoalType.WeightLoss
+      }
+
+      if (field.value !== suggestedGoal) {
+        field.onChange(suggestedGoal)
       }
     }
   }, [weight, height])

@@ -1,3 +1,5 @@
+import { Gender } from "@/constants/enums"
+
 /**
  * Tính các chỉ số BMI, BMR, TDEE, IBW dựa trên thông tin của người dùng.
  * @param weight Cân nặng (kg)
@@ -11,7 +13,7 @@ export const calculateHealthMetrics = (
   weight: number,
   height: number,
   age: number,
-  gender: "Male" | "Female",
+  gender: Gender,
   activityLevel: 1.2 | 1.375 | 1.55 | 1.725 | 1.9
 ) => {
   // Tính BMI
@@ -57,9 +59,9 @@ export const calculateBMR = (
   weight: number,
   height: number,
   age: number,
-  gender: "Male" | "Female"
+  gender: Gender
 ): number => {
-  if (gender === "Male") {
+  if (gender === Gender.Male) {
     return 10 * weight + 6.25 * height - 5 * age + 5 // Công thức Mifflin-St Jeor cho nam
   } else {
     return 10 * weight + 6.25 * height - 5 * age - 161 // Công thức Mifflin-St Jeor cho nữ
@@ -85,11 +87,8 @@ export const calculateTDEE = (
  * @param gender Giới tính ("Male" hoặc "Female")
  * @returns IBW lý tưởng
  */
-export const calculateIBW = (
-  height: number,
-  gender: "Male" | "Female"
-): number => {
-  if (gender === "Male") {
+export const calculateIBW = (height: number, gender: Gender): number => {
+  if (gender === Gender.Male) {
     return 50 + 0.91 * (height - 152.4) // Công thức IBW cho nam
   } else {
     return 45.5 + 0.91 * (height - 152.4) // Công thức IBW cho nữ
