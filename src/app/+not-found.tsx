@@ -7,10 +7,24 @@ import { useRouter } from "expo-router"
 import { Button, Container } from "@/components/global/atoms"
 import { ErrorDisplay } from "@/components/global/molecules"
 
+import { useAuth } from "@/contexts/AuthContext"
+
 function NotFoundScreen() {
   const router = useRouter()
 
-  const handleBack = () => router.back()
+  const { user } = useAuth()
+
+  const handleBack = () => {
+    if (router.canGoBack()) {
+      router.back()
+    } else {
+      if (user) {
+        router.push("/")
+      } else {
+        router.push("/auth/login")
+      }
+    }
+  }
 
   return (
     <Container>

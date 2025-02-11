@@ -1,44 +1,64 @@
-import { DifficultyLevel } from "./enums"
+import { ExerciseType } from "@/schemas/exerciseSchema"
 
-export const sampleExercisesData = [
+export const sampleExercisesData: ExerciseType[] = [
   {
-    exerciseId: "befbdedd-8795-4f9a-842a-00ea9b770f55",
+    exerciseId: "68018365-010c-4ab8-81f4-05a5cbfcc24b",
     userId: "3026595f-1414-4b74-be8f-11b7f6e7f4f6",
-    category: "Upper Body",
-    name: "Roof Kickback",
-    instructions: "Đứng gập người về trước, đẩy tay ra sau, giữ thẳng",
-    duration: 45,
-    caloriesBurned: 7,
-    difficulty: DifficultyLevel.Hard
-  },
-  {
-    exerciseId: "05ece9e8-b50d-4269-acb5-023e839d1c42",
-    userId: "3026595f-1414-4b74-be8f-11b7f6e7f4f6",
-    category: "Cardio",
-    name: "Pop Squats",
-    instructions: "Nhảy sang tư thế squat, sau đó nhảy trở về",
+    type: 0,
+    name: "Leo núi",
+    instructions:
+      "Bắt đầu ở tư thế plank\n Kéo một đầu gối vào gần ngực, sau đó đổi chân\n Giữ nhịp điệu ổn định",
     duration: 30,
-    caloriesBurned: 9,
-    difficulty: DifficultyLevel.Medium
+    caloriesPerMinute: 8.1,
+    status: true,
+    createdAt: "2025-01-06T00:00:00",
+    updatedAt: "2025-01-06T00:00:00",
+    createdBy: "3026595f-1414-4b74-be8f-11b7f6e7f4f6",
+    updatedBy: "3026595f-1414-4b74-be8f-11b7f6e7f4f6"
   },
   {
-    exerciseId: "14399a61-ccab-4af5-91fb-04fdc1f92c20",
+    exerciseId: "d0dcad19-4c0c-447d-8e3c-092c6d4ad14c",
     userId: "3026595f-1414-4b74-be8f-11b7f6e7f4f6",
-    category: "Mobility",
-    name: "Bridges",
-    instructions: "Nằm ngửa, nâng hông lên cao, giữ lưng thẳng",
-    duration: 45,
-    caloriesBurned: 4,
-    difficulty: DifficultyLevel.Medium
-  },
-  {
-    exerciseId: "2ec9ee3b-2768-4ae4-9246-05cdac76a8a6",
-    userId: "3026595f-1414-4b74-be8f-11b7f6e7f4f6",
-    category: "Lower Body",
-    name: "Single Calf Raises",
-    instructions: "Đứng một chân, nâng gót chân lên xuống",
+    type: 0,
+    name: "Đi bộ kiểu zombie",
+    instructions:
+      "Đứng thẳng, bước về phía trước với hai tay duỗi thẳng phía trước bạn, và nâng chân lên ngang tầm tay của bạn với mỗi bước\n Giữ ngực thẳng đứng và cơ bụng siết chặt",
     duration: 30,
-    caloriesBurned: 5,
-    difficulty: DifficultyLevel.Easy
+    caloriesPerMinute: 7.3,
+    status: true,
+    createdAt: "2025-01-06T00:00:00",
+    updatedAt: "2025-01-06T00:00:00",
+    createdBy: "3026595f-1414-4b74-be8f-11b7f6e7f4f6",
+    updatedBy: "3026595f-1414-4b74-be8f-11b7f6e7f4f6"
+  },
+  {
+    exerciseId: "407ff857-d218-44a8-8d0f-0bfa5d53bf03",
+    userId: "3026595f-1414-4b74-be8f-11b7f6e7f4f6",
+    type: 0,
+    name: "Gập bụng chéo",
+    instructions:
+      "Nằm thẳng lưng\n Giữ hai tay sau đầu để nâng đỡ cổ, nhưng không bao giờ kéo nó\n Nâng ngực lên và xoay sang bên phải, đưa khuỷu tay trái lên đầu gối phải đồng thời giữ chân trái thẳng\n Chân phải của bạn duỗi thẳng về phía ngực\n Đổi bên, đưa khuỷu tay phải lên đầu gối trái, chân này duỗi thẳng về phía ngực khi chân phải của bạn nằm thẳng\n Nhìn lên trần nhà để bạn vận động cơ bụng đúng cách và không làm căng cổ",
+    duration: 30,
+    caloriesPerMinute: 7,
+    status: true,
+    createdAt: "2025-01-06T00:00:00",
+    updatedAt: "2025-01-06T00:00:00",
+    createdBy: "3026595f-1414-4b74-be8f-11b7f6e7f4f6",
+    updatedBy: "3026595f-1414-4b74-be8f-11b7f6e7f4f6"
+  },
+  {
+    exerciseId: "1ff0ef05-4387-4483-8de3-0ef6d7724afd",
+    userId: "3026595f-1414-4b74-be8f-11b7f6e7f4f6",
+    type: 1,
+    name: "Chống đẩy dốc",
+    instructions:
+      "Đặt tay của bạn trên ghế hoặc băng ghế để dễ dàng chống đẩy hơn\n Đảm bảo lưng của bạn vẫn đẹp và thẳng\n Khi bạn đi xuống, khuỷu tay của bạn không nên vuông góc mà hơi gần với cơ thể của bạn",
+    reps: 20,
+    caloriesPerMinute: 5.5,
+    status: true,
+    createdAt: "2025-01-06T00:00:00",
+    updatedAt: "2025-01-06T00:00:00",
+    createdBy: "3026595f-1414-4b74-be8f-11b7f6e7f4f6",
+    updatedBy: "3026595f-1414-4b74-be8f-11b7f6e7f4f6"
   }
 ]

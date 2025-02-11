@@ -49,14 +49,13 @@ export enum DishType {
 }
 
 // Exercise - Workout
+export enum ExerciseType {
+  Time,
+  Reps
+}
+
 export enum DifficultyLevel {
   Easy,
   Medium,
   Hard
-}
-
-export enum IntensityLevel {
-  Low,
-  Medium,
-  High
 }

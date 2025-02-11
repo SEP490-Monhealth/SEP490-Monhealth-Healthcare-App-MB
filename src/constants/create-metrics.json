@@ -6,5 +6,6 @@
   "weight": 50,
   "activityLevel": 1.375,
   "goalType": 2,
-  "weightGoal": 66
+  "weightGoal": 66,
+  "caloriesRatio": 1.2
 }

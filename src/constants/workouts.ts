@@ -1,13 +1,47 @@
-import { sampleExercisesData } from "./exercises"
+import { DifficultyLevel } from "./enums"
 
-export const sampleWorkoutsData = {
-  name: "Yoga",
-  description:
-    "Các bài tập tập trung vào việc cải thiện sự linh hoạt, thăng bằng, và giảm căng thẳng thông qua các tư thế và kỹ thuật thở. Phù hợp cho mọi lứa tuổi và thể trạng",
-  totalExercise: 4,
-  totalDuration: 45,
-  totalCaloriesBurned: 250,
-  items: sampleExercisesData,
-  createdAt: "2025-01-06T00:00:00Z",
-  updatedAt: "2025-01-06T00:00:00Z"
-}
+export const sampleWorkoutsData = [
+  {
+    workoutId: "027c771b-8dd4-4124-b651-111fda0b0dcf",
+    name: "Soft Full Routine",
+    description:
+      "Bài tập toàn thân nhẹ nhàng, giúp cơ thể linh hoạt và thư giãn",
+    difficultyLevel: DifficultyLevel.Easy,
+    totalExercises: 4,
+    totalDuration: 10,
+    totalCaloriesBurned: 100,
+    status: true,
+    createdAt: "2025-01-06T00:00:00",
+    updatedAt: "2025-01-06T00:00:00",
+    createdBy: "3026595f-1414-4b74-be8f-11b7f6e7f4f6",
+    updatedBy: "3026595f-1414-4b74-be8f-11b7f6e7f4f6"
+  },
+  {
+    workoutId: "032322a9-a232-4030-bed3-0ccf952d5cff",
+    name: "Soft Lower Activation",
+    description: "Kích hoạt nhóm cơ thân dưới với các bài tập nhẹ",
+    difficultyLevel: DifficultyLevel.Easy,
+    totalExercises: 4,
+    totalDuration: 10,
+    totalCaloriesBurned: 100,
+    status: true,
+    createdAt: "2025-01-06T00:00:00",
+    updatedAt: "2025-01-06T00:00:00",
+    createdBy: "3026595f-1414-4b74-be8f-11b7f6e7f4f6",
+    updatedBy: "3026595f-1414-4b74-be8f-11b7f6e7f4f6"
+  },
+  {
+    workoutId: "580069d7-9025-4864-adf2-3037608e9a22",
+    name: "Soft Upper Routine",
+    description: "Tập trung vào phần thân trên với cường độ thấp",
+    difficultyLevel: DifficultyLevel.Easy,
+    totalExercises: 4,
+    totalDuration: 10,
+    totalCaloriesBurned: 100,
+    status: true,
+    createdAt: "2025-01-06T00:00:00",
+    updatedAt: "2025-01-06T00:00:00",
+    createdBy: "3026595f-1414-4b74-be8f-11b7f6e7f4f6",
+    updatedBy: "3026595f-1414-4b74-be8f-11b7f6e7f4f6"
+  }
+]
