@@ -1,5 +1,7 @@
 import axios from "axios"
 
+import { DifficultyEnum, WorkoutEnum } from "@/constants/enums"
+
 import monAPI from "@/lib/monAPI"
 
 import { WorkoutType } from "@/schemas/workoutSchema"
@@ -14,14 +16,24 @@ export const getAllWorkouts = async (
   page: number,
   limit?: number,
   category?: string,
+  type?: WorkoutEnum,
   search?: string,
-  difficulty?: string,
+  difficulty?: DifficultyEnum,
   popular?: boolean,
   status?: boolean
 ): Promise<WorkoutResponse> => {
   try {
     const response = await monAPI.get(`/workouts`, {
-      params: { page, limit, category, search, difficulty, popular, status }
+      params: {
+        page,
+        limit,
+        category,
+        type,
+        search,
+        difficulty,
+        popular,
+        status
+      }
     })
 
     if (!response || !response.data) {

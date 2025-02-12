@@ -7,7 +7,7 @@ import {
 } from "iconsax-react-native"
 import { Scale, TrendingDown, TrendingUp } from "lucide-react-native"
 
-import { DishType, Gender, GoalType, MealType } from "./enums"
+import { DishEnum, GenderEnum, GoalEnum, MealEnum } from "./enums"
 
 export const APP = {
   name: "Monhealth -  Healthcare App",
@@ -20,63 +20,63 @@ export const DATA = {
     {
       label: "Bữa sáng",
       eLabel: "Breakfast",
-      value: MealType.Breakfast,
+      value: MealEnum.Breakfast,
       ratio: 30,
       dishes: ["MainDish (100%)"]
     },
     {
       label: "Bữa trưa",
       eLabel: "Lunch",
-      value: MealType.Lunch,
+      value: MealEnum.Lunch,
       ratio: 35,
       dishes: ["MainDish (55%)", "SideDish (30%)", "Dessert (15%)"]
     },
     {
       label: "Bữa tối",
       eLabel: "Dinner",
-      value: MealType.Dinner,
+      value: MealEnum.Dinner,
       ratio: 25,
       dishes: ["MainDish (60%)", "SideDish (30%)", "Dessert (10%)"]
     },
     {
       label: "Bữa phụ",
       eLabel: "Snack",
-      value: MealType.Snack,
+      value: MealEnum.Snack,
       ratio: 10,
       dishes: ["MainDish (80%)", "SideDish (20%)"]
     }
   ],
   DISHES: [
-    { label: "Món chính", value: DishType.MainDish },
-    { label: "Món phụ", value: DishType.SideDish },
-    { label: "Món canh", value: DishType.Soup },
-    { label: "Món tráng miệng", value: DishType.Dessert },
-    { label: "Đồ uống", value: DishType.Drink }
+    { label: "Món chính", value: DishEnum.MainDish },
+    { label: "Món phụ", value: DishEnum.SideDish },
+    { label: "Món canh", value: DishEnum.Soup },
+    { label: "Món tráng miệng", value: DishEnum.Dessert },
+    { label: "Đồ uống", value: DishEnum.Drink }
   ],
   UNITS: [
     { label: "g (gram)", value: "g" },
     { label: "ml (mililit)", value: "ml" }
   ],
   GENDERS: [
-    { label: "Nam", value: Gender.Male, icon: Man },
-    { label: "Nữ", value: Gender.Female, icon: Woman }
+    { label: "Nam", value: GenderEnum.Male, icon: Man },
+    { label: "Nữ", value: GenderEnum.Female, icon: Woman }
   ],
   GOALS: [
     {
       label: "Giảm cân",
-      value: GoalType.WeightLoss,
+      value: GoalEnum.WeightLoss,
       description: "Mục tiêu giảm cân và duy trì vóc dáng",
       icon: TrendingDown
     },
     {
       label: "Duy trì cân nặng",
-      value: GoalType.Maintenance,
+      value: GoalEnum.Maintenance,
       description: "Mục tiêu duy trì cân nặng hiện tại",
       icon: Scale
     },
     {
       label: "Tăng cân",
-      value: GoalType.WeightGain,
+      value: GoalEnum.WeightGain,
       description: "Mục tiêu tăng cân và cải thiện cơ thể",
       icon: TrendingUp
     }

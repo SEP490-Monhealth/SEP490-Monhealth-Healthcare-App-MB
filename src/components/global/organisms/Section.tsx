@@ -4,18 +4,24 @@ import { Text, TouchableOpacity, View } from "react-native"
 
 import { cn } from "@/lib/utils"
 
+import { VStack } from "../atoms"
+
 interface SectionProps {
   label: string
+  description?: string
   margin?: boolean
-  action?: string
+  action?: React.ReactNode
+  actionText?: string
   onPress?: () => void
   className?: string
 }
 
 export const Section = ({
   label,
+  description,
   margin = true,
   action,
+  actionText,
   onPress,
   className
 }: SectionProps) => {
@@ -29,11 +35,23 @@ export const Section = ({
         className
       )}
     >
-      <Text className="font-tmedium text-xl text-primary">{label}</Text>
+      <VStack gap={0}>
+        <Text className="font-tmedium text-xl text-primary">{label}</Text>
 
-      {action && (
-        <TouchableOpacity activeOpacity={0.7} onPress={onPress}>
-          <Text className="font-tregular text-base text-primary">{action}</Text>
+        {description && (
+          <Text className="font-tregular text-base text-secondary">
+            {description}
+          </Text>
+        )}
+      </VStack>
+
+      {action}
+
+      {actionText && (
+        <TouchableOpacity activeOpacity={1} onPress={onPress}>
+          <Text className="font-tregular text-base text-primary">
+            {actionText}
+          </Text>
         </TouchableOpacity>
       )}
     </View>

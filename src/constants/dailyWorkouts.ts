@@ -15,25 +15,25 @@ export const sampleWorkoutDailyData = [
         workoutId: "002",
         name: "Cardio",
         image: require("../../public/icons/workouts/cardio.png"),
-        totalExercise: 1,
-        totalDuration: 10,
-        totalCaloriesBurned: 130
+        exercises: 1,
+        duration: 10,
+        caloriesBurned: 130
       },
       {
         workoutId: "003",
         name: "Cardio",
         image: require("../../public/icons/workouts/cardio.png"),
-        totalExercise: 1,
-        totalDuration: 10,
-        totalCaloriesBurned: 130
+        exercises: 1,
+        duration: 10,
+        caloriesBurned: 130
       },
       {
         workoutId: "004",
         name: "Cardio",
         image: require("../../public/icons/workouts/cardio.png"),
-        totalExercise: 1,
-        totalDuration: 10,
-        totalCaloriesBurned: 130
+        exercises: 1,
+        duration: 10,
+        caloriesBurned: 130
       }
     ],
 

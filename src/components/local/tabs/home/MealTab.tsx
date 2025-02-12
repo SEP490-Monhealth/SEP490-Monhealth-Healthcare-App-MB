@@ -92,28 +92,28 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
     {
       mealId: "default-breakfast",
       type: "Breakfast",
-      totalFoods: 0,
+      foods: 0,
       calories: 0,
       isDefault: true
     },
     {
       mealId: "default-lunch",
       type: "Lunch",
-      totalFoods: 0,
+      foods: 0,
       calories: 0,
       isDefault: true
     },
     {
       mealId: "default-dinner",
       type: "Dinner",
-      totalFoods: 0,
+      foods: 0,
       calories: 0,
       isDefault: true
     },
     {
       mealId: "default-snack",
       type: "Snack",
-      totalFoods: 0,
+      foods: 0,
       calories: 0,
       isDefault: true
     }
@@ -190,7 +190,7 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
 
       <Section
         label="Bữa ăn hôm nay"
-        action="Thêm món ăn"
+        actionText="Thêm món ăn"
         onPress={handleViewFoods}
       />
 
@@ -199,7 +199,7 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
           <MealCard
             key={item.mealId}
             type={item.type as "Breakfast" | "Lunch" | "Dinner" | "Snack"}
-            totalFoods={item.totalFoods}
+            totalFoods={item.foods}
             totalCalories={item.calories}
             onPress={() =>
               item.isDefault ? handleViewFoods() : handleViewMeal(item.mealId)

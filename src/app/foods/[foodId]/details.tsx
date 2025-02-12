@@ -236,7 +236,7 @@ function FoodDetailsScreen() {
 
                   <Section
                     label="Khẩu phần ăn"
-                    action="Thêm mới"
+                    actionText="Thêm mới"
                     onPress={handleCreatePortion}
                   />
 

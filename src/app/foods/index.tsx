@@ -169,7 +169,7 @@ function FoodsScreen() {
 
         <Section
           label="Danh sách món ăn"
-          action="Món ăn của tôi"
+          actionText="Món ăn của tôi"
           onPress={handleViewUserFoods}
         />
       </ListHeader>

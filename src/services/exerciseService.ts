@@ -8,7 +8,7 @@ export const getExercisesByWorkoutId = async (
   workoutId: string | undefined
 ): Promise<ExerciseType[]> => {
   try {
-    const response = await monAPI.get(`/workout/${workoutId}/exercises`)
+    const response = await monAPI.get(`/exercises/workout/${workoutId}`)
 
     if (!response || !response.data) {
       throw {

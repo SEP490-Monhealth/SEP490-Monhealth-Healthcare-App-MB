@@ -142,7 +142,7 @@ export const createGoalSchema = baseGoalSchema.pick({
 })
 
 export const typeGoalSchema = z.object({
-  goalType: GoalTypeEnum
+  goalType: GoalType
 })
 
 export const caloriesRatioSchema = baseGoalSchema.pick({

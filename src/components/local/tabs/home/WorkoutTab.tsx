@@ -88,10 +88,10 @@ export const WorkoutTab = ({
     }
   }, [isFetching, isMutating, onOverlayLoading])
 
-  const handleViewWorkouts = () => router.push("/categories/Exercise")
+  const handleViewWorkouts = () => router.push("/workouts")
 
   const { handleViewWorkout } = useRouterHandlers()
-  
+
   return (
     <View className="mt-4">
       <HStack center className="justify-between">
@@ -113,7 +113,7 @@ export const WorkoutTab = ({
 
       <Section
         label="Hoạt động hôm nay"
-        action="Thêm bài tập"
+        actionText="Thêm bài tập"
         onPress={handleViewWorkouts}
       />
 
@@ -122,10 +122,9 @@ export const WorkoutTab = ({
           <WorkoutCard
             key={item.workoutId}
             name={item.name}
-            image={item.image}
-            totalDuration={item.totalDuration}
-            totalCaloriesBurned={item.totalCaloriesBurned}
-            totalExercise={item.totalExercise}
+            exercises={item.exercises}
+            duration={item.duration}
+            caloriesBurned={item.caloriesBurned}
             onPress={() => handleViewWorkout(item.workoutId)}
           />
         ))}

@@ -59,3 +59,10 @@ export enum DifficultyEnum {
   Medium,
   Hard
 }
+
+export enum WorkoutEnum {
+  FullBody,
+  UpperBody,
+  LowerBody,
+  Abs
+}
