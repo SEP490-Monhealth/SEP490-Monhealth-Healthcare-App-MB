@@ -1,10 +1,10 @@
 import { z } from "zod"
 
-import { DifficultyLevel } from "@/constants/enums"
+import { DifficultyEnum } from "@/constants/enums"
 
 import { auditSchema } from "./commonSchema"
 
-const DifficultyLevelEnum = z.nativeEnum(DifficultyLevel)
+const DifficultyLevel = z.nativeEnum(DifficultyEnum)
 
 const baseWorkoutSchema = z
   .object({
@@ -20,7 +20,7 @@ const baseWorkoutSchema = z
       .string()
       .nonempty({ message: "Mô tả không được để trống" })
       .max(500, { message: "Mô tả không được dài hơn 500 ký tự" }),
-    difficultyLevel: DifficultyLevelEnum,
+    difficultyLevel: DifficultyLevel,
     views: z.number().min(0, { message: "Luợt xem phải lớn hơn hoặc bằng 0" })
   })
   .merge(auditSchema)

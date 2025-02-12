@@ -1,17 +1,17 @@
 import { z } from "zod"
 
-import { ExerciseType as ExerciseTypeE } from "@/constants/enums"
+import { ExerciseEnum } from "@/constants/enums"
 
 import { auditSchema } from "./commonSchema"
 
-const ExerciseTypeEnum = z.nativeEnum(ExerciseTypeE)
+const ExerciseType = z.nativeEnum(ExerciseEnum)
 
 const baseExerciseSchema = z
   .object({
     exerciseId: z.string(),
     userId: z.string(),
 
-    type: ExerciseTypeEnum,
+    type: ExerciseType,
     name: z
       .string()
       .nonempty({ message: "Tên bài tập không được để trống" })

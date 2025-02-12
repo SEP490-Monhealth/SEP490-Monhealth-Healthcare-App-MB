@@ -6,7 +6,7 @@ import { Control, FieldValues, useController } from "react-hook-form"
 import { Chip, ErrorText, VStack } from "@/components/global/atoms"
 
 import { COLORS, DATA } from "@/constants/app"
-import { Gender } from "@/constants/enums"
+import { GenderEnum } from "@/constants/enums"
 
 interface SetupGenderProps {
   control: Control<FieldValues>
@@ -19,7 +19,7 @@ function SetupGender({ control, errors }: SetupGenderProps) {
     control
   })
 
-  const handleSelectGender = (value: Gender) => {
+  const handleSelectGender = (value: GenderEnum) => {
     field.onChange(value)
   }
 

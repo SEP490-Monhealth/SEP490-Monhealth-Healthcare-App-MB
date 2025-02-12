@@ -1,15 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { create } from "zustand"
 
-import { Gender, GoalType } from "@/constants/enums"
+import { GenderEnum, GoalEnum } from "@/constants/enums"
 
 interface setupStoreProps {
   dateOfBirth: string
-  gender: Gender | undefined
+  gender: GenderEnum | undefined
   height: number | undefined
   weight: number | undefined
   activityLevel: 1.2 | 1.375 | 1.55 | 1.725 | 1.9
-  goalType: GoalType | undefined
+  goalType: GoalEnum | undefined
   weightGoal: number | undefined
   caloriesRatio: number
   categories: string[]
@@ -29,11 +29,11 @@ interface setupStoreProps {
 
 export const useSetupStore = create<setupStoreProps>((set) => ({
   dateOfBirth: "2003-08-27T00:00:00.000Z",
-  gender: Gender.Male,
+  gender: GenderEnum.Male,
   height: 170,
   weight: 50,
   activityLevel: 1.375,
-  goalType: GoalType.WeightGain,
+  goalType: GoalEnum.WeightGain,
   weightGoal: 66,
   caloriesRatio: 1,
   categories: [

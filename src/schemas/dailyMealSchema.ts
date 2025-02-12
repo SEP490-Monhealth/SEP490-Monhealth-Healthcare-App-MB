@@ -14,7 +14,7 @@ const mealFoodSchema = z
         "Loại bữa ăn không hợp lệ. Chỉ chấp nhận: Breakfast, Lunch, Dinner, Snack"
     }),
 
-    totalFoods: z.number(),
+    foods: z.number(),
 
     calories: z
       .number()

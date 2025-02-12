@@ -1,17 +1,17 @@
 import { z } from "zod"
 
-import { GoalType as GoalTypeE } from "@/constants/enums"
+import { GoalEnum } from "@/constants/enums"
 
 import { timestampSchema } from "./commonSchema"
 
-const GoalTypeEnum = z.nativeEnum(GoalTypeE)
+const GoalType = z.nativeEnum(GoalEnum)
 
 const baseGoalSchema = z
   .object({
     goalId: z.string(),
     userId: z.string(),
 
-    type: GoalTypeEnum,
+    type: GoalType,
 
     caloriesRatio: z.number().optional(),
 
