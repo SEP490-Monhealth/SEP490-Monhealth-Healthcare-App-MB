@@ -16,17 +16,22 @@ import { SubscriptionCard } from "@/components/global/molecules/SubscriptionCard
 import { Header } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/app"
-import { sampleSubscriptionsData } from "@/constants/subscriptions"
 
 import { useAuth } from "@/contexts/AuthContext"
+
+import { useGetAllSubscriptions } from "@/hooks/useSubscription"
+
+import { LoadingScreen } from "../loading"
 
 function SubscriptionScreen() {
   const { user } = useAuth()
   const userId = user?.userId
 
-  const [selectedPlan, setSelectedPlan] = useState(3)
+  const { data: subscriptionsData, isLoading } = useGetAllSubscriptions()
 
-  const premiumSubscription = sampleSubscriptionsData[1]
+  const [selectedPlan, setSelectedPlan] = useState(90)
+
+  const premiumSubscription = subscriptionsData && subscriptionsData[1]
 
   const featuresData = [
     "Gợi ý bữa ăn cá nhân hóa theo tuần",
@@ -37,17 +42,17 @@ function SubscriptionScreen() {
   const plansData = [
     {
       duration: 30,
-      price: premiumSubscription.price,
+      price: premiumSubscription?.price,
       discount: 0
     },
     {
       duration: 90,
-      price: premiumSubscription.price,
+      price: premiumSubscription?.price,
       discount: 10
     },
     {
       duration: 180,
-      price: premiumSubscription.price,
+      price: premiumSubscription?.price,
       discount: 20
     }
   ]
@@ -59,12 +64,15 @@ function SubscriptionScreen() {
   const handleUpgrade = () => {
     const upgradeData = {
       userId: userId,
-      subscriptionId: premiumSubscription.subscriptionId,
+      subscriptionId: premiumSubscription?.subscriptionId,
       duration: selectedPlan
     }
 
     console.log("Selected subscription:", upgradeData)
   }
+
+  if (!subscriptionsData || !premiumSubscription || isLoading)
+    return <LoadingScreen />
 
   return (
     <Container>
@@ -93,7 +101,7 @@ function SubscriptionScreen() {
               <SubscriptionCard
                 key={index}
                 duration={item.duration}
-                price={item.price}
+                price={item.price ?? 0}
                 discount={item.discount}
                 isSelected={item.duration === selectedPlan}
                 onPress={() => handleSelectPlan(item.duration)}
@@ -101,8 +109,9 @@ function SubscriptionScreen() {
             ))}
 
             <Text className="mt-2 text-center font-tregular text-secondary">
-              Chọn gói 6 tháng để tiết kiệm 20% và nhận trọn vẹn các tính năng
-              cao cấp!
+              Chọn gói {plansData[plansData.length - 1].duration / 30} tháng để
+              tiết kiệm {plansData[plansData.length - 1].discount}% và nhận trọn
+              vẹn các tính năng cao cấp!
             </Text>
           </VStack>
         </View>

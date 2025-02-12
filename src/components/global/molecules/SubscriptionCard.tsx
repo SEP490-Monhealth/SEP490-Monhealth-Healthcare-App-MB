@@ -35,7 +35,7 @@ export const SubscriptionCard = ({
 
         <VStack className="items-end">
           <Text className="font-tmedium text-lg text-primary">
-            {formatCurrency(price)}
+            {formatCurrency((price * (100 - discount)) / 100)}
           </Text>
 
           <Text className="font-tregular text-base text-accent">
