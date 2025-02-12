@@ -1,4 +1,4 @@
-import { DifficultyLevel } from "./enums"
+import { DifficultyEnum } from "./enums"
 
 export const sampleWorkoutsData = [
   {
@@ -6,10 +6,10 @@ export const sampleWorkoutsData = [
     name: "Soft Full Routine",
     description:
       "Bài tập toàn thân nhẹ nhàng, giúp cơ thể linh hoạt và thư giãn",
-    difficultyLevel: DifficultyLevel.Easy,
-    totalExercises: 4,
-    totalDuration: 10,
-    totalCaloriesBurned: 100,
+    difficultyLevel: DifficultyEnum.Easy,
+    exercises: 4,
+    duration: 10,
+    caloriesBurned: 100,
     status: true,
     createdAt: "2025-01-06T00:00:00",
     updatedAt: "2025-01-06T00:00:00",
@@ -20,10 +20,10 @@ export const sampleWorkoutsData = [
     workoutId: "032322a9-a232-4030-bed3-0ccf952d5cff",
     name: "Soft Lower Activation",
     description: "Kích hoạt nhóm cơ thân dưới với các bài tập nhẹ",
-    difficultyLevel: DifficultyLevel.Easy,
-    totalExercises: 4,
-    totalDuration: 10,
-    totalCaloriesBurned: 100,
+    difficultyLevel: DifficultyEnum.Easy,
+    exercises: 4,
+    duration: 10,
+    caloriesBurned: 100,
     status: true,
     createdAt: "2025-01-06T00:00:00",
     updatedAt: "2025-01-06T00:00:00",
@@ -34,10 +34,10 @@ export const sampleWorkoutsData = [
     workoutId: "580069d7-9025-4864-adf2-3037608e9a22",
     name: "Soft Upper Routine",
     description: "Tập trung vào phần thân trên với cường độ thấp",
-    difficultyLevel: DifficultyLevel.Easy,
-    totalExercises: 4,
-    totalDuration: 10,
-    totalCaloriesBurned: 100,
+    difficultyLevel: DifficultyEnum.Easy,
+    exercises: 4,
+    duration: 10,
+    caloriesBurned: 100,
     status: true,
     createdAt: "2025-01-06T00:00:00",
     updatedAt: "2025-01-06T00:00:00",
