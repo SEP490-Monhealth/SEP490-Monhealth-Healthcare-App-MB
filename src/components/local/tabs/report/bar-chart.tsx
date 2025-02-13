@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 
 import { Dimensions } from "react-native"
 import Animated, {
@@ -18,11 +18,13 @@ const AnimatedRect = Animated.createAnimatedComponent(Rect)
 interface BarChartProps {
   date: string
   labels: string[]
-  data: number[]
+  data: { date: string; calories: number }[]
 }
 
 export const BarChart = ({ date, data, labels }: BarChartProps) => {
-  if (data.length === 0) return null
+  const [selectedDate, setSelectedDate] = useState<string | null>(date)
+
+  console.log(selectedDate)
 
   const barWidth = 28
   const spacing = 14
@@ -31,7 +33,7 @@ export const BarChart = ({ date, data, labels }: BarChartProps) => {
   const paddingBottom = 20
   const chartHeight = maxBarHeight + paddingBottom + paddingTop
 
-  const maxDataValue = Math.max(...data, 1)
+  const maxDataValue = Math.max(...data.map((item) => item.calories), 1)
 
   let step = 100
 
@@ -58,7 +60,7 @@ export const BarChart = ({ date, data, labels }: BarChartProps) => {
   useEffect(() => {
     data.forEach((value, index) => {
       animatedHeights[index].value = withTiming(
-        value * (maxBarHeight / roundedMaxValue),
+        value.calories * (maxBarHeight / roundedMaxValue),
         {
           duration: 500,
           easing: Easing.out(Easing.ease)
@@ -66,6 +68,12 @@ export const BarChart = ({ date, data, labels }: BarChartProps) => {
       )
     })
   }, [data])
+
+  const handleBarPress = (index: number) => {
+    const selected = data[index].date
+    console.log("Selected date:", selected)
+    setSelectedDate(selected)
+  }
 
   return (
     <Svg width={screenWidth} height={chartHeight}>
@@ -97,9 +105,9 @@ export const BarChart = ({ date, data, labels }: BarChartProps) => {
         )
       })}
 
-      {data.map((_, index) => {
+      {data.map((item, index) => {
         const x = index * (barWidth + spacing) + dynamicPadding
-        const isToday = labels[index] === date
+        const isToday = item.date === selectedDate
         const barColor = isToday ? COLORS.primary : COLORS.border
 
         const animatedProps = useAnimatedProps(() => ({
@@ -115,6 +123,7 @@ export const BarChart = ({ date, data, labels }: BarChartProps) => {
             fill={barColor}
             rx={8}
             animatedProps={animatedProps}
+            onPress={() => handleBarPress(index)}
           />
         )
       })}

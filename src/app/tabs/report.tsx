@@ -20,20 +20,18 @@ import { BarChart } from "@/components/local/tabs/report"
 import { COLORS } from "@/constants/app"
 
 const data = [
-  { label: "Mon", date: "2024-04-29", calories: 500 },
-  { label: "Tue", date: "2024-04-30", calories: 1500 },
-  { label: "Wed", date: "2024-05-01", calories: 2500 },
-  { label: "Thu", date: "2024-05-02", calories: 1000 },
-  { label: "Fri", date: "2024-05-03", calories: 700 },
-  { label: "Sat", date: "2024-05-04", calories: 800 },
-  { label: "Sun", date: "2024-05-05", calories: 2000 }
+  { label: "Mon", date: "2025-02-03", calories: 500 },
+  { label: "Tue", date: "2025-02-04", calories: 1500 },
+  { label: "Wed", date: "2025-02-05", calories: 2500 },
+  { label: "Thu", date: "2025-02-06", calories: 1000 },
+  { label: "Fri", date: "2025-02-07", calories: 700 },
+  { label: "Sat", date: "2025-02-08", calories: 800 },
+  { label: "Sun", date: "2025-02-09", calories: 2000 }
 ]
 
 function ReportScreen() {
-  const dayOfWeek = new Date().getDay()
-
-  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-  const today = days[dayOfWeek]
+  // const today = new Date().toISOString().split("T")[0]
+  const today = "2025-02-08"
 
   const labels = data.map((item) => item.label)
   const caloriesData = data.map((item) => item.calories)
@@ -84,7 +82,7 @@ function ReportScreen() {
                   </HStack>
                 </VStack>
 
-                <BarChart date={today} labels={labels} data={caloriesData} />
+                <BarChart date={today} labels={labels} data={data} />
               </VStack>
             </TabsContent>
             <TabsContent value="water" contentMarginTop={12}>
