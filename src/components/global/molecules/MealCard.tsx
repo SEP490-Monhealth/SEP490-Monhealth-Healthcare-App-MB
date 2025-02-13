@@ -1,15 +1,17 @@
 import React from "react"
 
-import { Image, Text, TouchableOpacity } from "react-native"
+import { Image, Text, TouchableOpacity, View } from "react-native"
 
 import { ChevronRight } from "lucide-react-native"
 
 import { COLORS } from "@/constants/app"
 
+import { cn } from "@/lib/utils"
+
 import { toFixed } from "@/utils/formatters"
 import { getMealTypeImage, translateMealType } from "@/utils/helpers"
 
-import { Card, HStack, Progress, VStack } from "../atoms"
+import { Card, Progress } from "../atoms"
 
 interface MealCardProps {
   type: "Breakfast" | "Lunch" | "Dinner" | "Snack"
@@ -26,42 +28,44 @@ export const MealCard = ({
   progress,
   onPress
 }: MealCardProps) => {
+  const gapClass = progress ? "gap-0" : "gap-1"
+
   return (
     <Card
       onPress={onPress}
       className="flex flex-row items-center justify-between"
     >
-      <HStack gap={16} center>
-        <TouchableOpacity
-          activeOpacity={1}
-          onPress={onPress}
-          className="flex h-12 w-12 items-center justify-center rounded-full bg-muted"
-        >
-          <Image
-            testID="test-meal-image"
-            source={getMealTypeImage(type)}
-            style={{ width: 24, height: 24 }}
+      <TouchableOpacity
+        activeOpacity={1}
+        onPress={onPress}
+        className="mr-4 flex h-12 w-12 items-center justify-center rounded-full bg-muted"
+      >
+        <Image
+          testID="test-image"
+          source={getMealTypeImage(type)}
+          style={{ width: 24, height: 24 }}
+        />
+      </TouchableOpacity>
+
+      <View className={cn("flex-1", gapClass)}>
+        <Text className="font-tmedium text-base text-primary">
+          {translateMealType(type)} {progress ? `(${progress}%)` : ""}
+        </Text>
+
+        {progress && (
+          <Progress
+            testID="test-progress-bar"
+            progress={progress}
+            height={7}
+            color={COLORS.PRIMARY.lemon}
+            className="mt-2"
           />
-        </TouchableOpacity>
+        )}
 
-        <VStack gap={0}>
-          <Text className="font-tmedium text-lg text-primary">
-            {translateMealType(type)}
-          </Text>
-
-          {progress && (
-            <Progress
-              testID="progress-bar"
-              progress={progress}
-              className="mt-2"
-            />
-          )}
-
-          <Text className="font-tmedium text-sm text-accent">
-            {totalFoods} món ăn • {toFixed(totalCalories, 0)} kcal
-          </Text>
-        </VStack>
-      </HStack>
+        <Text className="font-tmedium text-sm text-accent">
+          {totalFoods} món ăn • {toFixed(totalCalories, 0)} kcal
+        </Text>
+      </View>
 
       {!progress && (
         <ChevronRight

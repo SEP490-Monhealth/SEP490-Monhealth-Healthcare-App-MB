@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Text } from "react-native"
+import { Text, View } from "react-native"
 
 import { Profile } from "iconsax-react-native"
 
@@ -8,12 +8,14 @@ import {
   Container,
   Content,
   HStack,
+  ScrollArea,
   TabsList,
   TabsTrigger,
   VStack
 } from "@/components/global/atoms"
 import { Tabs, TabsContent } from "@/components/global/atoms"
-import { Header } from "@/components/global/organisms"
+import { MealCard } from "@/components/global/molecules"
+import { Header, Section } from "@/components/global/organisms"
 
 import { BarChart } from "@/components/local/tabs/report"
 
@@ -38,6 +40,37 @@ function ReportScreen() {
 
   const totalCalories = caloriesData.reduce((a, b) => a + b, 0)
 
+  const defaultMealsData = [
+    {
+      mealId: "default-breakfast",
+      type: "Breakfast",
+      foods: 0,
+      calories: 0,
+      isDefault: true
+    },
+    {
+      mealId: "default-lunch",
+      type: "Lunch",
+      foods: 0,
+      calories: 0,
+      isDefault: true
+    },
+    {
+      mealId: "default-dinner",
+      type: "Dinner",
+      foods: 0,
+      calories: 0,
+      isDefault: true
+    },
+    {
+      mealId: "default-snack",
+      type: "Snack",
+      foods: 0,
+      calories: 0,
+      isDefault: true
+    }
+  ]
+
   return (
     <Container>
       <Header
@@ -47,20 +80,19 @@ function ReportScreen() {
           href: "/settings/user-information"
         }}
       />
-
-      <Content className="mt-2 pb-12">
-        <VStack gap={20}>
-          <Tabs defaultValue="meal" contentMarginTop={12}>
-            <VStack gap={20}>
-              <TabsList>
-                <TabsTrigger value="meal">Bữa ăn</TabsTrigger>
-                <TabsTrigger value="water">Nước</TabsTrigger>
-                <TabsTrigger value="activity">Luyện tập</TabsTrigger>
-              </TabsList>
-            </VStack>
-
-            <TabsContent value="meal" contentMarginTop={12}>
+      <ScrollArea>
+        <Content className="mt-2 pb-12">
+          <VStack gap={20}>
+            <Tabs defaultValue="meal" contentMarginTop={12}>
               <VStack gap={20}>
+                <TabsList>
+                  <TabsTrigger value="meal">Bữa ăn</TabsTrigger>
+                  <TabsTrigger value="water">Nước</TabsTrigger>
+                  <TabsTrigger value="activity">Luyện tập</TabsTrigger>
+                </TabsList>
+              </VStack>
+
+              <TabsContent value="meal" contentMarginTop={12}>
                 <VStack className="px-2">
                   <Text className="font-tbold text-xl text-primary">
                     Tổng quan
@@ -77,23 +109,39 @@ function ReportScreen() {
                     </HStack>
 
                     <Text className="font-tmedium text-primary">
-                      1 - 7 Tháng 2 2025
+                      3 - 9 Tháng 2 2025
                     </Text>
                   </HStack>
                 </VStack>
 
                 <BarChart date={today} labels={labels} data={data} />
-              </VStack>
-            </TabsContent>
-            <TabsContent value="water" contentMarginTop={12}>
-              <Text>asd</Text>
-            </TabsContent>
-            <TabsContent value="activity" contentMarginTop={12}>
-              <Text>asd</Text>
-            </TabsContent>
-          </Tabs>
-        </VStack>
-      </Content>
+
+                <Section label="Thông tin chi tiết" />
+
+                <VStack gap={12}>
+                  {defaultMealsData.map((item) => (
+                    <MealCard
+                      key={item.mealId}
+                      type={
+                        item.type as "Breakfast" | "Lunch" | "Dinner" | "Snack"
+                      }
+                      totalFoods={item.foods}
+                      totalCalories={item.calories}
+                      progress={75}
+                    />
+                  ))}
+                </VStack>
+              </TabsContent>
+              <TabsContent value="water" contentMarginTop={12}>
+                <Text>asd</Text>
+              </TabsContent>
+              <TabsContent value="activity" contentMarginTop={12}>
+                <Text>asd</Text>
+              </TabsContent>
+            </Tabs>
+          </VStack>
+        </Content>
+      </ScrollArea>
     </Container>
   )
 }

@@ -36,7 +36,7 @@ export const Section = ({
       )}
     >
       <VStack gap={0}>
-        <Text className="font-tmedium text-xl text-primary">{label}</Text>
+        <Text className="font-tmedium text-lg text-primary">{label}</Text>
 
         {description && (
           <Text className="font-tregular text-base text-secondary">

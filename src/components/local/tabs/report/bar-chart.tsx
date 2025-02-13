@@ -24,8 +24,6 @@ interface BarChartProps {
 export const BarChart = ({ date, data, labels }: BarChartProps) => {
   const [selectedDate, setSelectedDate] = useState<string | null>(date)
 
-  console.log(selectedDate)
-
   const barWidth = 28
   const spacing = 14
   const maxBarHeight = 200
