@@ -24,9 +24,7 @@ export const FoodCategories = ({
     ...(categoriesData?.map((cat) => cat.name) || [])
   ]
 
-  const handleViewSavedFood = () => {
-    router.push("/foods/saved")
-  }
+  const handleViewSavedFood = () => router.push("/foods/saved")
 
   return (
     <HStack gap={8}>

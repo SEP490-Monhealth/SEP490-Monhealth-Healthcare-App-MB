@@ -158,7 +158,7 @@ function FoodsScreen() {
 
   const handleScanFood = () => router.push("/foods/test-camera")
 
-  const ListHeaderComponent = useMemo(() => {
+  const FlatListHeader = useMemo(() => {
     return (
       <ListHeader className="pt-4">
         <FoodCategories
@@ -211,7 +211,7 @@ function FoodsScreen() {
             maxToRenderPerBatch={5}
             windowSize={5}
             removeClippedSubviews
-            ListHeaderComponent={ListHeaderComponent}
+            ListHeaderComponent={FlatListHeader}
             renderItem={({ item }) => (
               <FoodCard
                 key={item.foodId}

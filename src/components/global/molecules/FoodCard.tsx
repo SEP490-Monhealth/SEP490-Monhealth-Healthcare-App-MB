@@ -61,7 +61,7 @@ export const FoodCard = ({
         className="w-full items-center justify-between"
         onPress={handlePress}
       >
-        <VStack gap={0} className="ml-1" onPress={onPress}>
+        <VStack gap={0} onPress={onPress}>
           <Text className="font-tmedium text-lg text-primary">{name}</Text>
           <Text className="font-tmedium text-sm text-accent">
             {toFixed(Number(calories), 0) ?? 0} kcal

@@ -7,7 +7,7 @@ import {
 } from "iconsax-react-native"
 import { Scale, TrendingDown, TrendingUp } from "lucide-react-native"
 
-import { DishEnum, GenderEnum, GoalEnum, MealEnum } from "./enums"
+import { DishEnum, GenderEnum, GoalEnum, MealEnum, WorkoutEnum } from "./enums"
 
 export const APP = {
   name: "Monhealth -  Healthcare App",
@@ -117,6 +117,12 @@ export const DATA = {
       description: "0.75kg / tuần",
       value: 1.3
     }
+  ],
+  WORKOUTS: [
+    { label: "Toàn thân", value: WorkoutEnum.FullBody },
+    { label: "Thân trên", value: WorkoutEnum.UpperBody },
+    { label: "Thân dưới", value: WorkoutEnum.LowerBody },
+    { label: "Bụng", value: WorkoutEnum.Abs }
   ]
 }
 

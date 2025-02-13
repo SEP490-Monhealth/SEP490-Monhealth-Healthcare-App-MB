@@ -126,7 +126,7 @@ export const WaterTab = ({ onLoading, onOverlayLoading }: WaterTabProps) => {
 
       <Section
         label="Nhắc nhở mỗi ngày"
-        action="Chỉnh sửa"
+        actionText="Chỉnh sửa"
         onPress={handleUpdateWaterReminder}
         className="mt-8"
       />

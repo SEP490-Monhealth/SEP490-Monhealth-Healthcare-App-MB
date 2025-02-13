@@ -18,9 +18,9 @@ export const useGetAllWorkouts = (
   page: number,
   limit?: number,
   category?: string,
-  type?: WorkoutEnum,
+  type?: WorkoutEnum | undefined,
   search?: string,
-  difficulty?: DifficultyEnum,
+  difficulty?: DifficultyEnum | undefined,
   popular?: boolean,
   status?: boolean
 ) => {
