@@ -1,10 +1,12 @@
 import { z } from "zod"
 
+import { MealEnum } from "@/constants/enums"
+
 import { timestampSchema } from "./commonSchema"
 import { nutritionFoodSchema, nutritionSchema } from "./nutritionSchema"
 import { portionSchema } from "./portionSchema"
 
-const meals = ["Breakfast", "Lunch", "Dinner", "Snack"]
+const MealTypeEnum = z.nativeEnum(MealEnum)
 
 export const mealFoodSchema = z
   .object({
@@ -53,10 +55,7 @@ export const mealSchema = z
     mealId: z.string(),
     userId: z.string(),
 
-    type: z.string().refine((val) => meals.includes(val), {
-      message:
-        "Loại bữa ăn không hợp lệ. Chỉ chấp nhận: Breakfast, Lunch, Dinner, Snack"
-    }),
+    type: MealTypeEnum,
 
     nutrition: nutritionSchema
   })
@@ -65,10 +64,7 @@ export const mealSchema = z
 export const createMealSchema = z.object({
   userId: z.string(),
 
-  type: z.string().refine((val) => meals.includes(val), {
-    message:
-      "Bữa ăn phải là một trong các giá trị: Breakfast, Lunch, Dinner, Snack"
-  }),
+  type: MealTypeEnum,
 
   items: z.array(createMealFoodSchema)
 })

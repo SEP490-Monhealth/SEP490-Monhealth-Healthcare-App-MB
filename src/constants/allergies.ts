@@ -2,15 +2,39 @@ import { AllergyType } from "@/schemas/allergySchema"
 
 export const sampleAllergiesData: AllergyType[] = [
   {
-    allergyId: "b8f6417e-2aac-442e-aac4-de4d809c572c",
-    name: "Hải sản",
+    allergyId: "99b9eae6-f5e8-4b41-9394-6a8f2ca1062b",
+    name: "Đậu phộng",
     description:
-      "Dị ứng với hải sản như tôm, cua, sò, ốc, và các loại động vật biển khác",
+      "Dị ứng với đậu phộng khá phổ biến và có thể gây phản ứng nghiêm trọng như sưng tấy, phát ban, khó thở, hoặc sốc phản vệ.",
     createdAt: "2025-01-06T00:00:00Z",
     updatedAt: "2025-01-06T00:00:00Z"
   },
   {
-    allergyId: "16acfb07-feee-4bb9-ad2b-05e5b93d18e6",
+    allergyId: "91df2b87-a28d-4e89-a779-d4220d68a0f8",
+    name: "Hải sản có vỏ",
+    description:
+      "Dị ứng với hải sản có vỏ như tôm, cua, sò, nghêu rất phổ biến ở Việt Nam và có thể gây phản ứng dị ứng nặng, từ phát ban đến khó thở.",
+    createdAt: "2025-01-06T00:00:00Z",
+    updatedAt: "2025-01-06T00:00:00Z"
+  },
+  {
+    allergyId: "b52d2f0a-e728-42dc-90c6-bd0310bc0de6",
+    name: "Sữa",
+    description:
+      "Dị ứng sữa có thể gây ngứa, phát ban, hoặc tiêu chảy ở một số người, đặc biệt là trẻ em.",
+    createdAt: "2025-01-06T00:00:00Z",
+    updatedAt: "2025-01-06T00:00:00Z"
+  },
+  {
+    allergyId: "ea406418-19d1-43dc-96a2-9abf97b9d2a5",
+    name: "Trứng",
+    description:
+      "Dị ứng trứng là một trong những dị ứng thực phẩm phổ biến, đặc biệt là ở trẻ em. Triệu chứng có thể bao gồm phát ban, ngứa, hoặc khó thở.",
+    createdAt: "2025-01-06T00:00:00Z",
+    updatedAt: "2025-01-06T00:00:00Z"
+  },
+  {
+    allergyId: "1ada29ad-354a-44aa-b402-3f8a9c854e56",
     name: "Lúa mì",
     description:
       "Dị ứng với lúa mì, thường gặp ở những người không dung nạp gluten",
@@ -18,63 +42,34 @@ export const sampleAllergiesData: AllergyType[] = [
     updatedAt: "2025-01-06T00:00:00Z"
   },
   {
-    allergyId: "b82f4697-2ad0-4777-a29b-094c99f46d10",
-    name: "Đậu phộng",
+    allergyId: "9e356dc9-ab35-4b54-aa35-37e35d2cc41f",
+    name: "Cá",
     description:
-      "Dị ứng với đậu phộng, một trong những nguyên nhân phổ biến nhất gây phản ứng dị ứng nghiêm trọng",
+      "Dị ứng cá cũng khá phổ biến và có thể gây ra các phản ứng nghiêm trọng như phát ban, sưng, hoặc khó thở.",
     createdAt: "2025-01-06T00:00:00Z",
     updatedAt: "2025-01-06T00:00:00Z"
   },
   {
-    allergyId: "d0127ea2-7f55-4515-b5ea-3db55af5774e",
-    name: "Sữa bò",
+    allergyId: "0eec9d43-391c-43c6-9635-01ca2d6fc66c",
+    name: "Các loại hạt",
     description:
-      "Dị ứng với protein trong sữa bò, khác với không dung nạp lactose",
+      "Dị ứng với các loại hạt như hạt điều, hạt hạnh nhân cũng có thể gây ra phản ứng mạnh, đặc biệt là đối với những người có cơ địa nhạy cảm.",
     createdAt: "2025-01-06T00:00:00Z",
     updatedAt: "2025-01-06T00:00:00Z"
   },
   {
-    allergyId: "70fef89b-5b02-4d6c-81e0-40592eefcb2a",
-    name: "Trứng",
-    description: "Dị ứng với trứng gà hoặc trứng của các loài gia cầm khác",
-    createdAt: "2025-01-06T00:00:00Z",
-    updatedAt: "2025-01-06T00:00:00Z"
-  },
-  {
-    allergyId: "13008773-dadd-4053-b64c-500b6050b2aa",
-    name: "Hạt cây",
-    description:
-      "Dị ứng với các loại hạt cây như hạt óc chó, hạt hạnh nhân, và hạt điều",
-    createdAt: "2025-01-06T00:00:00Z",
-    updatedAt: "2025-01-06T00:00:00Z"
-  },
-  {
-    allergyId: "3cd5347e-d38d-425c-af19-e9c4ba2646c6",
+    allergyId: "c87bd979-3dde-4a47-9f1c-7eef88c6c041",
     name: "Đậu nành",
     description:
-      "Dị ứng với đậu nành, thường gặp ở trẻ em nhưng cũng có thể xảy ra ở người lớn",
+      "Dị ứng với đậu nành khá phổ biến và có thể gây phát ban, ngứa, hoặc khó thở. Đậu nành là thành phần chính trong nhiều món ăn và thực phẩm chế biến sẵn tại Việt Nam.",
     createdAt: "2025-01-06T00:00:00Z",
     updatedAt: "2025-01-06T00:00:00Z"
   },
   {
-    allergyId: "10127b02-786f-462b-8ee6-3df465903645",
-    name: "Vừng (mè)",
+    allergyId: "4d6270d3-69c6-4b9f-9c11-125369139775",
+    name: "Hạt vừng",
     description:
-      "Dị ứng với hạt vừng (mè), thường gặp trong các món ăn châu Á và Trung Đông",
-    createdAt: "2025-01-06T00:00:00Z",
-    updatedAt: "2025-01-06T00:00:00Z"
-  },
-  {
-    allergyId: "eb5cadbb-94e2-4bf9-8764-ddef8779ebd8",
-    name: "Cá",
-    description: "Dị ứng với cá, bao gồm cả cá biển và cá nước ngọt",
-    createdAt: "2025-01-06T00:00:00Z",
-    updatedAt: "2025-01-06T00:00:00Z"
-  },
-  {
-    allergyId: "0d352b08-ada9-40f6-a23e-6f6f170a9cd4",
-    name: "Động vật có vỏ",
-    description: "Dị ứng với các loại động vật có vỏ như tôm, cua, và sò",
+      "Dị ứng với hạt vừng (mè) có thể gây phát ban, ngứa, và có thể nghiêm trọng nếu không được kiểm soát.",
     createdAt: "2025-01-06T00:00:00Z",
     updatedAt: "2025-01-06T00:00:00Z"
   }

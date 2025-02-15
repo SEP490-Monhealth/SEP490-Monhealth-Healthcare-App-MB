@@ -4,13 +4,13 @@ import { CategoryEnum } from "@/constants/enums"
 
 import { timestampSchema } from "./commonSchema"
 
-const CategoryType = z.nativeEnum(CategoryEnum)
+const CategoryTypeEnum = z.nativeEnum(CategoryEnum)
 
 const baseCategorySchema = z
   .object({
     categoryId: z.string(),
 
-    type: CategoryType,
+    type: CategoryTypeEnum,
 
     name: z
       .string()

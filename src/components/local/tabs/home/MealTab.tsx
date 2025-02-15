@@ -16,6 +16,8 @@ import {
   NutritionSummary
 } from "@/components/local/tabs/home"
 
+import { MealEnum } from "@/constants/enums"
+
 import { useAuth } from "@/contexts/AuthContext"
 
 import { useGetDailyMealByUserId } from "@/hooks/useDailyMeal"
@@ -91,28 +93,28 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
   const defaultMealsData = [
     {
       mealId: "default-breakfast",
-      type: "Breakfast",
+      type: MealEnum.Breakfast,
       foods: 0,
       calories: 0,
       isDefault: true
     },
     {
       mealId: "default-lunch",
-      type: "Lunch",
+      type: MealEnum.Lunch,
       foods: 0,
       calories: 0,
       isDefault: true
     },
     {
       mealId: "default-dinner",
-      type: "Dinner",
+      type: MealEnum.Dinner,
       foods: 0,
       calories: 0,
       isDefault: true
     },
     {
       mealId: "default-snack",
-      type: "Snack",
+      type: MealEnum.Snack,
       foods: 0,
       calories: 0,
       isDefault: true
@@ -198,7 +200,7 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
         {mergedMealsData.map((item) => (
           <MealCard
             key={item.mealId}
-            type={item.type as "Breakfast" | "Lunch" | "Dinner" | "Snack"}
+            type={item.type as MealEnum}
             totalFoods={item.foods}
             totalCalories={item.calories}
             onPress={() =>

@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query"
 import { useError } from "@/contexts/ErrorContext"
 
 import { ExerciseType } from "@/schemas/exerciseSchema"
+import { WorkoutExerciseType } from "@/schemas/workoutSchema"
 
 import {
   getExerciseById,
@@ -12,7 +13,7 @@ import {
 export const useGetExercisesByWorkoutId = (workoutId: string | undefined) => {
   const handleError = useError()
 
-  return useQuery<ExerciseType[], Error>({
+  return useQuery<WorkoutExerciseType, Error>({
     queryKey: ["exercises", workoutId],
     queryFn: async () => {
       try {

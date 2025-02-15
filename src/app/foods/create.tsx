@@ -13,7 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { set } from "lodash"
 import { useForm } from "react-hook-form"
 
-import { Button, Container, Content } from "@/components/global/atoms"
+import { Button, Content } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
 import { useAuth } from "@/contexts/AuthContext"

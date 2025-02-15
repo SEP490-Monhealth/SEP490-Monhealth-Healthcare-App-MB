@@ -19,8 +19,6 @@ export const WorkoutTypes = ({
 }: WorkoutTypesProps) => {
   const router = useRouter()
 
-  console.log(JSON.stringify(typesData, null, 2))
-
   const types = [{ label: "Tất cả", value: null }, ...typesData]
 
   const handleViewSavedWorkout = () => router.push("/workouts/saved")

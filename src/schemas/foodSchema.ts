@@ -8,9 +8,9 @@ import { auditSchema, timestampSchema } from "./commonSchema"
 import { nutritionSchema } from "./nutritionSchema"
 import { portionSchema } from "./portionSchema"
 
-const FoodType = z.nativeEnum(FoodEnum)
-const MealType = z.nativeEnum(MealEnum)
-const DishType = z.nativeEnum(DishEnum)
+const FoodTypeEnum = z.nativeEnum(FoodEnum)
+const MealTypeEnum = z.nativeEnum(MealEnum)
+const DishTypeEnum = z.nativeEnum(DishEnum)
 
 export const foodAllergySchema = z
   .object({
@@ -34,12 +34,12 @@ const baseFoodSchema = z
     category: z.string(),
     userId: z.string(),
 
-    foodType: FoodType,
+    foodType: FoodTypeEnum,
     mealType: z
-      .array(MealType)
+      .array(MealTypeEnum)
       .min(1, { message: "Bạn cần chọn ít nhất một bữa ăn" }),
     dishType: z
-      .array(DishType)
+      .array(DishTypeEnum)
       .min(1, { message: "Bạn cần chọn ít nhất một loại món ăn" }),
 
     name: z

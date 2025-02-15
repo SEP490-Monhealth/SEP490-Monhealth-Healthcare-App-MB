@@ -4,7 +4,7 @@ import { ActivityIndicator, FlatList, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
-import { Scanner, SearchNormal1 } from "iconsax-react-native"
+import { SearchNormal1 } from "iconsax-react-native"
 
 import { Container, Content, Input, VStack } from "@/components/global/atoms"
 import {
@@ -31,7 +31,7 @@ import { FoodType } from "@/schemas/foodSchema"
 
 import { getAllFoods } from "@/services/foodService"
 
-import { getMealType } from "@/utils/helpers"
+import { getMealTypeByTime } from "@/utils/helpers"
 
 import { LoadingScreen } from "../loading"
 
@@ -125,10 +125,10 @@ function FoodsScreen() {
   }, [])
 
   const handleAddFood = (food: FoodType) => {
-    const mealType = getMealType("en")
+    const mealType = getMealTypeByTime()
 
     const size = food.portion?.size || "phần"
-    const weight = food.portion?.weight || 100
+    const weight = food.portion?.weight
     const unit = food.portion?.unit || "g"
 
     const mealData = {
@@ -145,7 +145,7 @@ function FoodsScreen() {
       ]
     }
 
-    // console.log(JSON.stringify(mealData, null, 2))
+    console.log(JSON.stringify(mealData, null, 2))
 
     addMeal(mealData, {
       onSuccess: () => {
@@ -156,7 +156,7 @@ function FoodsScreen() {
 
   const handleViewUserFoods = () => router.push("/foods/user")
 
-  const handleScanFood = () => router.push("/foods/test-camera")
+  // const handleScanFood = () => router.push("/foods/test-camera")
 
   const FlatListHeader = useMemo(() => {
     return (
@@ -189,8 +189,8 @@ function FoodsScreen() {
             placeholder="Tìm kiếm tên món ăn..."
             onChangeText={(text) => setSearchQuery(text)}
             startIcon={<SearchNormal1 size={20} color={COLORS.primary} />}
-            endIcon={<Scanner size={20} color={COLORS.primary} />}
-            onEndIconPress={handleScanFood}
+            // endIcon={<Scanner size={20} color={COLORS.primary} />}
+            // onEndIconPress={handleScanFood}
             canClearText
           />
         }

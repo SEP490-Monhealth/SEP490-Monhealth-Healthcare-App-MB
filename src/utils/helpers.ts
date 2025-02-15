@@ -1,4 +1,5 @@
-import { COLORS } from "@/constants/app"
+import { COLORS, DATA } from "@/constants/app"
+import { MealEnum } from "@/constants/enums"
 import { TipsData } from "@/constants/tips"
 
 /**
@@ -90,35 +91,62 @@ export const convertDate = (timeString: string): Date => {
  * @param lang - Ngôn ngữ ("vi" cho tiếng Việt, "en" cho tiếng Anh).
  * @returns Loại bữa ăn theo ngôn ngữ (mặc định là tiếng Việt).
  */
-export const getMealType = (lang: string = "vi") => {
+export const getMealType = (lang: string = "vi"): string => {
   const date = new Date()
   const hours = date.getHours()
 
-  const mealTypes: {
-    [key: string]: { breakfast: string; lunch: string; dinner: string }
-  } = {
+  // Định nghĩa các loại bữa ăn
+  const mealTypes: { [key: string]: { [key in MealEnum]: string } } = {
     vi: {
-      breakfast: "Bữa sáng",
-      lunch: "Bữa trưa",
-      dinner: "Bữa tối"
+      [MealEnum.Breakfast]: "Bữa sáng",
+      [MealEnum.Lunch]: "Bữa trưa",
+      [MealEnum.Dinner]: "Bữa tối",
+      [MealEnum.Snack]: "Bữa phụ"
     },
     en: {
-      breakfast: "Breakfast",
-      lunch: "Lunch",
-      dinner: "Dinner"
+      [MealEnum.Breakfast]: "Breakfast",
+      [MealEnum.Lunch]: "Lunch",
+      [MealEnum.Dinner]: "Dinner",
+      [MealEnum.Snack]: "Snack"
     }
   }
 
-  const selectedLang =
-    mealTypes[lang as keyof typeof mealTypes] || mealTypes["vi"]
+  // Xác định bữa ăn dựa trên giờ hiện tại
+  let meal: MealEnum
 
-  if (hours < 10) {
-    return selectedLang.breakfast
-  } else if (hours < 18) {
-    return selectedLang.lunch
+  if (hours >= 5 && hours < 10) {
+    meal = MealEnum.Breakfast
+  } else if (hours >= 10 && hours < 15) {
+    meal = MealEnum.Lunch
   } else {
-    return selectedLang.dinner
+    meal = MealEnum.Dinner
   }
+
+  // Trả về tên bữa ăn theo ngôn ngữ yêu cầu
+  return mealTypes[lang][meal]
+}
+
+export const getMealTypeByTime = (): MealEnum => {
+  const date = new Date()
+  const hours = date.getHours()
+
+  if (hours >= 5 && hours < 10) {
+    return MealEnum.Breakfast
+  } else if (hours >= 10 && hours < 15) {
+    return MealEnum.Lunch
+  } else if (hours >= 15 && hours < 21) {
+    return MealEnum.Dinner
+  } else {
+    return MealEnum.Snack
+  }
+}
+
+export const getMealTypeName = (
+  lang: string = "vi",
+  value: MealEnum
+): string | undefined => {
+  const meal = DATA.MEALS.find((meal) => meal.value === value) || DATA.MEALS[0]
+  return lang === "vi" ? meal.label : meal.eLabel
 }
 
 /**
@@ -183,34 +211,19 @@ export const getWorkoutUnit = (label: string): string => {
 }
 
 /**
- * Chuyển đổi mealType từ tiếng Anh sang tiếng Việt.
- * @param mealType - Loại bữa ăn bằng tiếng Anh (Breakfast, Lunch, Dinner, Snack).
- * @returns Loại bữa ăn bằng tiếng Việt (Bữa sáng, Bữa trưa, Bữa tối, Bữa phụ).
- */
-export const translateMealType = (mealType: string): string => {
-  const translations: Record<string, string> = {
-    Breakfast: "Bữa sáng",
-    Lunch: "Bữa trưa",
-    Dinner: "Bữa tối",
-    Snack: "Bữa phụ"
-  }
-  return translations[mealType] || mealType
-}
-
-/**
  * Lấy hình ảnh đại diện cho từng loại bữa ăn.
  * @param mealType - Loại bữa ăn (Breakfast, Lunch, Dinner, Snack).
  * @returns Hình ảnh đại diện của loại bữa ăn.
  */
-export const getMealTypeImage = (mealType: string): any => {
+export const getMealTypeImage = (mealType: MealEnum) => {
   switch (mealType) {
-    case "Breakfast":
+    case MealEnum.Breakfast:
       return require("../../public/icons/meals/sandwich.png")
-    case "Lunch":
+    case MealEnum.Lunch:
       return require("../../public/icons/meals/rice.png")
-    case "Dinner":
+    case MealEnum.Dinner:
       return require("../../public/icons/meals/roast-chicken.png")
-    case "Snack":
+    case MealEnum.Snack:
       return require("../../public/icons/meals/cupcake.png")
     default:
       return require("../../public/icons/meals/dish.png")

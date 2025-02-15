@@ -21,7 +21,7 @@ export const ErrorProvider: React.FC<{ children: React.ReactNode }> = ({
         errorMessage ===
           "Bữa ăn không tồn tại hoặc không có món ăn nào trong bữa")
     ) {
-      router.replace("/home")
+      router.replace("/tabs/home")
       return
     }
 

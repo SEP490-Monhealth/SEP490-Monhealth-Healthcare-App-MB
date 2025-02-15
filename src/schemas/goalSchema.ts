@@ -4,14 +4,14 @@ import { GoalEnum } from "@/constants/enums"
 
 import { timestampSchema } from "./commonSchema"
 
-const GoalType = z.nativeEnum(GoalEnum)
+const GoalTypeEnum = z.nativeEnum(GoalEnum)
 
 const baseGoalSchema = z
   .object({
     goalId: z.string(),
     userId: z.string(),
 
-    type: GoalType,
+    type: GoalTypeEnum,
 
     caloriesRatio: z.number().optional(),
 
@@ -142,7 +142,7 @@ export const createGoalSchema = baseGoalSchema.pick({
 })
 
 export const typeGoalSchema = z.object({
-  goalType: GoalType
+  goalType: GoalTypeEnum
 })
 
 export const caloriesRatioSchema = baseGoalSchema.pick({

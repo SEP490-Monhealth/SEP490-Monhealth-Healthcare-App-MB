@@ -1,18 +1,17 @@
 import { z } from "zod"
 
+import { MealEnum } from "@/constants/enums"
+
 import { timestampSchema } from "./commonSchema"
 import { nutritionSchema } from "./nutritionSchema"
 
-const meals = ["Breakfast", "Lunch", "Dinner", "Snack"]
+const MealType = z.nativeEnum(MealEnum)
 
 const mealFoodSchema = z
   .object({
     mealFoodId: z.string(),
 
-    type: z.string().refine((val) => meals.includes(val), {
-      message:
-        "Loại bữa ăn không hợp lệ. Chỉ chấp nhận: Breakfast, Lunch, Dinner, Snack"
-    }),
+    type: MealType,
 
     foods: z.number(),
 

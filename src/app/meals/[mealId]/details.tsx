@@ -36,6 +36,7 @@ import { Header, Section } from "@/components/global/organisms"
 import { NutritionSummary } from "@/components/local/meals"
 
 import { COLORS, DATA } from "@/constants/app"
+import { MealEnum } from "@/constants/enums"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -49,7 +50,7 @@ import {
 import { useRouterHandlers } from "@/hooks/useRouter"
 
 import { formatDateYYYYMMDD } from "@/utils/formatters"
-import { translateMealType } from "@/utils/helpers"
+import { getMealTypeName } from "@/utils/helpers"
 
 const MealFoodOptions = React.memo(
   ({ onIncrease, onDecrease, onDelete, quantity }: any) => {
@@ -139,10 +140,13 @@ function MealDetailsScreen() {
     refetch: mealFoodRefetch
   } = useGetMealFoodsByMealId(mealId)
 
-  const mealType = useMemo(() => mealData?.type || "", [mealData])
+  const mealType = useMemo(
+    () => mealData?.type || MealEnum.Breakfast,
+    [mealData]
+  )
 
   const caloriesRatio =
-    DATA.MEALS.find((meal) => meal.eLabel === mealType)?.ratio || 0
+    DATA.MEALS.find((meal) => meal.value === mealType)?.ratio || 0
 
   const caloriesGoal = ((goalData?.caloriesGoal ?? 0) * caloriesRatio) / 100
 
@@ -246,7 +250,7 @@ function MealDetailsScreen() {
 
           <Header
             back
-            label={translateMealType(mealType)}
+            label={getMealTypeName("vi", mealType)}
             action={{
               icon: <Add size={24} color={COLORS.primary} />,
               href: `/foods`

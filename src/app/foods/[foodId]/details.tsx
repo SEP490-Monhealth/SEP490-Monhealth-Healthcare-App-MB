@@ -62,7 +62,8 @@ function FoodDetailsScreen() {
 
   const isSaved = saveFoodsData.some((saved) => saved.foodId === foodId)
 
-  const [selectedMeal, setSelectedMeal] = useState(getMealType("eng"))
+  const [selectedMeal, setSelectedMeal] = useState(getMealType("vi"))
+
   const [selectedPortion, setSelectedPortion] = useState("g")
   const [quantity, setQuantity] = useState("100")
   const [portionSheetHeight, setPortionSheetHeight] = useState(320)
@@ -154,7 +155,7 @@ function FoodDetailsScreen() {
 
     const mealData = {
       userId: userId || "",
-      type: selectedMealValue?.eLabel || "Snack",
+      type: selectedMealValue?.value,
       items: [
         {
           foodId: foodId,
@@ -167,8 +168,9 @@ function FoodDetailsScreen() {
       ]
     }
 
-    // console.log(JSON.stringify(mealData, null, 2))
+    console.log(JSON.stringify(mealData, null, 2))
 
+    // @ts-ignore
     addMeal(mealData)
   }
 

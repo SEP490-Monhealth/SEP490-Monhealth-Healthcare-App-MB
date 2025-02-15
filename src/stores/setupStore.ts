@@ -48,7 +48,7 @@ export const useSetupStore = create<setupStoreProps>((set) => ({
     "Bánh các loại",
     "Đồ ăn vặt"
   ],
-  allergies: ["Sữa bò", "Hạt cây", "Đậu nành", "Động vật có vỏ"],
+  allergies: ["Hải sản có vỏ", "Sữa", "Các loại hạt", "Đậu nành", "Hạt vừng"],
 
   // dateOfBirth: "",
   // gender: undefined,

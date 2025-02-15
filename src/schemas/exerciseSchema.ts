@@ -4,14 +4,14 @@ import { ExerciseEnum } from "@/constants/enums"
 
 import { auditSchema } from "./commonSchema"
 
-const ExerciseType = z.nativeEnum(ExerciseEnum)
+const ExerciseTypeEnum = z.nativeEnum(ExerciseEnum)
 
 const baseExerciseSchema = z
   .object({
     exerciseId: z.string(),
     userId: z.string(),
 
-    type: ExerciseType,
+    type: ExerciseTypeEnum,
     name: z
       .string()
       .nonempty({ message: "Tên bài tập không được để trống" })
@@ -35,6 +35,17 @@ const baseExerciseSchema = z
   })
   .merge(auditSchema)
 
-export const exerciseSchema = baseExerciseSchema
+export const exerciseSchema = baseExerciseSchema.pick({
+  exerciseId: true,
+
+  type: true,
+  name: true,
+  instructions: true,
+
+  duration: true,
+  reps: true,
+
+  caloriesPerMinute: true
+})
 
 export type ExerciseType = z.infer<typeof exerciseSchema>

@@ -3,10 +3,11 @@ import axios from "axios"
 import monAPI from "@/lib/monAPI"
 
 import { ExerciseType } from "@/schemas/exerciseSchema"
+import { WorkoutExerciseType } from "@/schemas/workoutSchema"
 
 export const getExercisesByWorkoutId = async (
   workoutId: string | undefined
-): Promise<ExerciseType[]> => {
+): Promise<WorkoutExerciseType> => {
   try {
     const response = await monAPI.get(`/exercises/workout/${workoutId}`)
 
@@ -21,7 +22,7 @@ export const getExercisesByWorkoutId = async (
     const { success, message, data } = response.data
 
     if (success) {
-      return data as ExerciseType[]
+      return data as WorkoutExerciseType
     } else {
       throw {
         isCustomError: true,

@@ -66,3 +66,21 @@ export enum WorkoutEnum {
   LowerBody,
   Abs
 }
+
+// Service - Booking
+export enum ServiceEnum {
+  Online,
+  Offline
+}
+
+export enum ScheduleEnum {
+  Available,
+  Unavailable,
+  Booked
+}
+
+export enum BookingEnum {
+  Pending,
+  Confirmed,
+  Cancelled
+}
