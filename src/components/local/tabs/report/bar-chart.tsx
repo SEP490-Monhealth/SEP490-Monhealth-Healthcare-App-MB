@@ -23,6 +23,11 @@ interface BarChartProps {
 
 export const BarChart = ({ date, data, labels }: BarChartProps) => {
   const [selectedDate, setSelectedDate] = useState<string | null>(date)
+  const [tooltip, setTooltip] = useState<{
+    x: number
+    y: number
+    value: number | null
+  } | null>(null)
 
   const barWidth = 28
   const spacing = 14
@@ -69,8 +74,11 @@ export const BarChart = ({ date, data, labels }: BarChartProps) => {
 
   const handleBarPress = (index: number) => {
     const selected = data[index].date
-    console.log("Selected date:", selected)
+    const x = index * (barWidth + spacing) + dynamicPadding
+    const y = maxBarHeight - animatedHeights[index].value + paddingTop
+
     setSelectedDate(selected)
+    setTooltip({ x, y, value: data[index].calories })
   }
 
   return (
@@ -144,6 +152,30 @@ export const BarChart = ({ date, data, labels }: BarChartProps) => {
           </SvgText>
         )
       })}
+
+      {tooltip && tooltip.value !== null && (
+        <React.Fragment>
+          <Rect
+            x={tooltip.x - 65}
+            y={tooltip.y - 20}
+            width={80}
+            height={30}
+            fill="#fff"
+            rx={5}
+          />
+          <SvgText
+            x={tooltip.x - 40}
+            y={tooltip.y + 0}
+            fontFamily="TikTokText-Medium"
+            fontSize="12"
+            fontWeight="500"
+            fill={COLORS.primary}
+            textAnchor="middle"
+          >
+            {tooltip.value} kcal
+          </SvgText>
+        </React.Fragment>
+      )}
     </Svg>
   )
 }

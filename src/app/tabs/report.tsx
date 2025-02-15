@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Text, View } from "react-native"
+import { Text } from "react-native"
 
 import { Profile } from "iconsax-react-native"
 
@@ -20,18 +20,29 @@ import { Header, Section } from "@/components/global/organisms"
 import { BarChart } from "@/components/local/tabs/report"
 
 import { COLORS } from "@/constants/app"
+import { MealEnum } from "@/constants/enums"
+
+import { useAuth } from "@/contexts/AuthContext"
+
+import { useGetNutritionGoal } from "@/hooks/useGoal"
 
 const data = [
-  { label: "Mon", date: "2025-02-03", calories: 500 },
-  { label: "Tue", date: "2025-02-04", calories: 1500 },
-  { label: "Wed", date: "2025-02-05", calories: 2500 },
-  { label: "Thu", date: "2025-02-06", calories: 1000 },
-  { label: "Fri", date: "2025-02-07", calories: 700 },
-  { label: "Sat", date: "2025-02-08", calories: 800 },
-  { label: "Sun", date: "2025-02-09", calories: 2000 }
+  { label: "T2", date: "2025-02-03", calories: 500 },
+  { label: "T3", date: "2025-02-04", calories: 1500 },
+  { label: "T4", date: "2025-02-05", calories: 2500 },
+  { label: "T5", date: "2025-02-06", calories: 1000 },
+  { label: "T6", date: "2025-02-07", calories: 700 },
+  { label: "T7", date: "2025-02-08", calories: 800 },
+  { label: "CN", date: "2025-02-09", calories: 2000 }
 ]
 
 function ReportScreen() {
+  const { user } = useAuth()
+  const userId = user?.userId
+
+  const { data: goalData, isLoading: isLoadingGoal } =
+    useGetNutritionGoal(userId)
+
   // const today = new Date().toISOString().split("T")[0]
   const today = "2025-02-08"
 
@@ -40,31 +51,47 @@ function ReportScreen() {
 
   const totalCalories = caloriesData.reduce((a, b) => a + b, 0)
 
+  const breakfastCalories = 132
+  const lunchCalories = 314
+  const dinnerCalories = 54
+  const snackCalories = 0
+
+  const caloriesGoal = goalData?.caloriesGoal || 0
+  const breakfastGoal = caloriesGoal * 0.3
+  const lunchGoal = caloriesGoal * 0.35
+  const dinnerGoal = caloriesGoal * 0.25
+  const snackGoal = caloriesGoal * 0.1
+
+  const breakfastProgress = (breakfastCalories / breakfastGoal) * 100
+  const lunchProgress = (lunchCalories / lunchGoal) * 100
+  const dinnerProgress = (dinnerCalories / dinnerGoal) * 100
+  const snackProgress = (snackCalories / snackGoal) * 100
+
   const defaultMealsData = [
     {
       mealId: "default-breakfast",
-      type: "Breakfast",
+      type: MealEnum.Breakfast,
       foods: 0,
       calories: 0,
       isDefault: true
     },
     {
       mealId: "default-lunch",
-      type: "Lunch",
+      type: MealEnum.Lunch,
       foods: 0,
       calories: 0,
       isDefault: true
     },
     {
       mealId: "default-dinner",
-      type: "Dinner",
+      type: MealEnum.Dinner,
       foods: 0,
       calories: 0,
       isDefault: true
     },
     {
       mealId: "default-snack",
-      type: "Snack",
+      type: MealEnum.Snack,
       foods: 0,
       calories: 0,
       isDefault: true
@@ -122,9 +149,7 @@ function ReportScreen() {
                   {defaultMealsData.map((item) => (
                     <MealCard
                       key={item.mealId}
-                      type={
-                        item.type as "Breakfast" | "Lunch" | "Dinner" | "Snack"
-                      }
+                      type={item.type as MealEnum}
                       totalFoods={item.foods}
                       totalCalories={item.calories}
                       progress={75}

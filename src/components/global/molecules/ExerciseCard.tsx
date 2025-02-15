@@ -8,7 +8,7 @@ import { ArrowSwapHorizontal } from "iconsax-react-native"
 import { COLORS } from "@/constants/app"
 import { ExerciseEnum } from "@/constants/enums"
 
-import { formatDuration } from "@/utils/formatters"
+import { formatDuration, toFixed } from "@/utils/formatters"
 
 import { Card, HStack } from "../atoms"
 import { IconButton } from "./IconButton"
@@ -58,8 +58,8 @@ const ExerciseCard = ({
           <Text className="font-tmedium text-lg text-primary">{name}</Text>
           <Text className="font-tmedium text-sm text-accent">
             {type === ExerciseEnum.Time
-              ? `${formatDuration(duration ?? 0)} • ${totalCalories} kcal`
-              : `${reps} lần • ${totalCalories} kcal`}
+              ? `${formatDuration(duration ?? 0)} • ${toFixed(totalCalories, 1)} kcal`
+              : `${reps} lần • ${toFixed(totalCalories, 1)} kcal`}
           </Text>
         </View>
 
