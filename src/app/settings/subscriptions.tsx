@@ -19,15 +19,21 @@ import { COLORS } from "@/constants/app"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useGetAllSubscriptions } from "@/hooks/useSubscription"
+import {
+  useGetAllSubscriptions,
+  useUpgradeSubscription
+} from "@/hooks/useSubscription"
 
 import { LoadingScreen } from "../loading"
 
 function SubscriptionScreen() {
   const { user } = useAuth()
   const userId = user?.userId
+  const userSubscription = user?.subscription
 
   const { data: subscriptionsData, isLoading } = useGetAllSubscriptions()
+
+  const { mutate: upgradeSubscription } = useUpgradeSubscription()
 
   const [selectedPlan, setSelectedPlan] = useState(90)
 
@@ -58,17 +64,20 @@ function SubscriptionScreen() {
   ]
 
   const handleSelectPlan = (duration: number) => {
-    setSelectedPlan(duration)
+    if (userSubscription !== premiumSubscription?.name) {
+      setSelectedPlan(duration)
+    }
   }
 
   const handleUpgrade = () => {
-    const upgradeData = {
-      userId: userId,
-      subscriptionId: premiumSubscription?.subscriptionId,
-      duration: selectedPlan
+    if (userId && premiumSubscription?.subscriptionId) {
+      const upgradeData = {
+        userId: userId,
+        subscriptionId: premiumSubscription.subscriptionId,
+        duration: selectedPlan
+      }
+      upgradeSubscription(upgradeData)
     }
-
-    console.log("Selected subscription:", upgradeData)
   }
 
   if (!subscriptionsData || !premiumSubscription || isLoading)
@@ -117,7 +126,12 @@ function SubscriptionScreen() {
         </View>
       </Content>
 
-      <Button size="lg" onPress={handleUpgrade} className="mb-4">
+      <Button
+        disabled={userSubscription === premiumSubscription?.name}
+        size="lg"
+        onPress={handleUpgrade}
+        className="mb-4"
+      >
         Thanh toán
       </Button>
     </Container>

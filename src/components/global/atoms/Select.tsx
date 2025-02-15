@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils"
 
 interface SelectProps {
   label?: string
-  defaultValue: string
+  defaultValue?: string
   value?: string
   onPress: () => void
   errorMessage?: string

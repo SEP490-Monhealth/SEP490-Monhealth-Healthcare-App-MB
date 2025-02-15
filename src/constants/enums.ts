@@ -66,3 +66,14 @@ export enum WorkoutEnum {
   LowerBody,
   Abs
 }
+
+// Service
+export enum TypeEnum {
+  Online,
+  Offline
+}
+
+export enum PricingTypeEnum {
+  Hour,
+  Session
+}

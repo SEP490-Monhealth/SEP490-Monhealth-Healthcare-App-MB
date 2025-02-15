@@ -5,6 +5,8 @@ interface UserPayload {
   fullName: string
   phoneNumber: string
   email: string
+  role: string
+  subscription: string
 }
 
 interface AuthContextType {
