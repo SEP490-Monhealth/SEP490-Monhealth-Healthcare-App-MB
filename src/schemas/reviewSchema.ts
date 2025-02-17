@@ -6,8 +6,8 @@ const baseReviewSchema = z
   .object({
     reviewId: z.string(),
     bookingId: z.string(),
-    userId: z.string(),
     consultantId: z.string(),
+    userId: z.string(),
 
     rating: z
       .number()
@@ -25,8 +25,8 @@ const reviewSchema = baseReviewSchema
 
 export const createReviewSchema = reviewSchema.pick({
   bookingId: true,
-  userId: true,
   consultantId: true,
+  userId: true,
   rating: true,
   comment: true
 })

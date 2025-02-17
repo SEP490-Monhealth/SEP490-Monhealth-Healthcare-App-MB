@@ -13,11 +13,8 @@ export const certificateImageSchema = z
 const baseCertificateSchema = z
   .object({
     certificateId: z.string(),
-    userId: z.string(),
+    expertiseId: z.string(),
 
-    expertise: z
-      .string()
-      .nonempty({ message: "Chuyên môn không được để trống" }),
     name: z
       .string()
       .nonempty({ message: "Tên chứng chỉ không được để trống" })
@@ -36,8 +33,6 @@ const baseCertificateSchema = z
 
 export const certificateSchema = baseCertificateSchema.pick({
   certificateId: true,
-  userId: true,
-  expertise: true,
   name: true,
   issueDate: true,
   expiryDate: true,
@@ -45,8 +40,6 @@ export const certificateSchema = baseCertificateSchema.pick({
 })
 
 export const createCertificateSchema = certificateSchema.pick({
-  userId: true,
-  expertise: true,
   name: true,
   issueDate: true,
   expiryDate: true,

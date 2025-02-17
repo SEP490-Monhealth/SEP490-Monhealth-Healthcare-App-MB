@@ -14,12 +14,13 @@ export enum GenderEnum {
 export enum GoalEnum {
   WeightLoss,
   Maintenance,
-  WeightGain
+  WeightGain,
+  MuscleGain
 }
 
 export enum CategoryEnum {
   Food,
-  Exercise
+  Workout
 }
 
 // Food - Meal
@@ -60,12 +61,12 @@ export enum DifficultyEnum {
   Hard
 }
 
-export enum WorkoutEnum {
-  FullBody,
-  UpperBody,
-  LowerBody,
-  Abs
-}
+// export enum WorkoutEnum {
+//   FullBody,
+//   UpperBody,
+//   LowerBody,
+//   Abs
+// }
 
 // Schedule - Service - Booking
 // export enum ServiceEnum {

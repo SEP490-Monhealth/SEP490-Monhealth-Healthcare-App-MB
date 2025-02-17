@@ -4,12 +4,12 @@ import { useRouter } from "expo-router"
 
 import { Chip, HStack, ScrollArea } from "@/components/global/atoms"
 
-import { WorkoutEnum } from "@/constants/enums"
+import { CategoryType } from "@/schemas/categorySchema"
 
 interface WorkoutTypesProps {
-  typesData: { label: string; value: WorkoutEnum }[]
-  selectedType: WorkoutEnum | null
-  onSelectType: (type: WorkoutEnum | null) => void
+  typesData: CategoryType[]
+  selectedType: string
+  onSelectType: (type: string) => void
 }
 
 export const WorkoutTypes = ({
@@ -19,7 +19,7 @@ export const WorkoutTypes = ({
 }: WorkoutTypesProps) => {
   const router = useRouter()
 
-  const types = [{ label: "Tất cả", value: null }, ...typesData]
+  const types = ["Tất cả", ...(typesData?.map((typ) => typ.name) || [])]
 
   const handleViewSavedWorkout = () => router.push("/workouts/saved")
 
@@ -30,10 +30,10 @@ export const WorkoutTypes = ({
       <ScrollArea orientation="horizontal" className="flex-1">
         {types.map((type, index) => (
           <Chip
-            key={type.value ?? "all"}
-            label={type.label}
-            selected={selectedType === type.value}
-            onPress={() => onSelectType(type.value)}
+            key={type}
+            label={type}
+            selected={selectedType === type}
+            onPress={() => onSelectType(type)}
             className={index === types.length - 1 ? "" : "mr-2"}
           />
         ))}

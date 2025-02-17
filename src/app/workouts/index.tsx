@@ -16,9 +16,10 @@ import { Section } from "@/components/global/organisms"
 
 import { WorkoutTypes } from "@/components/local/workouts"
 
-import { COLORS, DATA } from "@/constants/app"
-import { WorkoutEnum } from "@/constants/enums"
+import { COLORS } from "@/constants/app"
+import { CategoryEnum } from "@/constants/enums"
 
+import { useGetCategoriesByType } from "@/hooks/useCategory"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useRouterHandlers } from "@/hooks/useRouter"
 import { useGetAllWorkouts } from "@/hooks/useWorkout"
@@ -36,23 +37,21 @@ function WorkoutsScreen() {
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false)
   const [searchQuery, setSearchQuery] = useState<string>("")
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
-  const [selectedType, setSelectedType] = useState<WorkoutEnum | string>(
-    "Tất cả"
+  const [selectedType, setSelectedType] = useState<string>("Tất cả")
+
+  const debouncedSearch = useDebounce(searchQuery)
+  const debouncedFilter = useDebounce(selectedType, 0)
+
+  const { data: typesData, isLoading: isTypesLoading } = useGetCategoriesByType(
+    CategoryEnum.Workout
   )
-
-  const debouncedSearchQuery = useDebounce(searchQuery)
-
-  const typesData = DATA.WORKOUTS
-
-  const type: WorkoutEnum | undefined =
-    selectedType === "Tất cả" ? undefined : (selectedType as WorkoutEnum)
 
   const { data, isLoading } = useGetAllWorkouts(
     1,
     limit,
     "",
-    type,
-    debouncedSearchQuery,
+    debouncedFilter,
+    debouncedSearch,
     undefined,
     true,
     true
@@ -95,10 +94,8 @@ function WorkoutsScreen() {
       <ListHeader className="pt-4">
         <WorkoutTypes
           typesData={typesData || []}
-          selectedType={
-            selectedType === "Tất cả" ? null : (selectedType as WorkoutEnum)
-          }
-          onSelectType={(type) => setSelectedType(type ?? "Tất cả")}
+          selectedType={selectedType}
+          onSelectType={setSelectedType}
         />
 
         <Section label="Danh sách bài tập" actionText="Bài tập của tôi" />

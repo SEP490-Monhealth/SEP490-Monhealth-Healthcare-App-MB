@@ -5,7 +5,7 @@ import { auditSchema } from "./commonSchema"
 const baseBookingSchema = z
   .object({
     bookingId: z.string(),
-    serviceId: z.string(),
+    // serviceId: z.string(),
     userId: z.string(),
     consultantId: z.string(),
 

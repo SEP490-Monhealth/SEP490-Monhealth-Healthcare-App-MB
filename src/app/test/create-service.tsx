@@ -34,7 +34,7 @@ import {
   createUpdateServiceSchema
 } from "@/schemas/serviceSchema"
 
-import { ChipService } from "./ChipService"
+import { ChipService } from "./ServiceChip"
 
 function CreateServiceScreen() {
   const PricingTypeSheetRef = useRef<SheetRefProps>(null)

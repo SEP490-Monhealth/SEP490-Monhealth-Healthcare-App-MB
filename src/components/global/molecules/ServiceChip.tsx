@@ -4,7 +4,7 @@ import { Text, View } from "react-native"
 
 import { Card, HStack } from "@/components/global/atoms"
 
-interface ChipServiceProps {
+interface ServiceChipProps {
   label: string
   icon?: React.ReactNode
   isSelected: boolean
@@ -12,12 +12,12 @@ interface ChipServiceProps {
   onPress: () => void
 }
 
-export const ChipService = ({
+export const ServiceChip = ({
   label,
   icon,
   isSelected,
   onPress
-}: ChipServiceProps) => {
+}: ServiceChipProps) => {
   return (
     <Card
       className={`flex-1 items-center justify-center rounded-2xl border-2 ${

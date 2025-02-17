@@ -5,9 +5,14 @@ import {
   Reserve,
   Woman
 } from "iconsax-react-native"
-import { Scale, TrendingDown, TrendingUp } from "lucide-react-native"
+import {
+  BicepsFlexed,
+  Scale,
+  TrendingDown,
+  TrendingUp
+} from "lucide-react-native"
 
-import { DishEnum, GenderEnum, GoalEnum, MealEnum, WorkoutEnum } from "./enums"
+import { DishEnum, GenderEnum, GoalEnum, MealEnum } from "./enums"
 
 export const APP = {
   name: "Monhealth -  Healthcare App",
@@ -79,6 +84,12 @@ export const DATA = {
       value: GoalEnum.WeightGain,
       description: "Mục tiêu tăng cân và cải thiện cơ thể",
       icon: TrendingUp
+    },
+    {
+      label: "Tăng cơ",
+      value: GoalEnum.MuscleGain,
+      description: "Mục tiêu tăng cơ và giảm mỡ",
+      icon: BicepsFlexed
     }
   ],
   CALORIES_RATIO: [
@@ -117,12 +128,6 @@ export const DATA = {
       description: "0.75kg / tuần",
       value: 1.3
     }
-  ],
-  WORKOUTS: [
-    { label: "Toàn thân", value: WorkoutEnum.FullBody },
-    { label: "Thân trên", value: WorkoutEnum.UpperBody },
-    { label: "Thân dưới", value: WorkoutEnum.LowerBody },
-    { label: "Bụng", value: WorkoutEnum.Abs }
   ]
 }
 

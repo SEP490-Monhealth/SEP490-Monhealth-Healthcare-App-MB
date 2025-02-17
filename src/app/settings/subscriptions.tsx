@@ -38,6 +38,7 @@ function SubscriptionScreen() {
   const [selectedPlan, setSelectedPlan] = useState(90)
 
   const premiumSubscription = subscriptionsData && subscriptionsData[1]
+  const hasSubscription = userSubscription === premiumSubscription?.name
 
   const featuresData = [
     "Gợi ý bữa ăn cá nhân hóa theo tuần",
@@ -64,7 +65,7 @@ function SubscriptionScreen() {
   ]
 
   const handleSelectPlan = (duration: number) => {
-    if (userSubscription !== premiumSubscription?.name) {
+    if (!hasSubscription) {
       setSelectedPlan(duration)
     }
   }
@@ -127,7 +128,7 @@ function SubscriptionScreen() {
       </Content>
 
       <Button
-        disabled={userSubscription === premiumSubscription?.name}
+        disabled={hasSubscription}
         size="lg"
         onPress={handleUpgrade}
         className="mb-4"

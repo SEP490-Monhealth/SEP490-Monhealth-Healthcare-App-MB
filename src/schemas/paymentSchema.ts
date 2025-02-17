@@ -5,7 +5,7 @@ import { auditSchema } from "./commonSchema"
 const basePaymentSchema = z
   .object({
     paymentId: z.string(),
-    bookingId: z.string(),
+    // bookingId: z.string(),
     subscriptionId: z.string(),
 
     amount: z.number(),
@@ -21,10 +21,10 @@ const basePaymentSchema = z
 
 export const paymentSchema = basePaymentSchema
 
-export const createBookingPaymentSchema = paymentSchema.pick({
-  bookingId: true,
-  amount: true
-})
+// export const createBookingPaymentSchema = paymentSchema.pick({
+//   bookingId: true,
+//   amount: true
+// })
 
 export const createSubscriptionPaymentSchema = paymentSchema.pick({
   subscriptionId: true,
@@ -32,9 +32,9 @@ export const createSubscriptionPaymentSchema = paymentSchema.pick({
 })
 
 export type PaymentType = z.infer<typeof paymentSchema>
-export type CreateBookingPaymentType = z.infer<
-  typeof createBookingPaymentSchema
->
+// export type CreateBookingPaymentType = z.infer<
+//   typeof createBookingPaymentSchema
+// >
 export type CreateSubscriptionPaymentType = z.infer<
   typeof createSubscriptionPaymentSchema
 >

@@ -19,6 +19,7 @@ import { Section } from "@/components/global/organisms"
 import { FoodCategories } from "@/components/local/foods"
 
 import { COLORS } from "@/constants/app"
+import { CategoryEnum } from "@/constants/enums"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -59,7 +60,7 @@ function FoodsScreen() {
   const debouncedSelectedCategory: string = useDebounce(selectedCategory, 0)
 
   const { data: categoriesData, isLoading: isCategoriesLoading } =
-    useGetCategoriesByType("Food")
+    useGetCategoriesByType(CategoryEnum.Food)
 
   const fetchFoods = async (
     newLimit: number,

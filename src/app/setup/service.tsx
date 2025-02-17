@@ -34,8 +34,7 @@ import {
   createUpdateServiceSchema
 } from "@/schemas/serviceSchema"
 
-import { ChipService } from "../test/ChipService"
-
+../test/ServiceChip
 function CreateServiceScreen() {
   const PricingTypeSheetRef = useRef<SheetRefProps>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -197,13 +196,13 @@ function CreateServiceScreen() {
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <View className="flex-1 flex-row gap-6">
-                          <ChipService
+                          <ServiceChip
                             label="Online"
                             icon={<Link size={20} />}
                             isSelected={value === TypeEnum.Online}
                             onPress={() => onChange(TypeEnum.Online)}
                           />
-                          <ChipService
+                          <ServiceChip
                             label="Offline"
                             icon={<Home2 size={20} />}
                             isSelected={value === TypeEnum.Offline}

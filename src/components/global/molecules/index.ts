@@ -13,6 +13,7 @@ import { MealCard } from "./MealCard"
 import { NotificationCard } from "./NotificationCard"
 import { NutritionCard } from "./NutritionCard"
 import { NutritionItem } from "./NutritionItem"
+import { ServiceChip } from "./ServiceChip"
 import { StepHeader } from "./StepHeader"
 import { WaterReminderCard } from "./WaterReminderCard"
 import { WorkoutCard } from "./WorkoutCard"
@@ -33,6 +34,7 @@ export {
   NotificationCard,
   NutritionCard,
   NutritionItem,
+  ServiceChip,
   StepHeader,
   WaterReminderCard,
   WorkoutCard
