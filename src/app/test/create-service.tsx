@@ -34,7 +34,7 @@ import {
   createUpdateServiceSchema
 } from "@/schemas/serviceSchema"
 
-import { ChipService } from "../test/ChipService"
+import { ChipService } from "./ChipService"
 
 function CreateServiceScreen() {
   const PricingTypeSheetRef = useRef<SheetRefProps>(null)
@@ -295,7 +295,7 @@ function CreateServiceScreen() {
             onPress={handleSubmit(onSubmit)}
             className="mb-4"
           >
-            {!isLoading && "Gửi yêu cầu phê duyệt"}
+            {!isLoading && "Tạo dịch vụ"}
           </Button>
         </Container>
 

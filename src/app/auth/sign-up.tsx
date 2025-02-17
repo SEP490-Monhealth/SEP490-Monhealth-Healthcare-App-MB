@@ -91,7 +91,7 @@ function SignUpScreen() {
   }
 
   return (
-    <Container>
+    <Container dismissKeyboard>
       <Content className="mt-2">
         <VStack gap={40}>
           <Header back />

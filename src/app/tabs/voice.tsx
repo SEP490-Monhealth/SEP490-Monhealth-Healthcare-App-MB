@@ -28,6 +28,10 @@ function VoiceScreen() {
     router.push("/test/local-image")
   }
 
+  const handleCreateService = () => {
+    router.push("/test/create-service")
+  }
+
   return (
     <Container>
       <Header
@@ -54,6 +58,10 @@ function VoiceScreen() {
 
           <Button size="lg" onPress={handleViewLocalImage}>
             Local Image
+          </Button>
+
+          <Button size="lg" onPress={handleCreateService}>
+            Tạo dịch vụ
           </Button>
         </VStack>
       </Content>

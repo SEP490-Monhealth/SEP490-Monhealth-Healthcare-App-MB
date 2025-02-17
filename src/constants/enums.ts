@@ -67,11 +67,11 @@ export enum WorkoutEnum {
   Abs
 }
 
-// Service - Booking
-export enum ServiceEnum {
-  Online,
-  Offline
-}
+// Schedule - Service - Booking
+// export enum ServiceEnum {
+//   Online,
+//   Offline
+// }
 
 export enum ScheduleEnum {
   Available,
