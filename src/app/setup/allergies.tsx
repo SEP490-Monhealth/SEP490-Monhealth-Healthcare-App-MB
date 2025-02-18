@@ -5,7 +5,7 @@ import { TouchableOpacity } from "react-native"
 
 import { Control, FieldValues, useController } from "react-hook-form"
 
-import { ScrollArea } from "@/components/global/atoms"
+import { Chip, ScrollArea, VStack } from "@/components/global/atoms"
 
 import { sampleAllergiesData } from "@/constants/allergies"
 
@@ -32,34 +32,22 @@ function SetupAllergies({ control }: SetupAllergiesProps) {
   }
 
   return (
-    <ScrollArea>
-      <View
-        className="flex-row flex-wrap"
-        style={{ rowGap: 16, columnGap: 12 }}
-      >
-        {allergiesData.map((allergy) => (
-          <TouchableOpacity
-            key={allergy.allergyId}
-            activeOpacity={0.7}
-            onPress={() => handleSelectAllergies(allergy.name)}
-            className={`flex-row items-center rounded-2xl border-2 bg-muted px-4 py-2.5 ${
-              (field.value || []).includes(allergy.name)
-                ? "border-primary"
-                : "border-border"
-            }`}
-          >
-            <Text
-              className={`font-tmedium text-base ${
-                (field.value || []).includes(allergy.name)
-                  ? "text-primary"
-                  : "text-black"
-              }`}
-            >
-              {allergy.name}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+    <ScrollArea className="mb-20">
+      <VStack gap={12}>
+        {allergiesData.map((allergy) => {
+          return (
+            <Chip
+              key={allergy.allergyId}
+              size="lg"
+              border
+              borderWidth={2}
+              label={allergy.name}
+              selected={field.value?.includes(allergy.name)}
+              onPress={() => handleSelectAllergies(allergy.name)}
+            />
+          )
+        })}
+      </VStack>
     </ScrollArea>
   )
 }

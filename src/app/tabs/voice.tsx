@@ -32,6 +32,10 @@ function VoiceScreen() {
     router.push("/test/create-service")
   }
 
+  const handleViewConsultant = () => {
+    router.push("/test/consultant")
+  }
+
   return (
     <Container>
       <Header
@@ -62,6 +66,10 @@ function VoiceScreen() {
 
           <Button size="lg" onPress={handleCreateService}>
             Tạo dịch vụ
+          </Button>
+
+          <Button size="lg" onPress={handleViewConsultant}>
+            Tư vấn viên
           </Button>
         </VStack>
       </Content>
