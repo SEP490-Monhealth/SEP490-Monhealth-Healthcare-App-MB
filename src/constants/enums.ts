@@ -11,20 +11,26 @@ export enum GenderEnum {
   Female
 }
 
-export enum GoalEnum {
+export enum TypeGoalEnum {
   WeightLoss,
   Maintenance,
   WeightGain,
   MuscleGain
 }
 
-export enum CategoryEnum {
+export enum StatusGoalEnum {
+  Abandoned,
+  Active,
+  Completed
+}
+
+export enum TypeCategoryEnum {
   Food,
   Workout
 }
 
 // Food - Meal
-export enum FoodEnum {
+export enum TypeFoodEnum {
   Carbs,
   Protein,
   Vegetables,
@@ -34,14 +40,14 @@ export enum FoodEnum {
   Snacks
 }
 
-export enum MealEnum {
+export enum TypeMealEnum {
   Breakfast,
   Lunch,
   Dinner,
   Snack
 }
 
-export enum DishEnum {
+export enum TypeDishEnum {
   MainDish,
   SideDish,
   Soup,
@@ -50,23 +56,21 @@ export enum DishEnum {
 }
 
 // Exercise - Workout
-export enum ExerciseEnum {
+export enum TypeExerciseEnum {
   Time,
   Reps
 }
 
-export enum DifficultyEnum {
+export enum LevelDifficultyEnum {
   Easy,
   Medium,
   Hard
 }
 
-// export enum WorkoutEnum {
-//   FullBody,
-//   UpperBody,
-//   LowerBody,
-//   Abs
-// }
+export enum TypeWorkoutEnum {
+  Warmup,
+  Workout
+}
 
 // Schedule - Service - Booking
 // export enum ServiceEnum {
@@ -74,13 +78,13 @@ export enum DifficultyEnum {
 //   Offline
 // }
 
-export enum ScheduleEnum {
+export enum StatusScheduleEnum {
   Available,
   Unavailable,
   Booked
 }
 
-export enum BookingEnum {
+export enum StatusBookingEnum {
   Pending,
   Confirmed,
   Cancelled

@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { Text, View } from "react-native"
+import { Text } from "react-native"
 
 import { useLocalSearchParams } from "expo-router"
 
@@ -18,14 +18,15 @@ import ExerciseCard from "@/components/global/molecules/ExerciseCard"
 import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/app"
+import { TypeWorkoutEnum } from "@/constants/enums"
 
 import { useGetExercisesByWorkoutId } from "@/hooks/useExercise"
 import { useGetWorkoutById } from "@/hooks/useWorkout"
 
+import { toFixed } from "@/utils/formatters"
+
 function WorkoutDetailsScreen() {
   const { workoutId } = useLocalSearchParams() as { workoutId: string }
-
-  console.log(workoutId)
 
   const { data: workoutData, isLoading: isWorkoutLoading } =
     useGetWorkoutById(workoutId)
@@ -66,9 +67,6 @@ function WorkoutDetailsScreen() {
   const totalWarmupMinutes = (totalWarmupDuration * warmupRounds) / 60
   const totalWorkoutMinutes = (totalWorkoutDuration * workoutRounds) / 60
 
-  console.log("total warmup duration:", totalWarmupDuration / 60)
-  console.log("total workout duration:", totalWorkoutDuration / 60)
-
   const handleViewExercise = (exerciseId: string) => console.log(exerciseId)
 
   if (!workoutData || isWorkoutLoading || !exercisesData || isExercisesLoading)
@@ -88,10 +86,10 @@ function WorkoutDetailsScreen() {
 
             <Button className="mt-4">Bắt đầu</Button>
 
-            <View className="flex">
+            {workoutData.type === TypeWorkoutEnum.Workout && (
               <Section
-                label="Warm up"
-                description={`${totalWarmupMinutes} phút / ${warmupRounds} vòng`}
+                label="Khởi động"
+                description={`${toFixed(totalWarmupMinutes, 1)} phút / ${warmupRounds} vòng`}
                 action={
                   <Toggle
                     value={isWarmup}
@@ -105,7 +103,7 @@ function WorkoutDetailsScreen() {
                   />
                 }
               />
-            </View>
+            )}
 
             <VStack gap={12}>
               {isWarmup &&
@@ -122,9 +120,9 @@ function WorkoutDetailsScreen() {
                 ))}
 
               <Section
-                label="Workout"
-                margin={false}
-                description={`${totalWorkoutMinutes} phút / ${workoutRounds} vòng`}
+                label="Bài tập"
+                margin={workoutData.type === TypeWorkoutEnum.Workout}
+                description={`${toFixed(totalWorkoutMinutes, 1)} phút / ${workoutRounds} vòng`}
               />
 
               {exercisesData?.workout.map((exercise, index) => (

@@ -17,7 +17,7 @@ import { useAuth } from "@/contexts/AuthContext"
 
 import { useRouterHandlers } from "@/hooks/useRouter"
 
-import { formatDateYYYYMMDD, toFixed } from "@/utils/formatters"
+import { formatDateY, toFixed } from "@/utils/formatters"
 
 import { WorkoutProgress } from "./WorkoutProgress"
 import { WorkoutSummary } from "./WorkoutSummary"
@@ -36,7 +36,7 @@ export const WorkoutTab = ({
   const { user } = useAuth()
   const userId = user?.userId
 
-  const today = formatDateYYYYMMDD(new Date())
+  const today = formatDateY(new Date())
 
   const workoutData = sampleWorkoutDailyData[0]
 

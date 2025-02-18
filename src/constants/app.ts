@@ -12,7 +12,7 @@ import {
   TrendingUp
 } from "lucide-react-native"
 
-import { DishEnum, GenderEnum, GoalEnum, MealEnum } from "./enums"
+import { TypeDishEnum, GenderEnum, TypeGoalEnum, TypeMealEnum } from "./enums"
 
 export const APP = {
   name: "Monhealth -  Healthcare App",
@@ -25,38 +25,38 @@ export const DATA = {
     {
       label: "Bữa sáng",
       eLabel: "Breakfast",
-      value: MealEnum.Breakfast,
+      value: TypeMealEnum.Breakfast,
       ratio: 30,
       dishes: ["MainDish (100%)"]
     },
     {
       label: "Bữa trưa",
       eLabel: "Lunch",
-      value: MealEnum.Lunch,
+      value: TypeMealEnum.Lunch,
       ratio: 35,
       dishes: ["MainDish (55%)", "SideDish (30%)", "Dessert (15%)"]
     },
     {
       label: "Bữa tối",
       eLabel: "Dinner",
-      value: MealEnum.Dinner,
+      value: TypeMealEnum.Dinner,
       ratio: 25,
       dishes: ["MainDish (60%)", "SideDish (30%)", "Dessert (10%)"]
     },
     {
       label: "Bữa phụ",
       eLabel: "Snack",
-      value: MealEnum.Snack,
+      value: TypeMealEnum.Snack,
       ratio: 10,
       dishes: ["MainDish (80%)", "SideDish (20%)"]
     }
   ],
   DISHES: [
-    { label: "Món chính", value: DishEnum.MainDish },
-    { label: "Món phụ", value: DishEnum.SideDish },
-    { label: "Món canh", value: DishEnum.Soup },
-    { label: "Món tráng miệng", value: DishEnum.Dessert },
-    { label: "Đồ uống", value: DishEnum.Drink }
+    { label: "Món chính", value: TypeDishEnum.MainDish },
+    { label: "Món phụ", value: TypeDishEnum.SideDish },
+    { label: "Món canh", value: TypeDishEnum.Soup },
+    { label: "Món tráng miệng", value: TypeDishEnum.Dessert },
+    { label: "Đồ uống", value: TypeDishEnum.Drink }
   ],
   UNITS: [
     { label: "g (gram)", value: "g" },
@@ -69,25 +69,25 @@ export const DATA = {
   GOALS: [
     {
       label: "Giảm cân",
-      value: GoalEnum.WeightLoss,
+      value: TypeGoalEnum.WeightLoss,
       description: "Mục tiêu giảm cân và duy trì vóc dáng",
       icon: TrendingDown
     },
     {
       label: "Duy trì cân nặng",
-      value: GoalEnum.Maintenance,
+      value: TypeGoalEnum.Maintenance,
       description: "Mục tiêu duy trì cân nặng hiện tại",
       icon: Scale
     },
     {
       label: "Tăng cân",
-      value: GoalEnum.WeightGain,
+      value: TypeGoalEnum.WeightGain,
       description: "Mục tiêu tăng cân và cải thiện cơ thể",
       icon: TrendingUp
     },
     {
       label: "Tăng cơ",
-      value: GoalEnum.MuscleGain,
+      value: TypeGoalEnum.MuscleGain,
       description: "Mục tiêu tăng cơ và giảm mỡ",
       icon: BicepsFlexed
     }

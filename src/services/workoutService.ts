@@ -1,6 +1,6 @@
 import axios from "axios"
 
-import { DifficultyEnum } from "@/constants/enums"
+import { LevelDifficultyEnum } from "@/constants/enums"
 
 import monAPI from "@/lib/monAPI"
 
@@ -17,7 +17,7 @@ export const getAllWorkouts = async (
   limit?: number,
   category?: string,
   search?: string,
-  difficulty?: DifficultyEnum | undefined,
+  difficulty?: LevelDifficultyEnum | undefined,
   popular?: boolean,
   status?: boolean
 ): Promise<WorkoutResponse> => {

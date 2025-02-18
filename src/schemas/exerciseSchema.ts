@@ -1,10 +1,10 @@
 import { z } from "zod"
 
-import { ExerciseEnum } from "@/constants/enums"
+import { TypeExerciseEnum } from "@/constants/enums"
 
 import { auditSchema } from "./commonSchema"
 
-const ExerciseTypeEnum = z.nativeEnum(ExerciseEnum)
+const ExerciseTypeEnum = z.nativeEnum(TypeExerciseEnum)
 
 const baseExerciseSchema = z
   .object({
@@ -20,8 +20,8 @@ const baseExerciseSchema = z
       .string()
       .nonempty({ message: "Hướng dẫn không được để trống" }),
 
-    duration: z.number().optional(),
-    reps: z.number().optional(),
+    duration: z.number(),
+    reps: z.number(),
 
     caloriesPerMinute: z
       .number()

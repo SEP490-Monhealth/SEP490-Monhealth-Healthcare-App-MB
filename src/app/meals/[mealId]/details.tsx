@@ -36,7 +36,7 @@ import { Header, Section } from "@/components/global/organisms"
 import { NutritionSummary } from "@/components/local/meals"
 
 import { COLORS, DATA } from "@/constants/app"
-import { MealEnum } from "@/constants/enums"
+import { TypeMealEnum } from "@/constants/enums"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -49,7 +49,7 @@ import {
 } from "@/hooks/useMeal"
 import { useRouterHandlers } from "@/hooks/useRouter"
 
-import { formatDateYYYYMMDD } from "@/utils/formatters"
+import { formatDateY } from "@/utils/formatters"
 import { getMealTypeName } from "@/utils/helpers"
 
 const MealFoodOptions = React.memo(
@@ -108,7 +108,7 @@ function MealDetailsScreen() {
 
   const { mealId } = useLocalSearchParams() as { mealId: string }
 
-  const today = formatDateYYYYMMDD(new Date())
+  const today = formatDateY(new Date())
 
   const { mutate: updateMealFoodStatus } = useUpdateMealFoodStatus()
   const { mutate: updateMealFoodQuantity } = useUpdateMealFoodQuantity()
@@ -141,7 +141,7 @@ function MealDetailsScreen() {
   } = useGetMealFoodsByMealId(mealId)
 
   const mealType = useMemo(
-    () => mealData?.type || MealEnum.Breakfast,
+    () => mealData?.type || TypeMealEnum.Breakfast,
     [mealData]
   )
 
@@ -312,6 +312,7 @@ function MealDetailsScreen() {
                     size={item.portion?.size}
                     weight={item.portion?.weight}
                     unit={item.portion?.unit}
+                    recommended={true}
                     status={item.status}
                     onPress={() => handleViewFood(item.foodId)}
                     onStatusPress={() =>

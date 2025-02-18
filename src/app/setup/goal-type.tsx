@@ -6,7 +6,7 @@ import { Control, FieldValues, useController } from "react-hook-form"
 import { Chip, ErrorText, VStack } from "@/components/global/atoms"
 
 import { COLORS, DATA } from "@/constants/app"
-import { GoalEnum } from "@/constants/enums"
+import { TypeGoalEnum } from "@/constants/enums"
 
 import { useSetupStore } from "@/stores/setupStore"
 
@@ -29,14 +29,14 @@ function SetupGoalType({ control, errors }: SetupGoalTypeProps) {
     if (weight !== undefined && height !== undefined) {
       const bmi = calculateBMI(weight, height)
 
-      let suggestedGoal: GoalEnum
+      let suggestedGoal: TypeGoalEnum
 
       if (bmi < 18.5) {
-        suggestedGoal = GoalEnum.WeightGain
+        suggestedGoal = TypeGoalEnum.WeightGain
       } else if (bmi >= 18.5 && bmi < 24.9) {
-        suggestedGoal = GoalEnum.Maintenance
+        suggestedGoal = TypeGoalEnum.Maintenance
       } else {
-        suggestedGoal = GoalEnum.WeightLoss
+        suggestedGoal = TypeGoalEnum.WeightLoss
       }
 
       if (field.value !== suggestedGoal) {
@@ -45,7 +45,7 @@ function SetupGoalType({ control, errors }: SetupGoalTypeProps) {
     }
   }, [weight, height])
 
-  const handleSelectGoal = (value: GoalEnum) => {
+  const handleSelectGoal = (value: TypeGoalEnum) => {
     field.onChange(value)
   }
 

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 
-import { CategoryEnum } from "@/constants/enums"
+import { TypeCategoryEnum } from "@/constants/enums"
 
 import { useError } from "@/contexts/ErrorContext"
 
@@ -8,7 +8,7 @@ import { CategoryType } from "@/schemas/categorySchema"
 
 import { getCategoriesByTypes } from "@/services/categoryService"
 
-export const useGetCategoriesByType = (type: CategoryEnum) => {
+export const useGetCategoriesByType = (type: TypeCategoryEnum) => {
   const handleError = useError()
 
   return useQuery<CategoryType[], Error>({

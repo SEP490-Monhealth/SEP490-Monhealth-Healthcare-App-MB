@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-import { DishEnum, FoodEnum, MealEnum } from "@/constants/enums"
+import { TypeDishEnum, TypeFoodEnum, TypeMealEnum } from "@/constants/enums"
 
 import { allergySetupSchema } from "./allergySchema"
 import { categorySetupSchema } from "./categorySchema"
@@ -8,9 +8,9 @@ import { auditSchema, timestampSchema } from "./commonSchema"
 import { nutritionSchema } from "./nutritionSchema"
 import { portionSchema } from "./portionSchema"
 
-const FoodTypeEnum = z.nativeEnum(FoodEnum)
-const MealTypeEnum = z.nativeEnum(MealEnum)
-const DishTypeEnum = z.nativeEnum(DishEnum)
+const FoodTypeEnum = z.nativeEnum(TypeFoodEnum)
+const MealTypeEnum = z.nativeEnum(TypeMealEnum)
+const DishTypeEnum = z.nativeEnum(TypeDishEnum)
 
 export const foodAllergySchema = z
   .object({

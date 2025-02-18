@@ -1,11 +1,11 @@
 import { z } from "zod"
 
-import { MealEnum } from "@/constants/enums"
+import { TypeMealEnum } from "@/constants/enums"
 
 import { timestampSchema } from "./commonSchema"
 import { nutritionSchema } from "./nutritionSchema"
 
-const MealType = z.nativeEnum(MealEnum)
+const MealType = z.nativeEnum(TypeMealEnum)
 
 const mealFoodSchema = z
   .object({

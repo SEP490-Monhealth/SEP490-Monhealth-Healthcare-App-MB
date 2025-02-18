@@ -2,6 +2,8 @@ import React from "react"
 
 import { Text } from "react-native"
 
+import { toFixed } from "@/utils/formatters"
+
 import { Card, HStack, VStack } from "../atoms"
 
 interface WorkoutCardProps {
@@ -26,7 +28,8 @@ export const WorkoutCard = ({
           <VStack gap={0}>
             <Text className="font-tmedium text-lg text-primary">{name}</Text>
             <Text className="font-tmedium text-sm text-accent">
-              {exercises} bài tập • {caloriesBurned} kcal • {duration} phút
+              {exercises} bài tập • {caloriesBurned} kcal •{" "}
+              {toFixed(duration / 60, 1)} phút
             </Text>
           </VStack>
         </HStack>

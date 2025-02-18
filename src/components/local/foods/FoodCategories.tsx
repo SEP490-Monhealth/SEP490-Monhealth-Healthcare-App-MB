@@ -6,7 +6,7 @@ import { Chip, HStack, ScrollArea } from "@/components/global/atoms"
 
 import { CategoryType } from "@/schemas/categorySchema"
 
-interface FoodCategoryProps {
+interface FoodCategoriesProps {
   categoriesData: CategoryType[]
   selectedCategory: string
   onSelectCategory: (category: string) => void
@@ -16,7 +16,7 @@ export const FoodCategories = ({
   categoriesData,
   selectedCategory,
   onSelectCategory
-}: FoodCategoryProps) => {
+}: FoodCategoriesProps) => {
   const router = useRouter()
 
   const categories = [

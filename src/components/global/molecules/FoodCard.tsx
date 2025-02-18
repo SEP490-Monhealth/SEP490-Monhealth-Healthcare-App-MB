@@ -19,6 +19,7 @@ interface FoodCardProps {
   size?: string
   weight?: number
   unit?: string
+  recommended?: boolean
   status?: boolean
   isAdded?: boolean
   onPress?: () => void
@@ -36,6 +37,7 @@ export const FoodCard = ({
   size,
   weight,
   unit,
+  recommended,
   status,
   isAdded,
   onPress,
@@ -62,7 +64,15 @@ export const FoodCard = ({
         onPress={handlePress}
       >
         <VStack gap={0} onPress={onPress}>
-          <Text className="font-tmedium text-lg text-primary">{name}</Text>
+          <HStack center gap={8}>
+            <Text className="font-tmedium text-lg text-primary">{name}</Text>
+
+            {recommended && (
+              <Text className="rounded-lg bg-muted px-3 py-1 font-tmedium text-sm text-primary">
+                Đề xuất
+              </Text>
+            )}
+          </HStack>
           <Text className="font-tmedium text-sm text-accent">
             {toFixed(Number(calories), 0) ?? 0} kcal
             {size

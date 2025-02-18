@@ -20,7 +20,7 @@ import { Header, Section } from "@/components/global/organisms"
 import { BarChart } from "@/components/local/tabs/report"
 
 import { COLORS } from "@/constants/app"
-import { MealEnum } from "@/constants/enums"
+import { TypeMealEnum } from "@/constants/enums"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -70,28 +70,28 @@ function ReportScreen() {
   const defaultMealsData = [
     {
       mealId: "default-breakfast",
-      type: MealEnum.Breakfast,
+      type: TypeMealEnum.Breakfast,
       foods: 0,
       calories: 0,
       isDefault: true
     },
     {
       mealId: "default-lunch",
-      type: MealEnum.Lunch,
+      type: TypeMealEnum.Lunch,
       foods: 0,
       calories: 0,
       isDefault: true
     },
     {
       mealId: "default-dinner",
-      type: MealEnum.Dinner,
+      type: TypeMealEnum.Dinner,
       foods: 0,
       calories: 0,
       isDefault: true
     },
     {
       mealId: "default-snack",
-      type: MealEnum.Snack,
+      type: TypeMealEnum.Snack,
       foods: 0,
       calories: 0,
       isDefault: true
@@ -149,7 +149,7 @@ function ReportScreen() {
                   {defaultMealsData.map((item) => (
                     <MealCard
                       key={item.mealId}
-                      type={item.type as MealEnum}
+                      type={item.type as TypeMealEnum}
                       totalFoods={item.foods}
                       totalCalories={item.calories}
                       progress={75}

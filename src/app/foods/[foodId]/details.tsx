@@ -293,9 +293,9 @@ function FoodDetailsScreen() {
                   </VStack>
                 </VStack>
 
-                <VStack gap={8}>
+                {/* <VStack gap={8}>
                   <Section label="Hoạt động" />
-                </VStack>
+                </VStack> */}
               </View>
             </ScrollArea>
           </Content>

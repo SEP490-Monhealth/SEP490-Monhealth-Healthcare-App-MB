@@ -16,7 +16,7 @@ import {
   NutritionSummary
 } from "@/components/local/tabs/home"
 
-import { MealEnum } from "@/constants/enums"
+import { TypeMealEnum } from "@/constants/enums"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -24,7 +24,7 @@ import { useGetDailyMealByUserId } from "@/hooks/useDailyMeal"
 import { useGetNutritionGoal } from "@/hooks/useGoal"
 import { useRouterHandlers } from "@/hooks/useRouter"
 
-import { formatDateYYYYMMDD, toFixed } from "@/utils/formatters"
+import { formatDateY, toFixed } from "@/utils/formatters"
 import { getRandomTip } from "@/utils/helpers"
 
 interface MealTabProps {
@@ -39,7 +39,7 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
   const { user } = useAuth()
   const userId = user?.userId
 
-  const today = formatDateYYYYMMDD(new Date())
+  const today = formatDateY(new Date())
 
   const { data: dailyMealData, isLoading: isDailyMealLoading } =
     useGetDailyMealByUserId(userId, today)
@@ -93,28 +93,28 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
   const defaultMealsData = [
     {
       mealId: "default-breakfast",
-      type: MealEnum.Breakfast,
+      type: TypeMealEnum.Breakfast,
       foods: 0,
       calories: 0,
       isDefault: true
     },
     {
       mealId: "default-lunch",
-      type: MealEnum.Lunch,
+      type: TypeMealEnum.Lunch,
       foods: 0,
       calories: 0,
       isDefault: true
     },
     {
       mealId: "default-dinner",
-      type: MealEnum.Dinner,
+      type: TypeMealEnum.Dinner,
       foods: 0,
       calories: 0,
       isDefault: true
     },
     {
       mealId: "default-snack",
-      type: MealEnum.Snack,
+      type: TypeMealEnum.Snack,
       foods: 0,
       calories: 0,
       isDefault: true
@@ -200,7 +200,7 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
         {mergedMealsData.map((item) => (
           <MealCard
             key={item.mealId}
-            type={item.type as MealEnum}
+            type={item.type as TypeMealEnum}
             totalFoods={item.foods}
             totalCalories={item.calories}
             onPress={() =>

@@ -17,7 +17,7 @@ import { Section } from "@/components/global/organisms"
 import { WorkoutTypes } from "@/components/local/workouts"
 
 import { COLORS } from "@/constants/app"
-import { CategoryEnum } from "@/constants/enums"
+import { TypeCategoryEnum } from "@/constants/enums"
 
 import { useGetCategoriesByType } from "@/hooks/useCategory"
 import { useDebounce } from "@/hooks/useDebounce"
@@ -43,14 +43,13 @@ function WorkoutsScreen() {
   const debouncedFilter = useDebounce(selectedType, 0)
 
   const { data: typesData, isLoading: isTypesLoading } = useGetCategoriesByType(
-    CategoryEnum.Workout
+    TypeCategoryEnum.Workout
   )
 
   const { data, isLoading } = useGetAllWorkouts(
     1,
     limit,
-    "",
-    debouncedFilter,
+    debouncedFilter === "Tất cả" ? "" : debouncedFilter,
     debouncedSearch,
     undefined,
     true,
@@ -103,7 +102,8 @@ function WorkoutsScreen() {
     )
   }, [typesData, selectedType])
 
-  if (!workoutsData && isLoading) return <LoadingScreen />
+  if ((!workoutsData && isLoading) || !typesData || isTypesLoading)
+    <LoadingScreen />
 
   return (
     <Container>

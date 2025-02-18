@@ -5,7 +5,7 @@ import { Image, Text, TouchableOpacity, View } from "react-native"
 import { ChevronRight } from "lucide-react-native"
 
 import { COLORS } from "@/constants/app"
-import { MealEnum } from "@/constants/enums"
+import { TypeMealEnum } from "@/constants/enums"
 
 import { cn } from "@/lib/utils"
 
@@ -15,7 +15,7 @@ import { getMealTypeImage, getMealTypeName } from "@/utils/helpers"
 import { Card, Progress } from "../atoms"
 
 interface MealCardProps {
-  type: MealEnum
+  type: TypeMealEnum
   totalFoods?: number
   totalCalories: number
   progress?: number

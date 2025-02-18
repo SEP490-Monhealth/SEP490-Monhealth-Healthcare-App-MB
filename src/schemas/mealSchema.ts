@@ -1,12 +1,12 @@
 import { z } from "zod"
 
-import { MealEnum } from "@/constants/enums"
+import { TypeMealEnum } from "@/constants/enums"
 
 import { timestampSchema } from "./commonSchema"
 import { nutritionFoodSchema, nutritionSchema } from "./nutritionSchema"
 import { portionSchema } from "./portionSchema"
 
-const MealTypeEnum = z.nativeEnum(MealEnum)
+const MealTypeEnum = z.nativeEnum(TypeMealEnum)
 
 export const mealFoodSchema = z
   .object({
@@ -29,6 +29,7 @@ export const mealFoodSchema = z
 
     nutrition: nutritionFoodSchema,
 
+    isRecommended: z.boolean(),
     status: z.boolean()
   })
   .merge(timestampSchema)

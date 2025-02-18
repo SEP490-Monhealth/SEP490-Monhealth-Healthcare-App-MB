@@ -2,14 +2,6 @@ import { z } from "zod"
 
 import { timestampSchema } from "./commonSchema"
 
-export const certificateImageSchema = z
-  .object({
-    certificateImageId: z.string(),
-    certificateId: z.string(),
-    url: z.string().url({ message: "Đường dẫn hình ảnh không hợp lệ" })
-  })
-  .merge(timestampSchema)
-
 const baseCertificateSchema = z
   .object({
     certificateId: z.string(),
@@ -39,14 +31,12 @@ export const certificateSchema = baseCertificateSchema.pick({
   images: true
 })
 
-export const createCertificateSchema = certificateSchema.pick({
-  name: true,
-  issueDate: true,
-  expiryDate: true,
-  images: true
+export const createCertificateSchema = z.object({
+  certificate: certificateSchema.shape.name,
+  issueDate: certificateSchema.shape.issueDate,
+  expiryDate: certificateSchema.shape.expiryDate,
+  images: certificateSchema.shape.images
 })
-
-export type CertificateImageType = z.infer<typeof certificateImageSchema>
 
 export type CertificateType = z.infer<typeof certificateSchema>
 export type CreateCertificateType = z.infer<typeof createCertificateSchema>

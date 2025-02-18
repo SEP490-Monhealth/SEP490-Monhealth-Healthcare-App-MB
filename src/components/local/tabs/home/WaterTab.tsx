@@ -20,7 +20,7 @@ import {
   useUpdateWaterReminderDrunk
 } from "@/hooks/useWaterReminder"
 
-import { formatDateYYYYMMDD } from "@/utils/formatters"
+import { formatDateY } from "@/utils/formatters"
 
 import { WaterIntakeProgress } from "./WaterIntakeProgress"
 
@@ -36,7 +36,7 @@ export const WaterTab = ({ onLoading, onOverlayLoading }: WaterTabProps) => {
   const { user } = useAuth()
   const userId = user?.userId
 
-  const today = formatDateYYYYMMDD(new Date())
+  const today = formatDateY(new Date())
 
   const { data: dailyWaterIntakeData, isLoading: isDailyWaterIntakeLoading } =
     useGetDailyWaterIntakeByUserId(userId, today)

@@ -6,7 +6,7 @@ import { View } from "react-native"
 import { ArrowSwapHorizontal } from "iconsax-react-native"
 
 import { COLORS } from "@/constants/app"
-import { ExerciseEnum } from "@/constants/enums"
+import { TypeExerciseEnum } from "@/constants/enums"
 
 import { formatDuration, toFixed } from "@/utils/formatters"
 
@@ -14,18 +14,18 @@ import { Card, HStack } from "../atoms"
 import { IconButton } from "./IconButton"
 
 const calculateCalories = (
-  type: ExerciseEnum,
+  type: TypeExerciseEnum,
   duration?: number,
   reps?: number,
   caloriesPerMinute?: number
 ) => {
   if (!caloriesPerMinute) return 0
 
-  if (type === ExerciseEnum.Time) {
+  if (type === TypeExerciseEnum.Time) {
     return (caloriesPerMinute * (duration ?? 0)) / 60
   }
 
-  if (type === ExerciseEnum.Reps) {
+  if (type === TypeExerciseEnum.Reps) {
     return caloriesPerMinute * (reps ?? 0) * 0.1
   }
 
@@ -33,7 +33,7 @@ const calculateCalories = (
 }
 
 interface ExerciseCardProps {
-  type: ExerciseEnum
+  type: TypeExerciseEnum
   name: string
   duration?: number
   reps?: number
@@ -57,7 +57,7 @@ const ExerciseCard = ({
         <View className="flex-1">
           <Text className="font-tmedium text-lg text-primary">{name}</Text>
           <Text className="font-tmedium text-sm text-accent">
-            {type === ExerciseEnum.Time
+            {type === TypeExerciseEnum.Time
               ? `${formatDuration(duration ?? 0)} • ${toFixed(totalCalories, 1)} kcal`
               : `${reps} lần • ${toFixed(totalCalories, 1)} kcal`}
           </Text>

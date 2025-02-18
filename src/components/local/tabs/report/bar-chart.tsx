@@ -31,7 +31,7 @@ export const BarChart = ({ date, data, labels }: BarChartProps) => {
 
   const barWidth = 28
   const spacing = 14
-  const maxBarHeight = 200
+  const maxBarHeight = 160
   const paddingTop = 40
   const paddingBottom = 20
   const chartHeight = maxBarHeight + paddingBottom + paddingTop

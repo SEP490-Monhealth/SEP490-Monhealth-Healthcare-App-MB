@@ -9,7 +9,7 @@ import { Button, Container, Content, Progress } from "@/components/global/atoms"
 import { CustomHeader, StepHeader } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/app"
-import { GoalEnum } from "@/constants/enums"
+import { TypeGoalEnum } from "@/constants/enums"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -131,14 +131,14 @@ function SetupScreen() {
     }
   ]
 
-  if (goalType !== GoalEnum.Maintenance) {
+  if (goalType !== TypeGoalEnum.Maintenance) {
     baseSteps.push({
       title:
-        goalType === GoalEnum.WeightLoss
+        goalType === TypeGoalEnum.WeightLoss
           ? "Tốc độ giảm cân"
           : "Tốc độ tăng cân",
       description:
-        goalType === GoalEnum.WeightLoss
+        goalType === TypeGoalEnum.WeightLoss
           ? "Chọn tốc độ giảm cân phù hợp với cơ thể của bạn"
           : "Chọn tốc độ tăng cân phù hợp với cơ thể của bạn",
       component: SetupCaloriesRatio,
@@ -192,7 +192,7 @@ function SetupScreen() {
     const { weight } = useSetupStore.getState()
 
     if (weight !== undefined) {
-      if (goalType === GoalEnum.WeightLoss && weightGoal >= weight) {
+      if (goalType === TypeGoalEnum.WeightLoss && weightGoal >= weight) {
         setError("weightGoal", {
           type: "manual",
           message: "Mục tiêu giảm cân phải nhỏ hơn cân nặng hiện tại"
@@ -200,7 +200,7 @@ function SetupScreen() {
         return
       }
 
-      if (goalType === GoalEnum.WeightGain && weightGoal <= weight) {
+      if (goalType === TypeGoalEnum.WeightGain && weightGoal <= weight) {
         setError("weightGoal", {
           type: "manual",
           message: "Mục tiêu tăng cân phải lớn hơn cân nặng hiện tại"

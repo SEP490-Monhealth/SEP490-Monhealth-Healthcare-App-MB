@@ -10,7 +10,7 @@ interface ImageType {
 
 interface setupConsultantStoreProps {
   expertise: string
-  name: string
+  certificate: string
   issueDate: string
   expiryDate: string
   images: ImageType[]
@@ -21,7 +21,7 @@ interface setupConsultantStoreProps {
 export const useConsultantSetupStore = create<setupConsultantStoreProps>(
   (set) => ({
     expertise: "",
-    name: "",
+    certificate: "",
     issueDate: "",
     expiryDate: "",
     images: [],
@@ -48,7 +48,7 @@ export const useConsultantSetupStore = create<setupConsultantStoreProps>(
     reset: () =>
       set({
         expertise: "",
-        name: "",
+        certificate: "",
         issueDate: "",
         expiryDate: "",
         images: []
