@@ -135,3 +135,37 @@ export const formatDuration = (seconds: number): string => {
   const remainingSeconds = seconds % 60
   return `${String(minutes).padStart(2, "0")}:${String(remainingSeconds).padStart(2, "0")}`
 }
+
+/**
+ * Chuyển đổi ngày từ định dạng ISO thành chuỗi định dạng tiếng Việt, bao gồm cả giờ và phút.
+ * Ví dụ: "2025-02-20T18:30:00Z" -> "18h30, T5 Tháng 2"
+ *
+ * @param dateString - Chuỗi ngày theo chuẩn ISO (YYYY-MM-DDTHH:mm:ssZ)
+ * @returns Chuỗi ngày theo định dạng "[giờ]h[phút], T[thứ] Tháng [tháng] "
+ */
+export const formatVietnameseDate = (dateString: string): string => {
+  const date = new Date(dateString)
+  const daysOfWeek = ["CN", "T2", "T3", "T4", "T5", "T6", "T7"]
+
+  const months = [
+    "Tháng 1",
+    "Tháng 2",
+    "Tháng 3",
+    "Tháng 4",
+    "Tháng 5",
+    "Tháng 6",
+    "Tháng 7",
+    "Tháng 8",
+    "Tháng 9",
+    "Tháng 10",
+    "Tháng 11",
+    "Tháng 12"
+  ]
+
+  const dayOfWeek = daysOfWeek[date.getUTCDay()]
+  const month = months[date.getUTCMonth()]
+  const hours = date.getUTCHours().toString().padStart(2, "0")
+  const minutes = date.getUTCMinutes().toString().padStart(2, "0")
+
+  return `${hours}h${minutes}, ${dayOfWeek} ${month}`
+}
