@@ -1,14 +1,20 @@
 import { z } from "zod"
 
 import { timestampSchema } from "./commonSchema"
-import { expertiseSchema } from "./expertiseSchema"
-import { userSchema } from "./userSchema"
 
 const baseConsultantSchema = z
   .object({
     consultantId: z.string(),
-    user: userSchema,
+    userId: z.string(),
 
+    name: z
+      .string()
+      .nonempty({ message: "Tên không được để trống" })
+      .max(50, { message: "Tên không được dài hơn 50 ký tự" })
+      .regex(/^[^\d!@#$%^&*()_+=[\]{};':"\\|,.<>/?]*$/, {
+        message: "Tên không được chứa ký tự đặc biệt hoặc số"
+      }),
+    avatarUrl: z.string().url({ message: "Avatar không hợp lệ" }).optional(),
     bio: z.string().max(500, {
       message: "Mô tả không được dài hơn 500 ký tự"
     }),
@@ -19,7 +25,10 @@ const baseConsultantSchema = z
         message: "Kinh nghiệm không được vượt quá 100 năm"
       }),
 
-    expertise: expertiseSchema,
+    expertise: z
+      .string()
+      .nonempty({ message: "Tên chuyên môn không được để trống" })
+      .max(100, { message: "Tên chuyên môn không được dài hơn 100 ký tự" }),
 
     rating: z.number().optional()
   })
@@ -28,7 +37,7 @@ const baseConsultantSchema = z
 export const consultantSchema = baseConsultantSchema
 
 const createConsultantSchema = baseConsultantSchema.pick({
-  user: true,
+  name: true,
   experience: true,
   expertise: true
 })

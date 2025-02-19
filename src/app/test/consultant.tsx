@@ -30,23 +30,17 @@ function ConsultantScreen() {
         <ScrollArea>
           <VStack gap={12}>
             {consultantData.map((consultant) => {
-              const expertiseNames = consultant.expertise
-                .map((item) => item.name)
-                .join(", ")
-
               return (
                 <ConsultantCard
                   key={consultant.consultantId}
-                  name={consultant.user.fullName}
-                  avatarUrl={consultant.user.avatarUrl}
-                  expertise={expertiseNames}
+                  name={consultant.name}
+                  avatarUrl={consultant.avatarUrl}
+                  expertise={consultant.expertise}
                   experience={consultant.experience}
                   rating={consultant.rating}
                   schedule={consultant.schedule}
                   onPress={() => handleViewConsultant(consultant.consultantId)}
-                  onChatStart={() =>
-                    handleChatConsultant(consultant.user.userId)
-                  }
+                  onChatStart={() => handleChatConsultant(consultant.userId)}
                 />
               )
             })}
