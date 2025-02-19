@@ -16,7 +16,7 @@ interface ConsultantCardProps {
   expertise: string
   experience: number
   rating: number
-  date: string
+  schedule: string
   onPress?: () => void
   onChatStart?: () => void
 }
@@ -27,7 +27,7 @@ export const ConsultantCard = ({
   expertise,
   experience,
   rating,
-  date,
+  schedule,
   onPress,
   onChatStart
 }: ConsultantCardProps) => {
@@ -74,7 +74,7 @@ export const ConsultantCard = ({
           <HStack center>
             <CalendarTick variant="Bold" size="20" color={COLORS.secondary} />
             <Text className="font-tmedium text-base text-secondary">
-              {formatVietnameseDate(date)}
+              {formatVietnameseDate(schedule)}
             </Text>
           </HStack>
 

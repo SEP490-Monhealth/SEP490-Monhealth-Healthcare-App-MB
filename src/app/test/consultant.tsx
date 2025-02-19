@@ -1,7 +1,5 @@
 import React from "react"
 
-import { Text, View } from "react-native"
-
 import {
   Container,
   Content,
@@ -32,17 +30,23 @@ function ConsultantScreen() {
         <ScrollArea>
           <VStack gap={12}>
             {consultantData.map((consultant) => {
+              const expertiseNames = consultant.expertise
+                .map((item) => item.name)
+                .join(", ")
+
               return (
                 <ConsultantCard
                   key={consultant.consultantId}
-                  name={consultant.name}
-                  avatarUrl={consultant.avatarUrl}
-                  expertise={consultant.expertise}
+                  name={consultant.user.fullName}
+                  avatarUrl={consultant.user.avatarUrl}
+                  expertise={expertiseNames}
                   experience={consultant.experience}
                   rating={consultant.rating}
-                  date={consultant.date}
+                  schedule={consultant.schedule}
                   onPress={() => handleViewConsultant(consultant.consultantId)}
-                  onChatStart={() => handleChatConsultant(consultant.userId)}
+                  onChatStart={() =>
+                    handleChatConsultant(consultant.user.userId)
+                  }
                 />
               )
             })}
