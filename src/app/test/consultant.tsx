@@ -1,7 +1,5 @@
 import React from "react"
 
-import { Text, View } from "react-native"
-
 import {
   Container,
   Content,
@@ -40,7 +38,7 @@ function ConsultantScreen() {
                   expertise={consultant.expertise}
                   experience={consultant.experience}
                   rating={consultant.rating}
-                  date={consultant.date}
+                  schedule={consultant.schedule}
                   onPress={() => handleViewConsultant(consultant.consultantId)}
                   onChatPress={() => handleChatConsultant(consultant.userId)}
                 />

@@ -13,7 +13,10 @@ export const baseExpertiseSchema = z
   })
   .merge(timestampSchema)
 
-export const expertiseSchema = baseExpertiseSchema
+export const expertiseSchema = baseExpertiseSchema.pick({
+  expertiseId: true,
+  name: true
+})
 
 export const createExpertiseSchema = z.object({
   expertise: expertiseSchema.shape.name

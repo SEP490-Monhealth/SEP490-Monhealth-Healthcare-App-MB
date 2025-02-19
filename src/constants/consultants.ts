@@ -1,32 +1,30 @@
 export const sampleConsultantData = [
   {
-    consultantId: "8b72bf8f-4eff-4bb5-998e-262c21143b9f",
-    userId: "Chat Khải tỏi",
-
+    consultantId: "123",
     name: "Phan Văn Khải",
-    bio: "Chưa có ra trường nhưng chuyên nghiệp vãi cả chưởng",
     avatarUrl:
       "https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-3.jpg",
-    expertise: "Phục hồi chức năng",
+
+    bio: "Chưa có ra trường nhưng chuyên nghiệp vãi cả chưởng",
     experience: 2,
-    rating: 1.5,
-    date: "2025-02-20T16:00:00Z",
+    expertise: "Phục hồi chức năng",
+    rating: 4.5,
+    schedule: "2025-02-20T16:00:00Z",
 
     createdAt: "2025-01-06T00:00:00Z",
     updatedAt: "2025-01-06T00:00:00Z"
   },
   {
-    consultantId: "c30c9264-9847-469e-96e5-3eda9e94046b",
-    userId: "Chat Toàn gà",
-
+    consultantId: "456",
     name: "Văn Hữu Toàn",
-    bio: "Phục hồi sau khi ẻ",
     avatarUrl:
-      "https://nupet.vn/wp-content/uploads/2023/10/hinh-nen-ngo-nghinh-anh-meo-cute-nupet-new-5.jpg",
+      "https://i.pinimg.com/236x/6c/6d/7c/6c6d7c477e320b67b9c6a16b2de2c0d5.jpg",
+
+    bio: "Chưa có ra trường nhưng chuyên nghiệp vãi cả chưởng",
+    experience: 3.5,
     expertise: "Phục hồi sau sinh",
-    experience: 7,
-    rating: 4.9,
-    date: "2025-02-21T18:30:00Z",
+    rating: 4.8,
+    schedule: "2025-02-21T18:15:00Z",
 
     createdAt: "2025-01-06T00:00:00Z",
     updatedAt: "2025-01-06T00:00:00Z"
