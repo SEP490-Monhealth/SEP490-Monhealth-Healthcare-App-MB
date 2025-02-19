@@ -13,7 +13,7 @@ import { sampleConsultantData } from "@/constants/consultants"
 import { ConsultantCard } from "../../components/global/molecules/ConsultantCard"
 
 function ConsultantScreen() {
-  const consultantData = sampleConsultantData
+  const consultantsData = sampleConsultantData
 
   const handleViewConsultant = (consultantId: string) => {
     console.log(consultantId)
@@ -26,24 +26,23 @@ function ConsultantScreen() {
   return (
     <Container>
       <Header back label="Tư vấn viên" />
+
       <Content className="mt-2">
         <ScrollArea>
           <VStack gap={12}>
-            {consultantData.map((consultant) => {
-              return (
-                <ConsultantCard
-                  key={consultant.consultantId}
-                  name={consultant.name}
-                  avatarUrl={consultant.avatarUrl}
-                  expertise={consultant.expertise}
-                  experience={consultant.experience}
-                  rating={consultant.rating}
-                  schedule={consultant.schedule}
-                  onPress={() => handleViewConsultant(consultant.consultantId)}
-                  onChatPress={() => handleChatConsultant(consultant.userId)}
-                />
-              )
-            })}
+            {consultantsData.map((consultant) => (
+              <ConsultantCard
+                key={consultant.consultantId}
+                name={consultant.name}
+                avatarUrl={consultant.avatarUrl}
+                expertise={consultant.expertise}
+                experience={consultant.experience}
+                rating={consultant.rating}
+                schedule={consultant.schedule}
+                onPress={() => handleViewConsultant(consultant.consultantId)}
+                onChatPress={() => handleChatConsultant(consultant.userId)}
+              />
+            ))}
           </VStack>
         </ScrollArea>
       </Content>

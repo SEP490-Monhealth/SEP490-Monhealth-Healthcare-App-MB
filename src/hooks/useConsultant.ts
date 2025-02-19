@@ -6,7 +6,7 @@ import { useModal } from "@/contexts/ModalContext"
 import {
   ConsultantType,
   CreateConsultantType,
-  UpdateBioConsultantType
+  UpdateConsultantBioType
 } from "@/schemas/consultantSchema"
 
 import {
@@ -112,7 +112,7 @@ export const useUpdateBioConsultant = () => {
   return useMutation<
     string,
     Error,
-    { consultantId: string; bioData: UpdateBioConsultantType }
+    { consultantId: string; bioData: UpdateConsultantBioType }
   >({
     mutationFn: async ({ consultantId, bioData }) => {
       try {

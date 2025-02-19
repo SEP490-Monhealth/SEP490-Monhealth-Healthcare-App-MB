@@ -15,8 +15,9 @@ const baseConsultantSchema = z
         message: "Tên không được chứa ký tự đặc biệt hoặc số"
       }),
     avatarUrl: z.string().url({ message: "Avatar không hợp lệ" }).optional(),
-    bio: z.string().max(500, {
-      message: "Mô tả không được dài hơn 500 ký tự"
+
+    bio: z.string().max(200, {
+      message: "Mô tả không được dài hơn 200 ký tự"
     }),
     experience: z
       .number()
@@ -30,22 +31,37 @@ const baseConsultantSchema = z
       .nonempty({ message: "Tên chuyên môn không được để trống" })
       .max(100, { message: "Tên chuyên môn không được dài hơn 100 ký tự" }),
 
-    rating: z.number().optional()
+    rating: z
+      .number()
+      .min(1, { message: "Đánh giá phải lớn hơn hoặc bằng 1" })
+      .max(5, { message: "Đánh giá không được vượt quá 5" })
   })
   .merge(timestampSchema)
 
-export const consultantSchema = baseConsultantSchema
+export const consultantSchema = baseConsultantSchema.pick({
+  consultantId: true,
+  userId: true,
 
-const createConsultantSchema = baseConsultantSchema.pick({
   name: true,
+  avatarUrl: true,
+
+  bio: true,
+  experience: true,
+  expertise: true,
+  rating: true
+})
+
+const createConsultantSchema = consultantSchema.pick({
+  userId: true,
+  bio: true,
   experience: true,
   expertise: true
 })
 
-const updateBioConsultantSchema = baseConsultantSchema.pick({
+const updateConsultantBioSchema = consultantSchema.pick({
   bio: true
 })
 
 export type ConsultantType = z.infer<typeof consultantSchema>
 export type CreateConsultantType = z.infer<typeof createConsultantSchema>
-export type UpdateBioConsultantType = z.infer<typeof updateBioConsultantSchema>
+export type UpdateConsultantBioType = z.infer<typeof updateConsultantBioSchema>

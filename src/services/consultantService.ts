@@ -5,7 +5,7 @@ import monAPI from "@/lib/monAPI"
 import {
   ConsultantType,
   CreateConsultantType,
-  UpdateBioConsultantType
+  UpdateConsultantBioType
 } from "@/schemas/consultantSchema"
 
 interface ConsultantResponse {
@@ -189,7 +189,7 @@ export const createConsultant = async (
 
 export const updateBioConsultant = async (
   consultantId: string,
-  newBio: UpdateBioConsultantType,
+  newBio: UpdateConsultantBioType,
   showModal: (message: string) => void
 ): Promise<string> => {
   try {
