@@ -106,12 +106,10 @@ function WaterReminderScreen() {
   }
 
   const handleBack = () => {
-    router.replace({ pathname: "/tabs/home", params: { tab: "water" } })
+    router.replace({ pathname: "/tabs/user/home", params: { tab: "water" } })
   }
 
-  if (!remindersData || isLoading) {
-    return <LoadingScreen />
-  }
+  if (!remindersData || isLoading) <LoadingScreen />
 
   return (
     <SafeAreaView className="flex-1 bg-background">

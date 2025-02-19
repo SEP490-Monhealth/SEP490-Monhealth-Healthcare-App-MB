@@ -10,9 +10,9 @@ import {
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import { sampleConsultantData } from "@/constants/consultant"
+import { sampleConsultantData } from "@/constants/consultants"
 
-import { ConsultantCard } from "./ConsultantCard"
+import { ConsultantCard } from "../../components/global/molecules/ConsultantCard"
 
 function ConsultantScreen() {
   const consultantData = sampleConsultantData
@@ -42,7 +42,7 @@ function ConsultantScreen() {
                   rating={consultant.rating}
                   date={consultant.date}
                   onPress={() => handleViewConsultant(consultant.consultantId)}
-                  onChatStart={() => handleChatConsultant(consultant.userId)}
+                  onChatPress={() => handleChatConsultant(consultant.userId)}
                 />
               )
             })}

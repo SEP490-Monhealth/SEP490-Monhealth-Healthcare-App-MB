@@ -9,21 +9,10 @@ import {
 
 import { Tabs } from "expo-router"
 
-import {
-  Calendar2,
-  DirectNormal,
-  FavoriteChart,
-  Home2,
-  Profile,
-  Ram,
-  Setting,
-  Sound
-} from "iconsax-react-native"
+import { Calendar2, Home2, Profile, Ram, Sound } from "iconsax-react-native"
 import { IconProps } from "iconsax-react-native"
 
 import { COLORS } from "@/constants/app"
-
-import { useAuth } from "@/contexts/AuthContext"
 
 interface RouteType {
   name: string
@@ -32,29 +21,15 @@ interface RouteType {
   main?: boolean
 }
 
-const routers: Record<string, RouteType[]> = {
-  User: [
-    { name: "home", label: "Trang chủ", icon: Home2 },
-    { name: "report", label: "Báo cáo", icon: FavoriteChart },
-    { name: "voice", label: "", icon: Sound, main: true },
-    { name: "consultant", label: "Chuyên viên", icon: DirectNormal },
-    { name: "settings", label: "Cài đặt", icon: Setting }
-  ],
-  Consultant: [
-    { name: "dashboard", label: "Trang chủ", icon: Home2 },
-    { name: "schedule", label: "Lịch trình", icon: Calendar2 },
-    { name: "voice", label: "", icon: Sound, main: true },
-    { name: "service", label: "Dịch vụ", icon: Ram },
-    { name: "profile", label: "Hồ sơ", icon: Profile }
-  ]
-}
+const routes: RouteType[] = [
+  { name: "dashboard", label: "Trang chủ", icon: Home2 },
+  { name: "schedule", label: "Lịch trình", icon: Calendar2 },
+  { name: "voice", label: "", icon: Sound, main: true },
+  { name: "service", label: "Dịch vụ", icon: Ram },
+  { name: "profile", label: "Hồ sơ", icon: Profile }
+]
 
-function TabLayout() {
-  const { role } = useAuth()
-
-  const activeRole = role ?? "User"
-  const routes = routers[activeRole] || []
-
+function ConsultantTabLayout() {
   return (
     <Tabs
       screenOptions={{
@@ -128,4 +103,4 @@ function TabLayout() {
   )
 }
 
-export default TabLayout
+export default ConsultantTabLayout

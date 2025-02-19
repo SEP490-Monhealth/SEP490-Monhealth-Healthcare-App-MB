@@ -18,6 +18,8 @@ interface UserPayload {
   fullName: string
   phoneNumber: string
   email: string
+  role: string
+  subscription: string
 }
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -40,6 +42,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       if (token) {
         const userInfo = await whoIAm()
+
         setUser(userInfo)
         setRole(userInfo?.role)
 
@@ -51,13 +54,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           await delay(2000)
 
           if (metricsExist) {
-            router.replace("/tabs/home")
+            router.replace("/tabs/user/home")
           } else {
             router.replace("/onboarding/welcome")
           }
         } else if (userInfo.role === "Consultant") {
           await delay(2000)
-          router.replace("/(consultant-tabs)/dashboard")
+          router.replace("/tabs/consultant/dashboard")
         } else {
           await delay(2000)
           router.replace("/auth/sign-in")
@@ -100,12 +103,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const metricsExist = metricsData && metricsData.length > 0
 
         if (metricsExist) {
-          router.replace("/tabs/home")
+          router.replace("/tabs/user/home")
         } else {
           router.replace("/onboarding")
         }
       } else if (userInfo.role === "Consultant") {
-        router.replace("/(consultant-tabs)")
+        router.replace("/tabs/consultant/dashboard")
       } else {
         router.replace("/auth/sign-in")
       }

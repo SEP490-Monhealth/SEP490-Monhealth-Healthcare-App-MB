@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react"
 
 import { useLocalSearchParams } from "expo-router"
 
+import { LoadingOverlay, LoadingScreen } from "@/app/loading"
+
 import {
   Container,
   Content,
@@ -18,8 +20,6 @@ import { WaterTab } from "@/components/local/tabs/home/WaterTab"
 import { WorkoutTab } from "@/components/local/tabs/home/WorkoutTab"
 
 import { useAuth } from "@/contexts/AuthContext"
-
-import { LoadingOverlay, LoadingScreen } from "../loading"
 
 function HomeScreen() {
   const { user } = useAuth()

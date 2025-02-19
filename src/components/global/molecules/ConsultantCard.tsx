@@ -18,7 +18,7 @@ interface ConsultantCardProps {
   rating: number
   date: string
   onPress?: () => void
-  onChatStart?: () => void
+  onChatPress?: () => void
 }
 
 export const ConsultantCard = ({
@@ -29,10 +29,10 @@ export const ConsultantCard = ({
   rating,
   date,
   onPress,
-  onChatStart
+  onChatPress
 }: ConsultantCardProps) => {
   return (
-    <Card onPress={onPress}>
+    <Card activeOpacity={1} onPress={onPress}>
       <VStack gap={10}>
         <HStack center gap={12}>
           <Image
@@ -40,45 +40,47 @@ export const ConsultantCard = ({
             className="h-full w-20 rounded-xl border border-border"
           />
 
-          <View className="flex-1 flex-col">
-            <Text className="font-tmedium text-xl text-primary">{name}</Text>
-            <Text
-              className="font-tmedium text-base text-secondary"
-              numberOfLines={1}
-              ellipsizeMode="tail"
-            >
-              {expertise}
-            </Text>
+          <VStack gap={6}>
+            <VStack gap={0}>
+              <Text className="font-tmedium text-lg text-primary">{name}</Text>
 
-            <HStack gap={10} className="mt-1">
+              <Text
+                className="font-tmedium text-sm text-accent"
+                numberOfLines={1}
+                ellipsizeMode="tail"
+              >
+                {expertise}
+              </Text>
+            </VStack>
+
+            <HStack gap={12}>
               <HStack center>
-                <MedalStar variant="Bold" size="20" color={COLORS.secondary} />
-                <Text className="font-tmedium text-base text-secondary">
+                <MedalStar variant="Bold" size="18" color={COLORS.primary} />
+                <Text className="font-tregular text-base text-primary">
                   {experience} năm
                 </Text>
               </HStack>
 
               <HStack center>
-                <Star1 variant="Bold" size="20" color={COLORS.secondary} />
-                <Text className="font-tmedium text-base text-secondary">
+                <Star1 variant="Bold" size="18" color={COLORS.primary} />
+                <Text className="font-tregular text-base text-primary">
                   {rating}
                 </Text>
               </HStack>
             </HStack>
-          </View>
+          </VStack>
         </HStack>
 
-        <View className="mt-2 border border-border"></View>
-
         <HStack center className="justify-between">
-          <HStack center>
-            <CalendarTick variant="Bold" size="20" color={COLORS.secondary} />
-            <Text className="font-tmedium text-base text-secondary">
+          <HStack center gap={8}>
+            <CalendarTick variant="Bold" size="20" color={COLORS.primary} />
+
+            <Text className="font-tmedium text-base text-primary">
               {formatVietnameseDate(date)}
             </Text>
           </HStack>
 
-          <Button size="sm" onPress={onChatStart}>
+          <Button size="sm" onPress={onChatPress}>
             Nhắn tin
           </Button>
         </HStack>

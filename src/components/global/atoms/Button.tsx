@@ -45,9 +45,9 @@ export const Button: React.FC<ButtonProps> = ({
   }
 
   const sizes = {
-    sm: { container: "h-10 px-4", text: "text-sm" },
-    md: { container: "h-14 px-5", text: "text-base" },
-    lg: { container: "h-16 px-6", text: "text-lg" }
+    sm: { container: "h-10 px-4 rounded-xl", text: "text-sm" },
+    md: { container: "h-14 px-5 rounded-2xl", text: "text-base" },
+    lg: { container: "h-16 px-6 rounded-2xl", text: "text-lg" }
   }
 
   const variantClass = variants[variant]
@@ -59,7 +59,7 @@ export const Button: React.FC<ButtonProps> = ({
       disabled={disabled || loading}
       onPress={onPress}
       className={cn(
-        "flex flex-row items-center justify-center rounded-2xl",
+        "flex flex-row items-center justify-center",
         variantClass.container,
         sizeClass.container,
         className

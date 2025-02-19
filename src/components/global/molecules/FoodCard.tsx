@@ -73,6 +73,7 @@ export const FoodCard = ({
               </Text>
             )}
           </HStack>
+
           <Text className="font-tmedium text-sm text-accent">
             {toFixed(Number(calories), 0) ?? 0} kcal
             {size

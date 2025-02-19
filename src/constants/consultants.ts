@@ -9,7 +9,7 @@ export const sampleConsultantData = [
       "https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-3.jpg",
     expertise: "Phục hồi chức năng",
     experience: 2,
-    rating: 4.5,
+    rating: 1.5,
     date: "2025-02-20T16:00:00Z",
 
     createdAt: "2025-01-06T00:00:00Z",
@@ -20,7 +20,7 @@ export const sampleConsultantData = [
     userId: "Chat Toàn gà",
 
     name: "Văn Hữu Toàn",
-    bio: "Phục hồi cho các bà mẹ sau sinh",
+    bio: "Phục hồi sau khi ẻ",
     avatarUrl:
       "https://nupet.vn/wp-content/uploads/2023/10/hinh-nen-ngo-nghinh-anh-meo-cute-nupet-new-5.jpg",
     expertise: "Phục hồi sau sinh",

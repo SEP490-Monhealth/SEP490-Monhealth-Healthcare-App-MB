@@ -1,8 +1,5 @@
 import React from "react"
 
-import { Text, View } from "react-native"
-import { TouchableOpacity } from "react-native"
-
 import { Control, FieldValues, useController } from "react-hook-form"
 
 import { Chip, ScrollArea, VStack } from "@/components/global/atoms"

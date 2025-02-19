@@ -2,9 +2,11 @@ import { AllergyCard } from "./AllergyCard"
 import { ArcProgress } from "./ArcProgress"
 import { CategoryCard } from "./CategoryCard"
 import { CircularProgress } from "./CircularProgress"
+import { ConsultantCard } from "./ConsultantCard"
 import { CounterText } from "./CounterText"
 import { CustomHeader } from "./CustomHeader"
 import { ErrorDisplay } from "./ErrorDisplay"
+import { ExerciseCard } from "./ExerciseCard"
 import { FoodCard } from "./FoodCard"
 import { IconButton } from "./IconButton"
 import { ListFooter } from "./ListFooter"
@@ -23,9 +25,11 @@ export {
   ArcProgress,
   CategoryCard,
   CircularProgress,
+  ConsultantCard,
   CounterText,
   CustomHeader,
   ErrorDisplay,
+  ExerciseCard,
   FoodCard,
   IconButton,
   ListFooter,
