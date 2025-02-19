@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Text, View } from "react-native"
+import { Keyboard, Text, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -36,7 +36,10 @@ function ForgotPasswordScreen() {
   })
 
   const onSubmit = (data: PhoneNumberType) => {
+    Keyboard.dismiss()
+
     console.log(data)
+
     router.push("/auth/otp-verification")
   }
 

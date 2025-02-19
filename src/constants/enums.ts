@@ -56,11 +56,6 @@ export enum TypeDishEnum {
 }
 
 // Exercise - Workout
-export enum TypeExerciseEnum {
-  Time,
-  Reps
-}
-
 export enum LevelDifficultyEnum {
   Easy,
   Medium,

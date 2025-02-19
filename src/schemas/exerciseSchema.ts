@@ -1,17 +1,12 @@
 import { z } from "zod"
 
-import { TypeExerciseEnum } from "@/constants/enums"
-
 import { auditSchema } from "./commonSchema"
-
-const ExerciseTypeEnum = z.nativeEnum(TypeExerciseEnum)
 
 const baseExerciseSchema = z
   .object({
     exerciseId: z.string(),
     userId: z.string(),
 
-    type: ExerciseTypeEnum,
     name: z
       .string()
       .nonempty({ message: "Tên bài tập không được để trống" })
@@ -38,7 +33,6 @@ const baseExerciseSchema = z
 export const exerciseSchema = baseExerciseSchema.pick({
   exerciseId: true,
 
-  type: true,
   name: true,
   instructions: true,
 

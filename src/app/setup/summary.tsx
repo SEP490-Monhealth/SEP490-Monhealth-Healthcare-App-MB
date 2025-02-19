@@ -75,7 +75,7 @@ function SetupSummary() {
 
   const handleFinished = () => router.replace("/setup/completed")
 
-  if (!goalData || isLoading) <LoadingScreen />
+  if (!goalData || isLoading) return <LoadingScreen />
 
   return (
     <Container dismissKeyboard>

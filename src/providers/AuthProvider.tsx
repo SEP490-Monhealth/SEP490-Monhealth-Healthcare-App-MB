@@ -148,7 +148,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
-  if (loading) <LoadingScreen />
+  // if (loading) return <LoadingScreen />
 
   return (
     <AuthContext.Provider

@@ -62,9 +62,7 @@ function WaterReminderDetailsScreen() {
     }
   }, [waterReminderData, setValue])
 
-  if (isLoading) {
-    return <LoadingScreen />
-  }
+  if (!waterReminderData || isLoading) <LoadingScreen />
 
   const handleTimeChange = (
     _event: DateTimePickerEvent,

@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { Text, TouchableOpacity, View } from "react-native"
+import { Keyboard, Text, TouchableOpacity, View } from "react-native"
 
 import { useLocalSearchParams, useRouter } from "expo-router"
 
@@ -70,6 +70,8 @@ function SignInScreen() {
 
   const onSubmit = async (loginData: LoginType) => {
     setIsLoading(true)
+    Keyboard.dismiss()
+
     // console.log(loginData)
 
     try {

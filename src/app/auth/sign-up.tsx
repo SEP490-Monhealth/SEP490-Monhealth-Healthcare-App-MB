@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { Text, TouchableOpacity, View } from "react-native"
+import { Keyboard, Text, TouchableOpacity, View } from "react-native"
 
 import { useLocalSearchParams, useRouter } from "expo-router"
 
@@ -66,6 +66,8 @@ function SignUpScreen() {
 
   const onSubmit = async (registerData: RegisterType) => {
     setIsLoading(true)
+    Keyboard.dismiss()
+
     // console.log(registerData)
 
     try {

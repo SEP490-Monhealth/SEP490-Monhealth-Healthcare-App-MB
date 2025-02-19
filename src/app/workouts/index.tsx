@@ -103,7 +103,7 @@ function WorkoutsScreen() {
   }, [typesData, selectedType])
 
   if ((!workoutsData && isLoading) || !typesData || isTypesLoading)
-    <LoadingScreen />
+    return <LoadingScreen />
 
   return (
     <Container>

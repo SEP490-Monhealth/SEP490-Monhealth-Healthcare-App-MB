@@ -89,9 +89,7 @@ function FoodUserScreen() {
     return () => clearTimeout(timeout)
   }, [])
 
-  if (isLoading) {
-    return <LoadingScreen />
-  }
+  if (isLoading) return <LoadingScreen />
 
   return (
     <Container>

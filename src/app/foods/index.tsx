@@ -177,9 +177,8 @@ function FoodsScreen() {
     )
   }, [categoriesData, selectedCategory])
 
-  if (!categoriesData || isCategoriesLoading || !foods || isLoading) {
+  if (!categoriesData || isCategoriesLoading || !foods || isLoading)
     return <LoadingScreen />
-  }
 
   return (
     <Container>

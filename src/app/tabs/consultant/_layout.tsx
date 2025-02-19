@@ -9,7 +9,7 @@ import {
 
 import { Tabs } from "expo-router"
 
-import { Calendar2, Home2, Profile, Ram, Sound } from "iconsax-react-native"
+import { Calendar2, Home2, Ram, Setting, Sound } from "iconsax-react-native"
 import { IconProps } from "iconsax-react-native"
 
 import { COLORS } from "@/constants/app"
@@ -26,7 +26,7 @@ const routes: RouteType[] = [
   { name: "schedule", label: "Lịch trình", icon: Calendar2 },
   { name: "voice", label: "", icon: Sound, main: true },
   { name: "service", label: "Dịch vụ", icon: Ram },
-  { name: "profile", label: "Hồ sơ", icon: Profile }
+  { name: "settings", label: "Cài đặt", icon: Setting }
 ]
 
 function ConsultantTabLayout() {

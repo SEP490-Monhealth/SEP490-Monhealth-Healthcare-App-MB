@@ -238,9 +238,8 @@ function MealDetailsScreen() {
     isLoadingMeal ||
     !mealFoodsData ||
     isLoadingMealFoods
-  ) {
+  )
     return <LoadingScreen />
-  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
