@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"
 import { Text, View } from "react-native"
 import { AnimatedCircularProgress } from "react-native-circular-progress"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 
 import { cn } from "@/lib/utils"
 

@@ -34,13 +34,9 @@ const baseFoodSchema = z
     category: z.string(),
     userId: z.string(),
 
-    foodType: FoodTypeEnum,
-    mealType: z
-      .array(MealTypeEnum)
-      .min(1, { message: "Bạn cần chọn ít nhất một bữa ăn" }),
-    dishType: z
-      .array(DishTypeEnum)
-      .min(1, { message: "Bạn cần chọn ít nhất một loại món ăn" }),
+    foodType: z.array(FoodTypeEnum),
+    mealType: z.array(MealTypeEnum),
+    dishType: z.array(DishTypeEnum),
 
     name: z
       .string()
@@ -57,6 +53,8 @@ const baseFoodSchema = z
     portion: portionSchema,
 
     nutrition: nutritionSchema,
+
+    views: z.number(),
 
     isPublic: z.boolean(),
 

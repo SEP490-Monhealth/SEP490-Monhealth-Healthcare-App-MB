@@ -15,7 +15,7 @@ import {
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 
 import { UpdatePasswordType, updatePasswordSchema } from "@/schemas/userSchema"
 

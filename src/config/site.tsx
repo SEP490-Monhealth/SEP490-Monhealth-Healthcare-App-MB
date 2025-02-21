@@ -9,7 +9,7 @@ import {
   Profile
 } from "iconsax-react-native"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 
 export const generalItems = [
   {

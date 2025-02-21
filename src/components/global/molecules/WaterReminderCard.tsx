@@ -4,7 +4,7 @@ import { Image, Text, TouchableOpacity } from "react-native"
 
 import { MoreHorizontal } from "lucide-react-native"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 
 import { toFixed } from "@/utils/formatters"
 

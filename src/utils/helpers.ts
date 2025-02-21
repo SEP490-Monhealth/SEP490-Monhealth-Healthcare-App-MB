@@ -1,4 +1,5 @@
-import { COLORS, DATA } from "@/constants/app"
+import { COLORS } from "@/constants/color"
+import { DATA } from "@/constants/data"
 import { TypeMealEnum } from "@/constants/enums"
 import { TipsData } from "@/constants/tips"
 

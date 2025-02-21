@@ -9,31 +9,9 @@ import {
 
 import { Tabs } from "expo-router"
 
-import {
-  DirectNormal,
-  FavoriteChart,
-  Home2,
-  Setting,
-  Sound
-} from "iconsax-react-native"
-import { IconProps } from "iconsax-react-native"
+import { userRoutes } from "@/config/routes"
 
-import { COLORS } from "@/constants/app"
-
-interface RouteType {
-  name: string
-  label: string
-  icon: React.ComponentType<IconProps>
-  main?: boolean
-}
-
-const routes: RouteType[] = [
-  { name: "home", label: "Trang chủ", icon: Home2 },
-  { name: "report", label: "Báo cáo", icon: FavoriteChart },
-  { name: "voice", label: "", icon: Sound, main: true },
-  { name: "consultant", label: "Chuyên viên", icon: DirectNormal },
-  { name: "settings", label: "Cài đặt", icon: Setting }
-]
+import { COLORS } from "@/constants/color"
 
 function UserTabLayout() {
   return (
@@ -60,7 +38,7 @@ function UserTabLayout() {
         }
       }}
     >
-      {routes.map((route) => {
+      {userRoutes.map((route) => {
         if (route.main) {
           return (
             <Tabs.Screen

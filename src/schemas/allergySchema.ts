@@ -18,7 +18,7 @@ const baseAllergySchema = z
 export const allergySchema = baseAllergySchema
 
 export const allergySetupSchema = z.object({
-  allergies: z.array(baseAllergySchema.shape.name).default([])
+  allergies: z.array(allergySchema.shape.name)
 })
 
 export type AllergyType = z.infer<typeof allergySchema>

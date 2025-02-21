@@ -25,7 +25,7 @@ import {
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import { DATA } from "@/constants/app"
+import { DATA } from "@/constants/data"
 
 import { useCreatePortion } from "@/hooks/usePortion"
 import { useRouterHandlers } from "@/hooks/useRouter"

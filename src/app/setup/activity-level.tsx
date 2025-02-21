@@ -11,7 +11,7 @@ import { Control, FieldValues, useController } from "react-hook-form"
 
 import { Chip, VStack } from "@/components/global/atoms"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 
 const activityLevelsData = [
   {

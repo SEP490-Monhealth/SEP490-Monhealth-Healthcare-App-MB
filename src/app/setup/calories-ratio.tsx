@@ -5,7 +5,7 @@ import { Control, FieldValues, useController } from "react-hook-form"
 
 import { Chip, ErrorText, VStack } from "@/components/global/atoms"
 
-import { DATA } from "@/constants/app"
+import { DATA } from "@/constants/data"
 import { TypeGoalEnum } from "@/constants/enums"
 
 import { useSetupStore } from "@/stores/setupStore"

@@ -22,7 +22,7 @@ import {
 } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 
 import { useAuth } from "@/contexts/AuthContext"
 

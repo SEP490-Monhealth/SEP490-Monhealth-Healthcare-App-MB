@@ -4,7 +4,7 @@ import { FlatList, Text, TouchableOpacity, View } from "react-native"
 
 import { ChevronLeft, ChevronRight } from "lucide-react-native"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 
 import { formatUTCDate } from "@/utils/formatters"
 

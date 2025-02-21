@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react"
 
 import { TextInput } from "react-native"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 
 import { HStack } from "./Stack"
 

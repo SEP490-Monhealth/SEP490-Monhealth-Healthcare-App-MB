@@ -6,7 +6,7 @@ import { useRouter } from "expo-router"
 
 import { ArrowLeft } from "iconsax-react-native"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 
 import { HStack } from "../atoms"
 import { IconButton } from "../molecules"

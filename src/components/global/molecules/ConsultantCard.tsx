@@ -1,12 +1,12 @@
 import React from "react"
 
-import { Image, Text, View } from "react-native"
+import { Image, Text } from "react-native"
 
 import { CalendarTick, MedalStar, Star1 } from "iconsax-react-native"
 
 import { Button, Card, HStack, VStack } from "@/components/global/atoms"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 
 import { formatVietnameseDate } from "@/utils/formatters"
 

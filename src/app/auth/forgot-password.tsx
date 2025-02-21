@@ -17,7 +17,7 @@ import {
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 
 import { PhoneNumberType, phoneNumberSchema } from "@/schemas/userSchema"
 

@@ -6,7 +6,7 @@ import { router } from "expo-router"
 
 import { Button, Container, Progress, VStack } from "@/components/global/atoms"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 
 import { useAuth } from "@/contexts/AuthContext"
 

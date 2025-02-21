@@ -15,7 +15,7 @@ import { StepHeader } from "@/components/global/molecules"
 import { SubscriptionCard } from "@/components/global/molecules/SubscriptionCard"
 import { Header } from "@/components/global/organisms"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 
 import { useAuth } from "@/contexts/AuthContext"
 

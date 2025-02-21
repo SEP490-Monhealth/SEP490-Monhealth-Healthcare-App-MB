@@ -12,8 +12,8 @@ interface ChipProps {
   size?: "sm" | "md" | "lg"
   border?: boolean
   borderWidth?: number
-  selected?: boolean
   icon?: React.ReactNode
+  selected?: boolean
   className?: string
 }
 
@@ -66,8 +66,8 @@ export const Chip = ({
   size = "sm",
   border = false,
   borderWidth = 1,
-  selected = false,
   icon,
+  selected = false,
   className = ""
 }: ChipProps) => {
   const variantStyle = variantStyles[selected ? "selected" : variant]

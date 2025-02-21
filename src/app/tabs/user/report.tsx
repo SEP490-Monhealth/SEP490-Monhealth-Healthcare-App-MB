@@ -19,7 +19,7 @@ import { Header, Section } from "@/components/global/organisms"
 
 import { BarChart } from "@/components/local/tabs/report"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 import { TypeMealEnum } from "@/constants/enums"
 
 import { useAuth } from "@/contexts/AuthContext"

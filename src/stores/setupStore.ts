@@ -35,7 +35,7 @@ export const useSetupStore = create<setupStoreProps>((set) => ({
   activityLevel: 1.375,
   goalType: TypeGoalEnum.WeightGain,
   weightGoal: 66,
-  caloriesRatio: 1,
+  caloriesRatio: 1.2,
   categories: [
     "Hải sản",
     "Thịt",
@@ -44,9 +44,7 @@ export const useSetupStore = create<setupStoreProps>((set) => ({
     "Đồ uống",
     "Món lên men",
     "Trái cây",
-    "Đồ ăn nhanh",
-    "Bánh các loại",
-    "Đồ ăn vặt"
+    "Đồ ăn nhanh"
   ],
   allergies: ["Hải sản có vỏ", "Sữa", "Các loại hạt", "Đậu nành", "Hạt vừng"],
 

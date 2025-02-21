@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form"
 import { Button, Container, Content, Progress } from "@/components/global/atoms"
 import { CustomHeader, StepHeader } from "@/components/global/molecules"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 import { TypeGoalEnum } from "@/constants/enums"
 
 import { useAuth } from "@/contexts/AuthContext"

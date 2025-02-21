@@ -35,7 +35,8 @@ import { Header, Section } from "@/components/global/organisms"
 
 import { NutritionSummary } from "@/components/local/meals"
 
-import { COLORS, DATA } from "@/constants/app"
+import { COLORS } from "@/constants/color"
+import { DATA } from "@/constants/data"
 import { TypeMealEnum } from "@/constants/enums"
 
 import { useAuth } from "@/contexts/AuthContext"

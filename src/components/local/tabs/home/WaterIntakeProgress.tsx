@@ -5,7 +5,7 @@ import { Image, Text, View } from "react-native"
 import { VStack } from "@/components/global/atoms"
 import { CircularProgress } from "@/components/global/molecules"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 
 import { toFixed } from "@/utils/formatters"
 

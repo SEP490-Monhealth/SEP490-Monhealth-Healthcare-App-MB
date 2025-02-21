@@ -44,7 +44,7 @@ const baseUserSchema = z
       .regex(/[^A-Za-z0-9]/, {
         message: "Mật khẩu phải chứa ít nhất một ký tự đặc biệt"
       }),
-    avatarUrl: z.string().url({ message: "Avatar không hợp lệ" }).optional(),
+    avatarUrl: z.string().url({ message: "Đường dẫn không hợp lệ" }).optional(),
 
     role: z.string().refine((val) => roles.includes(val), {
       message:

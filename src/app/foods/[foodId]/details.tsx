@@ -31,7 +31,8 @@ import { Header, Section } from "@/components/global/organisms"
 
 import { FoodNutrition, NutritionFacts } from "@/components/local/foods"
 
-import { COLORS, DATA } from "@/constants/app"
+import { COLORS } from "@/constants/color"
+import { DATA } from "@/constants/data"
 
 import { useAuth } from "@/contexts/AuthContext"
 import { useSaveFoods } from "@/contexts/FoodSavedContext"

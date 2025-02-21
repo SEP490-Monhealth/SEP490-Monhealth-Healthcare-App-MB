@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react"
 
 import { useRouter } from "expo-router"
 
-import { LoadingScreen } from "@/app/loading"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
 import { AuthContext } from "@/contexts/AuthContext"

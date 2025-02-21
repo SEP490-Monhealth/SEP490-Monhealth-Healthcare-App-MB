@@ -18,7 +18,7 @@ import { Section } from "@/components/global/organisms"
 
 import { FoodCategories } from "@/components/local/foods"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 import { TypeCategoryEnum } from "@/constants/enums"
 
 import { useAuth } from "@/contexts/AuthContext"

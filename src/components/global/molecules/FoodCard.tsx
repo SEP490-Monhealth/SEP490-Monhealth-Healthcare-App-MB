@@ -4,7 +4,7 @@ import { Text } from "react-native"
 
 import { Check, MoreHorizontal, Plus } from "lucide-react-native"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 
 import { toFixed } from "@/utils/formatters"
 

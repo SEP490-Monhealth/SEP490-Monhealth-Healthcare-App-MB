@@ -5,7 +5,8 @@ import { Control, FieldValues, useController } from "react-hook-form"
 
 import { Chip, ErrorText, VStack } from "@/components/global/atoms"
 
-import { COLORS, DATA } from "@/constants/app"
+import { COLORS } from "@/constants/color"
+import { DATA } from "@/constants/data"
 import { GenderEnum } from "@/constants/enums"
 
 interface SetupGenderProps {

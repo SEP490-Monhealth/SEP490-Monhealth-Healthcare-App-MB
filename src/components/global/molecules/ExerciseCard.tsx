@@ -5,35 +5,14 @@ import { View } from "react-native"
 
 import { ArrowSwapHorizontal } from "iconsax-react-native"
 
-import { COLORS } from "@/constants/app"
-import { TypeExerciseEnum } from "@/constants/enums"
+import { COLORS } from "@/constants/color"
 
 import { formatDuration, toFixed } from "@/utils/formatters"
 
 import { Card, HStack } from "../atoms"
 import { IconButton } from "./IconButton"
 
-const calculateCalories = (
-  type: TypeExerciseEnum,
-  duration?: number,
-  reps?: number,
-  caloriesPerMinute?: number
-) => {
-  if (!caloriesPerMinute) return 0
-
-  if (type === TypeExerciseEnum.Time) {
-    return (caloriesPerMinute * (duration ?? 0)) / 60
-  }
-
-  if (type === TypeExerciseEnum.Reps) {
-    return caloriesPerMinute * (reps ?? 0) * 0.1
-  }
-
-  return 0
-}
-
 interface ExerciseCardProps {
-  type: TypeExerciseEnum
   name: string
   duration?: number
   reps?: number
@@ -41,25 +20,25 @@ interface ExerciseCardProps {
   onPress?: () => void
 }
 
-const ExerciseCard = ({
-  type,
+export const ExerciseCard = ({
   name,
   duration,
   reps,
   calories,
   onPress
 }: ExerciseCardProps) => {
-  const totalCalories = calculateCalories(type, duration, reps, calories)
-
   return (
     <Card onPress={onPress}>
       <HStack className="w-full items-center justify-between">
         <View className="flex-1">
           <Text className="font-tmedium text-lg text-primary">{name}</Text>
           <Text className="font-tmedium text-sm text-accent">
-            {type === TypeExerciseEnum.Time
+            {/* {type === TypeExerciseEnum.Time
               ? `${formatDuration(duration ?? 0)} • ${toFixed(totalCalories, 1)} kcal`
-              : `${reps} lần • ${toFixed(totalCalories, 1)} kcal`}
+              : `${reps} lần • ${toFixed(totalCalories, 1)} kcal`} */}
+            {reps && reps > 0
+              ? `${reps} lần • ${toFixed(calories, 1)} kcal`
+              : `${formatDuration(duration ?? 0)} • ${toFixed(calories, 1)} kcal`}
           </Text>
         </View>
 
@@ -72,5 +51,3 @@ const ExerciseCard = ({
     </Card>
   )
 }
-
-export default ExerciseCard

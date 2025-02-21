@@ -9,7 +9,7 @@ import Animated, {
 } from "react-native-reanimated"
 import Svg, { Line, Rect, Text as SvgText } from "react-native-svg"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 
 const screenWidth = Dimensions.get("window").width
 

@@ -2,7 +2,7 @@ import React from "react"
 
 import { TouchableOpacity, View } from "react-native"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 
 interface CheckboxProps {
   size?: number

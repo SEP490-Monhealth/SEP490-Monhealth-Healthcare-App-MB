@@ -5,7 +5,7 @@ import { Image, Text, TouchableOpacity, View } from "react-native"
 import { get } from "lodash"
 import { Control, FieldValues, useController } from "react-hook-form"
 
-import { ErrorText, ScrollArea, VStack } from "@/components/global/atoms"
+import { Chip, ErrorText, ScrollArea, VStack } from "@/components/global/atoms"
 
 import { sampleCategoriesData } from "@/constants/categories"
 import { TypeCategoryEnum } from "@/constants/enums"
@@ -40,43 +40,32 @@ function SetupCategories({ control, errors }: SetupCategoriesProps) {
 
   return (
     <ScrollArea>
-      <VStack gap={12}>
-        <View
-          className="flex-row flex-wrap"
-          style={{ rowGap: 16, columnGap: 12 }}
-        >
-          {filteredCategoriesData.map((category) => (
-            <TouchableOpacity
+      <VStack gap={12} className="pb-24">
+        {filteredCategoriesData.map((category) => {
+          return (
+            <Chip
               key={category.categoryId}
-              activeOpacity={0.7}
+              size="lg"
+              border
+              borderWidth={2}
+              label={category.name}
+              icon={
+                <View className="h-12 w-12 items-center justify-center rounded-full bg-muted">
+                  <Image
+                    source={
+                      typeof category.image === "string"
+                        ? { uri: category.image }
+                        : category.image
+                    }
+                    style={{ width: 24, height: 24 }}
+                  />
+                </View>
+              }
+              selected={field.value?.includes(category.name)}
               onPress={() => handleSelectCategories(category.name)}
-              className={`flex-row items-center rounded-2xl border-2 bg-muted px-4 py-2.5 ${
-                (field.value || []).includes(category.name)
-                  ? "border-primary"
-                  : "border-border"
-              }`}
-            >
-              <Image
-                source={
-                  typeof category.image === "string"
-                    ? { uri: category.image }
-                    : category.image
-                }
-                className="mr-3 h-8 w-8"
-              />
-
-              <Text
-                className={`font-tmedium text-base ${
-                  (field.value || []).includes(category.name)
-                    ? "text-primary"
-                    : "text-black"
-                }`}
-              >
-                {category.name}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+            />
+          )
+        })}
 
         {errorMessage && <ErrorText text={errorMessage} />}
       </VStack>

@@ -92,43 +92,35 @@ export const sampleCategoriesData: CategoryType[] = [
     updatedAt: "2025-01-06T00:00:00Z"
   },
   {
-    categoryId: "cd017b8a-fbed-4399-99ed-b59eec9b9551",
-    type: TypeCategoryEnum.Food,
-    name: "Bánh các loại",
-    image: require("../../public/icons/categories/bread.png"),
+    categoryId: "fccb0ebd-ff54-401b-a1ec-0e9f63804bb9",
+    type: TypeCategoryEnum.Workout,
+    name: "Toàn thân",
+    image: require("../../public/icons/workouts/upper-body.png"),
     createdAt: "2025-01-06T00:00:00Z",
     updatedAt: "2025-01-06T00:00:00Z"
   },
   {
-    categoryId: "5c899b0d-5d6a-4366-a4fd-797ab5b2168e",
-    type: TypeCategoryEnum.Food,
-    name: "Đồ ăn vặt",
-    image: require("../../public/icons/categories/popcorn.png"),
-    createdAt: "2025-01-06T00:00:00Z",
-    updatedAt: "2025-01-06T00:00:00Z"
-  },
-  {
-    categoryId: "",
-    type: TypeCategoryEnum.Exercise,
+    categoryId: "036a94f2-013a-4375-a685-76ff6ffcc24e",
+    type: TypeCategoryEnum.Workout,
     name: "Thân trên",
     image: require("../../public/icons/workouts/upper-body.png"),
     createdAt: "2025-01-06T00:00:00Z",
     updatedAt: "2025-01-06T00:00:00Z"
+  },
+  {
+    categoryId: "2f998806-6963-42cf-9fce-7a5b5c2df540",
+    type: TypeCategoryEnum.Workout,
+    name: "Thân dưới",
+    image: require("../../public/icons/workouts/lower-body.png"),
+    createdAt: "2025-01-06T00:00:00Z",
+    updatedAt: "2025-01-06T00:00:00Z"
+  },
+  {
+    categoryId: "4575699a-5bb6-42ec-9d52-ea19d1170187",
+    type: TypeCategoryEnum.Workout,
+    name: "Bụng",
+    image: require("../../public/icons/workouts/core.png"),
+    createdAt: "2025-01-06T00:00:00Z",
+    updatedAt: "2025-01-06T00:00:00Z"
   }
-  // {
-  //   categoryId: "",
-  //   type: TypeCategoryEnum.Exercise,
-  //   name: "Thân dưới",
-  //   image: require("../../public/icons/workouts/lower-body.png"),
-  //   createdAt: "2025-01-06T00:00:00Z",
-  //   updatedAt: "2025-01-06T00:00:00Z"
-  // },
-  // {
-  //   categoryId: "",
-  //   type: TypeCategoryEnum.Exercise,
-  //   name: "Cơ bụng",
-  //   image: require("../../public/icons/workouts/core.png"),
-  //   createdAt: "2025-01-06T00:00:00Z",
-  //   updatedAt: "2025-01-06T00:00:00Z"
-  // }
 ]

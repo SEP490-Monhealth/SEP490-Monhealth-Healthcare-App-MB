@@ -35,7 +35,7 @@ const baseWorkoutSchema = z
       .number()
       .min(0, { message: "Calo đốt cháy phải lớn hơn hoặc bằng 0" }),
 
-    views: z.number().min(0, { message: "Luợt xem phải lớn hơn hoặc bằng 0" }),
+    views: z.number(),
 
     status: z.boolean()
   })

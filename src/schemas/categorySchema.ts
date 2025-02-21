@@ -25,6 +25,7 @@ const baseCategorySchema = z
         message: "Mô tả danh mục không được dài hơn 500 ký tự"
       })
       .optional(),
+
     image: z.string().optional()
   })
   .merge(timestampSchema)
@@ -33,7 +34,7 @@ export const categorySchema = baseCategorySchema
 
 export const categorySetupSchema = z.object({
   categories: z
-    .array(baseCategorySchema.shape.name)
+    .array(categorySchema.shape.name)
     .min(5, { message: "Bạn phải chọn ít nhất 5 danh mục" })
 })
 

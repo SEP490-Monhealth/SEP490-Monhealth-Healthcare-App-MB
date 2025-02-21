@@ -4,7 +4,7 @@ import { Image, Text, TouchableOpacity, View } from "react-native"
 
 import { ChevronRight } from "lucide-react-native"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 import { TypeMealEnum } from "@/constants/enums"
 
 import { cn } from "@/lib/utils"
@@ -43,7 +43,7 @@ export const MealCard = ({
       <TouchableOpacity
         activeOpacity={1}
         onPress={onPress}
-        className="mr-4 flex h-12 w-12 items-center justify-center rounded-full bg-muted"
+        className="mr-4 h-12 w-12 items-center justify-center rounded-full bg-muted"
       >
         <Image
           testID="test-image"

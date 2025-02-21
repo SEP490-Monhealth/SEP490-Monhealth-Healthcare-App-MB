@@ -7,7 +7,7 @@ import { Microphone } from "iconsax-react-native"
 import { Button, Container, Content, VStack } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 
 function VoiceScreen() {
   const router = useRouter()

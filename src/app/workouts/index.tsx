@@ -16,7 +16,7 @@ import { Section } from "@/components/global/organisms"
 
 import { WorkoutTypes } from "@/components/local/workouts"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 import { TypeCategoryEnum } from "@/constants/enums"
 
 import { useGetCategoriesByType } from "@/hooks/useCategory"

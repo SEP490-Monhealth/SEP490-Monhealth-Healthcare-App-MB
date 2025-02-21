@@ -6,7 +6,7 @@ import { useRouter } from "expo-router"
 
 import { ChevronRight } from "lucide-react-native"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 
 interface ListItemProps {
   startIcon?: React.ReactNode

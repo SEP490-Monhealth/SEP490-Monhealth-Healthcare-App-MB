@@ -6,7 +6,7 @@ import { useRouter } from "expo-router"
 
 import { Calendar } from "iconsax-react-native"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 
 import { formatUTCDate } from "@/utils/formatters"
 

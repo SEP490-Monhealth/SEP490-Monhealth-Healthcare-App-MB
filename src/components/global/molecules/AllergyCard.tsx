@@ -4,7 +4,7 @@ import { Text } from "react-native"
 
 import { MoreHorizontal } from "lucide-react-native"
 
-import { COLORS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 
 import { Card, HStack } from "../atoms"
 import { IconButton } from "./IconButton"
