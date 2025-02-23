@@ -16,20 +16,8 @@ function VoiceScreen() {
     router.push("/(consultant-setup)/expertise")
   }
 
-  const handleViewService = () => {
-    router.push("/test/service")
-  }
-
-  const handleViewImageUpload = () => {
-    router.push("/(consultant-setup)/certificate-upload")
-  }
-
   const handleViewLocalImage = () => {
     router.push("/test/local-image")
-  }
-
-  const handleCreateService = () => {
-    router.push("/test/create-service")
   }
 
   const handleViewConsultant = () => {
@@ -52,20 +40,8 @@ function VoiceScreen() {
             Đăng ký consultant
           </Button>
 
-          <Button size="lg" onPress={handleViewService}>
-            Dịch vụ
-          </Button>
-
-          <Button size="lg" onPress={handleViewImageUpload}>
-            Upload ảnh
-          </Button>
-
           <Button size="lg" onPress={handleViewLocalImage}>
             Local Image
-          </Button>
-
-          <Button size="lg" onPress={handleCreateService}>
-            Tạo dịch vụ
           </Button>
 
           <Button size="lg" onPress={handleViewConsultant}>

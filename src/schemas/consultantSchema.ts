@@ -41,6 +41,11 @@ const baseConsultantSchema = z
       .min(1, { message: "Đánh giá phải lớn hơn hoặc bằng 1" })
       .max(5, { message: "Đánh giá không được vượt quá 5" }),
 
+    patient: z
+      .number()
+      .min(0, { message: "Đánh giá phải lớn hơn hoặc bằng 1" })
+      .max(5, { message: "Đánh giá không được vượt quá 5" }),
+
     views: z.number(),
 
     status: z.boolean()

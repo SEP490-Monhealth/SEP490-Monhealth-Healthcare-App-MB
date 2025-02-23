@@ -23,11 +23,16 @@ export const useRouterHandlers = () => {
     router.push(`/workouts/${workoutId}/details`)
   }
 
+  const handleViewConsultant = (consultantId: string) => {
+    router.push(`/consultants/${consultantId}/details`)
+  }
+
   return {
     handleViewFood,
     handleViewMeal,
     handleViewWaterReminder,
     handleViewWorkouts,
-    handleViewWorkout
+    handleViewWorkout,
+    handleViewConsultant
   }
 }

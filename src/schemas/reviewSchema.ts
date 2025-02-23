@@ -9,6 +9,9 @@ const baseReviewSchema = z
     consultantId: z.string(),
     userId: z.string(),
 
+    name: z.string(),
+    avatarUrl: z.string(),
+
     rating: z
       .number()
       .int({ message: "Điểm đánh giá phải là số nguyên" })

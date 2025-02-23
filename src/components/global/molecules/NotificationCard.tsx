@@ -4,7 +4,8 @@ import { Text, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
-import { COLORS, ICONS } from "@/constants/app"
+import { ICONS } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 
 import { formatTimeAgo } from "@/utils/formatters"
 

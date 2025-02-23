@@ -112,3 +112,28 @@ export const calculateAge = (dateOfBirth: string): number => {
 
   return age
 }
+
+/**
+ * Gửi một yêu cầu HEAD để lấy dung lượng tệp từ URL.
+ *
+ * @param {string} url - URL của tệp.
+ * @returns {Promise<string>} - Dung lượng tệp tính bằng MB, hoặc thông báo lỗi.
+ */
+export const getFileSizeFromUrl = async (url: string): Promise<string> => {
+  try {
+    const response = await fetch(url, { method: "HEAD" })
+
+    const contentLength = response.headers.get("Content-Length")
+
+    if (contentLength) {
+      const fileSizeInBytes = parseInt(contentLength, 10)
+      const fileSizeInMB = (fileSizeInBytes / (1024 * 1024)).toFixed(2)
+      return `${fileSizeInMB} MB`
+    } else {
+      return "Không xác định"
+    }
+  } catch (error) {
+    console.error("Lỗi khi lấy dung lượng tệp từ URL:", error)
+    return "Không thể lấy dung lượng"
+  }
+}

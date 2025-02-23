@@ -5,7 +5,7 @@ import monAPI from "@/lib/monAPI"
 import {
   ConsultantType,
   CreateConsultantType,
-  UpdateConsultantBioType
+  UpdateConsultantType
 } from "@/schemas/consultantSchema"
 
 interface ConsultantResponse {
@@ -187,13 +187,16 @@ export const createConsultant = async (
   }
 }
 
-export const updateBioConsultant = async (
+export const updateConsultant = async (
   consultantId: string,
-  newBio: UpdateConsultantBioType,
+  consultantData: UpdateConsultantType,
   showModal: (message: string) => void
 ): Promise<string> => {
   try {
-    const response = await monAPI.put(`/consultants/${consultantId}`, newBio)
+    const response = await monAPI.put(
+      `/consultants/${consultantId}`,
+      consultantData
+    )
 
     if (!response || !response.data) {
       throw {
@@ -208,11 +211,11 @@ export const updateBioConsultant = async (
     if (!success) {
       throw {
         isCustomError: true,
-        message: message || "Không thể cập nhật thông tin mô tả"
+        message: message || "Không thể cập nhật thông tin"
       }
     }
 
-    showModal(message || "Cập nhật mô tả thành công")
+    showModal(message || "Cập nhật thành công")
 
     console.log(message)
     return message

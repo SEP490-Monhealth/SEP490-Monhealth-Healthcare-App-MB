@@ -1,5 +1,7 @@
 import React from "react"
 
+import { useRouter } from "expo-router"
+
 import {
   Container,
   Content,
@@ -10,14 +12,15 @@ import { Header } from "@/components/global/organisms"
 
 import { sampleConsultantData } from "@/constants/consultants"
 
+import { useRouterHandlers } from "@/hooks/useRouter"
+
 import { ConsultantCard } from "../../components/global/molecules/ConsultantCard"
 
 function ConsultantScreen() {
   const consultantsData = sampleConsultantData
 
-  const handleViewConsultant = (consultantId: string) => {
-    console.log(consultantId)
-  }
+  const router = useRouter()
+  const { handleViewConsultant } = useRouterHandlers()
 
   const handleChatConsultant = (userId: string) => {
     console.log(userId)

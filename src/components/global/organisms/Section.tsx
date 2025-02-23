@@ -30,7 +30,7 @@ export const Section = ({
   return (
     <View
       className={cn(
-        "mb-2 mx-1 flex-row items-center justify-between",
+        "mb-2 flex-row items-center justify-between",
         marginClass,
         className
       )}

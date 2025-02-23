@@ -6,7 +6,7 @@ import { useModal } from "@/contexts/ModalContext"
 import {
   ConsultantType,
   CreateConsultantType,
-  UpdateConsultantBioType
+  UpdateConsultantType
 } from "@/schemas/consultantSchema"
 
 import {
@@ -14,7 +14,7 @@ import {
   getAllConsultants,
   getConsultantById,
   getConsultantsByExpertise,
-  updateBioConsultant
+  updateConsultant
 } from "@/services/consultantService"
 
 interface FoodResponse {
@@ -112,11 +112,11 @@ export const useUpdateBioConsultant = () => {
   return useMutation<
     string,
     Error,
-    { consultantId: string; bioData: UpdateConsultantBioType }
+    { consultantId: string; consultantData: UpdateConsultantType }
   >({
-    mutationFn: async ({ consultantId, bioData }) => {
+    mutationFn: async ({ consultantId, consultantData }) => {
       try {
-        return await updateBioConsultant(consultantId, bioData, showModal)
+        return await updateConsultant(consultantId, consultantData, showModal)
       } catch (error) {
         handleError(error)
         throw error
