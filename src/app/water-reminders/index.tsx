@@ -139,7 +139,7 @@ function WaterReminderScreen() {
                 name={item.name}
                 time={item.time}
                 volume={item.volume}
-                status={item.status}
+                isDrunk={item.status}
                 onPress={() => handleViewWaterReminder(item.waterReminderId)}
                 onMorePress={() => openMealSheet(item)}
               />

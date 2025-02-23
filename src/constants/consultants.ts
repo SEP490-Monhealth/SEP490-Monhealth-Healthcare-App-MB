@@ -6,7 +6,7 @@ export const sampleConsultantData = [
     avatarUrl:
       "https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-3.jpg",
 
-    bio: "Với hơn 2 năm kinh nghiệm trong lĩnh vực Phục hồi Chức năng, tôi không chỉ mang đến những phương pháp hay ho",
+    bio: "Với hơn 2 năm kinh nghiệm trong lĩnh vực Phục hồi, tôi không chỉ mang đến những phương pháp hay ho và  đưa ra những giải pháp phù hợp với nhu cầu của bạn.",
     experience: 2,
     expertise: "Phục hồi chức năng",
     rating: 4.5,

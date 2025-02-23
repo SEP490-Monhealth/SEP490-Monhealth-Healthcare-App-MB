@@ -50,7 +50,7 @@ export const ReviewCard = ({
             </HStack>
           </HStack>
 
-          <Text className="font-tmedium text-sm text-secondary">
+          <Text className="font-tregular text-sm text-secondary">
             {formatTimeAgo(createdAt)}
           </Text>
 

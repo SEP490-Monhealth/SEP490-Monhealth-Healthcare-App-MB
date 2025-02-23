@@ -1,56 +1,45 @@
-import React from "react"
+import React, { useState } from "react"
 
-import { Image, Linking, Text, View } from "react-native"
+import { Image, Text, View } from "react-native"
 
 import { useLocalSearchParams } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
-import { Star1 } from "iconsax-react-native"
 
 import {
-  Button,
   Container,
   Content,
   HStack,
   ScrollArea,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
   VStack
 } from "@/components/global/atoms"
-import {
-  CertificateCard,
-  ExpertDetail,
-  ReviewCard
-} from "@/components/global/molecules"
-import { Header, Section } from "@/components/global/organisms"
+import { Header } from "@/components/global/organisms"
 
-import { COLORS } from "@/constants/color"
+import { BookingTab } from "@/components/local/tabs/consultant/BookingTab"
+import { InfoTab } from "@/components/local/tabs/consultant/InfoTab"
+
 import { sampleConsultantData } from "@/constants/consultants"
-import { sampleReviewsData } from "@/constants/reviews"
 
 const ConsultantDetailsScreen = () => {
   const { consultantId } = useLocalSearchParams() as { consultantId: string }
   const consultantData = sampleConsultantData.find(
     (c) => c.consultantId === consultantId
   )
-  const reviewsData = sampleReviewsData
 
-  const fullStars = Math.floor(reviewsData.avgRating)
-  const hasHalfStar = reviewsData.avgRating - fullStars >= 0.5
+  const { tab } = useLocalSearchParams()
+  const [activeTab, setActiveTab] = useState(tab || "info")
+  const [loading, setLoading] = useState(false)
+  const [overlayLoading, setOverlayLoading] = useState(false)
+
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab)
+  }
 
   if (!consultantData) return <LoadingScreen />
-
-  const handleDownload = (certificateLink: string) => {
-    Linking.openURL(certificateLink).catch((err) =>
-      console.error("Không thể mở URL:", err)
-    )
-  }
-
-  const handleViewMoreReview = () => {
-    console.log("trang mới")
-  }
-
-  const handleViewReview = (reviewId: string) => {
-    console.log("Review nè:", reviewId)
-  }
 
   return (
     <Container>
@@ -73,83 +62,30 @@ const ConsultantDetailsScreen = () => {
               </View>
             </HStack>
 
-            <ExpertDetail
-              experience={consultantData.experience}
-              rating={consultantData.rating}
-              patient={consultantData.patient}
-            />
+            <Tabs defaultValue={activeTab} contentMarginTop={8}>
+              <TabsList gap={32}>
+                <TabsTrigger value="info" onChange={handleTabChange}>
+                  Thông tin
+                </TabsTrigger>
+                <TabsTrigger value="booking" onChange={handleTabChange}>
+                  Đặt lịch
+                </TabsTrigger>
+              </TabsList>
 
-            <VStack>
-              <Section label="Mô tả" margin={false} />
-              <Text className="-mt-2 font-tregular text-base text-secondary">
-                {consultantData.bio}
-              </Text>
-            </VStack>
+              <TabsContent value="info">
+                <InfoTab
+                  onLoading={setLoading}
+                  onOverlayLoading={setOverlayLoading}
+                />
+              </TabsContent>
 
-            <VStack>
-              <Section label="Chứng chỉ" margin={false} />
-              <VStack gap={10}>
-                {consultantData.certificates.map((certificate, index) => (
-                  <View key={index}>
-                    <CertificateCard
-                      variant="default"
-                      certificateLink={certificate}
-                      onPress={() => handleDownload(certificate)}
-                    />
-                  </View>
-                ))}
-              </VStack>
-            </VStack>
-
-            <VStack>
-              <Section label="Đánh giá khách hàng" margin={false} />
-              <VStack>
-                <HStack center className="-mt-2">
-                  <Text className="font-tbold text-3xl text-primary">
-                    {reviewsData.avgRating}
-                  </Text>
-
-                  {Array.from({ length: fullStars }).map((_, index) => (
-                    <Star1
-                      key={index}
-                      size="20"
-                      color={COLORS.primary}
-                      variant="Bold"
-                    />
-                  ))}
-                  {hasHalfStar && (
-                    <Star1 size="20" color={COLORS.primary} variant="Bulk" />
-                  )}
-                </HStack>
-
-                <Text className="font-tmedium text-base text-secondary">
-                  Dựa trên tổng số {reviewsData.totalReview} đánh giá
-                </Text>
-              </VStack>
-              <VStack gap={20} className="mt-4">
-                {reviewsData.reviews.slice(0, 3).map((review, index) => (
-                  <View key={index}>
-                    <ReviewCard
-                      name={review.name}
-                      avatarUrl={review.avatarUrl}
-                      rating={review.rating}
-                      comment={review.comment}
-                      createdAt={review.createdAt}
-                      onPress={() => handleViewReview(review.reviewId)}
-                    />
-                  </View>
-                ))}
-              </VStack>
-              {reviewsData.reviews.length > 3 && (
-                <Button
-                  size="lg"
-                  onPress={() => handleViewMoreReview()}
-                  className="mt-4"
-                >
-                  Xem thêm đánh giá
-                </Button>
-              )}
-            </VStack>
+              <TabsContent value="booking">
+                <BookingTab
+                  onLoading={setLoading}
+                  onOverlayLoading={setOverlayLoading}
+                />
+              </TabsContent>
+            </Tabs>
           </VStack>
         </ScrollArea>
       </Content>
