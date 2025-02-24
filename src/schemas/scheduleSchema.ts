@@ -1,6 +1,10 @@
 import { z } from "zod"
 
+import { StatusScheduleEnum } from "@/constants/enums"
+
 import { timestampSchema } from "./commonSchema"
+
+const ScheduleStatusEnum = z.nativeEnum(StatusScheduleEnum)
 
 const baseScheduleSchema = z
   .object({
@@ -15,9 +19,7 @@ const baseScheduleSchema = z
         message: "Thời gian phải có định dạng HH:mm"
       }),
 
-    status: z.string().refine((val) => ["Available", "Booked"].includes(val), {
-      message: "Trạng thái không hợp lệ. Chỉ chấp nhận: Available, Booked"
-    })
+    status: ScheduleStatusEnum
   })
   .merge(timestampSchema)
 

@@ -7,6 +7,7 @@ import { useLocalSearchParams } from "expo-router"
 import { LoadingScreen } from "@/app/loading"
 
 import {
+  Button,
   Container,
   Content,
   HStack,
@@ -19,14 +20,16 @@ import {
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import { ConsultantOverview } from "@/components/local/consultants"
-import { CertificateTab } from "@/components/local/tabs/consultant"
-import { BookingTab } from "@/components/local/tabs/consultant/BookingTab"
-import { InfoTab } from "@/components/local/tabs/consultant/InfoTab"
+import {
+  CertificateTab,
+  ConsultantOverview,
+  InformationTab,
+  ReviewTab
+} from "@/components/local/consultants"
 
 import { sampleConsultantsData } from "@/constants/consultants"
 
-const ConsultantDetailsScreen = () => {
+function ConsultantDetailsScreen() {
   const { consultantId } = useLocalSearchParams() as { consultantId: string }
 
   const consultantData = sampleConsultantsData.find(
@@ -48,19 +51,19 @@ const ConsultantDetailsScreen = () => {
 
       <Content className="mt-2">
         <ScrollArea className="flex-1">
-          <VStack>
+          <VStack gap={12}>
             <HStack center gap={20}>
               <Image
                 source={{ uri: consultantData.avatarUrl }}
                 className="h-24 w-24 rounded-2xl border border-border"
               />
 
-              <View className="flex-1 gap-1">
+              <View className="flex-1">
                 <Text className="font-tbold text-2xl text-primary">
                   {consultantData.name}
                 </Text>
 
-                <Text className="font-tmedium text-base text-secondary">
+                <Text className="font-tmedium text-base text-accent">
                   {consultantData.expertise}
                 </Text>
               </View>
@@ -71,35 +74,37 @@ const ConsultantDetailsScreen = () => {
               rating={consultantData.rating}
               patients={consultantData.patient}
             />
-
-            <Tabs defaultValue={activeTab} contentMarginTop={8}>
-              <TabsList gap={32}>
-                <TabsTrigger value="info" onChange={handleTabChange}>
-                  Thông tin
-                </TabsTrigger>
-
-                <TabsTrigger value="certificate" onChange={handleTabChange}>
-                  Chứng chỉ
-                </TabsTrigger>
-
-                <TabsTrigger value="booking" onChange={handleTabChange}>
-                  Đặt lịch
-                </TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="info">
-                <InfoTab />
-              </TabsContent>
-
-              <TabsContent value="booking">
-                <BookingTab />
-              </TabsContent>
-
-              <TabsContent value="certificate">
-                <CertificateTab />
-              </TabsContent>
-            </Tabs>
           </VStack>
+
+          <Button className="mt-4">Gửi tin nhắn</Button>
+
+          <Tabs defaultValue={activeTab} contentMarginTop={8} className="mt-6">
+            <TabsList gap={32}>
+              <TabsTrigger value="info" onChange={handleTabChange}>
+                Thông tin
+              </TabsTrigger>
+
+              <TabsTrigger value="certificate" onChange={handleTabChange}>
+                Chứng chỉ
+              </TabsTrigger>
+
+              <TabsTrigger value="review" onChange={handleTabChange}>
+                Đánh giá
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="info">
+              <InformationTab />
+            </TabsContent>
+
+            <TabsContent value="certificate">
+              <CertificateTab />
+            </TabsContent>
+
+            <TabsContent value="review">
+              <ReviewTab />
+            </TabsContent>
+          </Tabs>
         </ScrollArea>
       </Content>
     </Container>

@@ -93,7 +93,7 @@ export const FoodCard = ({
           />
         ) : variant === "checkbox" ? (
           <Checkbox
-            size={20}
+            size={18}
             checked={status}
             onCheckChange={() => {
               if (onCheckboxChange) onCheckboxChange(!status)

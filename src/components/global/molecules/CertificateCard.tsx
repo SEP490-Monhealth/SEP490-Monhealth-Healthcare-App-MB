@@ -2,61 +2,77 @@ import React, { useEffect, useState } from "react"
 
 import { Text } from "react-native"
 
-import { Colorfilter } from "iconsax-react-native"
-import { MoreHorizontal } from "lucide-react-native"
+import { DocumentText, Eye, PictureFrame } from "iconsax-react-native"
 
 import { COLORS } from "@/constants/color"
-
-import { getFileSizeFromUrl } from "@/utils/calculations"
-import { getFileNameFromUrl } from "@/utils/helpers"
 
 import { Card, HStack, VStack } from "../atoms"
 import { IconButton } from "./IconButton"
 
-interface CertificateCardProps {
-  variant?: "default" | "more"
-  certificateLink: string
-  onPress?: () => void
-  onMorePress?: () => void
+const fetchFileSize = async (url: string): Promise<string> => {
+  try {
+    const response = await fetch(url, { method: "HEAD" })
+    const contentLength = response.headers.get("Content-Length")
+    return contentLength
+      ? `${(parseInt(contentLength, 10) / (1024 * 1024)).toFixed(2)} MB`
+      : "0 MB"
+  } catch {
+    return "0 MB"
+  }
 }
 
-export const CertificateCard = ({
-  variant = "default",
-  certificateLink,
-  onPress,
-  onMorePress
-}: CertificateCardProps) => {
-  const [fileSize, setFileSize] = useState<string>("Đang tải...")
+const extractFileName = (url: string): string =>
+  decodeURIComponent(url).split("/").pop()?.split("?")[0] || "Tệp tin"
+
+const determineFileType = (fileName: string): string => {
+  const extension = fileName.split(".").pop()?.toLowerCase()
+  if (!extension) return "File"
+  if (["jpg", "jpeg", "png", "gif", "webp"].includes(extension)) return extension.toUpperCase()
+  if (extension === "pdf") return "PDF"
+  return "File"
+}
+
+interface CertificateCardProps {
+  href: string
+  onPress?: () => void
+}
+
+export const CertificateCard = ({ href, onPress }: CertificateCardProps) => {
+  const fileName = extractFileName(href)
+  const fileType = determineFileType(fileName)
+  const isImageFile = fileType === "Image"
+
+  const [fileSize, setFileSize] = useState<string>("0 MB")
 
   useEffect(() => {
-    getFileSizeFromUrl(certificateLink).then(setFileSize)
-  }, [certificateLink])
+    fetchFileSize(href).then(setFileSize)
+  }, [href])
 
   return (
-    <Card onPress={onPress}>
+    <Card>
       <HStack center className="justify-between">
-        <HStack gap={10} center>
-          <Colorfilter variant="Bold" size="30" color={COLORS.primary} />
+        <HStack center gap={16}>
+          {isImageFile ? (
+            <PictureFrame variant="Bold" size="32" color={COLORS.primary} />
+          ) : (
+            <DocumentText variant="Bold" size="32" color={COLORS.primary} />
+          )}
 
           <VStack>
             <Text className="font-tmedium text-base text-primary">
-              {getFileNameFromUrl(certificateLink)}
+              {fileName}
             </Text>
-
             <Text className="font-tmedium text-sm text-accent">
-              PDF • {fileSize}
+              {fileType} • {fileSize}
             </Text>
           </VStack>
         </HStack>
 
-        {variant === "more" && (
-          <IconButton
-            testID="test-icon-more-button"
-            size="sm"
-            icon={<MoreHorizontal size={20} color={COLORS.primary} />}
-            onPress={onMorePress}
-          />
-        )}
+        <IconButton
+          size="sm"
+          icon={<Eye variant="Bold" size={16} color={COLORS.primary} />}
+          onPress={onPress}
+        />
       </HStack>
     </Card>
   )

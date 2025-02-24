@@ -17,7 +17,7 @@ interface CheckboxProps {
 export const Checkbox = ({
   size = 24,
   checked = false,
-  borderColor = COLORS.primary,
+  borderColor = COLORS.secondary,
   backgroundColor = "#fff",
   activeBackgroundColor = "#fff",
   innerCircleColor = COLORS.primary,
@@ -31,12 +31,11 @@ export const Checkbox = ({
         height: size,
         width: size,
         borderRadius: size / 2,
-        borderWidth: checked ? 1.5 : 2,
+        borderWidth: checked ? 1.8 : 2,
         borderColor: borderColor,
-        backgroundColor: checked ? activeBackgroundColor : backgroundColor,
-        alignItems: "center",
-        justifyContent: "center"
+        backgroundColor: checked ? activeBackgroundColor : backgroundColor
       }}
+      className="items-center justify-center"
     >
       {checked && (
         <View

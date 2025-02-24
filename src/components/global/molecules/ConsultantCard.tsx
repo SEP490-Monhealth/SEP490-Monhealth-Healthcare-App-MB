@@ -1,24 +1,20 @@
 import React from "react"
 
-import { Image, Text } from "react-native"
+import { Image, Text, TouchableOpacity } from "react-native"
 
-import { CalendarTick, MedalStar, Star1 } from "iconsax-react-native"
+import { ChevronRight, Star, StarHalf } from "lucide-react-native"
 
-import { Button, Card, HStack, VStack } from "@/components/global/atoms"
+import { Card, HStack, VStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/color"
 
-import { formatVietnameseDate } from "@/utils/formatters"
-
 interface ConsultantCardProps {
   name: string
-  avatarUrl: any
+  avatarUrl: string
   expertise: string
   experience: number
   rating: number
-  schedule: string
   onPress?: () => void
-  onChatPress?: () => void
 }
 
 export const ConsultantCard = ({
@@ -27,63 +23,65 @@ export const ConsultantCard = ({
   expertise,
   experience,
   rating,
-  schedule,
-  onPress,
-  onChatPress
+  onPress
 }: ConsultantCardProps) => {
+  const reviewsCount = 100
+
   return (
-    <Card activeOpacity={1} onPress={onPress}>
-      <VStack gap={10}>
-        <HStack center gap={12}>
-          <Image
-            source={{ uri: avatarUrl }}
-            className="h-full w-20 rounded-xl border border-border"
-          />
+    <Card
+      hasImage
+      onPress={onPress}
+      className="flex-row items-center justify-between"
+    >
+      <HStack center gap={16}>
+        <TouchableOpacity activeOpacity={1} onPress={onPress}>
+          <Image source={{ uri: avatarUrl }} className="h-20 w-20 rounded-xl" />
+        </TouchableOpacity>
 
-          <VStack gap={6}>
-            <VStack gap={0}>
-              <Text className="font-tmedium text-lg text-primary">{name}</Text>
-
-              <Text
-                className="font-tmedium text-sm text-accent"
-                numberOfLines={1}
-                ellipsizeMode="tail"
-              >
-                {expertise}
-              </Text>
-            </VStack>
-
-            <HStack gap={12}>
-              <HStack center>
-                <MedalStar variant="Bold" size="18" color={COLORS.primary} />
-                <Text className="font-tregular text-base text-primary">
-                  {experience} năm
-                </Text>
-              </HStack>
-
-              <HStack center>
-                <Star1 variant="Bold" size="18" color={COLORS.primary} />
-                <Text className="font-tregular text-base text-primary">
-                  {rating}
-                </Text>
-              </HStack>
-            </HStack>
+        <VStack>
+          <VStack gap={0}>
+            <Text className="font-tmedium text-lg text-primary">{name}</Text>
+            <Text className="font-tmedium text-sm text-accent">
+              {expertise} • {experience} năm
+            </Text>
           </VStack>
-        </HStack>
 
-        <HStack center className="justify-between">
           <HStack center>
-            <CalendarTick variant="Bold" size="20" color={COLORS.secondary} />
-            <Text className="font-tmedium text-base text-secondary">
-              {formatVietnameseDate(schedule)}
+            {Array.from({ length: 5 })
+              .map((_, index) => {
+                const starValue = index + 1
+
+                if (rating >= starValue) {
+                  return (
+                    <Star
+                      key={index}
+                      size={14}
+                      fill={COLORS.PRIMARY.lemon}
+                      color={COLORS.PRIMARY.lemon}
+                    />
+                  )
+                } else if (rating >= starValue - 0.5) {
+                  return (
+                    <StarHalf
+                      key={index}
+                      size={14}
+                      fill={COLORS.PRIMARY.lemon}
+                      color={COLORS.PRIMARY.lemon}
+                    />
+                  )
+                }
+                return null
+              })
+              .filter(Boolean)}
+
+            <Text className="font-tmedium text-sm text-accent">
+              ({reviewsCount})
             </Text>
           </HStack>
+        </VStack>
+      </HStack>
 
-          <Button size="sm" onPress={onChatPress}>
-            Nhắn tin
-          </Button>
-        </HStack>
-      </VStack>
+      <ChevronRight size={20} color={COLORS.primary} />
     </Card>
   )
 }

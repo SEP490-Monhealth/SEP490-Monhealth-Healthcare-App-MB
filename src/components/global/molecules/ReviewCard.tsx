@@ -12,10 +12,10 @@ import { HStack, VStack } from "../atoms"
 
 interface ReviewCardProps {
   name: string
-  avatarUrl: any
+  avatarUrl: string
   rating: number
   comment: string
-  createdAt: string
+  time: string
   onPress?: () => void
 }
 
@@ -24,41 +24,46 @@ export const ReviewCard = ({
   avatarUrl,
   rating,
   comment,
-  createdAt,
+  time,
   onPress
 }: ReviewCardProps) => {
   return (
-    <TouchableOpacity onPress={onPress}>
-      <HStack gap={10}>
-        <Image
-          source={{ uri: avatarUrl }}
-          className="h-14 w-14 rounded-xl border border-border"
-        />
+    <TouchableOpacity activeOpacity={1} onPress={onPress}>
+      <VStack>
+        <HStack center gap={16}>
+          <Image
+            source={{ uri: avatarUrl }}
+            className="h-14 w-14 rounded-xl border border-border"
+          />
 
-        <View className="flex-1">
-          <HStack center className="justify-between">
-            <Text className="font-tmedium text-base text-primary">{name}</Text>
-            <HStack>
-              {[...Array(5)].map((_, index) => (
-                <Star1
-                  key={index}
-                  variant={index < rating ? "Bold" : "Outline"}
-                  size="12"
-                  color={COLORS.primary}
-                />
-              ))}
-            </HStack>
-          </HStack>
+          <View className="flex-1 flex-row items-center justify-between">
+            <VStack>
+              <Text className="font-tmedium text-base text-primary">
+                {name}
+              </Text>
 
-          <Text className="font-tregular text-sm text-secondary">
-            {formatTimeAgo(createdAt)}
-          </Text>
+              <HStack>
+                {[...Array(5)].map((_, index) => (
+                  <Star1
+                    key={index}
+                    variant={index < rating ? "Bold" : "Outline"}
+                    size="16"
+                    color={COLORS.primary}
+                  />
+                ))}
+              </HStack>
+            </VStack>
 
-          <Text className="mt-2 font-tmedium text-sm text-secondary">
-            {comment}
-          </Text>
-        </View>
-      </HStack>
+            <Text className="font-tregular text-sm text-secondary">
+              {formatTimeAgo(time)}
+            </Text>
+          </View>
+        </HStack>
+
+        <Text className="mt-2 font-tmedium text-sm text-secondary">
+          {comment}
+        </Text>
+      </VStack>
     </TouchableOpacity>
   )
 }

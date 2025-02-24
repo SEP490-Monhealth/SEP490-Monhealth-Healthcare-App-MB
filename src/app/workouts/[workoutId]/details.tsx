@@ -106,7 +106,7 @@ function WorkoutDetailsScreen() {
               <VStack>
                 <Section label="Mô tả" margin={false} />
 
-                <Text className="-mt-2 font-tregular text-base text-secondary">
+                <Text className="-mt-2 text-justify font-tregular text-base text-secondary">
                   {workoutData?.description}
                 </Text>
 

@@ -1,4 +1,3 @@
-import { AllergyCard } from "./AllergyCard"
 import { ArcProgress } from "./ArcProgress"
 import { CategoryCard } from "./CategoryCard"
 import { CertificateCard } from "./CertificateCard"
@@ -8,7 +7,6 @@ import { CounterText } from "./CounterText"
 import { CustomHeader } from "./CustomHeader"
 import { ErrorDisplay } from "./ErrorDisplay"
 import { ExerciseCard } from "./ExerciseCard"
-import { ExpertDetail } from "./ExpertDetail"
 import { FoodCard } from "./FoodCard"
 import { IconButton } from "./IconButton"
 import { ListFooter } from "./ListFooter"
@@ -24,7 +22,6 @@ import { WaterReminderCard } from "./WaterReminderCard"
 import { WorkoutCard } from "./WorkoutCard"
 
 export {
-  AllergyCard,
   ArcProgress,
   CategoryCard,
   CertificateCard,
@@ -34,7 +31,6 @@ export {
   CustomHeader,
   ErrorDisplay,
   ExerciseCard,
-  ExpertDetail,
   FoodCard,
   IconButton,
   ListFooter,

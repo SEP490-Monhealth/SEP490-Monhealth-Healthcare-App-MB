@@ -71,7 +71,7 @@ export const WaterReminderCard = ({
           />
         ) : variant === "checkbox" ? (
           <Checkbox
-            size={20}
+            size={18}
             checked={isDrunk}
             onCheckChange={onCheckboxChange}
           />
