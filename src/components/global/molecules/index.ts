@@ -15,6 +15,7 @@ import { MealCard } from "./MealCard"
 import { NotificationCard } from "./NotificationCard"
 import { NutritionCard } from "./NutritionCard"
 import { NutritionItem } from "./NutritionItem"
+import { RatingStars } from "./RatingStars"
 import { ReviewCard } from "./ReviewCard"
 import { ServiceChip } from "./ServiceChip"
 import { StepHeader } from "./StepHeader"
@@ -39,6 +40,7 @@ export {
   NotificationCard,
   NutritionCard,
   NutritionItem,
+  RatingStars,
   ReviewCard,
   ServiceChip,
   StepHeader,

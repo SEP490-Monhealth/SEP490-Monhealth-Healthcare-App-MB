@@ -10,8 +10,6 @@ import { sampleConsultantsData } from "@/constants/consultants"
 export const CertificateTab = () => {
   const certificatesData = sampleConsultantsData[0].certificates
 
-  console.log(certificatesData)
-
   const handleDownload = (certificateLink: string) => {
     Linking.openURL(certificateLink)
   }

@@ -18,6 +18,7 @@ import {
   TabsTrigger,
   VStack
 } from "@/components/global/atoms"
+import { RatingStars } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
 import {
@@ -39,6 +40,9 @@ function ConsultantDetailsScreen() {
   const { tab } = useLocalSearchParams()
   const [activeTab, setActiveTab] = useState(tab || "info")
 
+  const rating = 5
+  const count = 100
+
   const handleTabChange = (tab: string) => {
     setActiveTab(tab)
   }
@@ -51,22 +55,26 @@ function ConsultantDetailsScreen() {
 
       <Content className="mt-2">
         <ScrollArea className="flex-1">
-          <VStack gap={12}>
+          <VStack gap={20}>
             <HStack center gap={20}>
               <Image
                 source={{ uri: consultantData.avatarUrl }}
                 className="h-24 w-24 rounded-2xl border border-border"
               />
 
-              <View className="flex-1">
-                <Text className="font-tbold text-2xl text-primary">
-                  {consultantData.name}
-                </Text>
+              <VStack gap={8}>
+                <VStack gap={0}>
+                  <Text className="font-tbold text-2xl text-primary">
+                    {consultantData.name}
+                  </Text>
 
-                <Text className="font-tmedium text-base text-accent">
-                  {consultantData.expertise}
-                </Text>
-              </View>
+                  <Text className="font-tmedium text-base text-accent">
+                    {consultantData.expertise}
+                  </Text>
+                </VStack>
+
+                <RatingStars rating={rating} count={count} showText />
+              </VStack>
             </HStack>
 
             <ConsultantOverview
