@@ -49,20 +49,11 @@ export const ErrorProvider: React.FC<{ children: React.ReactNode }> = ({
         console.log("[SERVER] Lỗi 500: Lỗi máy chủ nội bộ")
         router.replace("/(errors)/internal-server-error")
         break
-      case 502:
-        console.log("[SERVER] Lỗi 502: Máy chủ gặp lỗi")
-        alert("[SERVER] Máy chủ gặp sự cố. Vui lòng thử lại sau")
-        break
-      case 503:
-        console.log("[SERVER] Lỗi 503: Máy chủ không sẵn sàng")
-        alert("[SERVER] Dịch vụ hiện không khả dụng. Vui lòng thử lại sau")
-        break
       default:
         console.log(
           "[UNKNOWN] Lỗi không xác định:",
           error.message || "Đã xảy ra lỗi"
         )
-        alert("[UNKNOWN] Đã xảy ra lỗi không xác định. Vui lòng thử lại")
     }
   }
 

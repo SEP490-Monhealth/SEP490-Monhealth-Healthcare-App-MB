@@ -27,7 +27,7 @@ export const CircularProgress = ({
   className = ""
 }: CircularProgressProps) => {
   return (
-    <View testID="test-circular-progress" className={cn("", className)}>
+    <View className={cn("", className)}>
       <AnimatedCircularProgress
         size={size}
         width={width}

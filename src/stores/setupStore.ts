@@ -43,8 +43,7 @@ export const useSetupStore = create<setupStoreProps>((set) => ({
     "Món ngọt",
     "Đồ uống",
     "Món lên men",
-    "Trái cây",
-    "Đồ ăn nhanh"
+    "Trái cây"
   ],
   allergies: ["Hải sản có vỏ", "Sữa", "Các loại hạt", "Đậu nành", "Hạt vừng"],
 

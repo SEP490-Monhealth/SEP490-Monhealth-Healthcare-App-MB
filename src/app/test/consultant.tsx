@@ -10,14 +10,14 @@ import {
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import { sampleConsultantData } from "@/constants/consultants"
+import { sampleConsultantsData } from "@/constants/consultants"
 
 import { useRouterHandlers } from "@/hooks/useRouter"
 
 import { ConsultantCard } from "../../components/global/molecules/ConsultantCard"
 
 function ConsultantScreen() {
-  const consultantsData = sampleConsultantData
+  const consultantsData = sampleConsultantsData
 
   const router = useRouter()
   const { handleViewConsultant } = useRouterHandlers()
@@ -41,9 +41,7 @@ function ConsultantScreen() {
                 expertise={consultant.expertise}
                 experience={consultant.experience}
                 rating={consultant.rating}
-                schedule={consultant.schedule}
                 onPress={() => handleViewConsultant(consultant.consultantId)}
-                onChatPress={() => handleChatConsultant(consultant.userId)}
               />
             ))}
           </VStack>

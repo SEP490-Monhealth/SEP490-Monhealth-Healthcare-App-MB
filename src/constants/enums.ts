@@ -83,5 +83,6 @@ export enum StatusScheduleEnum {
 export enum StatusBookingEnum {
   Pending,
   Confirmed,
+  Completed,
   Cancelled
 }

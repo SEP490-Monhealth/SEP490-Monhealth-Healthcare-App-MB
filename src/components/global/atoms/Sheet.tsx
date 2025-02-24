@@ -106,11 +106,7 @@ export const Sheet = forwardRef<SheetRefProps, SheetProps>(
           style={[rOverlayStyle]}
           className="absolute h-full w-full bg-black"
         >
-          <Pressable
-            style={{ flex: 1 }}
-            onPress={handleOverlayPress}
-            testID="overlay-press"
-          />
+          <Pressable style={{ flex: 1 }} onPress={handleOverlayPress} />
         </Animated.View>
 
         <GestureDetector gesture={gesture}>

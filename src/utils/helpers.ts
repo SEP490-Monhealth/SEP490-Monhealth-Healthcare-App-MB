@@ -287,24 +287,3 @@ export function getEnumValue<T extends Record<number, string>>(
 ): string {
   return enumObj[value] ?? "Unknown"
 }
-
-/**
- * Trích xuất tên tệp từ một URL.
- *
- * @param {string} url - URL của tệp.
- * @returns {string} - Tên tệp được trích xuất từ URL.
- */
-export const getFileNameFromUrl = (url: string): string => {
-  try {
-    const decodedUrl = decodeURIComponent(url)
-
-    const parts = decodedUrl.split("/")
-
-    const fileName = parts[parts.length - 1].split("?")[0]
-
-    return fileName
-  } catch (error) {
-    console.error("Lỗi khi lấy tên tệp từ URL:", error)
-    return "Tệp tin"
-  }
-}

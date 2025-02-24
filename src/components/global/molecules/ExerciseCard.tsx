@@ -43,7 +43,6 @@ export const ExerciseCard = ({
         </View>
 
         <IconButton
-          testID="test-icon-add-button"
           size="sm"
           icon={<ArrowSwapHorizontal size={16} color={COLORS.primary} />}
         />

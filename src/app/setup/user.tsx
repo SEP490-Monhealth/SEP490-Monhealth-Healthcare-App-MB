@@ -29,6 +29,7 @@ import { useSetupStore } from "@/stores/setupStore"
 import { LoadingOverlay } from "../loading"
 import SetupActivityLevel from "./activity-level"
 import SetupAllergies from "./allergies"
+import SetupAvatar from "./avatar"
 import SetupCaloriesRatio from "./calories-ratio"
 import SetupCategories from "./categories"
 import SetupDateOfBirth from "./date-of-birth"
@@ -162,6 +163,13 @@ function SetupScreen() {
       fields: ["allergies"],
       schema: allergySetupSchema
     }
+    // {
+    //   title: "",
+    //   description: "",
+    //   component: SetupAvatar,
+    //   fields: [],
+    //   schema: null
+    // }
   )
 
   const setupSteps: SetupStepsProps[] = baseSteps.map((step, index) => ({

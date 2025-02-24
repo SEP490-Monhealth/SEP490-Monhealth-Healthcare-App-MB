@@ -1,4 +1,4 @@
-export const sampleConsultantData = [
+export const sampleConsultantsData = [
   {
     consultantId: "123",
     userId: "123",
@@ -9,7 +9,7 @@ export const sampleConsultantData = [
     bio: "Với hơn 2 năm kinh nghiệm trong lĩnh vực Phục hồi, tôi không chỉ mang đến những phương pháp hay ho và  đưa ra những giải pháp phù hợp với nhu cầu của bạn.",
     experience: 2,
     expertise: "Phục hồi chức năng",
-    rating: 4.5,
+    rating: 3,
     patient: 247,
     certificates: [
       "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Monhealth%2Fcertificates%2FACE%20Fitness%20Nutrition.pdf?alt=media&token=22497836-91aa-46c8-8123-cce0d393ba5c",
@@ -30,7 +30,7 @@ export const sampleConsultantData = [
     bio: "Với hơn 2 năm kinh nghiệm trong lĩnh vực Phục hồi Chức năng, tôi không chỉ mang đến những phương pháp điều trị hiệu quả mà còn tận tâm",
     experience: 3.5,
     expertise: "Phục hồi sau sinh",
-    rating: 4.8,
+    rating: 5,
     patient: 358,
     certificates: [
       "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Monhealth%2Fcertificates%2FACE%20Fitness%20Nutrition.pdf?alt=media&token=22497836-91aa-46c8-8123-cce0d393ba5c",

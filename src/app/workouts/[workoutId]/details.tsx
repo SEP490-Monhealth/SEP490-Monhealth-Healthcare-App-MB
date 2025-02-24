@@ -52,7 +52,9 @@ function WorkoutDetailsScreen() {
   const warmupRounds = 2
   const workoutRounds = 3
 
-  const sheetHeight = 400
+  // const sheetHeight = 400
+
+  const sheetHeight = 540
 
   const totalWarmupDuration = 100
   // exercisesData?.warmup.reduce((acc, exercise) => {
@@ -84,21 +86,13 @@ function WorkoutDetailsScreen() {
   const totalWorkoutMinutes = (totalWorkoutDuration * workoutRounds) / 60
 
   const openSheet = () => SheetRef.current?.scrollTo(-sheetHeight)
-  const closeSheet = () => SheetRef.current?.scrollTo(0)
 
   const handleViewExercise = (exerciseId: string) => {
     setSelectedExercise(exerciseId)
     openSheet()
   }
 
-  if (
-    !workoutData ||
-    isWorkoutLoading ||
-    !exercisesData ||
-    isExercisesLoading ||
-    !exerciseData ||
-    isExerciseLoading
-  )
+  if (!workoutData || isWorkoutLoading || !exercisesData || isExercisesLoading)
     return <LoadingScreen />
 
   return (
@@ -152,7 +146,7 @@ function WorkoutDetailsScreen() {
 
                   <Section
                     label="Bài tập"
-                    margin={workoutData.type === TypeWorkoutEnum.Workout}
+                    margin={workoutData.type === TypeWorkoutEnum.Warmup}
                     description={`${toFixed(totalWorkoutMinutes, 1)} phút / ${workoutRounds} vòng`}
                   />
 
@@ -173,11 +167,14 @@ function WorkoutDetailsScreen() {
         </Container>
 
         <Sheet ref={SheetRef} dynamicHeight={sheetHeight}>
-          <VStack gap={12}>
-            <Section label="Hướng dẫn bài tập" />
+          <VStack>
+            <Section label="Hướng dẫn bài tập" margin={false} />
 
             <Text className="font-tregular text-base text-primary">
-              {exerciseData?.instructions}
+              {exerciseData?.instructions
+                ?.split("\n")
+                .map((line, index) => `${index + 1}. ${line}`)
+                .join("\n")}
             </Text>
           </VStack>
         </Sheet>

@@ -36,17 +36,13 @@ export const MealCard = ({
   const gapClass = progress ? "gap-0" : "gap-1"
 
   return (
-    <Card
-      onPress={onPress}
-      className="flex flex-row items-center justify-between"
-    >
+    <Card onPress={onPress} className="flex-row items-center justify-between">
       <TouchableOpacity
         activeOpacity={1}
         onPress={onPress}
         className="mr-4 h-12 w-12 items-center justify-center rounded-full bg-muted"
       >
         <Image
-          testID="test-image"
           source={getMealTypeImage(type)}
           style={{ width: 24, height: 24 }}
         />
@@ -63,7 +59,6 @@ export const MealCard = ({
           </Text>
         ) : (
           <Progress
-            testID="test-progress-bar"
             progress={progress}
             height={7}
             color={COLORS.PRIMARY.lemon}
@@ -74,13 +69,7 @@ export const MealCard = ({
         )}
       </View>
 
-      {!progress && (
-        <ChevronRight
-          testID="chevron-right-icon"
-          size={20}
-          color={COLORS.primary}
-        />
-      )}
+      {!progress && <ChevronRight size={20} color={COLORS.primary} />}
     </Card>
   )
 }

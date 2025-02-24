@@ -1,4 +1,5 @@
 import { Avatar } from "./Avatar"
+import { Badge } from "./Badge"
 import { Button } from "./Button"
 import { Calendar } from "./Calendar"
 import { Card } from "./Card"
@@ -22,6 +23,7 @@ import { ErrorText } from "./Typography"
 
 export {
   Avatar,
+  Badge,
   Sheet,
   SheetRefProps,
   Button,

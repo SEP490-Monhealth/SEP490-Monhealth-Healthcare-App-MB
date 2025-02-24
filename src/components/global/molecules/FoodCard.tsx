@@ -8,7 +8,7 @@ import { COLORS } from "@/constants/color"
 
 import { toFixed } from "@/utils/formatters"
 
-import { Card, Checkbox, HStack, VStack } from "../atoms"
+import { Badge, Card, Checkbox, HStack, VStack } from "../atoms"
 import { IconButton } from "./IconButton"
 
 interface FoodCardProps {
@@ -67,25 +67,20 @@ export const FoodCard = ({
           <HStack center gap={8}>
             <Text className="font-tmedium text-lg text-primary">{name}</Text>
 
-            {recommended && (
-              <Text className="rounded-lg bg-muted px-3 py-1 font-tmedium text-sm text-primary">
-                Đề xuất
-              </Text>
-            )}
+            {recommended && <Badge label="Đề xuất" />}
           </HStack>
 
           <Text className="font-tmedium text-sm text-accent">
             {toFixed(Number(calories), 0) ?? 0} kcal
             {size
-              ? ` - ${quantity} ${size.toLowerCase()}`
-              : ` - ${quantity} phần`}
-            {weight && unit ? ` - ${toFixed(weight, 1)} ${unit}` : ""}
+              ? ` • ${quantity} ${size.toLowerCase()}`
+              : ` • ${quantity} phần`}
+            {weight && unit ? ` • ${toFixed(weight, 1)} ${unit}` : ""}
           </Text>
         </VStack>
 
         {variant === "add" ? (
           <IconButton
-            testID="test-icon-add-button"
             size="sm"
             icon={
               isAdded ? (
@@ -107,7 +102,6 @@ export const FoodCard = ({
           />
         ) : (
           <IconButton
-            testID="test-icon-more-button"
             size="sm"
             icon={<MoreHorizontal size={20} color={COLORS.primary} />}
             onPress={onMorePress}

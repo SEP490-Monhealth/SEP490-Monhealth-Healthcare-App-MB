@@ -1,7 +1,5 @@
 import React from "react"
 
-import { Text, View } from "react-native"
-
 import {
   Container,
   Content,
@@ -23,9 +21,11 @@ function ReviewScreen() {
   }
 
   if (!reviewsData) return <LoadingScreen />
+
   return (
     <Container>
       <Header back label="Đánh giá" />
+
       <Content className="mt-2">
         <ScrollArea>
           <VStack gap={20} className="mt-4">

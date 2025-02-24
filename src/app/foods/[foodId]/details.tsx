@@ -16,6 +16,7 @@ import { ArchiveTick } from "iconsax-react-native"
 
 import {
   Button,
+  Card,
   Container,
   Content,
   HStack,

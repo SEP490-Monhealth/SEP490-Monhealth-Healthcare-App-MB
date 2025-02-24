@@ -46,7 +46,6 @@ export const Checkbox = ({
             borderRadius: size / 4,
             backgroundColor: innerCircleColor
           }}
-          testID="checkbox-inner-circle"
         />
       )}
     </TouchableOpacity>

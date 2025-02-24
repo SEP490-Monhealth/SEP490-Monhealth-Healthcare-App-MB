@@ -38,32 +38,35 @@ function SetupMealSuggestions() {
   }))
 
   useEffect(() => {
-    const createMealSuggestions = async () => {
-      try {
-        await Promise.all([
-          new Promise((resolve, reject) =>
-            // @ts-ignore
-            createMetric(newMetricData, {
-              onSuccess: resolve,
-              onError: reject
-            })
-          ),
-          new Promise((resolve, reject) =>
-            // @ts-ignore
-            createUserFoods(newUserFoodsData, {
-              onSuccess: resolve,
-              onError: reject
-            })
-          )
-        ])
+    // const createMealSuggestions = async () => {
+    //   try {
+    //     await Promise.all([
+    //       new Promise((resolve, reject) =>
+    //         // @ts-ignore
+    //         createMetric(newMetricData, {
+    //           onSuccess: resolve,
+    //           onError: reject
+    //         })
+    //       ),
+    //       new Promise((resolve, reject) =>
+    //         // @ts-ignore
+    //         createUserFoods(newUserFoodsData, {
+    //           onSuccess: resolve,
+    //           onError: reject
+    //         })
+    //       )
+    //     ])
 
-        setIsComplete(true)
-      } catch (error) {
-        console.error("Đã có lỗi không mong muốn: ", error)
-      }
-    }
+    //     setIsComplete(true)
+    //   } catch (error) {
+    //     console.error("Đã có lỗi không mong muốn: ", error)
+    //   }
+    // }
 
-    createMealSuggestions()
+    // createMealSuggestions()
+
+    console.log(JSON.stringify(newMetricData, null, 2))
+    console.log(JSON.stringify(newUserFoodsData, null, 2))
 
     const progressInterval = setInterval(() => {
       setProgress((prev) => {
