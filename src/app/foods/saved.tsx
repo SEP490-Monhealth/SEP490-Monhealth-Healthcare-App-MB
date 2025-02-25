@@ -40,13 +40,7 @@ function FoodSavedScreen() {
   return (
     <>
       <Container>
-        <Header
-          back
-          label="Món ăn đã lưu"
-          action={{
-            icon: <Edit2 variant="Bold" size={20} color={COLORS.primary} />
-          }}
-        />
+        <Header back label="Món ăn đã lưu" />
 
         <Content className="mt-2">
           <FlatList
@@ -59,8 +53,6 @@ function FoodSavedScreen() {
             ListHeaderComponent={<ListHeader />}
             renderItem={({ item }) => (
               <FoodCard
-                key={item.foodId}
-                variant="add"
                 name={item.name}
                 calories={item.nutrition.calories}
                 size={item.portion.size}
@@ -72,8 +64,8 @@ function FoodSavedScreen() {
             ListEmptyComponent={() => (
               <ErrorDisplay
                 imageSource={require("../../../public/images/monhealth-no-data-image.png")}
-                title="Không có dữ liệu"
-                description="Bạn chưa lưu món ăn nào trong danh sách. Hãy thêm món ăn yêu thích của bạn!"
+                title="Chưa có món ăn"
+                description="Bạn chưa lưu món ăn nào. Hãy bắt đầu ngay!"
                 marginTop={24}
               />
             )}

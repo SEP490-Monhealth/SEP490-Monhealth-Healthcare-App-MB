@@ -23,8 +23,8 @@ function InternalServerErrorScreen() {
       <View className="flex-1 justify-center">
         <ErrorDisplay
           imageSource={require("../../../public/images/monhealth-internal-server-error-image.png")}
-          title="Có lỗi từ hệ thống"
-          description="Đã xảy ra lỗi, chúng tôi đang cố gắng khắc phục. Vui lòng thử lại sau"
+          title="Lỗi hệ thống"
+          description="Đã xảy ra lỗi. Vui lòng thử lại sau!"
         />
       </View>
 

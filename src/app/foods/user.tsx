@@ -27,10 +27,11 @@ import { LoadingScreen } from "../loading"
 
 function FoodUserScreen() {
   const { handleViewFood } = useRouterHandlers()
-  const { user } = useAuth()
-  const userId = user?.userId
 
-  // const userId = "3026595f-1414-4b74-be8f-11b7f6e7f4f6"
+  const { user } = useAuth()
+  // const userId = user?.userId
+
+  const userId = "3026595f-1414-4b74-be8f-11b7f6e7f4f6"
 
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [limit, setLimit] = useState<number>(10)
@@ -115,7 +116,7 @@ function FoodUserScreen() {
           ListHeaderComponent={<ListHeader />}
           renderItem={({ item }) => (
             <FoodCard
-              key={item.foodId}
+              variant="more"
               name={item.name}
               calories={item.nutrition.calories}
               size={item.portion?.size}
@@ -127,8 +128,8 @@ function FoodUserScreen() {
           ListEmptyComponent={() => (
             <ErrorDisplay
               imageSource={require("../../../public/images/monhealth-no-data-image.png")}
-              title="Không có dữ liệu"
-              description="Bạn chưa tạo món ăn nào. Hãy thêm món ăn để bắt đầu theo dõi"
+              title="Chưa có món ăn"
+              description="Bạn chưa thêm món ăn nào. Hãy bắt đầu ngay!"
               marginTop={24}
             />
           )}

@@ -15,10 +15,6 @@ export const useRouterHandlers = () => {
     router.push(`/water-reminders/${waterReminderId}/details`)
   }
 
-  const handleViewWorkouts = () => {
-    router.push("/workouts")
-  }
-
   const handleViewWorkout = (workoutId: string) => {
     router.push(`/workouts/${workoutId}/details`)
   }
@@ -31,7 +27,6 @@ export const useRouterHandlers = () => {
     handleViewFood,
     handleViewMeal,
     handleViewWaterReminder,
-    handleViewWorkouts,
     handleViewWorkout,
     handleViewConsultant
   }

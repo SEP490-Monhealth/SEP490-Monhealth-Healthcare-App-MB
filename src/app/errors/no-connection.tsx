@@ -32,8 +32,8 @@ function NoConnectionScreen() {
       <View className="flex-1 justify-center">
         <ErrorDisplay
           imageSource={require("../../../public/images/monhealth-no-connection-image.png")}
-          title="Không có kết nối mạng"
-          description="Vui lòng kiểm tra kết nối internet của bạn và thử lại"
+          title="Mất kết nối"
+          description="Không có kết nối internet. Vui lòng kiểm tra mạng của bạn!"
         />
       </View>
 

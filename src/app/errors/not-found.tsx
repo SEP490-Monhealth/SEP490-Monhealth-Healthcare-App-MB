@@ -32,7 +32,7 @@ function NotFoundScreen() {
         <ErrorDisplay
           imageSource={require("../../../public/images/monhealth-not-found-image.png")}
           title="Không tìm thấy trang"
-          description="Trang bạn vừa truy cập không tồn tại hoặc đã bị xóa"
+          description="Trang bạn đang tìm không tồn tại. Hãy kiểm tra lại đường dẫn!"
         />
       </View>
 

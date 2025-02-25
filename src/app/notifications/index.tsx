@@ -16,7 +16,7 @@ import { sampleNotificationData } from "@/constants/notifications"
 
 function NotificationScreen() {
   const notificationData = sampleNotificationData
-  
+
   const [isRefreshing, setIsRefreshing] = useState(false)
 
   const onRefresh = async () => {
@@ -57,8 +57,8 @@ function NotificationScreen() {
             ListEmptyComponent={() => (
               <ErrorDisplay
                 imageSource={require("../../../public/images/monhealth-no-data-image.png")}
-                title="Bạn chưa có thông báo nào"
-                description="Mọi thứ vẫn đang ổn! Hãy tiếp tục duy trì và theo dõi những mục tiêu đã đặt ra"
+                title="Không có thông báo"
+                description="Bạn chưa có thông báo nào vào lúc này!"
                 marginTop={24}
               />
             )}

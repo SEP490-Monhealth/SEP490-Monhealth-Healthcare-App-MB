@@ -17,8 +17,8 @@ function SetupCompleted() {
       <View className="flex-1 justify-center">
         <ErrorDisplay
           imageSource={require("../../../public/images/monhealth-congratulations.png")}
-          title="Chúc mừng bạn đã hoàn thành bước đầu tiên"
-          description="Các chỉ số sẽ giúp đề xuất chế độ dinh dưỡng, hoạt động thể chất, và các mục tiêu phù hợp"
+          title="Cài đặt hoàn tất"
+          description="Bạn đã sẵn sàng để sử dụng ứng dụng!"
         />
       </View>
 
