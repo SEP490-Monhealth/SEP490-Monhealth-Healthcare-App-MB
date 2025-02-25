@@ -12,7 +12,7 @@ import { Badge, Card, Checkbox, HStack, VStack } from "../atoms"
 import { IconButton } from "./IconButton"
 
 interface FoodCardProps {
-  variant?: "default" | "add" | "checkbox"
+  variant?: "default" | "add" | "checkbox" | "more"
   name: string
   calories?: number
   quantity?: number
@@ -100,13 +100,13 @@ export const FoodCard = ({
               if (onStatusPress) onStatusPress()
             }}
           />
-        ) : (
+        ) : variant === "more" ? (
           <IconButton
             size="sm"
             icon={<MoreHorizontal size={20} color={COLORS.primary} />}
             onPress={onMorePress}
           />
-        )}
+        ) : null}
       </HStack>
     </Card>
   )

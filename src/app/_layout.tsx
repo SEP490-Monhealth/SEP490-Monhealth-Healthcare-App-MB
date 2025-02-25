@@ -17,6 +17,7 @@ import { AuthProvider } from "@/providers/AuthProvider"
 import { ErrorProvider } from "@/providers/ErrorProvider"
 import { FoodSavedProvider } from "@/providers/FoodSavedProvider"
 import { ModalProvider } from "@/providers/ModalProvider"
+import { UserAllergiesProvider } from "@/providers/UserAllergiesProvider"
 
 import { MonFonts } from "@/styles/typography"
 
@@ -55,14 +56,16 @@ function AppLayout() {
       <ErrorProvider>
         <ModalProvider>
           <AuthProvider>
-            <FoodSavedProvider>
-              <GestureHandlerRootView style={{ flex: 1 }}>
-                <SafeAreaProvider>
-                  <Stack screenOptions={{ headerShown: false }} />
-                  <StatusBar style="auto" backgroundColor="#fff" />
-                </SafeAreaProvider>
-              </GestureHandlerRootView>
-            </FoodSavedProvider>
+            <UserAllergiesProvider>
+              <FoodSavedProvider>
+                <GestureHandlerRootView style={{ flex: 1 }}>
+                  <SafeAreaProvider>
+                    <Stack screenOptions={{ headerShown: false }} />
+                    <StatusBar style="auto" backgroundColor="#fff" />
+                  </SafeAreaProvider>
+                </GestureHandlerRootView>
+              </FoodSavedProvider>
+            </UserAllergiesProvider>
           </AuthProvider>
         </ModalProvider>
       </ErrorProvider>

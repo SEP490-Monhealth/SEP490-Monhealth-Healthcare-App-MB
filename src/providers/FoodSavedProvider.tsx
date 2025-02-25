@@ -14,9 +14,9 @@ export const FoodSavedProvider = ({ children }: { children: ReactNode }) => {
       const saves = await AsyncStorage.getItem("Food Saved Data")
 
       if (saves) {
-        const parsedSaves = JSON.parse(saves)
-        if (Array.isArray(parsedSaves)) {
-          setSaveFoodsData(parsedSaves)
+        const parsedData = JSON.parse(saves)
+        if (Array.isArray(parsedData)) {
+          setSaveFoodsData(parsedData)
         }
       }
     } catch (error) {

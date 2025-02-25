@@ -107,64 +107,63 @@ function ReportScreen() {
           href: "/settings/user-information"
         }}
       />
+
       <ScrollArea>
         <Content className="mt-2 pb-12">
-          <VStack gap={20}>
-            <Tabs defaultValue="meal" contentMarginTop={12}>
-              <VStack gap={20}>
-                <TabsList>
-                  <TabsTrigger value="meal">Bữa ăn</TabsTrigger>
-                  <TabsTrigger value="water">Nước</TabsTrigger>
-                  <TabsTrigger value="activity">Luyện tập</TabsTrigger>
-                </TabsList>
-              </VStack>
+          <Tabs defaultValue="meal" contentMarginTop={12}>
+            <VStack gap={20}>
+              <TabsList>
+                <TabsTrigger value="meal">Bữa ăn</TabsTrigger>
+                <TabsTrigger value="water">Nước</TabsTrigger>
+                <TabsTrigger value="activity">Luyện tập</TabsTrigger>
+              </TabsList>
+            </VStack>
 
-              <TabsContent value="meal" contentMarginTop={12}>
-                <VStack className="px-2">
-                  <Text className="font-tbold text-xl text-primary">
-                    Tổng quan
-                  </Text>
+            <TabsContent value="meal" contentMarginTop={16}>
+              <VStack className="px-2">
+                <Text className="font-tbold text-xl text-primary">
+                  Tổng quan
+                </Text>
 
-                  <HStack className="-mb-2 items-center justify-between">
-                    <HStack className="items-end">
-                      <Text className="font-tbold text-3xl text-primary">
-                        {totalCalories}
-                      </Text>
-                      <Text className="mb-1 font-tmedium text-base text-secondary">
-                        tổng kcal
-                      </Text>
-                    </HStack>
-
-                    <Text className="font-tmedium text-primary">
-                      3 - 9 Tháng 2 2025
+                <HStack className="-mb-2 items-center justify-between">
+                  <HStack className="items-end">
+                    <Text className="font-tbold text-3xl text-primary">
+                      {totalCalories}
+                    </Text>
+                    <Text className="mb-1 font-tmedium text-base text-secondary">
+                      tổng kcal
                     </Text>
                   </HStack>
-                </VStack>
 
-                <BarChart date={today} labels={labels} data={data} />
+                  <Text className="font-tmedium text-primary">
+                    3 - 9 Tháng 2 2025
+                  </Text>
+                </HStack>
+              </VStack>
 
-                <Section label="Thông tin chi tiết" />
+              <BarChart date={today} labels={labels} data={data} />
 
-                <VStack gap={12}>
-                  {defaultMealsData.map((item) => (
-                    <MealCard
-                      key={item.mealId}
-                      type={item.type as TypeMealEnum}
-                      totalFoods={item.foods}
-                      totalCalories={item.calories}
-                      progress={75}
-                    />
-                  ))}
-                </VStack>
-              </TabsContent>
-              <TabsContent value="water" contentMarginTop={12}>
-                <Text>asd</Text>
-              </TabsContent>
-              <TabsContent value="activity" contentMarginTop={12}>
-                <Text>asd</Text>
-              </TabsContent>
-            </Tabs>
-          </VStack>
+              <Section label="Chi tiết bữa ăn" />
+
+              <VStack gap={12}>
+                {defaultMealsData.map((item) => (
+                  <MealCard
+                    key={item.mealId}
+                    type={item.type as TypeMealEnum}
+                    totalFoods={item.foods}
+                    totalCalories={item.calories}
+                    progress={75}
+                  />
+                ))}
+              </VStack>
+            </TabsContent>
+            <TabsContent value="water" contentMarginTop={12}>
+              <Text>asd</Text>
+            </TabsContent>
+            <TabsContent value="activity" contentMarginTop={12}>
+              <Text>asd</Text>
+            </TabsContent>
+          </Tabs>
         </Content>
       </ScrollArea>
     </Container>

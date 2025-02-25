@@ -15,7 +15,6 @@ import {
   createUserFood,
   getAllFoods,
   getFoodById,
-  getFoodsByType,
   getFoodsByUserId,
   updateFood
 } from "@/services/foodService"
@@ -64,27 +63,8 @@ export const useGetAllFoods = (
         throw error
       }
     },
-    staleTime: 1000 * 60 * 5
-  })
-}
-
-export const useGetFoodsByType = (
-  type: string,
-  page: number,
-  limit: number
-) => {
-  const handleError = useError()
-
-  return useQuery<FoodResponse, Error>({
-    queryKey: ["foods", type, page, limit],
-    queryFn: async () => {
-      try {
-        return await getFoodsByType(type, page, limit)
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
-    },
+    placeholderData: (prev) =>
+      prev || { foods: [], totalPages: 0, totalItems: 0 },
     staleTime: 1000 * 60 * 5
   })
 }

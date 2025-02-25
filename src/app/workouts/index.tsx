@@ -102,6 +102,8 @@ function WorkoutsScreen() {
     )
   }, [typesData, selectedType])
 
+  console.log(limit)
+
   if ((!workoutsData && isLoading) || !typesData || isTypesLoading)
     return <LoadingScreen />
 
@@ -135,7 +137,6 @@ function WorkoutsScreen() {
           ListHeaderComponent={FlatListHeader}
           renderItem={({ item }) => (
             <WorkoutCard
-              key={item.workoutId}
               name={item.name}
               exercises={item.exercises}
               duration={item.duration}

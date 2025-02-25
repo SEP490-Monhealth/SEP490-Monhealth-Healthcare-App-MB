@@ -1,12 +1,13 @@
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 
-import { ActivityIndicator, FlatList, View } from "react-native"
+import { ActivityIndicator, Keyboard, View } from "react-native"
+import { FlatList } from "react-native"
 
 import { useRouter } from "expo-router"
 
 import { SearchNormal1 } from "iconsax-react-native"
 
-import { Container, Content, Input, VStack } from "@/components/global/atoms"
+import { Container, Content, Input, Modal } from "@/components/global/atoms"
 import {
   CustomHeader,
   ErrorDisplay,
@@ -22,15 +23,16 @@ import { COLORS } from "@/constants/color"
 import { TypeCategoryEnum } from "@/constants/enums"
 
 import { useAuth } from "@/contexts/AuthContext"
+import { useUserAllergies } from "@/contexts/UserAllergiesContext"
 
 import { useGetCategoriesByType } from "@/hooks/useCategory"
 import { useDebounce } from "@/hooks/useDebounce"
+import { useGetAllFoods } from "@/hooks/useFood"
 import { useCreateMeal } from "@/hooks/useMeal"
 import { useRouterHandlers } from "@/hooks/useRouter"
 
 import { FoodType } from "@/schemas/foodSchema"
-
-import { getAllFoods } from "@/services/foodService"
+import { CreateMealType } from "@/schemas/mealSchema"
 
 import { getMealTypeByTime } from "@/utils/helpers"
 
@@ -45,114 +47,110 @@ function FoodsScreen() {
 
   const { mutate: addMeal } = useCreateMeal()
 
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [limit, setLimit] = useState<number>(10)
-  const [foods, setFoods] = useState<FoodType[]>([])
-  const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
-  const [isFetchingMore, setIsFetchingMore] = useState<boolean>(false)
-  const [searchQuery, setSearchQuery] = useState<string>("")
-  const [totalItems, setTotalItems] = useState<number>(0)
+  const { allergies } = useUserAllergies()
+
+  const [foodsData, setFoodsData] = useState<FoodType[]>([])
+  const [page, setPage] = useState<number>(1)
   const [hasMore, setHasMore] = useState<boolean>(true)
+  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false)
+  const [searchQuery, setSearchQuery] = useState<string>("")
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
   const [selectedCategory, setSelectedCategory] = useState<string>("Tất cả")
   const [addedFoods, setAddedFoods] = useState<Set<string>>(new Set())
+  const [pendingMealData, setPendingMealData] = useState<CreateMealType | null>(
+    null
+  )
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 
-  const debouncedSearchQuery: string = useDebounce(searchQuery)
-  const debouncedSelectedCategory: string = useDebounce(selectedCategory, 0)
+  const debouncedFilter = useDebounce(selectedCategory, 0)
+  const debouncedSearch = useDebounce(searchQuery)
 
-  const { data: categoriesData, isLoading: isCategoriesLoading } =
+  const { data: categoriesData, isLoading: isTypesLoading } =
     useGetCategoriesByType(TypeCategoryEnum.Food)
 
-  const fetchFoods = async (
-    newLimit: number,
-    search: string = "",
-    category: string = "Tất cả"
-  ): Promise<void> => {
-    try {
-      const { foods: newFoods, totalItems: total } = await getAllFoods(
-        1,
-        newLimit,
-        category === "Tất cả" ? "" : category,
-        search,
-        true,
-        true,
-        true
+  const { data, isLoading } = useGetAllFoods(
+    page,
+    10,
+    debouncedFilter === "Tất cả" ? "" : debouncedFilter,
+    debouncedSearch,
+    true,
+    true,
+    true
+  )
+
+  useEffect(() => {
+    setPage(1)
+  }, [debouncedSearch, debouncedFilter])
+
+  useEffect(() => {
+    if (data?.foods) {
+      setFoodsData((prev) =>
+        page === 1 ? data.foods : [...prev, ...data.foods]
+      )
+      setHasMore(data.foods.length === 10)
+    }
+    setIsLoadingMore(false)
+  }, [data, page])
+
+  const loadMoreData = () => {
+    if (!hasMore || isLoadingMore || isLoading) return
+    setIsLoadingMore(true)
+    setPage((prev) => prev + 1)
+  }
+
+  const onEndReached = () => {
+    if (isLoading || !hasMore || isLoadingMore) return
+    Keyboard.dismiss()
+    loadMoreData()
+  }
+
+  const onRefresh = async () => {
+    setIsRefreshing(true)
+    Keyboard.dismiss()
+    setPage(1)
+    setTimeout(() => {
+      setIsRefreshing(false)
+    }, 1000)
+  }
+
+  const handleAddFood = useCallback(
+    (food: FoodType) => {
+      const hasAllergy = food.allergies?.some((allergy) =>
+        allergies.includes(allergy)
       )
 
-      setFoods(newFoods)
-      setTotalItems(total)
-      setHasMore(newFoods.length < total)
-    } catch (error) {
-      console.log("Error fetching foods:", error)
-    }
-  }
+      const mealData = {
+        userId: userId || "",
+        type: getMealTypeByTime(),
+        items: [
+          {
+            foodId: food.foodId,
+            quantity: 1,
+            size: food.portion?.size || "phần",
+            weight: food.portion?.weight || 100,
+            unit: food.portion?.unit || "g"
+          }
+        ]
+      }
 
-  const onRefresh = async (): Promise<void> => {
-    if (isRefreshing) return
-    setIsRefreshing(true)
-    setLimit(10)
-    await fetchFoods(10, debouncedSearchQuery, debouncedSelectedCategory)
-    setIsRefreshing(false)
-  }
+      if (hasAllergy) {
+        setPendingMealData(mealData)
+        setIsModalVisible(true)
+      } else {
+        confirmAddMeal(mealData)
+      }
+    },
+    [userId, allergies]
+  )
 
-  const loadMoreFoods = async (): Promise<void> => {
-    if (isFetchingMore || !hasMore) return
-    setIsFetchingMore(true)
-
-    const newLimit = Math.min(limit + 5, totalItems)
-    setLimit(newLimit)
-    await fetchFoods(newLimit, debouncedSearchQuery, debouncedSelectedCategory)
-    setIsFetchingMore(false)
-  }
-
-  const onEndReached = async (): Promise<void> => {
-    if (foods.length >= totalItems || isFetchingMore) return
-    loadMoreFoods()
-  }
-
-  useEffect(() => {
-    fetchFoods(limit, debouncedSearchQuery, debouncedSelectedCategory)
-
-    // const timeout = setTimeout(() => {
-    setIsLoading(false)
-    // }, 1000)
-
-    // return () => clearTimeout(timeout)
-  }, [debouncedSearchQuery, debouncedSelectedCategory])
-
-  useEffect(() => {
-    return () => {
-      setAddedFoods(new Set())
-    }
-  }, [])
-
-  const handleAddFood = (food: FoodType) => {
-    const mealType = getMealTypeByTime()
-
-    const size = food.portion?.size || "phần"
-    const weight = food.portion?.weight
-    const unit = food.portion?.unit || "g"
-
-    const mealData = {
-      userId: userId || "",
-      type: mealType,
-      items: [
-        {
-          foodId: food.foodId,
-          quantity: 1,
-          size,
-          weight,
-          unit
-        }
-      ]
-    }
-
+  const confirmAddMeal = (mealData: CreateMealType) => {
     console.log(JSON.stringify(mealData, null, 2))
 
-    addMeal(mealData, {
-      onSuccess: () => {
-        setAddedFoods((prev) => new Set(prev).add(food.foodId))
-      }
-    })
+    // addMeal(mealData, {
+    //   onSuccess: () =>
+    //     setAddedFoods((prev) => new Set(prev).add(mealData.items[0].foodId))
+    // })
+    setIsModalVisible(false)
   }
 
   const handleViewUserFoods = () => router.push("/foods/user")
@@ -177,44 +175,39 @@ function FoodsScreen() {
     )
   }, [categoriesData, selectedCategory])
 
-  if (!categoriesData || isCategoriesLoading || !foods || isLoading)
-    return <LoadingScreen />
+  if (isLoading || !categoriesData || isTypesLoading) return <LoadingScreen />
 
   return (
-    <Container>
-      <CustomHeader
-        content={
-          <Input
-            value={searchQuery}
-            placeholder="Tìm kiếm tên món ăn..."
-            onChangeText={(text) => setSearchQuery(text)}
-            startIcon={<SearchNormal1 size={20} color={COLORS.primary} />}
-            // endIcon={<Scanner size={20} color={COLORS.primary} />}
-            // onEndIconPress={handleScanFood}
-            canClearText
-          />
-        }
-      />
+    <>
+      <Container>
+        <CustomHeader
+          content={
+            <Input
+              value={searchQuery}
+              placeholder="Tìm kiếm tên món ăn..."
+              onChangeText={(text) => setSearchQuery(text)}
+              startIcon={<SearchNormal1 size={20} color={COLORS.primary} />}
+              canClearText
+            />
+          }
+        />
 
-      <Content>
-        <VStack center>
+        <Content>
           <FlatList
-            data={foods || []}
-            keyExtractor={(item) => item.foodId}
+            data={foodsData || []}
+            keyExtractor={(item, index) => `${item.foodId}-${index}`}
             onRefresh={onRefresh}
             refreshing={isRefreshing}
-            onEndReached={onEndReached}
-            onEndReachedThreshold={0.1}
             showsVerticalScrollIndicator={false}
             stickyHeaderIndices={[0]}
             initialNumToRender={10}
             maxToRenderPerBatch={5}
             windowSize={5}
-            removeClippedSubviews
+            onEndReached={onEndReached}
+            onEndReachedThreshold={0.5}
             ListHeaderComponent={FlatListHeader}
             renderItem={({ item }) => (
               <FoodCard
-                key={item.foodId}
                 variant="add"
                 name={item.name}
                 calories={item.nutrition.calories}
@@ -226,18 +219,18 @@ function FoodsScreen() {
                 onAddPress={() => handleAddFood(item)}
               />
             )}
-            ListEmptyComponent={() => (
+            ListEmptyComponent={
               <ErrorDisplay
                 imageSource={require("../../../public/images/monhealth-no-data-image.png")}
-                title="Không có món ăn nào được tìm thấy"
-                description="Vui lòng thử tìm kiếm lại hoặc thay đổi danh mục để hiển thị kết quả"
+                title="Không có dữ liệu"
+                description="Không tìm thấy món ăn phù hợp. Hãy thử lại!"
                 marginTop={24}
               />
-            )}
+            }
             ListFooterComponent={
               hasMore ? (
                 <ListFooter>
-                  {isFetchingMore && (
+                  {isLoadingMore && (
                     <ActivityIndicator color={COLORS.primary} />
                   )}
                 </ListFooter>
@@ -247,9 +240,19 @@ function FoodsScreen() {
             }
             ItemSeparatorComponent={() => <View className="h-3" />}
           />
-        </VStack>
-      </Content>
-    </Container>
+        </Content>
+      </Container>
+
+      <Modal
+        isVisible={isModalVisible}
+        title="Cảnh báo"
+        description="Món ăn này có thể chứa thành phần gây dị ứng. Bạn có chắc chắn muốn thêm không?"
+        confirmText="Đồng ý"
+        cancelText="Hủy"
+        onConfirm={() => pendingMealData && confirmAddMeal(pendingMealData)}
+        onClose={() => setIsModalVisible(false)}
+      />
+    </>
   )
 }
 

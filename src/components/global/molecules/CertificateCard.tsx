@@ -25,11 +25,8 @@ const extractFileName = (url: string): string =>
   decodeURIComponent(url).split("/").pop()?.split("?")[0] || "Tệp tin"
 
 const determineFileType = (fileName: string): string => {
-  const extension = fileName.split(".").pop()?.toLowerCase()
-  if (!extension) return "File"
-  if (["jpg", "jpeg", "png", "gif", "webp"].includes(extension)) return extension.toUpperCase()
-  if (extension === "pdf") return "PDF"
-  return "File"
+  const extension = fileName.split(".").pop()?.toUpperCase() || "FILE"
+  return extension
 }
 
 interface CertificateCardProps {

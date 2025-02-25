@@ -54,6 +54,8 @@ const baseFoodSchema = z
 
     nutrition: nutritionSchema,
 
+    allergies: z.array(z.string()),
+
     views: z.number(),
 
     isPublic: z.boolean(),
@@ -74,6 +76,7 @@ export const foodSchema = baseFoodSchema
     description: true,
     portion: true,
     nutrition: true,
+    allergies: true,
     isPublic: true,
     status: true
   })
