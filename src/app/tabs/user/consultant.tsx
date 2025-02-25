@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 
 import { useRouter } from "expo-router"
 
@@ -7,8 +7,15 @@ import { Header } from "@/components/global/organisms"
 
 function AssistantScreen() {
   const router = useRouter()
-
   const today = new Date()
+  const [selectedDate, setSelectedDate] = useState<string | null>(
+    today.toISOString()
+  )
+
+  const handleDateSelect = (date: string) => {
+    setSelectedDate(date)
+    console.log(date)
+  }
 
   return (
     <Container>
@@ -16,7 +23,7 @@ function AssistantScreen() {
 
       <Content className="mt-2 pb-12">
         <VStack gap={20}>
-          <Schedule initialDate={today} />
+          <Schedule initialDate={today} onDateSelect={handleDateSelect} />
         </VStack>
       </Content>
     </Container>

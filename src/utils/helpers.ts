@@ -1,6 +1,6 @@
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
-import { TypeMealEnum } from "@/constants/enums"
+import { StatusBookingEnum, TypeMealEnum } from "@/constants/enums"
 import { TipsData } from "@/constants/tips"
 
 /**
@@ -286,4 +286,45 @@ export function getEnumValue<T extends Record<number, string>>(
   enumObj: T
 ): string {
   return enumObj[value] ?? "Unknown"
+}
+
+/**
+ * Chuyển đổi trạng thái booking từ enum sang tiếng Việt.
+ *
+ * @param status - Trạng thái booking theo kiểu enum StatusBookingEnum
+ * @returns Trạng thái booking bằng tiếng Việt
+ */
+export const getStatus = (status: StatusBookingEnum): string => {
+  switch (status) {
+    case StatusBookingEnum.Pending:
+      return "Chờ xử lý"
+    case StatusBookingEnum.Confirmed:
+      return "Đã xác nhận"
+    case StatusBookingEnum.Completed:
+      return "Hoàn thành"
+    case StatusBookingEnum.Cancelled:
+      return "Đã hủy"
+    default:
+      return "Không xác định"
+  }
+}
+
+/**
+ * Lấy màu sắc đại diện cho từng trạng thái booking.
+ * @param status - Trạng thái booking (từ enum StatusBookingEnum).
+ * @returns Màu sắc đại diện cho trạng thái booking (dùng trong UI).
+ */
+export const getStatusBookingColor = (status: StatusBookingEnum): string => {
+  switch (status) {
+    case StatusBookingEnum.Pending:
+      return COLORS.BOOKING.pending
+    case StatusBookingEnum.Confirmed:
+      return COLORS.BOOKING.confirmed
+    case StatusBookingEnum.Completed:
+      return COLORS.BOOKING.completed
+    case StatusBookingEnum.Cancelled:
+      return COLORS.BOOKING.cancelled
+    default:
+      return COLORS.secondary
+  }
 }

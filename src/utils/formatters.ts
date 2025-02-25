@@ -135,3 +135,37 @@ export const formatDuration = (seconds: number): string => {
   const remainingSeconds = seconds % 60
   return `${String(minutes).padStart(2, "0")}:${String(remainingSeconds).padStart(2, "0")}`
 }
+
+/**
+ * Chuyển đổi chuỗi thời gian từ định dạng 24 giờ sang định dạng 12 giờ với AM/PM.
+ * @param time Chuỗi thời gian định dạng 24 giờ (ví dụ: "09:00" hoặc "15:30").
+ * @returns Chuỗi thời gian đã được chuyển đổi sang định dạng 12 giờ với AM/PM (ví dụ: "09:00 AM" hoặc "03:30 PM").
+ */
+export const formatTimeAMandPM = (time: string) => {
+  const [hours, minutes] = time.split(":").map(Number)
+
+  let formattedTime = `${hours % 12 === 0 ? 12 : hours % 12}`
+  formattedTime = formattedTime.padStart(2, "0")
+
+  formattedTime += `:${minutes < 10 ? "0" + minutes : minutes}`
+
+  const period = hours < 12 ? "AM" : "PM"
+
+  return `${formattedTime} ${period}`
+}
+
+/**
+ * Chuyển đổi ngày từ định dạng ISO thành chuỗi định dạng "DD/MM/YYYY"
+ * Ví dụ: "2025-02-17T00:00:00.000Z" -> "17/02/2025"
+ *
+ * @param dateString - Chuỗi ngày theo chuẩn ISO (YYYY-MM-DDTHH:mm:ssZ)
+ * @returns Chuỗi ngày theo định dạng "DD/MM/YYYY"
+ */
+export const formatDateVN = (dateString: string): string => {
+  const date = new Date(dateString)
+  const day = date.getUTCDate().toString().padStart(2, "0")
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, "0")
+  const year = date.getUTCFullYear()
+
+  return `${day}/${month}/${year}`
+}

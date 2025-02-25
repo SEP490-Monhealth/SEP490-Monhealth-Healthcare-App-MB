@@ -37,5 +37,18 @@ export const COLORS = {
     reminder: "#ca8a04",
     suggestion: "#16a34a",
     warning: "#dc2626"
+  },
+
+  SCHEDULE: {
+    available: "#FFF",
+    unavailable: "#64748b",
+    booked: "#dc2626"
+  },
+
+  BOOKING: {
+    pending: "#F59E0B",
+    confirmed: "#3B82F6",
+    completed: "#10B981",
+    cancelled: "#EF4444"
   }
 }
