@@ -10,10 +10,9 @@ import { COLORS } from "@/constants/color"
 
 import { formatUTCDate } from "@/utils/formatters"
 
-import { Card } from "./Card"
 import { HStack } from "./Stack"
 
-interface ScheduleProps {
+interface DateProps {
   initialDate: Date
   onDateSelect: (date: string) => void
 }
@@ -23,7 +22,7 @@ interface DayDetails {
   dayOfWeek: string
 }
 
-export const Schedule = ({ initialDate, onDateSelect }: ScheduleProps) => {
+export const DatePicker = ({ initialDate, onDateSelect }: DateProps) => {
   const router = useRouter()
 
   const validInitialDate = useMemo(() => {
@@ -83,7 +82,7 @@ export const Schedule = ({ initialDate, onDateSelect }: ScheduleProps) => {
     return (
       <TouchableOpacity
         activeOpacity={0.7}
-        className={`h-20 w-[45px] items-center justify-center gap-3 rounded-xl px-2 py-4 ${isSelected ? "bg-primary" : ""}`}
+        className={`mr-2 h-20 w-[59px] items-center justify-center gap-1 rounded-xl border border-border px-2 py-4 ${isSelected ? "bg-primary" : "bg-card"}`}
         onPress={() => handleSelectedDay(date)}
       >
         <Text
@@ -93,7 +92,7 @@ export const Schedule = ({ initialDate, onDateSelect }: ScheduleProps) => {
         </Text>
 
         <Text
-          className={`font-tmedium text-base leading-5 ${isSelected ? "text-white" : "text-accent"}`}
+          className={`font-tmedium text-base ${isSelected ? "text-white" : "text-accent"}`}
         >
           {date.getDate()}
         </Text>
@@ -105,13 +104,13 @@ export const Schedule = ({ initialDate, onDateSelect }: ScheduleProps) => {
   const year = selectedDay.toLocaleString("vi-VN", { year: "numeric" })
 
   const handleCalendarPress = () => {
-    router.push("/schedules/calendar")
+    router.push("/Calendar")
   }
 
   return (
-    <Card activeOpacity={1}>
+    <TouchableOpacity activeOpacity={1}>
       <HStack center className="mb-4 justify-between">
-        <Text className="font-tbold text-xl text-primary">
+        <Text className="font-tmedium text-lg text-primary">
           {month}, {year}
         </Text>
 
@@ -143,6 +142,6 @@ export const Schedule = ({ initialDate, onDateSelect }: ScheduleProps) => {
           }, 500)
         }}
       />
-    </Card>
+    </TouchableOpacity>
   )
 }

@@ -11,8 +11,7 @@ import {
   HStack,
   VStack
 } from "@/components/global/atoms"
-import { StepHeader } from "@/components/global/molecules"
-import { SubscriptionCard } from "@/components/global/molecules/SubscriptionCard"
+import { StepHeader, SubscriptionCard } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"

@@ -7,7 +7,7 @@ const baseConsultantSchema = z
     consultantId: z.string(),
     userId: z.string(),
 
-    fullName: z
+    name: z
       .string()
       .nonempty({ message: "Tên không được để trống" })
       .max(50, { message: "Tên không được dài hơn 50 ký tự" })
@@ -53,7 +53,7 @@ export const consultantSchema = baseConsultantSchema.pick({
   consultantId: true,
   userId: true,
 
-  fullName: true,
+  name: true,
   avatarUrl: true,
 
   bio: true,

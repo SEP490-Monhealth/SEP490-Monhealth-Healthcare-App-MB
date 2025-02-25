@@ -7,6 +7,7 @@ import { Checkbox } from "./Checkbox"
 import { Chip } from "./Chip"
 import { Container } from "./Container"
 import { Content } from "./Content"
+import { DatePicker } from "./Date"
 import { Input } from "./Input"
 import { Modal } from "./Modal"
 import { OTPInput } from "./OTPInput"
@@ -33,6 +34,7 @@ export {
   Chip,
   Container,
   Content,
+  DatePicker,
   Input,
   Modal,
   OTPInput,
