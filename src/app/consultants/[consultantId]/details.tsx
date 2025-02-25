@@ -73,7 +73,7 @@ function ConsultantDetailsScreen() {
                   </Text>
                 </VStack>
 
-                <RatingStars rating={rating} count={count} showText />
+                <RatingStars rating={rating} count={count} showCount />
               </VStack>
             </HStack>
 

@@ -166,6 +166,8 @@ function FoodsScreen() {
           onSelectCategory={setSelectedCategory}
         />
 
+        <Section label="Tìm kiếm gần đây" actionText="Xóa tất cả" />
+
         <Section
           label="Danh sách món ăn"
           actionText="Món ăn của tôi"

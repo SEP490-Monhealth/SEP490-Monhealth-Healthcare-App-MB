@@ -2,13 +2,10 @@ import React from "react"
 
 import { Image, Text, TouchableOpacity, View } from "react-native"
 
-import { Star1 } from "iconsax-react-native"
-
-import { COLORS } from "@/constants/color"
-
 import { formatTimeAgo } from "@/utils/formatters"
 
 import { HStack, VStack } from "../atoms"
+import { RatingStars } from "./RatingStars"
 
 interface ReviewCardProps {
   name: string
@@ -16,7 +13,6 @@ interface ReviewCardProps {
   rating: number
   comment: string
   time: string
-  onPress?: () => void
 }
 
 export const ReviewCard = ({
@@ -24,45 +20,33 @@ export const ReviewCard = ({
   avatarUrl,
   rating,
   comment,
-  time,
-  onPress
+  time
 }: ReviewCardProps) => {
   return (
-    <TouchableOpacity activeOpacity={1} onPress={onPress}>
-      <VStack>
-        <HStack center gap={16}>
+    <TouchableOpacity activeOpacity={1}>
+      <VStack gap={8}>
+        <HStack center gap={12}>
           <Image
             source={{ uri: avatarUrl }}
             className="h-14 w-14 rounded-xl border border-border"
           />
 
-          <View className="flex-1 flex-row items-center justify-between">
-            <VStack>
+          <View className="flex-1">
+            <HStack center className="justify-between">
               <Text className="font-tmedium text-base text-primary">
                 {name}
               </Text>
 
-              <HStack>
-                {[...Array(5)].map((_, index) => (
-                  <Star1
-                    key={index}
-                    variant={index < rating ? "Bold" : "Outline"}
-                    size="16"
-                    color={COLORS.primary}
-                  />
-                ))}
-              </HStack>
-            </VStack>
+              <Text className="font-tregular text-sm text-secondary">
+                {formatTimeAgo(time)}
+              </Text>
+            </HStack>
 
-            <Text className="font-tregular text-sm text-secondary">
-              {formatTimeAgo(time)}
-            </Text>
+            <RatingStars rating={rating} showRating />
           </View>
         </HStack>
 
-        <Text className="mt-2 font-tmedium text-sm text-secondary">
-          {comment}
-        </Text>
+        <Text className="font-tregular text-sm text-secondary">{comment}</Text>
       </VStack>
     </TouchableOpacity>
   )

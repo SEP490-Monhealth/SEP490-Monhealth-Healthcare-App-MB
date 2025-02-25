@@ -11,13 +11,15 @@ import { HStack } from "../atoms"
 interface RatingStarsProps {
   rating: number
   count?: number
-  showText?: boolean
+  showRating?: boolean
+  showCount?: boolean
 }
 
 export const RatingStars = ({
   rating,
   count,
-  showText = false
+  showRating = false,
+  showCount = false
 }: RatingStarsProps) => {
   return (
     <HStack center>
@@ -48,10 +50,10 @@ export const RatingStars = ({
         })
         .filter(Boolean)}
 
-      {count && (
+      {(showRating || count) && (
         <Text className="font-tmedium text-sm text-accent">
-          ({count}
-          {showText && " đánh giá"})
+          {showRating && `(${rating.toFixed(1)})`}
+          {count && ` (${count}${showCount ? " đánh giá" : ""})`}
         </Text>
       )}
     </HStack>
