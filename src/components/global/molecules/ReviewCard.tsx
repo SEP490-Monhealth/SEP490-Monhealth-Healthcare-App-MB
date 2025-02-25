@@ -31,7 +31,7 @@ export const ReviewCard = ({
             className="h-14 w-14 rounded-xl border border-border"
           />
 
-          <View className="flex-1">
+          <View className="flex-1 gap-1">
             <HStack center className="justify-between">
               <Text className="font-tmedium text-base text-primary">
                 {name}

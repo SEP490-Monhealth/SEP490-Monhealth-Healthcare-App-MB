@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 
-import { Text } from "react-native"
+import { Text, View } from "react-native"
 
 import { DocumentText, Eye, PictureFrame } from "iconsax-react-native"
 
@@ -47,23 +47,26 @@ export const CertificateCard = ({ href, onPress }: CertificateCardProps) => {
 
   return (
     <Card>
-      <HStack center className="justify-between">
-        <HStack center gap={16}>
+      <HStack center gap={12} className="justify-between">
+        <View className="flex-1 flex-row items-center gap-4">
           {isImageFile ? (
             <PictureFrame variant="Bold" size="32" color={COLORS.primary} />
           ) : (
             <DocumentText variant="Bold" size="32" color={COLORS.primary} />
           )}
 
-          <VStack>
-            <Text className="font-tmedium text-base text-primary">
+          <View className="flex-1">
+            <Text
+              className="font-tmedium text-base text-primary"
+              numberOfLines={1}
+            >
               {fileName}
             </Text>
             <Text className="font-tmedium text-sm text-accent">
               {fileType} • {fileSize}
             </Text>
-          </VStack>
-        </HStack>
+          </View>
+        </View>
 
         <IconButton
           size="sm"
