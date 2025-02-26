@@ -33,9 +33,9 @@ import { Header } from "@/components/global/organisms"
 import { useAuth } from "@/contexts/AuthContext"
 
 import {
-  CreateCertificateType,
-  createCertificateSchema
-} from "@/schemas/certificateSchema"
+  SetupConsultantType,
+  setupConsultantSchema
+} from "@/schemas/consultantSchema"
 
 import { useConsultantSetupStore } from "@/stores/consultantSetupStore"
 
@@ -48,7 +48,7 @@ const expertiseData = [
   { label: "Tăng cân", value: "WeightGain" }
 ]
 
-function SetupExpertise() {
+function SetupConsultantScreen() {
   const router = useRouter()
 
   const { user } = useAuth()
@@ -63,13 +63,23 @@ function SetupExpertise() {
     "issueDate" | "expiryDate"
   >()
 
-  const { expertise, name, issueDate, expiryDate, images, updateField } =
-    useConsultantSetupStore()
-
-  const formData = {
-    userId,
+  const {
+    bio,
+    experience,
     expertise,
-    name,
+    certificate,
+    issueDate,
+    expiryDate,
+    images,
+    updateField
+  } = useConsultantSetupStore()
+
+  const formData: Record<string, any> = {
+    userId,
+    bio,
+    experience,
+    expertise,
+    certificate,
     issueDate,
     expiryDate,
     images: images.map((image) => image.uri)
@@ -82,8 +92,8 @@ function SetupExpertise() {
     watch,
     handleSubmit,
     formState: { errors }
-  } = useForm<CreateCertificateType>({
-    resolver: zodResolver(createCertificateSchema),
+  } = useForm<SetupConsultantType>({
+    resolver: zodResolver(setupConsultantSchema),
     defaultValues: formData
   })
 
@@ -128,7 +138,7 @@ function SetupExpertise() {
     })
   }
 
-  const onSubmit = async (data: CreateCertificateType) => {
+  const onSubmit = async (data: SetupConsultantType) => {
     // console.log(JSON.stringify(data, null, 2))
 
     Object.entries(data).forEach(([key, value]) => {
@@ -206,14 +216,14 @@ function SetupExpertise() {
                 </VStack>
 
                 <Controller
-                  name="name"
+                  name="certificate"
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <Input
                       value={value}
                       placeholder="Nhập tên chứng chỉ"
                       onChangeText={onChange}
-                      errorMessage={errors.name?.message}
+                      errorMessage={errors.certificate?.message}
                     />
                   )}
                 />
@@ -291,4 +301,4 @@ function SetupExpertise() {
   )
 }
 
-export default SetupExpertise
+export default SetupConsultantScreen

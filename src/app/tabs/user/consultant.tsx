@@ -5,12 +5,13 @@ import { useRouter } from "expo-router"
 import { Container, Content, Schedule, VStack } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-function AssistantScreen() {
+function ConsultantScreen() {
   const router = useRouter()
-  const today = new Date()
-  const [selectedDate, setSelectedDate] = useState<string | null>(
-    today.toISOString()
-  )
+  const today = new Date().toISOString()
+
+  const [selectedDate, setSelectedDate] = useState<string | null>(today)
+
+  console.log(selectedDate)
 
   const handleDateSelect = (date: string) => {
     setSelectedDate(date)
@@ -29,4 +30,4 @@ function AssistantScreen() {
     </Container>
   )
 }
-export default AssistantScreen
+export default ConsultantScreen

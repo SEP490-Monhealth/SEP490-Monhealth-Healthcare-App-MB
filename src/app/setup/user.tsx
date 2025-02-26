@@ -47,7 +47,7 @@ interface SetupStepsProps {
   schema: any
 }
 
-function SetupScreen() {
+function SetupUserScreen() {
   const router = useRouter()
 
   const { user } = useAuth()
@@ -353,4 +353,4 @@ function SetupScreen() {
   )
 }
 
-export default SetupScreen
+export default SetupUserScreen
