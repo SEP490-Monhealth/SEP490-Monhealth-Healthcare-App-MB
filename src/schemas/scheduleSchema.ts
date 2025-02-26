@@ -25,11 +25,11 @@ const baseScheduleSchema = z
 
 export const scheduleSchema = baseScheduleSchema
 
-export const createScheduleSchema = scheduleSchema.pick({
+export const createUpdateScheduleSchema = scheduleSchema.pick({
   consultantId: true,
   date: true,
   time: true
 })
 
 export type ScheduleType = z.infer<typeof scheduleSchema>
-export type CreateScheduleType = z.infer<typeof createScheduleSchema>
+export type CreateUpdateScheduleType = z.infer<typeof createUpdateScheduleSchema>

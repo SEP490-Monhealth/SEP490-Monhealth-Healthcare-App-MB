@@ -4,17 +4,15 @@ import { Text, View } from "react-native"
 
 import { Vibe } from "iconsax-react-native"
 
-import { formatTimeAMandPM } from "@/utils/formatters"
-
 import { VStack } from "../atoms"
 
 interface ScheduleCardProps {
-  name: string
+  customer: string
   time: string
-  note: string
+  notes?: string
 }
 
-export const ScheduleCard = ({ name, time, note }: ScheduleCardProps) => {
+export const ScheduleCard = ({ customer, time, notes }: ScheduleCardProps) => {
   return (
     <View className="flex-1 flex-row gap-4">
       <VStack center>
@@ -27,17 +25,20 @@ export const ScheduleCard = ({ name, time, note }: ScheduleCardProps) => {
 
       <View className="flex-1">
         <Text className="ml-1 mt-3 font-tmedium text-sm text-accent">
-          {formatTimeAMandPM(time)}
+          {time}
         </Text>
+
         <View className="mt-2 rounded-2xl bg-gray-200 px-4 py-4">
           <VStack>
-            <Text className="font-tmedium text-lg text-primary">{name}</Text>
+            <Text className="font-tmedium text-lg text-primary">
+              {customer}
+            </Text>
             <Text
               className="font-tmedium text-sm text-accent"
               numberOfLines={2}
               ellipsizeMode="tail"
             >
-              {note}
+              {notes}
             </Text>
           </VStack>
         </View>

@@ -14,9 +14,9 @@ import {
 import { Header } from "@/components/global/organisms"
 
 import {
-  CancelledTab,
-  CompletedTab,
-  ConfirmedTab,
+  CancelTab,
+  CompleteTab,
+  ConfirmTab,
   PendingTab
 } from "@/components/local/bookings"
 
@@ -36,7 +36,7 @@ function BookingConsultantScreen() {
           <Tabs defaultValue={activeTab} contentMarginTop={8}>
             <TabsList gap={32}>
               <TabsTrigger value="pending" onChange={handleTabChange}>
-                Yêu cầu
+                Đang chờ
               </TabsTrigger>
 
               <TabsTrigger value="confirmed" onChange={handleTabChange}>
@@ -57,15 +57,15 @@ function BookingConsultantScreen() {
             </TabsContent>
 
             <TabsContent value="confirmed">
-              <ConfirmedTab />
+              <ConfirmTab />
             </TabsContent>
 
             <TabsContent value="completed">
-              <CompletedTab />
+              <CompleteTab />
             </TabsContent>
 
             <TabsContent value="cancelled">
-              <CancelledTab />
+              <CancelTab />
             </TabsContent>
           </Tabs>
         </ScrollArea>

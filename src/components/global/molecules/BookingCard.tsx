@@ -6,7 +6,7 @@ import { CalendarCircle, TimerStart } from "iconsax-react-native"
 
 import { COLORS } from "@/constants/color"
 
-import { formatDateVN, formatTimeAMandPM } from "@/utils/formatters"
+import { formatDate } from "@/utils/formatters"
 import { getStatus, getStatusBookingColor } from "@/utils/helpers"
 
 import { Button, Card, HStack, VStack } from "../atoms"
@@ -67,15 +67,13 @@ export const BookingCard = ({
           <HStack center>
             <CalendarCircle variant="Bold" size="20" color={COLORS.secondary} />
             <Text className="font-tmedium text-sm text-accent">
-              {formatDateVN(date)}
+              {formatDate(date)}
             </Text>
           </HStack>
 
           <HStack center>
             <TimerStart variant="Bold" size="20" color={COLORS.secondary} />
-            <Text className="font-tmedium text-sm text-accent">
-              {formatTimeAMandPM(time)}
-            </Text>
+            <Text className="font-tmedium text-sm text-accent">{time}</Text>
           </HStack>
         </HStack>
 

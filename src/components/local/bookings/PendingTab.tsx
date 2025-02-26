@@ -27,7 +27,7 @@ export const PendingTab = () => {
         <View key={booking.bookingId} className="mb-4">
           <BookingCard
             variant="confirm"
-            name={booking.customerName}
+            name={booking.customer}
             date={booking.date}
             time={booking.time}
             note={booking.note}

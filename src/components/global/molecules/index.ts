@@ -22,7 +22,7 @@ import { ScheduleCard } from "./ScheduleCard"
 import { ServiceChip } from "./ServiceChip"
 import { StepHeader } from "./StepHeader"
 import { SubscriptionCard } from "./SubscriptionCard"
-import { TimeSelectorCard } from "./TimeSelectorCard"
+import { TimeSlotSelector } from "./TimeSlotSelector"
 import { WaterReminderCard } from "./WaterReminderCard"
 import { WorkoutCard } from "./WorkoutCard"
 
@@ -51,7 +51,7 @@ export {
   ServiceChip,
   StepHeader,
   SubscriptionCard,
-  TimeSelectorCard,
+  TimeSlotSelector,
   WaterReminderCard,
   WorkoutCard
 }

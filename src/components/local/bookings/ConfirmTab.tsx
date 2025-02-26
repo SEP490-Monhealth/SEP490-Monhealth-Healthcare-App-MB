@@ -8,9 +8,9 @@ import { BookingCard } from "@/components/global/molecules"
 import { sampleBookingsData } from "@/constants/booking"
 import { StatusBookingEnum } from "@/constants/enums"
 
-export const CancelledTab = () => {
+export const ConfirmTab = () => {
   const bookingData = sampleBookingsData.filter(
-    (booking) => booking.status === StatusBookingEnum.Cancelled
+    (booking) => booking.status === StatusBookingEnum.Confirmed
   )
 
   return (
@@ -19,7 +19,7 @@ export const CancelledTab = () => {
         <View key={booking.bookingId} className="mb-4">
           <BookingCard
             variant="default"
-            name={booking.customerName}
+            name={booking.customer}
             date={booking.date}
             time={booking.time}
             note={booking.note}

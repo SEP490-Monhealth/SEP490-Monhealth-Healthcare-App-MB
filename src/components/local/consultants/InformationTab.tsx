@@ -6,25 +6,22 @@ import { useLocalSearchParams } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
 
-import { Button, DatePicker, VStack } from "@/components/global/atoms"
-import { TimeSelectorCard } from "@/components/global/molecules"
+import { Button, VStack } from "@/components/global/atoms"
+import { TimeSlotSelector } from "@/components/global/molecules"
+import { DaySelector } from "@/components/global/molecules/DaySelector"
 import { Section } from "@/components/global/organisms"
 
 import { sampleConsultantsData } from "@/constants/consultants"
 import { sampleSchedulesData } from "@/constants/schedules"
 
-import { useRouterHandlers } from "@/hooks/useRouter"
-
 export const InformationTab = () => {
-  const today = new Date()
   const { consultantId } = useLocalSearchParams() as { consultantId: string }
-  const [expanded, setExpanded] = useState(false)
-  const [selectedTime, setSelectedTime] = useState<string | null>(null)
-  const [selectedDate, setSelectedDate] = useState<string | null>(
-    today.toISOString()
-  )
 
-  const { handleViewSchedule } = useRouterHandlers()
+  const today = new Date().toISOString()
+
+  const [expanded, setExpanded] = useState<boolean>(false)
+  const [selectedTime, setSelectedTime] = useState<string | null>(null)
+  const [selectedDate, setSelectedDate] = useState<string | null>(today)
 
   const consultantData = sampleConsultantsData.find(
     (c) => c.consultantId === consultantId
@@ -37,17 +34,16 @@ export const InformationTab = () => {
   const handleBooking = () => {
     if (selectedTime) {
       console.log("Schedule ID đã chọn:", selectedTime)
-      handleViewSchedule(selectedTime)
     }
-  }
-
-  const handleSelectTime = (scheduleId: string) => {
-    setSelectedTime(selectedTime === scheduleId ? null : scheduleId)
   }
 
   const handleDateSelect = (date: string) => {
     setSelectedDate(date)
     console.log(date)
+  }
+
+  const handleSelectTime = (scheduleId: string) => {
+    setSelectedTime(selectedTime === scheduleId ? null : scheduleId)
   }
 
   return (
@@ -77,7 +73,7 @@ export const InformationTab = () => {
       <Section label="Đặt lịch" margin={false} />
       <VStack gap={20} className="-mt-6">
         <VStack>
-          <DatePicker initialDate={today} onDateSelect={handleDateSelect} />
+          <DaySelector initialDate={today} onDateSelect={handleDateSelect} />
 
           <VStack gap={10} className="mt-4">
             <Text className="font-tmedium text-lg text-primary">
@@ -86,7 +82,7 @@ export const InformationTab = () => {
 
             <View className="my-2 flex flex-row flex-wrap gap-2">
               {scheduleData.map((schedule) => (
-                <TimeSelectorCard
+                <TimeSlotSelector
                   key={schedule.scheduleId}
                   time={schedule.time}
                   status={schedule.status}

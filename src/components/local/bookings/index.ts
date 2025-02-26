@@ -1,6 +1,6 @@
-import { CancelledTab } from "./CancelledTab"
-import { CompletedTab } from "./CompletedTab"
-import { ConfirmedTab } from "./ConfirmedTab"
+import { CancelTab } from "./CancelTab"
+import { CompleteTab } from "./CompleteTab"
+import { ConfirmTab } from "./ConfirmTab"
 import { PendingTab } from "./PendingTab"
 
-export { CancelledTab, CompletedTab, ConfirmedTab, PendingTab }
+export { CancelTab, CompleteTab, ConfirmTab, PendingTab }

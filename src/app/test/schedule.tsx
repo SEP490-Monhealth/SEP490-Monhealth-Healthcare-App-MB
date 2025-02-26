@@ -12,14 +12,14 @@ import {
 import { ScheduleCard } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
-import { sampleBookedData } from "@/constants/bookedConsultant"
+import { sampleBookingsData } from "@/constants/booking"
 
 function ScheduleConsultantScreen() {
-  const scheduleData = sampleBookedData
-  const today = new Date()
-  const [selectedDate, setSelectedDate] = useState<string | null>(
-    today.toISOString()
-  )
+  const scheduleData = sampleBookingsData
+
+  const today = new Date().toISOString()
+
+  const [selectedDate, setSelectedDate] = useState<string | null>(today)
 
   const handleDateSelect = (date: string) => {
     setSelectedDate(date)
@@ -40,9 +40,9 @@ function ScheduleConsultantScreen() {
             {scheduleData.map((schedule) => (
               <View key={schedule.bookingId} className="mb-4">
                 <ScheduleCard
-                  name={schedule.customerName}
+                  customer={schedule.customer}
                   time={schedule.time}
-                  note={schedule.note}
+                  notes={schedule.notes}
                 />
               </View>
             ))}

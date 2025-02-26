@@ -31,9 +31,9 @@ export const useCreatePortion = () => {
   const { showModal } = useModal()
 
   return useMutation<string, Error, CreatePortionType>({
-    mutationFn: async (portion) => {
+    mutationFn: async (newPortionData) => {
       try {
-        return await createPortion(portion, showModal)
+        return await createPortion(newPortionData, showModal)
       } catch (error) {
         handleError(error)
         throw error

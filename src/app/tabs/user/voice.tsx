@@ -25,11 +25,11 @@ function VoiceScreen() {
   }
 
   const handleViewBookingConsultant = () => {
-    router.push("/test/bookingConsultant")
+    router.push("/test/booking")
   }
 
   const handleViewScheduleConsultant = () => {
-    router.push("/test/scheduleConsultant")
+    router.push("/test/schedule")
   }
 
   return (
