@@ -51,7 +51,7 @@ export const sampleBookingsData: BookingType[] = [
     bookingId: "c",
     consultantId: "Toàn",
     userId: "Khải",
-    scheduleId: "Lịch 2",
+    scheduleId: "Lịch 3",
 
     consultant: "Văn Hữu Toàn",
     customer: "Phan Văn Khải",
@@ -73,7 +73,7 @@ export const sampleBookingsData: BookingType[] = [
     bookingId: "d",
     consultantId: "Đại",
     userId: "Duy",
-    scheduleId: "Lịch 2",
+    scheduleId: "Lịch 4",
 
     consultant: "Nguyễn Quốc Đại",
     customer: "Phạm Hoài Duy",

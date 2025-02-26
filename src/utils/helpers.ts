@@ -260,71 +260,30 @@ export const parsePortion = (
 }
 
 /**
- * Lấy nhãn (label) từ danh sách giá trị.
- * @param values - Mảng giá trị cần lấy nhãn.
- * @param data - Mảng dữ liệu chứa cặp {label, value}.
- * @returns Mảng các nhãn tương ứng với giá trị đầu vào.
- */
-export const getLabelsFromValues = (
-  values: number[],
-  data: { label: string; value: number }[]
-): string[] => {
-  return values.map((value) => {
-    const item = data.find((d) => d.value === value) // So khớp kiểu number
-    return item ? item.label : value.toString() // Trả về label hoặc chính giá trị
-  })
-}
-
-/**
- * Lấy giá trị chuỗi tương ứng từ enum.
- * @param value - Giá trị số của enum.
- * @param enumObj - Enum được sử dụng để ánh xạ.
- * @returns Chuỗi tương ứng với giá trị enum.
- */
-export function getEnumValue<T extends Record<number, string>>(
-  value: number,
-  enumObj: T
-): string {
-  return enumObj[value] ?? "Unknown"
-}
-
-/**
- * Chuyển đổi trạng thái booking từ enum sang tiếng Việt.
  *
- * @param status - Trạng thái booking theo kiểu enum StatusBookingEnum
- * @returns Trạng thái booking bằng tiếng Việt
+ * @param value
+ * @returns
  */
-export const getStatus = (status: StatusBookingEnum): string => {
-  switch (status) {
-    case StatusBookingEnum.Pending:
-      return "Chờ xử lý"
-    case StatusBookingEnum.Confirmed:
-      return "Đã xác nhận"
-    case StatusBookingEnum.Completed:
-      return "Hoàn thành"
-    case StatusBookingEnum.Cancelled:
-      return "Đã hủy"
-    default:
-      return "Không xác định"
-  }
+export const getBookingLabel = (value: StatusBookingEnum): string => {
+  return DATA.BOOKINGS.find((item) => item.value === value)?.label || ""
 }
 
 /**
- * Lấy màu sắc đại diện cho từng trạng thái booking.
- * @param status - Trạng thái booking (từ enum StatusBookingEnum).
- * @returns Màu sắc đại diện cho trạng thái booking (dùng trong UI).
+ *
+ * @param value
+ * @returns
  */
-export const getStatusBookingColor = (status: StatusBookingEnum): string => {
-  switch (status) {
-    case StatusBookingEnum.Pending:
-      return COLORS.BOOKING.pending
-    case StatusBookingEnum.Confirmed:
-      return COLORS.BOOKING.confirmed
-    case StatusBookingEnum.Completed:
-      return COLORS.BOOKING.completed
-    case StatusBookingEnum.Cancelled:
-      return COLORS.BOOKING.cancelled
-    default:
-      return COLORS.secondary
-  }
+export const getBookingColor = (value: StatusBookingEnum): string => {
+  return DATA.BOOKINGS.find((item) => item.value === value)?.color || ""
+}
+
+/**
+ *
+ * @param value
+ * @returns
+ */
+export const getBookingIcon = (
+  value: StatusBookingEnum
+): React.ElementType | null => {
+  return DATA.BOOKINGS.find((item) => item.value === value)?.icon || null
 }

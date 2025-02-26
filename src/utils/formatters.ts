@@ -117,15 +117,6 @@ export const formatDateY = (date: Date) => {
 }
 
 /**
- * Chuyển đổi chuỗi ngày từ dd/MM/yyyy sang ISO string
- * @param dateString Chuỗi ngày định dạng dd/MM/yyyy
- * @returns Chuỗi ngày định dạng ISO string
- */
-export const convertToISOString = (dateString: string): string => {
-  return new Date(dateString.split("/").reverse().join("-")).toISOString()
-}
-
-/**
  * Chuyển đổi một khoảng thời gian tính bằng giây sang chuỗi định dạng MM:SS.
  * @param {number} seconds - Thời gian tính bằng giây.
  * @returns {string} - Chuỗi thời gian đã được định dạng theo kiểu MM:SS.

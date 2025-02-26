@@ -2,7 +2,7 @@ export const sampleConsultantsData = [
   {
     consultantId: "123",
     userId: "123",
-    name: "Phan Văn Khải",
+    fullName: "Phan Văn Khải",
     avatarUrl:
       "https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-3.jpg",
 
@@ -25,7 +25,7 @@ export const sampleConsultantsData = [
   {
     consultantId: "456",
     userId: "456",
-    name: "Văn Hữu Toàn",
+    fullName: "Văn Hữu Toàn",
     avatarUrl:
       "https://i.pinimg.com/236x/6c/6d/7c/6c6d7c477e320b67b9c6a16b2de2c0d5.jpg",
 

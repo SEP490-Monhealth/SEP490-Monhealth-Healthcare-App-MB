@@ -28,7 +28,7 @@ function ConsultantScreen() {
 
   return (
     <Container>
-      <Header back label="Tư vấn viên" />
+      <Header back label="Chuyên viên tứ vấn" />
 
       <Content className="mt-2">
         <ScrollArea>
@@ -36,7 +36,7 @@ function ConsultantScreen() {
             {consultantsData.map((consultant) => (
               <ConsultantCard
                 key={consultant.consultantId}
-                name={consultant.name}
+                name={consultant.fullName}
                 avatarUrl={consultant.avatarUrl}
                 expertise={consultant.expertise}
                 experience={consultant.experience}

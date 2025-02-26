@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from "react"
 
-import { Text, TouchableOpacity, View } from "react-native"
+import { ScrollView, Text, TouchableOpacity, View } from "react-native"
 
 interface TabsContextProps {
   selectedValue: string
@@ -41,6 +41,7 @@ interface TabsListProps {
   children: React.ReactNode
   center?: boolean
   gap?: number
+  scrollable?: boolean
   className?: string
 }
 
@@ -48,9 +49,23 @@ export const TabsList: React.FC<TabsListProps> = ({
   children,
   center = false,
   gap = 32,
+  scrollable = false,
   className
 }) => {
   const justifyClass = center ? "justify-center" : "justify-start"
+
+  if (scrollable) {
+    return (
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ gap }}
+        className={`flex-row px-2 ${className}`}
+      >
+        {children}
+      </ScrollView>
+    )
+  }
 
   return (
     <View

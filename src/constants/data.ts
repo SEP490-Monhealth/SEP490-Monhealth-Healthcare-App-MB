@@ -1,4 +1,11 @@
-import { Man, Woman } from "iconsax-react-native"
+import {
+  Calendar,
+  CalendarAdd,
+  CalendarRemove,
+  CalendarTick,
+  Man,
+  Woman
+} from "iconsax-react-native"
 import {
   BicepsFlexed,
   Scale,
@@ -6,7 +13,14 @@ import {
   TrendingUp
 } from "lucide-react-native"
 
-import { GenderEnum, TypeDishEnum, TypeGoalEnum, TypeMealEnum } from "./enums"
+import {
+  GenderEnum,
+  StatusBookingEnum,
+  StatusScheduleEnum,
+  TypeDishEnum,
+  TypeGoalEnum,
+  TypeMealEnum
+} from "./enums"
 
 export const DATA = {
   MEALS: [
@@ -88,5 +102,40 @@ export const DATA = {
     { label: "Tăng cân chậm", description: "0.25kg / tuần", value: 1.1 },
     { label: "Tăng cân trung bình", description: "0.5kg / tuần", value: 1.2 },
     { label: "Giảm cân nhanh", description: "0.75kg / tuần", value: 1.3 }
+  ],
+  SCHEDULES: [
+    { label: "Có sẵn", value: StatusScheduleEnum.Available, color: "#16a34a" },
+    {
+      label: "Không có sẵn",
+      value: StatusScheduleEnum.Unavailable,
+      color: "#ef4444"
+    },
+    { label: "Đã đặt", value: StatusScheduleEnum.Booked, color: "#ca8a04" }
+  ],
+  BOOKINGS: [
+    {
+      label: "Chờ xác nhận",
+      value: StatusBookingEnum.Pending,
+      icon: CalendarAdd,
+      color: "#ca8a04"
+    },
+    {
+      label: "Đã xác nhận",
+      value: StatusBookingEnum.Confirmed,
+      icons: Calendar,
+      color: "#16a34a"
+    },
+    {
+      label: "Hoàn thành",
+      value: StatusBookingEnum.Completed,
+      icon: CalendarTick,
+      color: "#3b82f6"
+    },
+    {
+      label: "Đã hủy",
+      value: StatusBookingEnum.Cancelled,
+      icon: CalendarRemove,
+      color: "#ef4444"
+    }
   ]
 }

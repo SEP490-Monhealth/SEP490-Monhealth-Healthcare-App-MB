@@ -27,7 +27,7 @@ function HomeScreen() {
 
   // console.log(user)
 
-  const { tab } = useLocalSearchParams()
+  const { tab } = useLocalSearchParams<{ tab: string }>()
   const [activeTab, setActiveTab] = useState(tab || "meal")
   const [loading, setLoading] = useState(false)
   const [overlayLoading, setOverlayLoading] = useState(false)
