@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { Text, View } from "react-native"
+import { View } from "react-native"
 
 import {
   Container,
@@ -14,12 +14,14 @@ import { Header } from "@/components/global/organisms"
 
 import { sampleBookingsData } from "@/constants/booking"
 
-function ScheduleConsultantScreen() {
+function ScheduleScreen() {
   const scheduleData = sampleBookingsData
 
-  const today = new Date().toISOString()
+  const today = new Date()
 
-  const [selectedDate, setSelectedDate] = useState<string | null>(today)
+  const [selectedDate, setSelectedDate] = useState<string | null>(
+    today.toISOString()
+  )
 
   const handleDateSelect = (date: string) => {
     setSelectedDate(date)
@@ -38,13 +40,14 @@ function ScheduleConsultantScreen() {
             </View>
 
             {scheduleData.map((schedule) => (
-              <View key={schedule.bookingId} className="mb-4">
-                <ScheduleCard
-                  customer={schedule.customer}
-                  time={schedule.time}
-                  notes={schedule.notes}
-                />
-              </View>
+              <ScheduleCard
+                key={schedule.scheduleId}
+                customer={schedule.customer}
+                startTime={schedule.time}
+                endTime={schedule.updatedAt}
+                status={schedule.status}
+                notes={schedule.notes}
+              />
             ))}
           </VStack>
         </ScrollArea>
@@ -53,4 +56,4 @@ function ScheduleConsultantScreen() {
   )
 }
 
-export default ScheduleConsultantScreen
+export default ScheduleScreen

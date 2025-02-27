@@ -6,7 +6,7 @@ import { DocumentText, Eye, PictureFrame } from "iconsax-react-native"
 
 import { COLORS } from "@/constants/color"
 
-import { Card, HStack, VStack } from "../atoms"
+import { Card, HStack } from "../atoms"
 import { IconButton } from "./IconButton"
 
 const fetchFileSize = async (url: string): Promise<string> => {

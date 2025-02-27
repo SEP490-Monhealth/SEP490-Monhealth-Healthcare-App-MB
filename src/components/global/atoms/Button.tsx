@@ -39,13 +39,13 @@ export const Button: React.FC<ButtonProps> = ({
       text: "text-primary"
     },
     danger: {
-      container: disabled ? "bg-gray-300" : "bg-destructive",
-      text: "text-destructive-foreground"
+      container: disabled ? "bg-gray-300" : "bg-gray-100",
+      text: "text-destructive"
     }
   }
 
   const sizes = {
-    sm: { container: "h-10 px-4 rounded-xl", text: "text-sm" },
+    sm: { container: "h-12 px-4 rounded-xl", text: "text-base" },
     md: { container: "h-14 px-5 rounded-2xl", text: "text-base" },
     lg: { container: "h-16 px-6 rounded-2xl", text: "text-lg" }
   }

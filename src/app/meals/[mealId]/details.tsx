@@ -312,7 +312,7 @@ function MealDetailsScreen() {
                     size={item.portion?.size}
                     weight={item.portion?.weight}
                     unit={item.portion?.unit}
-                    recommended={true}
+                    recommended={item.isRecommended}
                     status={item.status}
                     onPress={() => handleViewFood(item.foodId)}
                     onStatusPress={() =>

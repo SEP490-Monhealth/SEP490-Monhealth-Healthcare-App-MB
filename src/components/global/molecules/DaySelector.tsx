@@ -1,30 +1,27 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import React, {
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from "react"
 
-import { FlatList, Text, TouchableOpacity } from "react-native"
-
-import { useRouter } from "expo-router"
-
-import { Calendar } from "iconsax-react-native"
-
-import { COLORS } from "@/constants/color"
+import { FlatList, Text, TouchableOpacity, View } from "react-native"
 
 import { formatUTCDate } from "@/utils/formatters"
-
-import { HStack } from "../atoms/Stack"
 
 interface DateProps {
   initialDate: Date
   onDateSelect: (date: string) => void
 }
 
-interface DayDetails {
+interface DayProps {
   date: Date
   dayOfWeek: string
 }
 
 export const DaySelector = ({ initialDate, onDateSelect }: DateProps) => {
-  const router = useRouter()
-
   const validInitialDate = useMemo(
     () =>
       initialDate instanceof Date && !isNaN(initialDate.getTime())
@@ -34,7 +31,7 @@ export const DaySelector = ({ initialDate, onDateSelect }: DateProps) => {
   )
 
   const [selectedDay, setSelectedDay] = useState<Date>(validInitialDate)
-  const flatListScrollRef = useRef<FlatList<DayDetails>>(null)
+  const flatListScrollRef = useRef<FlatList<DayProps>>(null)
 
   const daysInMonth = useMemo(() => {
     const totalDays = new Date(
@@ -73,23 +70,8 @@ export const DaySelector = ({ initialDate, onDateSelect }: DateProps) => {
     onDateSelect(formatUTCDate(date))
   }
 
-  const handleCalendarPress = () => router.push("/Calendar")
-
   return (
     <TouchableOpacity activeOpacity={1}>
-      <HStack center className="mb-4 justify-between">
-        <Text className="font-tmedium text-lg text-primary">
-          {selectedDay.toLocaleString("vi-VN", { month: "short" })},{" "}
-          {selectedDay.getFullYear()}
-        </Text>
-        <Calendar
-          variant="Bold"
-          size={24}
-          color={COLORS.primary}
-          onPress={handleCalendarPress}
-        />
-      </HStack>
-
       <FlatList
         horizontal
         ref={flatListScrollRef}
@@ -104,6 +86,7 @@ export const DaySelector = ({ initialDate, onDateSelect }: DateProps) => {
             onSelect={handleSelectedDay}
           />
         )}
+        ItemSeparatorComponent={() => <View style={{ width: 8 }} />}
         onScrollToIndexFailed={(info) => {
           setTimeout(
             () =>
@@ -119,18 +102,20 @@ export const DaySelector = ({ initialDate, onDateSelect }: DateProps) => {
   )
 }
 
-const DayItem = React.memo(
+const DayItem = memo(
   ({
     date,
     dayOfWeek,
     selectedDay,
     onSelect
-  }: DayDetails & { selectedDay: Date; onSelect: (date: Date) => void }) => {
+  }: DayProps & { selectedDay: Date; onSelect: (date: Date) => void }) => {
     const isSelected = date.toDateString() === selectedDay.toDateString()
+
     return (
       <TouchableOpacity
         activeOpacity={0.7}
-        className={`mr-2 h-20 w-[59px] items-center justify-center gap-1 rounded-xl border border-border px-2 py-4 ${isSelected ? "bg-primary" : "bg-card"}`}
+        className={`h-20 items-center justify-center gap-1 rounded-xl border border-border px-2 py-4 ${isSelected ? "bg-primary" : "bg-card"}`}
+        style={{ width: 50 }}
         onPress={() => onSelect(date)}
       >
         <Text
@@ -138,6 +123,7 @@ const DayItem = React.memo(
         >
           {dayOfWeek}
         </Text>
+
         <Text
           className={`font-tmedium text-base ${isSelected ? "text-white" : "text-accent"}`}
         >

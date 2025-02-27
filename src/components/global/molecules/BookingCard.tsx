@@ -7,17 +7,17 @@ import { CalendarCircle, TimerStart } from "iconsax-react-native"
 import { COLORS } from "@/constants/color"
 
 import { formatDate } from "@/utils/formatters"
-import { getStatus, getStatusBookingColor } from "@/utils/helpers"
+import { getBookingColor, getBookingLabel } from "@/utils/helpers"
 
-import { Button, Card, HStack, VStack } from "../atoms"
+import { Badge, Button, Card, HStack, VStack } from "../atoms"
 
 interface BookingCardProps {
   variant?: "default" | "confirm"
   name: string
   date: string
   time: string
-  note: string
   status: number
+  notes?: string
   onPress?: () => void
   onConfirmPress?: () => void
   onCancelPress?: () => void
@@ -28,14 +28,12 @@ export const BookingCard = ({
   name,
   date,
   time,
-  note,
   status,
+  notes,
   onPress,
   onConfirmPress,
   onCancelPress
 }: BookingCardProps) => {
-  const statusColor = getStatusBookingColor(status)
-
   return (
     <Card onPress={onPress}>
       <VStack gap={10}>
@@ -43,21 +41,18 @@ export const BookingCard = ({
           <HStack center className="justify-between">
             <Text className="font-tmedium text-lg text-primary">{name}</Text>
 
-            <View
-              className="rounded-xl px-3 py-1"
-              style={{ backgroundColor: statusColor }}
-            >
-              <Text className="font-tregular text-sm text-white">
-                {getStatus(status)}
-              </Text>
-            </View>
+            <Badge
+              label={getBookingLabel(status)}
+              background={getBookingColor(status)}
+              color="#fff"
+            />
           </HStack>
           <Text
             className="font-tmedium text-sm text-accent"
             numberOfLines={2}
             ellipsizeMode="tail"
           >
-            {note}
+            {notes}
           </Text>
         </VStack>
 
@@ -78,24 +73,19 @@ export const BookingCard = ({
         </HStack>
 
         {variant === "confirm" && (
-          <View className="flex-row justify-between gap-6">
+          <HStack gap={16}>
             <Button
-              variant="secondary"
-              size="md"
+              variant="danger"
+              size="sm"
               onPress={onCancelPress}
               className="flex-1"
             >
               Hủy
             </Button>
-            <Button
-              variant="primary"
-              size="md"
-              onPress={onConfirmPress}
-              className="flex-1"
-            >
+            <Button size="sm" onPress={onConfirmPress} className="flex-1">
               Xác nhận
             </Button>
-          </View>
+          </HStack>
         )}
       </VStack>
     </Card>

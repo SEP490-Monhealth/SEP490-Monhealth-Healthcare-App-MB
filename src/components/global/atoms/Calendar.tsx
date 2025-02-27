@@ -105,7 +105,7 @@ export const Calendar = () => {
   return (
     <View>
       <HStack center className="mb-6 justify-between">
-        <Text className="font-tbold text-xl text-primary">
+        <Text className="-mb-2 font-tmedium text-lg text-primary">
           {`Tháng ${currentDate.getMonth() + 1}, ${currentDate.getFullYear()}`}
         </Text>
 

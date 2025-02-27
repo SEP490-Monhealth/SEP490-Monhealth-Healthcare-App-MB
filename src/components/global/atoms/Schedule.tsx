@@ -93,7 +93,7 @@ export const Schedule = ({ initialDate, onDateSelect }: ScheduleProps) => {
         </Text>
 
         <Text
-          className={`font-tmedium text-base leading-5 ${isSelected ? "text-white" : "text-accent"}`}
+          className={`font-tmedium text-base ${isSelected ? "text-white" : "text-accent"}`}
         >
           {date.getDate()}
         </Text>
@@ -104,14 +104,12 @@ export const Schedule = ({ initialDate, onDateSelect }: ScheduleProps) => {
   const month = selectedDay.toLocaleString("vi-VN", { month: "short" })
   const year = selectedDay.toLocaleString("vi-VN", { year: "numeric" })
 
-  const handleCalendarPress = () => {
-    router.push("/schedules/calendar")
-  }
+  const handleCalendarPress = () => router.push("/test/calendar")
 
   return (
     <Card activeOpacity={1}>
       <HStack center className="mb-4 justify-between">
-        <Text className="font-tbold text-xl text-primary">
+        <Text className="-mb-2 font-tmedium text-lg text-primary">
           {month}, {year}
         </Text>
 

@@ -37,7 +37,7 @@ function ConsultantDetailsScreen() {
     (c) => c.consultantId === consultantId
   )
 
-  const { tab } = useLocalSearchParams()
+  const { tab } = useLocalSearchParams<{ tab: string }>()
   const [activeTab, setActiveTab] = useState(tab || "info")
 
   const rating = 5
@@ -51,7 +51,7 @@ function ConsultantDetailsScreen() {
 
   return (
     <Container>
-      <Header back label="Chuyên viên tư vấn" />
+      <Header back label={consultantData.fullName} />
 
       <Content className="mt-2">
         <ScrollArea className="flex-1">
@@ -65,7 +65,7 @@ function ConsultantDetailsScreen() {
               <VStack gap={8}>
                 <VStack gap={0}>
                   <Text className="font-tbold text-2xl text-primary">
-                    {consultantData.name}
+                    {consultantData.fullName}
                   </Text>
 
                   <Text className="font-tmedium text-base text-accent">
@@ -87,7 +87,7 @@ function ConsultantDetailsScreen() {
           <Button className="mt-4">Gửi tin nhắn</Button>
 
           <Tabs defaultValue={activeTab} contentMarginTop={8} className="mt-6">
-            <TabsList gap={32}>
+            <TabsList>
               <TabsTrigger value="info" onChange={handleTabChange}>
                 Thông tin
               </TabsTrigger>
