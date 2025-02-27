@@ -42,6 +42,7 @@ export const BookingCard = ({
             <Text className="font-tmedium text-lg text-primary">{name}</Text>
 
             <Badge
+              rounded
               label={getBookingLabel(status)}
               background={getBookingColor(status)}
               color="#fff"

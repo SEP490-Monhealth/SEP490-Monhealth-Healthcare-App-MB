@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import { View } from "react-native"
 
@@ -16,7 +16,6 @@ import { sampleBookingsData } from "@/constants/booking"
 
 function ScheduleScreen() {
   const scheduleData = sampleBookingsData
-
   const today = new Date()
 
   const [selectedDate, setSelectedDate] = useState<string | null>(
@@ -25,7 +24,14 @@ function ScheduleScreen() {
 
   const handleDateSelect = (date: string) => {
     setSelectedDate(date)
-    console.log(date)
+  }
+
+  useEffect(() => {
+    console.log("Ngày để chọn:", selectedDate)
+  }, [selectedDate])
+
+  const handleViewBooking = (bookingId: string) => {
+    console.log(bookingId)
   }
 
   return (
@@ -36,7 +42,11 @@ function ScheduleScreen() {
         <ScrollArea>
           <VStack>
             <View className="mb-4">
-              <Schedule initialDate={today} onDateSelect={handleDateSelect} />
+              <Schedule
+                initialDate={today}
+                pickDateInMonth={selectedDate}
+                onDateSelected={handleDateSelect}
+              />
             </View>
 
             {scheduleData.map((schedule) => (
@@ -47,6 +57,7 @@ function ScheduleScreen() {
                 endTime={schedule.updatedAt}
                 status={schedule.status}
                 notes={schedule.notes}
+                onPress={() => handleViewBooking(schedule.bookingId)}
               />
             ))}
           </VStack>

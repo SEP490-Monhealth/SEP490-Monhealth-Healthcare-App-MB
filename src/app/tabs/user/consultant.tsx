@@ -24,7 +24,7 @@ function ConsultantScreen() {
 
       <Content className="mt-2 pb-12">
         <VStack gap={20}>
-          <Schedule initialDate={today} onDateSelect={handleDateSelect} />
+          <Schedule initialDate={today} onDateSelected={handleDateSelect} />
         </VStack>
       </Content>
     </Container>

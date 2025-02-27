@@ -13,7 +13,7 @@ import { formatUTCDate } from "@/utils/formatters"
 
 interface DateProps {
   initialDate: Date
-  onDateSelect: (date: string) => void
+  onDateSelected: (date: string) => void
 }
 
 interface DayProps {
@@ -21,7 +21,7 @@ interface DayProps {
   dayOfWeek: string
 }
 
-export const DaySelector = ({ initialDate, onDateSelect }: DateProps) => {
+export const DaySelector = ({ initialDate, onDateSelected }: DateProps) => {
   const validInitialDate = useMemo(
     () =>
       initialDate instanceof Date && !isNaN(initialDate.getTime())
@@ -67,7 +67,7 @@ export const DaySelector = ({ initialDate, onDateSelect }: DateProps) => {
 
   const handleSelectedDay = (date: Date) => {
     setSelectedDay(date)
-    onDateSelect(formatUTCDate(date))
+    onDateSelected(formatUTCDate(date))
   }
 
   return (

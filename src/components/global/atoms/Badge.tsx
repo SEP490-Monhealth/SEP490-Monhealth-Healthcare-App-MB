@@ -30,7 +30,7 @@ export const Badge = ({
       )}
       style={{ backgroundColor: background }}
     >
-      <Text className="font-tmedium text-sm" style={{ color }}>
+      <Text className="font-tregular text-sm" style={{ color }}>
         {label}
       </Text>
     </View>

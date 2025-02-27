@@ -8,6 +8,8 @@ import { Calendar } from "iconsax-react-native"
 
 import { COLORS } from "@/constants/color"
 
+import { dateStore } from "@/stores/dateStore"
+
 import { formatUTCDate } from "@/utils/formatters"
 
 import { Card } from "./Card"
@@ -15,7 +17,8 @@ import { HStack } from "./Stack"
 
 interface ScheduleProps {
   initialDate: Date
-  onDateSelect: (date: string) => void
+  pickDateInMonth: string | null
+  onDateSelected: (date: string) => void
 }
 
 interface DayDetails {
@@ -23,7 +26,11 @@ interface DayDetails {
   dayOfWeek: string
 }
 
-export const Schedule = ({ initialDate, onDateSelect }: ScheduleProps) => {
+export const Schedule = ({
+  initialDate,
+  pickDateInMonth,
+  onDateSelected
+}: ScheduleProps) => {
   const router = useRouter()
 
   const validInitialDate = useMemo(() => {
@@ -74,7 +81,7 @@ export const Schedule = ({ initialDate, onDateSelect }: ScheduleProps) => {
 
   const handleSelectedDay = (date: Date) => {
     setSelectedDay(date)
-    onDateSelect(formatUTCDate(date))
+    onDateSelected(formatUTCDate(date))
   }
 
   const DayItem = ({ date, dayOfWeek }: DayDetails) => {
@@ -104,7 +111,19 @@ export const Schedule = ({ initialDate, onDateSelect }: ScheduleProps) => {
   const month = selectedDay.toLocaleString("vi-VN", { month: "short" })
   const year = selectedDay.toLocaleString("vi-VN", { year: "numeric" })
 
-  const handleCalendarPress = () => router.push("/test/calendar")
+  const handleCalendarPress = () => {
+    let dateToSend: Date
+
+    if (pickDateInMonth) {
+      dateToSend = new Date(pickDateInMonth)
+    } else {
+      dateToSend = initialDate
+    }
+
+    dateStore.getState().setDateToSend(dateToSend)
+
+    router.push(`/test/calendar`)
+  }
 
   return (
     <Card activeOpacity={1}>

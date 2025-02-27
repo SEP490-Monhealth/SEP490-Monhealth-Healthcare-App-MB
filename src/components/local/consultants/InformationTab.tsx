@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import { Text, TouchableOpacity, View } from "react-native"
 
@@ -32,19 +32,23 @@ export const InformationTab = () => {
   )
   const [selectedTime, setSelectedTime] = useState<string | null>(null)
 
-  const bookingDate =
-    selectedDate && selectedTime
-      ? new Date(
-          `${selectedDate.split("T")[0]}T${selectedTime}:00.000Z`
-        ).toISOString()
-      : null
+  // const bookingDate =
+  //   selectedDate && selectedTime
+  //     ? new Date(
+  //         `${selectedDate.split("T")[0]}T${selectedTime}:00.000Z`
+  //       ).toISOString()
+  //     : null
 
-  console.log("🚀 ~ InformationTab ~ bookingDate:", bookingDate)
+  // console.log("🚀 ~ InformationTab ~ bookingDate:", bookingDate)
 
   const handleDateSelect = (date: string) => {
     setSelectedDate(date)
     console.log(date)
   }
+
+  useEffect(() => {
+    console.log("selectedDate updated: ", selectedDate)
+  }, [selectedDate])
 
   const handleTimeSelect = (scheduleId: string) => {
     setSelectedTime(selectedTime === scheduleId ? null : scheduleId)
@@ -86,7 +90,7 @@ export const InformationTab = () => {
           onPress={handleViewCalendar}
         />
 
-        <DaySelector initialDate={today} onDateSelect={handleDateSelect} />
+        <DaySelector initialDate={today} onDateSelected={handleDateSelect} />
       </View>
 
       <View>

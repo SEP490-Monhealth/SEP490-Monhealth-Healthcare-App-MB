@@ -2,6 +2,8 @@ import React, { useMemo, useState } from "react"
 
 import { FlatList, Text, TouchableOpacity, View } from "react-native"
 
+import { useRouter } from "expo-router"
+
 import { ChevronLeft, ChevronRight } from "lucide-react-native"
 
 import { COLORS } from "@/constants/color"
@@ -12,8 +14,15 @@ import { HStack } from "./Stack"
 
 const daysOfWeek = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"]
 
-export const Calendar = () => {
-  const [currentDate, setCurrentDate] = useState(new Date())
+interface DateProps {
+  href: string
+  currentDate: Date
+  onDateSelected: (date: string) => void
+}
+
+export const Calendar = ({ href, currentDate, onDateSelected }: DateProps) => {
+  const router = useRouter()
+
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date())
 
   const daysInMonth = useMemo(() => {
@@ -45,18 +54,24 @@ export const Calendar = () => {
   }, [currentDate])
 
   const handlePrevMonth = () => {
-    setCurrentDate((prev) => new Date(prev.getFullYear(), prev.getMonth() - 1))
+    const prevMonth = new Date(currentDate)
+    prevMonth.setMonth(prevMonth.getMonth() - 1)
     setSelectedDate(null)
+    onDateSelected(formatUTCDate(prevMonth))
   }
-
   const handleNextMonth = () => {
-    setCurrentDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1))
+    const nextMonth = new Date(currentDate)
+    nextMonth.setMonth(nextMonth.getMonth() + 1)
     setSelectedDate(null)
+    onDateSelected(formatUTCDate(nextMonth))
   }
 
   const handleDayPress = (date: Date) => {
     setSelectedDate(date)
-    console.log("Selected Date:", formatUTCDate(date))
+    onDateSelected(formatUTCDate(date))
+    if (href) {
+      router.push(href)
+    }
   }
 
   const renderDay = ({ item }: { item: Date | null }) => {
