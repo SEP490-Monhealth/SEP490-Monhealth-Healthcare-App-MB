@@ -110,7 +110,7 @@ function FoodUserScreen() {
           onRefresh={onRefresh}
           refreshing={isRefreshing}
           onEndReached={onEndReached}
-          onEndReachedThreshold={0.1}
+          onEndReachedThreshold={0.5}
           showsVerticalScrollIndicator={false}
           stickyHeaderIndices={[0]}
           ListHeaderComponent={<ListHeader />}

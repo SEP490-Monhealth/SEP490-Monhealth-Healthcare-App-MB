@@ -102,8 +102,6 @@ function WorkoutsScreen() {
     )
   }, [typesData, selectedType])
 
-  console.log(limit)
-
   if ((!workoutsData && isLoading) || !typesData || isTypesLoading)
     return <LoadingScreen />
 
@@ -133,7 +131,7 @@ function WorkoutsScreen() {
           maxToRenderPerBatch={5}
           windowSize={5}
           onEndReached={onEndReached}
-          onEndReachedThreshold={0.1}
+          onEndReachedThreshold={0.5}
           ListHeaderComponent={FlatListHeader}
           renderItem={({ item }) => (
             <WorkoutCard

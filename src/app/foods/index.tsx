@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 
-import { ActivityIndicator, Keyboard, View } from "react-native"
+import { ActivityIndicator, View } from "react-native"
 import { FlatList } from "react-native"
+import { Keyboard } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -10,7 +11,6 @@ import { SearchNormal1 } from "iconsax-react-native"
 import { Container, Content, Input, Modal } from "@/components/global/atoms"
 import {
   CustomHeader,
-  ErrorDisplay,
   FoodCard,
   ListFooter,
   ListHeader
@@ -50,7 +50,7 @@ function FoodsScreen() {
   const { userAllergiesData } = useUserFood()
 
   const [foodsData, setFoodsData] = useState<FoodType[]>([])
-  const [page, setPage] = useState<number>(1)
+  const [limit, setLimit] = useState<number>(10)
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false)
   const [searchQuery, setSearchQuery] = useState<string>("")
@@ -62,15 +62,15 @@ function FoodsScreen() {
   )
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 
-  const debouncedFilter = useDebounce(selectedCategory, 0)
   const debouncedSearch = useDebounce(searchQuery)
+  const debouncedFilter = useDebounce(selectedCategory, 0)
 
-  const { data: categoriesData, isLoading: isTypesLoading } =
+  const { data: categoriesData, isLoading: isCategoriesLoading } =
     useGetCategoriesByType(TypeCategoryEnum.Food)
 
   const { data, isLoading } = useGetAllFoods(
-    page,
-    10,
+    1,
+    limit,
     debouncedFilter === "Tất cả" ? "" : debouncedFilter,
     debouncedSearch,
     true,
@@ -79,23 +79,21 @@ function FoodsScreen() {
   )
 
   useEffect(() => {
-    setPage(1)
-  }, [debouncedSearch, debouncedFilter])
-
-  useEffect(() => {
     if (data?.foods) {
-      setFoodsData((prev) =>
-        page === 1 ? data.foods : [...prev, ...data.foods]
-      )
-      setHasMore(data.foods.length === 10)
+      setFoodsData(data.foods)
+      setHasMore(data.foods.length < data.totalItems)
     }
-    setIsLoadingMore(false)
-  }, [data, page])
+  }, [data, limit])
 
   const loadMoreData = () => {
-    if (!hasMore || isLoadingMore || isLoading) return
+    if (!hasMore || isLoadingMore) return
+
     setIsLoadingMore(true)
-    setPage((prev) => prev + 1)
+
+    setTimeout(() => {
+      setLimit((prev) => prev + 10)
+      setIsLoadingMore(false)
+    }, 200)
   }
 
   const onEndReached = () => {
@@ -107,7 +105,7 @@ function FoodsScreen() {
   const onRefresh = async () => {
     setIsRefreshing(true)
     Keyboard.dismiss()
-    setPage(1)
+    setLimit(10)
     setTimeout(() => {
       setIsRefreshing(false)
     }, 1000)
@@ -177,7 +175,8 @@ function FoodsScreen() {
     )
   }, [categoriesData, selectedCategory])
 
-  if (isLoading || !categoriesData || isTypesLoading) return <LoadingScreen />
+  if ((!foodsData && isLoading) || !categoriesData || isCategoriesLoading)
+    return <LoadingScreen />
 
   return (
     <>
@@ -221,14 +220,6 @@ function FoodsScreen() {
                 onAddPress={() => handleAddFood(item)}
               />
             )}
-            ListEmptyComponent={
-              <ErrorDisplay
-                imageSource={require("../../../public/images/monhealth-no-data-image.png")}
-                title="Không có dữ liệu"
-                description="Không tìm thấy món ăn phù hợp. Hãy thử lại!"
-                marginTop={24}
-              />
-            }
             ListFooterComponent={
               hasMore ? (
                 <ListFooter>

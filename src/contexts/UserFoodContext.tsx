@@ -7,6 +7,7 @@ export interface UserFoodContextType {
   userAllergiesData: string[]
   toggleFoodSaved: (food: FoodSaveType) => Promise<void>
   clearFoodSaved: () => Promise<void>
+  addUserAllergies: (allergy: string[]) => Promise<void>
 }
 
 export const UserFoodContext = createContext<UserFoodContextType | undefined>(

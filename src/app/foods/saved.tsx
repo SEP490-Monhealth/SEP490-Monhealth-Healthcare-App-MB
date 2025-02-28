@@ -29,7 +29,7 @@ function FoodSavedScreen() {
     }, 2000)
   }
 
-  const handleclearFoodSavedFood = () => {
+  const handleClear = () => {
     setIsModalVisible(true)
   }
 
@@ -74,7 +74,7 @@ function FoodSavedScreen() {
           <Button
             variant="danger"
             size="lg"
-            onPress={handleclearFoodSavedFood}
+            onPress={handleClear}
             className="absolute bottom-4 left-6 right-6 w-full"
           >
             Xóa tất cả

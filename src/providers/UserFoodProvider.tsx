@@ -70,13 +70,32 @@ export const UserFoodProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
+  const addUserAllergies = async (allergies: string[]) => {
+    try {
+      const newAllergies = allergies.filter(
+        (allergy) => !userAllergiesData.includes(allergy)
+      )
+      if (newAllergies.length > 0) {
+        const updatedAllergies = [...userAllergiesData, ...newAllergies]
+        await AsyncStorage.setItem(
+          "userAllergies",
+          JSON.stringify(updatedAllergies)
+        )
+        setUserAllergiesData(updatedAllergies)
+      }
+    } catch (error) {
+      console.error("Failed to add user allergies:", error)
+    }
+  }
+
   return (
     <UserFoodContext.Provider
       value={{
         userFoodsData,
         userAllergiesData,
         toggleFoodSaved,
-        clearFoodSaved
+        clearFoodSaved,
+        addUserAllergies
       }}
     >
       {children}

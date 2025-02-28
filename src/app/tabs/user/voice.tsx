@@ -16,10 +16,6 @@ function VoiceScreen() {
     router.push("/(consultant-setup)/expertise")
   }
 
-  const handleViewLocalImage = () => {
-    router.push("/test/local-image")
-  }
-
   const handleViewConsultant = () => {
     router.push("/test/consultant")
   }
@@ -46,10 +42,6 @@ function VoiceScreen() {
         <VStack gap={20}>
           <Button size="lg" onPress={handleViewSignUp}>
             Đăng ký consultant
-          </Button>
-
-          <Button size="lg" onPress={handleViewLocalImage}>
-            Local Image
           </Button>
 
           <Button size="lg" onPress={handleViewConsultant}>
