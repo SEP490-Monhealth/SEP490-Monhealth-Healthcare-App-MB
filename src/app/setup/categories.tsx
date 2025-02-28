@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Image, Text, TouchableOpacity, View } from "react-native"
+import { Image, View } from "react-native"
 
 import { get } from "lodash"
 import { Control, FieldValues, useController } from "react-hook-form"
@@ -41,31 +41,29 @@ function SetupCategories({ control, errors }: SetupCategoriesProps) {
   return (
     <ScrollArea>
       <VStack gap={12} className="pb-24">
-        {filteredCategoriesData.map((category) => {
-          return (
-            <Chip
-              key={category.categoryId}
-              size="lg"
-              border
-              borderWidth={2}
-              label={category.name}
-              icon={
-                <View className="h-12 w-12 items-center justify-center rounded-full bg-muted">
-                  <Image
-                    source={
-                      typeof category.image === "string"
-                        ? { uri: category.image }
-                        : category.image
-                    }
-                    style={{ width: 24, height: 24 }}
-                  />
-                </View>
-              }
-              selected={field.value?.includes(category.name)}
-              onPress={() => handleSelectCategories(category.name)}
-            />
-          )
-        })}
+        {filteredCategoriesData.map((category) => (
+          <Chip
+            key={category.categoryId}
+            size="lg"
+            border
+            borderWidth={2}
+            label={category.name}
+            icon={
+              <View className="h-12 w-12 items-center justify-center rounded-full bg-muted">
+                <Image
+                  source={
+                    typeof category.image === "string"
+                      ? { uri: category.image }
+                      : category.image
+                  }
+                  style={{ width: 24, height: 24 }}
+                />
+              </View>
+            }
+            selected={field.value?.includes(category.name)}
+            onPress={() => handleSelectCategories(category.name)}
+          />
+        ))}
 
         {errorMessage && <ErrorText text={errorMessage} />}
       </VStack>

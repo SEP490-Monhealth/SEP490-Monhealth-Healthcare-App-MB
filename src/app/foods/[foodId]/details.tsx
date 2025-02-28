@@ -35,7 +35,7 @@ import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
 
 import { useAuth } from "@/contexts/AuthContext"
-import { useUserFood } from "@/contexts/UserFoodContext"
+import { useStorage } from "@/contexts/StorageContext"
 
 import { useGetFoodById } from "@/hooks/useFood"
 import { useCreateMeal } from "@/hooks/useMeal"
@@ -59,9 +59,9 @@ function FoodDetailsScreen() {
 
   const { mutate: addMeal } = useCreateMeal()
 
-  const { userFoodsData, toggleFoodSaved } = useUserFood()
+  const { savedFoods, toggleSavedFood } = useStorage()
 
-  const isSaved = userFoodsData.some((saved) => saved.foodId === foodId)
+  const isSaved = savedFoods.some((saved) => saved.foodId === foodId)
 
   const [selectedMeal, setSelectedMeal] = useState(getMealType("vi"))
 
@@ -185,14 +185,14 @@ function FoodDetailsScreen() {
   )
     return <LoadingScreen />
 
-  const handletoggleFoodSaved = () => {
+  const handletoggleSavedFood = () => {
     if (foodData && nutritionData && portionData) {
       const { portionSize, portionWeight, portionUnit } = parsePortion(
         selectedPortion,
         quantity
       )
 
-      toggleFoodSaved({
+      toggleSavedFood({
         foodId: foodId,
         name: foodData.name,
         portion: {
@@ -224,7 +224,7 @@ function FoodDetailsScreen() {
                 />
               )
             }}
-            onActionPress={handletoggleFoodSaved}
+            onActionPress={handletoggleSavedFood}
           />
 
           <Content className="mt-2">

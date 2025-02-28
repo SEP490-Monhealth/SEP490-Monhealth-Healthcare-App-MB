@@ -8,7 +8,14 @@ import { useRouter } from "expo-router"
 
 import { SearchNormal1 } from "iconsax-react-native"
 
-import { Container, Content, Input, Modal } from "@/components/global/atoms"
+import {
+  Badge,
+  Container,
+  Content,
+  HStack,
+  Input,
+  Modal
+} from "@/components/global/atoms"
 import {
   CustomHeader,
   FoodCard,
@@ -23,13 +30,12 @@ import { COLORS } from "@/constants/color"
 import { TypeCategoryEnum } from "@/constants/enums"
 
 import { useAuth } from "@/contexts/AuthContext"
-import { useUserFood } from "@/contexts/UserFoodContext"
+import { useStorage } from "@/contexts/StorageContext"
 
 import { useGetCategoriesByType } from "@/hooks/useCategory"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useGetAllFoods } from "@/hooks/useFood"
 import { useCreateMeal } from "@/hooks/useMeal"
-import { useRouterHandlers } from "@/hooks/useRouter"
 
 import { FoodType } from "@/schemas/foodSchema"
 import { CreateMealType } from "@/schemas/mealSchema"
@@ -40,14 +46,14 @@ import { LoadingScreen } from "../loading"
 
 function FoodsScreen() {
   const router = useRouter()
-  const { handleViewFood } = useRouterHandlers()
 
   const { user } = useAuth()
   const userId = user?.userId
 
-  const { mutate: addMeal } = useCreateMeal()
+  const { userAllergies, searchHistory, addSearchHistory, clearSearchHistory } =
+    useStorage()
 
-  const { userAllergiesData } = useUserFood()
+  const { mutate: addMeal } = useCreateMeal()
 
   const [foodsData, setFoodsData] = useState<FoodType[]>([])
   const [limit, setLimit] = useState<number>(10)
@@ -114,7 +120,7 @@ function FoodsScreen() {
   const handleAddFood = useCallback(
     (food: FoodType) => {
       const hasAllergy = food.allergies?.some((allergy) =>
-        userAllergiesData.includes(allergy)
+        userAllergies.includes(allergy)
       )
 
       const mealData = {
@@ -138,7 +144,7 @@ function FoodsScreen() {
         confirmAddMeal(mealData)
       }
     },
-    [userId, userAllergiesData]
+    [userId, userAllergies]
   )
 
   const confirmAddMeal = (mealData: CreateMealType) => {
@@ -149,6 +155,11 @@ function FoodsScreen() {
     //     setAddedFoods((prev) => new Set(prev).add(mealData.items[0].foodId))
     // })
     setIsModalVisible(false)
+  }
+
+  const handleViewFood = (foodId: string, foodName: string) => {
+    addSearchHistory(foodName)
+    router.push(`/foods/${foodId}/details`)
   }
 
   const handleViewUserFoods = () => router.push("/foods/user")
@@ -164,7 +175,17 @@ function FoodsScreen() {
           onSelectCategory={setSelectedCategory}
         />
 
-        <Section label="Tìm kiếm gần đây" actionText="Xóa tất cả" />
+        <Section
+          label="Tìm kiếm gần đây"
+          actionText="Xóa tất cả"
+          onPress={clearSearchHistory}
+        />
+
+        <HStack gap={6} className="flex-wrap">
+          {searchHistory.map((search, index) => (
+            <Badge key={index} label={search} />
+          ))}
+        </HStack>
 
         <Section
           label="Danh sách món ăn"
@@ -173,7 +194,7 @@ function FoodsScreen() {
         />
       </ListHeader>
     )
-  }, [categoriesData, selectedCategory])
+  }, [categoriesData, selectedCategory, searchHistory])
 
   if ((!foodsData && isLoading) || !categoriesData || isCategoriesLoading)
     return <LoadingScreen />
@@ -216,7 +237,7 @@ function FoodsScreen() {
                 weight={item.portion?.weight}
                 unit={item.portion?.unit}
                 isAdded={addedFoods.has(item.foodId)}
-                onPress={() => handleViewFood(item.foodId)}
+                onPress={() => handleViewFood(item.foodId, item.name)}
                 onAddPress={() => handleAddFood(item)}
               />
             )}

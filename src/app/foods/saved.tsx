@@ -11,13 +11,13 @@ import {
 } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
-import { useUserFood } from "@/contexts/UserFoodContext"
+import { useStorage } from "@/contexts/StorageContext"
 
 import { useRouterHandlers } from "@/hooks/useRouter"
 
 function FoodSavedScreen() {
   const { handleViewFood } = useRouterHandlers()
-  const { userFoodsData, clearFoodSaved } = useUserFood()
+  const { savedFoods, clearSavedFoods } = useStorage()
 
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -40,7 +40,7 @@ function FoodSavedScreen() {
 
         <Content className="mt-2">
           <FlatList
-            data={userFoodsData || []}
+            data={savedFoods || []}
             keyExtractor={(item) => item.foodId}
             onRefresh={onRefresh}
             refreshing={isRefreshing}
@@ -70,7 +70,7 @@ function FoodSavedScreen() {
           />
         </Content>
 
-        {userFoodsData.length > 0 && (
+        {savedFoods.length > 0 && (
           <Button
             variant="danger"
             size="lg"
@@ -89,7 +89,7 @@ function FoodSavedScreen() {
         description="Bạn có chắc chắn muốn xóa tất cả món ăn đã lưu không?"
         confirmText="Xóa"
         cancelText="Hủy"
-        onConfirm={clearFoodSaved}
+        onConfirm={clearSavedFoods}
       />
     </>
   )

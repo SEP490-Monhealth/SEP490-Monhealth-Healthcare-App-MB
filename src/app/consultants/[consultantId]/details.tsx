@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { Image, Text, View } from "react-native"
+import { Image, Text } from "react-native"
 
 import { useLocalSearchParams } from "expo-router"
 

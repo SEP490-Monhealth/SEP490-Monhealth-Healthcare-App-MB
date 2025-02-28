@@ -16,7 +16,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { AuthProvider } from "@/providers/AuthProvider"
 import { ErrorProvider } from "@/providers/ErrorProvider"
 import { ModalProvider } from "@/providers/ModalProvider"
-import { UserFoodProvider } from "@/providers/UserFoodProvider"
+import { StorageProvider } from "@/providers/StorageProvider"
 
 import { MonFonts } from "@/styles/typography"
 
@@ -55,14 +55,14 @@ function AppLayout() {
       <ErrorProvider>
         <ModalProvider>
           <AuthProvider>
-            <UserFoodProvider>
+            <StorageProvider>
               <GestureHandlerRootView style={{ flex: 1 }}>
                 <SafeAreaProvider>
                   <Stack screenOptions={{ headerShown: false }} />
                   <StatusBar style="auto" backgroundColor="#fff" />
                 </SafeAreaProvider>
               </GestureHandlerRootView>
-            </UserFoodProvider>
+            </StorageProvider>
           </AuthProvider>
         </ModalProvider>
       </ErrorProvider>
