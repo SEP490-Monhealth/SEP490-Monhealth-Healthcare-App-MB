@@ -122,7 +122,7 @@ export const DATA = {
     {
       label: "Đã xác nhận",
       value: StatusBookingEnum.Confirmed,
-      icons: Calendar,
+      icon: Calendar,
       color: "#16a34a"
     },
     {

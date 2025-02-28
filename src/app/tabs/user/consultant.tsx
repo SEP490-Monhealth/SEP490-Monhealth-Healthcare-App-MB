@@ -7,9 +7,12 @@ import { Header } from "@/components/global/organisms"
 
 function ConsultantScreen() {
   const router = useRouter()
-  const today = new Date().toISOString()
 
-  const [selectedDate, setSelectedDate] = useState<string | null>(today)
+  const today = new Date()
+
+  const [selectedDate, setSelectedDate] = useState<string | null>(
+    today.toISOString()
+  )
 
   console.log(selectedDate)
 

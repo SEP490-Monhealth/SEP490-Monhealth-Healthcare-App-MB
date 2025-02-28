@@ -16,6 +16,7 @@ interface ScheduleCardProps {
   customer: string
   status: StatusBookingEnum
   notes?: string
+  onPress?: () => void
 }
 
 export const ScheduleCard = ({
@@ -23,7 +24,8 @@ export const ScheduleCard = ({
   endTime,
   customer,
   status,
-  notes
+  notes,
+  onPress
 }: ScheduleCardProps) => {
   const BookingIcon = getBookingIcon(status)
 
@@ -44,10 +46,10 @@ export const ScheduleCard = ({
       <View className="flex-1 flex-col gap-2">
         <Text className="ml-2 mt-3 font-tmedium text-base text-primary">
           {startTime}
-          {endTime !== startTime ? ` - ${endTime}` : ""}
+          {endTime && `${-endTime}`}
         </Text>
 
-        <Card>
+        <Card onPress={onPress}>
           <Text className="font-tmedium text-lg text-primary">{customer}</Text>
 
           <Text

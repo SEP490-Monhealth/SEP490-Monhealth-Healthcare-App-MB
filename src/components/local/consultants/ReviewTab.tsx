@@ -1,20 +1,20 @@
 import React from "react"
 
-import { Text, View } from "react-native"
+import { View } from "react-native"
 
-import { Star } from "lucide-react-native"
-
-import { HStack, Progress, VStack } from "@/components/global/atoms"
+import { VStack } from "@/components/global/atoms"
 import { ReviewCard } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
 
-import { COLORS } from "@/constants/color"
 import { sampleReviewsData } from "@/constants/reviews"
+
+import { ReviewOverview } from "./ReviewOverview"
 
 export const ReviewTab = () => {
   const reviewsData = sampleReviewsData.reviews
 
   const totalReviews = reviewsData.length
+  const averageRating = sampleReviewsData.avgRating
 
   const ratingsCount: Record<number, number> = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 }
 
@@ -31,56 +31,29 @@ export const ReviewTab = () => {
   }))
 
   return (
-    <View className="mt-2">
-      <Section
-        label={`Điểm đánh giá (${totalReviews})`}
-        actionText={sampleReviewsData.avgRating.toString()}
-        margin={false}
+    <VStack gap={12} className="mt-2">
+      <ReviewOverview
+        totalReviews={totalReviews}
+        averageRating={averageRating}
+        ratingData={ratingData}
       />
 
-      <VStack gap={8}>
-        {ratingData.map(({ stars, percent }) => (
-          <HStack center key={stars} gap={12} className="justify-between">
-            <HStack center gap={4} className="w-8">
-              <Text className="font-tmedium text-base text-primary">
-                {stars}
-              </Text>
+      <View>
+        <Section label="Tất cả đánh giá" margin={false} />
 
-              <Star
-                size={14}
-                fill={COLORS.PRIMARY.lemon}
-                color={COLORS.PRIMARY.lemon}
-              />
-            </HStack>
-
-            <Progress
-              progress={percent}
-              height={8}
-              color={COLORS.PRIMARY.lemon}
-              className="-mb-1 flex-1"
+        <VStack gap={20}>
+          {reviewsData.map((review, index) => (
+            <ReviewCard
+              key={index}
+              name={review.name}
+              avatarUrl={review.avatarUrl}
+              rating={review.rating}
+              comment={review.comment}
+              time={review.updatedAt}
             />
-
-            <Text className="w-10 text-right font-tmedium text-base text-primary">
-              {percent}%
-            </Text>
-          </HStack>
-        ))}
-      </VStack>
-
-      <Section label="Tất cả đánh giá" />
-
-      <VStack gap={16}>
-        {reviewsData.map((review, index) => (
-          <ReviewCard
-            key={index}
-            name={review.name}
-            avatarUrl={review.avatarUrl}
-            rating={review.rating}
-            comment={review.comment}
-            time={review.updatedAt}
-          />
-        ))}
-      </VStack>
-    </View>
+          ))}
+        </VStack>
+      </View>
+    </VStack>
   )
 }

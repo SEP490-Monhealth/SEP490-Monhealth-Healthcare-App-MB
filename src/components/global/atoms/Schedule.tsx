@@ -104,7 +104,7 @@ export const Schedule = ({ initialDate, onDateSelect }: ScheduleProps) => {
   const month = selectedDay.toLocaleString("vi-VN", { month: "short" })
   const year = selectedDay.toLocaleString("vi-VN", { year: "numeric" })
 
-  const handleCalendarPress = () => router.push("/test/calendar")
+  const handleViewCalendar = () => router.push("/test/calendar")
 
   return (
     <Card activeOpacity={1}>
@@ -117,7 +117,7 @@ export const Schedule = ({ initialDate, onDateSelect }: ScheduleProps) => {
           variant="Bold"
           size={24}
           color={COLORS.primary}
-          onPress={handleCalendarPress}
+          onPress={handleViewCalendar}
         />
       </HStack>
 

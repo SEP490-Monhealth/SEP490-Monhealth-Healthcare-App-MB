@@ -33,16 +33,25 @@ export const DaySelector = ({ initialDate, onDateSelect }: DateProps) => {
   const [selectedDay, setSelectedDay] = useState<Date>(validInitialDate)
   const flatListScrollRef = useRef<FlatList<DayProps>>(null)
 
+  useEffect(() => {
+    setSelectedDay((prev) =>
+      prev.toDateString() !== validInitialDate.toDateString()
+        ? validInitialDate
+        : prev
+    )
+  }, [validInitialDate])
+
   const daysInMonth = useMemo(() => {
     const totalDays = new Date(
-      selectedDay.getFullYear(),
-      selectedDay.getMonth() + 1,
+      validInitialDate.getFullYear(),
+      validInitialDate.getMonth() + 1,
       0
     ).getDate()
+
     return Array.from({ length: totalDays }, (_, i) => {
       const date = new Date(
-        selectedDay.getFullYear(),
-        selectedDay.getMonth(),
+        validInitialDate.getFullYear(),
+        validInitialDate.getMonth(),
         i + 1
       )
       return {
@@ -50,7 +59,7 @@ export const DaySelector = ({ initialDate, onDateSelect }: DateProps) => {
         dayOfWeek: date.toLocaleString("vi-VN", { weekday: "narrow" })
       }
     })
-  }, [selectedDay])
+  }, [validInitialDate])
 
   const scrollToSelectedDate = useCallback(() => {
     const index = daysInMonth.findIndex(
@@ -63,11 +72,13 @@ export const DaySelector = ({ initialDate, onDateSelect }: DateProps) => {
 
   useEffect(() => {
     if (daysInMonth.length > 0) scrollToSelectedDate()
-  }, [daysInMonth, selectedDay, scrollToSelectedDate])
+  }, [selectedDay, scrollToSelectedDate])
 
   const handleSelectedDay = (date: Date) => {
-    setSelectedDay(date)
-    onDateSelect(formatUTCDate(date))
+    if (date.toDateString() !== selectedDay.toDateString()) {
+      setSelectedDay(date)
+      onDateSelect(formatUTCDate(date))
+    }
   }
 
   return (
@@ -114,18 +125,24 @@ const DayItem = memo(
     return (
       <TouchableOpacity
         activeOpacity={0.7}
-        className={`h-20 items-center justify-center gap-1 rounded-xl border border-border px-2 py-4 ${isSelected ? "bg-primary" : "bg-card"}`}
+        className={`h-20 items-center justify-center gap-1 rounded-xl border border-border px-2 py-4 ${
+          isSelected ? "bg-primary" : "bg-card"
+        }`}
         style={{ width: 50 }}
         onPress={() => onSelect(date)}
       >
         <Text
-          className={`font-tbold text-base ${isSelected ? "text-white" : "text-primary"}`}
+          className={`font-tbold text-base ${
+            isSelected ? "text-white" : "text-primary"
+          }`}
         >
           {dayOfWeek}
         </Text>
 
         <Text
-          className={`font-tmedium text-base ${isSelected ? "text-white" : "text-accent"}`}
+          className={`font-tmedium text-base ${
+            isSelected ? "text-white" : "text-accent"
+          }`}
         >
           {date.getDate()}
         </Text>

@@ -22,10 +22,17 @@ function ScheduleScreen() {
   const [selectedDate, setSelectedDate] = useState<string | null>(
     today.toISOString()
   )
+  const [selectedSCheduleId, setSelectedSCheduleId] = useState<string | null>(
+    null
+  )
 
   const handleDateSelect = (date: string) => {
     setSelectedDate(date)
     console.log(date)
+  }
+
+  const handleSelectSchedule = (scheduleId: string) => {
+    setSelectedSCheduleId(scheduleId)
   }
 
   return (
@@ -53,6 +60,7 @@ function ScheduleScreen() {
                   endTime={endTime}
                   status={schedule.status}
                   notes={schedule.notes}
+                  onPress={() => handleSelectSchedule(schedule.scheduleId)}
                 />
               )
             })}

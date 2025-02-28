@@ -1,6 +1,6 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
-import { Text, TouchableOpacity, View } from "react-native"
+import { View } from "react-native"
 
 import { useLocalSearchParams, useRouter } from "expo-router"
 
@@ -14,69 +14,75 @@ import { Section } from "@/components/global/organisms"
 import { sampleConsultantsData } from "@/constants/consultants"
 import { sampleSchedulesData } from "@/constants/schedules"
 
+import { ConsultantBio } from "./ConsultantBio"
+
 export const InformationTab = () => {
   const router = useRouter()
-  const { consultantId } = useLocalSearchParams() as { consultantId: string }
+  const { consultantId, selectedDate: newSelectedDate } =
+    useLocalSearchParams() as { consultantId: string; selectedDate?: string }
 
   const consultantData = sampleConsultantsData.find(
     (c) => c.consultantId === consultantId
   )
+  const schedulesData = sampleSchedulesData
 
-  const scheduleData = sampleSchedulesData
+  const today = new Date().toISOString().split("T")[0]
 
-  const today = new Date()
-
-  const [expanded, setExpanded] = useState<boolean>(false)
-  const [selectedDate, setSelectedDate] = useState<string | null>(
-    today.toISOString()
+  const [selectedDate, setSelectedDate] = useState<string | null>(null)
+  const [selectedScheduleId, setSelectedScheduleId] = useState<string | null>(
+    null
   )
-  const [selectedTime, setSelectedTime] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (newSelectedDate) {
+      const formattedDate = newSelectedDate.split("T")[0]
+      setSelectedDate(formattedDate)
+    } else {
+      setSelectedDate(today)
+    }
+  }, [newSelectedDate])
+
+  console.log("🚀 Final Selected Date:", selectedDate)
+
+  const selectedSchedule = schedulesData.find(
+    (schedule) => schedule.scheduleId === selectedScheduleId
+  )
+
+  const timezoneOffset = new Date().getTimezoneOffset() * 60000
 
   const bookingDate =
-    selectedDate && selectedTime
+    selectedDate && selectedSchedule
       ? new Date(
-          `${selectedDate.split("T")[0]}T${selectedTime}:00.000Z`
+          new Date(`${selectedDate}T${selectedSchedule.time}:00`).getTime() -
+            timezoneOffset
         ).toISOString()
       : null
 
-  console.log("🚀 ~ InformationTab ~ bookingDate:", bookingDate)
+  // console.log(bookingDate)
 
   const handleDateSelect = (date: string) => {
-    setSelectedDate(date)
-    console.log(date)
+    const formattedDate = new Date(date).toISOString().split("T")[0]
+    setSelectedDate(formattedDate)
+    console.log("🚀 Selected Date:", formattedDate)
   }
 
-  const handleTimeSelect = (scheduleId: string) => {
-    setSelectedTime(selectedTime === scheduleId ? null : scheduleId)
+  const handleScheduleSelect = (scheduleId: string) => {
+    setSelectedScheduleId(scheduleId)
   }
 
-  const handleViewCalendar = () => router.push("/test/calendar")
+  const handleViewCalendar = () => {
+    router.push({
+      pathname: "/test/calendar",
+      params: { selectedDate }
+    })
+  }
 
   if (!consultantData) return <LoadingScreen />
 
   return (
     <VStack gap={12} className="mt-2 pb-10">
-      <View>
-        <Section label="Giới thiệu" margin={false} />
-
-        <Text
-          className="-mt-2 text-justify font-tregular text-base text-secondary"
-          numberOfLines={expanded ? undefined : 3}
-        >
-          {consultantData.bio}
-        </Text>
-
-        {consultantData.bio.length > 150 && (
-          <TouchableOpacity
-            activeOpacity={1}
-            onPress={() => setExpanded(!expanded)}
-          >
-            <Text className="font-tmedium text-base text-secondary">
-              {expanded ? "Thu gọn" : "Xem thêm"}
-            </Text>
-          </TouchableOpacity>
-        )}
-      </View>
+      {/* Consultant Bio Section */}
+      <ConsultantBio bio={consultantData.bio} />
 
       <View>
         <Section
@@ -85,21 +91,23 @@ export const InformationTab = () => {
           actionText="Chọn ngày"
           onPress={handleViewCalendar}
         />
-
-        <DaySelector initialDate={today} onDateSelect={handleDateSelect} />
+        <DaySelector
+          initialDate={selectedDate ? new Date(selectedDate) : new Date(today)}
+          onDateSelect={handleDateSelect}
+        />
       </View>
 
       <View>
         <Section label="Thời gian" margin={false} />
 
         <View className="flex-row flex-wrap gap-2">
-          {scheduleData.map((schedule) => (
+          {schedulesData.map((schedule) => (
             <TimeSlotSelector
               key={schedule.scheduleId}
               time={schedule.time}
+              isSelected={selectedScheduleId === schedule.scheduleId}
               status={schedule.status}
-              isSelected={selectedTime === schedule.scheduleId}
-              onPress={() => handleTimeSelect(schedule.scheduleId)}
+              onPress={() => handleScheduleSelect(schedule.scheduleId)}
             />
           ))}
         </View>

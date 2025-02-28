@@ -25,7 +25,7 @@ export const sampleReviewsData = {
       name: "Văn Hữu Toàn",
       avatarUrl:
         "https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-3.jpg",
-      rating: 2,
+      rating: 2.7,
       comment:
         "Rất hài lòng với dịch vụ của tư vấn viên, tuy nhiên vẫn còn một số điểm có thể cải thiện để trải nghiệm trở nên hoàn hảo hơn.",
       createdAt: "2025-02-22T00:00:00Z",

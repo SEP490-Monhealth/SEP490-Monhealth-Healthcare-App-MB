@@ -39,14 +39,6 @@ function BookingsScreen() {
     setActiveTab(tab)
   }
 
-  const handleCancelBooking = (bookingId: string) => {
-    console.log("Hủy booking:", bookingId)
-  }
-
-  const handleConfirmBooking = (bookingId: string) => {
-    console.log("Xác nhận booking:", bookingId)
-  }
-
   return (
     <Container>
       <Header back label="Quản lý lịch hẹn" />
@@ -82,8 +74,6 @@ function BookingsScreen() {
                   time={booking.time}
                   notes={booking.notes}
                   status={booking.status}
-                  onCancelPress={() => handleCancelBooking(booking.bookingId)}
-                  onConfirmPress={() => handleConfirmBooking(booking.bookingId)}
                 />
               ))}
             </TabsContent>

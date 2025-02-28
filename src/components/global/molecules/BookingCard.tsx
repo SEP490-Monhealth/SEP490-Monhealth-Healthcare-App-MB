@@ -45,6 +45,7 @@ export const BookingCard = ({
               label={getBookingLabel(status)}
               background={getBookingColor(status)}
               color="#fff"
+              rounded
             />
           </HStack>
           <Text

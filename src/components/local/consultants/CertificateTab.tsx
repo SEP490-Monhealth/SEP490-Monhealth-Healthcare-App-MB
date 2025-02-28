@@ -1,9 +1,10 @@
 import React from "react"
 
-import { Linking } from "react-native"
+import { Linking, View } from "react-native"
 
 import { VStack } from "@/components/global/atoms"
 import { CertificateCard } from "@/components/global/molecules"
+import { Section } from "@/components/global/organisms"
 
 import { sampleConsultantsData } from "@/constants/consultants"
 
@@ -15,14 +16,18 @@ export const CertificateTab = () => {
   }
 
   return (
-    <VStack gap={12} className="mt-2">
-      {certificatesData.map((certificate, index) => (
-        <CertificateCard
-          key={index}
-          href={certificate}
-          onPress={() => handleDownload(certificate)}
-        />
-      ))}
-    </VStack>
+    <View className="mt-2">
+      <Section label="Tất cả chứng chỉ" margin={false} />
+
+      <VStack gap={12}>
+        {certificatesData.map((certificate, index) => (
+          <CertificateCard
+            key={index}
+            href={certificate}
+            onPress={() => handleDownload(certificate)}
+          />
+        ))}
+      </VStack>
+    </View>
   )
 }

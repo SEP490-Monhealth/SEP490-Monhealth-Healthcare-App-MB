@@ -1,6 +1,8 @@
-import React, { useMemo, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 
 import { FlatList, Text, TouchableOpacity, View } from "react-native"
+
+import { useRouter } from "expo-router"
 
 import { ChevronLeft, ChevronRight } from "lucide-react-native"
 
@@ -12,9 +14,17 @@ import { HStack } from "./Stack"
 
 const daysOfWeek = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"]
 
-export const Calendar = () => {
-  const [currentDate, setCurrentDate] = useState(new Date())
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date())
+interface CalendarProps {
+  initialDate: Date
+}
+
+export const Calendar = ({ initialDate }: CalendarProps) => {
+  const router = useRouter()
+
+  const [currentDate, setCurrentDate] = useState(initialDate || new Date())
+  const [selectedDate, setSelectedDate] = useState<Date | null>(
+    initialDate || new Date()
+  )
 
   const daysInMonth = useMemo(() => {
     const year = currentDate.getFullYear()
@@ -54,19 +64,22 @@ export const Calendar = () => {
     setSelectedDate(null)
   }
 
+  useEffect(() => {
+    setSelectedDate(initialDate)
+  }, [initialDate])
+
   const handleDayPress = (date: Date) => {
     setSelectedDate(date)
-    console.log("Selected Date:", formatUTCDate(date))
+    router.back()
+    router.setParams({ selectedDate: formatUTCDate(date) })
   }
 
   const renderDay = ({ item }: { item: Date | null }) => {
     const isToday = item && item.toDateString() === new Date().toDateString()
-
     const isActive =
       item &&
       selectedDate &&
       item.toDateString() === selectedDate.toDateString()
-
     const isCurrentMonth = item && item.getMonth() === currentDate.getMonth()
 
     return (
@@ -108,7 +121,6 @@ export const Calendar = () => {
         <Text className="-mb-2 font-tmedium text-lg text-primary">
           {`Tháng ${currentDate.getMonth() + 1}, ${currentDate.getFullYear()}`}
         </Text>
-
         <HStack gap={0}>
           <TouchableOpacity
             activeOpacity={0.7}
@@ -117,7 +129,6 @@ export const Calendar = () => {
           >
             <ChevronLeft size={24} color={COLORS.primary} />
           </TouchableOpacity>
-
           <TouchableOpacity
             activeOpacity={0.7}
             className="p-2"

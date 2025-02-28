@@ -37,7 +37,7 @@ export const TimeSlotSelector = ({
           isSelected
             ? "text-white"
             : isDisabled
-              ? "text-accent"
+              ? "text-gray-200"
               : "text-primary"
         )}
       >
