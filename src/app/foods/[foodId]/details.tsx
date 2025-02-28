@@ -16,7 +16,6 @@ import { ArchiveTick } from "iconsax-react-native"
 
 import {
   Button,
-  Card,
   Container,
   Content,
   HStack,
@@ -36,7 +35,7 @@ import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
 
 import { useAuth } from "@/contexts/AuthContext"
-import { useSaveFoods } from "@/contexts/FoodSavedContext"
+import { useUserFood } from "@/contexts/UserFoodContext"
 
 import { useGetFoodById } from "@/hooks/useFood"
 import { useCreateMeal } from "@/hooks/useMeal"
@@ -60,9 +59,9 @@ function FoodDetailsScreen() {
 
   const { mutate: addMeal } = useCreateMeal()
 
-  const { saveFoodsData, toggleSaveFood } = useSaveFoods()
+  const { userFoodsData, toggleFoodSaved } = useUserFood()
 
-  const isSaved = saveFoodsData.some((saved) => saved.foodId === foodId)
+  const isSaved = userFoodsData.some((saved) => saved.foodId === foodId)
 
   const [selectedMeal, setSelectedMeal] = useState(getMealType("vi"))
 
@@ -186,14 +185,14 @@ function FoodDetailsScreen() {
   )
     return <LoadingScreen />
 
-  const handleToggleSaveFood = () => {
+  const handletoggleFoodSaved = () => {
     if (foodData && nutritionData && portionData) {
       const { portionSize, portionWeight, portionUnit } = parsePortion(
         selectedPortion,
         quantity
       )
 
-      toggleSaveFood({
+      toggleFoodSaved({
         foodId: foodId,
         name: foodData.name,
         portion: {
@@ -225,7 +224,7 @@ function FoodDetailsScreen() {
                 />
               )
             }}
-            onActionPress={handleToggleSaveFood}
+            onActionPress={handletoggleFoodSaved}
           />
 
           <Content className="mt-2">

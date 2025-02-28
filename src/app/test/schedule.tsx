@@ -15,9 +15,9 @@ import { Header } from "@/components/global/organisms"
 import { sampleBookingsData } from "@/constants/booking"
 
 function ScheduleScreen() {
-  const scheduleData = sampleBookingsData
-
   const today = new Date()
+
+  const scheduleData = sampleBookingsData
 
   const [selectedDate, setSelectedDate] = useState<string | null>(
     today.toISOString()
@@ -39,16 +39,23 @@ function ScheduleScreen() {
               <Schedule initialDate={today} onDateSelect={handleDateSelect} />
             </View>
 
-            {scheduleData.map((schedule) => (
-              <ScheduleCard
-                key={schedule.scheduleId}
-                customer={schedule.customer}
-                startTime={schedule.time}
-                endTime={schedule.updatedAt}
-                status={schedule.status}
-                notes={schedule.notes}
-              />
-            ))}
+            {scheduleData.map((schedule) => {
+              const endTime =
+                schedule.updatedAt !== schedule.createdAt
+                  ? schedule.updatedAt
+                  : null
+
+              return (
+                <ScheduleCard
+                  key={schedule.scheduleId}
+                  customer={schedule.customer}
+                  startTime={schedule.time}
+                  endTime={endTime}
+                  status={schedule.status}
+                  notes={schedule.notes}
+                />
+              )
+            })}
           </VStack>
         </ScrollArea>
       </Content>

@@ -12,7 +12,7 @@ import { IconButton } from "./IconButton"
 
 interface ScheduleCardProps {
   startTime: string
-  endTime: string
+  endTime?: string | null
   customer: string
   status: StatusBookingEnum
   notes?: string

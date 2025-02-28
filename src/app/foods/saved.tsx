@@ -2,8 +2,6 @@ import React, { useState } from "react"
 
 import { FlatList, View } from "react-native"
 
-import { Edit2 } from "iconsax-react-native"
-
 import { Button, Container, Content, Modal } from "@/components/global/atoms"
 import {
   ErrorDisplay,
@@ -13,15 +11,13 @@ import {
 } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
-import { COLORS } from "@/constants/color"
-
-import { useSaveFoods } from "@/contexts/FoodSavedContext"
+import { useUserFood } from "@/contexts/UserFoodContext"
 
 import { useRouterHandlers } from "@/hooks/useRouter"
 
 function FoodSavedScreen() {
   const { handleViewFood } = useRouterHandlers()
-  const { saveFoodsData, clearFoodSaved } = useSaveFoods()
+  const { userFoodsData, clearFoodSaved } = useUserFood()
 
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -33,7 +29,7 @@ function FoodSavedScreen() {
     }, 2000)
   }
 
-  const handleClearSavedFood = () => {
+  const handleclearFoodSavedFood = () => {
     setIsModalVisible(true)
   }
 
@@ -44,7 +40,7 @@ function FoodSavedScreen() {
 
         <Content className="mt-2">
           <FlatList
-            data={saveFoodsData || []}
+            data={userFoodsData || []}
             keyExtractor={(item) => item.foodId}
             onRefresh={onRefresh}
             refreshing={isRefreshing}
@@ -74,11 +70,11 @@ function FoodSavedScreen() {
           />
         </Content>
 
-        {saveFoodsData.length > 0 && (
+        {userFoodsData.length > 0 && (
           <Button
             variant="danger"
             size="lg"
-            onPress={handleClearSavedFood}
+            onPress={handleclearFoodSavedFood}
             className="absolute bottom-4 left-6 right-6 w-full"
           >
             Xóa tất cả

@@ -209,7 +209,7 @@ function SetupConsultantScreen() {
                         </Text>
                       ))
                   ) : (
-                    <Text className="font-tregular text-gray-500">
+                    <Text className="font-tregular text-accent">
                       Không có hình ảnh nào để hiển thị
                     </Text>
                   )}

@@ -23,7 +23,7 @@ import { COLORS } from "@/constants/color"
 import { TypeCategoryEnum } from "@/constants/enums"
 
 import { useAuth } from "@/contexts/AuthContext"
-import { useUserAllergies } from "@/contexts/UserAllergiesContext"
+import { useUserFood } from "@/contexts/UserFoodContext"
 
 import { useGetCategoriesByType } from "@/hooks/useCategory"
 import { useDebounce } from "@/hooks/useDebounce"
@@ -47,7 +47,7 @@ function FoodsScreen() {
 
   const { mutate: addMeal } = useCreateMeal()
 
-  const { allergies } = useUserAllergies()
+  const { userAllergiesData } = useUserFood()
 
   const [foodsData, setFoodsData] = useState<FoodType[]>([])
   const [page, setPage] = useState<number>(1)
@@ -116,7 +116,7 @@ function FoodsScreen() {
   const handleAddFood = useCallback(
     (food: FoodType) => {
       const hasAllergy = food.allergies?.some((allergy) =>
-        allergies.includes(allergy)
+        userAllergiesData.includes(allergy)
       )
 
       const mealData = {
@@ -140,7 +140,7 @@ function FoodsScreen() {
         confirmAddMeal(mealData)
       }
     },
-    [userId, allergies]
+    [userId, userAllergiesData]
   )
 
   const confirmAddMeal = (mealData: CreateMealType) => {
