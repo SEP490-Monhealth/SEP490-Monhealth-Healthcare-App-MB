@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage"
 import { create } from "zustand"
 
 import { GenderEnum, TypeGoalEnum } from "@/constants/enums"
@@ -22,7 +21,6 @@ interface setupStoreProps {
 
   setMetricData: (data: Record<string, any>) => void
   setUserFoodsData: (data: Record<string, any>) => void
-  saveUserFoodsDataStorage: (data: Record<string, any>) => Promise<void>
 
   reset: () => void
 }
@@ -76,10 +74,6 @@ export const useSetupStore = create<setupStoreProps>((set) => ({
     set(() => ({
       newUserFoodsData: data
     })),
-
-  saveUserFoodsDataStorage: async (data) => {
-    await AsyncStorage.setItem("User Foods Data", JSON.stringify(data))
-  },
 
   reset: () =>
     set({
