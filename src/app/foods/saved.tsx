@@ -2,6 +2,8 @@ import React, { useState } from "react"
 
 import { FlatList, View } from "react-native"
 
+import { useRouter } from "expo-router"
+
 import { Button, Container, Content, Modal } from "@/components/global/atoms"
 import {
   ErrorDisplay,
@@ -13,10 +15,9 @@ import { Header } from "@/components/global/organisms"
 
 import { useStorage } from "@/contexts/StorageContext"
 
-import { useRouterHandlers } from "@/hooks/useRouter"
-
 function FoodSavedScreen() {
-  const { handleViewFood } = useRouterHandlers()
+  const router = useRouter()
+
   const { savedFoods, clearSavedFoods } = useStorage()
 
   const [isRefreshing, setIsRefreshing] = useState(false)
@@ -31,6 +32,10 @@ function FoodSavedScreen() {
 
   const handleClear = () => {
     setIsModalVisible(true)
+  }
+
+  const handleViewFood = (foodId: string) => {
+    router.push(`/foods/${foodId}/details`)
   }
 
   return (

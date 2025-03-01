@@ -46,7 +46,7 @@ export const ScheduleCard = ({
       <View className="flex-1 flex-col gap-2">
         <Text className="ml-2 mt-3 font-tmedium text-base text-primary">
           {startTime}
-          {endTime && `${-endTime}`}
+          {endTime && ` - ${endTime}`}
         </Text>
 
         <Card onPress={onPress}>

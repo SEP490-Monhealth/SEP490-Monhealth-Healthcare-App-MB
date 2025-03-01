@@ -30,12 +30,12 @@ export const generalItems = [
   {
     icon: <NotificationStatus variant="Bold" size={24} color={COLORS.accent} />,
     label: "Nhắc nhở và thông báo",
-    route: "/settings/reminders"
+    route: "/settings/reminder"
   },
   {
     icon: <Lock1 variant="Bold" size={24} color={COLORS.accent} />,
     label: "Bảo mật và quyền riêng tư",
-    route: "/settings/privacy-settings"
+    route: "/settings/privacy"
   }
 ]
 

@@ -12,6 +12,7 @@ import { COLORS } from "@/constants/color"
 import { TypeGoalEnum } from "@/constants/enums"
 
 import { useAuth } from "@/contexts/AuthContext"
+import { useStorage } from "@/contexts/StorageContext"
 
 import { allergySetupSchema } from "@/schemas/allergySchema"
 import { categorySetupSchema } from "@/schemas/categorySchema"
@@ -53,6 +54,8 @@ function SetupUserScreen() {
   const { user } = useAuth()
   const userId = user?.userId
 
+  const { addAllergies } = useStorage()
+
   const {
     dateOfBirth,
     gender,
@@ -66,8 +69,7 @@ function SetupUserScreen() {
     allergies,
     updateField,
     setMetricData,
-    setUserFoodsData,
-    saveUserFoodsDataStorage
+    setUserFoodsData
   } = useSetupStore()
 
   const [currentStep, setCurrentStep] = useState(1)
@@ -259,7 +261,7 @@ function SetupUserScreen() {
       }
 
       const newUserFoodsData = { ...userData, ...categoryData, ...allergyData }
-      const newUserFoodStorageData = { ...categoryData, ...allergyData }
+      const userAllergiesData = allergyData
 
       // console.log("new metric data", JSON.stringify(newMetricData, null, 2))
       // console.log(
@@ -273,7 +275,7 @@ function SetupUserScreen() {
         setMetricData(newMetricData)
         setUserFoodsData(newUserFoodsData)
 
-        await saveUserFoodsDataStorage(newUserFoodStorageData)
+        await addAllergies(userAllergiesData.allergies)
 
         router.replace("/setup/meal-suggestions")
       } catch (error) {

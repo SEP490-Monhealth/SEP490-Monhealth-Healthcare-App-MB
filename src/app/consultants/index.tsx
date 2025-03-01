@@ -12,23 +12,20 @@ import { Header } from "@/components/global/organisms"
 
 import { sampleConsultantsData } from "@/constants/consultants"
 
-import { useRouterHandlers } from "@/hooks/useRouter"
-
 import { ConsultantCard } from "../../components/global/molecules/ConsultantCard"
 
-function ConsultantScreen() {
+function ConsultantsScreen() {
+  const router = useRouter()
+
   const consultantsData = sampleConsultantsData
 
-  const router = useRouter()
-  const { handleViewConsultant } = useRouterHandlers()
-
-  const handleChatConsultant = (userId: string) => {
-    console.log(userId)
+  const handleViewConsultant = (consultantId: string) => {
+    router.push(`/consultants/${consultantId}/details`)
   }
 
   return (
     <Container>
-      <Header back label="Chuyên viên tứ vấn" />
+      <Header back label="Chuyên viên tư vấn" />
 
       <Content className="mt-2">
         <ScrollArea>
@@ -51,4 +48,4 @@ function ConsultantScreen() {
   )
 }
 
-export default ConsultantScreen
+export default ConsultantsScreen

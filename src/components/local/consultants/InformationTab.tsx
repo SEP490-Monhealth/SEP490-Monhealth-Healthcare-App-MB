@@ -72,7 +72,7 @@ export const InformationTab = () => {
 
   const handleViewCalendar = () => {
     router.push({
-      pathname: "/test/calendar",
+      pathname: "/consultants/calendar",
       params: { selectedDate }
     })
   }

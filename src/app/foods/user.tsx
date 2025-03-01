@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react"
 
 import { ActivityIndicator, FlatList, View } from "react-native"
 
+import { useRouter } from "expo-router"
+
 import { Add } from "iconsax-react-native"
 
 import { Container, Content } from "@/components/global/atoms"
@@ -17,8 +19,6 @@ import { COLORS } from "@/constants/color"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useRouterHandlers } from "@/hooks/useRouter"
-
 import { FoodType } from "@/schemas/foodSchema"
 
 import { getFoodsByUserId } from "@/services/foodService"
@@ -26,7 +26,7 @@ import { getFoodsByUserId } from "@/services/foodService"
 import { LoadingScreen } from "../loading"
 
 function FoodUserScreen() {
-  const { handleViewFood } = useRouterHandlers()
+  const router = useRouter()
 
   const { user } = useAuth()
   // const userId = user?.userId
@@ -89,6 +89,10 @@ function FoodUserScreen() {
 
     return () => clearTimeout(timeout)
   }, [])
+
+  const handleViewFood = (foodId: string) => {
+    router.push(`/foods/${foodId}/details`)
+  }
 
   if (isLoading) return <LoadingScreen />
 

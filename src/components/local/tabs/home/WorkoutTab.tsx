@@ -15,8 +15,6 @@ import { sampleWorkoutDailyData } from "@/constants/dailyWorkouts"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useRouterHandlers } from "@/hooks/useRouter"
-
 import { formatDateY, toFixed } from "@/utils/formatters"
 
 import { WorkoutProgress } from "./WorkoutProgress"
@@ -90,7 +88,9 @@ export const WorkoutTab = ({
 
   const handleViewWorkouts = () => router.push("/workouts")
 
-  const { handleViewWorkout } = useRouterHandlers()
+  const handleViewWorkout = (workoutId: string) => {
+    router.push(`/workouts/${workoutId}/details`)
+  }
 
   return (
     <View className="mt-4">

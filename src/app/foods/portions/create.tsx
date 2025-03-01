@@ -7,7 +7,7 @@ import {
   View
 } from "react-native"
 
-import { useLocalSearchParams } from "expo-router"
+import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
@@ -28,12 +28,11 @@ import { Header } from "@/components/global/organisms"
 import { DATA } from "@/constants/data"
 
 import { useCreatePortion } from "@/hooks/usePortion"
-import { useRouterHandlers } from "@/hooks/useRouter"
 
 import { CreatePortionType, createPortionSchema } from "@/schemas/portionSchema"
 
 function PortionCreateScreen() {
-  const { handleViewFood } = useRouterHandlers()
+  const router = useRouter()
 
   const { foodId } = useLocalSearchParams() as { foodId: string }
 
@@ -81,6 +80,10 @@ function PortionCreateScreen() {
         handleViewFood(foodId)
       }
     })
+  }
+
+  const handleViewFood = (foodId: string) => {
+    router.push(`/foods/${foodId}/details`)
   }
 
   return (

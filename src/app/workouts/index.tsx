@@ -1,7 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react"
 
-import { ActivityIndicator, View } from "react-native"
+import { ActivityIndicator, Keyboard, View } from "react-native"
 import { FlatList } from "react-native"
+
+import { useRouter } from "expo-router"
 
 import { SearchNormal1 } from "iconsax-react-native"
 
@@ -21,7 +23,6 @@ import { TypeCategoryEnum } from "@/constants/enums"
 
 import { useGetCategoriesByType } from "@/hooks/useCategory"
 import { useDebounce } from "@/hooks/useDebounce"
-import { useRouterHandlers } from "@/hooks/useRouter"
 import { useGetAllWorkouts } from "@/hooks/useWorkout"
 
 import { WorkoutType } from "@/schemas/workoutSchema"
@@ -29,15 +30,16 @@ import { WorkoutType } from "@/schemas/workoutSchema"
 import { LoadingScreen } from "../loading"
 
 function WorkoutsScreen() {
-  const { handleViewWorkout } = useRouterHandlers()
+  const router = useRouter()
 
   const [workoutsData, setWorkoutsData] = useState<WorkoutType[]>([])
-  const [limit, setLimit] = useState<number>(10)
+  const [page, setPage] = useState<number>(1)
   const [hasMore, setHasMore] = useState<boolean>(true)
-  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false)
   const [searchQuery, setSearchQuery] = useState<string>("")
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
   const [selectedType, setSelectedType] = useState<string>("Tất cả")
+
+  const limit = 7
 
   const debouncedSearch = useDebounce(searchQuery)
   const debouncedFilter = useDebounce(selectedType, 0)
@@ -47,7 +49,7 @@ function WorkoutsScreen() {
   )
 
   const { data, isLoading } = useGetAllWorkouts(
-    1,
+    page,
     limit,
     debouncedFilter === "Tất cả" ? "" : debouncedFilter,
     debouncedSearch,
@@ -58,34 +60,42 @@ function WorkoutsScreen() {
 
   useEffect(() => {
     if (data?.workouts) {
-      setWorkoutsData(data.workouts)
-      setHasMore(data.workouts.length < data.totalItems)
+      setWorkoutsData((prev) =>
+        page === 1 ? data.workouts : [...prev, ...data.workouts]
+      )
+      setHasMore(page * limit < data.totalItems)
     }
-  }, [data, limit])
+  }, [data, page])
 
-  const onRefresh = async () => {
-    setIsRefreshing(true)
-    setLimit(10)
-    setTimeout(() => {
+  useEffect(() => {
+    setPage(1)
+  }, [debouncedFilter, debouncedSearch])
+
+  useEffect(() => {
+    if (!isLoading && isRefreshing) {
       setIsRefreshing(false)
-    }, 1000)
-  }
+    }
+  }, [isLoading, isRefreshing])
 
   const loadMoreData = () => {
-    if (!hasMore || isLoadingMore) return
-
-    setIsLoadingMore(true)
-
-    setTimeout(() => {
-      setLimit((prev) => prev + 10)
-      setIsLoadingMore(false)
-    }, 200)
+    if (!hasMore || isLoading) return
+    setPage((prev) => prev + 1)
   }
 
   const onEndReached = () => {
-    if (isLoading || !hasMore || isLoadingMore) return
-
+    if (isLoading || !hasMore) return
+    Keyboard.dismiss()
     loadMoreData()
+  }
+
+  const onRefresh = () => {
+    setIsRefreshing(true)
+    Keyboard.dismiss()
+    setPage(1)
+  }
+
+  const handleViewWorkout = (workoutId: string) => {
+    router.push(`/workouts/${workoutId}/details`)
   }
 
   const FlatListHeader = useMemo(() => {
@@ -145,7 +155,7 @@ function WorkoutsScreen() {
           ListFooterComponent={
             hasMore ? (
               <ListFooter>
-                {isLoadingMore && <ActivityIndicator color={COLORS.primary} />}
+                <ActivityIndicator color={COLORS.primary} />
               </ListFooter>
             ) : (
               <ListFooter />

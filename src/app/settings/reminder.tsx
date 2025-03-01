@@ -12,7 +12,7 @@ const reminderOptions = [
   { key: "reminders", label: "Bật nhắc nhở" }
 ]
 
-function RemindersScreen() {
+function ReminderScreen() {
   const [reminderSettings, setReminderSettings] = useState<
     Record<string, boolean>
   >({
@@ -73,4 +73,4 @@ function RemindersScreen() {
   )
 }
 
-export default RemindersScreen
+export default ReminderScreen

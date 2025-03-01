@@ -19,8 +19,9 @@ import { COLORS } from "@/constants/color"
 
 import { UpdatePasswordType, updatePasswordSchema } from "@/schemas/userSchema"
 
-function PrivacySettingScreen() {
+function PrivacyScreen() {
   const [isLoading, setIsLoading] = useState(false)
+
   const [showPassword, setShowPassword] = useState(false)
   const [showNewPassword, setShowNewPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -43,16 +44,16 @@ function PrivacySettingScreen() {
     // console.log("Submit:", data)
     const { oldPassword, newPassword } = data
 
-    const payload = { oldPassword, newPassword }
+    const finalData = { oldPassword, newPassword }
 
-    console.log("Submit Payload:", payload)
+    console.log("Final Data", JSON.stringify(finalData, null, 2))
 
     setIsLoading(false)
   }
 
   return (
     <Container dismissKeyboard>
-      <Header back label="Bảo mật " />
+      <Header back label="Bảo mật" />
 
       <Content className="mt-2">
         <VStack gap={12}>
@@ -163,4 +164,4 @@ function PrivacySettingScreen() {
   )
 }
 
-export default PrivacySettingScreen
+export default PrivacyScreen

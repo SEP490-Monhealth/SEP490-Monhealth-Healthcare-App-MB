@@ -86,13 +86,13 @@ export const DATA = {
       description: "Mục tiêu tăng cân và cải thiện cơ thể",
       value: TypeGoalEnum.WeightGain,
       icon: TrendingUp
-    },
-    {
-      label: "Tăng cơ",
-      description: "Mục tiêu tăng cơ và giảm mỡ",
-      value: TypeGoalEnum.MuscleGain,
-      icon: BicepsFlexed
     }
+    // {
+    //   label: "Tăng cơ",
+    //   description: "Mục tiêu tăng cơ và giảm mỡ",
+    //   value: TypeGoalEnum.MuscleGain,
+    //   icon: BicepsFlexed
+    // }
   ],
   CALORIES_RATIO: [
     { label: "Giảm cân chậm", description: "0.25kg / tuần", value: 0.9 },

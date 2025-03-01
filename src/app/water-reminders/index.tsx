@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react"
 import { SafeAreaView, View } from "react-native"
 import { FlatList } from "react-native"
 
-import { router } from "expo-router"
+import { useRouter } from "expo-router"
 
 import { Add, Edit2, Notification, Trash } from "iconsax-react-native"
 
@@ -26,7 +26,6 @@ import { COLORS } from "@/constants/color"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useRouterHandlers } from "@/hooks/useRouter"
 import {
   useDeleteWaterReminder,
   useGetWaterReminderByUserId,
@@ -37,9 +36,10 @@ import { WaterReminderType } from "@/schemas/waterReminderSchema"
 
 import { LoadingScreen } from "../loading"
 
-function WaterReminderScreen() {
+function WaterRemindersScreen() {
+  const router = useRouter()
+
   const WaterSheetRef = useRef<SheetRefProps>(null)
-  const { handleViewWaterReminder } = useRouterHandlers()
 
   const { user } = useAuth()
   const userId = user?.userId
@@ -103,6 +103,10 @@ function WaterReminderScreen() {
   const handleUpdateReminder = (waterReminderId: string) => {
     handleViewWaterReminder(waterReminderId)
     closeReminderSheet()
+  }
+
+  const handleViewWaterReminder = (waterReminderId: string) => {
+    router.push(`/water-reminders/${waterReminderId}/details`)
   }
 
   const handleBack = () => {
@@ -198,4 +202,4 @@ function WaterReminderScreen() {
   )
 }
 
-export default WaterReminderScreen
+export default WaterRemindersScreen

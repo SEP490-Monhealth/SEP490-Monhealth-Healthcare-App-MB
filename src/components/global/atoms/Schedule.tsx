@@ -104,7 +104,7 @@ export const Schedule = ({ initialDate, onDateSelect }: ScheduleProps) => {
   const month = selectedDay.toLocaleString("vi-VN", { month: "short" })
   const year = selectedDay.toLocaleString("vi-VN", { year: "numeric" })
 
-  const handleViewCalendar = () => router.push("/test/calendar")
+  const handleViewCalendar = () => router.push("/consultants/calendar")
 
   return (
     <Card activeOpacity={1}>

@@ -10,7 +10,7 @@ import {
 } from "react-native"
 import { Swipeable } from "react-native-gesture-handler"
 
-import { useLocalSearchParams } from "expo-router"
+import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingOverlay, LoadingScreen } from "@/app/loading"
 import { useIsFetching, useIsMutating } from "@tanstack/react-query"
@@ -48,7 +48,6 @@ import {
   useUpdateMealFoodQuantity,
   useUpdateMealFoodStatus
 } from "@/hooks/useMeal"
-import { useRouterHandlers } from "@/hooks/useRouter"
 
 import { formatDateY } from "@/utils/formatters"
 import { getMealTypeName } from "@/utils/helpers"
@@ -99,7 +98,7 @@ const RenderRightActions = React.memo(({ onPress }: any) => {
 })
 
 function MealDetailsScreen() {
-  const { handleViewFood } = useRouterHandlers()
+  const router = useRouter()
 
   const SheetRef = useRef<SheetRefProps>(null)
   const swipeableRef = useRef<Swipeable>(null)
@@ -231,6 +230,10 @@ function MealDetailsScreen() {
     setSelectedMealFoodId(mealFoodId)
     setIsModalVisible(true)
   }, [])
+
+  const handleViewFood = (foodId: string) => {
+    router.push(`/foods/${foodId}/details`)
+  }
 
   if (
     !goalData ||

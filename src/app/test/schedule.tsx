@@ -26,6 +26,8 @@ function ScheduleScreen() {
     null
   )
 
+  console.log(selectedSCheduleId)
+
   const handleDateSelect = (date: string) => {
     setSelectedDate(date)
     console.log(date)
@@ -49,7 +51,7 @@ function ScheduleScreen() {
             {scheduleData.map((schedule) => {
               const endTime =
                 schedule.updatedAt !== schedule.createdAt
-                  ? schedule.updatedAt
+                  ? schedule.updatedAt.split("T")[1].slice(0, 5)
                   : null
 
               return (

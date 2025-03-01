@@ -22,7 +22,6 @@ import { useAuth } from "@/contexts/AuthContext"
 
 import { useGetDailyMealByUserId } from "@/hooks/useDailyMeal"
 import { useGetNutritionGoal } from "@/hooks/useGoal"
-import { useRouterHandlers } from "@/hooks/useRouter"
 
 import { formatDateY, toFixed } from "@/utils/formatters"
 import { getRandomTip } from "@/utils/helpers"
@@ -34,7 +33,6 @@ interface MealTabProps {
 
 export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
   const router = useRouter()
-  const { handleViewMeal } = useRouterHandlers()
 
   const { user } = useAuth()
   const userId = user?.userId
@@ -168,6 +166,10 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
 
   const dailyCaloriesIntakeProgress =
     caloriesGoal > 0 ? (caloriesValue / caloriesGoal) * 100 : 0
+
+  const handleViewMeal = (mealId: string) => {
+    router.push(`/meals/${mealId}/details`)
+  }
 
   const handleViewFoods = () => router.push("/foods")
 

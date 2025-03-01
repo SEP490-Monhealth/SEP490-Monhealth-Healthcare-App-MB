@@ -56,9 +56,8 @@ function FoodsScreen() {
   const { mutate: addMeal } = useCreateMeal()
 
   const [foodsData, setFoodsData] = useState<FoodType[]>([])
-  const [limit, setLimit] = useState<number>(10)
+  const [page, setPage] = useState<number>(1)
   const [hasMore, setHasMore] = useState<boolean>(true)
-  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false)
   const [searchQuery, setSearchQuery] = useState<string>("")
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
   const [selectedCategory, setSelectedCategory] = useState<string>("Tất cả")
@@ -68,6 +67,8 @@ function FoodsScreen() {
   )
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 
+  const limit = 7
+
   const debouncedSearch = useDebounce(searchQuery)
   const debouncedFilter = useDebounce(selectedCategory, 0)
 
@@ -75,7 +76,7 @@ function FoodsScreen() {
     useGetCategoriesByType(TypeCategoryEnum.Food)
 
   const { data, isLoading } = useGetAllFoods(
-    1,
+    page,
     limit,
     debouncedFilter === "Tất cả" ? "" : debouncedFilter,
     debouncedSearch,
@@ -86,35 +87,38 @@ function FoodsScreen() {
 
   useEffect(() => {
     if (data?.foods) {
-      setFoodsData(data.foods)
-      setHasMore(data.foods.length < data.totalItems)
+      setFoodsData((prev) =>
+        page === 1 ? data.foods : [...prev, ...data.foods]
+      )
+      setHasMore(page * limit < data.totalItems)
     }
-  }, [data, limit])
+  }, [data, page])
+
+  useEffect(() => {
+    setPage(1)
+  }, [debouncedFilter, debouncedSearch])
+
+  useEffect(() => {
+    if (!isLoading && isRefreshing) {
+      setIsRefreshing(false)
+    }
+  }, [isLoading, isRefreshing])
 
   const loadMoreData = () => {
-    if (!hasMore || isLoadingMore) return
-
-    setIsLoadingMore(true)
-
-    setTimeout(() => {
-      setLimit((prev) => prev + 10)
-      setIsLoadingMore(false)
-    }, 200)
+    if (!hasMore || isLoading) return
+    setPage((prev) => prev + 1)
   }
 
   const onEndReached = () => {
-    if (isLoading || !hasMore || isLoadingMore) return
+    if (isLoading || !hasMore) return
     Keyboard.dismiss()
     loadMoreData()
   }
 
-  const onRefresh = async () => {
+  const onRefresh = () => {
     setIsRefreshing(true)
     Keyboard.dismiss()
-    setLimit(10)
-    setTimeout(() => {
-      setIsRefreshing(false)
-    }, 1000)
+    setPage(1)
   }
 
   const handleAddFood = useCallback(
@@ -175,11 +179,13 @@ function FoodsScreen() {
           onSelectCategory={setSelectedCategory}
         />
 
-        <Section
-          label="Tìm kiếm gần đây"
-          actionText="Xóa tất cả"
-          onPress={clearSearchHistory}
-        />
+        {searchHistory.length > 0 && (
+          <Section
+            label="Tìm kiếm gần đây"
+            actionText="Xóa tất cả"
+            onPress={clearSearchHistory}
+          />
+        )}
 
         <HStack gap={6} className="flex-wrap">
           {searchHistory.map((search, index) => (
@@ -223,8 +229,10 @@ function FoodsScreen() {
             showsVerticalScrollIndicator={false}
             stickyHeaderIndices={[0]}
             initialNumToRender={10}
-            maxToRenderPerBatch={5}
-            windowSize={5}
+            maxToRenderPerBatch={10}
+            windowSize={21}
+            removeClippedSubviews
+            updateCellsBatchingPeriod={50}
             onEndReached={onEndReached}
             onEndReachedThreshold={0.5}
             ListHeaderComponent={FlatListHeader}
@@ -244,9 +252,7 @@ function FoodsScreen() {
             ListFooterComponent={
               hasMore ? (
                 <ListFooter>
-                  {isLoadingMore && (
-                    <ActivityIndicator color={COLORS.primary} />
-                  )}
+                  <ActivityIndicator color={COLORS.primary} />
                 </ListFooter>
               ) : (
                 <ListFooter />

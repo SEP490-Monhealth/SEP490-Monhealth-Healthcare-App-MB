@@ -14,7 +14,6 @@ import { useAuth } from "@/contexts/AuthContext"
 
 import { useGetDailyWaterIntakeByUserId } from "@/hooks/useDailyWaterIntake"
 import { useGetWaterIntakeGoal } from "@/hooks/useGoal"
-import { useRouterHandlers } from "@/hooks/useRouter"
 import {
   useGetWaterReminderByUserId,
   useUpdateWaterReminderDrunk
@@ -31,7 +30,6 @@ interface WaterTabProps {
 
 export const WaterTab = ({ onLoading, onOverlayLoading }: WaterTabProps) => {
   const router = useRouter()
-  const { handleViewWaterReminder } = useRouterHandlers()
 
   const { user } = useAuth()
   const userId = user?.userId
@@ -87,8 +85,6 @@ export const WaterTab = ({ onLoading, onOverlayLoading }: WaterTabProps) => {
   // const dailyWaterIntakeProgress =
   //   waterIntakesGoal > 0 ? (waterIntakesValue / waterIntakesGoal) * 100 : 0
 
-  const handleUpdateWaterReminder = () => router.push("/water-reminders")
-
   const handleDrunkWaterReminder = useCallback(
     (waterReminderId: string) => {
       if (!userId) return
@@ -102,6 +98,14 @@ export const WaterTab = ({ onLoading, onOverlayLoading }: WaterTabProps) => {
     label: "Water",
     value: waterIntakesValue,
     targetValue: waterIntakesGoal
+  }
+
+  const handleViewWaterReminders = () => {
+    router.push("/water-reminders")
+  }
+
+  const handleViewWaterReminder = (waterReminderId: string) => {
+    router.push(`/water-reminders/${waterReminderId}/details`)
   }
 
   return (
@@ -127,7 +131,7 @@ export const WaterTab = ({ onLoading, onOverlayLoading }: WaterTabProps) => {
       <Section
         label="Nhắc nhở mỗi ngày"
         actionText="Chỉnh sửa"
-        onPress={handleUpdateWaterReminder}
+        onPress={handleViewWaterReminders}
         className="mt-8"
       />
 

@@ -12,8 +12,8 @@ import { COLORS } from "@/constants/color"
 function VoiceScreen() {
   const router = useRouter()
 
-  const handleViewSignUp = () => {
-    router.push("/(consultant-setup)/expertise")
+  const handleRegisterConsultant = () => {
+    router.push("/setup/consultant")
   }
 
   const handleViewConsultant = () => {
@@ -40,7 +40,7 @@ function VoiceScreen() {
 
       <Content className="mt-2 pb-12">
         <VStack gap={20}>
-          <Button size="lg" onPress={handleViewSignUp}>
+          <Button size="lg" onPress={handleRegisterConsultant}>
             Đăng ký consultant
           </Button>
 
