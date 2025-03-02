@@ -14,7 +14,7 @@ import {
 import * as ImagePicker from "expo-image-picker"
 import { useLocalSearchParams, useRouter } from "expo-router"
 
-import { storage } from "@/config/firebase"
+import { storage } from "@/configs/firebase"
 import {
   deleteObject,
   getDownloadURL,

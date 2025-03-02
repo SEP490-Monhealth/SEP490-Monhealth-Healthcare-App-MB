@@ -82,14 +82,6 @@ function SetupConsultantScreen() {
       component: {},
       fields: [""],
       schema: {}
-    },
-    {
-      step: 4,
-      title: "Hình ảnh",
-      description: "Tải lên hình ảnh minh họa cho hồ sơ",
-      component: {},
-      fields: [""],
-      schema: {}
     }
   ]
 
@@ -108,6 +100,10 @@ function SetupConsultantScreen() {
     resolver: zodResolver(currentStepData.schema),
     defaultValues: formData
   })
+
+  const onSubmit = async (data) => {
+    console.log(data)
+  }
 
   const handleBack = () => {
     if (currentStep === 1) {

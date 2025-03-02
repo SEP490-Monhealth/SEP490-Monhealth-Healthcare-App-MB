@@ -4,7 +4,7 @@ import { Text } from "react-native"
 
 import { useRouter } from "expo-router"
 
-import { aboutItems, generalItems } from "@/config/site"
+import { aboutItems, generalItems } from "@/configs/site"
 
 import { Card, Container, Content, Modal } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"

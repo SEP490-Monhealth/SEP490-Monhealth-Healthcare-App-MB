@@ -9,7 +9,7 @@ import {
 
 import { Tabs } from "expo-router"
 
-import { userRoutes } from "@/config/routes"
+import { userRoutes } from "@/configs/routes"
 
 import { COLORS } from "@/constants/color"
 

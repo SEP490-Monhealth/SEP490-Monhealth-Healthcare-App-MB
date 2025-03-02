@@ -11,7 +11,7 @@ interface setupStoreProps {
   goalType: TypeGoalEnum | undefined
   weightGoal: number | undefined
   caloriesRatio: number
-  categories: string[]
+  // categories: string[]
   allergies: string[]
 
   newMetricData?: Record<string, any>
@@ -34,15 +34,15 @@ export const useSetupStore = create<setupStoreProps>((set) => ({
   goalType: TypeGoalEnum.WeightGain,
   weightGoal: 66,
   caloriesRatio: 1.2,
-  categories: [
-    "Hải sản",
-    "Thịt",
-    "Rau củ",
-    "Món ngọt",
-    "Đồ uống",
-    "Món lên men",
-    "Trái cây"
-  ],
+  // categories: [
+  //   "Hải sản",
+  //   "Thịt",
+  //   "Rau củ",
+  //   "Món ngọt",
+  //   "Đồ uống",
+  //   "Món lên men",
+  //   "Trái cây"
+  // ],
   allergies: ["Hải sản có vỏ", "Sữa", "Các loại hạt", "Đậu nành", "Hạt vừng"],
 
   // dateOfBirth: "",
@@ -85,7 +85,7 @@ export const useSetupStore = create<setupStoreProps>((set) => ({
       goalType: undefined,
       weightGoal: undefined,
       caloriesRatio: 1,
-      categories: [],
+      // categories: [],
       allergies: []
     })
 }))

@@ -15,7 +15,6 @@ import { useAuth } from "@/contexts/AuthContext"
 import { useStorage } from "@/contexts/StorageContext"
 
 import { allergySetupSchema } from "@/schemas/allergySchema"
-import { categorySetupSchema } from "@/schemas/categorySchema"
 import { caloriesRatioSchema, typeGoalSchema } from "@/schemas/goalSchema"
 import {
   activityLevelMetricSchema,
@@ -27,12 +26,10 @@ import {
 
 import { useSetupStore } from "@/stores/setupStore"
 
-import { LoadingOverlay } from "../loading"
+import { LoadingOverlay } from "../../loading"
 import SetupActivityLevel from "./activity-level"
 import SetupAllergies from "./allergies"
-import SetupAvatar from "./avatar"
 import SetupCaloriesRatio from "./calories-ratio"
-import SetupCategories from "./categories"
 import SetupDateOfBirth from "./date-of-birth"
 import SetupGender from "./gender"
 import SetupGoalType from "./goal-type"
@@ -65,7 +62,7 @@ function SetupUserScreen() {
     goalType,
     weightGoal,
     caloriesRatio,
-    categories,
+    // categories,
     allergies,
     updateField,
     setMetricData,
@@ -85,7 +82,7 @@ function SetupUserScreen() {
     goalType,
     weightGoal,
     caloriesRatio,
-    categories,
+    // categories,
     allergies
   }
 
@@ -151,13 +148,13 @@ function SetupUserScreen() {
   }
 
   baseSteps.push(
-    {
-      title: "Danh mục yêu thích",
-      description: "Chọn danh mục bạn yêu thích",
-      component: SetupCategories,
-      fields: ["categories"],
-      schema: categorySetupSchema
-    },
+    // {
+    //   title: "Danh mục yêu thích",
+    //   description: "Chọn danh mục bạn yêu thích",
+    //   component: SetupCategories,
+    //   fields: ["categories"],
+    //   schema: categorySetupSchema
+    // },
     {
       title: "Dị ứng",
       description: "Cho biết thực phẩm bạn dị ứng",
@@ -165,13 +162,6 @@ function SetupUserScreen() {
       fields: ["allergies"],
       schema: allergySetupSchema
     }
-    // {
-    //   title: "",
-    //   description: "",
-    //   component: SetupAvatar,
-    //   fields: [],
-    //   schema: null
-    // }
   )
 
   const setupSteps: SetupStepsProps[] = baseSteps.map((step, index) => ({
@@ -246,9 +236,9 @@ function SetupUserScreen() {
         caloriesRatio: updatedState.caloriesRatio
       }
 
-      const categoryData = {
-        categories: updatedState.categories
-      }
+      // const categoryData = {
+      //   categories: updatedState.categories
+      // }
 
       const allergyData = {
         allergies: updatedState.allergies
@@ -260,7 +250,8 @@ function SetupUserScreen() {
         ...goalData
       }
 
-      const newUserFoodsData = { ...userData, ...categoryData, ...allergyData }
+      // const newUserFoodsData = { ...userData, ...categoryData, ...allergyData }
+      const newUserFoodsData = { ...userData, ...allergyData }
       const userAllergiesData = allergyData
 
       // console.log("new metric data", JSON.stringify(newMetricData, null, 2))
@@ -271,18 +262,13 @@ function SetupUserScreen() {
 
       setIsLoading(true)
 
-      try {
-        setMetricData(newMetricData)
-        setUserFoodsData(newUserFoodsData)
+      setMetricData(newMetricData)
+      setUserFoodsData(newUserFoodsData)
 
-        await addAllergies(userAllergiesData.allergies)
+      await addAllergies(userAllergiesData.allergies)
 
-        router.replace("/setup/meal-suggestions")
-      } catch (error) {
-        console.error("Đã có lỗi không mong muốn: ", error)
-      } finally {
-        setIsLoading(false)
-      }
+      setIsLoading(false)
+      router.replace("/setup/meal-suggestions")
 
       // try {
       //   await Promise.all([

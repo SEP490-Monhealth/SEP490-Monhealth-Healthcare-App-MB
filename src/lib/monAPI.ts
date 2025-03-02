@@ -1,4 +1,4 @@
-import { appConfig } from "@/config/app"
+import { appConfig } from "@/configs/app"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import axios from "axios"
 
