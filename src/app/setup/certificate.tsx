@@ -210,7 +210,7 @@ function SetupCertificateUpload() {
 
     updateField("images", savedImages)
 
-    router.push("/(consultant-setup)/expertise")
+    router.push("/setup/consultant")
   }
 
   return (

@@ -12,16 +12,8 @@ import { COLORS } from "@/constants/color"
 function VoiceScreen() {
   const router = useRouter()
 
-  const handleViewSignUp = () => {
-    router.push("/(consultant-setup)/expertise")
-  }
-
   const handleViewService = () => {
     router.push("/test/service")
-  }
-
-  const handleViewImageUpload = () => {
-    router.push("/(consultant-setup)/certificate-upload")
   }
 
   const handleViewLocalImage = () => {
@@ -48,16 +40,8 @@ function VoiceScreen() {
 
       <Content className="mt-2 pb-12">
         <VStack gap={20}>
-          <Button size="lg" onPress={handleViewSignUp}>
-            Đăng ký consultant
-          </Button>
-
           <Button size="lg" onPress={handleViewService}>
             Dịch vụ
-          </Button>
-
-          <Button size="lg" onPress={handleViewImageUpload}>
-            Upload ảnh
           </Button>
 
           <Button size="lg" onPress={handleViewLocalImage}>

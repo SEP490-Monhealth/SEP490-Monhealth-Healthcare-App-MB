@@ -1,67 +1,37 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useState } from "react"
 
-import {
-  Keyboard,
-  SafeAreaView,
-  Text,
-  TouchableWithoutFeedback
-} from "react-native"
+import { Keyboard, SafeAreaView, TouchableWithoutFeedback } from "react-native"
 
 import { useRouter } from "expo-router"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import DateTimePicker, {
-  DateTimePickerEvent
-} from "@react-native-community/datetimepicker"
-import { Controller, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 
-import {
-  Button,
-  Container,
-  Content,
-  Input,
-  ScrollArea,
-  Select,
-  Sheet,
-  SheetItem,
-  SheetRefProps,
-  VStack
-} from "@/components/global/atoms"
-import { StepHeader } from "@/components/global/molecules"
-import { Header } from "@/components/global/organisms"
+import { Button, Container, Content, Progress } from "@/components/global/atoms"
+import { CustomHeader, StepHeader } from "@/components/global/molecules"
+
+import { COLORS } from "@/constants/color"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import {
-  SetupConsultantType,
-  setupConsultantSchema
-} from "@/schemas/consultantSchema"
-
 import { useConsultantSetupStore } from "@/stores/consultantSetupStore"
 
-import { formatISODate, formatUTCDate } from "@/utils/formatters"
+import { LoadingOverlay } from "../loading"
 
-const expertiseData = [
-  { label: "Dinh dưỡng", value: "Nutrition" },
-  { label: "Thể chất", value: "Workout" },
-  { label: "Giảm cân", value: "WeightLoss" },
-  { label: "Tăng cân", value: "WeightGain" }
-]
+interface SetupStepsProps {
+  step: number
+  title: string
+  description: string
+  component: React.FC<any>
+  fields: string[]
+  schema: any
+}
 
 function SetupConsultantScreen() {
   const router = useRouter()
 
   const { user } = useAuth()
   const userId = user?.userId
-
-  const ExpertiseSheetRef = useRef<SheetRefProps>(null)
-  const DateSheetRef = useRef<SheetRefProps>(null)
-  const sheetHeight = 280
-
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
-  const [inputDateType, setInputDateType] = useState<
-    "issueDate" | "expiryDate"
-  >()
 
   const {
     bio,
@@ -74,6 +44,9 @@ function SetupConsultantScreen() {
     updateField
   } = useConsultantSetupStore()
 
+  const [currentStep, setCurrentStep] = useState<number>(1)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
   const formData: Record<string, any> = {
     userId,
     bio,
@@ -82,220 +55,106 @@ function SetupConsultantScreen() {
     certificate,
     issueDate,
     expiryDate,
-    images: images.map((image) => image.uri)
+    images
+  }
+
+  const setupSteps: SetupStepsProps[] = [
+    {
+      step: 1,
+      title: "Thông tin",
+      description: "Nhập giới thiệu bản thân và kinh nghiệm làm việc của bạn",
+      component: {},
+      fields: [""],
+      schema: {}
+    },
+    {
+      step: 2,
+      title: "Chuyên môn",
+      description: "Chọn 1 chuyên môn chính bạn sẽ tư vấn",
+      component: {},
+      fields: [""],
+      schema: {}
+    },
+    {
+      step: 3,
+      title: "Chứng chỉ",
+      description: "Thêm thông tin chứng chỉ và tải lên ảnh chứng chỉ",
+      component: {},
+      fields: [""],
+      schema: {}
+    },
+    {
+      step: 4,
+      title: "Hình ảnh",
+      description: "Tải lên hình ảnh minh họa cho hồ sơ",
+      component: {},
+      fields: [""],
+      schema: {}
+    }
+  ]
+
+  const currentStepData = setupSteps.find((step) => step.step === currentStep)
+
+  if (!currentStepData) {
+    return null
   }
 
   const {
     control,
     setValue,
-    getValues,
-    watch,
     handleSubmit,
     formState: { errors }
-  } = useForm<SetupConsultantType>({
-    resolver: zodResolver(setupConsultantSchema),
+  } = useForm({
+    resolver: zodResolver(currentStepData.schema),
     defaultValues: formData
   })
 
-  const expertiseValue = watch("expertise")
-
-  useEffect(() => {
-    if (images.length > 0) {
-      updateField("images", images)
-    }
-  }, [])
-
-  const openExpertiseSheet = () =>
-    ExpertiseSheetRef.current?.scrollTo(-sheetHeight)
-  const openDateSheet = (inputType: "issueDate" | "expiryDate") => {
-    setInputDateType(inputType)
-    DateSheetRef.current?.scrollTo(-sheetHeight)
-  }
-
-  const closeSheet = () => {
-    ExpertiseSheetRef.current?.scrollTo(0)
-    DateSheetRef.current?.scrollTo(0)
-  }
-
-  const handleSelectDate = (_: DateTimePickerEvent, date?: Date) => {
-    if (date && inputDateType) {
-      const isoDate = formatUTCDate(date)
-      setSelectedDate(date)
-      setValue(inputDateType, isoDate)
+  const handleBack = () => {
+    if (currentStep === 1) {
+      router.back()
+    } else {
+      setCurrentStep(currentStep - 1)
     }
   }
 
-  const handleSelectExpertise = (value: string) => {
-    setValue("expertise", value)
-    updateField("expertise", value)
-    closeSheet()
-  }
-
-  const handleCertificateUpload = (expertise: string) => {
-    router.push({
-      pathname: "/(consultant-setup)/certificate-upload",
-      params: { expertise }
-    })
-  }
-
-  const onSubmit = async (data: SetupConsultantType) => {
-    // console.log(JSON.stringify(data, null, 2))
-
-    Object.entries(data).forEach(([key, value]) => {
-      if (value) updateField(key, value)
-    })
-
-    console.log(
-      "Updated store:",
-      JSON.stringify(useConsultantSetupStore(), null, 2)
-    )
-  }
+  const StepComponent = currentStepData.component
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView className="flex-1 bg-background">
         <Container>
-          <Header back />
+          {isLoading && <LoadingOverlay visible={isLoading} />}
 
-          <Content className="mt-4">
-            <ScrollArea>
-              <StepHeader
-                title="Chứng chỉ chuyên môn"
-                description="Vui lòng nhập thông tin chứng chỉ chuyên môn của bạn"
+          <CustomHeader
+            back={currentStep === 1 ? false : true}
+            content={
+              <Progress
+                height={14}
+                progress={(currentStep / setupSteps.length) * 100}
+                color={COLORS.PRIMARY.lemon}
               />
+            }
+            onBackPress={handleBack}
+          />
 
-              <VStack gap={12}>
-                <Controller
-                  name="expertise"
-                  control={control}
-                  render={({ field: { value } }) => {
-                    const selectedLabel = expertiseData.find(
-                      (item) => item.value === value
-                    )?.label
+          <Content className="mt-2">
+            <StepHeader title="" description="" />
 
-                    return (
-                      <Select
-                        defaultValue="Chọn chuyên môn"
-                        value={selectedLabel}
-                        onPress={openExpertiseSheet}
-                      />
-                    )
-                  }}
-                />
-
-                <VStack>
-                  <Button
-                    disabled={!expertiseValue}
-                    variant="secondary"
-                    onPress={() => {
-                      const expertise = getValues("expertise")
-                      if (expertise) {
-                        handleCertificateUpload(expertise)
-                      }
-                    }}
-                  >
-                    Thêm hình ảnh
-                  </Button>
-
-                  {images.length > 0 ? (
-                    images
-                      .filter((image) => image && image.uri)
-                      .map((image, index) => (
-                        <Text
-                          key={index}
-                          className="font-tregular text-base text-secondary"
-                        >
-                          {image.fileName}
-                        </Text>
-                      ))
-                  ) : (
-                    <Text className="font-tregular text-accent">
-                      Không có hình ảnh nào để hiển thị
-                    </Text>
-                  )}
-                </VStack>
-
-                <Controller
-                  name="certificate"
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Input
-                      value={value}
-                      placeholder="Nhập tên chứng chỉ"
-                      onChangeText={onChange}
-                      errorMessage={errors.certificate?.message}
-                    />
-                  )}
-                />
-
-                <Controller
-                  name="issueDate"
-                  control={control}
-                  render={({ field: { value } }) => (
-                    <Input
-                      disabled
-                      value={value ? formatISODate(value, "dd/MM/yyyy") : ""}
-                      placeholder="Nhập ngày cấp"
-                      onPress={() => openDateSheet("issueDate")}
-                      errorMessage={errors.issueDate?.message}
-                    />
-                  )}
-                />
-
-                <Controller
-                  name="expiryDate"
-                  control={control}
-                  render={({ field: { value } }) => (
-                    <Input
-                      disabled
-                      value={value ? formatISODate(value, "dd/MM/yyyy") : ""}
-                      placeholder="Nhập ngày hết hạn"
-                      onPress={() => openDateSheet("expiryDate")}
-                      errorMessage={errors.expiryDate?.message}
-                    />
-                  )}
-                />
-              </VStack>
-            </ScrollArea>
+            <StepComponent
+              control={control}
+              setValue={setValue}
+              errors={errors}
+            />
 
             <Button
               size="lg"
               onPress={handleSubmit(onSubmit)}
               className="bottom-4"
             >
-              Gửi yêu cầu
+              {currentStep === setupSteps.length ? "Hoàn thành" : "Tiếp tục"}
             </Button>
           </Content>
         </Container>
-
-        <Sheet ref={ExpertiseSheetRef} dynamicHeight={sheetHeight}>
-          {expertiseData.map((expertise) => (
-            <SheetItem
-              key={expertise.value}
-              item={expertise.label}
-              isSelected={getValues("expertise") === expertise.value}
-              onSelect={() => handleSelectExpertise(expertise.value)}
-            />
-          ))}
-        </Sheet>
-
-        <Sheet ref={DateSheetRef} dynamicHeight={sheetHeight}>
-          <DateTimePicker
-            value={selectedDate || new Date()}
-            mode="date"
-            display="spinner"
-            minimumDate={
-              inputDateType === "expiryDate" &&
-              getValues("issueDate") &&
-              !isNaN(new Date(getValues("issueDate")).getTime())
-                ? new Date(getValues("issueDate"))
-                : new Date(1904, 0, 1)
-            }
-            maximumDate={new Date()}
-            onChange={handleSelectDate}
-            locale="vi"
-          />
-        </Sheet>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   )

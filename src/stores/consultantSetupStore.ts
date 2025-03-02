@@ -23,7 +23,7 @@ interface setupConsultantStoreProps {
 export const useConsultantSetupStore = create<setupConsultantStoreProps>(
   (set) => ({
     bio: "",
-    experience: 1,
+    experience: 0,
     expertise: "",
     certificate: "",
     issueDate: "",
@@ -52,7 +52,7 @@ export const useConsultantSetupStore = create<setupConsultantStoreProps>(
     reset: () =>
       set({
         bio: "",
-        experience: 1,
+        experience: 0,
         expertise: "",
         certificate: "",
         issueDate: "",
