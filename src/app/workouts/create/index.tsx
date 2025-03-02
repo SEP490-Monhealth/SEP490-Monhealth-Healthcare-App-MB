@@ -2,12 +2,12 @@ import React from "react"
 
 import { Text, View } from "react-native"
 
-function BookingCreateScreen() {
+function WorkoutCreateScreen() {
   return (
     <View>
-      <Text>BookingCreateScreen</Text>
+      <Text>WorkoutCreateScreen</Text>
     </View>
   )
 }
 
-export default BookingCreateScreen
+export default WorkoutCreateScreen

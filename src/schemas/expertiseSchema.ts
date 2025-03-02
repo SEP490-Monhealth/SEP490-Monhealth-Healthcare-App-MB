@@ -13,14 +13,10 @@ export const baseExpertiseSchema = z
   })
   .merge(timestampSchema)
 
-export const expertiseSchema = baseExpertiseSchema.pick({
-  expertiseId: true,
-  name: true
-})
+export const expertiseSchema = baseExpertiseSchema
 
-export const createExpertiseSchema = z.object({
+export const expertiseSetupSchema = z.object({
   expertise: expertiseSchema.shape.name
 })
 
 export type ExpertiseType = z.infer<typeof expertiseSchema>
-export type CreateExpertiseType = z.infer<typeof createExpertiseSchema>

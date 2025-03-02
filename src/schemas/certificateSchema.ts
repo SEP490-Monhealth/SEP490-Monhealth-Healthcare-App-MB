@@ -31,7 +31,7 @@ export const certificateSchema = baseCertificateSchema.pick({
   images: true
 })
 
-export const createCertificateSchema = z.object({
+export const certificateSetupSchema = z.object({
   certificate: certificateSchema.shape.name,
   issueDate: certificateSchema.shape.issueDate,
   expiryDate: certificateSchema.shape.expiryDate,
@@ -39,4 +39,3 @@ export const createCertificateSchema = z.object({
 })
 
 export type CertificateType = z.infer<typeof certificateSchema>
-export type CreateCertificateType = z.infer<typeof createCertificateSchema>

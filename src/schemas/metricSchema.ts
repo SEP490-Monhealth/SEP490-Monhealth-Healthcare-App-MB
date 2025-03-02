@@ -88,24 +88,24 @@ export const metricSchema = baseMetricSchema
   })
   .merge(timestampSchema)
 
-export const dateOfBirthMetricSchema = baseMetricSchema.pick({
+export const dateOfBirthSetupSchema = baseMetricSchema.pick({
   dateOfBirth: true
 })
 
-export const genderMetricSchema = baseMetricSchema.pick({
+export const genderSetupSchema = baseMetricSchema.pick({
   gender: true
 })
 
-export const heightWeightMetricSchema = baseMetricSchema.pick({
+export const heightWeightSetupSchema = baseMetricSchema.pick({
   height: true,
   weight: true
 })
 
-export const activityLevelMetricSchema = baseMetricSchema.pick({
+export const activityLevelSetupSchema = baseMetricSchema.pick({
   activityLevel: true
 })
 
-export const weightGoalSchema = baseMetricSchema.pick({
+export const weightGoalSetupSchema = baseMetricSchema.pick({
   weightGoal: true
 })
 

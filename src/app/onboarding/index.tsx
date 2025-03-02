@@ -2,7 +2,7 @@ import React, { useState } from "react"
 
 import { Image, Text, View } from "react-native"
 
-import { router } from "expo-router"
+import { router, useLocalSearchParams } from "expo-router"
 
 import { Button, Container, Progress, VStack } from "@/components/global/atoms"
 
@@ -60,7 +60,7 @@ const onboardingData: Record<string, OnboardingType[]> = {
 }
 
 function OnboardingScreen() {
-  const { role } = useAuth()
+  const { role } = useLocalSearchParams<{ role: string }>()
 
   const [currentIndex, setCurrentIndex] = useState(0)
 

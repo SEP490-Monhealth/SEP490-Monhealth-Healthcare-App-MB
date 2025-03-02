@@ -131,7 +131,7 @@ function FoodUserScreen() {
           )}
           ListEmptyComponent={() => (
             <ErrorDisplay
-              imageSource={require("../../../public/images/monhealth-no-data-image.png")}
+              imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
               title="Chưa có món ăn"
               description="Bạn chưa thêm món ăn nào. Hãy bắt đầu ngay!"
               marginTop={24}

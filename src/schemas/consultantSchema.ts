@@ -1,6 +1,5 @@
 import { z } from "zod"
 
-import { createCertificateSchema } from "./certificateSchema"
 import { timestampSchema } from "./commonSchema"
 
 const baseConsultantSchema = z
@@ -19,9 +18,9 @@ const baseConsultantSchema = z
 
     bio: z
       .string()
-      .min(50, {
-        message: "Mô tả phải có ít nhất 50 ký tự"
-      })
+      // .min(50, {
+      //   message: "Mô tả phải có ít nhất 50 ký tự"
+      // })
       .max(200, {
         message: "Mô tả không được dài hơn 200 ký tự"
       }),
@@ -82,11 +81,11 @@ export const updateConsultantSchema = consultantSchema.pick({
   expertise: true
 })
 
-export const setupConsultantSchema = createConsultantSchema.merge(
-  createCertificateSchema
-)
+export const informationConsultantSchema = consultantSchema.pick({
+  bio: true,
+  experience: true
+})
 
 export type ConsultantType = z.infer<typeof consultantSchema>
 export type CreateConsultantType = z.infer<typeof createConsultantSchema>
 export type UpdateConsultantType = z.infer<typeof updateConsultantSchema>
-export type SetupConsultantType = z.infer<typeof setupConsultantSchema>

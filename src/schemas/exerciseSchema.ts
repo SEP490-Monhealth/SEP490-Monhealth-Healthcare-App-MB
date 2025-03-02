@@ -32,14 +32,19 @@ const baseExerciseSchema = z
 
 export const exerciseSchema = baseExerciseSchema.pick({
   exerciseId: true,
+  userId: true,
 
   name: true,
   instructions: true,
 
-  duration: true,
-  reps: true,
+  caloriesPerMinute: true,
 
-  caloriesPerMinute: true
+  status: true,
+
+  createdAt: true,
+  updatedAt: true,
+  createdBy: true,
+  updatedBy: true
 })
 
 export type ExerciseType = z.infer<typeof exerciseSchema>

@@ -15,13 +15,16 @@ import { useAuth } from "@/contexts/AuthContext"
 import { useStorage } from "@/contexts/StorageContext"
 
 import { allergySetupSchema } from "@/schemas/allergySchema"
-import { caloriesRatioSchema, typeGoalSchema } from "@/schemas/goalSchema"
 import {
-  activityLevelMetricSchema,
-  dateOfBirthMetricSchema,
-  genderMetricSchema,
-  heightWeightMetricSchema,
-  weightGoalSchema
+  caloriesRatioSetupSchema,
+  goalTypeSetupSchema
+} from "@/schemas/goalSchema"
+import {
+  activityLevelSetupSchema,
+  dateOfBirthSetupSchema,
+  genderSetupSchema,
+  heightWeightSetupSchema,
+  weightGoalSetupSchema
 } from "@/schemas/metricSchema"
 
 import { useSetupStore } from "@/stores/setupStore"
@@ -92,42 +95,42 @@ function SetupUserScreen() {
       description: "Nhập ngày sinh để xác định tuổi của bạn",
       component: SetupDateOfBirth,
       fields: ["dateOfBirth"],
-      schema: dateOfBirthMetricSchema
+      schema: dateOfBirthSetupSchema
     },
     {
       title: "Giới tính",
       description: "Chọn giới tính để cá nhân hóa trải nghiệm",
       component: SetupGender,
       fields: ["gender"],
-      schema: genderMetricSchema
+      schema: genderSetupSchema
     },
     {
       title: "Chiều cao và cân nặng",
       description: "Nhập chiều cao và cân nặng hiện tại",
       component: SetupHeightWeight,
       fields: ["height", "weight"],
-      schema: heightWeightMetricSchema
+      schema: heightWeightSetupSchema
     },
     {
       title: "Mức độ hoạt động",
       description: "Chọn mức độ hoạt động hàng ngày",
       component: SetupActivityLevel,
       fields: ["activityLevel"],
-      schema: activityLevelMetricSchema
+      schema: activityLevelSetupSchema
     },
     {
       title: "Mục tiêu",
       description: "Xác định mục tiêu sức khỏe của bạn",
       component: SetupGoalType,
       fields: ["goalType"],
-      schema: typeGoalSchema
+      schema: goalTypeSetupSchema
     },
     {
       title: "Mục tiêu cân nặng",
       description: "Nhập cân nặng mục tiêu mong muốn",
       component: SetupWeightGoal,
       fields: ["weightGoal"],
-      schema: weightGoalSchema
+      schema: weightGoalSetupSchema
     }
   ]
 
@@ -143,7 +146,7 @@ function SetupUserScreen() {
           : "Chọn tốc độ tăng cân phù hợp với cơ thể của bạn",
       component: SetupCaloriesRatio,
       fields: ["caloriesRatio"],
-      schema: caloriesRatioSchema
+      schema: caloriesRatioSetupSchema
     })
   }
 
@@ -333,7 +336,7 @@ function SetupUserScreen() {
       <Button
         size="lg"
         onPress={handleSubmit((data) => onSubmitStep(data, setError))}
-        className="absolute bottom-0 left-6 right-6"
+        className="absolute bottom-4 left-6 right-6"
       >
         {currentStep === setupSteps.length ? "Hoàn thành" : "Tiếp tục"}
       </Button>

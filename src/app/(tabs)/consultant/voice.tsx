@@ -17,7 +17,7 @@ function VoiceScreen() {
         label="AI Voice"
         action={{
           icon: <Microphone variant="Bold" size={20} color={COLORS.primary} />,
-          href: "/tabs/home"
+          href: "/(tabs)/home"
         }}
       />
 

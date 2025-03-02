@@ -64,7 +64,7 @@ function FoodSavedScreen() {
             )}
             ListEmptyComponent={() => (
               <ErrorDisplay
-                imageSource={require("../../../public/images/monhealth-no-data-image.png")}
+                imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
                 title="Chưa có món ăn"
                 description="Bạn chưa lưu món ăn nào. Hãy bắt đầu ngay!"
                 marginTop={24}

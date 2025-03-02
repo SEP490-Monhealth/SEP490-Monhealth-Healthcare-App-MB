@@ -12,7 +12,7 @@ import {
 import { ScheduleCard } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
-import { sampleBookingsData } from "@/constants/booking"
+import { sampleBookingsData } from "@/constants/bookings"
 
 function ScheduleScreen() {
   const today = new Date()

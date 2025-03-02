@@ -46,20 +46,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setRole(userInfo?.role)
 
         if (userInfo.role === "User") {
-          const metricsData = await getMetricsByUserId(userInfo.userId)
-          const metricsExist = metricsData && metricsData.length > 0
-          setHasMetrics(metricsExist)
+          const metricData = await getMetricsByUserId(userInfo.userId)
+          const metricExist = metricData && metricData.length > 0
+          setHasMetrics(metricExist)
 
           await delay(2000)
 
-          if (metricsExist) {
-            router.replace("/tabs/user/home")
+          if (metricExist) {
+            router.replace("/(tabs)/user/home")
           } else {
             router.replace("/onboarding/welcome")
           }
         } else if (userInfo.role === "Consultant") {
           await delay(2000)
-          router.replace("/tabs/consultant/dashboard")
+          router.replace("/(tabs)/consultant/dashboard")
         } else {
           await delay(2000)
           router.replace("/auth/sign-in")
@@ -98,16 +98,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setRole(userInfo?.role)
 
       if (userInfo.role === "User") {
-        const metricsData = await getMetricsByUserId(userInfo.userId)
-        const metricsExist = metricsData && metricsData.length > 0
+        const metricData = await getMetricsByUserId(userInfo.userId)
+        const metricExist = metricData && metricData.length > 0
 
-        if (metricsExist) {
-          router.replace("/tabs/user/home")
+        if (metricExist) {
+          router.replace("/(tabs)/user/home")
         } else {
-          router.replace("/onboarding")
+          router.replace({ pathname: "/onboarding", params: { role: "User" } })
         }
       } else if (userInfo.role === "Consultant") {
-        router.replace("/tabs/consultant/dashboard")
+        // const consultantData = await getConsultantByUserId(userInfo.userId)
+        // const consultantExist = consultantData && consultantData.length > 0
+        // if (consultantExist && consultantExist.status) {
+        //   router.replace("/(tabs)/consultant/dashboard")
+        // } else {
+        //   router.replace({
+        //     pathname: "/onboarding",
+        //     params: { role: "Consultant" }
+        //   })
+        // }
+
+        // router.replace("/(tabs)/consultant/dashboard")
+        router.replace({ pathname: "/onboarding", params: { role: "Consultant" } })
       } else {
         router.replace("/auth/sign-in")
       }

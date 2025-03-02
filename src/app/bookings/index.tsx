@@ -15,7 +15,7 @@ import {
 import { BookingCard } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
-import { sampleBookingsData } from "@/constants/booking"
+import { sampleBookingsData } from "@/constants/bookings"
 import { StatusBookingEnum } from "@/constants/enums"
 
 function BookingsScreen() {

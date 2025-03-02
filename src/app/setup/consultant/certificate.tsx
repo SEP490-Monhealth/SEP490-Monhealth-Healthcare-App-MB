@@ -56,7 +56,7 @@ const uploadOptions = [
   }
 ]
 
-function SetupCertificateUpload() {
+function SetupCertificate() {
   const router = useRouter()
   const { expertise } = useLocalSearchParams() as { expertise: string }
 
@@ -296,4 +296,4 @@ function SetupCertificateUpload() {
   )
 }
 
-export default SetupCertificateUpload
+export default SetupCertificate

@@ -43,7 +43,7 @@ function FoodInformation({
           render={({ field: { onChange, value } }) => (
             <Input
               value={value}
-              label="Tên"
+              // label="Tên"
               placeholder="Nhập tên món ăn"
               onChangeText={onChange}
               keyboardType="default"
@@ -59,7 +59,7 @@ function FoodInformation({
           render={({ field: { onChange, value } }) => (
             <Input
               value={value}
-              label="Mô tả"
+              // label="Mô tả"
               placeholder="Nhập mô tả món ăn"
               onChangeText={onChange}
               keyboardType="default"

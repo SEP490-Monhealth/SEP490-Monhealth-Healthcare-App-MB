@@ -96,7 +96,7 @@ export const goalSchema = baseGoalSchema
   })
   .merge(timestampSchema)
 
-export const weightGoalSchema = goalSchema.pick({
+export const weightGoalSetupSchema = goalSchema.pick({
   weightGoal: true
 })
 
@@ -122,16 +122,16 @@ export const stepsGoalSchema = goalSchema.pick({
   stepsGoal: true
 })
 
-export const typeGoalSchema = z.object({
+export const goalTypeSetupSchema = z.object({
   goalType: GoalTypeEnum
 })
 
-export const caloriesRatioSchema = goalSchema.pick({
+export const caloriesRatioSetupSchema = goalSchema.pick({
   caloriesRatio: true
 })
 
 export type GoalType = z.infer<typeof goalSchema>
-export type WeightGoalType = z.infer<typeof weightGoalSchema>
+export type WeightGoalType = z.infer<typeof weightGoalSetupSchema>
 export type NutritionGoalType = z.infer<typeof nutritionGoalSchema>
 export type WaterIntakeGoalType = z.infer<typeof waterIntakeGoalSchema>
 export type WorkoutGoalType = z.infer<typeof workoutGoalSchema>

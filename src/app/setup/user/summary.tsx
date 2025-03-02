@@ -10,6 +10,8 @@ import Animated, {
 
 import { useRouter } from "expo-router"
 
+import { LoadingScreen } from "@/app/loading"
+
 import { Button, Container, Content, VStack } from "@/components/global/atoms"
 import { CounterText } from "@/components/global/molecules"
 
@@ -18,8 +20,6 @@ import { useAuth } from "@/contexts/AuthContext"
 import { useGetNutritionGoal } from "@/hooks/useGoal"
 
 import { toFixed } from "@/utils/formatters"
-
-import { LoadingScreen } from "../loading"
 
 function SetupSummary() {
   const router = useRouter()
@@ -84,7 +84,7 @@ function SetupSummary() {
           <VStack center gap={32}>
             <Animated.View style={[fireStyle]}>
               <Image
-                source={require("../../../public/images/monhealth-fire-image.png")}
+                source={require("../../../../public/images/monhealth-fire-image.png")}
                 style={{
                   width: 240,
                   height: 240

@@ -4,6 +4,7 @@ import { Keyboard, SafeAreaView, TouchableWithoutFeedback } from "react-native"
 
 import { useRouter } from "expo-router"
 
+import { LoadingOverlay } from "@/app/loading"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 
@@ -14,9 +15,15 @@ import { COLORS } from "@/constants/color"
 
 import { useAuth } from "@/contexts/AuthContext"
 
+import { certificateSetupSchema } from "@/schemas/certificateSchema"
+import { informationConsultantSchema } from "@/schemas/consultantSchema"
+import { expertiseSetupSchema } from "@/schemas/expertiseSchema"
+
 import { useConsultantSetupStore } from "@/stores/consultantSetupStore"
 
-import { LoadingOverlay } from "../loading"
+import SetupCertificate from "./certificate"
+import SetupExpertise from "./expertise"
+import SetupInformation from "./information"
 
 interface SetupStepsProps {
   step: number
@@ -63,25 +70,25 @@ function SetupConsultantScreen() {
       step: 1,
       title: "Thông tin",
       description: "Nhập giới thiệu bản thân và kinh nghiệm làm việc của bạn",
-      component: {},
-      fields: [""],
-      schema: {}
+      component: SetupInformation,
+      fields: ["bio", "experience"],
+      schema: informationConsultantSchema
     },
     {
       step: 2,
       title: "Chuyên môn",
       description: "Chọn 1 chuyên môn chính bạn sẽ tư vấn",
-      component: {},
-      fields: [""],
-      schema: {}
+      component: SetupExpertise,
+      fields: ["expertise"],
+      schema: expertiseSetupSchema
     },
     {
       step: 3,
       title: "Chứng chỉ",
       description: "Thêm thông tin chứng chỉ và tải lên ảnh chứng chỉ",
-      component: {},
-      fields: [""],
-      schema: {}
+      component: SetupCertificate,
+      fields: ["certificate", "issueDate", "expiryDate", "images"],
+      schema: certificateSetupSchema
     }
   ]
 
@@ -101,8 +108,18 @@ function SetupConsultantScreen() {
     defaultValues: formData
   })
 
-  const onSubmit = async (data) => {
-    console.log(data)
+  const onSubmit = async (data: Record<string, any>) => {
+    console.log(`Step Data ${currentStep}:`, data)
+
+    currentStepData.fields.forEach((field) => {
+      updateField(field, data[field])
+    })
+
+    if (currentStep < setupSteps.length) {
+      setCurrentStep(currentStep + 1)
+    } else {
+      console.log("Final Data", formData)
+    }
   }
 
   const handleBack = () => {
@@ -114,6 +131,8 @@ function SetupConsultantScreen() {
   }
 
   const StepComponent = currentStepData.component
+
+  // console.log(errors)
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -134,7 +153,10 @@ function SetupConsultantScreen() {
           />
 
           <Content className="mt-2">
-            <StepHeader title="" description="" />
+            <StepHeader
+              title={currentStepData.title}
+              description={currentStepData.description}
+            />
 
             <StepComponent
               control={control}
@@ -145,7 +167,7 @@ function SetupConsultantScreen() {
             <Button
               size="lg"
               onPress={handleSubmit(onSubmit)}
-              className="bottom-4"
+              className="absolute bottom-4 w-full"
             >
               {currentStep === setupSteps.length ? "Hoàn thành" : "Tiếp tục"}
             </Button>

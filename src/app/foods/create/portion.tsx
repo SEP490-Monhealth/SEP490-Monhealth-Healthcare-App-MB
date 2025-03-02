@@ -71,7 +71,7 @@ function FoodPortion({ control, errors, setValue }: FoodPortionProps) {
               render={({ field: { onChange, value } }) => (
                 <Input
                   value={value}
-                  label="Kích thước"
+                  // label="Kích thước"
                   placeholder="Nhập khẩu phần ăn"
                   onChangeText={onChange}
                   keyboardType="default"
@@ -89,7 +89,7 @@ function FoodPortion({ control, errors, setValue }: FoodPortionProps) {
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value ? value.toString() : ""}
-                    label="Khối lượng"
+                    // label="Khối lượng"
                     placeholder="1"
                     onChangeText={(text) => onChange(parseFloat(text) || 0)}
                     keyboardType="numeric"
@@ -100,7 +100,7 @@ function FoodPortion({ control, errors, setValue }: FoodPortionProps) {
 
             <View style={{ flex: 3 }}>
               <Select
-                label="Đơn vị"
+                // label="Đơn vị"
                 defaultValue="Chọn đơn vị"
                 value={
                   portionSizesData.find((item) => item.value === selectedUnit)
