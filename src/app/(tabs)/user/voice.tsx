@@ -17,15 +17,19 @@ function VoiceScreen() {
   }
 
   const handleViewConsultant = () => {
-    router.push("/consultants/123/details")
+    router.push("/(test)/consultant")
+  }
+
+  const handleSetupUser = () => {
+    router.push("/setup/user")
   }
 
   const handleViewBookingConsultant = () => {
     router.push("/bookings")
   }
 
-  const handleViewScheduleConsultant = () => {
-    router.push("/(test)/schedule")
+  const handleCreateExercise = () => {
+    router.push("/exercises/create")
   }
 
   return (
@@ -48,12 +52,16 @@ function VoiceScreen() {
             Tư vấn viên
           </Button>
 
+          <Button size="lg" onPress={handleSetupUser}>
+            handleSetupUser
+          </Button>
+
           <Button size="lg" onPress={handleViewBookingConsultant}>
             Booking
           </Button>
 
-          <Button size="lg" onPress={handleViewScheduleConsultant}>
-            Schedule
+          <Button size="lg" onPress={handleCreateExercise}>
+            Tạo bài tập
           </Button>
         </VStack>
       </Content>
