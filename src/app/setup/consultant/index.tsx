@@ -6,6 +6,9 @@ import { useRouter } from "expo-router"
 
 import { LoadingOverlay } from "@/app/loading"
 import { zodResolver } from "@hookform/resolvers/zod"
+import DateTimePicker, {
+  DateTimePickerEvent
+} from "@react-native-community/datetimepicker"
 import { useForm } from "react-hook-form"
 
 import {
@@ -30,6 +33,7 @@ import { expertiseSetupSchema } from "@/schemas/expertiseSchema"
 
 import { useConsultantSetupStore } from "@/stores/consultantSetupStore"
 
+import { formatUTCDate } from "@/utils/formatters"
 import { handleSelectImage, handleUploadImage } from "@/utils/images"
 
 import SetupCertificate from "./certificate"
@@ -49,11 +53,17 @@ function SetupConsultantScreen() {
   const router = useRouter()
 
   const ExpertiseSheetRef = useRef<SheetRefProps>(null)
-  const CertificateSheetRef = useRef<SheetRefProps>(null)
-  const sheetHeight = 200
+  const DateSheetRef = useRef<SheetRefProps>(null)
+  const UploadSheetRef = useRef<SheetRefProps>(null)
 
   const { user } = useAuth()
   const userId = user?.userId
+
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+  const [dateType, setDateType] = useState<"issueDate" | "expiryDate">()
+
+  const sheetHeight = 200
+  const dateSheetHeight = 300
 
   const {
     bio,
@@ -98,7 +108,7 @@ function SetupConsultantScreen() {
       schema: expertiseSetupSchema
     },
     {
-      step: 2,
+      step: 3,
       title: "Chứng chỉ",
       description: "Thêm thông tin chứng chỉ và tải lên ảnh chứng chỉ",
       component: SetupCertificate,
@@ -114,6 +124,7 @@ function SetupConsultantScreen() {
   const {
     control,
     setValue,
+    getValues,
     handleSubmit,
     formState: { errors }
   } = useForm({
@@ -123,16 +134,37 @@ function SetupConsultantScreen() {
 
   const openExpertiseSheet = () =>
     ExpertiseSheetRef.current?.scrollTo(-sheetHeight)
-  const openCertificateSheet = () =>
-    CertificateSheetRef.current?.scrollTo(-sheetHeight)
+  const openDateSheet = (inputType: "issueDate" | "expiryDate") => {
+    setDateType(inputType)
+    DateSheetRef.current?.scrollTo(-dateSheetHeight)
+  }
+  const openUploadSheet = () => UploadSheetRef.current?.scrollTo(-sheetHeight)
+
   const closeSheet = () => {
     ExpertiseSheetRef.current?.scrollTo(0)
-    CertificateSheetRef.current?.scrollTo(0)
+    UploadSheetRef.current?.scrollTo(0)
   }
 
+  const handleDateSelect = (_: DateTimePickerEvent, date?: Date) => {
+    if (date && dateType) {
+      const isoDate = formatUTCDate(date)
+      setSelectedDate(date)
+      setValue(dateType, isoDate)
+    }
+  }
+
+  // useEffect(() => {
+  //   const imagesUris = images.map((img) => img.uri)
+  //   setValue("images", imagesUris)
+  // }, [images, setValue])
+
   useEffect(() => {
-    const imagesUris = images.map((img) => img.uri)
-    setValue("images", imagesUris)
+    if (images && images.length > 0) {
+      setValue(
+        "images",
+        images.map((img) => img.uri || img)
+      )
+    }
   }, [images, setValue])
 
   const onSubmit = async (data: Record<string, any>) => {
@@ -145,7 +177,7 @@ function SetupConsultantScreen() {
     if (currentStep < setupSteps.length) {
       setCurrentStep(currentStep + 1)
     } else {
-      console.log("Final Data", formData)
+      console.log("Final Data", data)
     }
   }
 
@@ -158,6 +190,8 @@ function SetupConsultantScreen() {
   }
 
   const StepComponent = currentStepData.component
+
+  console.log("images", images)
 
   console.log(errors)
 
@@ -189,7 +223,9 @@ function SetupConsultantScreen() {
               control={control}
               setValue={setValue}
               errors={errors}
-              onPress={openCertificateSheet}
+              openExpertiseSheet={openExpertiseSheet}
+              openDateSheet={openDateSheet}
+              openUploadSheet={openUploadSheet}
             />
 
             <Button
@@ -202,7 +238,25 @@ function SetupConsultantScreen() {
           </Content>
         </Container>
 
-        <Sheet ref={CertificateSheetRef} dynamicHeight={sheetHeight}>
+        <Sheet ref={DateSheetRef} dynamicHeight={dateSheetHeight}>
+          <DateTimePicker
+            value={selectedDate || new Date()}
+            mode="date"
+            display="spinner"
+            minimumDate={
+              dateType === "expiryDate" &&
+              getValues("issueDate") &&
+              !isNaN(new Date(getValues("issueDate")).getTime())
+                ? new Date(getValues("issueDate"))
+                : new Date(1904, 0, 1)
+            }
+            maximumDate={new Date()}
+            onChange={handleDateSelect}
+            locale="vi"
+          />
+        </Sheet>
+
+        <Sheet ref={UploadSheetRef} dynamicHeight={sheetHeight}>
           {DATA.UPLOADS.map((option) => {
             const Icon = option.icon
 

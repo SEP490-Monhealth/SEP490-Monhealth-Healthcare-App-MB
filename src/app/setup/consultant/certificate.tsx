@@ -1,8 +1,9 @@
-import React from "react"
+import React, { useEffect, useRef } from "react"
 
 import {
   ActivityIndicator,
   Image,
+  ScrollView,
   Text,
   TouchableOpacity,
   View
@@ -13,40 +14,105 @@ import { X } from "lucide-react-native"
 import { FieldErrors } from "react-hook-form"
 import { Control, Controller, FieldValues } from "react-hook-form"
 
-import { Card, VStack } from "@/components/global/atoms"
+import {
+  Card,
+  ErrorText,
+  Input,
+  ScrollArea,
+  VStack
+} from "@/components/global/atoms"
 import { Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
 
 import { useConsultantSetupStore } from "@/stores/consultantSetupStore"
 
+import { formatISODate } from "@/utils/formatters"
 import { handleDeleteImage } from "@/utils/images"
 
 interface SetupCertificateProps {
   control: Control<FieldValues>
-  errors: FieldErrors<any>
-  onPress: () => void
+  errors: any
+  openUploadSheet: () => void
+  openDateSheet: (type: "issueDate" | "expiryDate") => void
 }
 
-function SetupCertificate({ control, errors, onPress }: SetupCertificateProps) {
+function SetupCertificate({
+  control,
+  errors,
+  openUploadSheet,
+  openDateSheet
+}: SetupCertificateProps) {
   const { images } = useConsultantSetupStore()
 
   return (
-    <VStack gap={12}>
-      <Card onPress={onPress} className="h-48 justify-center">
-        <VStack center gap={8}>
-          <Gallery variant="Bold" size={36} color={COLORS.accent} />
+    <ScrollArea>
+      <View className="pb-24">
+        <VStack gap={12}>
+          <Controller
+            name="certificate"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                value={value}
+                label="Tên chứng chỉ"
+                placeholder="VD: Chứng chỉ dinh dưỡng cơ bản"
+                onChangeText={onChange}
+                keyboardType="default"
+                canClearText
+                errorMessage={errors.certificate?.message}
+              />
+            )}
+          />
 
-          <Text className="font-tregular text-base text-accent">
-            Nhấn để chọn hoặc chụp ảnh
-          </Text>
+          <Controller
+            name="issueDate"
+            control={control}
+            render={({ field: { value } }) => (
+              <Input
+                disabled
+                value={value ? formatISODate(value, "dd/MM/yyyy") : ""}
+                label="Ngày cấp"
+                placeholder="VD: 01/01/2021"
+                onPress={() => openDateSheet("issueDate")}
+                errorMessage={errors.issueDate?.message}
+              />
+            )}
+          />
+
+          <Controller
+            name="expiryDate"
+            control={control}
+            render={({ field: { value } }) => (
+              <Input
+                disabled
+                value={value ? formatISODate(value, "dd/MM/yyyy") : ""}
+                label="Ngày hết hạn"
+                placeholder="VD: 01/01/2024"
+                onPress={() => openDateSheet("expiryDate")}
+                errorMessage={errors.expiryDate?.message}
+              />
+            )}
+          />
         </VStack>
-      </Card>
 
-      <View>
-        {images.length > 0 && <Section label="Hình ảnh" margin={false} />}
+        <Section label="Hình ảnh" />
 
-        <View className="flex-row flex-wrap">
+        <Card onPress={openUploadSheet} className="h-48 justify-center">
+          <VStack center gap={8}>
+            <Gallery variant="Bold" size={36} color={COLORS.accent} />
+
+            <Text className="font-tregular text-base text-accent">
+              Nhấn để chọn hoặc chụp ảnh
+            </Text>
+          </VStack>
+        </Card>
+
+        {errors.images?.message && images.length === 0 && (
+          <ErrorText text={errors.images?.message} />
+        )}
+
+        <View className="flex-row flex-wrap mt-3">
           {images.length > 0 &&
             images.map((item, index) => (
               <View
@@ -87,7 +153,7 @@ function SetupCertificate({ control, errors, onPress }: SetupCertificateProps) {
             ))}
         </View>
       </View>
-    </VStack>
+    </ScrollArea>
   )
 }
 
