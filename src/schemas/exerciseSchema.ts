@@ -37,6 +37,9 @@ export const exerciseSchema = baseExerciseSchema.pick({
   name: true,
   instructions: true,
 
+  duration: true,
+  reps: true,
+
   caloriesPerMinute: true,
 
   status: true,

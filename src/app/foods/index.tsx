@@ -67,7 +67,7 @@ function FoodsScreen() {
   )
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 
-  const limit = 7
+  const limit = 10
 
   const debouncedSearch = useDebounce(searchQuery)
   const debouncedFilter = useDebounce(selectedCategory, 0)

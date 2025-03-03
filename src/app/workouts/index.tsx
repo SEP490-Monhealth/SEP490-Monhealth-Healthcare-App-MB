@@ -39,7 +39,7 @@ function WorkoutsScreen() {
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
   const [selectedType, setSelectedType] = useState<string>("Tất cả")
 
-  const limit = 7
+  const limit = 10
 
   const debouncedSearch = useDebounce(searchQuery)
   const debouncedFilter = useDebounce(selectedType, 0)
@@ -98,6 +98,8 @@ function WorkoutsScreen() {
     router.push(`/workouts/${workoutId}/details`)
   }
 
+  const handleViewUserWorkouts = () => router.push("/workouts/user")
+
   const FlatListHeader = useMemo(() => {
     return (
       <ListHeader className="pt-4">
@@ -107,7 +109,11 @@ function WorkoutsScreen() {
           onSelectType={setSelectedType}
         />
 
-        <Section label="Danh sách bài tập" actionText="Bài tập của tôi" />
+        <Section
+          label="Danh sách bài tập"
+          actionText="Bài tập của tôi"
+          onPress={handleViewUserWorkouts}
+        />
       </ListHeader>
     )
   }, [typesData, selectedType])

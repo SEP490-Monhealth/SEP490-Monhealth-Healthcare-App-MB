@@ -25,7 +25,7 @@ export const WorkoutTypes = ({
 
   return (
     <HStack gap={8}>
-      <Chip variant="lemon" label="Đã lưu" onPress={handleViewSavedWorkout} />
+      {/* <Chip variant="lemon" label="Đã lưu" onPress={handleViewSavedWorkout} /> */}
 
       <ScrollArea orientation="horizontal" className="flex-1">
         {types.map((type, index) => (
