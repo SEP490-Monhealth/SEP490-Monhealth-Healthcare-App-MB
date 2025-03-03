@@ -44,6 +44,7 @@ function SetupInformation({ control, errors }: SetupInformationProps) {
             endIcon={
               <Text className="font-tregular text-sm text-accent">năm</Text>
             }
+            alwaysShowEndIcon
             canClearText
           />
         )}
