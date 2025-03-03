@@ -22,8 +22,8 @@ interface setupConsultantStoreProps {
 
 export const useConsultantSetupStore = create<setupConsultantStoreProps>(
   (set) => ({
-    bio: "",
-    experience: 0,
+    bio: "Halo",
+    experience: 5,
     expertise: "",
     certificate: "",
     issueDate: "",
@@ -32,21 +32,19 @@ export const useConsultantSetupStore = create<setupConsultantStoreProps>(
 
     updateField: (key, value, append = false) =>
       set((state) => {
-        if (key === "images") {
-          const updatedArray = append
-            ? [...state[key], ...value].filter((img) => img && img.uri)
-            : value.filter((img: ImageType) => img && img.uri)
-
+        if (
+          append &&
+          Array.isArray(state[key as keyof setupConsultantStoreProps])
+        ) {
           return {
             ...state,
-            [key]: updatedArray
+            [key]: [
+              ...(state[key as keyof setupConsultantStoreProps] as any[]),
+              ...(Array.isArray(value) ? value : [value])
+            ]
           }
         }
-
-        return {
-          ...state,
-          [key]: value
-        }
+        return { ...state, [key]: value }
       }),
 
     reset: () =>

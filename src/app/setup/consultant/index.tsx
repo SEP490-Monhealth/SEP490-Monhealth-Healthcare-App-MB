@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 
 import { Keyboard, SafeAreaView, TouchableWithoutFeedback } from "react-native"
 
@@ -8,10 +8,19 @@ import { LoadingOverlay } from "@/app/loading"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 
-import { Button, Container, Content, Progress } from "@/components/global/atoms"
+import {
+  Button,
+  Container,
+  Content,
+  Progress,
+  Sheet,
+  SheetRefProps,
+  SheetSelect
+} from "@/components/global/atoms"
 import { CustomHeader, StepHeader } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/color"
+import { DATA } from "@/constants/data"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -20,6 +29,8 @@ import { informationConsultantSchema } from "@/schemas/consultantSchema"
 import { expertiseSetupSchema } from "@/schemas/expertiseSchema"
 
 import { useConsultantSetupStore } from "@/stores/consultantSetupStore"
+
+import { handleSelectImage, handleUploadImage } from "@/utils/images"
 
 import SetupCertificate from "./certificate"
 import SetupExpertise from "./expertise"
@@ -36,6 +47,10 @@ interface SetupStepsProps {
 
 function SetupConsultantScreen() {
   const router = useRouter()
+
+  const ExpertiseSheetRef = useRef<SheetRefProps>(null)
+  const CertificateSheetRef = useRef<SheetRefProps>(null)
+  const sheetHeight = 200
 
   const { user } = useAuth()
   const userId = user?.userId
@@ -62,7 +77,7 @@ function SetupConsultantScreen() {
     certificate,
     issueDate,
     expiryDate,
-    images
+    images: (images || []).filter((img) => img?.uri).map((img) => img.uri)
   }
 
   const setupSteps: SetupStepsProps[] = [
@@ -83,7 +98,7 @@ function SetupConsultantScreen() {
       schema: expertiseSetupSchema
     },
     {
-      step: 3,
+      step: 2,
       title: "Chứng chỉ",
       description: "Thêm thông tin chứng chỉ và tải lên ảnh chứng chỉ",
       component: SetupCertificate,
@@ -94,9 +109,7 @@ function SetupConsultantScreen() {
 
   const currentStepData = setupSteps.find((step) => step.step === currentStep)
 
-  if (!currentStepData) {
-    return null
-  }
+  if (!currentStepData) return null
 
   const {
     control,
@@ -107,6 +120,20 @@ function SetupConsultantScreen() {
     resolver: zodResolver(currentStepData.schema),
     defaultValues: formData
   })
+
+  const openExpertiseSheet = () =>
+    ExpertiseSheetRef.current?.scrollTo(-sheetHeight)
+  const openCertificateSheet = () =>
+    CertificateSheetRef.current?.scrollTo(-sheetHeight)
+  const closeSheet = () => {
+    ExpertiseSheetRef.current?.scrollTo(0)
+    CertificateSheetRef.current?.scrollTo(0)
+  }
+
+  useEffect(() => {
+    const imagesUris = images.map((img) => img.uri)
+    setValue("images", imagesUris)
+  }, [images, setValue])
 
   const onSubmit = async (data: Record<string, any>) => {
     console.log(`Step Data ${currentStep}:`, data)
@@ -132,7 +159,7 @@ function SetupConsultantScreen() {
 
   const StepComponent = currentStepData.component
 
-  // console.log(errors)
+  console.log(errors)
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -162,6 +189,7 @@ function SetupConsultantScreen() {
               control={control}
               setValue={setValue}
               errors={errors}
+              onPress={openCertificateSheet}
             />
 
             <Button
@@ -173,6 +201,29 @@ function SetupConsultantScreen() {
             </Button>
           </Content>
         </Container>
+
+        <Sheet ref={CertificateSheetRef} dynamicHeight={sheetHeight}>
+          {DATA.UPLOADS.map((option) => {
+            const Icon = option.icon
+
+            return (
+              <SheetSelect
+                key={option.value}
+                label={option.label}
+                icon={
+                  <Icon variant="Bold" size={24} color={COLORS.secondary} />
+                }
+                onPress={() => {
+                  closeSheet()
+                  handleSelectImage(
+                    option.value === "library",
+                    handleUploadImage
+                  )
+                }}
+              />
+            )
+          })}
+        </Sheet>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   )

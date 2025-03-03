@@ -174,9 +174,7 @@ function SetupUserScreen() {
 
   const currentStepData = setupSteps.find((step) => step.step === currentStep)
 
-  if (!currentStepData) {
-    return null
-  }
+  if (!currentStepData) return null
 
   const {
     control,
@@ -257,11 +255,11 @@ function SetupUserScreen() {
       const newUserFoodsData = { ...userData, ...allergyData }
       const userAllergiesData = allergyData
 
-      // console.log("new metric data", JSON.stringify(newMetricData, null, 2))
-      // console.log(
-      //   "new user foods data",
-      //   JSON.stringify(newUserFoodsData, null, 2)
-      // )
+      console.log("new metric data", JSON.stringify(newMetricData, null, 2))
+      console.log(
+        "new user foods data",
+        JSON.stringify(newUserFoodsData, null, 2)
+      )
 
       setIsLoading(true)
 
@@ -271,7 +269,7 @@ function SetupUserScreen() {
       await addAllergies(userAllergiesData.allergies)
 
       setIsLoading(false)
-      router.replace("/setup/meal-suggestions")
+      // router.replace("/setup/meal-suggestions")
 
       // try {
       //   await Promise.all([

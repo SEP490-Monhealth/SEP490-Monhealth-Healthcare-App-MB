@@ -3,6 +3,8 @@ import {
   CalendarAdd,
   CalendarRemove,
   CalendarTick,
+  Camera,
+  GalleryAdd,
   Man,
   Woman
 } from "iconsax-react-native"
@@ -102,6 +104,18 @@ export const DATA = {
     { label: "Tăng cân chậm", description: "0.25kg / tuần", value: 1.1 },
     { label: "Tăng cân trung bình", description: "0.5kg / tuần", value: 1.2 },
     { label: "Giảm cân nhanh", description: "0.75kg / tuần", value: 1.3 }
+  ],
+  UPLOADS: [
+    {
+      label: "Chọn ảnh từ thư viện",
+      value: "library",
+      icon: GalleryAdd
+    },
+    {
+      label: "Chụp ảnh từ camera",
+      value: "camera",
+      icon: Camera
+    }
   ],
   SCHEDULES: [
     { label: "Có sẵn", value: StatusScheduleEnum.Available, color: "#16a34a" },

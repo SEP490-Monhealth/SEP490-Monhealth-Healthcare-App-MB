@@ -17,7 +17,7 @@ function VoiceScreen() {
   }
 
   const handleViewConsultant = () => {
-    router.push("/test/consultant")
+    router.push("/consultants/123/details")
   }
 
   const handleViewBookingConsultant = () => {
@@ -25,7 +25,7 @@ function VoiceScreen() {
   }
 
   const handleViewScheduleConsultant = () => {
-    router.push("/test/schedule")
+    router.push("/(test)/schedule")
   }
 
   return (
