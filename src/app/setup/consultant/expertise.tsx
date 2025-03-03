@@ -1,11 +1,6 @@
 import React from "react"
 
-import {
-  Control,
-  Controller,
-  FieldValues,
-  useController
-} from "react-hook-form"
+import { Control, FieldValues, useController } from "react-hook-form"
 
 import { Chip, ScrollArea, VStack } from "@/components/global/atoms"
 
@@ -14,9 +9,17 @@ import { sampleExpertiseGroupData } from "@/constants/expertise"
 interface SetupExpertiseProps {
   control: Control<FieldValues>
   errors: any
+  onOpenSheet: (
+    sheetName: "expertise" | "certificate",
+    group?: {
+      groupId: string
+      name: string
+      expertise: { expertiseId: string; name: string }[]
+    }
+  ) => void
 }
 
-function SetupExpertise({ control, errors }: SetupExpertiseProps) {
+function SetupExpertise({ control, errors, onOpenSheet }: SetupExpertiseProps) {
   const expertiseData = sampleExpertiseGroupData
 
   const { field } = useController({
@@ -24,23 +27,23 @@ function SetupExpertise({ control, errors }: SetupExpertiseProps) {
     control
   })
 
-  const handleSelectGender = (value: string) => {
-    field.onChange(value)
-  }
-
   return (
     <ScrollArea>
       <VStack gap={12} className="pb-24">
-        {expertiseData.map((expertise) => {
+        {expertiseData.map((group) => {
+          const isSelected = group.expertise.some(
+            (exp) => exp.name === field.value
+          )
+
           return (
             <Chip
-              key={expertise.groupId}
-              label={expertise.name}
+              key={group.groupId}
+              label={group.name}
               border
               borderWidth={2}
               size="lg"
-              selected={field.value === expertise.name}
-              onPress={() => handleSelectGender(expertise.name)}
+              selected={isSelected}
+              onPress={() => onOpenSheet("expertise", group)}
             />
           )
         })}

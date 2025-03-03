@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from "react"
 
-import { Keyboard, SafeAreaView, TouchableWithoutFeedback } from "react-native"
+import {
+  Keyboard,
+  SafeAreaView,
+  Text,
+  TouchableWithoutFeedback
+} from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -24,6 +29,7 @@ import { CustomHeader, StepHeader } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
+import { sampleExpertiseGroupData } from "@/constants/expertise"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -62,8 +68,9 @@ function SetupConsultantScreen() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [dateType, setDateType] = useState<"issueDate" | "expiryDate">()
 
-  const sheetHeight = 200
+  const expertiseSheetHeight = 500
   const dateSheetHeight = 300
+  const uploadSheetHeight = 200
 
   const {
     bio,
@@ -78,6 +85,10 @@ function SetupConsultantScreen() {
 
   const [currentStep, setCurrentStep] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const [activeSheet, setActiveSheet] = useState<
+    "expertise" | "certificate" | null
+  >(null)
 
   const formData: Record<string, any> = {
     userId,
@@ -133,14 +144,16 @@ function SetupConsultantScreen() {
   })
 
   const openExpertiseSheet = () =>
-    ExpertiseSheetRef.current?.scrollTo(-sheetHeight)
+    ExpertiseSheetRef.current?.scrollTo(-expertiseSheetHeight)
   const openDateSheet = (inputType: "issueDate" | "expiryDate") => {
     setDateType(inputType)
     DateSheetRef.current?.scrollTo(-dateSheetHeight)
   }
-  const openUploadSheet = () => UploadSheetRef.current?.scrollTo(-sheetHeight)
+  const openUploadSheet = () =>
+    UploadSheetRef.current?.scrollTo(-uploadSheetHeight)
 
   const closeSheet = () => {
+    setActiveSheet(null)
     ExpertiseSheetRef.current?.scrollTo(0)
     UploadSheetRef.current?.scrollTo(0)
   }

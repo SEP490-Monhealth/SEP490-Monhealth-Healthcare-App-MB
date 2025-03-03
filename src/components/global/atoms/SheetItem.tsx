@@ -30,7 +30,7 @@ interface SheetSelectProps {
   variant?: "default" | "danger"
   disabled?: boolean
   label: string
-  icon: React.ReactNode
+  icon?: React.ReactNode
   onPress?: () => void
 }
 
