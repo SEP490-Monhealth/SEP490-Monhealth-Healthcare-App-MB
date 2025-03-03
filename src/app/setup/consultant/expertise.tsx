@@ -1,7 +1,5 @@
 import React from "react"
 
-import { Text, View } from "react-native"
-
 import {
   Control,
   Controller,
@@ -31,25 +29,23 @@ function SetupExpertise({ control, errors }: SetupExpertiseProps) {
   }
 
   return (
-    <>
-      <ScrollArea>
-        <VStack gap={12} className="pb-24">
-          {expertiseData.map((expertise) => {
-            return (
-              <Chip
-                key={expertise.groupId}
-                label={expertise.name}
-                border
-                borderWidth={2}
-                size="lg"
-                selected={field.value === expertise.name}
-                onPress={() => handleSelectGender(expertise.name)}
-              />
-            )
-          })}
-        </VStack>
-      </ScrollArea>
-    </>
+    <ScrollArea>
+      <VStack gap={12} className="pb-24">
+        {expertiseData.map((expertise) => {
+          return (
+            <Chip
+              key={expertise.groupId}
+              label={expertise.name}
+              border
+              borderWidth={2}
+              size="lg"
+              selected={field.value === expertise.name}
+              onPress={() => handleSelectGender(expertise.name)}
+            />
+          )
+        })}
+      </VStack>
+    </ScrollArea>
   )
 }
 

@@ -1,7 +1,11 @@
 import {
   Calendar,
+  Calendar1,
+  Calendar2,
   CalendarAdd,
+  CalendarCircle,
   CalendarRemove,
+  CalendarSearch,
   CalendarTick,
   Camera,
   GalleryAdd,
@@ -69,6 +73,33 @@ export const DATA = {
   GENDERS: [
     { label: "Nam", value: GenderEnum.Male, icon: Man },
     { label: "Nữ", value: GenderEnum.Female, icon: Woman }
+  ],
+  ACTIVITY_LEVELS: [
+    {
+      label: "0 buổi / tuần",
+      value: 1.2,
+      icon: Calendar2
+    },
+    {
+      label: "1 - 3 buổi / tuần",
+      value: 1.375,
+      icon: CalendarSearch
+    },
+    {
+      label: "3 - 5 buổi / tuần",
+      value: 1.55,
+      icon: Calendar
+    },
+    {
+      label: "6 - 7 buổi / tuần",
+      value: 1.725,
+      icon: Calendar1
+    },
+    {
+      label: "Hơn 7 buổi / tuần",
+      value: 1.9,
+      icon: CalendarCircle
+    }
   ],
   GOALS: [
     {

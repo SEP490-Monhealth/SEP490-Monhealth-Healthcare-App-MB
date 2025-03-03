@@ -20,7 +20,12 @@ type InputProps = Omit<TextInputProps, "value"> & {
   label?: string
   placeholder?: string
   onChangeText?: (text: string) => void
-  keyboardType?: "default" | "numeric" | "email-address" | "phone-pad"
+  keyboardType?:
+    | "default"
+    | "numeric"
+    | "email-address"
+    | "phone-pad"
+    | "decimal-pad"
   isMultiline?: boolean
   numberOfLines?: number
   isSecure?: boolean

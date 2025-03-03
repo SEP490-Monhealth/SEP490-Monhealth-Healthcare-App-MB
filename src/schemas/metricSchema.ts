@@ -50,7 +50,7 @@ const baseMetricSchema = z
     goalType: GoalType,
     weightGoal: z
       .number()
-      .min(1, { message: "Trọng lượng mục tiêu phải lớn hơn hoặc bằng 1" })
+      .min(1, { message: "Mục tiêu cân nặng phải lớn hơn hoặc bằng 1" })
       .optional(),
 
     bmi: z
@@ -96,18 +96,43 @@ export const genderSetupSchema = baseMetricSchema.pick({
   gender: true
 })
 
-export const heightWeightSetupSchema = baseMetricSchema.pick({
-  height: true,
-  weight: true
-})
+export const heightWeightSetupSchema = baseMetricSchema
+  .pick({
+    height: true,
+    weight: true
+  })
+  .extend({
+    height: z
+      .union([z.string(), z.number()])
+      .refine((val) => /^\d*\.?\d*$/.test(val.toString()), {
+        message: "Chiều cao phải là số hợp lệ"
+      })
+      .transform((val) => parseFloat(val.toString()) || 0),
+
+    weight: z
+      .union([z.string(), z.number()])
+      .refine((val) => /^\d*\.?\d*$/.test(val.toString()), {
+        message: "Cân nặng phải là số hợp lệ"
+      })
+      .transform((val) => parseFloat(val.toString()) || 0)
+  })
 
 export const activityLevelSetupSchema = baseMetricSchema.pick({
   activityLevel: true
 })
 
-export const weightGoalSetupSchema = baseMetricSchema.pick({
-  weightGoal: true
-})
+export const weightGoalSetupSchema = baseMetricSchema
+  .pick({
+    weightGoal: true
+  })
+  .extend({
+    weightGoal: z
+      .union([z.string(), z.number()])
+      .refine((val) => /^\d*\.?\d*$/.test(val.toString()), {
+        message: "Mục tiêu cân nặng phải là số hợp lệ"
+      })
+      .transform((val) => parseFloat(val.toString()) || 0)
+  })
 
 export const createMetricSchema = baseMetricSchema.pick({
   userId: true,

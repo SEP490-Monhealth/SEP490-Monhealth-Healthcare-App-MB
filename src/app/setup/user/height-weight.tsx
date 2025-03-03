@@ -25,12 +25,18 @@ function SetupHeightWeight({ control, errors }: SetupHeightWeightProps) {
           <Input
             value={value ? value.toString() : ""}
             placeholder="Nhập chiều cao"
-            onChangeText={(text) => onChange(parseFloat(text) || 0)}
-            keyboardType="numeric"
+            onChangeText={(text) => {
+              const formattedText = text.replace(",", ".")
+              if (/^\d*\.?\d*$/.test(formattedText) || formattedText === "") {
+                onChange(formattedText)
+              }
+            }}
+            keyboardType="decimal-pad"
             endIcon={
               <Text className="font-tregular text-sm text-accent">cm</Text>
             }
             canClearText
+            alwaysShowEndIcon
             errorMessage={errorHeightMessage}
           />
         )}
@@ -43,12 +49,18 @@ function SetupHeightWeight({ control, errors }: SetupHeightWeightProps) {
           <Input
             value={value ? value.toString() : ""}
             placeholder="Nhập cân nặng"
-            onChangeText={(text) => onChange(parseFloat(text) || 0)}
-            keyboardType="numeric"
+            onChangeText={(text) => {
+              const formattedText = text.replace(",", ".")
+              if (/^\d*\.?\d*$/.test(formattedText) || formattedText === "") {
+                onChange(formattedText)
+              }
+            }}
+            keyboardType="decimal-pad"
             endIcon={
               <Text className="font-tregular text-sm text-accent">kg</Text>
             }
             canClearText
+            alwaysShowEndIcon
             errorMessage={errorWeightMessage}
           />
         )}

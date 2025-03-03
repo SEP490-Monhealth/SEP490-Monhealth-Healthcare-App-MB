@@ -47,12 +47,21 @@ export const exerciseSchema = baseExerciseSchema.pick({
   updatedBy: true
 })
 
-export const createExerciseSchema = baseExerciseSchema.pick({
-  userId: true,
-  name: true,
-  instructions: true,
-  caloriesPerMinute: true
-})
+export const createExerciseSchema = baseExerciseSchema
+  .pick({
+    userId: true,
+    name: true,
+    instructions: true,
+    caloriesPerMinute: true
+  })
+  .extend({
+    caloriesPerMinute: z
+      .string()
+      .refine((val) => /^\d*\.?\d*$/.test(val), {
+        message: "Calories phải là số hợp lệ"
+      })
+      .transform((val) => parseFloat(val) || 0)
+  })
 
 export const updateExerciseSchema = baseExerciseSchema.pick({
   name: true,

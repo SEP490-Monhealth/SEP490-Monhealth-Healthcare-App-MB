@@ -8,8 +8,6 @@ import { Button, Container, Progress, VStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/color"
 
-import { useAuth } from "@/contexts/AuthContext"
-
 interface OnboardingType {
   title: string
   description: string

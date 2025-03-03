@@ -50,24 +50,22 @@ function SetupWeightGoal({ control, setValue, errors }: SetupWeightGoalProps) {
         control={control}
         render={({ field: { onChange, value } }) => (
           <Input
-            value={
-              value !== null && value !== undefined ? value.toString() : ""
-            }
+            value={value ? value.toString() : ""}
             placeholder={`Nhập cân nặng mục tiêu (Gợi ý: ${
               idealWeight ? idealWeight.toFixed(1) : "--"
             } kg)`}
             onChangeText={(text) => {
-              const normalizedText = text.replace(",", ".")
-              if (/^\d*\.?\d*$/.test(normalizedText)) {
-                const parsedValue = parseFloat(normalizedText)
-                onChange(!isNaN(parsedValue) ? parsedValue : 0)
+              const formattedText = text.replace(",", ".")
+              if (/^\d*\.?\d*$/.test(formattedText) || formattedText === "") {
+                onChange(formattedText)
               }
             }}
-            keyboardType="numeric"
+            keyboardType="decimal-pad"
             endIcon={
               <Text className="font-tregular text-sm text-accent">kg</Text>
             }
             canClearText
+            alwaysShowEndIcon
             errorMessage={errorMessage}
           />
         )}

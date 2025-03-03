@@ -31,19 +31,17 @@ function SetupAllergies({ control }: SetupAllergiesProps) {
   return (
     <ScrollArea>
       <VStack gap={12} className="pb-24">
-        {allergiesData.map((allergy) => {
-          return (
-            <Chip
-              key={allergy.allergyId}
-              size="lg"
-              border
-              borderWidth={2}
-              label={allergy.name}
-              selected={field.value?.includes(allergy.name)}
-              onPress={() => handleSelectAllergies(allergy.name)}
-            />
-          )
-        })}
+        {allergiesData.map((allergy) => (
+          <Chip
+            key={allergy.allergyId}
+            size="lg"
+            border
+            borderWidth={2}
+            label={allergy.name}
+            selected={field.value?.includes(allergy.name)}
+            onPress={() => handleSelectAllergies(allergy.name)}
+          />
+        ))}
       </VStack>
     </ScrollArea>
   )

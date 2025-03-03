@@ -315,7 +315,7 @@ function SetupUserScreen() {
         content={
           <Progress
             height={14}
-            progress={(currentStep / setupSteps.length) * 100}
+            progress={(currentStep / setupSteps.length ) * 100}
             color={COLORS.PRIMARY.lemon}
           />
         }

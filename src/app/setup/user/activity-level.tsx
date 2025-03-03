@@ -1,45 +1,11 @@
 import React from "react"
 
-import {
-  Calendar,
-  Calendar1,
-  Calendar2,
-  CalendarCircle,
-  CalendarSearch
-} from "iconsax-react-native"
 import { Control, FieldValues, useController } from "react-hook-form"
 
 import { Chip, VStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/color"
-
-const activityLevelsData = [
-  {
-    label: "0 buổi / tuần",
-    value: 1.2,
-    icon: Calendar2
-  },
-  {
-    label: "1 - 3 buổi / tuần",
-    value: 1.375,
-    icon: CalendarSearch
-  },
-  {
-    label: "3 - 5 buổi / tuần",
-    value: 1.55,
-    icon: Calendar
-  },
-  {
-    label: "6 - 7 buổi / tuần",
-    value: 1.725,
-    icon: Calendar1
-  },
-  {
-    label: "Hơn 7 buổi / tuần",
-    value: 1.9,
-    icon: CalendarCircle
-  }
-]
+import { DATA } from "@/constants/data"
 
 interface SetupActivityLevelProps {
   control: Control<FieldValues>
@@ -57,7 +23,7 @@ function SetupActivityLevel({ control }: SetupActivityLevelProps) {
 
   return (
     <VStack gap={12}>
-      {activityLevelsData.map((activity) => {
+      {DATA.ACTIVITY_LEVELS.map((activity) => {
         const Icon = activity.icon
 
         return (

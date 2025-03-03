@@ -133,6 +133,7 @@ function WaterReminderDetailsScreen() {
                     </Text>
                   }
                   canClearText
+                  alwaysShowEndIcon
                   errorMessage={errors.volume?.message}
                   className="w-full"
                 />
