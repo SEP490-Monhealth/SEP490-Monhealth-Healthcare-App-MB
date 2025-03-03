@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react"
 
 import {
+  Dimensions,
   Keyboard,
   SafeAreaView,
-  Text,
   TouchableWithoutFeedback
 } from "react-native"
 
@@ -46,6 +46,8 @@ import SetupCertificate from "./certificate"
 import SetupExpertise from "./expertise"
 import SetupInformation from "./information"
 
+const { height: SCREEN_HEIGHT } = Dimensions.get("window")
+
 interface SetupStepsProps {
   step: number
   title: string
@@ -58,17 +60,22 @@ interface SetupStepsProps {
 function SetupConsultantScreen() {
   const router = useRouter()
 
+  const { user } = useAuth()
+  const userId = user?.userId
+
   const ExpertiseSheetRef = useRef<SheetRefProps>(null)
   const DateSheetRef = useRef<SheetRefProps>(null)
   const UploadSheetRef = useRef<SheetRefProps>(null)
 
-  const { user } = useAuth()
-  const userId = user?.userId
-
+  const [selectedGroup, setSelectedGroup] = useState<string | null>(null)
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [dateType, setDateType] = useState<"issueDate" | "expiryDate">()
+  const [expertiseSheetHeight, setExpertiseSheetHeight] = useState<number>(320)
 
-  const expertiseSheetHeight = 500
+  const expertiseData =
+    sampleExpertiseGroupData.find((group) => group.groupId === selectedGroup)
+      ?.expertise || []
+
   const dateSheetHeight = 300
   const uploadSheetHeight = 200
 
@@ -85,10 +92,6 @@ function SetupConsultantScreen() {
 
   const [currentStep, setCurrentStep] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
-
-  const [activeSheet, setActiveSheet] = useState<
-    "expertise" | "certificate" | null
-  >(null)
 
   const formData: Record<string, any> = {
     userId,
@@ -143,21 +146,6 @@ function SetupConsultantScreen() {
     defaultValues: formData
   })
 
-  const openExpertiseSheet = () =>
-    ExpertiseSheetRef.current?.scrollTo(-expertiseSheetHeight)
-  const openDateSheet = (inputType: "issueDate" | "expiryDate") => {
-    setDateType(inputType)
-    DateSheetRef.current?.scrollTo(-dateSheetHeight)
-  }
-  const openUploadSheet = () =>
-    UploadSheetRef.current?.scrollTo(-uploadSheetHeight)
-
-  const closeSheet = () => {
-    setActiveSheet(null)
-    ExpertiseSheetRef.current?.scrollTo(0)
-    UploadSheetRef.current?.scrollTo(0)
-  }
-
   const handleDateSelect = (_: DateTimePickerEvent, date?: Date) => {
     if (date && dateType) {
       const isoDate = formatUTCDate(date)
@@ -192,6 +180,48 @@ function SetupConsultantScreen() {
     } else {
       console.log("Final Data", data)
     }
+  }
+
+  const calculateSheetHeight = (expertiseLength: number) => {
+    const minHeight = 160
+    const maxHeight = SCREEN_HEIGHT * 0.8
+    let itemHeight = 100
+
+    if (expertiseLength === 3) {
+      itemHeight = 80
+    } else if (expertiseLength >= 4 && expertiseLength <= 5) {
+      itemHeight = 70
+    } else if (expertiseLength > 5) {
+      itemHeight = 60
+    }
+
+    return Math.min(
+      Math.max(itemHeight * expertiseLength, minHeight),
+      maxHeight
+    )
+  }
+
+  const openExpertiseSheet = (group: string) => {
+    setSelectedGroup(group)
+
+    const expertiseList =
+      sampleExpertiseGroupData.find((g) => g.groupId === group)?.expertise || []
+    const calculatedHeight = calculateSheetHeight(expertiseList.length)
+
+    setExpertiseSheetHeight(calculatedHeight)
+    ExpertiseSheetRef.current?.scrollTo(-calculatedHeight)
+  }
+  const openDateSheet = (inputType: "issueDate" | "expiryDate") => {
+    setDateType(inputType)
+    DateSheetRef.current?.scrollTo(-dateSheetHeight)
+  }
+  const openUploadSheet = () =>
+    UploadSheetRef.current?.scrollTo(-uploadSheetHeight)
+
+  const closeSheet = () => {
+    ExpertiseSheetRef.current?.scrollTo(0)
+    DateSheetRef.current?.scrollTo(0)
+    UploadSheetRef.current?.scrollTo(0)
   }
 
   const handleBack = () => {
@@ -249,6 +279,19 @@ function SetupConsultantScreen() {
           </Content>
         </Container>
 
+        <Sheet ref={ExpertiseSheetRef} dynamicHeight={expertiseSheetHeight}>
+          {expertiseData.map((item) => (
+            <SheetSelect
+              key={item.expertiseId}
+              label={item.name}
+              onPress={() => {
+                setValue("expertise", item.name)
+                closeSheet()
+              }}
+            />
+          ))}
+        </Sheet>
+
         <Sheet ref={DateSheetRef} dynamicHeight={dateSheetHeight}>
           <DateTimePicker
             value={selectedDate || new Date()}
@@ -267,7 +310,7 @@ function SetupConsultantScreen() {
           />
         </Sheet>
 
-        <Sheet ref={UploadSheetRef} dynamicHeight={sheetHeight}>
+        <Sheet ref={UploadSheetRef} dynamicHeight={uploadSheetHeight}>
           {DATA.UPLOADS.map((option) => {
             const Icon = option.icon
 

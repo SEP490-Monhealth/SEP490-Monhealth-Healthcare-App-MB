@@ -27,6 +27,7 @@ function SetupInformation({ control, errors }: SetupInformationProps) {
             isMultiline
             numberOfLines={4}
             canClearText
+            errorMessage={errors.bio?.message}
           />
         )}
       />
@@ -46,6 +47,7 @@ function SetupInformation({ control, errors }: SetupInformationProps) {
             }
             alwaysShowEndIcon
             canClearText
+            errorMessage={errors.experience?.message}
           />
         )}
       />

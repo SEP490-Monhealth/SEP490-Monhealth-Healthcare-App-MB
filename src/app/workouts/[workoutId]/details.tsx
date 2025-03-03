@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react"
 
-import { Keyboard, Text } from "react-native"
+import { ActivityIndicator, Keyboard, Text } from "react-native"
 import { TouchableWithoutFeedback } from "react-native"
 import { SafeAreaView } from "react-native"
 
@@ -52,9 +52,7 @@ function WorkoutDetailsScreen() {
   const warmupRounds = 2
   const workoutRounds = 3
 
-  // const sheetHeight = 400
-
-  const sheetHeight = 540
+  const sheetHeight = 560
 
   const totalWarmupDuration = 100
   // exercisesData?.warmup.reduce((acc, exercise) => {
@@ -167,16 +165,20 @@ function WorkoutDetailsScreen() {
         </Container>
 
         <Sheet ref={SheetRef} dynamicHeight={sheetHeight}>
-          <VStack>
-            <Section label="Hướng dẫn bài tập" margin={false} />
+          {isExerciseLoading ? (
+            <ActivityIndicator size="small" color={COLORS.primary} />
+          ) : (
+            <VStack>
+              <Section label="Hướng dẫn bài tập" margin={false} />
 
-            <Text className="font-tregular text-base text-primary">
-              {exerciseData?.instructions
-                ?.split("\n")
-                .map((line, index) => `${index + 1}. ${line}`)
-                .join("\n")}
-            </Text>
-          </VStack>
+              <Text className="font-tregular text-base text-primary">
+                {exerciseData?.instructions
+                  ?.split("\n")
+                  .map((line, index) => `${index + 1}. ${line}`)
+                  .join("\n")}
+              </Text>
+            </VStack>
+          )}
         </Sheet>
       </SafeAreaView>
     </TouchableWithoutFeedback>
