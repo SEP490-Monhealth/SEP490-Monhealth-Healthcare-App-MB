@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from "react"
 
-import { Keyboard, SafeAreaView, TouchableWithoutFeedback } from "react-native"
+import {
+  Keyboard,
+  SafeAreaView,
+  Text,
+  TouchableWithoutFeedback
+} from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -21,6 +26,7 @@ import { CustomHeader, StepHeader } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
+import { sampleExpertiseGroupData } from "@/constants/expertise"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -50,7 +56,7 @@ function SetupConsultantScreen() {
 
   const ExpertiseSheetRef = useRef<SheetRefProps>(null)
   const CertificateSheetRef = useRef<SheetRefProps>(null)
-  const sheetHeight = 200
+  const sheetHeight = 500
 
   const { user } = useAuth()
   const userId = user?.userId
@@ -68,6 +74,10 @@ function SetupConsultantScreen() {
 
   const [currentStep, setCurrentStep] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const [activeSheet, setActiveSheet] = useState<
+    "expertise" | "certificate" | null
+  >(null)
 
   const formData: Record<string, any> = {
     userId,
@@ -98,7 +108,7 @@ function SetupConsultantScreen() {
       schema: expertiseSetupSchema
     },
     {
-      step: 2,
+      step: 3,
       title: "Chứng chỉ",
       description: "Thêm thông tin chứng chỉ và tải lên ảnh chứng chỉ",
       component: SetupCertificate,
@@ -121,11 +131,33 @@ function SetupConsultantScreen() {
     defaultValues: formData
   })
 
-  const openExpertiseSheet = () =>
-    ExpertiseSheetRef.current?.scrollTo(-sheetHeight)
-  const openCertificateSheet = () =>
-    CertificateSheetRef.current?.scrollTo(-sheetHeight)
+  const [selectedGroup, setSelectedGroup] = useState<any | null>(null)
+
+  const openSheet = (
+    sheetName: "expertise" | "certificate",
+    group: any = null
+  ) => {
+    setActiveSheet(sheetName)
+
+    if (sheetName === "expertise") {
+      setSelectedGroup(group)
+
+      const itemHeight = 90
+
+      const dynamicSheetHeight = Math.min(
+        itemHeight * (group?.expertise.length || 1)
+      )
+
+      setTimeout(() => {
+        ExpertiseSheetRef.current?.scrollTo(-dynamicSheetHeight)
+      }, 100)
+    } else {
+      CertificateSheetRef.current?.scrollTo(-sheetHeight)
+    }
+  }
+
   const closeSheet = () => {
+    setActiveSheet(null)
     ExpertiseSheetRef.current?.scrollTo(0)
     CertificateSheetRef.current?.scrollTo(0)
   }
@@ -189,7 +221,7 @@ function SetupConsultantScreen() {
               control={control}
               setValue={setValue}
               errors={errors}
-              onPress={openCertificateSheet}
+              onOpenSheet={openSheet}
             />
 
             <Button
@@ -202,27 +234,45 @@ function SetupConsultantScreen() {
           </Content>
         </Container>
 
-        <Sheet ref={CertificateSheetRef} dynamicHeight={sheetHeight}>
-          {DATA.UPLOADS.map((option) => {
-            const Icon = option.icon
+        <Sheet ref={ExpertiseSheetRef} dynamicHeight={sheetHeight}>
+          {activeSheet === "expertise" &&
+            selectedGroup?.expertise &&
+            selectedGroup.expertise.map(
+              (option: { expertiseId: string; name: string }) => (
+                <SheetSelect
+                  key={option.expertiseId}
+                  label={option.name}
+                  onPress={() => {
+                    setValue("expertise", option.name) 
+                    updateField("expertise", option.name)
+                    closeSheet()
+                  }}
+                />
+              )
+            )}
+        </Sheet>
 
-            return (
-              <SheetSelect
-                key={option.value}
-                label={option.label}
-                icon={
-                  <Icon variant="Bold" size={24} color={COLORS.secondary} />
-                }
-                onPress={() => {
-                  closeSheet()
-                  handleSelectImage(
-                    option.value === "library",
-                    handleUploadImage
-                  )
-                }}
-              />
-            )
-          })}
+        <Sheet ref={CertificateSheetRef} dynamicHeight={sheetHeight}>
+          {activeSheet === "certificate" &&
+            DATA.UPLOADS.map((option) => {
+              const Icon = option.icon
+              return (
+                <SheetSelect
+                  key={option.value}
+                  label={option.label}
+                  icon={
+                    <Icon variant="Bold" size={24} color={COLORS.secondary} />
+                  }
+                  onPress={() => {
+                    closeSheet()
+                    handleSelectImage(
+                      option.value === "library",
+                      handleUploadImage
+                    )
+                  }}
+                />
+              )
+            })}
         </Sheet>
       </SafeAreaView>
     </TouchableWithoutFeedback>
