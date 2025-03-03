@@ -17,17 +17,20 @@ function VoiceScreen() {
   }
 
   const handleViewConsultant = () => {
-    router.push("/test/consultant")
+    router.push("/(test)/consultant")
   }
 
   const handleViewBookingConsultant = () => {
     router.push("/bookings")
   }
 
-  const handleViewScheduleConsultant = () => {
-    router.push("/test/schedule")
+  const handleRegisterUser = () => {
+    router.push("/setup/user")
   }
 
+  const handleCreateExercise = () => {
+    router.push("/(test)/create")
+  }
   return (
     <Container>
       <Header
@@ -52,8 +55,12 @@ function VoiceScreen() {
             Booking
           </Button>
 
-          <Button size="lg" onPress={handleViewScheduleConsultant}>
-            Schedule
+          <Button size="lg" onPress={handleRegisterUser}>
+            Đăng ký user
+          </Button>
+
+          <Button size="lg" onPress={handleCreateExercise}>
+            Tạo bài tập
           </Button>
         </VStack>
       </Content>

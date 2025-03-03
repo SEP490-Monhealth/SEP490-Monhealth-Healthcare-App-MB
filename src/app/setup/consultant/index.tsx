@@ -132,7 +132,7 @@ function SetupConsultantScreen() {
 
   const StepComponent = currentStepData.component
 
-  // console.log(errors)
+  console.log(errors)
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

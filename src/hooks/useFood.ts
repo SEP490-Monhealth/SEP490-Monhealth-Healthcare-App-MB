@@ -63,8 +63,6 @@ export const useGetAllFoods = (
         throw error
       }
     },
-    placeholderData: (prev) =>
-      prev || { foods: [], totalPages: 0, totalItems: 0 },
     staleTime: 1000 * 60 * 5
   })
 }

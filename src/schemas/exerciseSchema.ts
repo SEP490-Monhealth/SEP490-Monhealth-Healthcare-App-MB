@@ -47,4 +47,19 @@ export const exerciseSchema = baseExerciseSchema.pick({
   updatedBy: true
 })
 
+export const createExerciseSchema = baseExerciseSchema.pick({
+  userId: true,
+  name: true,
+  instructions: true,
+  caloriesPerMinute: true
+})
+
+export const updateExerciseSchema = baseExerciseSchema.pick({
+  name: true,
+  instructions: true,
+  caloriesPerMinute: true
+})
+
 export type ExerciseType = z.infer<typeof exerciseSchema>
+export type CreateExerciseType = z.infer<typeof createExerciseSchema>
+export type UpdateExerciseType = z.infer<typeof updateExerciseSchema>
