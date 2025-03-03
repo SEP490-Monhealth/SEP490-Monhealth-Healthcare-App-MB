@@ -66,7 +66,8 @@ function ForgotPasswordScreen() {
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value}
-                    placeholder="Nhập mật khẩu"
+                    label="Mật khẩu"
+                    placeholder="******"
                     onChangeText={onChange}
                     isSecure={!showPassword}
                     onToggleSecure={() => setShowPassword(!showPassword)}
@@ -93,7 +94,8 @@ function ForgotPasswordScreen() {
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value}
-                    placeholder="Nhập lại mật khẩu"
+                    label="Xác nhận mật khẩu"
+                    placeholder="******"
                     onChangeText={onChange}
                     isSecure={!showConfirmPassword}
                     onToggleSecure={() =>

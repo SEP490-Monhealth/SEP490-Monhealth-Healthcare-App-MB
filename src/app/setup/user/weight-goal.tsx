@@ -51,6 +51,7 @@ function SetupWeightGoal({ control, setValue, errors }: SetupWeightGoalProps) {
         render={({ field: { onChange, value } }) => (
           <Input
             value={value ? value.toString() : ""}
+            label="Cân nặng mục tiêu"
             placeholder={`Nhập cân nặng mục tiêu (Gợi ý: ${
               idealWeight ? idealWeight.toFixed(1) : "--"
             } kg)`}

@@ -16,10 +16,6 @@ function VoiceScreen() {
     router.push("/setup/consultant")
   }
 
-  const handleViewConsultant = () => {
-    router.push("/(test)/consultant")
-  }
-
   const handleSetupUser = () => {
     router.push("/setup/user")
   }
@@ -46,10 +42,6 @@ function VoiceScreen() {
         <VStack gap={20}>
           <Button size="lg" onPress={handleRegisterConsultant}>
             Đăng ký consultant
-          </Button>
-
-          <Button size="lg" onPress={handleViewConsultant}>
-            Tư vấn viên
           </Button>
 
           <Button size="lg" onPress={handleSetupUser}>

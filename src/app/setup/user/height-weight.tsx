@@ -24,7 +24,8 @@ function SetupHeightWeight({ control, errors }: SetupHeightWeightProps) {
         render={({ field: { onChange, value } }) => (
           <Input
             value={value ? value.toString() : ""}
-            placeholder="Nhập chiều cao"
+            label="Chiều cao"
+            placeholder="VD: 170"
             onChangeText={(text) => {
               const formattedText = text.replace(",", ".")
               if (/^\d*\.?\d*$/.test(formattedText) || formattedText === "") {
@@ -48,7 +49,8 @@ function SetupHeightWeight({ control, errors }: SetupHeightWeightProps) {
         render={({ field: { onChange, value } }) => (
           <Input
             value={value ? value.toString() : ""}
-            placeholder="Nhập cân nặng"
+            label="Cân nặng"
+            placeholder="VD: 50"
             onChangeText={(text) => {
               const formattedText = text.replace(",", ".")
               if (/^\d*\.?\d*$/.test(formattedText) || formattedText === "") {

@@ -63,7 +63,8 @@ function PrivacyScreen() {
             render={({ field: { onChange, value } }) => (
               <Input
                 value={value}
-                placeholder="Nhập mật khẩu cũ"
+                label="Mật khẩu cũ"
+                placeholder="******"
                 onChangeText={onChange}
                 isSecure={!showPassword}
                 onToggleSecure={() => setShowPassword(!showPassword)}
@@ -90,7 +91,8 @@ function PrivacyScreen() {
             render={({ field: { onChange, value } }) => (
               <Input
                 value={value}
-                placeholder="Nhập mật khẩu mới"
+                label="Mật khẩu mới"
+                placeholder="******"
                 onChangeText={onChange}
                 isSecure={!showNewPassword}
                 onToggleSecure={() => setShowNewPassword(!showNewPassword)}
@@ -117,7 +119,8 @@ function PrivacyScreen() {
             render={({ field: { onChange, value } }) => (
               <Input
                 value={value}
-                placeholder="Nhập lại mật khẩu"
+                label="Xác nhận mật khẩu"
+                placeholder="******"
                 onChangeText={onChange}
                 isSecure={!showConfirmPassword}
                 onToggleSecure={() =>

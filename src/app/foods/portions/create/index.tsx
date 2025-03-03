@@ -101,7 +101,8 @@ function PortionCreateScreen() {
                   render={({ field: { onChange, value } }) => (
                     <Input
                       value={value}
-                      placeholder="Nhập khẩu phần ăn"
+                      label="Kích thước"
+                      placeholder="VD: Phần, hộp, lon,..."
                       onChangeText={onChange}
                       keyboardType="default"
                       errorMessage={errors.size?.message}
@@ -118,7 +119,8 @@ function PortionCreateScreen() {
                       render={({ field: { onChange, value } }) => (
                         <Input
                           value={value ? value.toString() : ""}
-                          placeholder="1"
+                          label="Khối lượng"
+                          placeholder="VD: 100"
                           onChangeText={(text) =>
                             onChange(parseFloat(text) || 0)
                           }
@@ -131,7 +133,8 @@ function PortionCreateScreen() {
 
                   <View style={{ flex: 3 }}>
                     <Select
-                      defaultValue="Chọn khẩu phần ăn"
+                      label="Đơn vị"
+                      defaultValue="VD: g, ml,..."
                       value={selectedUnit}
                       onPress={openSheet}
                     />

@@ -43,8 +43,8 @@ function FoodInformation({
           render={({ field: { onChange, value } }) => (
             <Input
               value={value}
-              // label="Tên"
-              placeholder="Nhập tên món ăn"
+              label="Tên món ăn"
+              placeholder="VD: Cơm tấm sườn"
               onChangeText={onChange}
               keyboardType="default"
               canClearText
@@ -59,8 +59,8 @@ function FoodInformation({
           render={({ field: { onChange, value } }) => (
             <Input
               value={value}
-              // label="Mô tả"
-              placeholder="Nhập mô tả món ăn"
+              label="Mô tả"
+              placeholder="VD: Món ăn ngon, dễ làm, phù hợp cho cả gia đình"
               onChangeText={onChange}
               keyboardType="default"
               isMultiline

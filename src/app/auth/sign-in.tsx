@@ -97,14 +97,15 @@ function SignInScreen() {
               {description}
             </Text>
 
-            <VStack gap={8} className="mt-8">
+            <VStack gap={8} className="mt-12">
               <Controller
                 name="phoneNumber"
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value}
-                    placeholder="Nhập số điện thoại"
+                    label="Số điện thoại"
+                    placeholder="VD: 0963122758"
                     onChangeText={onChange}
                     keyboardType="phone-pad"
                     startIcon={
@@ -122,7 +123,8 @@ function SignInScreen() {
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value}
-                    placeholder="Nhập mật khẩu"
+                    label="Mật khẩu"
+                    placeholder="******"
                     onChangeText={onChange}
                     isSecure={!showPassword}
                     onToggleSecure={() => setShowPassword(!showPassword)}

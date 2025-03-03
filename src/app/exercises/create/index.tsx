@@ -59,7 +59,8 @@ function ExerciseCreateScreen() {
               render={({ field: { onChange, value } }) => (
                 <Input
                   value={value}
-                  placeholder="Nhập tên bài tập"
+                  label="Tên bài tập"
+                  placeholder="VD: Chạy bộ, đạp xe"
                   onChangeText={onChange}
                   keyboardType="default"
                   canClearText
@@ -74,7 +75,8 @@ function ExerciseCreateScreen() {
               render={({ field: { onChange, value } }) => (
                 <Input
                   value={value ? value.toString() : ""}
-                  placeholder="Mô tả về bài tập"
+                  label="Hướng dẫn"
+                  placeholder="VD: Đứng thẳng, chân mở rộng bằng vai,..."
                   onChangeText={(text) => onChange(text)}
                   keyboardType="default"
                   isMultiline
@@ -91,7 +93,8 @@ function ExerciseCreateScreen() {
               render={({ field: { onChange, value } }) => (
                 <Input
                   value={value ? value.toString() : ""}
-                  placeholder="Calories đốt mỗi phút"
+                  label="Calories đốt mỗi phút"
+                  placeholder="VD: 5.5"
                   onChangeText={(text) => {
                     const formattedText = text.replace(",", ".")
                     if (

@@ -105,7 +105,8 @@ function WaterReminderCreateScreen() {
               render={({ field: { onChange, value } }) => (
                 <Input
                   value={value}
-                  placeholder="Nhập tên nhắc nhở"
+                  label="Tên nhắc nhở"
+                  placeholder="VD: Uống nước"
                   onChangeText={onChange}
                   keyboardType="default"
                   canClearText
@@ -121,7 +122,8 @@ function WaterReminderCreateScreen() {
               render={({ field: { onChange, value } }) => (
                 <Input
                   value={value ? value.toString() : ""}
-                  placeholder="Nhập lượng nước"
+                  label="Lượng nước"
+                  placeholder="VD: 250"
                   onChangeText={(text) => onChange(parseFloat(text) || 0)}
                   keyboardType="numeric"
                   endIcon={

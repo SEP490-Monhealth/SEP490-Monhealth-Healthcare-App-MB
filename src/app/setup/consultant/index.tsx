@@ -191,8 +191,6 @@ function SetupConsultantScreen() {
 
   const StepComponent = currentStepData.component
 
-  console.log("images", images)
-
   console.log(errors)
 
   return (

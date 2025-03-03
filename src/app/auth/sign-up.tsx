@@ -113,7 +113,8 @@ function SignUpScreen() {
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value}
-                    placeholder="Nhập họ và tên"
+                    label="Họ và tên"
+                    placeholder="VD: Nguyễn Văn A"
                     onChangeText={onChange}
                     keyboardType="default"
                     startIcon={
@@ -135,7 +136,8 @@ function SignUpScreen() {
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value}
-                    placeholder="Nhập số điện thoại"
+                    label="Số điện thoại"
+                    placeholder="VD: 0963122758"
                     onChangeText={onChange}
                     keyboardType="phone-pad"
                     startIcon={
@@ -153,7 +155,8 @@ function SignUpScreen() {
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value}
-                    placeholder="Nhập địa chỉ email"
+                    label="Email"
+                    placeholder="VD: nguyenvana@gmail.com"
                     onChangeText={onChange}
                     keyboardType="email-address"
                     startIcon={
@@ -171,7 +174,8 @@ function SignUpScreen() {
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value}
-                    placeholder="Nhập mật khẩu"
+                    label="Mật khẩu"
+                    placeholder="******"
                     onChangeText={onChange}
                     isSecure={!showPassword}
                     onToggleSecure={() => setShowPassword(!showPassword)}
