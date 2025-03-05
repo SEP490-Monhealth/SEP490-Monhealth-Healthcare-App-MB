@@ -1,20 +1,38 @@
 // ** SCHEDULES ** //
 // POST api/v1/schedules
-const createSchedule1 = {
-  consultantId: "Schedule1",
-  scheduleType: "Recurring",
-  recurringDay: "Mon",
-  specificDate: null,
-  items: ["08:00:00", "09:00:00", "10:00:00"]
-}
+const createSchedule1 = [
+  {
+    consultantId: "Schedule1",
+    scheduleType: "Recurring",
+    recurringDay: "Mon",
+    specificDate: null,
+    items: ["08:00:00", "09:00:00", "10:00:00"]
+  },
+  {
+    consultantId: "Schedule1",
+    scheduleType: "Recurring",
+    recurringDay: "Tue",
+    specificDate: null,
+    items: ["13:00:00", "14:00:00", "15:00:00"]
+  }
+]
 
-const createSchedule2 = {
-  consultantId: "Schedule2",
-  scheduleType: "OneTime",
-  recurringDay: null,
-  specificDate: "2025-03-05",
-  items: ["08:00:00", "09:00:00", "10:00:00"]
-}
+const createSchedule2 = [
+  {
+    consultantId: "Schedule2",
+    scheduleType: "OneTime",
+    recurringDay: null,
+    specificDate: "2025-03-05",
+    items: ["08:00:00", "09:00:00", "10:00:00"]
+  },
+  {
+    consultantId: "Schedule2",
+    scheduleType: "OneTime",
+    recurringDay: null,
+    specificDate: "2025-03-05",
+    items: ["08:00:00", "09:00:00", "10:00:00"]
+  }
+]
 
 // POST api/v1/schedules/{scheduleId}/time-slots
 const createScheduleTimeSlot = {

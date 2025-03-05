@@ -28,7 +28,7 @@ export const TimeSlotSelector = ({
       onPress={onPress}
       className={cn(
         "items-center rounded-xl border border-border px-6 py-3",
-        isSelected ? "bg-primary" : "bg-white"
+        isSelected ? "bg-primary" : "bg-card"
       )}
     >
       <Text
