@@ -19,7 +19,7 @@ import { Section } from "@/components/global/organisms"
 import { WorkoutTypes } from "@/components/local/workouts"
 
 import { COLORS } from "@/constants/color"
-import { TypeCategoryEnum } from "@/constants/enums"
+import { CategoryTypeEnum } from "@/constants/enum/CategoryType"
 
 import { useGetCategoriesByType } from "@/hooks/useCategory"
 import { useDebounce } from "@/hooks/useDebounce"
@@ -45,7 +45,7 @@ function WorkoutsScreen() {
   const debouncedFilter = useDebounce(selectedType, 0)
 
   const { data: typesData, isLoading: isTypesLoading } = useGetCategoriesByType(
-    TypeCategoryEnum.Workout
+    CategoryTypeEnum.Workout
   )
 
   const { data, isLoading } = useGetAllWorkouts(

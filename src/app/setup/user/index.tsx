@@ -9,7 +9,7 @@ import { Button, Container, Content, Progress } from "@/components/global/atoms"
 import { CustomHeader, StepHeader } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/color"
-import { TypeGoalEnum } from "@/constants/enums"
+import { GoalTypeEnum } from "@/constants/enum/GoalType"
 
 import { useAuth } from "@/contexts/AuthContext"
 import { useStorage } from "@/contexts/StorageContext"
@@ -134,14 +134,14 @@ function SetupUserScreen() {
     }
   ]
 
-  if (goalType !== TypeGoalEnum.Maintenance) {
+  if (goalType !== GoalTypeEnum.Maintenance) {
     baseSteps.push({
       title:
-        goalType === TypeGoalEnum.WeightLoss
+        goalType === GoalTypeEnum.WeightLoss
           ? "Tốc độ giảm cân"
           : "Tốc độ tăng cân",
       description:
-        goalType === TypeGoalEnum.WeightLoss
+        goalType === GoalTypeEnum.WeightLoss
           ? "Chọn tốc độ giảm cân phù hợp với cơ thể của bạn"
           : "Chọn tốc độ tăng cân phù hợp với cơ thể của bạn",
       component: SetupCaloriesRatio,
@@ -193,7 +193,7 @@ function SetupUserScreen() {
     const { weight } = useSetupStore.getState()
 
     if (weight !== undefined) {
-      if (goalType === TypeGoalEnum.WeightLoss && weightGoal >= weight) {
+      if (goalType === GoalTypeEnum.WeightLoss && weightGoal >= weight) {
         setError("weightGoal", {
           type: "manual",
           message: "Mục tiêu giảm cân phải nhỏ hơn cân nặng hiện tại"
@@ -201,7 +201,7 @@ function SetupUserScreen() {
         return
       }
 
-      if (goalType === TypeGoalEnum.WeightGain && weightGoal <= weight) {
+      if (goalType === GoalTypeEnum.WeightGain && weightGoal <= weight) {
         setError("weightGoal", {
           type: "manual",
           message: "Mục tiêu tăng cân phải lớn hơn cân nặng hiện tại"
@@ -263,12 +263,17 @@ function SetupUserScreen() {
 
       setIsLoading(true)
 
-      setMetricData(newMetricData)
-      setUserFoodsData(newUserFoodsData)
+      try {
+        setMetricData(newMetricData)
+        setUserFoodsData(newUserFoodsData)
 
-      await addAllergies(userAllergiesData.allergies)
+        await addAllergies(userAllergiesData.allergies)
+      } catch (error) {
+        console.error("Error submitting form:", error)
+      } finally {
+        setIsLoading(false)
+      }
 
-      setIsLoading(false)
       // router.replace("/setup/meal-suggestions")
 
       // try {

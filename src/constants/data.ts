@@ -19,52 +19,50 @@ import {
   TrendingUp
 } from "lucide-react-native"
 
-import {
-  GenderEnum,
-  StatusBookingEnum,
-  StatusScheduleEnum,
-  TypeDishEnum,
-  TypeGoalEnum,
-  TypeMealEnum
-} from "./enums"
+import { BookingStatusEnum } from "./enum/BookingStatus"
+import { DishTypeEnum } from "./enum/DishType"
+import { GenderEnum } from "./enum/Gender"
+import { GoalTypeEnum } from "./enum/GoalType"
+import { MealTypeEnum } from "./enum/MealType"
+import { ScheduleTimeSlotStatusEnum } from "./enum/ScheduleTimeSlotStatus"
 
 export const DATA = {
   MEALS: [
     {
       label: "Bữa sáng",
       eLabel: "Breakfast",
-      value: TypeMealEnum.Breakfast,
+      value: MealTypeEnum.Breakfast,
       ratio: 30,
       icon: require("../../public/icons/meals/sandwich.png")
     },
     {
       label: "Bữa trưa",
       eLabel: "Lunch",
-      value: TypeMealEnum.Lunch,
+      value: MealTypeEnum.Lunch,
       ratio: 35,
       icon: require("../../public/icons/meals/rice.png")
     },
     {
       label: "Bữa tối",
       eLabel: "Dinner",
-      value: TypeMealEnum.Dinner,
+      value: MealTypeEnum.Dinner,
       ratio: 25,
       icon: require("../../public/icons/meals/roast-chicken.png")
     },
     {
       label: "Bữa phụ",
       eLabel: "Snack",
-      value: TypeMealEnum.Snack,
+      value: MealTypeEnum.Snack,
       ratio: 10,
       icon: require("../../public/icons/meals/cupcake.png")
     }
   ],
   DISHES: [
-    { label: "Món chính", value: TypeDishEnum.MainDish },
-    { label: "Món phụ", value: TypeDishEnum.SideDish },
-    { label: "Món canh", value: TypeDishEnum.Soup },
-    { label: "Món tráng miệng", value: TypeDishEnum.Dessert },
-    { label: "Đồ uống", value: TypeDishEnum.Drink }
+    { label: "Món chính", value: DishTypeEnum.MainDish },
+    { label: "Món phụ", value: DishTypeEnum.SideDish },
+    { label: "Món canh", value: DishTypeEnum.Soup },
+    { label: "Món tráng miệng", value: DishTypeEnum.Dessert },
+    { label: "Đồ uống", value: DishTypeEnum.Drink }
   ],
   UNITS: [
     { label: "g (gram)", value: "g" },
@@ -105,25 +103,25 @@ export const DATA = {
     {
       label: "Giảm cân",
       description: "Mục tiêu giảm cân và duy trì vóc dáng",
-      value: TypeGoalEnum.WeightLoss,
+      value: GoalTypeEnum.WeightLoss,
       icon: TrendingDown
     },
     {
       label: "Duy trì cân nặng",
       description: "Mục tiêu duy trì cân nặng hiện tại",
-      value: TypeGoalEnum.Maintenance,
+      value: GoalTypeEnum.Maintenance,
       icon: Scale
     },
     {
       label: "Tăng cân",
       description: "Mục tiêu tăng cân và cải thiện cơ thể",
-      value: TypeGoalEnum.WeightGain,
+      value: GoalTypeEnum.WeightGain,
       icon: TrendingUp
     }
     // {
     //   label: "Tăng cơ",
     //   description: "Mục tiêu tăng cơ và giảm mỡ",
-    //   value: TypeGoalEnum.MuscleGain,
+    //   value: GoalTypeEnum.MuscleGain,
     //   icon: BicepsFlexed
     // }
   ],
@@ -135,6 +133,12 @@ export const DATA = {
     { label: "Tăng cân chậm", description: "0.25kg / tuần", value: 1.1 },
     { label: "Tăng cân trung bình", description: "0.5kg / tuần", value: 1.2 },
     { label: "Giảm cân nhanh", description: "0.75kg / tuần", value: 1.3 }
+  ],
+  WORKOUTS: [
+    { label: "Đã nạp", unit: "kcal", color: "#16a34a" },
+    { label: "Đã đốt", unit: "kcal", color: "#ef4444" },
+    { label: "Thời gian", unit: "phút", color: "#f97316" },
+    { label: "Đã bước", unit: "bước", color: "#3b82f6" }
   ],
   UPLOADS: [
     {
@@ -149,36 +153,44 @@ export const DATA = {
     }
   ],
   SCHEDULES: [
-    { label: "Có sẵn", value: StatusScheduleEnum.Available, color: "#16a34a" },
+    {
+      label: "Có sẵn",
+      value: ScheduleTimeSlotStatusEnum.Available,
+      color: "#16a34a"
+    },
     {
       label: "Không có sẵn",
-      value: StatusScheduleEnum.Unavailable,
+      value: ScheduleTimeSlotStatusEnum.Unavailable,
       color: "#ef4444"
     },
-    { label: "Đã đặt", value: StatusScheduleEnum.Booked, color: "#ca8a04" }
+    {
+      label: "Đã đặt",
+      value: ScheduleTimeSlotStatusEnum.Booked,
+      color: "#ca8a04"
+    }
   ],
   BOOKINGS: [
     {
       label: "Chờ xác nhận",
-      value: StatusBookingEnum.Pending,
+      value: BookingStatusEnum.Pending,
       icon: CalendarAdd,
       color: "#ca8a04"
     },
     {
       label: "Đã xác nhận",
-      value: StatusBookingEnum.Confirmed,
+      value: BookingStatusEnum.Confirmed,
       icon: Calendar,
       color: "#16a34a"
     },
     {
       label: "Hoàn thành",
-      value: StatusBookingEnum.Completed,
+      value: BookingStatusEnum.Completed,
       icon: CalendarTick,
       color: "#3b82f6"
     },
     {
       label: "Đã hủy",
-      value: StatusBookingEnum.Cancelled,
+      value: BookingStatusEnum.Cancelled,
       icon: CalendarRemove,
       color: "#ef4444"
     }

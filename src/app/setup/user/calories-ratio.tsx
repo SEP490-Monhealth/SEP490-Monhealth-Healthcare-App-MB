@@ -6,7 +6,7 @@ import { Control, FieldValues, useController } from "react-hook-form"
 import { Chip, ErrorText, VStack } from "@/components/global/atoms"
 
 import { DATA } from "@/constants/data"
-import { TypeGoalEnum } from "@/constants/enums"
+import { GoalTypeEnum } from "@/constants/enum/GoalType"
 
 import { useSetupStore } from "@/stores/setupStore"
 
@@ -24,8 +24,8 @@ function SetupCaloriesRatio({ control, errors }: SetupCaloriesRatioProps) {
   })
 
   const caloriesRatioData = DATA.CALORIES_RATIO.filter((ratio) => {
-    if (goalType === TypeGoalEnum.WeightLoss) return ratio.value < 1
-    if (goalType === TypeGoalEnum.WeightGain) return ratio.value > 1
+    if (goalType === GoalTypeEnum.WeightLoss) return ratio.value < 1
+    if (goalType === GoalTypeEnum.WeightGain) return ratio.value > 1
     return false
   })
 

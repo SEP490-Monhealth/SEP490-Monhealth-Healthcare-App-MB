@@ -1,10 +1,10 @@
 import { z } from "zod"
 
-import { StatusScheduleEnum } from "@/constants/enums"
+import { ScheduleTimeSlotStatusEnum } from "@/constants/enum/ScheduleTimeSlotStatus"
 
 import { timestampSchema } from "./commonSchema"
 
-const ScheduleStatusEnum = z.nativeEnum(StatusScheduleEnum)
+const ScheduleStatusSchemaEnum = z.nativeEnum(ScheduleTimeSlotStatusEnum)
 
 const baseScheduleSchema = z
   .object({
@@ -19,7 +19,7 @@ const baseScheduleSchema = z
         message: "Thời gian phải có định dạng HH:mm"
       }),
 
-    status: ScheduleStatusEnum
+    status: ScheduleStatusSchemaEnum
   })
   .merge(timestampSchema)
 
@@ -32,4 +32,6 @@ export const createUpdateScheduleSchema = scheduleSchema.pick({
 })
 
 export type ScheduleType = z.infer<typeof scheduleSchema>
-export type CreateUpdateScheduleType = z.infer<typeof createUpdateScheduleSchema>
+export type CreateUpdateScheduleType = z.infer<
+  typeof createUpdateScheduleSchema
+>

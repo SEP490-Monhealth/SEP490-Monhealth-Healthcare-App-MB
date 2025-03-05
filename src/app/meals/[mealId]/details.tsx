@@ -37,7 +37,7 @@ import { NutritionSummary } from "@/components/local/meals"
 
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
-import { TypeMealEnum } from "@/constants/enums"
+import { MealTypeEnum } from "@/constants/enum/MealType"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -141,7 +141,7 @@ function MealDetailsScreen() {
   } = useGetMealFoodsByMealId(mealId)
 
   const mealType = useMemo(
-    () => mealData?.type || TypeMealEnum.Breakfast,
+    () => mealData?.type || MealTypeEnum.Breakfast,
     [mealData]
   )
 

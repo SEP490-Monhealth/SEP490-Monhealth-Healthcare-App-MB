@@ -1,13 +1,13 @@
 import axios from "axios"
 
-import { TypeCategoryEnum } from "@/constants/enums"
+import { CategoryTypeEnum } from "@/constants/enum/CategoryType"
 
 import monAPI from "@/lib/monAPI"
 
 import { CategoryType } from "@/schemas/categorySchema"
 
 export const getCategoriesByTypes = async (
-  type: TypeCategoryEnum
+  type: CategoryTypeEnum
 ): Promise<CategoryType[]> => {
   try {
     const response = await monAPI.get(`/categories/${type}`)

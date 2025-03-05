@@ -8,7 +8,7 @@ import { Control, FieldValues, useController } from "react-hook-form"
 import { Chip, ErrorText, ScrollArea, VStack } from "@/components/global/atoms"
 
 import { sampleCategoriesData } from "@/constants/categories"
-import { TypeCategoryEnum } from "@/constants/enums"
+import { CategoryTypeEnum } from "@/constants/enum/CategoryType"
 
 interface SetupCategoriesProps {
   control: Control<FieldValues>
@@ -18,7 +18,7 @@ interface SetupCategoriesProps {
 function SetupCategories({ control, errors }: SetupCategoriesProps) {
   const categoriesData = sampleCategoriesData
   const filteredCategoriesData = categoriesData.filter(
-    (c) => c.type === TypeCategoryEnum.Food
+    (c) => c.type === CategoryTypeEnum.Food
   )
 
   const { field } = useController({

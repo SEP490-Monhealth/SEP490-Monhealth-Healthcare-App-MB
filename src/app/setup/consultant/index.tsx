@@ -33,8 +33,13 @@ import { sampleExpertiseGroupData } from "@/constants/expertise"
 
 import { useAuth } from "@/contexts/AuthContext"
 
+import { useCreateConsultant } from "@/hooks/useConsultant"
+
 import { certificateSetupSchema } from "@/schemas/certificateSchema"
-import { informationConsultantSchema } from "@/schemas/consultantSchema"
+import {
+  CreateConsultantType,
+  informationConsultantSchema
+} from "@/schemas/consultantSchema"
 import { expertiseSetupSchema } from "@/schemas/expertiseSchema"
 
 import { useConsultantSetupStore } from "@/stores/consultantSetupStore"
@@ -62,6 +67,8 @@ function SetupConsultantScreen() {
 
   const { user } = useAuth()
   const userId = user?.userId
+
+  const { mutate: createConsultant } = useCreateConsultant()
 
   const ExpertiseSheetRef = useRef<SheetRefProps>(null)
   const DateSheetRef = useRef<SheetRefProps>(null)
@@ -169,16 +176,31 @@ function SetupConsultantScreen() {
   }, [images, setValue])
 
   const onSubmit = async (data: Record<string, any>) => {
-    console.log(`Step Data ${currentStep}:`, data)
+    setIsLoading(true)
 
-    currentStepData.fields.forEach((field) => {
-      updateField(field, data[field])
-    })
+    // console.log(`Step Data ${currentStep}:`, data)
 
-    if (currentStep < setupSteps.length) {
-      setCurrentStep(currentStep + 1)
-    } else {
-      console.log("Final Data", data)
+    try {
+      currentStepData.fields.forEach((field) => {
+        updateField(field, data[field])
+      })
+
+      if (currentStep < setupSteps.length) {
+        setCurrentStep(currentStep + 1)
+      } else {
+        console.log("Final Data", data)
+
+        // await new Promise((resolve) => setTimeout(resolve, 2000))
+        // createConsultant(data as CreateConsultantType, {
+        //   onSuccess: () => {
+        //     router.push("/setup/completed")
+        //   }
+        // })
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -240,8 +262,6 @@ function SetupConsultantScreen() {
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView className="flex-1 bg-background">
         <Container>
-          {isLoading && <LoadingOverlay visible={isLoading} />}
-
           <CustomHeader
             back={currentStep === 1 ? false : true}
             content={
@@ -270,6 +290,7 @@ function SetupConsultantScreen() {
             />
 
             <Button
+              loading={isLoading}
               size="lg"
               onPress={handleSubmit(onSubmit)}
               className="absolute bottom-4 w-full"

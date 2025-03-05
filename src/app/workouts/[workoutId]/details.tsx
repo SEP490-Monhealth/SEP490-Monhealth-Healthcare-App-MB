@@ -22,7 +22,7 @@ import { ExerciseCard } from "@/components/global/molecules"
 import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
-import { TypeWorkoutEnum } from "@/constants/enums"
+import { WorkoutTypeEnum } from "@/constants/enum/WorkoutType"
 
 import {
   useGetExerciseById,
@@ -110,7 +110,7 @@ function WorkoutDetailsScreen() {
 
                 <Button className="mt-4">Bắt đầu</Button>
 
-                {workoutData.type === TypeWorkoutEnum.Workout && (
+                {workoutData.type === WorkoutTypeEnum.Workout && (
                   <Section
                     label="Khởi động"
                     description={`${toFixed(totalWarmupMinutes, 1)} phút / ${warmupRounds} vòng`}
@@ -144,7 +144,7 @@ function WorkoutDetailsScreen() {
 
                   <Section
                     label="Bài tập"
-                    margin={workoutData.type === TypeWorkoutEnum.Warmup}
+                    margin={workoutData.type === WorkoutTypeEnum.Warmup}
                     description={`${toFixed(totalWorkoutMinutes, 1)} phút / ${workoutRounds} vòng`}
                   />
 

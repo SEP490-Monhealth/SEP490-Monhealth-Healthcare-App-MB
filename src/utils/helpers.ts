@@ -1,6 +1,7 @@
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
-import { StatusBookingEnum, TypeMealEnum } from "@/constants/enums"
+import { BookingStatusEnum } from "@/constants/enum/BookingStatus"
+import { MealTypeEnum } from "@/constants/enum/MealType"
 import { TipsData } from "@/constants/tips"
 
 /**
@@ -97,54 +98,54 @@ export const getMealType = (lang: string = "vi"): string => {
   const hours = date.getHours()
 
   // Định nghĩa các loại bữa ăn
-  const mealTypes: { [key: string]: { [key in TypeMealEnum]: string } } = {
+  const mealTypes: { [key: string]: { [key in MealTypeEnum]: string } } = {
     vi: {
-      [TypeMealEnum.Breakfast]: "Bữa sáng",
-      [TypeMealEnum.Lunch]: "Bữa trưa",
-      [TypeMealEnum.Dinner]: "Bữa tối",
-      [TypeMealEnum.Snack]: "Bữa phụ"
+      [MealTypeEnum.Breakfast]: "Bữa sáng",
+      [MealTypeEnum.Lunch]: "Bữa trưa",
+      [MealTypeEnum.Dinner]: "Bữa tối",
+      [MealTypeEnum.Snack]: "Bữa phụ"
     },
     en: {
-      [TypeMealEnum.Breakfast]: "Breakfast",
-      [TypeMealEnum.Lunch]: "Lunch",
-      [TypeMealEnum.Dinner]: "Dinner",
-      [TypeMealEnum.Snack]: "Snack"
+      [MealTypeEnum.Breakfast]: "Breakfast",
+      [MealTypeEnum.Lunch]: "Lunch",
+      [MealTypeEnum.Dinner]: "Dinner",
+      [MealTypeEnum.Snack]: "Snack"
     }
   }
 
   // Xác định bữa ăn dựa trên giờ hiện tại
-  let meal: TypeMealEnum
+  let meal: MealTypeEnum
 
   if (hours >= 5 && hours < 10) {
-    meal = TypeMealEnum.Breakfast
+    meal = MealTypeEnum.Breakfast
   } else if (hours >= 10 && hours < 15) {
-    meal = TypeMealEnum.Lunch
+    meal = MealTypeEnum.Lunch
   } else {
-    meal = TypeMealEnum.Dinner
+    meal = MealTypeEnum.Dinner
   }
 
   // Trả về tên bữa ăn theo ngôn ngữ yêu cầu
   return mealTypes[lang][meal]
 }
 
-export const getMealTypeByTime = (): TypeMealEnum => {
+export const getMealTypeByTime = (): MealTypeEnum => {
   const date = new Date()
   const hours = date.getHours()
 
   if (hours >= 5 && hours < 10) {
-    return TypeMealEnum.Breakfast
+    return MealTypeEnum.Breakfast
   } else if (hours >= 10 && hours < 15) {
-    return TypeMealEnum.Lunch
+    return MealTypeEnum.Lunch
   } else if (hours >= 15 && hours < 21) {
-    return TypeMealEnum.Dinner
+    return MealTypeEnum.Dinner
   } else {
-    return TypeMealEnum.Snack
+    return MealTypeEnum.Snack
   }
 }
 
 export const getMealTypeName = (
   lang: string = "vi",
-  value: TypeMealEnum
+  value: MealTypeEnum
 ): string | undefined => {
   const meal = DATA.MEALS.find((meal) => meal.value === value) || DATA.MEALS[0]
   return lang === "vi" ? meal.label : meal.eLabel
@@ -185,7 +186,7 @@ export const getWorkoutColor = (label: string): string => {
       return COLORS.WORKOUT.caloriesBurned
     case "Thời gian":
       return COLORS.WORKOUT.duration
-    case "Số bước":
+    case "Đã bước":
       return COLORS.WORKOUT.steps
     default:
       return COLORS.secondary
@@ -216,19 +217,28 @@ export const getWorkoutUnit = (label: string): string => {
  * @param mealType - Loại bữa ăn (Breakfast, Lunch, Dinner, Snack).
  * @returns Hình ảnh đại diện của loại bữa ăn.
  */
-export const getMealTypeImage = (mealType: TypeMealEnum) => {
+export const getMealTypeImage = (mealType: MealTypeEnum) => {
   switch (mealType) {
-    case TypeMealEnum.Breakfast:
+    case MealTypeEnum.Breakfast:
       return require("../../public/icons/meals/sandwich.png")
-    case TypeMealEnum.Lunch:
+    case MealTypeEnum.Lunch:
       return require("../../public/icons/meals/rice.png")
-    case TypeMealEnum.Dinner:
+    case MealTypeEnum.Dinner:
       return require("../../public/icons/meals/roast-chicken.png")
-    case TypeMealEnum.Snack:
+    case MealTypeEnum.Snack:
       return require("../../public/icons/meals/cupcake.png")
     default:
       return require("../../public/icons/meals/dish.png")
   }
+}
+
+/**
+ *
+ * @param value
+ * @returns
+ */
+export const getMealIcon = (value: MealTypeEnum): React.ElementType | null => {
+  return DATA.MEALS.find((item) => item.value === value)?.icon || null
 }
 
 /**
@@ -264,7 +274,7 @@ export const parsePortion = (
  * @param value
  * @returns
  */
-export const getBookingLabel = (value: StatusBookingEnum): string => {
+export const getBookingLabel = (value: BookingStatusEnum): string => {
   return DATA.BOOKINGS.find((item) => item.value === value)?.label || ""
 }
 
@@ -273,7 +283,7 @@ export const getBookingLabel = (value: StatusBookingEnum): string => {
  * @param value
  * @returns
  */
-export const getBookingColor = (value: StatusBookingEnum): string => {
+export const getBookingColor = (value: BookingStatusEnum): string => {
   return DATA.BOOKINGS.find((item) => item.value === value)?.color || ""
 }
 
@@ -283,7 +293,7 @@ export const getBookingColor = (value: StatusBookingEnum): string => {
  * @returns
  */
 export const getBookingIcon = (
-  value: StatusBookingEnum
+  value: BookingStatusEnum
 ): React.ElementType | null => {
   return DATA.BOOKINGS.find((item) => item.value === value)?.icon || null
 }

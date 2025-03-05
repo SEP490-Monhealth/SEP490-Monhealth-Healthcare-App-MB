@@ -16,7 +16,7 @@ import { BookingCard } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
 import { sampleBookingsData } from "@/constants/bookings"
-import { StatusBookingEnum } from "@/constants/enums"
+import { BookingStatusEnum } from "@/constants/enum/BookingStatus"
 
 function BookingsScreen() {
   const { tab } = useLocalSearchParams<{ tab: string }>()
@@ -27,11 +27,11 @@ function BookingsScreen() {
     null
   )
 
-  const tabStatusMap: Record<string, StatusBookingEnum> = {
-    pending: StatusBookingEnum.Pending,
-    confirmed: StatusBookingEnum.Confirmed,
-    completed: StatusBookingEnum.Completed,
-    cancelled: StatusBookingEnum.Cancelled
+  const tabStatusMap: Record<string, BookingStatusEnum> = {
+    pending: BookingStatusEnum.Pending,
+    confirmed: BookingStatusEnum.Confirmed,
+    completed: BookingStatusEnum.Completed,
+    cancelled: BookingStatusEnum.Cancelled
   }
 
   const bookingsData = sampleBookingsData

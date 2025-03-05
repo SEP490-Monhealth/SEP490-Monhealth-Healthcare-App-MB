@@ -49,13 +49,14 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window")
 
 function FoodDetailsScreen() {
   const router = useRouter()
-  const MealSheetRef = useRef<SheetRefProps>(null)
-  const PortionSheetRef = useRef<SheetRefProps>(null)
+
+  const { foodId } = useLocalSearchParams() as { foodId: string }
 
   const { user } = useAuth()
   const userId = user?.userId
 
-  const { foodId } = useLocalSearchParams() as { foodId: string }
+  const MealSheetRef = useRef<SheetRefProps>(null)
+  const PortionSheetRef = useRef<SheetRefProps>(null)
 
   const { mutate: addMeal } = useCreateMeal()
 

@@ -1,9 +1,8 @@
-import React, { useEffect, useRef } from "react"
+import React from "react"
 
 import {
   ActivityIndicator,
   Image,
-  ScrollView,
   Text,
   TouchableOpacity,
   View
@@ -11,7 +10,6 @@ import {
 
 import { Gallery } from "iconsax-react-native"
 import { X } from "lucide-react-native"
-import { FieldErrors } from "react-hook-form"
 import { Control, Controller, FieldValues } from "react-hook-form"
 
 import {
@@ -112,7 +110,7 @@ function SetupCertificate({
           <ErrorText text={errors.images?.message} />
         )}
 
-        <View className="flex-row flex-wrap mt-3">
+        <View className="mt-3 flex-row flex-wrap">
           {images.length > 0 &&
             images.map((item, index) => (
               <View

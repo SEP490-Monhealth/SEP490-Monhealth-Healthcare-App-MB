@@ -1,6 +1,7 @@
 import { create } from "zustand"
 
-import { GenderEnum, TypeGoalEnum } from "@/constants/enums"
+import { GenderEnum } from "@/constants/enum/Gender"
+import { GoalTypeEnum } from "@/constants/enum/GoalType"
 
 interface setupStoreProps {
   dateOfBirth: string
@@ -8,7 +9,7 @@ interface setupStoreProps {
   height: number | undefined
   weight: number | undefined
   activityLevel: 1.2 | 1.375 | 1.55 | 1.725 | 1.9
-  goalType: TypeGoalEnum | undefined
+  goalType: GoalTypeEnum | undefined
   weightGoal: number | undefined
   caloriesRatio: number
   // categories: string[]
@@ -31,7 +32,7 @@ export const useSetupStore = create<setupStoreProps>((set) => ({
   height: 170,
   weight: 50,
   activityLevel: 1.375,
-  goalType: TypeGoalEnum.WeightGain,
+  goalType: GoalTypeEnum.WeightGain,
   weightGoal: 66,
   caloriesRatio: 1.2,
   // categories: [

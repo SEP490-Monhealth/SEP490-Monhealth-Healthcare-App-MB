@@ -27,7 +27,7 @@ import { Section } from "@/components/global/organisms"
 import { FoodCategories } from "@/components/local/foods"
 
 import { COLORS } from "@/constants/color"
-import { TypeCategoryEnum } from "@/constants/enums"
+import { CategoryTypeEnum } from "@/constants/enum/CategoryType"
 
 import { useAuth } from "@/contexts/AuthContext"
 import { useStorage } from "@/contexts/StorageContext"
@@ -73,7 +73,7 @@ function FoodsScreen() {
   const debouncedFilter = useDebounce(selectedCategory, 0)
 
   const { data: categoriesData, isLoading: isCategoriesLoading } =
-    useGetCategoriesByType(TypeCategoryEnum.Food)
+    useGetCategoriesByType(CategoryTypeEnum.Food)
 
   const { data, isLoading } = useGetAllFoods(
     page,

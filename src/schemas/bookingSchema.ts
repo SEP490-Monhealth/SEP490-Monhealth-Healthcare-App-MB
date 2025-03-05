@@ -1,10 +1,10 @@
 import { z } from "zod"
 
-import { StatusBookingEnum } from "@/constants/enums"
+import { BookingStatusEnum } from "@/constants/enum/BookingStatus"
 
 import { auditSchema } from "./commonSchema"
 
-const BookingStatusEnum = z.nativeEnum(StatusBookingEnum)
+const BookingStatusSchemaEnum = z.nativeEnum(BookingStatusEnum)
 
 const baseBookingSchema = z
   .object({
@@ -43,7 +43,7 @@ const baseBookingSchema = z
 
     notes: z.string().optional(),
 
-    status: BookingStatusEnum
+    status: BookingStatusSchemaEnum
   })
   .merge(auditSchema)
 

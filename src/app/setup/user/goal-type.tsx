@@ -7,7 +7,7 @@ import { Chip, ErrorText, VStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
-import { TypeGoalEnum } from "@/constants/enums"
+import { GoalTypeEnum } from "@/constants/enum/GoalType"
 
 import { useSetupStore } from "@/stores/setupStore"
 
@@ -30,14 +30,14 @@ function SetupGoalType({ control, errors }: SetupGoalTypeProps) {
     if (weight !== undefined && height !== undefined) {
       const bmi = calculateBMI(weight, height)
 
-      let suggestedGoal: TypeGoalEnum
+      let suggestedGoal: GoalTypeEnum
 
       if (bmi < 18.5) {
-        suggestedGoal = TypeGoalEnum.WeightGain
+        suggestedGoal = GoalTypeEnum.WeightGain
       } else if (bmi >= 18.5 && bmi < 24.9) {
-        suggestedGoal = TypeGoalEnum.Maintenance
+        suggestedGoal = GoalTypeEnum.Maintenance
       } else {
-        suggestedGoal = TypeGoalEnum.WeightLoss
+        suggestedGoal = GoalTypeEnum.WeightLoss
       }
 
       if (field.value !== suggestedGoal) {
@@ -46,7 +46,7 @@ function SetupGoalType({ control, errors }: SetupGoalTypeProps) {
     }
   }, [weight, height])
 
-  const handleSelectGoal = (value: TypeGoalEnum) => {
+  const handleSelectGoal = (value: GoalTypeEnum) => {
     field.onChange(value)
   }
 

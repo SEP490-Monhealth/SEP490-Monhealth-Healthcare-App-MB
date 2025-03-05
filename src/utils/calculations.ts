@@ -1,4 +1,4 @@
-import { GenderEnum } from "@/constants/enums"
+import { GenderEnum } from "@/constants/enum/Gender"
 
 /**
  * Tính các chỉ số BMI, BMR, TDEE, IBW dựa trên thông tin của người dùng.

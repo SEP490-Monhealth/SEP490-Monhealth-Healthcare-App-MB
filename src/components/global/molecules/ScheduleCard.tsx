@@ -3,7 +3,7 @@ import React from "react"
 import { Text, View } from "react-native"
 
 import { COLORS } from "@/constants/color"
-import { StatusBookingEnum } from "@/constants/enums"
+import { BookingStatusEnum } from "@/constants/enum/BookingStatus"
 
 import { getBookingIcon } from "@/utils/helpers"
 
@@ -14,7 +14,7 @@ interface ScheduleCardProps {
   startTime: string
   endTime?: string | null
   customer: string
-  status: StatusBookingEnum
+  status: BookingStatusEnum
   notes?: string
   onPress?: () => void
 }

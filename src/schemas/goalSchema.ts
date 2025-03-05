@@ -1,18 +1,19 @@
 import { z } from "zod"
 
-import { StatusGoalEnum, TypeGoalEnum } from "@/constants/enums"
+import { GoalStatusEnum } from "@/constants/enum/GoalStatus"
+import { GoalTypeEnum } from "@/constants/enum/GoalType"
 
 import { timestampSchema } from "./commonSchema"
 
-const GoalTypeEnum = z.nativeEnum(TypeGoalEnum)
-const GoalStatusEnum = z.nativeEnum(StatusGoalEnum)
+const GoalTypeSchemaEnum = z.nativeEnum(GoalTypeEnum)
+const GoalStatusSchemaEnum = z.nativeEnum(GoalStatusEnum)
 
 const baseGoalSchema = z
   .object({
     goalId: z.string(),
     userId: z.string(),
 
-    type: GoalTypeEnum,
+    type: GoalTypeSchemaEnum,
 
     caloriesRatio: z.number().optional(),
 
@@ -71,7 +72,7 @@ const baseGoalSchema = z
       })
       .optional(),
 
-    status: GoalStatusEnum
+    status: GoalStatusSchemaEnum
   })
   .merge(timestampSchema)
 
@@ -123,7 +124,7 @@ export const stepsGoalSchema = goalSchema.pick({
 })
 
 export const goalTypeSetupSchema = z.object({
-  goalType: GoalTypeEnum
+  goalType: GoalTypeSchemaEnum
 })
 
 export const caloriesRatioSetupSchema = goalSchema.pick({

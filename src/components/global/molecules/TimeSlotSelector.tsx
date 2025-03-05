@@ -2,14 +2,14 @@ import React from "react"
 
 import { Text, TouchableOpacity } from "react-native"
 
-import { StatusScheduleEnum } from "@/constants/enums"
+import { ScheduleTimeSlotStatusEnum } from "@/constants/enum/ScheduleTimeSlotStatus"
 
 import { cn } from "@/lib/utils"
 
 interface TimeSlotSelectorProps {
   time: string
   isSelected?: boolean
-  status: StatusScheduleEnum
+  status: ScheduleTimeSlotStatusEnum
   onPress?: () => void
 }
 
@@ -19,7 +19,7 @@ export const TimeSlotSelector = ({
   status,
   onPress
 }: TimeSlotSelectorProps) => {
-  const isDisabled = status !== StatusScheduleEnum.Available
+  const isDisabled = status !== ScheduleTimeSlotStatusEnum.Available
 
   return (
     <TouchableOpacity

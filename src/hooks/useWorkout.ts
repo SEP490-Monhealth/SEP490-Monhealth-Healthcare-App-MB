@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 
-import { LevelDifficultyEnum } from "@/constants/enums"
+import { DifficultyLevelEnum } from "@/constants/enum/DifficultyLevel"
 
 import { useError } from "@/contexts/ErrorContext"
 
@@ -19,7 +19,7 @@ export const useGetAllWorkouts = (
   limit?: number,
   category?: string,
   search?: string,
-  difficulty?: LevelDifficultyEnum | undefined,
+  difficulty?: DifficultyLevelEnum | undefined,
   popular?: boolean,
   status?: boolean
 ) => {

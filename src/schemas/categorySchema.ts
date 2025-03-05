@@ -1,16 +1,16 @@
 import { z } from "zod"
 
-import { TypeCategoryEnum } from "@/constants/enums"
+import { CategoryTypeEnum } from "@/constants/enum/CategoryType"
 
 import { timestampSchema } from "./commonSchema"
 
-const CategoryTypeEnum = z.nativeEnum(TypeCategoryEnum)
+const CategoryTypeSchemaEnum = z.nativeEnum(CategoryTypeEnum)
 
 const baseCategorySchema = z
   .object({
     categoryId: z.string(),
 
-    type: CategoryTypeEnum,
+    type: CategoryTypeSchemaEnum,
 
     name: z
       .string()

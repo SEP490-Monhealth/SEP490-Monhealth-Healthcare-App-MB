@@ -7,7 +7,7 @@ import { Chip, ErrorText, VStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
-import { GenderEnum } from "@/constants/enums"
+import { GenderEnum } from "@/constants/enum/Gender"
 
 interface SetupGenderProps {
   control: Control<FieldValues>

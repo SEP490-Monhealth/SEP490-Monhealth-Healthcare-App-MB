@@ -1,11 +1,12 @@
 import { z } from "zod"
 
-import { GenderEnum, TypeGoalEnum } from "@/constants/enums"
+import { GenderEnum } from "@/constants/enum/Gender"
+import { GoalTypeEnum } from "@/constants/enum/GoalType"
 
 import { timestampSchema } from "./commonSchema"
 
 const Gender = z.nativeEnum(GenderEnum)
-const GoalType = z.nativeEnum(TypeGoalEnum)
+const GoalType = z.nativeEnum(GoalTypeEnum)
 const activityLevels = [1.2, 1.375, 1.55, 1.725, 1.9]
 
 const baseMetricSchema = z

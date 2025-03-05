@@ -12,7 +12,7 @@ import {
 
 import { Input, VStack } from "@/components/global/atoms"
 
-import { GenderEnum } from "@/constants/enums"
+import { GenderEnum } from "@/constants/enum/Gender"
 
 import { useSetupStore } from "@/stores/setupStore"
 
