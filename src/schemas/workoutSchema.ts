@@ -12,8 +12,13 @@ const DifficultyLevelSchemaEnum = z.nativeEnum(DifficultyLevelEnum)
 const baseWorkoutSchema = z
   .object({
     workoutId: z.string(),
-    category: z.string(),
+    category: z
+      .string()
+      .nonempty({ message: "Loại bài tập không được để trống" }),
     userId: z.string(),
+    exerciseId: z
+      .array(z.string())
+      .nonempty({ message: "Danh sách bài tập không được để trống" }),
 
     type: WorkoutTypeSchemaEnum,
     name: z
@@ -37,6 +42,7 @@ const baseWorkoutSchema = z
       .min(0, { message: "Calo đốt cháy phải lớn hơn hoặc bằng 0" }),
 
     views: z.number(),
+    isPublic: z.boolean(),
 
     status: z.boolean()
   })
@@ -61,5 +67,36 @@ export const workoutExerciseSchema = z.object({
   workout: z.array(exerciseSchema)
 })
 
+export const informationWorkoutSchema = baseWorkoutSchema.pick({
+  category: true,
+  name: true,
+  description: true,
+  difficultyLevel: true,
+  isPublic: true
+})
+
+export const createWorkoutExerciseSchema = z.object({
+  exerciseId: z.string(),
+  duration: z.number(),
+  reps: z.number()
+})
+
+export const createWorkoutSchema = baseWorkoutSchema
+  .pick({
+    userId: true,
+    category: true,
+    name: true,
+    description: true,
+    difficultyLevel: true,
+    isPublic: true
+  })
+  .extend({
+    items: z.array(createWorkoutExerciseSchema)
+  })
+
 export type WorkoutType = z.infer<typeof workoutSchema>
 export type WorkoutExerciseType = z.infer<typeof workoutExerciseSchema>
+export type CreateWorkoutExerciseType = z.infer<
+  typeof createWorkoutExerciseSchema
+>
+export type CreateWorkoutType = z.infer<typeof createWorkoutSchema>

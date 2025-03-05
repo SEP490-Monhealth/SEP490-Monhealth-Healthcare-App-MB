@@ -119,7 +119,7 @@ function ExerciseCreateScreen() {
         </ScrollArea>
       </Content>
 
-      <Button size="lg" onPress={handleSubmit(onSubmit)} className="">
+      <Button size="lg" onPress={handleSubmit(onSubmit)} className="mb-4">
         Tạo mới
       </Button>
     </Container>
