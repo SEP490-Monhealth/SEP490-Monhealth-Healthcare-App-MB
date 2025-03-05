@@ -2,10 +2,13 @@ import React, { useState } from "react"
 
 import { useRouter } from "expo-router"
 
+import { MessageText1 } from "iconsax-react-native"
+
 import { Container, Content, Schedule, VStack } from "@/components/global/atoms"
 import { ConsultantCard } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
+import { COLORS } from "@/constants/color"
 import { sampleConsultantsData } from "@/constants/consultants"
 
 function ConsultantScreen() {
@@ -32,7 +35,15 @@ function ConsultantScreen() {
 
   return (
     <Container>
-      <Header label="Chuyên viên" />
+      <Header
+        label="Chuyên viên"
+        action={{
+          icon: (
+            <MessageText1 variant="Bold" size={20} color={COLORS.primary} />
+          ),
+          href: "/chats/user"
+        }}
+      />
 
       <Content className="mt-2 pb-12">
         <VStack gap={20}>

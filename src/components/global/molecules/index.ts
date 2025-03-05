@@ -2,6 +2,7 @@ import { ArcProgress } from "./ArcProgress"
 import { BookingCard } from "./BookingCard"
 import { CategoryCard } from "./CategoryCard"
 import { CertificateCard } from "./CertificateCard"
+import { ChatCard } from "./ChatCard"
 import { CircularProgress } from "./CircularProgress"
 import { ConsultantCard } from "./ConsultantCard"
 import { CounterText } from "./CounterText"
@@ -31,6 +32,7 @@ export {
   BookingCard,
   CategoryCard,
   CertificateCard,
+  ChatCard,
   CircularProgress,
   ConsultantCard,
   CounterText,

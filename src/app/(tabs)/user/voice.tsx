@@ -36,6 +36,10 @@ function VoiceScreen() {
     router.push("/workouts/create")
   }
 
+  const handleViewChat = () => {
+    router.push("/chats")
+  }
+
   return (
     <Container>
       <Header
@@ -70,6 +74,10 @@ function VoiceScreen() {
 
           <Button size="lg" onPress={handleCreateWorkout}>
             Workout
+          </Button>
+
+          <Button size="lg" onPress={handleViewChat}>
+            Tin nhắn
           </Button>
         </VStack>
       </Content>
