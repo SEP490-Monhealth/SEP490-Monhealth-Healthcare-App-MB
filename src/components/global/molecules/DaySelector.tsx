@@ -14,14 +14,20 @@ import { formatUTCDate } from "@/utils/formatters"
 interface DateProps {
   initialDate: Date
   onDateSelect: (date: string) => void
+  visibleDays?: number
 }
 
 interface DayProps {
   date: Date
   dayOfWeek: string
+  itemWidth: number
 }
 
-export const DaySelector = ({ initialDate, onDateSelect }: DateProps) => {
+export const DaySelector = ({
+  initialDate,
+  onDateSelect,
+  visibleDays = 6
+}: DateProps) => {
   const validInitialDate = useMemo(
     () =>
       initialDate instanceof Date && !isNaN(initialDate.getTime())
@@ -31,7 +37,7 @@ export const DaySelector = ({ initialDate, onDateSelect }: DateProps) => {
   )
 
   const [selectedDay, setSelectedDay] = useState<Date>(validInitialDate)
-  const flatListScrollRef = useRef<FlatList<DayProps>>(null)
+  const FlatListRef = useRef<FlatList<DayProps>>(null)
 
   useEffect(() => {
     setSelectedDay((prev) =>
@@ -56,17 +62,18 @@ export const DaySelector = ({ initialDate, onDateSelect }: DateProps) => {
       )
       return {
         date,
-        dayOfWeek: date.toLocaleString("vi-VN", { weekday: "narrow" })
+        dayOfWeek: date.toLocaleString("vi-VN", { weekday: "narrow" }),
+        itemWidth: visibleDays === 6 ? 51.5 : 43
       }
     })
-  }, [validInitialDate])
+  }, [validInitialDate, visibleDays])
 
   const scrollToSelectedDate = useCallback(() => {
     const index = daysInMonth.findIndex(
       (day) => day.date.toDateString() === selectedDay.toDateString()
     )
-    if (flatListScrollRef.current && index >= 0) {
-      flatListScrollRef.current.scrollToIndex({ index, animated: true })
+    if (FlatListRef.current && index >= 0) {
+      FlatListRef.current.scrollToIndex({ index, animated: true })
     }
   }, [selectedDay, daysInMonth])
 
@@ -81,11 +88,16 @@ export const DaySelector = ({ initialDate, onDateSelect }: DateProps) => {
     }
   }
 
+  const itemWidth = useMemo(
+    () => (visibleDays === 6 ? 51.5 : 43),
+    [visibleDays]
+  )
+
   return (
     <TouchableOpacity activeOpacity={1}>
       <FlatList
         horizontal
-        ref={flatListScrollRef}
+        ref={FlatListRef}
         data={daysInMonth}
         keyExtractor={(item) => item.date.toISOString()}
         showsHorizontalScrollIndicator={false}
@@ -95,13 +107,14 @@ export const DaySelector = ({ initialDate, onDateSelect }: DateProps) => {
             dayOfWeek={item.dayOfWeek}
             selectedDay={selectedDay}
             onSelect={handleSelectedDay}
+            itemWidth={itemWidth}
           />
         )}
         ItemSeparatorComponent={() => <View style={{ width: 8 }} />}
         onScrollToIndexFailed={(info) => {
           setTimeout(
             () =>
-              flatListScrollRef.current?.scrollToIndex({
+              FlatListRef.current?.scrollToIndex({
                 index: info.index,
                 animated: true
               }),
@@ -118,8 +131,13 @@ const DayItem = memo(
     date,
     dayOfWeek,
     selectedDay,
-    onSelect
-  }: DayProps & { selectedDay: Date; onSelect: (date: Date) => void }) => {
+    onSelect,
+    itemWidth
+  }: DayProps & {
+    selectedDay: Date
+    onSelect: (date: Date) => void
+    itemWidth: number
+  }) => {
     const isSelected = date.toDateString() === selectedDay.toDateString()
 
     return (
@@ -128,7 +146,7 @@ const DayItem = memo(
         className={`h-20 items-center justify-center gap-1 rounded-xl border border-border px-2 py-4 ${
           isSelected ? "bg-primary" : "bg-card"
         }`}
-        style={{ width: 50 }}
+        style={{ width: itemWidth }}
         onPress={() => onSelect(date)}
       >
         <Text

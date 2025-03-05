@@ -5,6 +5,7 @@ import { timestampSchema } from "./commonSchema"
 const baseAllergySchema = z
   .object({
     allergyId: z.string(),
+
     name: z
       .string()
       .nonempty({ message: "Tên dị ứng không được để trống" })

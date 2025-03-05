@@ -1,12 +1,11 @@
 import { z } from "zod"
 
 import { GenderEnum } from "@/constants/enum/Gender"
-import { GoalTypeEnum } from "@/constants/enum/GoalType"
 
 import { timestampSchema } from "./commonSchema"
+import { goalSchema } from "./goalSchema"
 
-const Gender = z.nativeEnum(GenderEnum)
-const GoalType = z.nativeEnum(GoalTypeEnum)
+const GenderSchemaEnum = z.nativeEnum(GenderEnum)
 const activityLevels = [1.2, 1.375, 1.55, 1.725, 1.9]
 
 const baseMetricSchema = z
@@ -32,7 +31,7 @@ const baseMetricSchema = z
         },
         { message: "Tuổi phải nằm trong khoảng từ 15 đến 120" }
       ),
-    gender: Gender,
+    gender: GenderSchemaEnum,
     height: z
       .number()
       .min(100, { message: "Chiều cao tối thiểu là 100 cm" })
@@ -48,11 +47,8 @@ const baseMetricSchema = z
           "Hệ số hoạt động không hợp lệ. Các giá trị hợp lệ: 1.2, 1.375, 1.55, 1.725, 1.9"
       }),
 
-    goalType: GoalType,
-    weightGoal: z
-      .number()
-      .min(1, { message: "Mục tiêu cân nặng phải lớn hơn hoặc bằng 1" })
-      .optional(),
+    goalType: goalSchema.shape.type,
+    weightGoal: goalSchema.shape.weightGoal,
 
     bmi: z
       .number()

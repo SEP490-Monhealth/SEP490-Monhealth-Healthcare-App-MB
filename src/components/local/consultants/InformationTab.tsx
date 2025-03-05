@@ -80,38 +80,34 @@ export const InformationTab = () => {
   if (!consultantData) return <LoadingScreen />
 
   return (
-    <VStack gap={12} className="mt-2 pb-10">
+    <View className="mt-2 pb-10">
       {/* Consultant Bio Section */}
       <ConsultantBio bio={consultantData.bio} />
 
-      <View>
-        <Section
-          label="Ngày đặt lịch"
-          margin={false}
-          actionText="Chọn ngày"
-          onPress={handleViewCalendar}
-        />
-        <DaySelector
-          initialDate={selectedDate ? new Date(selectedDate) : new Date(today)}
-          onDateSelect={handleDateSelect}
-        />
-      </View>
+      <Section
+        label="Ngày đặt lịch"
+        actionText="Chọn ngày"
+        onPress={handleViewCalendar}
+      />
 
-      <View>
-        <Section label="Thời gian" margin={false} />
+      <DaySelector
+        initialDate={selectedDate ? new Date(selectedDate) : new Date(today)}
+        onDateSelect={handleDateSelect}
+      />
 
-        <View className="flex-row flex-wrap gap-2">
-          {schedulesData.map((schedule) => (
-            <TimeSlotSelector
-              key={schedule.scheduleId}
-              time={schedule.time}
-              isSelected={selectedScheduleId === schedule.scheduleId}
-              status={schedule.status}
-              onPress={() => handleScheduleSelect(schedule.scheduleId)}
-            />
-          ))}
-        </View>
+      <Section label="Thời gian" />
+
+      <View className="flex-row flex-wrap gap-x-2 gap-y-3">
+        {schedulesData.map((schedule) => (
+          <TimeSlotSelector
+            key={schedule.scheduleId}
+            time={schedule.time}
+            isSelected={selectedScheduleId === schedule.scheduleId}
+            status={schedule.status}
+            onPress={() => handleScheduleSelect(schedule.scheduleId)}
+          />
+        ))}
       </View>
-    </VStack>
+    </View>
   )
 }

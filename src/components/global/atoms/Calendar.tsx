@@ -121,6 +121,7 @@ export const Calendar = ({ initialDate }: CalendarProps) => {
         <Text className="-mb-2 font-tmedium text-lg text-primary">
           {`Tháng ${currentDate.getMonth() + 1}, ${currentDate.getFullYear()}`}
         </Text>
+
         <HStack gap={0}>
           <TouchableOpacity
             activeOpacity={0.7}

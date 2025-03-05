@@ -37,7 +37,7 @@ const CenterCircle = ({
 
   return (
     <View
-      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform select-none items-center justify-center rounded-full bg-white"
+      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform select-none items-center justify-center rounded-full bg-card"
       style={{
         width: size * innerSizeRatio,
         height: size * innerSizeRatio,

@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-import { timestampSchema } from "./commonSchema"
+import { auditSchema, timestampSchema } from "./commonSchema"
 
 export const baseUserSubscriptionSchema = z
   .object({
@@ -24,7 +24,7 @@ const baseSubscriptionSchema = z
       }),
     price: z.number().min(0, { message: "Giá gói phải lớn hơn 0" })
   })
-  .merge(timestampSchema)
+  .merge(auditSchema)
 
 export const subscriptionSchema = baseSubscriptionSchema
 
