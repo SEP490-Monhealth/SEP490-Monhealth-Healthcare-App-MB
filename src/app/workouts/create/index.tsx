@@ -21,6 +21,7 @@ import { CustomHeader, StepHeader } from "@/components/global/molecules"
 
 import { sampleCategoriesData } from "@/constants/categories"
 import { COLORS } from "@/constants/color"
+import { DATA } from "@/constants/data"
 import { CategoryTypeEnum } from "@/constants/enum/CategoryType"
 import { DifficultyLevelEnum } from "@/constants/enum/DifficultyLevel"
 
@@ -28,10 +29,7 @@ import { useAuth } from "@/contexts/AuthContext"
 
 import { useCreateUserWorkout } from "@/hooks/useWorkout"
 
-import {
-  createWorkoutExerciseSchema,
-  informationWorkoutSchema
-} from "@/schemas/workoutSchema"
+import { createWorkoutSchema } from "@/schemas/workoutSchema"
 
 import { useCreateWorkoutStore } from "@/stores/workoutStore"
 
@@ -62,6 +60,14 @@ function CreateWorkoutScreen() {
   const DifficultyLevelSheetRef = useRef<SheetRefProps>(null)
   const ExerciseSheetRef = useRef<SheetRefProps>(null)
   const [categorySheetHeight, setCategorySheetHeight] = useState<number>(230)
+
+  const [exerciseOptionsState, setExerciseOptionsState] = useState<
+    Record<string, string>
+  >({})
+
+  const [selectedExerciseId, setSelectedExerciseId] = useState<string | null>(
+    null
+  )
 
   const difficultyLevelSheetHeight = 230
   const exerciseSheetHeight = 180
@@ -121,7 +127,13 @@ function CreateWorkoutScreen() {
         "difficultyLevel",
         "isPublic"
       ],
-      schema: informationWorkoutSchema
+      schema: createWorkoutSchema.pick({
+        category: true,
+        name: true,
+        description: true,
+        difficultyLevel: true,
+        isPublic: true
+      })
     },
     {
       step: 2,
@@ -129,7 +141,9 @@ function CreateWorkoutScreen() {
       description: "Chọn các bài tập có trong bài tập luyện này",
       component: ExerciseWorkout,
       fields: ["exercises"],
-      schema: createWorkoutExerciseSchema
+      schema: createWorkoutSchema.pick({
+        exercises: true
+      })
     }
   ]
 
@@ -149,7 +163,6 @@ function CreateWorkoutScreen() {
   })
 
   useEffect(() => {
-    // Đồng bộ hóa dữ liệu exercises từ store vào form
     setValue("exercises", exercises || [])
   }, [exercises, setValue])
 
@@ -169,7 +182,10 @@ function CreateWorkoutScreen() {
     return Math.min(Math.max(itemHeight * categoryLength, minHeight), maxHeight)
   }
 
-  const openSheet = (type: "category" | "difficultyLevel" | "exercise") => {
+  const openSheet = (
+    type: "category" | "difficultyLevel" | "exercise",
+    exerciseId?: string
+  ) => {
     setSheetType(type)
 
     switch (type) {
@@ -183,6 +199,12 @@ function CreateWorkoutScreen() {
         break
       case "exercise":
         ExerciseSheetRef.current?.scrollTo(-exerciseSheetHeight)
+        if (exerciseId) {
+          setExerciseOptionsState((prev) => ({
+            ...prev,
+            [exerciseId]: prev[exerciseId] || "duration"
+          }))
+        }
         break
     }
   }
@@ -201,22 +223,7 @@ function CreateWorkoutScreen() {
 
     try {
       console.log("Step Data", currentStep, ":", data)
-      console.log("Form Values:", getValues())
-      console.log("Exercises Field:", data.exercises)
 
-      // Lấy giá trị từ form và store
-      const finalData = {
-        category: data.category,
-        name: data.name,
-        description: data.description,
-        difficultyLevel: data.difficultyLevel,
-        isPublic: data.isPublic,
-        exercises: data.exercises || [] // Đảm bảo lấy giá trị từ store
-      }
-
-      console.log("Final Data:", finalData)
-
-      // Cập nhật các trường trong store
       currentStepData.fields.forEach((field) => {
         updateField(field, data[field])
       })
@@ -224,8 +231,13 @@ function CreateWorkoutScreen() {
       if (currentStep < setupSteps.length) {
         setCurrentStep(currentStep + 1)
       } else {
-        // Nếu đã hoàn tất, gửi data hoặc thực hiện các hành động khác
-        console.log("Submit Final Data:", finalData)
+        const finalData = {
+          ...useCreateWorkoutStore.getState(),
+          userId: formData.userId,
+          exercises: formData.exercises
+        }
+
+        console.log("Final Form Data:", JSON.stringify(finalData, null, 2))
       }
     } catch (error) {
       console.error("Error submitting form:", error)
@@ -242,9 +254,7 @@ function CreateWorkoutScreen() {
     }
   }
 
-  console.log(errors)
-
-  console.log("exercises before submit", exercises)
+  console.log("Các bài tập đã chọn:", exercises)
 
   const StepComponent = currentStepData.component
 
@@ -306,13 +316,13 @@ function CreateWorkoutScreen() {
           ref={DifficultyLevelSheetRef}
           dynamicHeight={difficultyLevelSheetHeight}
         >
-          {difficultyLevels.map((level) => (
+          {DATA.LEVEL.map((level) => (
             <SheetSelect
-              key={level}
-              label={difficultyLevelLabels[level]}
+              key={level.value}
+              label={level.label}
               onPress={() => {
-                setValue("difficultyLevel", level)
-                updateField("difficultyLevel", level)
+                setValue("difficultyLevel", level.value)
+                updateField("difficultyLevel", level.value)
                 closeSheet()
               }}
             />
@@ -325,6 +335,12 @@ function CreateWorkoutScreen() {
               key={item.value}
               label={item.label}
               onPress={() => {
+                if (selectedExerciseId) {
+                  setExerciseOptionsState((prev) => ({
+                    ...prev,
+                    [selectedExerciseId]: item.value
+                  }))
+                }
                 closeSheet()
               }}
             />

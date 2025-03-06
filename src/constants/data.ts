@@ -20,6 +20,7 @@ import {
 } from "lucide-react-native"
 
 import { BookingStatusEnum } from "./enum/BookingStatus"
+import { DifficultyLevelEnum } from "./enum/DifficultyLevel"
 import { DishTypeEnum } from "./enum/DishType"
 import { GenderEnum } from "./enum/Gender"
 import { GoalTypeEnum } from "./enum/GoalType"
@@ -193,6 +194,20 @@ export const DATA = {
       value: BookingStatusEnum.Cancelled,
       icon: CalendarRemove,
       color: "#ef4444"
+    }
+  ],
+  LEVEL: [
+    {
+      label: "Mức dễ",
+      value: DifficultyLevelEnum.Easy
+    },
+    {
+      label: "Mức trung bình",
+      value: DifficultyLevelEnum.Medium
+    },
+    {
+      label: "Mức khó",
+      value: DifficultyLevelEnum.Hard
     }
   ]
 }

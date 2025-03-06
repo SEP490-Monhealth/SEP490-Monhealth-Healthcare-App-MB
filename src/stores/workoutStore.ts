@@ -2,7 +2,11 @@ import { create } from "zustand"
 
 import { DifficultyLevelEnum } from "@/constants/enum/DifficultyLevel"
 
-import { CreateWorkoutExerciseType } from "@/schemas/workoutSchema"
+interface CreateWorkoutExerciseItemsType {
+  exerciseId: string
+  duration: number | null
+  reps: number | null
+}
 
 interface workoutStoreProps {
   category: string
@@ -10,15 +14,15 @@ interface workoutStoreProps {
   description: string
   difficultyLevel: DifficultyLevelEnum
   isPublic: boolean
-  exercises: CreateWorkoutExerciseType[]
+  exercises: CreateWorkoutExerciseItemsType[]
   updateField: (field: string, value: any, append?: boolean) => void
   reset: () => void
 }
 
 export const useCreateWorkoutStore = create<workoutStoreProps>((set) => ({
-  category: "",
-  name: "",
-  description: "",
+  category: "123",
+  name: "khai",
+  description: "ad",
   difficultyLevel: DifficultyLevelEnum.Easy,
   isPublic: false,
   exercises: [],
@@ -31,19 +35,18 @@ export const useCreateWorkoutStore = create<workoutStoreProps>((set) => ({
             ...state,
             exercises: [
               ...state.exercises,
-              ...(Array.isArray(value) ? value : [value])
+              ...(Array.isArray(value) ? value : [value]) // Flatten value before appending
             ]
           }
         } else {
           return {
             ...state,
-            exercises: value
+            exercises: value // Directly set the value if not appending
           }
         }
       }
       return { ...state, [key]: value }
     }),
-
   reset: () =>
     set({
       category: "",

@@ -15,7 +15,7 @@ import {
 } from "@/components/global/atoms"
 
 import { sampleCategoriesData } from "@/constants/categories"
-import { DifficultyLevelEnum } from "@/constants/enum/DifficultyLevel"
+import { DATA } from "@/constants/data"
 
 import { useCreateWorkoutStore } from "@/stores/workoutStore"
 
@@ -24,12 +24,6 @@ interface SetupInformationProps {
   errors: any
   setValue: any
   openSheet: (type: "category" | "difficultyLevel") => void
-}
-
-const difficultyLevelLabels: Record<DifficultyLevelEnum, string> = {
-  [DifficultyLevelEnum.Easy]: "Mức dễ",
-  [DifficultyLevelEnum.Medium]: "Mức trung bình",
-  [DifficultyLevelEnum.Hard]: "Mức khó"
 }
 
 function InformationWorkout({
@@ -62,10 +56,12 @@ function InformationWorkout({
             errorMessage={errors.category?.message}
           />
 
-          {/* Hiển thị difficultyLevel được chọn */}
           <Select
             label="Mức độ"
-            value={difficultyLevelLabels[difficultyLevel] || "Độ khó"}
+            value={
+              DATA.LEVEL.find((level) => level.value === difficultyLevel)
+                ?.label || "Độ khó"
+            }
             defaultValue="Độ khó"
             onPress={() => openSheet("difficultyLevel")}
             errorMessage={errors.difficultyLevel?.message}

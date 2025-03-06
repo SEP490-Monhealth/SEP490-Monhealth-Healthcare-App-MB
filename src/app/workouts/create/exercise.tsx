@@ -1,8 +1,8 @@
-import React from "react"
+import React, { useState } from "react"
 
-import { Text, View } from "react-native"
+import { View } from "react-native"
 
-import { Control, Controller, FieldValues } from "react-hook-form"
+import { Control, FieldValues } from "react-hook-form"
 
 import { ScrollArea, VStack } from "@/components/global/atoms"
 
@@ -12,8 +12,6 @@ import { sampleExercisesData } from "@/constants/exercises"
 
 import { useCreateWorkoutStore } from "@/stores/workoutStore"
 
-// Import store
-
 interface SetupInformationProps {
   control: Control<FieldValues>
   errors: any
@@ -21,15 +19,12 @@ interface SetupInformationProps {
   openSheet: (type: "exercise") => void
 }
 
-function ExerciseWorkout({
-  control,
-  errors,
-  setValue,
-  openSheet
-}: SetupInformationProps) {
+function ExerciseWorkout({ control, openSheet }: SetupInformationProps) {
   const exerciseData = sampleExercisesData
 
-  const { updateField } = useCreateWorkoutStore()
+  const { exercises, updateField } = useCreateWorkoutStore()
+
+  const [inputValues, setInputValues] = useState<{ [key: string]: number }>({})
 
   const onPressExercise = (exerciseId: string) => {
     console.log("Pressed exercise ID:", exerciseId)
@@ -39,13 +34,32 @@ function ExerciseWorkout({
     )
 
     if (selectedExercise) {
-      const newExercise = {
-        exerciseId: selectedExercise.exerciseId,
-        duration: 0,
-        reps: 0
+      const existingExerciseIndex = exercises.findIndex(
+        (exercise) => exercise.exerciseId === exerciseId
+      )
+
+      if (existingExerciseIndex !== -1) {
+        const updatedExercises = exercises.filter(
+          (exercise) => exercise.exerciseId !== exerciseId
+        )
+        updateField("exercises", updatedExercises)
+      } else {
+        const newExercise = {
+          exerciseId: selectedExercise.exerciseId,
+          duration: inputValues[exerciseId] || 0,
+          reps: 0
+        }
+        const updatedExercises = [...exercises, newExercise]
+        updateField("exercises", updatedExercises)
       }
-      updateField("exercises", newExercise, true)
     }
+  }
+
+  const handleSetInputValue = (exerciseId: string, value: number) => {
+    setInputValues((prevValues) => ({
+      ...prevValues,
+      [exerciseId]: value
+    }))
   }
 
   return (
@@ -57,8 +71,10 @@ function ExerciseWorkout({
               exerciseId={exercise.exerciseId}
               name={exercise.name}
               control={control}
+              inputValue={inputValues[exercise.exerciseId] || 0}
               onPress={() => onPressExercise(exercise.exerciseId)}
               onPressSelect={() => openSheet("exercise")}
+              onInputChange={handleSetInputValue}
             />
           </View>
         ))}

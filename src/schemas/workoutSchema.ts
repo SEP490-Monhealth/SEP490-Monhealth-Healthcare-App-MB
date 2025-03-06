@@ -4,21 +4,22 @@ import { DifficultyLevelEnum } from "@/constants/enum/DifficultyLevel"
 import { WorkoutTypeEnum } from "@/constants/enum/WorkoutType"
 
 import { auditSchema } from "./commonSchema"
-import { exerciseSchema } from "./exerciseSchema"
 
 const WorkoutTypeSchemaEnum = z.nativeEnum(WorkoutTypeEnum)
 const DifficultyLevelSchemaEnum = z.nativeEnum(DifficultyLevelEnum)
 
+const createWorkoutExerciseSchema = z.object({
+  exerciseId: z.string(),
+
+  duration: z.number().nullable(),
+  reps: z.number().nullable()
+})
+
 const baseWorkoutSchema = z
   .object({
     workoutId: z.string(),
-    category: z
-      .string()
-      .nonempty({ message: "Loại bài tập không được để trống" }),
+    category: z.string(),
     userId: z.string(),
-    exerciseId: z
-      .array(z.string())
-      .nonempty({ message: "Danh sách bài tập không được để trống" }),
 
     type: WorkoutTypeSchemaEnum,
     name: z
@@ -42,6 +43,7 @@ const baseWorkoutSchema = z
       .min(0, { message: "Calo đốt cháy phải lớn hơn hoặc bằng 0" }),
 
     views: z.number(),
+
     isPublic: z.boolean(),
 
     status: z.boolean()
@@ -59,44 +61,21 @@ export const workoutSchema = baseWorkoutSchema.pick({
 
   exercises: true,
   duration: true,
-  caloriesBurned: true
-})
-
-export const workoutExerciseSchema = z.object({
-  warmup: z.array(exerciseSchema),
-  workout: z.array(exerciseSchema)
-})
-
-export const informationWorkoutSchema = baseWorkoutSchema.pick({
-  category: true,
-  name: true,
-  description: true,
-  difficultyLevel: true,
+  caloriesBurned: true,
   isPublic: true
 })
 
-export const createWorkoutExerciseSchema = z.object({
-  exerciseId: z.string().nonempty("Bài tập không được bỏ trống"),
-  duration: z.number().optional(),
-  reps: z.number().optional()
+export const createWorkoutSchema = z.object({
+  category: z.string(),
+  userId: z.string(),
+
+  name: workoutSchema.shape.name,
+  description: workoutSchema.shape.description,
+  difficultyLevel: workoutSchema.shape.difficultyLevel,
+  isPublic: workoutSchema.shape.isPublic,
+
+  exercises: z.array(createWorkoutExerciseSchema)
 })
 
-export const createWorkoutSchema = baseWorkoutSchema
-  .pick({
-    userId: true,
-    category: true,
-    name: true,
-    description: true,
-    difficultyLevel: true,
-    isPublic: true
-  })
-  .extend({
-    exercises: z.array(createWorkoutExerciseSchema)
-  })
-
 export type WorkoutType = z.infer<typeof workoutSchema>
-export type WorkoutExerciseType = z.infer<typeof workoutExerciseSchema>
-export type CreateWorkoutExerciseType = z.infer<
-  typeof createWorkoutExerciseSchema
->
 export type CreateWorkoutType = z.infer<typeof createWorkoutSchema>
