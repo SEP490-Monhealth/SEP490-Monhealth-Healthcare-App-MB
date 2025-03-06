@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { Image, Text } from "react-native"
+import { Image, Text, View } from "react-native"
 
 import { useLocalSearchParams } from "expo-router"
 
@@ -55,64 +55,70 @@ function ConsultantDetailsScreen() {
 
       <Content className="mt-2">
         <ScrollArea className="flex-1">
-          <VStack gap={20}>
-            <HStack center gap={20}>
-              <Image
-                source={{ uri: consultantData.avatarUrl }}
-                className="h-24 w-24 rounded-2xl border border-border"
-              />
+          <View className="pb-12">
+            <VStack gap={20}>
+              <HStack center gap={20}>
+                <Image
+                  source={{ uri: consultantData.avatarUrl }}
+                  className="h-24 w-24 rounded-2xl border border-border"
+                />
 
-              <VStack gap={8}>
-                <VStack gap={0}>
-                  <Text className="font-tbold text-2xl text-primary">
-                    {consultantData.fullName}
-                  </Text>
+                <VStack gap={8}>
+                  <VStack gap={0}>
+                    <Text className="font-tbold text-2xl text-primary">
+                      {consultantData.fullName}
+                    </Text>
 
-                  <Text className="font-tmedium text-base text-accent">
-                    {consultantData.expertise}
-                  </Text>
+                    <Text className="font-tmedium text-base text-accent">
+                      {consultantData.expertise}
+                    </Text>
+                  </VStack>
+
+                  <RatingStars rating={rating} count={count} showCount />
                 </VStack>
+              </HStack>
 
-                <RatingStars rating={rating} count={count} showCount />
-              </VStack>
-            </HStack>
+              <ConsultantOverview
+                experience={consultantData.experience}
+                rating={consultantData.rating}
+                patients={consultantData.patient}
+              />
+            </VStack>
 
-            <ConsultantOverview
-              experience={consultantData.experience}
-              rating={consultantData.rating}
-              patients={consultantData.patient}
-            />
-          </VStack>
+            <Button className="mt-4">Gửi tin nhắn</Button>
 
-          <Button className="mt-4">Gửi tin nhắn</Button>
+            <Tabs
+              defaultValue={activeTab}
+              contentMarginTop={8}
+              className="mt-6"
+            >
+              <TabsList>
+                <TabsTrigger value="info" onChange={handleTabChange}>
+                  Thông tin
+                </TabsTrigger>
 
-          <Tabs defaultValue={activeTab} contentMarginTop={8} className="mt-6">
-            <TabsList>
-              <TabsTrigger value="info" onChange={handleTabChange}>
-                Thông tin
-              </TabsTrigger>
+                <TabsTrigger value="certificate" onChange={handleTabChange}>
+                  Chứng chỉ
+                </TabsTrigger>
 
-              <TabsTrigger value="certificate" onChange={handleTabChange}>
-                Chứng chỉ
-              </TabsTrigger>
+                <TabsTrigger value="review" onChange={handleTabChange}>
+                  Đánh giá
+                </TabsTrigger>
+              </TabsList>
 
-              <TabsTrigger value="review" onChange={handleTabChange}>
-                Đánh giá
-              </TabsTrigger>
-            </TabsList>
+              <TabsContent value="info">
+                <InformationTab />
+              </TabsContent>
 
-            <TabsContent value="info">
-              <InformationTab />
-            </TabsContent>
+              <TabsContent value="certificate">
+                <CertificateTab />
+              </TabsContent>
 
-            <TabsContent value="certificate">
-              <CertificateTab />
-            </TabsContent>
-
-            <TabsContent value="review">
-              <ReviewTab />
-            </TabsContent>
-          </Tabs>
+              <TabsContent value="review">
+                <ReviewTab />
+              </TabsContent>
+            </Tabs>
+          </View>
         </ScrollArea>
       </Content>
     </Container>

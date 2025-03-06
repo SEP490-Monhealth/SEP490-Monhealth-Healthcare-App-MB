@@ -49,6 +49,7 @@ const baseMetricSchema = z
 
     goalType: goalSchema.shape.type,
     weightGoal: goalSchema.shape.weightGoal,
+    caloriesRatio: goalSchema.shape.caloriesRatio,
 
     bmi: z
       .number()
@@ -139,7 +140,8 @@ export const createMetricSchema = baseMetricSchema.pick({
   weight: true,
   activityLevel: true,
   goalType: true,
-  weightGoal: true
+  weightGoal: true,
+  caloriesRatio: true
 })
 
 export type MetricType = z.infer<typeof metricSchema>

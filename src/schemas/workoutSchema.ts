@@ -4,10 +4,16 @@ import { DifficultyLevelEnum } from "@/constants/enum/DifficultyLevel"
 import { WorkoutTypeEnum } from "@/constants/enum/WorkoutType"
 
 import { auditSchema } from "./commonSchema"
-import { exerciseSchema } from "./exerciseSchema"
 
 const WorkoutTypeSchemaEnum = z.nativeEnum(WorkoutTypeEnum)
 const DifficultyLevelSchemaEnum = z.nativeEnum(DifficultyLevelEnum)
+
+const createWorkoutExerciseSchema = z.object({
+  exerciseId: z.string(),
+
+  duration: z.number().nullable(),
+  reps: z.number().nullable()
+})
 
 const baseWorkoutSchema = z
   .object({
@@ -38,6 +44,8 @@ const baseWorkoutSchema = z
 
     views: z.number(),
 
+    isPublic: z.boolean(),
+
     status: z.boolean()
   })
   .merge(auditSchema)
@@ -56,10 +64,16 @@ export const workoutSchema = baseWorkoutSchema.pick({
   caloriesBurned: true
 })
 
-export const workoutExerciseSchema = z.object({
-  warmup: z.array(exerciseSchema),
-  workout: z.array(exerciseSchema)
+export const createWorkoutSchema = z.object({
+  categoryId: z.string(),
+  userId: z.string(),
+
+  name: workoutSchema.shape.name,
+  description: workoutSchema.shape.description,
+  difficultyLevel: workoutSchema.shape.difficultyLevel,
+
+  exercises: z.array(createWorkoutExerciseSchema)
 })
 
 export type WorkoutType = z.infer<typeof workoutSchema>
-export type WorkoutExerciseType = z.infer<typeof workoutExerciseSchema>
+export type CreateWorkoutType = z.infer<typeof createWorkoutSchema>

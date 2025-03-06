@@ -230,7 +230,7 @@ function FoodDetailsScreen() {
 
           <Content className="mt-2">
             <ScrollArea className="flex-1">
-              <View onStartShouldSetResponder={() => true} className="pb-40">
+              <View onStartShouldSetResponder={() => true} className="pb-12">
                 <VStack>
                   <Section label="Mô tả" margin={false} />
 

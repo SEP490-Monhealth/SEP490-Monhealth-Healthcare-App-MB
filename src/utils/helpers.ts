@@ -2,6 +2,7 @@ import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
 import { BookingStatusEnum } from "@/constants/enum/BookingStatus"
 import { MealTypeEnum } from "@/constants/enum/MealType"
+import { RecurringDayEnum } from "@/constants/enum/RecurringDay"
 import { TipsData } from "@/constants/tips"
 
 /**
@@ -148,7 +149,7 @@ export const getMealTypeName = (
   value: MealTypeEnum
 ): string | undefined => {
   const meal = DATA.MEALS.find((meal) => meal.value === value) || DATA.MEALS[0]
-  return lang === "vi" ? meal.label : meal.eLabel
+  return lang === "vi" ? meal.label : meal.engLabel
 }
 
 /**
@@ -296,4 +297,8 @@ export const getBookingIcon = (
   value: BookingStatusEnum
 ): React.ElementType | null => {
   return DATA.BOOKINGS.find((item) => item.value === value)?.icon || null
+}
+
+export const getDayLabel = (value: RecurringDayEnum): string => {
+  return DATA.DAY_OF_WEEK.find((item) => item.value === value)?.label || ""
 }

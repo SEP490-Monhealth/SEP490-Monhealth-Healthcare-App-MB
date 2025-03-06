@@ -72,6 +72,15 @@ export const updateExerciseSchema = baseExerciseSchema.pick({
   caloriesPerMinute: true
 })
 
+export const workoutExerciseSchema = z.object({
+  warmupDuration: z.number(),
+  workoutDuration: z.number(),
+
+  warmup: z.array(exerciseSchema),
+  workout: z.array(exerciseSchema)
+})
+
 export type ExerciseType = z.infer<typeof exerciseSchema>
 export type CreateExerciseType = z.infer<typeof createExerciseSchema>
 export type UpdateExerciseType = z.infer<typeof updateExerciseSchema>
+export type WorkoutExerciseType = z.infer<typeof workoutExerciseSchema>

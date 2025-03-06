@@ -15,9 +15,9 @@ import { Header } from "@/components/global/organisms"
 import { sampleBookingsData } from "@/constants/bookings"
 
 function ScheduleScreen() {
-  const today = new Date()
-
   const scheduleData = sampleBookingsData
+
+  const today = new Date()
 
   const [selectedDate, setSelectedDate] = useState<string | null>(
     today.toISOString()
@@ -42,11 +42,9 @@ function ScheduleScreen() {
       <Header back label="Lịch trình" />
 
       <Content className="mt-2">
-        <ScrollArea>
-          <VStack>
-            <View className="mb-4">
-              <Schedule initialDate={today} onDateSelect={handleDateSelect} />
-            </View>
+        <ScrollArea className="flex-1">
+          <VStack gap={12} className="pb-12">
+            <Schedule initialDate={today} onDateSelect={handleDateSelect} />
 
             {scheduleData.map((schedule) => {
               const endTime =

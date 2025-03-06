@@ -1,4 +1,4 @@
 export enum ScheduleTypeEnum {
-  Recurring,
-  OneTime
+  OneTime,
+  Recurring
 }

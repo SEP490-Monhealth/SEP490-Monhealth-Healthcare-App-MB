@@ -8,7 +8,7 @@ import {
   ExerciseType,
   UpdateExerciseType
 } from "@/schemas/exerciseSchema"
-import { WorkoutExerciseType } from "@/schemas/workoutSchema"
+import { WorkoutExerciseType } from "@/schemas/exerciseSchema"
 
 import {
   createExercise,

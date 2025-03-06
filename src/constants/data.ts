@@ -24,34 +24,35 @@ import { DishTypeEnum } from "./enum/DishType"
 import { GenderEnum } from "./enum/Gender"
 import { GoalTypeEnum } from "./enum/GoalType"
 import { MealTypeEnum } from "./enum/MealType"
+import { RecurringDayEnum } from "./enum/RecurringDay"
 import { ScheduleTimeSlotStatusEnum } from "./enum/ScheduleTimeSlotStatus"
 
 export const DATA = {
   MEALS: [
     {
       label: "Bữa sáng",
-      eLabel: "Breakfast",
+      engLabel: "Breakfast",
       value: MealTypeEnum.Breakfast,
       ratio: 30,
       icon: require("../../public/icons/meals/sandwich.png")
     },
     {
       label: "Bữa trưa",
-      eLabel: "Lunch",
+      engLabel: "Lunch",
       value: MealTypeEnum.Lunch,
       ratio: 35,
       icon: require("../../public/icons/meals/rice.png")
     },
     {
       label: "Bữa tối",
-      eLabel: "Dinner",
+      engLabel: "Dinner",
       value: MealTypeEnum.Dinner,
       ratio: 25,
       icon: require("../../public/icons/meals/roast-chicken.png")
     },
     {
       label: "Bữa phụ",
-      eLabel: "Snack",
+      engLabel: "Snack",
       value: MealTypeEnum.Snack,
       ratio: 10,
       icon: require("../../public/icons/meals/cupcake.png")
@@ -194,5 +195,14 @@ export const DATA = {
       icon: CalendarRemove,
       color: "#ef4444"
     }
+  ],
+  DAY_OF_WEEK: [
+    { label: "Thứ 2", shortLabel: "T2", value: RecurringDayEnum.Mon },
+    { label: "Thứ 3", shortLabel: "T3", value: RecurringDayEnum.Tue },
+    { label: "Thứ 4", shortLabel: "T4", value: RecurringDayEnum.Wed },
+    { label: "Thứ 5", shortLabel: "T5", value: RecurringDayEnum.Thu },
+    { label: "Thứ 6", shortLabel: "T6", value: RecurringDayEnum.Fri },
+    { label: "Thứ 7", shortLabel: "T7", value: RecurringDayEnum.Sat },
+    { label: "Chủ Nhật", shortLabel: "CN", value: RecurringDayEnum.Sun }
   ]
 }
