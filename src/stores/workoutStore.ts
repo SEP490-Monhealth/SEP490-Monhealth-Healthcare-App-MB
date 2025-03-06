@@ -10,7 +10,7 @@ interface workoutStoreProps {
   description: string
   difficultyLevel: DifficultyLevelEnum
   isPublic: boolean
-  items: CreateWorkoutExerciseType[]
+  exercises: CreateWorkoutExerciseType[]
   updateField: (field: string, value: any, append?: boolean) => void
   reset: () => void
 }
@@ -21,17 +21,24 @@ export const useCreateWorkoutStore = create<workoutStoreProps>((set) => ({
   description: "",
   difficultyLevel: DifficultyLevelEnum.Easy,
   isPublic: false,
-  items: [],
+  exercises: [],
 
   updateField: (key, value, append = false) =>
     set((state) => {
-      if (append && Array.isArray(state[key as keyof workoutStoreProps])) {
-        return {
-          ...state,
-          [key]: [
-            ...(state[key as keyof workoutStoreProps] as any[]),
-            ...(Array.isArray(value) ? value : [value])
-          ]
+      if (key === "exercises") {
+        if (append) {
+          return {
+            ...state,
+            exercises: [
+              ...state.exercises,
+              ...(Array.isArray(value) ? value : [value])
+            ]
+          }
+        } else {
+          return {
+            ...state,
+            exercises: value
+          }
         }
       }
       return { ...state, [key]: value }
@@ -44,6 +51,6 @@ export const useCreateWorkoutStore = create<workoutStoreProps>((set) => ({
       description: "",
       difficultyLevel: DifficultyLevelEnum.Easy,
       isPublic: false,
-      items: []
+      exercises: []
     })
 }))

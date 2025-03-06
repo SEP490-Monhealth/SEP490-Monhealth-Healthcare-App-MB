@@ -76,9 +76,9 @@ export const informationWorkoutSchema = baseWorkoutSchema.pick({
 })
 
 export const createWorkoutExerciseSchema = z.object({
-  exerciseId: z.string(),
-  duration: z.number(),
-  reps: z.number()
+  exerciseId: z.string().nonempty("Bài tập không được bỏ trống"),
+  duration: z.number().optional(),
+  reps: z.number().optional()
 })
 
 export const createWorkoutSchema = baseWorkoutSchema
@@ -91,7 +91,7 @@ export const createWorkoutSchema = baseWorkoutSchema
     isPublic: true
   })
   .extend({
-    items: z.array(createWorkoutExerciseSchema)
+    exercises: z.array(createWorkoutExerciseSchema)
   })
 
 export type WorkoutType = z.infer<typeof workoutSchema>

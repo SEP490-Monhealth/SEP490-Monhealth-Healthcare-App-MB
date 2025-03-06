@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 
 import { Dimensions, Keyboard, SafeAreaView } from "react-native"
 import { TouchableWithoutFeedback } from "react-native"
@@ -51,17 +51,20 @@ interface SetupStepsProps {
 
 function CreateWorkoutScreen() {
   const router = useRouter()
-
   const { user } = useAuth()
   const userId = user?.userId
   const { mutate: createConsultant } = useCreateUserWorkout()
 
-  const [sheetType, setSheetType] = useState<"category" | "difficultyLevel">()
+  const [sheetType, setSheetType] = useState<
+    "category" | "difficultyLevel" | "exercise"
+  >()
   const CategorySheetRef = useRef<SheetRefProps>(null)
   const DifficultyLevelSheetRef = useRef<SheetRefProps>(null)
-  const [categorySheetHeight, setCategorySheetHeight] = useState<number>(320)
+  const ExerciseSheetRef = useRef<SheetRefProps>(null)
+  const [categorySheetHeight, setCategorySheetHeight] = useState<number>(230)
 
   const difficultyLevelSheetHeight = 230
+  const exerciseSheetHeight = 180
 
   const categoryData = sampleCategoriesData.filter(
     (item) => item.type === CategoryTypeEnum.Workout
@@ -73,6 +76,11 @@ function CreateWorkoutScreen() {
     [DifficultyLevelEnum.Hard]: "Mức khó"
   }
 
+  const exerciseOptions = [
+    { label: "Thời gian", value: "duration" },
+    { label: "Lần", value: "reps" }
+  ]
+
   const difficultyLevels = Object.values(DifficultyLevelEnum).filter(
     (value): value is DifficultyLevelEnum => typeof value === "number"
   ) as DifficultyLevelEnum[]
@@ -83,21 +91,21 @@ function CreateWorkoutScreen() {
     description,
     difficultyLevel,
     isPublic,
-    items,
+    exercises,
     updateField
   } = useCreateWorkoutStore()
 
   const [currentStep, setCurrentStep] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const formData: Record<string, any> = {
+  const formData = {
     userId,
     category,
     name,
     description,
     difficultyLevel,
     isPublic,
-    items
+    exercises: exercises || []
   }
 
   const setupSteps: SetupStepsProps[] = [
@@ -120,7 +128,7 @@ function CreateWorkoutScreen() {
       title: "Bài tập",
       description: "Chọn các bài tập có trong bài tập luyện này",
       component: ExerciseWorkout,
-      fields: ["exerciseId", "duration", "reps"],
+      fields: ["exercises"],
       schema: createWorkoutExerciseSchema
     }
   ]
@@ -140,6 +148,11 @@ function CreateWorkoutScreen() {
     defaultValues: formData
   })
 
+  useEffect(() => {
+    // Đồng bộ hóa dữ liệu exercises từ store vào form
+    setValue("exercises", exercises || [])
+  }, [exercises, setValue])
+
   const calculateSheetHeight = (categoryLength: number) => {
     const minHeight = 160
     const maxHeight = SCREEN_HEIGHT * 0.8
@@ -156,15 +169,21 @@ function CreateWorkoutScreen() {
     return Math.min(Math.max(itemHeight * categoryLength, minHeight), maxHeight)
   }
 
-  const openSheet = (type: "category" | "difficultyLevel") => {
+  const openSheet = (type: "category" | "difficultyLevel" | "exercise") => {
     setSheetType(type)
 
-    if (type === "category") {
-      const calculatedHeight = calculateSheetHeight(categoryData.length)
-      setCategorySheetHeight(calculatedHeight)
-      CategorySheetRef.current?.scrollTo(-calculatedHeight)
-    } else {
-      DifficultyLevelSheetRef.current?.scrollTo(-difficultyLevelSheetHeight)
+    switch (type) {
+      case "category":
+        const calculatedHeight = calculateSheetHeight(categoryData.length)
+        setCategorySheetHeight(calculatedHeight)
+        CategorySheetRef.current?.scrollTo(-calculatedHeight)
+        break
+      case "difficultyLevel":
+        DifficultyLevelSheetRef.current?.scrollTo(-difficultyLevelSheetHeight)
+        break
+      case "exercise":
+        ExerciseSheetRef.current?.scrollTo(-exerciseSheetHeight)
+        break
     }
   }
 
@@ -173,15 +192,31 @@ function CreateWorkoutScreen() {
       CategorySheetRef.current?.scrollTo(0)
     } else {
       DifficultyLevelSheetRef.current?.scrollTo(0)
+      ExerciseSheetRef.current?.scrollTo(0)
     }
   }
 
   const onSubmit = async (data: Record<string, any>) => {
     setIsLoading(true)
 
-    console.log(`Step Data ${currentStep}:`, data)
-
     try {
+      console.log("Step Data", currentStep, ":", data)
+      console.log("Form Values:", getValues())
+      console.log("Exercises Field:", data.exercises)
+
+      // Lấy giá trị từ form và store
+      const finalData = {
+        category: data.category,
+        name: data.name,
+        description: data.description,
+        difficultyLevel: data.difficultyLevel,
+        isPublic: data.isPublic,
+        exercises: data.exercises || [] // Đảm bảo lấy giá trị từ store
+      }
+
+      console.log("Final Data:", finalData)
+
+      // Cập nhật các trường trong store
       currentStepData.fields.forEach((field) => {
         updateField(field, data[field])
       })
@@ -189,14 +224,8 @@ function CreateWorkoutScreen() {
       if (currentStep < setupSteps.length) {
         setCurrentStep(currentStep + 1)
       } else {
-        console.log("Final Data", data)
-
-        // await new Promise((resolve) => setTimeout(resolve, 2000))
-        // createConsultant(data as CreateConsultantType, {
-        //   onSuccess: () => {
-        //     router.push("/setup/completed")
-        //   }
-        // })
+        // Nếu đã hoàn tất, gửi data hoặc thực hiện các hành động khác
+        console.log("Submit Final Data:", finalData)
       }
     } catch (error) {
       console.error("Error submitting form:", error)
@@ -212,6 +241,10 @@ function CreateWorkoutScreen() {
       setCurrentStep(currentStep - 1)
     }
   }
+
+  console.log(errors)
+
+  console.log("exercises before submit", exercises)
 
   const StepComponent = currentStepData.component
 
@@ -280,6 +313,18 @@ function CreateWorkoutScreen() {
               onPress={() => {
                 setValue("difficultyLevel", level)
                 updateField("difficultyLevel", level)
+                closeSheet()
+              }}
+            />
+          ))}
+        </Sheet>
+
+        <Sheet ref={ExerciseSheetRef} dynamicHeight={exerciseSheetHeight}>
+          {exerciseOptions.map((item) => (
+            <SheetSelect
+              key={item.value}
+              label={item.label}
+              onPress={() => {
                 closeSheet()
               }}
             />

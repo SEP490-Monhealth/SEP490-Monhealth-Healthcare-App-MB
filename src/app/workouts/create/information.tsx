@@ -32,12 +32,12 @@ const difficultyLevelLabels: Record<DifficultyLevelEnum, string> = {
   [DifficultyLevelEnum.Hard]: "Mức khó"
 }
 
-const InformationWorkout = ({
+function InformationWorkout({
   control,
   errors,
   setValue,
   openSheet
-}: SetupInformationProps) => {
+}: SetupInformationProps) {
   const { category, difficultyLevel, isPublic, updateField } =
     useCreateWorkoutStore()
 
