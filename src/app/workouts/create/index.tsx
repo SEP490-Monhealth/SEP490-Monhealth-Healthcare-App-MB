@@ -31,7 +31,10 @@ import { useCreateUserWorkout } from "@/hooks/useWorkout"
 
 import { createWorkoutSchema } from "@/schemas/workoutSchema"
 
-import { useCreateWorkoutStore } from "@/stores/workoutStore"
+import {
+  useCreateWorkoutStore,
+  useExerciseItemsStore
+} from "@/stores/workoutStore"
 
 import ExerciseWorkout from "./exercise"
 import InformationWorkout from "./information"
@@ -61,13 +64,9 @@ function CreateWorkoutScreen() {
   const ExerciseSheetRef = useRef<SheetRefProps>(null)
   const [categorySheetHeight, setCategorySheetHeight] = useState<number>(230)
 
-  const [exerciseOptionsState, setExerciseOptionsState] = useState<
-    Record<string, string>
-  >({})
-
-  const [selectedExerciseId, setSelectedExerciseId] = useState<string | null>(
-    null
-  )
+  const [exerciseIdSelected, setExerciseTypeSelected] = useState<
+    string | undefined
+  >("")
 
   const difficultyLevelSheetHeight = 230
   const exerciseSheetHeight = 180
@@ -82,7 +81,7 @@ function CreateWorkoutScreen() {
     [DifficultyLevelEnum.Hard]: "Mức khó"
   }
 
-  const exerciseOptions = [
+  const exerciseTypes = [
     { label: "Thời gian", value: "duration" },
     { label: "Lần", value: "reps" }
   ]
@@ -100,6 +99,8 @@ function CreateWorkoutScreen() {
     exercises,
     updateField
   } = useCreateWorkoutStore()
+
+  const { exercisesSelected, updateType } = useExerciseItemsStore()
 
   const [currentStep, setCurrentStep] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -198,13 +199,8 @@ function CreateWorkoutScreen() {
         DifficultyLevelSheetRef.current?.scrollTo(-difficultyLevelSheetHeight)
         break
       case "exercise":
+        setExerciseTypeSelected(exerciseId)
         ExerciseSheetRef.current?.scrollTo(-exerciseSheetHeight)
-        if (exerciseId) {
-          setExerciseOptionsState((prev) => ({
-            ...prev,
-            [exerciseId]: prev[exerciseId] || "duration"
-          }))
-        }
         break
     }
   }
@@ -255,6 +251,7 @@ function CreateWorkoutScreen() {
   }
 
   console.log("Các bài tập đã chọn:", exercises)
+  console.log("Exercises Selected:", exercisesSelected)
 
   const StepComponent = currentStepData.component
 
@@ -330,17 +327,19 @@ function CreateWorkoutScreen() {
         </Sheet>
 
         <Sheet ref={ExerciseSheetRef} dynamicHeight={exerciseSheetHeight}>
-          {exerciseOptions.map((item) => (
+          {exerciseTypes.map((item) => (
             <SheetSelect
               key={item.value}
               label={item.label}
               onPress={() => {
-                if (selectedExerciseId) {
-                  setExerciseOptionsState((prev) => ({
-                    ...prev,
-                    [selectedExerciseId]: item.value
-                  }))
-                }
+                useExerciseItemsStore.getState().updateType(
+                  "exercisesSelected",
+                  {
+                    exerciseId: exerciseIdSelected,
+                    exerciseType: item.value
+                  },
+                  true
+                )
                 closeSheet()
               }}
             />

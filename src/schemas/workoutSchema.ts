@@ -74,7 +74,9 @@ export const createWorkoutSchema = z.object({
   difficultyLevel: workoutSchema.shape.difficultyLevel,
   isPublic: workoutSchema.shape.isPublic,
 
-  exercises: z.array(createWorkoutExerciseSchema)
+  exercises: z.array(createWorkoutExerciseSchema).min(1, {
+    message: "Số lượng bài tập phải lớn hơn hoặc bằng 1"
+  })
 })
 
 export type WorkoutType = z.infer<typeof workoutSchema>
