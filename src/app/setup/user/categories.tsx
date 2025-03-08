@@ -52,9 +52,9 @@ function SetupCategories({ control, errors }: SetupCategoriesProps) {
               <View className="h-12 w-12 items-center justify-center rounded-full bg-muted">
                 <Image
                   source={
-                    typeof category.image === "string"
-                      ? { uri: category.image }
-                      : category.image
+                    typeof category.imageUrl === "string"
+                      ? { uri: category.imageUrl }
+                      : category.imageUrl
                   }
                   style={{ width: 24, height: 24 }}
                 />

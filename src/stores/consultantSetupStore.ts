@@ -15,7 +15,7 @@ interface setupConsultantStoreProps {
   certificate: string
   issueDate: string
   expiryDate: string
-  images: ImageType[]
+  imageUrls: ImageType[]
   updateField: (field: string, value: any, append?: boolean) => void
   reset: () => void
 }
@@ -28,7 +28,7 @@ export const useConsultantSetupStore = create<setupConsultantStoreProps>(
     certificate: "",
     issueDate: "",
     expiryDate: "",
-    images: [],
+    imageUrls: [],
 
     updateField: (key, value, append = false) =>
       set((state) => {
@@ -55,7 +55,7 @@ export const useConsultantSetupStore = create<setupConsultantStoreProps>(
         certificate: "",
         issueDate: "",
         expiryDate: "",
-        images: []
+        imageUrls: []
       })
   })
 )

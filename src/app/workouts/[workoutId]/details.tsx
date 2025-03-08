@@ -54,35 +54,6 @@ function WorkoutDetailsScreen() {
 
   const sheetHeight = 560
 
-  const totalWarmupDuration = 100
-  // exercisesData?.warmup.reduce((acc, exercise) => {
-  //   let duration = 0
-
-  //   if (exercise.type === 0) {
-  //     duration = exercise.duration || 0
-  //   } else if (exercise.type === 1) {
-  //     duration = (exercise.reps || 0) * 2
-  //   }
-
-  //   return acc + duration
-  // }, 0) || 0
-
-  const totalWorkoutDuration = 200
-  // exercisesData?.workout.reduce((acc, exercise) => {
-  //   let duration = 0
-
-  //   if (exercise.type === 0) {
-  //     duration = exercise.duration || 0
-  //   } else if (exercise.type === 1) {
-  //     duration = (exercise.reps || 0) * 2
-  //   }
-
-  //   return acc + duration
-  // }, 0) || 0
-
-  const totalWarmupMinutes = (totalWarmupDuration * warmupRounds) / 60
-  const totalWorkoutMinutes = (totalWorkoutDuration * workoutRounds) / 60
-
   const openSheet = () => SheetRef.current?.scrollTo(-sheetHeight)
 
   const handleViewExercise = (exerciseId: string) => {
@@ -101,7 +72,7 @@ function WorkoutDetailsScreen() {
 
           <Content className="mt-2">
             <ScrollArea className="flex-1">
-              <VStack>
+              <VStack className="pb-12">
                 <Section label="Mô tả" margin={false} />
 
                 <Text className="-mt-2 text-justify font-tregular text-base text-secondary">
@@ -113,7 +84,7 @@ function WorkoutDetailsScreen() {
                 {workoutData.type === WorkoutTypeEnum.Workout && (
                   <Section
                     label="Khởi động"
-                    description={`${toFixed(totalWarmupMinutes, 1)} phút / ${warmupRounds} vòng`}
+                    description={`${toFixed(exercisesData.warmupDuration, 1)} phút / ${warmupRounds} vòng`}
                     action={
                       <Toggle
                         value={isWarmup}
@@ -145,7 +116,7 @@ function WorkoutDetailsScreen() {
                   <Section
                     label="Bài tập"
                     margin={workoutData.type === WorkoutTypeEnum.Warmup}
-                    description={`${toFixed(totalWorkoutMinutes, 1)} phút / ${workoutRounds} vòng`}
+                    description={`${toFixed(exercisesData.workoutDuration, 1)} phút / ${workoutRounds} vòng`}
                   />
 
                   {exercisesData?.workout.map((exercise, index) => (
@@ -166,7 +137,7 @@ function WorkoutDetailsScreen() {
 
         <Sheet ref={SheetRef} dynamicHeight={sheetHeight}>
           {isExerciseLoading ? (
-            <ActivityIndicator size="small" color={COLORS.primary} />
+            <ActivityIndicator color={COLORS.primary} />
           ) : (
             <VStack>
               <Section label="Hướng dẫn bài tập" margin={false} />

@@ -316,7 +316,7 @@ function MealDetailsScreen() {
                     weight={item.portion?.weight}
                     unit={item.portion?.unit}
                     recommended={item.isRecommended}
-                    status={item.status}
+                    status={item.isCompleted}
                     onPress={() => handleViewFood(item.foodId)}
                     onStatusPress={() =>
                       handleUpdateMealFoodStatus(item.mealFoodId)

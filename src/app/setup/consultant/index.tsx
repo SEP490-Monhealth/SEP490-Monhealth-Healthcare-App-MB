@@ -93,7 +93,7 @@ function SetupConsultantScreen() {
     certificate,
     issueDate,
     expiryDate,
-    images,
+    imageUrls,
     updateField
   } = useConsultantSetupStore()
 
@@ -108,7 +108,7 @@ function SetupConsultantScreen() {
     certificate,
     issueDate,
     expiryDate,
-    images: (images || []).filter((img) => img?.uri).map((img) => img.uri)
+    imageUrls: (imageUrls || []).filter((img) => img?.uri).map((img) => img.uri)
   }
 
   const setupSteps: SetupStepsProps[] = [
@@ -133,7 +133,7 @@ function SetupConsultantScreen() {
       title: "Chứng chỉ",
       description: "Thêm thông tin chứng chỉ và tải lên ảnh chứng chỉ",
       component: SetupCertificate,
-      fields: ["certificate", "issueDate", "expiryDate", "images"],
+      fields: ["certificate", "issueDate", "expiryDate", "imageUrls"],
       schema: certificateSetupSchema
     }
   ]
@@ -162,18 +162,18 @@ function SetupConsultantScreen() {
   }
 
   // useEffect(() => {
-  //   const imagesUris = images.map((img) => img.uri)
-  //   setValue("images", imagesUris)
-  // }, [images, setValue])
+  //   const imagesUris = imageUrls.map((img) => img.uri)
+  //   setValue("imageUrls", imagesUris)
+  // }, [imageUrls, setValue])
 
   useEffect(() => {
-    if (images && images.length > 0) {
+    if (imageUrls && imageUrls.length > 0) {
       setValue(
-        "images",
-        images.map((img) => img.uri || img)
+        "imageUrls",
+        imageUrls.map((img) => img.uri || img)
       )
     }
-  }, [images, setValue])
+  }, [imageUrls, setValue])
 
   const onSubmit = async (data: Record<string, any>) => {
     setIsLoading(true)

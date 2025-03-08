@@ -41,7 +41,7 @@ function SetupCertificate({
   openUploadSheet,
   openDateSheet
 }: SetupCertificateProps) {
-  const { images } = useConsultantSetupStore()
+  const { imageUrls } = useConsultantSetupStore()
 
   return (
     <ScrollArea>
@@ -106,13 +106,13 @@ function SetupCertificate({
           </VStack>
         </Card>
 
-        {errors.images?.message && images.length === 0 && (
-          <ErrorText text={errors.images?.message} />
+        {errors.imageUrls?.message && imageUrls.length === 0 && (
+          <ErrorText text={errors.imageUrls?.message} />
         )}
 
         <View className="mt-3 flex-row flex-wrap">
-          {images.length > 0 &&
-            images.map((item, index) => (
+          {imageUrls.length > 0 &&
+            imageUrls.map((item, index) => (
               <View
                 key={index}
                 style={{ width: "30%", aspectRatio: 1, margin: "1.5%" }}

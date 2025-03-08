@@ -153,7 +153,7 @@ function WorkoutsScreen() {
             <WorkoutCard
               name={item.name}
               exercises={item.exercises}
-              duration={item.duration}
+              duration={item.durationMinutes}
               caloriesBurned={item.caloriesBurned}
               onPress={() => handleViewWorkout(item.workoutId)}
             />
