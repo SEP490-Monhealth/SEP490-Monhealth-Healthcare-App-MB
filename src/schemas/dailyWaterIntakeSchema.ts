@@ -4,8 +4,8 @@ import { timestampSchema } from "./commonSchema"
 
 export const dailyWaterIntakeSchema = z
   .object({
-    dailyWaterIntakeId: z.string(),
-    userId: z.string(),
+    dailyWaterIntakeId: z.string().uuid(),
+    userId: z.string().uuid(),
 
     volume: z
       .number()

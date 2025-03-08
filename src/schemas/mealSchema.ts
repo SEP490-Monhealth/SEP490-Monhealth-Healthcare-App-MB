@@ -10,8 +10,8 @@ const MealTypeSchemaEnum = z.nativeEnum(MealTypeEnum)
 
 export const mealFoodSchema = z
   .object({
-    mealFoodId: z.string(),
-    foodId: z.string(),
+    mealFoodId: z.string().uuid(),
+    foodId: z.string().uuid(),
 
     name: z
       .string()
@@ -30,12 +30,12 @@ export const mealFoodSchema = z
     nutrition: nutritionFoodSchema,
 
     isRecommended: z.boolean(),
-    status: z.boolean()
+    isCompleted: z.boolean()
   })
   .merge(timestampSchema)
 
 const createMealFoodSchema = z.object({
-  foodId: z.string(),
+  foodId: z.string().uuid(),
 
   quantity: z.number().min(1, { message: "Số lượng phải lớn hơn hoặc bằng 1" }),
 
@@ -53,8 +53,8 @@ const createMealFoodSchema = z.object({
 
 export const mealSchema = z
   .object({
-    mealId: z.string(),
-    userId: z.string(),
+    mealId: z.string().uuid(),
+    userId: z.string().uuid(),
 
     type: MealTypeSchemaEnum,
 
@@ -63,7 +63,7 @@ export const mealSchema = z
   .merge(timestampSchema)
 
 export const createMealSchema = z.object({
-  userId: z.string(),
+  userId: z.string().uuid(),
 
   type: MealTypeSchemaEnum,
 

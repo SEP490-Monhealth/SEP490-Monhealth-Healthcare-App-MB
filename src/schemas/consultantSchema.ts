@@ -4,8 +4,9 @@ import { timestampSchema } from "./commonSchema"
 
 const baseConsultantSchema = z
   .object({
-    consultantId: z.string(),
-    userId: z.string(),
+    consultantId: z.string().uuid(),
+    userId: z.string().uuid(),
+    expertiseId: z.string().uuid(),
 
     fullName: z
       .string()

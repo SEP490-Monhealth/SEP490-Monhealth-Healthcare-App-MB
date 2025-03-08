@@ -4,8 +4,8 @@ import { auditSchema } from "./commonSchema"
 
 const basePortionSchema = z
   .object({
-    portionId: z.string(),
-    foodId: z.string(),
+    portionId: z.string().uuid(),
+    foodId: z.string().uuid(),
 
     size: z
       .string()

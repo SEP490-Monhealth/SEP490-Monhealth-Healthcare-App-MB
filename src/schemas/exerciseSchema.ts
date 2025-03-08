@@ -4,8 +4,8 @@ import { auditSchema } from "./commonSchema"
 
 const baseExerciseSchema = z
   .object({
-    exerciseId: z.string(),
-    userId: z.string(),
+    exerciseId: z.string().uuid(),
+    userId: z.string().uuid(),
 
     name: z
       .string()
@@ -15,8 +15,8 @@ const baseExerciseSchema = z
       .string()
       .nonempty({ message: "Hướng dẫn không được để trống" }),
 
-    duration: z.number(),
-    reps: z.number(),
+    duration: z.number().optional(),
+    reps: z.number().optional(),
 
     caloriesPerMinute: z
       .number()

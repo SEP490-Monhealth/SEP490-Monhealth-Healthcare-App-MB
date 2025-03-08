@@ -9,7 +9,7 @@ const MealTypeSchemaEnum = z.nativeEnum(MealTypeEnum)
 
 const mealFoodSchema = z
   .object({
-    mealFoodId: z.string(),
+    mealFoodId: z.string().uuid(),
 
     type: MealTypeSchemaEnum,
 
@@ -36,8 +36,8 @@ const mealFoodSchema = z
 
 export const dailyMealSchema = z
   .object({
-    dailyMealId: z.string(),
-    userId: z.string(),
+    dailyMealId: z.string().uuid(),
+    userId: z.string().uuid(),
 
     nutrition: nutritionSchema,
 

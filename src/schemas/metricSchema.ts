@@ -10,8 +10,8 @@ const activityLevels = [1.2, 1.375, 1.55, 1.725, 1.9]
 
 const baseMetricSchema = z
   .object({
-    metricId: z.string(),
-    userId: z.string(),
+    metricId: z.string().uuid(),
+    userId: z.string().uuid(),
 
     dateOfBirth: z
       .string()

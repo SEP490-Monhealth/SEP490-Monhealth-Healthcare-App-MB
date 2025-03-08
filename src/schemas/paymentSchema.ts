@@ -4,9 +4,9 @@ import { auditSchema } from "./commonSchema"
 
 const basePaymentSchema = z
   .object({
-    paymentId: z.string(),
-    // bookingId: z.string(),
-    subscriptionId: z.string(),
+    paymentId: z.string().uuid(),
+    // bookingId: z.string().uuid(),
+    subscriptionId: z.string().uuid(),
 
     amount: z.number(),
 

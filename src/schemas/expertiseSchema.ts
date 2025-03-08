@@ -4,7 +4,7 @@ import { timestampSchema } from "./commonSchema"
 
 export const baseExpertiseSchema = z
   .object({
-    expertiseId: z.string(),
+    expertiseId: z.string().uuid(),
 
     name: z
       .string()

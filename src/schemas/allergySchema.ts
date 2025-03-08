@@ -4,7 +4,7 @@ import { timestampSchema } from "./commonSchema"
 
 const baseAllergySchema = z
   .object({
-    allergyId: z.string(),
+    allergyId: z.string().uuid(),
 
     name: z
       .string()

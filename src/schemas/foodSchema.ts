@@ -16,25 +16,25 @@ const DishTypeSchemaEnum = z.nativeEnum(DishTypeEnum)
 
 export const foodAllergySchema = z
   .object({
-    foodAllergyId: z.string(),
-    foodId: z.string(),
-    allergyId: z.string()
+    foodAllergyId: z.string().uuid(),
+    foodId: z.string().uuid(),
+    allergyId: z.string().uuid()
   })
   .merge(timestampSchema)
 
 export const foodPortionSchema = z
   .object({
-    foodPortionId: z.string(),
-    foodId: z.string(),
-    portionId: z.string()
+    foodPortionId: z.string().uuid(),
+    foodId: z.string().uuid(),
+    portionId: z.string().uuid()
   })
   .merge(timestampSchema)
 
 const baseFoodSchema = z
   .object({
-    foodId: z.string(),
+    foodId: z.string().uuid(),
+    userId: z.string().uuid(),
     category: z.string(),
-    userId: z.string(),
 
     foodType: z.array(FoodTypeSchemaEnum),
     mealType: z.array(MealTypeSchemaEnum),

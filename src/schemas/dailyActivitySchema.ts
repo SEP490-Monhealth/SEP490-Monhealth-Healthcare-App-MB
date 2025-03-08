@@ -4,8 +4,8 @@ import { timestampSchema } from "./commonSchema"
 
 const baseDailyActivitySchema = z
   .object({
-    dailyActivityId: z.string(),
-    userId: z.string(),
+    dailyActivityId: z.string().uuid(),
+    userId: z.string().uuid(),
 
     totalDuration: z
       .number()

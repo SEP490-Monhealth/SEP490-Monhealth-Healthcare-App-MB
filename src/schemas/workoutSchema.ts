@@ -8,20 +8,14 @@ import { auditSchema } from "./commonSchema"
 const WorkoutTypeSchemaEnum = z.nativeEnum(WorkoutTypeEnum)
 const DifficultyLevelSchemaEnum = z.nativeEnum(DifficultyLevelEnum)
 
-const createWorkoutExerciseSchema = z.object({
-  exerciseId: z.string(),
-
-  duration: z.number().nullable(),
-  reps: z.number().nullable()
-})
-
 const baseWorkoutSchema = z
   .object({
-    workoutId: z.string(),
-    category: z.string(),
-    userId: z.string(),
+    workoutId: z.string().uuid(),
+    userId: z.string().uuid(),
 
+    category: z.string(),
     type: WorkoutTypeSchemaEnum,
+
     name: z
       .string()
       .nonempty({ message: "Tên bài tập không được để trống" })
@@ -35,7 +29,7 @@ const baseWorkoutSchema = z
     exercises: z
       .number()
       .min(1, { message: "Số lượng bài tập phải lớn hơn hoặc bằng 1" }),
-    duration: z
+    durationMinutes: z
       .number()
       .min(1, { message: "Thời lượng phải lớn hơn hoặc bằng 1" }),
     caloriesBurned: z
@@ -52,21 +46,32 @@ const baseWorkoutSchema = z
 
 export const workoutSchema = baseWorkoutSchema.pick({
   workoutId: true,
-  category: true,
+  userId: true,
 
+  category: true,
   type: true,
+
   name: true,
   description: true,
   difficultyLevel: true,
 
   exercises: true,
-  duration: true,
+  durationMinutes: true,
   caloriesBurned: true
 })
 
+const createWorkoutExerciseSchema = z.object({
+  exerciseId: z.string().uuid(),
+
+  durationMinutes: z.number().optional(),
+  reps: z.number().optional()
+})
+
 export const createWorkoutSchema = z.object({
-  categoryId: z.string(),
-  userId: z.string(),
+  userId: workoutSchema.shape.userId,
+
+  category: workoutSchema.shape.category,
+  type: workoutSchema.shape.type,
 
   name: workoutSchema.shape.name,
   description: workoutSchema.shape.description,

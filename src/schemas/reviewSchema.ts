@@ -4,10 +4,10 @@ import { auditSchema } from "./commonSchema"
 
 const baseReviewSchema = z
   .object({
-    reviewId: z.string(),
-    bookingId: z.string(),
-    consultantId: z.string(),
-    userId: z.string(),
+    reviewId: z.string().uuid(),
+    bookingId: z.string().uuid(),
+    consultantId: z.string().uuid(),
+    userId: z.string().uuid(),
 
     name: z.string(),
     avatarUrl: z.string(),

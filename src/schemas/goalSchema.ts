@@ -10,8 +10,8 @@ const GoalStatusSchemaEnum = z.nativeEnum(GoalStatusEnum)
 
 const baseGoalSchema = z
   .object({
-    goalId: z.string(),
-    userId: z.string(),
+    goalId: z.string().uuid(),
+    userId: z.string().uuid(),
 
     type: GoalTypeSchemaEnum,
 

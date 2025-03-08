@@ -8,7 +8,7 @@ const CategoryTypeSchemaEnum = z.nativeEnum(CategoryTypeEnum)
 
 const baseCategorySchema = z
   .object({
-    categoryId: z.string(),
+    categoryId: z.string().uuid(),
 
     type: CategoryTypeSchemaEnum,
 
@@ -26,7 +26,7 @@ const baseCategorySchema = z
       })
       .optional(),
 
-    image: z.string().optional()
+    imageUrl: z.string().optional()
   })
   .merge(timestampSchema)
 

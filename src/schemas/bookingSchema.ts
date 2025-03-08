@@ -8,10 +8,10 @@ const BookingStatusSchemaEnum = z.nativeEnum(BookingStatusEnum)
 
 const baseBookingSchema = z
   .object({
-    bookingId: z.string(),
-    userId: z.string(),
-    consultantId: z.string(),
-    scheduleId: z.string(),
+    bookingId: z.string().uuid(),
+    userId: z.string().uuid(),
+    consultantId: z.string().uuid(),
+    scheduleId: z.string().uuid(),
 
     consultant: z
       .string()

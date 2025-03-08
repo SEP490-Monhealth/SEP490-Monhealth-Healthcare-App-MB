@@ -4,8 +4,8 @@ import { auditSchema } from "./commonSchema"
 
 const baseNutritionSchema = z
   .object({
-    nutritionId: z.string(),
-    foodId: z.string(),
+    nutritionId: z.string().uuid(),
+    foodId: z.string().uuid(),
 
     calories: z
       .number()

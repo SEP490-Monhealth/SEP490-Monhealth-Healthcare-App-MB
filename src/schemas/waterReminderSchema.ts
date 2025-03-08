@@ -4,8 +4,8 @@ import { timestampSchema } from "./commonSchema"
 
 const baseWaterReminderSchema = z
   .object({
-    waterReminderId: z.string(),
-    userId: z.string(),
+    waterReminderId: z.string().uuid(),
+    userId: z.string().uuid(),
 
     name: z
       .string()
