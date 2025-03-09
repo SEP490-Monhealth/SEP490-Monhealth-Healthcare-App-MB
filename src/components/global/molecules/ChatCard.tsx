@@ -1,10 +1,10 @@
 import React from "react"
 
-import { Image, Text, TouchableOpacity, View } from "react-native"
+import { Image, Text, View } from "react-native"
 
 import { formatTimeAgo } from "@/utils/formatters"
 
-import { HStack } from "../atoms"
+import { Card, HStack } from "../atoms"
 
 interface ChatCardProps {
   name: string
@@ -22,29 +22,31 @@ export const ChatCard = ({
   onPress
 }: ChatCardProps) => {
   return (
-    <TouchableOpacity activeOpacity={0.5} onPress={onPress}>
-      <View className="flex-1 flex-row items-center gap-2">
+    <Card activeOpacity={0.7} onPress={onPress} hasImage>
+      <HStack center gap={12}>
         <Image
           source={{ uri: avatarUrl }}
-          className="h-20 w-20 rounded-full border border-border"
+          className="h-14 w-14 rounded-xl border border-border"
         />
 
-        <View className="flex-1 flex-col gap-1">
-          <HStack className="justify-between">
-            <Text className="font-tmedium text-xl text-primary">{name}</Text>
+        <View className="flex-1 flex-col">
+          <HStack center className="justify-between">
+            <Text className="font-tmedium text-lg text-primary">{name}</Text>
+
             <Text className="font-tregular text-sm text-secondary">
               {formatTimeAgo(lastMessageAt)}
             </Text>
           </HStack>
+
           <Text
-            className="w-5/6 font-tregular text-base text-secondary"
+            className="font-tregular text-base text-accent"
             numberOfLines={1}
             ellipsizeMode="tail"
           >
             {lastMessage}
           </Text>
         </View>
-      </View>
-    </TouchableOpacity>
+      </HStack>
+    </Card>
   )
 }

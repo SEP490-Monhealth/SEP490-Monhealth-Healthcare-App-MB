@@ -41,7 +41,7 @@ export const ReviewTab = () => {
       <View>
         <Section label="Tất cả đánh giá" margin={false} />
 
-        <VStack gap={20}>
+        <VStack gap={12}>
           {reviewsData.map((review, index) => (
             <ReviewCard
               key={index}

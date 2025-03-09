@@ -36,8 +36,11 @@ export const ConsultantCard = ({
       className="flex-row items-center justify-between"
     >
       <HStack center gap={16}>
-        <TouchableOpacity activeOpacity={1} onPress={onPress}>
-          <Image source={{ uri: avatarUrl }} className="h-20 w-20 rounded-xl" />
+        <TouchableOpacity activeOpacity={0.7} onPress={onPress}>
+          <Image
+            source={{ uri: avatarUrl }}
+            className="h-20 w-20 rounded-2xl border border-border"
+          />
         </TouchableOpacity>
 
         <VStack>

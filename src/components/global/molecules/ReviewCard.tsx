@@ -1,10 +1,10 @@
 import React from "react"
 
-import { Image, Text, TouchableOpacity, View } from "react-native"
+import { Image, Text, View } from "react-native"
 
 import { formatTimeAgo } from "@/utils/formatters"
 
-import { HStack, VStack } from "../atoms"
+import { Card, HStack, VStack } from "../atoms"
 import { RatingStars } from "./RatingStars"
 
 interface ReviewCardProps {
@@ -23,7 +23,7 @@ export const ReviewCard = ({
   time
 }: ReviewCardProps) => {
   return (
-    <TouchableOpacity activeOpacity={1}>
+    <Card activeOpacity={1} hasImage>
       <VStack gap={8}>
         <HStack center gap={12}>
           <Image
@@ -46,8 +46,14 @@ export const ReviewCard = ({
           </View>
         </HStack>
 
-        <Text className="font-tregular text-sm text-secondary">{comment}</Text>
+        <Text
+          className="font-tregular text-sm text-secondary"
+          numberOfLines={3}
+          ellipsizeMode="tail"
+        >
+          {comment}
+        </Text>
       </VStack>
-    </TouchableOpacity>
+    </Card>
   )
 }

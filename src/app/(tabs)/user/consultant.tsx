@@ -2,11 +2,10 @@ import React, { useState } from "react"
 
 import { useRouter } from "expo-router"
 
-import { MessageText1 } from "iconsax-react-native"
+import { SearchNormal1 } from "iconsax-react-native"
 
-import { Container, Content, Schedule, VStack } from "@/components/global/atoms"
-import { ConsultantCard } from "@/components/global/molecules"
-import { Header } from "@/components/global/organisms"
+import { Container, Content, Input, VStack } from "@/components/global/atoms"
+import { ConsultantCard, CustomHeader } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/color"
 import { sampleConsultantsData } from "@/constants/consultants"
@@ -14,41 +13,30 @@ import { sampleConsultantsData } from "@/constants/consultants"
 function ConsultantScreen() {
   const router = useRouter()
 
-  const today = new Date()
-
   const consultantsData = sampleConsultantsData
 
-  const [selectedDate, setSelectedDate] = useState<string | null>(
-    today.toISOString()
-  )
-
-  console.log(selectedDate)
-
-  const handleDateSelect = (date: string) => {
-    setSelectedDate(date)
-    console.log(date)
-  }
+  const [searchQuery, setSearchQuery] = useState<string>("")
 
   const handleViewConsultant = (consultantId: string) => {
-    router.push(`/consultants/${consultantId}/details`)
+    router.push(`/consultants/${consultantId}`)
   }
 
   return (
     <Container>
-      <Header
-        label="Chuyên viên"
-        action={{
-          icon: (
-            <MessageText1 variant="Bold" size={20} color={COLORS.primary} />
-          ),
-          href: "/chats/user"
-        }}
+      <CustomHeader
+        content={
+          <Input
+            value={searchQuery}
+            placeholder="Tìm kiếm chuyên viên tư vấn..."
+            onChangeText={(text) => setSearchQuery(text)}
+            startIcon={<SearchNormal1 size={20} color={COLORS.primary} />}
+            canClearText
+          />
+        }
       />
 
-      <Content className="mt-2 pb-12">
+      <Content className="mt-2">
         <VStack gap={20}>
-          <Schedule initialDate={today} onDateSelect={handleDateSelect} />
-
           <VStack gap={12}>
             {consultantsData.map((consultant) => (
               <ConsultantCard

@@ -13,11 +13,11 @@ function VoiceScreen() {
   const router = useRouter()
 
   const handleRegisterConsultant = () => {
-    router.push("/setup/consultant")
+    router.push("/(setup)/consultant")
   }
 
   const handleSetupUser = () => {
-    router.push("/setup/user")
+    router.push("/(setup)/user")
   }
 
   const handleViewBooking = () => {
@@ -37,11 +37,7 @@ function VoiceScreen() {
   }
 
   const handleCreateSchedule = () => {
-    router.push("/setup/consultant/schedule")
-  }
-
-    const handleViewChat = () => {
-    router.push("/chats")
+    router.push("/(setup)/consultant/schedule")
   }
 
   return (
@@ -82,10 +78,6 @@ function VoiceScreen() {
 
           <Button size="lg" onPress={handleCreateSchedule}>
             Create Schedule
-          </Button>
-
-          <Button size="lg" onPress={handleViewChat}>
-            Tin nhắn
           </Button>
         </VStack>
       </Content>

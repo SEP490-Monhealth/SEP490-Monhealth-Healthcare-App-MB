@@ -58,8 +58,8 @@ export const scheduleSchema = baseScheduleSchema.pick({
 })
 
 const scheduleItemSchema = z.object({
-  recurringDay: RecurringDaySchemaEnum.optional(),
-  specificDate: z.string().optional(),
+  recurringDay: RecurringDaySchemaEnum.nullable().optional(),
+  specificDate: z.string().nullable().optional(),
 
   timeSlots: z.array(z.string())
 })

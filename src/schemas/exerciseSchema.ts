@@ -1,11 +1,17 @@
 import { z } from "zod"
 
+import { ExerciseTypeEnum } from "@/constants/enum/ExerciseType"
+
 import { auditSchema } from "./commonSchema"
+
+const ExerciseTypeSchemaEnum = z.nativeEnum(ExerciseTypeEnum)
 
 const baseExerciseSchema = z
   .object({
     exerciseId: z.string().uuid(),
     userId: z.string().uuid(),
+
+    type: ExerciseTypeSchemaEnum,
 
     name: z
       .string()
@@ -24,31 +30,12 @@ const baseExerciseSchema = z
       .max(1000, {
         message: "Kcal không được vượt quá 1,000"
       }),
-    // image: z.string().nonempty({ message: "Hình ảnh không được để trống" }),
 
     status: z.boolean()
   })
   .merge(auditSchema)
 
-export const exerciseSchema = baseExerciseSchema.pick({
-  exerciseId: true,
-  userId: true,
-
-  name: true,
-  instructions: true,
-
-  duration: true,
-  reps: true,
-
-  caloriesPerMinute: true,
-
-  status: true,
-
-  createdAt: true,
-  updatedAt: true,
-  createdBy: true,
-  updatedBy: true
-})
+export const exerciseSchema = baseExerciseSchema
 
 export const createExerciseSchema = baseExerciseSchema
   .pick({
@@ -83,4 +70,5 @@ export const workoutExerciseSchema = z.object({
 export type ExerciseType = z.infer<typeof exerciseSchema>
 export type CreateExerciseType = z.infer<typeof createExerciseSchema>
 export type UpdateExerciseType = z.infer<typeof updateExerciseSchema>
+
 export type WorkoutExerciseType = z.infer<typeof workoutExerciseSchema>
