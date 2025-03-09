@@ -14,6 +14,9 @@ import { GoalTypeEnum } from "@/constants/enum/GoalType"
 import { useAuth } from "@/contexts/AuthContext"
 import { useStorage } from "@/contexts/StorageContext"
 
+import { useCreateUserFoods } from "@/hooks/useFood"
+import { useCreateMetric } from "@/hooks/useMetric"
+
 import { allergySetupSchema } from "@/schemas/allergySchema"
 import {
   caloriesRatioSetupSchema,
@@ -56,6 +59,9 @@ function SetupUserScreen() {
 
   const { addAllergies } = useStorage()
 
+  const { mutate: createMetric } = useCreateMetric()
+  const { mutate: createUserFoods } = useCreateUserFoods()
+
   const {
     dateOfBirth,
     gender,
@@ -67,9 +73,7 @@ function SetupUserScreen() {
     caloriesRatio,
     // categories,
     allergies,
-    updateField,
-    setMetricData,
-    setUserFoodsData
+    updateField
   } = useSetupStore()
 
   const [currentStep, setCurrentStep] = useState(1)
@@ -91,55 +95,54 @@ function SetupUserScreen() {
 
   const baseSteps: Omit<SetupStepsProps, "step">[] = [
     {
-      title: "Ngày sinh",
-      description: "Nhập ngày sinh để xác định tuổi của bạn",
+      title: "Sinh nhật",
+      description: "Nhập ngày sinh để chúng tôi xác định tuổi của bạn",
       component: SetupDateOfBirth,
       fields: ["dateOfBirth"],
       schema: dateOfBirthSetupSchema
     },
     {
       title: "Giới tính",
-      description: "Chọn giới tính để cá nhân hóa trải nghiệm",
+      description: "Chọn giới tính để cá nhân hóa trải nghiệm của bạn",
       component: SetupGender,
       fields: ["gender"],
       schema: genderSetupSchema
     },
     {
-      title: "Chiều cao và cân nặng",
-      description: "Nhập chiều cao và cân nặng hiện tại",
+      title: "Số đo",
+      description: "Nhập chiều cao và cân nặng hiện tại của bạn",
       component: SetupHeightWeight,
       fields: ["height", "weight"],
       schema: heightWeightSetupSchema
     },
     {
-      title: "Mức độ hoạt động",
-      description: "Chọn mức độ hoạt động hàng ngày",
+      title: "Hoạt động",
+      description: "Chọn mức độ vận động hàng ngày của bạn",
       component: SetupActivityLevel,
       fields: ["activityLevel"],
       schema: activityLevelSetupSchema
     },
     {
       title: "Mục tiêu",
-      description: "Xác định mục tiêu sức khỏe của bạn",
+      description: "Xác định mục tiêu sức khỏe chính của bạn",
       component: SetupGoalType,
       fields: ["goalType"],
       schema: goalTypeSetupSchema
     },
     {
-      title: "Mục tiêu cân nặng",
-      description: "Nhập cân nặng mục tiêu mong muốn",
+      title: "Cân nặng",
+      description: "Nhập cân nặng mục tiêu mà bạn mong muốn",
       component: SetupWeightGoal,
       fields: ["weightGoal"],
       schema: weightGoalSetupSchema
     }
   ]
 
+  let stepsWithGoalType = [...baseSteps]
+
   if (goalType !== GoalTypeEnum.Maintenance) {
-    baseSteps.push({
-      title:
-        goalType === GoalTypeEnum.WeightLoss
-          ? "Tốc độ giảm cân"
-          : "Tốc độ tăng cân",
+    stepsWithGoalType.push({
+      title: goalType === GoalTypeEnum.WeightLoss ? "Giảm cân" : "Tăng cân",
       description:
         goalType === GoalTypeEnum.WeightLoss
           ? "Chọn tốc độ giảm cân phù hợp với cơ thể của bạn"
@@ -150,31 +153,26 @@ function SetupUserScreen() {
     })
   }
 
-  baseSteps.push(
-    // {
-    //   title: "Danh mục yêu thích",
-    //   description: "Chọn danh mục bạn yêu thích",
-    //   component: SetupCategories,
-    //   fields: ["categories"],
-    //   schema: categorySetupSchema
-    // },
-    {
-      title: "Dị ứng",
-      description: "Cho biết thực phẩm bạn dị ứng",
-      component: SetupAllergies,
-      fields: ["allergies"],
-      schema: allergySetupSchema
-    }
+  stepsWithGoalType.push({
+    title: "Dị ứng",
+    description: "Cho chúng tôi biết những thực phẩm bạn bị dị ứng",
+    component: SetupAllergies,
+    fields: ["allergies"],
+    schema: allergySetupSchema
+  })
+
+  const setupSteps: SetupStepsProps[] = stepsWithGoalType.map(
+    (step, index) => ({
+      step: index + 1,
+      ...step
+    })
   )
-
-  const setupSteps: SetupStepsProps[] = baseSteps.map((step, index) => ({
-    step: index + 1,
-    ...step
-  }))
-
   const currentStepData = setupSteps.find((step) => step.step === currentStep)
 
-  if (!currentStepData) return null
+  if (!currentStepData) {
+    setCurrentStep(1)
+    return null
+  }
 
   const {
     control,
@@ -214,90 +212,76 @@ function SetupUserScreen() {
       updateField(key, data[key])
     })
 
-    const updatedState = useSetupStore.getState()
-
     if (currentStep < setupSteps.length) {
       setCurrentStep(currentStep + 1)
     } else {
-      const userData = {
-        userId: formData.userId
-      }
-
-      const metricData = {
-        dateOfBirth: updatedState.dateOfBirth,
-        gender: updatedState.gender,
-        height: updatedState.height,
-        weight: updatedState.weight,
-        activityLevel: updatedState.activityLevel
-      }
-
-      const goalData = {
-        goalType: updatedState.goalType,
-        weightGoal: updatedState.weightGoal,
-        caloriesRatio: updatedState.caloriesRatio
-      }
-
-      // const categoryData = {
-      //   categories: updatedState.categories
-      // }
-
-      const allergyData = {
-        allergies: updatedState.allergies
-      }
-
-      const newMetricData = {
-        ...userData,
-        ...metricData,
-        ...goalData
-      }
-
-      // const newUserFoodsData = { ...userData, ...categoryData, ...allergyData }
-      const newUserFoodsData = { ...userData, ...allergyData }
-      const userAllergiesData = allergyData
-
-      console.log("new metric data", JSON.stringify(newMetricData, null, 2))
-      console.log(
-        "new user foods data",
-        JSON.stringify(newUserFoodsData, null, 2)
-      )
-
       setIsLoading(true)
 
       try {
-        setMetricData(newMetricData)
-        setUserFoodsData(newUserFoodsData)
+        const updatedState = useSetupStore.getState()
+
+        const userData = {
+          userId: formData.userId
+        }
+
+        const metricData = {
+          dateOfBirth: updatedState.dateOfBirth,
+          gender: updatedState.gender,
+          height: updatedState.height,
+          weight: updatedState.weight,
+          activityLevel: updatedState.activityLevel
+        }
+
+        const goalData = {
+          goalType: updatedState.goalType,
+          weightGoal: updatedState.weightGoal,
+          caloriesRatio: updatedState.caloriesRatio
+        }
+
+        const allergyData = {
+          allergies: updatedState.allergies
+        }
+
+        const newMetricData = {
+          ...userData,
+          ...metricData,
+          ...goalData
+        }
+
+        const newUserFoodsData = { ...userData, ...allergyData }
+        const userAllergiesData = allergyData
+
+        console.log("new metric data", JSON.stringify(newMetricData, null, 2))
+        console.log(
+          "new user foods data",
+          JSON.stringify(newUserFoodsData, null, 2)
+        )
 
         await addAllergies(userAllergiesData.allergies)
+
+        // await Promise.all([
+        //   new Promise((resolve, reject) =>
+        //     // @ts-ignore
+        //     createMetric(newMetricData, {
+        //       onSuccess: resolve,
+        //       onError: reject
+        //     })
+        //   ),
+        //   new Promise((resolve, reject) =>
+        //     // @ts-ignore
+        //     createUserFoods(newUserFoodsData, {
+        //       onSuccess: resolve,
+        //       onError: reject
+        //     })
+        //   )
+        // ])
+
+        router.replace("/(setup)/user/summary")
       } catch (error) {
-        console.error("Error submitting form:", error)
+        console.error("Error during setup submission:", error)
       } finally {
         setIsLoading(false)
       }
-
-      // router.replace("/(setup)/meal-suggestions")
-
-      // try {
-      //   await Promise.all([
-      //     new Promise((resolve, reject) =>
-      //       createMetric(newMetricData, {
-      //         onSuccess: resolve,
-      //         onError: reject
-      //       })
-      //     ),
-      //     new Promise((resolve, reject) =>
-      //       createUserFoods(newUserFoodsData, {
-      //         onSuccess: resolve,
-      //         onError: reject
-      //       })
-      //     )
-      //   ])
-
-      //   router.replace("/(setup)/summary")
-      // } catch (error) {
-      //   console.error("Error during setup submission:", error)
-      // } finally {
-      //   setIsLoading(false)
-      // }
     }
   }
 
