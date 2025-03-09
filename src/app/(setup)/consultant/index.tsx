@@ -130,7 +130,14 @@ function SetupConsultantScreen() {
       title: "Chứng chỉ",
       description: "Thêm thông tin chứng chỉ và tải lên ảnh chứng chỉ",
       component: SetupCertificate,
-      fields: ["certificate", "issueDate", "expiryDate", "imageUrls"],
+      fields: [
+        "certificate",
+        "certificateNumber",
+        "issuedBy",
+        "issueDate",
+        "expiryDate",
+        "imageUrls"
+      ],
       schema: certificateSetupSchema
     }
   ]

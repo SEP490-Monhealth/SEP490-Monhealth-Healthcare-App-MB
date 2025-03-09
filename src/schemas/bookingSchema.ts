@@ -20,6 +20,11 @@ const baseBookingSchema = z
       .regex(/^[^\d!@#$%^&*()_+=[\]{};':"\\|,.<>/?]*$/, {
         message: "Tên không được chứa ký tự đặc biệt hoặc số"
       }),
+    consultantAvatar: z
+      .string()
+      .url({ message: "Đường dẫn không hợp lệ" })
+      .optional(),
+
     customer: z
       .string()
       .nonempty({ message: "Tên không được để trống" })
@@ -27,6 +32,10 @@ const baseBookingSchema = z
       .regex(/^[^\d!@#$%^&*()_+=[\]{};':"\\|,.<>/?]*$/, {
         message: "Tên không được chứa ký tự đặc biệt hoặc số"
       }),
+    customerAvatar: z
+      .string()
+      .url({ message: "Đường dẫn không hợp lệ" })
+      .optional(),
 
     date: z
       .string()

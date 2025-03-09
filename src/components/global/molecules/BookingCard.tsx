@@ -12,7 +12,7 @@ import { getBookingColor, getBookingLabel } from "@/utils/helpers"
 import { Badge, Button, Card, HStack, VStack } from "../atoms"
 
 interface BookingCardProps {
-  variant?: "default" | "confirm"
+  variant?: "default" | "confirm" | "cancel" | "review"
   name: string
   date: string
   time: string
@@ -21,6 +21,7 @@ interface BookingCardProps {
   onPress?: () => void
   onConfirmPress?: () => void
   onCancelPress?: () => void
+  onReviewPress?: () => void
 }
 
 export const BookingCard = ({
@@ -32,7 +33,8 @@ export const BookingCard = ({
   notes,
   onPress,
   onConfirmPress,
-  onCancelPress
+  onCancelPress,
+  onReviewPress
 }: BookingCardProps) => {
   return (
     <Card onPress={onPress}>
@@ -72,7 +74,6 @@ export const BookingCard = ({
             <Text className="font-tmedium text-sm text-accent">{time}</Text>
           </HStack>
         </HStack>
-
         {variant === "confirm" && (
           <HStack gap={16}>
             <Button
@@ -85,6 +86,32 @@ export const BookingCard = ({
             </Button>
             <Button size="sm" onPress={onConfirmPress} className="flex-1">
               Xác nhận
+            </Button>
+          </HStack>
+        )}
+
+        {variant === "cancel" && (
+          <HStack gap={16}>
+            <Button
+              variant="danger"
+              size="sm"
+              onPress={onCancelPress}
+              className="flex-1"
+            >
+              Hủy
+            </Button>
+          </HStack>
+        )}
+
+        {variant === "review" && (
+          <HStack gap={16}>
+            <Button
+              variant="primary"
+              size="sm"
+              onPress={onReviewPress}
+              className="flex-1"
+            >
+              Phản hồi
             </Button>
           </HStack>
         )}
