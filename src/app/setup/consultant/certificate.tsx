@@ -48,6 +48,37 @@ function SetupCertificate({
       <View className="pb-24">
         <VStack gap={12}>
           <Controller
+            name="certificateNumber"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                value={value}
+                label="Số chứng chỉ"
+                placeholder="VD: HCM-00199590"
+                onChangeText={onChange}
+                keyboardType="default"
+                canClearText
+                errorMessage={errors.certificateNumber?.message}
+              />
+            )}
+          />
+          <Controller
+            name="issuedBy"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                value={value}
+                label="Nơi cấp"
+                placeholder="VD: Chứng chỉ dinh dưỡng cơ bản"
+                onChangeText={onChange}
+                keyboardType="default"
+                canClearText
+                errorMessage={errors.issuedBy?.message}
+              />
+            )}
+          />
+
+          <Controller
             name="certificate"
             control={control}
             render={({ field: { onChange, value } }) => (

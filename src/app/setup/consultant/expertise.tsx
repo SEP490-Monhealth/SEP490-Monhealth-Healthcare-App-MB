@@ -36,6 +36,7 @@ function SetupExpertise({
             <Chip
               key={group.groupId}
               label={group.name}
+              description={group.description}
               border
               borderWidth={2}
               size="lg"

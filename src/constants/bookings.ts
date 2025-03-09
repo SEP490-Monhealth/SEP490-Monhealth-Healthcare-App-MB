@@ -10,7 +10,11 @@ export const sampleBookingsData: BookingType[] = [
     scheduleId: "Lịch 1",
 
     consultant: "Phan Văn Khải",
+    consultantAvatar:
+      "https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-3.jpg",
     customer: "Văn Hữu Toàn",
+    customerAvatar:
+      "https://i.pinimg.com/236x/6c/6d/7c/6c6d7c477e320b67b9c6a16b2de2c0d5.jpg",
 
     date: "2025-02-17T00:00:00.000Z",
     time: "09:00",
@@ -32,7 +36,11 @@ export const sampleBookingsData: BookingType[] = [
     scheduleId: "Lịch 2",
 
     consultant: "Phạm Hoài Duy",
+    consultantAvatar:
+      "https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-3.jpg",
     customer: "Nguyễn Phạm Khanh",
+    customerAvatar:
+      "https://i.pinimg.com/236x/6c/6d/7c/6c6d7c477e320b67b9c6a16b2de2c0d5.jpg",
 
     date: "2025-02-18T00:00:00.000Z",
     time: "15:00",
@@ -48,13 +56,17 @@ export const sampleBookingsData: BookingType[] = [
     updatedBy: "asd"
   },
   {
-    bookingId: "c",
-    consultantId: "Toàn",
+    bookingId: "99b9eae6-f5e8-4b41-9394-6a8f2ca1062b",
+    consultantId: "91df2b87-a28d-4e89-a779-d4220d68a0f8",
     userId: "Khải",
     scheduleId: "Lịch 3",
 
     consultant: "Văn Hữu Toàn",
+    consultantAvatar:
+      "https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-3.jpg",
     customer: "Phan Văn Khải",
+    customerAvatar:
+      "https://i.pinimg.com/236x/6c/6d/7c/6c6d7c477e320b67b9c6a16b2de2c0d5.jpg",
 
     date: "2025-02-18T00:00:00.000Z",
     time: "18:30",
@@ -76,7 +88,11 @@ export const sampleBookingsData: BookingType[] = [
     scheduleId: "Lịch 4",
 
     consultant: "Nguyễn Quốc Đại",
+    consultantAvatar:
+      "https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-3.jpg",
     customer: "Phạm Hoài Duy",
+    customerAvatar:
+      "https://i.pinimg.com/236x/6c/6d/7c/6c6d7c477e320b67b9c6a16b2de2c0d5.jpg",
 
     date: "2025-02-20T00:00:00.000Z",
     time: "14:30",

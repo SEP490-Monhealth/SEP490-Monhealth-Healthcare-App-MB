@@ -1,5 +1,7 @@
 import React, { useState } from "react"
 
+import { View } from "react-native"
+
 import { useLocalSearchParams } from "expo-router"
 
 import {
@@ -18,6 +20,8 @@ import { Header } from "@/components/global/organisms"
 import { sampleBookingsData } from "@/constants/bookings"
 import { BookingStatusEnum } from "@/constants/enum/BookingStatus"
 
+import { useAuth } from "@/contexts/AuthContext"
+
 function BookingsScreen() {
   const { tab } = useLocalSearchParams<{ tab: string }>()
 
@@ -26,6 +30,11 @@ function BookingsScreen() {
   const [selectedBookingId, setSelectedBookingId] = useState<string | null>(
     null
   )
+
+  const [reason, setReason] = useState<string>("")
+
+  const { user } = useAuth()
+  const userId = user?.userId
 
   const tabStatusMap: Record<string, BookingStatusEnum> = {
     pending: BookingStatusEnum.Pending,
@@ -49,14 +58,25 @@ function BookingsScreen() {
     setIsModalVisible(true)
   }
 
-  const handleConfirmCancel = () => {
-    if (selectedBookingId) {
-      console.log("Booking đã bị hủy:", selectedBookingId)
-    }
-    setIsModalVisible(false)
-    setSelectedBookingId(null)
+  const handleViewBooking = (bookingId: string) => {
+    console.log(bookingId)
   }
 
+  const handleConfirmCancel = () => {
+    if (selectedBookingId) {
+      const finalData = {
+        userId: userId,
+        bookingId: selectedBookingId,
+        reason: reason
+      }
+
+      console.log("Final Data:", JSON.stringify(finalData, null, 2))
+    }
+
+    setIsModalVisible(false)
+    setSelectedBookingId(null)
+    setReason("")
+  }
   const handleConfirm = (bookingId: string) => {
     console.log("Confirm booking id", bookingId)
   }
@@ -89,17 +109,19 @@ function BookingsScreen() {
 
               <TabsContent value={activeTab}>
                 {filteredBookingsData.map((booking) => (
-                  <BookingCard
-                    key={booking.bookingId}
-                    variant={activeTab === "pending" ? "confirm" : "default"}
-                    name={booking.customer}
-                    date={booking.date}
-                    time={booking.time}
-                    notes={booking.notes}
-                    status={booking.status}
-                    onCancelPress={() => handleCancel(booking.bookingId)}
-                    onConfirmPress={() => handleConfirm(booking.bookingId)}
-                  />
+                  <View key={booking.bookingId} className="mb-4">
+                    <BookingCard
+                      variant={activeTab === "pending" ? "confirm" : "default"}
+                      name={booking.customer}
+                      date={booking.date}
+                      time={booking.time}
+                      notes={booking.notes}
+                      status={booking.status}
+                      onPress={() => handleViewBooking(booking.bookingId)}
+                      onCancelPress={() => handleCancel(booking.bookingId)}
+                      onConfirmPress={() => handleConfirm(booking.bookingId)}
+                    />
+                  </View>
                 ))}
               </TabsContent>
             </Tabs>
@@ -108,13 +130,16 @@ function BookingsScreen() {
       </Container>
 
       <Modal
+        variant="cancel"
         isVisible={isModalVisible}
+        reason={reason}
         onClose={() => setIsModalVisible(false)}
         title="Hủy lịch hẹn"
         description="Bạn có chắc chắn muốn hủy lịch hẹn này không?"
         confirmText="Đồng ý"
         cancelText="Hủy"
         onConfirm={handleConfirmCancel}
+        onReasonChange={setReason}
       />
     </>
   )
