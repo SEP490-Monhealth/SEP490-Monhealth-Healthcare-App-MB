@@ -23,17 +23,13 @@ export const WorkoutCard = ({
 }: WorkoutCardProps) => {
   return (
     <Card onPress={onPress}>
-      <HStack className="w-full items-center justify-between">
-        <HStack gap={12} center onPress={onPress}>
-          <VStack gap={0}>
-            <Text className="font-tmedium text-lg text-primary">{name}</Text>
-            <Text className="font-tmedium text-sm text-accent">
-              {exercises} bài tập • {toFixed(caloriesBurned, 1)} kcal •{" "}
-              {toFixed(duration / 60, 1)} phút
-            </Text>
-          </VStack>
-        </HStack>
-      </HStack>
+      <VStack gap={0}>
+        <Text className="font-tmedium text-lg text-primary">{name}</Text>
+        <Text className="font-tmedium text-sm text-accent">
+          {exercises} bài tập • {toFixed(caloriesBurned, 1)} kcal •{" "}
+          {toFixed(duration / 60, 1)} phút
+        </Text>
+      </VStack>
     </Card>
   )
 }

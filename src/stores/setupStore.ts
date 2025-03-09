@@ -3,7 +3,7 @@ import { create } from "zustand"
 import { GenderEnum } from "@/constants/enum/Gender"
 import { GoalTypeEnum } from "@/constants/enum/GoalType"
 
-interface setupStoreProps {
+interface SetupStoreState {
   dateOfBirth: string
   gender: GenderEnum | undefined
   height: number | undefined
@@ -15,18 +15,11 @@ interface setupStoreProps {
   // categories: string[]
   allergies: string[]
 
-  newMetricData?: Record<string, any>
-  newUserFoodsData?: Record<string, any>
-
   updateField: (field: string, value: any) => void
-
-  setMetricData: (data: Record<string, any>) => void
-  setUserFoodsData: (data: Record<string, any>) => void
-
   reset: () => void
 }
 
-export const useSetupStore = create<setupStoreProps>((set) => ({
+export const useSetupStore = create<SetupStoreState>((set) => ({
   dateOfBirth: "2003-08-27T00:00:00.000Z",
   gender: GenderEnum.Male,
   height: 170,
@@ -35,6 +28,7 @@ export const useSetupStore = create<setupStoreProps>((set) => ({
   goalType: GoalTypeEnum.WeightGain,
   weightGoal: 66,
   caloriesRatio: 1.2,
+
   // categories: [
   //   "Hải sản",
   //   "Thịt",
@@ -44,6 +38,7 @@ export const useSetupStore = create<setupStoreProps>((set) => ({
   //   "Món lên men",
   //   "Trái cây"
   // ],
+
   allergies: ["Hải sản có vỏ", "Sữa", "Các loại hạt", "Đậu nành", "Hạt vừng"],
 
   // dateOfBirth: "",
@@ -57,23 +52,10 @@ export const useSetupStore = create<setupStoreProps>((set) => ({
   // categories: [],
   // allergies: [],
 
-  newMetricData: undefined,
-  newUserFoodsData: undefined,
-
   updateField: (key, value) =>
     set((state) => ({
       ...state,
       [key]: value
-    })),
-
-  setMetricData: (data) =>
-    set(() => ({
-      newMetricData: data
-    })),
-
-  setUserFoodsData: (data) =>
-    set(() => ({
-      newUserFoodsData: data
     })),
 
   reset: () =>

@@ -17,52 +17,52 @@ import {
 import { sampleCategoriesData } from "@/constants/categories"
 import { DATA } from "@/constants/data"
 
-import { useCreateWorkoutStore } from "@/stores/workoutStore"
+import { useWorkoutStore } from "@/stores/workoutStore"
 
-interface SetupInformationProps {
+import { getDifficultyLevelLabel } from "@/utils/helpers"
+
+interface WorkoutInformationProps {
   control: Control<FieldValues>
   errors: any
   setValue: any
   openSheet: (type: "category" | "difficultyLevel") => void
 }
 
-function InformationWorkout({
+function WorkoutInformation({
   control,
   errors,
   setValue,
   openSheet
-}: SetupInformationProps) {
-  const { category, difficultyLevel, isPublic, updateField } =
-    useCreateWorkoutStore()
+}: WorkoutInformationProps) {
+  const { category, difficultyLevel, isPublic, updateField } = useWorkoutStore()
 
   const handleVisibilitySelect = (value: boolean) => {
     updateField("isPublic", value)
     setValue("isPublic", value)
   }
 
-  const selectedCategory =
-    sampleCategoriesData.find((item) => item.categoryId === category)?.name ||
-    "Phân loại"
+  const selectedCategory = sampleCategoriesData.find(
+    (item) => item.categoryId === category
+  )?.name
 
   return (
     <ScrollArea>
       <VStack gap={32} className="pb-40">
         <VStack gap={12}>
           <Select
-            label="Phân loại bài tập"
+            label="Danh mục"
+            defaultValue="VD: Toàn thân"
             value={selectedCategory}
-            defaultValue="Phân loại"
             onPress={() => openSheet("category")}
             errorMessage={errors.category?.message}
           />
 
           <Select
             label="Mức độ"
+            defaultValue="VD: Trung bình"
             value={
-              DATA.LEVEL.find((level) => level.value === difficultyLevel)
-                ?.label || "Độ khó"
+              difficultyLevel ? getDifficultyLevelLabel(difficultyLevel) : ""
             }
-            defaultValue="Độ khó"
             onPress={() => openSheet("difficultyLevel")}
             errorMessage={errors.difficultyLevel?.message}
           />
@@ -82,6 +82,7 @@ function InformationWorkout({
               />
             )}
           />
+
           <Controller
             name="description"
             control={control}
@@ -89,7 +90,7 @@ function InformationWorkout({
               <Input
                 value={value ? value.toString() : ""}
                 label="Mô tả"
-                placeholder="VD: Bài tập giúp cải thiện sức bền,..."
+                placeholder="VD: Bài tập giúp cải thiện sức bền..."
                 onChangeText={(text) => onChange(text)}
                 keyboardType="default"
                 isMultiline
@@ -100,6 +101,7 @@ function InformationWorkout({
             )}
           />
         </VStack>
+
         <Card activeOpacity={1}>
           <VStack gap={12}>
             <VStack>
@@ -111,6 +113,7 @@ function InformationWorkout({
                 để lưu trữ riêng tư cho bạn.
               </Text>
             </VStack>
+
             <HStack gap={12} className="justify-end">
               <Chip
                 label="Cá nhân"
@@ -130,4 +133,4 @@ function InformationWorkout({
   )
 }
 
-export default InformationWorkout
+export default WorkoutInformation

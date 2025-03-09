@@ -96,7 +96,10 @@ function FoodCreateScreen() {
 
   const currentStepData = steps.find((step) => step.step === currentStep)
 
-  if (!currentStepData) return null
+  if (!currentStepData) {
+    setCurrentStep(1)
+    return null
+  }
 
   const {
     control,

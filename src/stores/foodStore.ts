@@ -34,7 +34,7 @@ export const useFoodStore = create<CreateFoodState>((set) => ({
     fiber: 0,
     sugar: 0
   },
-  isPublic: true,
+  isPublic: false,
 
   // updateField: (field, value) =>
   //   set((state) => ({

@@ -1,27 +1,22 @@
 import React, { useEffect, useState } from "react"
 
-import { ActivityIndicator, FlatList, View } from "react-native"
+import { ActivityIndicator, FlatList, Keyboard, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
 import { Add } from "iconsax-react-native"
 
 import { Container, Content } from "@/components/global/atoms"
-import {
-  ErrorDisplay,
-  FoodCard,
-  ListFooter,
-  ListHeader
-} from "@/components/global/molecules"
-import { Header } from "@/components/global/organisms"
+import { FoodCard, ListFooter, ListHeader } from "@/components/global/molecules"
+import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { FoodType } from "@/schemas/foodSchema"
+import { useGetFoodsByUserId } from "@/hooks/useFood"
 
-import { getFoodsByUserId } from "@/services/foodService"
+import { FoodType } from "@/schemas/foodSchema"
 
 import { LoadingScreen } from "../../loading"
 
@@ -33,68 +28,56 @@ function FoodUserScreen() {
 
   const userId = "3026595f-1414-4b74-be8f-11b7f6e7f4f6"
 
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [limit, setLimit] = useState<number>(10)
-  const [foods, setFoods] = useState<FoodType[]>([])
-  const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
-  const [isFetchingMore, setIsFetchingMore] = useState<boolean>(false)
-  const [totalItems, setTotalItems] = useState<number>(0)
+  const [foodsData, setFoodsData] = useState<FoodType[]>([])
+  const [page, setPage] = useState<number>(1)
   const [hasMore, setHasMore] = useState<boolean>(true)
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
 
-  const fetchFoods = async (newLimit: number): Promise<void> => {
-    try {
-      const { foods: newFoods, totalItems: total } = await getFoodsByUserId(
-        userId,
-        1,
-        newLimit
-      )
+  const limit = 10
 
-      setFoods(newFoods)
-      setTotalItems(total)
-      setHasMore(newFoods.length < total)
-    } catch (error) {
-      console.log("Error fetching foods:", error)
-    }
-  }
-
-  const onRefresh = async (): Promise<void> => {
-    if (isRefreshing) return
-    setIsRefreshing(true)
-    setLimit(10)
-    await fetchFoods(10)
-    setIsRefreshing(false)
-  }
-
-  const loadMoreFoods = async (): Promise<void> => {
-    if (isFetchingMore || !hasMore) return
-    setIsFetchingMore(true)
-
-    const newLimit = Math.min(limit + 5, totalItems)
-    setLimit(newLimit)
-    await fetchFoods(newLimit)
-    setIsFetchingMore(false)
-  }
-
-  const onEndReached = async (): Promise<void> => {
-    if (foods.length >= totalItems || isFetchingMore) return
-    loadMoreFoods()
-  }
+  const { data, isLoading } = useGetFoodsByUserId(userId, page, limit)
 
   useEffect(() => {
-    fetchFoods(limit)
+    if (data?.foods) {
+      setFoodsData((prev) =>
+        page === 1 ? data.foods : [...prev, ...data.foods]
+      )
+      setHasMore(page * limit < data.totalItems)
+    }
+  }, [data, page])
 
-    const timeout = setTimeout(() => {
-      setIsLoading(false)
-    }, 1000)
-
-    return () => clearTimeout(timeout)
+  useEffect(() => {
+    setPage(1)
   }, [])
+
+  useEffect(() => {
+    if (!isLoading && isRefreshing) {
+      setIsRefreshing(false)
+    }
+  }, [isLoading, isRefreshing])
+
+  const loadMoreData = () => {
+    if (!hasMore || isLoading) return
+    setPage((prev) => prev + 1)
+  }
+
+  const onEndReached = () => {
+    if (isLoading || !hasMore) return
+    Keyboard.dismiss()
+    loadMoreData()
+  }
+
+  const onRefresh = () => {
+    setIsRefreshing(true)
+    Keyboard.dismiss()
+    setPage(1)
+  }
 
   const handleViewFood = (foodId: string) => {
     router.push(`/foods/${foodId}`)
   }
 
-  if (isLoading) return <LoadingScreen />
+  if (!foodsData && isLoading) return <LoadingScreen />
 
   return (
     <Container>
@@ -109,15 +92,24 @@ function FoodUserScreen() {
 
       <Content className="mt-2">
         <FlatList
-          data={foods || []}
-          keyExtractor={(item) => item.foodId}
+          data={foodsData || []}
+          keyExtractor={(item, index) => `${item.foodId}-${index}`}
           onRefresh={onRefresh}
           refreshing={isRefreshing}
-          onEndReached={onEndReached}
-          onEndReachedThreshold={0.5}
           showsVerticalScrollIndicator={false}
           stickyHeaderIndices={[0]}
-          ListHeaderComponent={<ListHeader />}
+          initialNumToRender={10}
+          maxToRenderPerBatch={10}
+          windowSize={21}
+          removeClippedSubviews
+          updateCellsBatchingPeriod={50}
+          onEndReached={onEndReached}
+          onEndReachedThreshold={0.5}
+          ListHeaderComponent={
+            <ListHeader>
+              <Section label="Món ăn của tôi" margin={false} />
+            </ListHeader>
+          }
           renderItem={({ item }) => (
             <FoodCard
               variant="more"
@@ -129,24 +121,15 @@ function FoodUserScreen() {
               onPress={() => handleViewFood(item.foodId)}
             />
           )}
-          ListEmptyComponent={() => (
-            <ErrorDisplay
-              imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
-              title="Chưa có món ăn"
-              description="Bạn chưa thêm món ăn nào. Hãy bắt đầu ngay!"
-              marginTop={24}
-            />
-          )}
           ListFooterComponent={
             hasMore ? (
               <ListFooter>
-                {isFetchingMore && <ActivityIndicator color={COLORS.primary} />}
+                <ActivityIndicator color={COLORS.primary} />
               </ListFooter>
             ) : (
               <ListFooter />
             )
           }
-          contentContainerClassName="min-h-full"
           ItemSeparatorComponent={() => <View className="h-3" />}
         />
       </Content>

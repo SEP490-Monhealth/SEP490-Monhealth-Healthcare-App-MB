@@ -11,7 +11,7 @@ import { ExerciseCard } from "@/components/local/workouts"
 import { sampleExercisesData } from "@/constants/exercises"
 
 import {
-  useCreateWorkoutStore,
+  useWorkoutStore,
   useExerciseItemsStore
 } from "@/stores/workoutStore"
 
@@ -29,7 +29,7 @@ function ExerciseWorkout({
 }: SetupInformationProps) {
   const exerciseData = sampleExercisesData
 
-  const { exercises, updateField } = useCreateWorkoutStore()
+  const { exercises, updateField } = useWorkoutStore()
   const { exercisesSelected } = useExerciseItemsStore()
 
   const [inputValues, setInputValues] = useState<{ [key: string]: number }>({})

@@ -36,7 +36,7 @@ export const BookingCard = ({
 }: BookingCardProps) => {
   return (
     <Card onPress={onPress}>
-      <VStack gap={10}>
+      <VStack gap={12}>
         <VStack>
           <HStack center className="justify-between">
             <Text className="font-tmedium text-lg text-primary">{name}</Text>

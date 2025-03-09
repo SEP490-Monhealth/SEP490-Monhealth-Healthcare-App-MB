@@ -22,7 +22,7 @@ export const ChatCard = ({
   onPress
 }: ChatCardProps) => {
   return (
-    <Card activeOpacity={0.7} onPress={onPress} hasImage>
+    <Card hasImage onPress={onPress}>
       <HStack center gap={12}>
         <Image
           source={{ uri: avatarUrl }}

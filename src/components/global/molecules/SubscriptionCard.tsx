@@ -30,7 +30,7 @@ export const SubscriptionCard = ({
     >
       <HStack center className="justify-between">
         <Text className="font-tmedium text-lg text-primary">
-          {duration} tháng
+          {duration / 30} tháng
         </Text>
 
         <VStack className="items-end">

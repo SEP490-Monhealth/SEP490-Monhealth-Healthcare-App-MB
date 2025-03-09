@@ -1,3 +1,5 @@
+import { Dimensions } from "react-native"
+
 import {
   Calendar,
   Calendar1,
@@ -28,7 +30,20 @@ import { MealTypeEnum } from "./enum/MealType"
 import { RecurringDayEnum } from "./enum/RecurringDay"
 import { ScheduleTimeSlotStatusEnum } from "./enum/ScheduleTimeSlotStatus"
 
+const { height: SCREEN_HEIGHT } = Dimensions.get("window")
+
 export const DATA = {
+  SHEET_HEIGHTS: {
+    MIN_HEIGHT: 160,
+    MAX_HEIGHT:
+      (typeof SCREEN_HEIGHT !== "undefined" ? SCREEN_HEIGHT : 800) * 0.8,
+    ITEM_HEIGHT: (length: number) => {
+      if (length === 3) return 80
+      if (length > 4) return 70
+      if (length > 5) return 60
+      return 100
+    }
+  },
   MEALS: [
     {
       label: "Bữa sáng",
@@ -66,7 +81,7 @@ export const DATA = {
     { label: "Món tráng miệng", value: DishTypeEnum.Dessert },
     { label: "Đồ uống", value: DishTypeEnum.Drink }
   ],
-  UNITS: [
+  MEASUREMENT_UNITS: [
     { label: "g (gram)", value: "g" },
     { label: "ml (mililit)", value: "ml" }
   ],
@@ -210,7 +225,7 @@ export const DATA = {
     { label: "Thời gian", value: "duration" },
     { label: "Lần", value: "reps" }
   ],
-  EXERCISE_LEVELS: [
+  DIFFICULTY_LEVELS: [
     { label: "Mức dễ", value: DifficultyLevelEnum.Easy },
     { label: "Mức trung bình", value: DifficultyLevelEnum.Medium },
     { label: "Mức khó", value: DifficultyLevelEnum.Hard }

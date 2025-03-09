@@ -8,24 +8,25 @@ interface CreateWorkoutExerciseItemsType {
   reps: number | null
 }
 
-interface workoutStoreProps {
+interface WorkoutStoreState {
   category: string
   name: string
   description: string
-  difficultyLevel: DifficultyLevelEnum
-  isPublic: boolean
+  difficultyLevel: DifficultyLevelEnum | undefined
   exercises: CreateWorkoutExerciseItemsType[]
+  isPublic: boolean
+
   updateField: (field: string, value: any, append?: boolean) => void
   reset: () => void
 }
 
-export const useCreateWorkoutStore = create<workoutStoreProps>((set) => ({
+export const useWorkoutStore = create<WorkoutStoreState>((set) => ({
   category: "123",
-  name: "khai",
+  name: "toan",
   description: "ad",
-  difficultyLevel: DifficultyLevelEnum.Easy,
-  isPublic: false,
+  difficultyLevel: undefined,
   exercises: [],
+  isPublic: false,
 
   updateField: (key, value, append = false) =>
     set((state) => {
@@ -35,13 +36,13 @@ export const useCreateWorkoutStore = create<workoutStoreProps>((set) => ({
             ...state,
             exercises: [
               ...state.exercises,
-              ...(Array.isArray(value) ? value : [value]) // Flatten value before appending
+              ...(Array.isArray(value) ? value : [value])
             ]
           }
         } else {
           return {
             ...state,
-            exercises: value // Directly set the value if not appending
+            exercises: value
           }
         }
       }
@@ -52,9 +53,9 @@ export const useCreateWorkoutStore = create<workoutStoreProps>((set) => ({
       category: "",
       name: "",
       description: "",
-      difficultyLevel: DifficultyLevelEnum.Easy,
-      isPublic: false,
-      exercises: []
+      difficultyLevel: undefined,
+      exercises: [],
+      isPublic: false
     })
 }))
 
@@ -65,6 +66,7 @@ interface ExerciseItemsType {
 
 interface exerciseItemsStoreProps {
   exercisesSelected: ExerciseItemsType[]
+
   updateType: (field: string, value: any, append?: boolean) => void
   reset: () => void
 }

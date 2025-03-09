@@ -41,7 +41,7 @@ function PortionCreateScreen() {
   const [selectedUnit, setSelectedUnit] = useState("")
 
   const SheetRef = useRef<SheetRefProps>(null)
-  const sheetHeight = DATA.UNITS.length * 110
+  const sheetHeight = DATA.MEASUREMENT_UNITS.length * 110
 
   const {
     control,
@@ -148,7 +148,7 @@ function PortionCreateScreen() {
         </View>
 
         <Sheet ref={SheetRef}>
-          {DATA.UNITS.map((unit) => (
+          {DATA.MEASUREMENT_UNITS.map((unit) => (
             <SheetItem
               key={unit.value}
               item={unit.label}

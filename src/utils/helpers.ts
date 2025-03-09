@@ -1,6 +1,7 @@
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
 import { BookingStatusEnum } from "@/constants/enum/BookingStatus"
+import { DifficultyLevelEnum } from "@/constants/enum/DifficultyLevel"
 import { MealTypeEnum } from "@/constants/enum/MealType"
 import { RecurringDayEnum } from "@/constants/enum/RecurringDay"
 import { TipsData } from "@/constants/tips"
@@ -299,6 +300,28 @@ export const getBookingIcon = (
   return DATA.BOOKINGS.find((item) => item.value === value)?.icon || null
 }
 
+/**
+ *
+ * @param value
+ * @returns
+ */
 export const getDayLabel = (value: RecurringDayEnum): string => {
   return DATA.DAY_OF_WEEK.find((item) => item.value === value)?.label || ""
+}
+
+/**
+ *
+ * @param value
+ * @returns
+ */
+export const getDifficultyLevelLabel = (value: DifficultyLevelEnum): string => {
+  return (
+    DATA.DIFFICULTY_LEVELS.find((item) => item.value === value)?.label || ""
+  )
+}
+
+export const getMeasurementUnitLabel = (value: string): string => {
+  return (
+    DATA.MEASUREMENT_UNITS.find((item) => item.value === value)?.label || ""
+  )
 }

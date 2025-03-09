@@ -21,6 +21,8 @@ import {
   VStack
 } from "@/components/global/atoms"
 
+import { getMeasurementUnitLabel } from "@/utils/helpers"
+
 interface FoodPortionProps {
   control: Control<FieldValues>
   errors: FieldErrors
@@ -102,10 +104,7 @@ function FoodPortion({ control, errors, setValue }: FoodPortionProps) {
               <Select
                 label="Đơn vị"
                 defaultValue="Chọn đơn vị"
-                value={
-                  portionSizesData.find((item) => item.value === selectedUnit)
-                    ?.label || "Chọn đơn vị"
-                }
+                value={getMeasurementUnitLabel(selectedUnit)}
                 onPress={openSheet}
               />
             </View>

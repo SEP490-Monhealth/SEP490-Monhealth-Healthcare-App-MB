@@ -11,7 +11,7 @@ import { IconButton } from "@/components/global/molecules"
 import { COLORS } from "@/constants/color"
 
 import {
-  useCreateWorkoutStore,
+  useWorkoutStore,
   useExerciseItemsStore
 } from "@/stores/workoutStore"
 
@@ -47,7 +47,7 @@ export const ExerciseCard = ({
   const [isOpenValue, setIsOpenValue] = useState<boolean>(false)
   const [typeExercise, setTypeExercise] = useState<string>("")
 
-  const { exercises, updateField } = useCreateWorkoutStore()
+  const { exercises, updateField } = useWorkoutStore()
   const { exercisesSelected } = useExerciseItemsStore()
 
   const selectedExercise = exercisesSelected.find(

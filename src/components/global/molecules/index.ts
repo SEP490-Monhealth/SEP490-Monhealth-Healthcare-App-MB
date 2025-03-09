@@ -1,6 +1,5 @@
 import { ArcProgress } from "./ArcProgress"
 import { BookingCard } from "./BookingCard"
-import { CategoryCard } from "./CategoryCard"
 import { CertificateCard } from "./CertificateCard"
 import { ChatCard } from "./ChatCard"
 import { CircularProgress } from "./CircularProgress"
@@ -30,7 +29,6 @@ import { WorkoutCard } from "./WorkoutCard"
 export {
   ArcProgress,
   BookingCard,
-  CategoryCard,
   CertificateCard,
   ChatCard,
   CircularProgress,

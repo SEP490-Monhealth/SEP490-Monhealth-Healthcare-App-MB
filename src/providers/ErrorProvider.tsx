@@ -43,11 +43,11 @@ export const ErrorProvider: React.FC<{ children: React.ReactNode }> = ({
         break
       case 404:
         console.log("[RESOURCE] Lỗi 404: Không tìm thấy tài nguyên")
-        router.replace("/(errors)/not-found")
+        router.replace("/errors/not-found")
         break
       case 500:
         console.log("[SERVER] Lỗi 500: Lỗi máy chủ nội bộ")
-        router.replace("/(errors)/internal-server-error")
+        router.replace("/errors/internal-server-error")
         break
       default:
         console.log(

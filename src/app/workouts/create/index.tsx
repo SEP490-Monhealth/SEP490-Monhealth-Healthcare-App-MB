@@ -23,7 +23,6 @@ import { sampleCategoriesData } from "@/constants/categories"
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
 import { CategoryTypeEnum } from "@/constants/enum/CategoryType"
-import { DifficultyLevelEnum } from "@/constants/enum/DifficultyLevel"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -31,13 +30,10 @@ import { useCreateUserWorkout } from "@/hooks/useWorkout"
 
 import { createWorkoutSchema } from "@/schemas/workoutSchema"
 
-import {
-  useCreateWorkoutStore,
-  useExerciseItemsStore
-} from "@/stores/workoutStore"
+import { useExerciseItemsStore, useWorkoutStore } from "@/stores/workoutStore"
 
 import ExerciseWorkout from "./exercise"
-import InformationWorkout from "./information"
+import WorkoutInformation from "./information"
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window")
 
@@ -58,12 +54,16 @@ function CreateWorkoutScreen() {
 
   const { mutate: createWorkout } = useCreateUserWorkout()
 
-  const [sheetType, setSheetType] = useState<
-    "category" | "difficultyLevel" | "exercise"
-  >()
   const CategorySheetRef = useRef<SheetRefProps>(null)
   const DifficultyLevelSheetRef = useRef<SheetRefProps>(null)
   const ExerciseSheetRef = useRef<SheetRefProps>(null)
+
+  const [sheetType, setSheetType] = useState<
+    "category" | "difficultyLevel" | "exercises"
+  >()
+
+  const difficultyLevelSheetHeight = 230
+  const exerciseSheetHeight = 180
 
   const [categorySheetHeight, setCategorySheetHeight] = useState<number>(230)
 
@@ -71,16 +71,9 @@ function CreateWorkoutScreen() {
     string | undefined
   >("")
 
-  const difficultyLevelSheetHeight = 230
-  const exerciseSheetHeight = 180
-
   const categoryData = sampleCategoriesData.filter(
     (item) => item.type === CategoryTypeEnum.Workout
   )
-
-  const difficultyLevels = Object.values(DifficultyLevelEnum).filter(
-    (value): value is DifficultyLevelEnum => typeof value === "number"
-  ) as DifficultyLevelEnum[]
 
   const {
     category,
@@ -90,7 +83,7 @@ function CreateWorkoutScreen() {
     isPublic,
     exercises,
     updateField
-  } = useCreateWorkoutStore()
+  } = useWorkoutStore()
 
   const { exercisesSelected, updateType } = useExerciseItemsStore()
 
@@ -112,7 +105,7 @@ function CreateWorkoutScreen() {
       step: 1,
       title: "Thông tin",
       description: "Nhập thông tin chi tiết về bài tập luyện của bạn",
-      component: InformationWorkout,
+      component: WorkoutInformation,
       fields: [
         "category",
         "name",
@@ -142,7 +135,10 @@ function CreateWorkoutScreen() {
 
   const currentStepData = setupSteps.find((step) => step.step === currentStep)
 
-  if (!currentStepData) return null
+  if (!currentStepData) {
+    setCurrentStep(1)
+    return null
+  }
 
   const {
     control,
@@ -175,7 +171,7 @@ function CreateWorkoutScreen() {
   }
 
   const openSheet = (
-    type: "category" | "difficultyLevel" | "exercise",
+    type: "category" | "difficultyLevel" | "exercises",
     exerciseId?: string
   ) => {
     setSheetType(type)
@@ -189,7 +185,7 @@ function CreateWorkoutScreen() {
       case "difficultyLevel":
         DifficultyLevelSheetRef.current?.scrollTo(-difficultyLevelSheetHeight)
         break
-      case "exercise":
+      case "exercises":
         setExerciseTypeSelected(exerciseId)
         ExerciseSheetRef.current?.scrollTo(-exerciseSheetHeight)
         break
@@ -219,7 +215,7 @@ function CreateWorkoutScreen() {
         setCurrentStep(currentStep + 1)
       } else {
         const finalData = {
-          ...useCreateWorkoutStore.getState(),
+          ...useWorkoutStore.getState(),
           userId: formData.userId,
           exercises: formData.exercises
         }
@@ -304,7 +300,7 @@ function CreateWorkoutScreen() {
           ref={DifficultyLevelSheetRef}
           dynamicHeight={difficultyLevelSheetHeight}
         >
-          {DATA.EXERCISE_LEVELS.map((level) => (
+          {DATA.DIFFICULTY_LEVELS.map((level) => (
             <SheetSelect
               key={level.value}
               label={level.label}

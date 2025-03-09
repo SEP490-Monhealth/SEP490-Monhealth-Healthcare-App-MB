@@ -28,10 +28,6 @@ function VoiceScreen() {
     router.push("/(test)/schedule")
   }
 
-  const handleCreateExercise = () => {
-    router.push("/exercises/create")
-  }
-
   const handleCreateWorkout = () => {
     router.push("/workouts/create")
   }
@@ -66,10 +62,6 @@ function VoiceScreen() {
 
           <Button size="lg" onPress={handleViewSchedules}>
             Schedule
-          </Button>
-
-          <Button size="lg" onPress={handleCreateExercise}>
-            Exercise
           </Button>
 
           <Button size="lg" onPress={handleCreateWorkout}>
