@@ -20,6 +20,7 @@ import {
 } from "lucide-react-native"
 
 import { BookingStatusEnum } from "./enum/BookingStatus"
+import { DifficultyLevelEnum } from "./enum/DifficultyLevel"
 import { DishTypeEnum } from "./enum/DishType"
 import { GenderEnum } from "./enum/Gender"
 import { GoalTypeEnum } from "./enum/GoalType"
@@ -204,5 +205,14 @@ export const DATA = {
     { label: "Thứ 6", shortLabel: "T6", value: RecurringDayEnum.Fri },
     { label: "Thứ 7", shortLabel: "T7", value: RecurringDayEnum.Sat },
     { label: "Chủ Nhật", shortLabel: "CN", value: RecurringDayEnum.Sun }
+  ],
+  EXERCISE_TYPES: [
+    { label: "Thời gian", value: "duration" },
+    { label: "Lần", value: "reps" }
+  ],
+  EXERCISE_LEVELS: [
+    { label: "Mức dễ", value: DifficultyLevelEnum.Easy },
+    { label: "Mức trung bình", value: DifficultyLevelEnum.Medium },
+    { label: "Mức khó", value: DifficultyLevelEnum.Hard }
   ]
 }

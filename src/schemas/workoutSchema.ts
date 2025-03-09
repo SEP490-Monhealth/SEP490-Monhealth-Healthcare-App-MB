@@ -8,6 +8,13 @@ import { auditSchema } from "./commonSchema"
 const WorkoutTypeSchemaEnum = z.nativeEnum(WorkoutTypeEnum)
 const DifficultyLevelSchemaEnum = z.nativeEnum(DifficultyLevelEnum)
 
+const createWorkoutExerciseSchema = z.object({
+  exerciseId: z.string(),
+
+  duration: z.number().optional(),
+  reps: z.number().optional()
+})
+
 const baseWorkoutSchema = z
   .object({
     workoutId: z.string().uuid(),
@@ -57,27 +64,24 @@ export const workoutSchema = baseWorkoutSchema.pick({
 
   exercises: true,
   durationMinutes: true,
-  caloriesBurned: true
-})
+  caloriesBurned: true,
 
-const createWorkoutExerciseSchema = z.object({
-  exerciseId: z.string().uuid(),
-
-  durationMinutes: z.number().optional(),
-  reps: z.number().optional()
+  isPublic: true
 })
 
 export const createWorkoutSchema = z.object({
-  userId: workoutSchema.shape.userId,
-
-  category: workoutSchema.shape.category,
-  type: workoutSchema.shape.type,
+  category: z.string(),
+  userId: z.string(),
 
   name: workoutSchema.shape.name,
   description: workoutSchema.shape.description,
   difficultyLevel: workoutSchema.shape.difficultyLevel,
 
-  exercises: z.array(createWorkoutExerciseSchema)
+  exercises: z.array(createWorkoutExerciseSchema).min(3, {
+    message: "Số lượng bài tập phải lớn hơn hoặc bằng 3"
+  }),
+
+  isPublic: workoutSchema.shape.isPublic
 })
 
 export type WorkoutType = z.infer<typeof workoutSchema>

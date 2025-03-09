@@ -36,10 +36,7 @@ import { useAuth } from "@/contexts/AuthContext"
 import { useCreateConsultant } from "@/hooks/useConsultant"
 
 import { certificateSetupSchema } from "@/schemas/certificateSchema"
-import {
-  CreateConsultantType,
-  informationConsultantSchema
-} from "@/schemas/consultantSchema"
+import { informationConsultantSchema } from "@/schemas/consultantSchema"
 import { expertiseSetupSchema } from "@/schemas/expertiseSchema"
 
 import { useConsultantSetupStore } from "@/stores/consultantSetupStore"
