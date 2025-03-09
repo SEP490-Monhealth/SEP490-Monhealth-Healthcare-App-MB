@@ -48,7 +48,7 @@ function SetupCertificate({
       <View className="pb-24">
         <VStack gap={12}>
           <Controller
-            name="certificateNumber"
+            name="number"
             control={control}
             render={({ field: { onChange, value } }) => (
               <Input
@@ -58,22 +58,7 @@ function SetupCertificate({
                 onChangeText={onChange}
                 keyboardType="default"
                 canClearText
-                errorMessage={errors.certificateNumber?.message}
-              />
-            )}
-          />
-          <Controller
-            name="issuedBy"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                value={value}
-                label="Nơi cấp"
-                placeholder="VD: Chứng chỉ dinh dưỡng cơ bản"
-                onChangeText={onChange}
-                keyboardType="default"
-                canClearText
-                errorMessage={errors.issuedBy?.message}
+                errorMessage={errors.number?.message}
               />
             )}
           />
@@ -120,6 +105,22 @@ function SetupCertificate({
                 placeholder="VD: 01/01/2024"
                 onPress={() => openDateSheet("expiryDate")}
                 errorMessage={errors.expiryDate?.message}
+              />
+            )}
+          />
+
+          <Controller
+            name="issuedBy"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                value={value}
+                label="Nơi cấp"
+                placeholder="VD: Chứng chỉ dinh dưỡng cơ bản"
+                onChangeText={onChange}
+                keyboardType="default"
+                canClearText
+                errorMessage={errors.issuedBy?.message}
               />
             )}
           />

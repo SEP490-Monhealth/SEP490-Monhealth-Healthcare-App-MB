@@ -2,7 +2,7 @@ import { Avatar } from "./Avatar"
 import { Badge } from "./Badge"
 import { Button } from "./Button"
 import { Calendar } from "./Calendar"
-import { Card } from "./Card"
+import { Card, CardHeader } from "./Card"
 import { Checkbox } from "./Checkbox"
 import { Chip } from "./Chip"
 import { Container } from "./Container"
@@ -29,6 +29,7 @@ export {
   Button,
   Calendar,
   Card,
+  CardHeader,
   Checkbox,
   Chip,
   Container,

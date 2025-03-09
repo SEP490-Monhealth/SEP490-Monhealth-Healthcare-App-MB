@@ -8,7 +8,7 @@ import { COLORS } from "@/constants/color"
 
 import { toFixed } from "@/utils/formatters"
 
-import { Card, Checkbox, HStack, Toggle, VStack } from "../atoms"
+import { Card, CardHeader, Checkbox, HStack, Toggle, VStack } from "../atoms"
 import { IconButton } from "./IconButton"
 
 interface WaterReminderCardProps {
@@ -57,7 +57,8 @@ export const WaterReminderCard = ({
           </TouchableOpacity>
 
           <VStack gap={0} className="ml-1">
-            <Text className="font-tmedium text-lg text-primary">{time}</Text>
+            <CardHeader label={time} />
+
             <Text className="font-tmedium text-sm text-accent">
               {name} • {toFixed(volume, 0)} ml
             </Text>

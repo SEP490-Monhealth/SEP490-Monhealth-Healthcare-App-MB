@@ -4,7 +4,14 @@ import { Text } from "react-native"
 
 import { Control, Controller, FieldValues } from "react-hook-form"
 
-import { Card, Chip, HStack, Input, VStack } from "@/components/global/atoms"
+import {
+  Card,
+  CardHeader,
+  Chip,
+  HStack,
+  Input,
+  VStack
+} from "@/components/global/atoms"
 
 import { useFoodStore } from "@/stores/foodStore"
 
@@ -87,9 +94,8 @@ function FoodInformation({
       <Card activeOpacity={1}>
         <VStack gap={12}>
           <VStack>
-            <Text className="font-tmedium text-lg text-primary">
-              Bạn muốn lưu món ăn này như thế nào?
-            </Text>
+            <CardHeader label="Bạn muốn lưu món ăn này như thế nào?" />
+
             <Text className="font-tregular text-sm text-accent">
               Chọn "Công khai" để chia sẻ món ăn với cộng đồng hoặc "Cá nhân" để
               lưu trữ riêng tư cho bạn.

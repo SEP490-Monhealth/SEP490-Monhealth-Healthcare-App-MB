@@ -4,7 +4,7 @@ import { Text, TouchableOpacity, View } from "react-native"
 
 import { cn } from "@/lib/utils"
 
-import { VStack } from "../atoms"
+import { CardHeader, VStack } from "../atoms"
 
 interface SectionProps {
   label: string
@@ -36,7 +36,7 @@ export const Section = ({
       )}
     >
       <VStack gap={0}>
-        <Text className="font-tmedium text-lg text-primary">{label}</Text>
+        <CardHeader label={label} />
 
         {description && (
           <Text className="font-tregular text-base text-secondary">

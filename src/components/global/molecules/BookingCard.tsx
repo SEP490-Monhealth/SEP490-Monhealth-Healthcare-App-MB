@@ -5,14 +5,15 @@ import { Text, View } from "react-native"
 import { CalendarCircle, TimerStart } from "iconsax-react-native"
 
 import { COLORS } from "@/constants/color"
+import { BookingStatusEnum } from "@/constants/enum/BookingStatus"
 
 import { formatDate } from "@/utils/formatters"
 import { getBookingColor, getBookingLabel } from "@/utils/helpers"
 
-import { Badge, Button, Card, HStack, VStack } from "../atoms"
+import { Badge, Button, Card, CardHeader, HStack, VStack } from "../atoms"
 
 interface BookingCardProps {
-  variant?: "default" | "confirm" | "cancel" | "review"
+  variant?: "default" | "consultant"
   name: string
   date: string
   time: string
@@ -41,7 +42,7 @@ export const BookingCard = ({
       <VStack gap={12}>
         <VStack>
           <HStack center className="justify-between">
-            <Text className="font-tmedium text-lg text-primary">{name}</Text>
+            <CardHeader label={name} />
 
             <Badge
               label={getBookingLabel(status)}
@@ -59,7 +60,7 @@ export const BookingCard = ({
           </Text>
         </VStack>
 
-        <View className="mt-2 border border-border"></View>
+        <View className="border border-border"></View>
 
         <HStack center className="justify-between">
           <HStack center>
@@ -74,7 +75,19 @@ export const BookingCard = ({
             <Text className="font-tmedium text-sm text-accent">{time}</Text>
           </HStack>
         </HStack>
-        {variant === "confirm" && (
+
+        {status === BookingStatusEnum.Pending && (
+          <Button
+            variant="danger"
+            size="sm"
+            onPress={onCancelPress}
+            className="flex-1"
+          >
+            Hủy
+          </Button>
+        )}
+
+        {variant === "consultant" && status === BookingStatusEnum.Pending && (
           <HStack gap={16}>
             <Button
               variant="danger"
@@ -90,30 +103,15 @@ export const BookingCard = ({
           </HStack>
         )}
 
-        {variant === "cancel" && (
-          <HStack gap={16}>
-            <Button
-              variant="danger"
-              size="sm"
-              onPress={onCancelPress}
-              className="flex-1"
-            >
-              Hủy
-            </Button>
-          </HStack>
-        )}
-
-        {variant === "review" && (
-          <HStack gap={16}>
-            <Button
-              variant="primary"
-              size="sm"
-              onPress={onReviewPress}
-              className="flex-1"
-            >
-              Phản hồi
-            </Button>
-          </HStack>
+        {status === BookingStatusEnum.Completed && (
+          <Button
+            variant="primary"
+            size="sm"
+            onPress={onReviewPress}
+            className="flex-1"
+          >
+            Phản hồi
+          </Button>
         )}
       </VStack>
     </Card>

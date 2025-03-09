@@ -1,7 +1,5 @@
 import React, { useState } from "react"
 
-import { View } from "react-native"
-
 import { useRouter } from "expo-router"
 
 import { SearchNormal1 } from "iconsax-react-native"
@@ -14,7 +12,7 @@ import {
   VStack
 } from "@/components/global/atoms"
 import { ChatCard, CustomHeader } from "@/components/global/molecules"
-import { Header, Section } from "@/components/global/organisms"
+import { Section } from "@/components/global/organisms"
 
 import { sampleChatsData } from "@/constants/chats"
 import { COLORS } from "@/constants/color"
@@ -52,8 +50,8 @@ function ChatScreen() {
             {chatData.map((chat) => (
               <ChatCard
                 key={chat.chatId}
-                name={chat.consultantName}
-                avatarUrl={chat.consultantAvatarUrl}
+                name={chat.consultant}
+                avatarUrl={chat.consultantAvatar}
                 lastMessage={chat.lastMessage}
                 lastMessageAt={chat.updatedAt}
                 onPress={() => handleViewChat(chat.chatId)}

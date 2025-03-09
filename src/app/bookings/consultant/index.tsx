@@ -1,7 +1,5 @@
 import React, { useState } from "react"
 
-import { View } from "react-native"
-
 import { useLocalSearchParams } from "expo-router"
 
 import {
@@ -20,10 +18,10 @@ import { Header } from "@/components/global/organisms"
 import { sampleBookingsData } from "@/constants/bookings"
 import { BookingStatusEnum } from "@/constants/enum/BookingStatus"
 
-import { useAuth } from "@/contexts/AuthContext"
-
-function BookingsScreen() {
+function BookingsConsultantScreen() {
   const { tab } = useLocalSearchParams<{ tab: string }>()
+
+  const bookingsData = sampleBookingsData
 
   const [activeTab, setActiveTab] = useState(tab || "pending")
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
@@ -31,19 +29,12 @@ function BookingsScreen() {
     null
   )
 
-  const [reason, setReason] = useState<string>("")
-
-  const { user } = useAuth()
-  const userId = user?.userId
-
   const tabStatusMap: Record<string, BookingStatusEnum> = {
     pending: BookingStatusEnum.Pending,
     confirmed: BookingStatusEnum.Confirmed,
     completed: BookingStatusEnum.Completed,
     cancelled: BookingStatusEnum.Cancelled
   }
-
-  const bookingsData = sampleBookingsData
 
   const filteredBookingsData = bookingsData.filter(
     (booking) => booking.status === tabStatusMap[activeTab]
@@ -58,25 +49,19 @@ function BookingsScreen() {
     setIsModalVisible(true)
   }
 
-  const handleViewBooking = (bookingId: string) => {
-    console.log(bookingId)
-  }
-
   const handleConfirmCancel = () => {
     if (selectedBookingId) {
-      const finalData = {
-        userId: userId,
-        bookingId: selectedBookingId,
-        reason: reason
-      }
-
-      console.log("Final Data:", JSON.stringify(finalData, null, 2))
+      console.log("This booking has been cancelled", selectedBookingId)
     }
 
     setIsModalVisible(false)
     setSelectedBookingId(null)
-    setReason("")
   }
+
+  const handleViewBooking = (bookingId: string) => {
+    console.log(bookingId)
+  }
+
   const handleConfirm = (bookingId: string) => {
     console.log("Confirm booking id", bookingId)
   }
@@ -109,19 +94,18 @@ function BookingsScreen() {
 
               <TabsContent value={activeTab}>
                 {filteredBookingsData.map((booking) => (
-                  <View key={booking.bookingId} className="mb-4">
-                    <BookingCard
-                      variant={activeTab === "pending" ? "confirm" : "default"}
-                      name={booking.customer}
-                      date={booking.date}
-                      time={booking.time}
-                      notes={booking.notes}
-                      status={booking.status}
-                      onPress={() => handleViewBooking(booking.bookingId)}
-                      onCancelPress={() => handleCancel(booking.bookingId)}
-                      onConfirmPress={() => handleConfirm(booking.bookingId)}
-                    />
-                  </View>
+                  <BookingCard
+                    key={booking.bookingId}
+                    variant="consultant"
+                    name={booking.customer}
+                    date={booking.date}
+                    time={booking.time}
+                    notes={booking.notes}
+                    status={booking.status}
+                    onPress={() => handleViewBooking(booking.bookingId)}
+                    onCancelPress={() => handleCancel(booking.bookingId)}
+                    onConfirmPress={() => handleConfirm(booking.bookingId)}
+                  />
                 ))}
               </TabsContent>
             </Tabs>
@@ -130,19 +114,16 @@ function BookingsScreen() {
       </Container>
 
       <Modal
-        variant="cancel"
         isVisible={isModalVisible}
-        reason={reason}
         onClose={() => setIsModalVisible(false)}
         title="Hủy lịch hẹn"
         description="Bạn có chắc chắn muốn hủy lịch hẹn này không?"
         confirmText="Đồng ý"
         cancelText="Hủy"
         onConfirm={handleConfirmCancel}
-        onReasonChange={setReason}
       />
     </>
   )
 }
 
-export default BookingsScreen
+export default BookingsConsultantScreen

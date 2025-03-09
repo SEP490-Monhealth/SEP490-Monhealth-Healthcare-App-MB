@@ -9,7 +9,6 @@ import {
 
 import { useRouter } from "expo-router"
 
-import { LoadingOverlay } from "@/app/loading"
 import { zodResolver } from "@hookform/resolvers/zod"
 import DateTimePicker, {
   DateTimePickerEvent
@@ -87,9 +86,11 @@ function SetupConsultantScreen() {
     bio,
     experience,
     expertise,
+    number,
     certificate,
     issueDate,
     expiryDate,
+    issuedBy,
     imageUrls,
     updateField
   } = useConsultantStore()
@@ -101,10 +102,12 @@ function SetupConsultantScreen() {
     userId,
     bio,
     experience,
+    number,
     expertise,
     certificate,
     issueDate,
     expiryDate,
+    issuedBy,
     imageUrls: (imageUrls || []).filter((img) => img?.uri).map((img) => img.uri)
   }
 
@@ -131,11 +134,11 @@ function SetupConsultantScreen() {
       description: "Thêm thông tin chứng chỉ và tải lên ảnh chứng chỉ",
       component: SetupCertificate,
       fields: [
+        "number",
         "certificate",
-        "certificateNumber",
-        "issuedBy",
         "issueDate",
         "expiryDate",
+        "issuedBy",
         "imageUrls"
       ],
       schema: certificateSetupSchema

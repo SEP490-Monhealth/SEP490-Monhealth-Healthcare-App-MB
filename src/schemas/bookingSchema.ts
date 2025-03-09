@@ -15,10 +15,10 @@ const baseBookingSchema = z
 
     consultant: z
       .string()
-      .nonempty({ message: "Tên không được để trống" })
-      .max(50, { message: "Tên không được dài hơn 50 ký tự" })
+      .nonempty({ message: "Tên chuyên viên không được để trống" })
+      .max(50, { message: "Tên chuyên viên không được dài hơn 50 ký tự" })
       .regex(/^[^\d!@#$%^&*()_+=[\]{};':"\\|,.<>/?]*$/, {
-        message: "Tên không được chứa ký tự đặc biệt hoặc số"
+        message: "Tên chuyên viên không được chứa ký tự đặc biệt hoặc số"
       }),
     consultantAvatar: z
       .string()
@@ -27,10 +27,10 @@ const baseBookingSchema = z
 
     customer: z
       .string()
-      .nonempty({ message: "Tên không được để trống" })
-      .max(50, { message: "Tên không được dài hơn 50 ký tự" })
+      .nonempty({ message: "Tên người dùng không được để trống" })
+      .max(50, { message: "Tên người dùng không được dài hơn 50 ký tự" })
       .regex(/^[^\d!@#$%^&*()_+=[\]{};':"\\|,.<>/?]*$/, {
-        message: "Tên không được chứa ký tự đặc biệt hoặc số"
+        message: "Tên người dùng không được chứa ký tự đặc biệt hoặc số"
       }),
     customerAvatar: z
       .string()

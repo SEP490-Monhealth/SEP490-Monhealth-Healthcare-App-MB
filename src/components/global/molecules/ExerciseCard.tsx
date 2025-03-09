@@ -9,7 +9,7 @@ import { COLORS } from "@/constants/color"
 
 import { formatDuration, toFixed } from "@/utils/formatters"
 
-import { Card, HStack } from "../atoms"
+import { Card, CardHeader, HStack } from "../atoms"
 import { IconButton } from "./IconButton"
 
 interface ExerciseCardProps {
@@ -31,7 +31,8 @@ export const ExerciseCard = ({
     <Card onPress={onPress}>
       <HStack className="w-full items-center justify-between">
         <View className="flex-1">
-          <Text className="font-tmedium text-lg text-primary">{name}</Text>
+          <CardHeader label={name} />
+
           <Text className="font-tmedium text-sm text-accent">
             {/* {type === TypeExerciseEnum.Time
               ? `${formatDuration(duration ?? 0)} • ${toFixed(totalCalories, 1)} kcal`

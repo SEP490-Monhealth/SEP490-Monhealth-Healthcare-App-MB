@@ -12,9 +12,11 @@ interface ConsultantStoreState {
   bio: string
   experience: number
   expertise: string
+  number: string
   certificate: string
   issueDate: string
   expiryDate: string
+  issuedBy: string
   imageUrls: ImageType[]
 
   updateField: (field: string, value: any, append?: boolean) => void
@@ -25,9 +27,11 @@ export const useConsultantStore = create<ConsultantStoreState>((set) => ({
   bio: "Halo",
   experience: 5,
   expertise: "",
+  number: "",
   certificate: "",
   issueDate: "",
   expiryDate: "",
+  issuedBy: "",
   imageUrls: [],
 
   updateField: (key, value, append = false) =>
@@ -49,9 +53,11 @@ export const useConsultantStore = create<ConsultantStoreState>((set) => ({
       bio: "",
       experience: 0,
       expertise: "",
+      number: "",
       certificate: "",
       issueDate: "",
       expiryDate: "",
+      issuedBy: "",
       imageUrls: []
     })
 }))

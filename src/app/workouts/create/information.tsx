@@ -6,6 +6,7 @@ import { Control, Controller, FieldValues } from "react-hook-form"
 
 import {
   Card,
+  CardHeader,
   Chip,
   HStack,
   Input,
@@ -15,7 +16,6 @@ import {
 } from "@/components/global/atoms"
 
 import { sampleCategoriesData } from "@/constants/categories"
-import { DATA } from "@/constants/data"
 
 import { useWorkoutStore } from "@/stores/workoutStore"
 
@@ -105,9 +105,8 @@ function WorkoutInformation({
         <Card activeOpacity={1}>
           <VStack gap={12}>
             <VStack>
-              <Text className="font-tmedium text-lg text-primary">
-                Bạn muốn lưu bài tập này như thế nào?
-              </Text>
+              <CardHeader label="Bạn muốn lưu món ăn này như thế nào?" />
+
               <Text className="font-tregular text-sm text-accent">
                 Chọn "Công khai" để chia sẻ bài tập với cộng đồng hoặc "Cá nhân"
                 để lưu trữ riêng tư cho bạn.

@@ -7,7 +7,7 @@ import { BookingStatusEnum } from "@/constants/enum/BookingStatus"
 
 import { getBookingIcon } from "@/utils/helpers"
 
-import { Card, VStack } from "../atoms"
+import { Card, CardHeader, VStack } from "../atoms"
 import { IconButton } from "./IconButton"
 
 interface ScheduleCardProps {
@@ -50,7 +50,7 @@ export const ScheduleCard = ({
         </Text>
 
         <Card onPress={onPress}>
-          <Text className="font-tmedium text-lg text-primary">{customer}</Text>
+          <CardHeader label={customer} />
 
           <Text
             className="font-tregular text-sm text-accent"

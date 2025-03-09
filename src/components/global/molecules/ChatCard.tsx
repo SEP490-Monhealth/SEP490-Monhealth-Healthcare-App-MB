@@ -4,7 +4,7 @@ import { Image, Text, View } from "react-native"
 
 import { formatTimeAgo } from "@/utils/formatters"
 
-import { Card, HStack } from "../atoms"
+import { Card, CardHeader, HStack } from "../atoms"
 
 interface ChatCardProps {
   name: string
@@ -31,7 +31,7 @@ export const ChatCard = ({
 
         <View className="flex-1 flex-col">
           <HStack center className="justify-between">
-            <Text className="font-tmedium text-lg text-primary">{name}</Text>
+            <CardHeader label={name} />
 
             <Text className="font-tregular text-sm text-secondary">
               {formatTimeAgo(lastMessageAt)}

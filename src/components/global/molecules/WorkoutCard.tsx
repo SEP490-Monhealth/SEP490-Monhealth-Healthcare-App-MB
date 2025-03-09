@@ -4,7 +4,7 @@ import { Text } from "react-native"
 
 import { toFixed } from "@/utils/formatters"
 
-import { Card, HStack, VStack } from "../atoms"
+import { Card, CardHeader, VStack } from "../atoms"
 
 interface WorkoutCardProps {
   name: string
@@ -24,7 +24,8 @@ export const WorkoutCard = ({
   return (
     <Card onPress={onPress}>
       <VStack gap={0}>
-        <Text className="font-tmedium text-lg text-primary">{name}</Text>
+        <CardHeader label={name} />
+
         <Text className="font-tmedium text-sm text-accent">
           {exercises} bài tập • {toFixed(caloriesBurned, 1)} kcal •{" "}
           {toFixed(duration / 60, 1)} phút

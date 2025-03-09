@@ -5,12 +5,12 @@ export const sampleChatsData = [
     consultantId: "123Consultant",
     userId: "123User",
 
-    consultantName: "Khải Tỏi",
-    userName: "Văn Hữu Toàn",
+    consultant: "Khải Tỏi",
+    user: "Văn Hữu Toàn",
 
-    consultantAvatarUrl:
+    consultantAvatar:
       "https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-3.jpg",
-    userAvatarUrl:
+    userAvatar:
       "https://brocanvas.com/wp-content/uploads/2022/01/hinh-anh-chu-cho-tai-cut.jpg",
     lastMessage:
       "Mỗi vấn đề đều có giải pháp, và tôi luôn sẵn sàng đồng hành cùng bạn để tìm ra cách tốt nhất.",
@@ -24,12 +24,12 @@ export const sampleChatsData = [
     consultantId: "567Consultant",
     userId: "567User",
 
-    consultantName: "Ahihi",
-    userName: "Phạm Hoài Duy",
+    consultant: "Ahihi",
+    user: "Phạm Hoài Duy",
 
-    consultantAvatarUrl:
+    consultantAvatar:
       "https://brocanvas.com/wp-content/uploads/2022/01/hinh-anh-chu-cho-tai-cut.jpg",
-    userAvatarUrl:
+    userAvatar:
       "https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-3.jpg",
 
     lastMessage:
@@ -44,12 +44,12 @@ export const sampleChatsData = [
     consultantId: "789Consultant",
     userId: "789User",
 
-    consultantName: "Toàn Dú Bự",
-    userName: "Nguyễn Phạm Khanh",
+    consultant: "Toàn Dú Bự",
+    user: "Nguyễn Phạm Khanh",
 
-    consultantAvatarUrl:
+    consultantAvatar:
       "https://inkythuatso.com/uploads/thumbnails/800/2023/02/hinh-anh-cun-con-de-thuong-mat-ngo-ngac-1-24-11-47-36.jpg",
-    userAvatarUrl:
+    userAvatar:
       "https://bloghomestay.vn/wp-content/uploads/2023/02/222-hinh-anh-cho-ngao-hai-huoc-doc-nhat-hien-nay-2023_1.jpg",
 
     lastMessage:
@@ -64,12 +64,12 @@ export const sampleChatsData = [
     consultantId: "JQKConsultant",
     userId: "JQKUser",
 
-    consultantName: "Anh dy cá chim to",
-    userName: "Nguyễn Quốc Đại",
+    consultant: "Anh dy cá chim to",
+    user: "Nguyễn Quốc Đại",
 
-    consultantAvatarUrl:
+    consultantAvatar:
       "https://i.pinimg.com/736x/0a/3a/45/0a3a45d6e6a2cc9ed9bb4ecd07145eab.jpg",
-    userAvatarUrl:
+    userAvatar:
       "https://sieupet.com/sites/default/files/pictures/images/1-1473150685951-5.jpg",
 
     lastMessage:

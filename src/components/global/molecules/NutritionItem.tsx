@@ -2,7 +2,7 @@ import React, { ReactNode } from "react"
 
 import { Text, View } from "react-native"
 
-import { HStack } from "@/components/global/atoms"
+import { CardHeader, HStack } from "@/components/global/atoms"
 
 interface NutritionItemProps {
   label: string
@@ -20,9 +20,8 @@ export const NutritionItem = ({
   <View className="border-b border-border py-2">
     <HStack center className="items-center justify-between">
       <Text className="font-tregular text-base text-secondary">{label}</Text>
-      <Text className="font-tmedium text-lg text-primary">
-        {value !== undefined ? `${value} ${unit}` : ""}
-      </Text>
+
+      <CardHeader label={value !== undefined ? `${value} ${unit}` : ""} />
     </HStack>
 
     {children && <View className="ml-1 mt-1">{children}</View>}

@@ -23,20 +23,33 @@ import { BookingStatusEnum } from "@/constants/enum/BookingStatus"
 import { useAuth } from "@/contexts/AuthContext"
 
 function BookingsUserScreen() {
+  const router = useRouter()
+
   const { tab } = useLocalSearchParams<{ tab: string }>()
 
-  const [activeTab, setActiveTab] = useState(tab || "pending")
-  const [selectedBookingId, setSelectedBookingId] = useState<string | null>(
-    null
-  )
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
-  const [reason, setReason] = useState<string>("")
-
-  const router = useRouter()
   const { user } = useAuth()
   const userId = user?.userId
 
   const bookingsData = sampleBookingsData
+
+  const [activeTab, setActiveTab] = useState(tab || "pending")
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+  const [selectedBookingId, setSelectedBookingId] = useState<string | null>(
+    null
+  )
+
+  const filteredBookingsData = bookingsData.filter((booking) => {
+    if (activeTab === "pending") {
+      return booking.status === BookingStatusEnum.Pending
+    }
+    if (activeTab === "ongoing") {
+      return booking.status === BookingStatusEnum.Confirmed
+    }
+    return (
+      booking.status === BookingStatusEnum.Completed ||
+      booking.status === BookingStatusEnum.Cancelled
+    )
+  })
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab)
@@ -47,47 +60,26 @@ function BookingsUserScreen() {
     setIsModalVisible(true)
   }
 
-  const handleViewBooking = (bookingId: string) => {
-    console.log(bookingId)
-  }
-
   const handleConfirmCancel = () => {
     if (selectedBookingId) {
-      const finalData = {
-        userId: userId,
-        bookingId: selectedBookingId,
-        reason: reason
-      }
-
-      console.log("Final Data:", JSON.stringify(finalData, null, 2))
+      console.log("This booking has been cancelled", selectedBookingId)
     }
 
     setIsModalVisible(false)
     setSelectedBookingId(null)
-    setReason("")
   }
 
   const handleConfirm = (bookingId: string) => {
     console.log("Confirm booking id", bookingId)
   }
 
-  const handleReview = (bookingId: string) => {
-    router.push(`/bookings/user/${bookingId}/details`)
+  const handleViewBooking = (bookingId: string) => {
+    console.log(bookingId)
   }
 
-  const filteredBookingsData = bookingsData.filter((booking) => {
-    if (activeTab === "pending") {
-      return (
-        booking.status === BookingStatusEnum.Pending ||
-        booking.status === BookingStatusEnum.Confirmed
-      )
-    } else {
-      return (
-        booking.status !== BookingStatusEnum.Pending &&
-        booking.status !== BookingStatusEnum.Confirmed
-      )
-    }
-  })
+  const handleReview = (bookingId: string) => {
+    router.push(`/bookings/review/${bookingId}`)
+  }
 
   return (
     <>
@@ -98,7 +90,10 @@ function BookingsUserScreen() {
             <Tabs defaultValue={activeTab} contentMarginTop={12}>
               <TabsList scrollable>
                 <TabsTrigger value="pending" onChange={handleTabChange}>
-                  Đang thực hiện
+                  Chờ xác nhận
+                </TabsTrigger>
+                <TabsTrigger value="ongoing" onChange={handleTabChange}>
+                  Đang diễn ra
                 </TabsTrigger>
                 <TabsTrigger value="history" onChange={handleTabChange}>
                   Lịch sử
@@ -109,13 +104,7 @@ function BookingsUserScreen() {
                 {filteredBookingsData.map((booking) => (
                   <View key={booking.bookingId} className="mb-4">
                     <BookingCard
-                      variant={
-                        booking.status === BookingStatusEnum.Pending
-                          ? "cancel"
-                          : booking.status === BookingStatusEnum.Completed
-                            ? "review"
-                            : "default"
-                      }
+                      variant="default"
                       name={booking.consultant}
                       date={booking.date}
                       time={booking.time}
@@ -135,16 +124,13 @@ function BookingsUserScreen() {
       </Container>
 
       <Modal
-        variant="cancel"
         isVisible={isModalVisible}
-        reason={reason}
         onClose={() => setIsModalVisible(false)}
         title="Hủy lịch hẹn"
         description="Bạn có chắc chắn muốn hủy lịch hẹn này không?"
         confirmText="Đồng ý"
         cancelText="Hủy"
         onConfirm={handleConfirmCancel}
-        onReasonChange={setReason}
       />
     </>
   )

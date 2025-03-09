@@ -4,6 +4,7 @@ import { LampOn } from "iconsax-react-native"
 
 import { COLORS } from "@/constants/color"
 
+import { CardHeader } from "./Card"
 import { HStack, VStack } from "./Stack"
 
 interface TextProps {
@@ -23,7 +24,7 @@ export const TipText = ({ text }: TextProps) => {
     <VStack center>
       <HStack center gap={6}>
         <LampOn variant="Bold" size={20} color={COLORS.PRIMARY.lemon} />
-        <Text className="font-tmedium text-lg text-primary">Bạn có biết?</Text>
+        <CardHeader label="Bạn có biết?" />
       </HStack>
 
       <Text className="text-center font-tregular text-sm text-secondary">

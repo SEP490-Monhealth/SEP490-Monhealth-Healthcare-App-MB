@@ -18,7 +18,7 @@ import { COLORS } from "@/constants/color"
 function VoiceScreen() {
   const router = useRouter()
 
-  const handleRegisterConsultant = () => {
+  const handleSetupConsultant = () => {
     router.push("/(setup)/consultant")
   }
 
@@ -58,25 +58,13 @@ function VoiceScreen() {
 
       <Content className="mt-2">
         <ScrollArea>
-          <VStack gap={20} className="pb-40">
-            <Button size="lg" onPress={handleRegisterConsultant}>
-              Đăng ký consultant
-            </Button>
-
+          <VStack gap={20}>
             <Button size="lg" onPress={handleSetupUser}>
-              handleSetupUser
+              Setup User
             </Button>
 
-            <Button size="lg" onPress={handleViewBooking}>
-              Booking của consultant
-            </Button>
-
-            <Button size="lg" onPress={handleViewSchedules}>
-              Schedule
-            </Button>
-
-            <Button size="lg" onPress={handleCreateWorkout}>
-              Tạo Workout
+            <Button size="lg" onPress={handleSetupConsultant}>
+              Setup Consultant
             </Button>
 
             <Button size="lg" onPress={handleCreateSchedule}>
@@ -84,7 +72,19 @@ function VoiceScreen() {
             </Button>
 
             <Button size="lg" onPress={handleViewBookingsUser}>
-              Booking của user
+              User Booking
+            </Button>
+
+            <Button size="lg" onPress={handleViewBooking}>
+              Consultant Booking
+            </Button>
+
+            <Button size="lg" onPress={handleViewSchedules}>
+              User Schedule
+            </Button>
+
+            <Button size="lg" onPress={handleCreateWorkout}>
+              Create Workout
             </Button>
           </VStack>
         </ScrollArea>

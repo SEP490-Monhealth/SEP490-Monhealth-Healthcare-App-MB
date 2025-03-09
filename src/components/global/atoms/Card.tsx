@@ -1,6 +1,7 @@
 import React from "react"
 
 import { TouchableOpacity } from "react-native"
+import { Text } from "react-native"
 
 import { cn } from "@/lib/utils"
 
@@ -37,4 +38,12 @@ export const Card: React.FC<CardProps> = ({
       <React.Fragment>{children}</React.Fragment>
     </TouchableOpacity>
   )
+}
+
+interface CardHeaderProps {
+  label: string
+}
+
+export const CardHeader = ({ label }: CardHeaderProps) => {
+  return <Text className="font-tmedium text-lg text-primary">{label}</Text>
 }

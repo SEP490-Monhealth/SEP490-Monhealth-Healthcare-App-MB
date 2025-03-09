@@ -4,7 +4,7 @@ import { Image, Text, TouchableOpacity } from "react-native"
 
 import { ChevronRight } from "lucide-react-native"
 
-import { Card, HStack, VStack } from "@/components/global/atoms"
+import { Card, CardHeader, HStack, VStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/color"
 
@@ -45,7 +45,8 @@ export const ConsultantCard = ({
 
         <VStack>
           <VStack gap={0}>
-            <Text className="font-tmedium text-lg text-primary">{name}</Text>
+            <CardHeader label={name} />
+
             <Text className="font-tmedium text-sm text-accent">
               {expertise} • {experience} năm
             </Text>

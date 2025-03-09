@@ -5,15 +5,18 @@ import { Text, TouchableOpacity, View } from "react-native"
 import { Check, Plus, SquareEqual } from "lucide-react-native"
 import { Control, Controller, FieldValues } from "react-hook-form"
 
-import { HStack, Input, Select, VStack } from "@/components/global/atoms"
+import {
+  CardHeader,
+  HStack,
+  Input,
+  Select,
+  VStack
+} from "@/components/global/atoms"
 import { IconButton } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/color"
 
-import {
-  useWorkoutStore,
-  useExerciseItemsStore
-} from "@/stores/workoutStore"
+import { useExerciseItemsStore, useWorkoutStore } from "@/stores/workoutStore"
 
 const exerciseOptions = [
   { label: "Thời gian", value: "duration" },
@@ -122,7 +125,8 @@ export const ExerciseCard = ({
     >
       <TouchableOpacity onPress={handleOpen}>
         <HStack center className="justify-between">
-          <Text className="font-tmedium text-lg text-primary">{name}</Text>
+          <CardHeader label={name} />
+
           <IconButton size="sm" icon={icon} onPress={onPress} />
         </HStack>
       </TouchableOpacity>

@@ -8,7 +8,7 @@ import { COLORS } from "@/constants/color"
 
 import { toFixed } from "@/utils/formatters"
 
-import { Badge, Card, Checkbox, HStack, VStack } from "../atoms"
+import { Badge, Card, CardHeader, Checkbox, HStack, VStack } from "../atoms"
 import { IconButton } from "./IconButton"
 
 interface FoodCardProps {
@@ -65,7 +65,7 @@ export const FoodCard = ({
       >
         <VStack gap={0} onPress={onPress}>
           <HStack center gap={8}>
-            <Text className="font-tmedium text-lg text-primary">{name}</Text>
+            <CardHeader label={name} />
 
             {recommended && <Badge label="Đề xuất" />}
           </HStack>

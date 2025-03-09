@@ -9,11 +9,11 @@ import { Add } from "iconsax-react-native"
 
 import { Container, Content } from "@/components/global/atoms"
 import {
-  ErrorDisplay,
   ListFooter,
+  ListHeader,
   WorkoutCard
 } from "@/components/global/molecules"
-import { Header } from "@/components/global/organisms"
+import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
 
@@ -28,6 +28,8 @@ function WorkoutUserScreen() {
 
   const { user } = useAuth()
   // const userId = user?.userId
+
+  const userId = "3026595f-1414-4b74-be8f-11b7f6e7f4f6"
 
   const [workoutsData, setWorkoutsData] = useState<WorkoutType[]>([])
   const [page, setPage] = useState<number>(1)
@@ -78,7 +80,7 @@ function WorkoutUserScreen() {
   }
 
   const handleViewWorkout = (workoutId: string) => {
-    router.push(`/workouts/${workoutId}/details`)
+    router.push(`/workouts/${workoutId}`)
   }
 
   if (!workoutsData && isLoading) return <LoadingScreen />
@@ -93,6 +95,7 @@ function WorkoutUserScreen() {
           href: "/workouts/create"
         }}
       />
+
       <Content className="mt-2">
         <FlatList
           data={workoutsData || []}
@@ -100,11 +103,19 @@ function WorkoutUserScreen() {
           onRefresh={onRefresh}
           refreshing={isRefreshing}
           showsVerticalScrollIndicator={false}
+          stickyHeaderIndices={[0]}
           initialNumToRender={10}
-          maxToRenderPerBatch={5}
-          windowSize={5}
+          maxToRenderPerBatch={10}
+          windowSize={21}
+          removeClippedSubviews
+          updateCellsBatchingPeriod={50}
           onEndReached={onEndReached}
           onEndReachedThreshold={0.5}
+          ListHeaderComponent={
+            <ListHeader>
+              <Section label="Bài tập của tôi" margin={false} />
+            </ListHeader>
+          }
           renderItem={({ item }) => (
             <WorkoutCard
               name={item.name}
@@ -112,14 +123,6 @@ function WorkoutUserScreen() {
               duration={item.durationMinutes}
               caloriesBurned={item.caloriesBurned}
               onPress={() => handleViewWorkout(item.workoutId)}
-            />
-          )}
-          ListEmptyComponent={() => (
-            <ErrorDisplay
-              imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
-              title="Bạn chưa có bản tập"
-              description="Bạn chưa thêm bài tập nào. Hãy bắt đầu ngay!"
-              marginTop={24}
             />
           )}
           ListFooterComponent={
