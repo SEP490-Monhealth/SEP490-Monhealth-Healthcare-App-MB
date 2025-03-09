@@ -40,6 +40,10 @@ function VoiceScreen() {
     router.push("/setup/consultant/schedule")
   }
 
+    const handleViewChat = () => {
+    router.push("/chats")
+  }
+
   return (
     <Container>
       <Header
@@ -78,6 +82,10 @@ function VoiceScreen() {
 
           <Button size="lg" onPress={handleCreateSchedule}>
             Create Schedule
+          </Button>
+
+          <Button size="lg" onPress={handleViewChat}>
+            Tin nhắn
           </Button>
         </VStack>
       </Content>
