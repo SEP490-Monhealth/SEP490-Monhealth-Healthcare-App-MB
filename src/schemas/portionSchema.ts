@@ -1,32 +1,26 @@
 import { z } from "zod"
 
-import { auditSchema } from "./commonSchema"
+import { auditFields, uuidSchema } from "./baseSchema"
 
-const basePortionSchema = z
-  .object({
-    portionId: z.string().uuid(),
-    foodId: z.string().uuid(),
+const basePortionSchema = z.object({
+  portionId: uuidSchema,
+  foodId: uuidSchema,
 
-    size: z
-      .string()
-      .nonempty({ message: "Kích thước phần ăn không được để trống" }),
-    weight: z
-      .number()
-      .min(1, { message: "Khối lượng phần ăn phải lớn hơn hoặc bằng 1 gram" })
-      .max(10000, {
-        message: "Khối lượng phần ăn không được vượt quá 10,000 gram"
-      }),
-    unit: z
-      .string()
-      .nonempty({ message: "Đơn vị đo lường không được để trống" })
-  })
-  .merge(auditSchema)
+  size: z
+    .string()
+    .nonempty({ message: "Kích thước phần ăn không được để trống" }),
+  weight: z
+    .number()
+    .min(1, { message: "Khối lượng phần ăn phải lớn hơn hoặc bằng 1 gram" })
+    .max(10000, {
+      message: "Khối lượng phần ăn không được vượt quá 10,000 gram"
+    }),
+  unit: z.string().nonempty({ message: "Đơn vị đo lường không được để trống" }),
 
-export const portionSchema = basePortionSchema.pick({
-  size: true,
-  weight: true,
-  unit: true
+  ...auditFields
 })
+
+export const portionSchema = basePortionSchema
 
 export const createPortionSchema = basePortionSchema.pick({
   foodId: true,

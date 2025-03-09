@@ -2,40 +2,38 @@ import { z } from "zod"
 
 import { MealTypeEnum } from "@/constants/enum/MealType"
 
-import { timestampSchema } from "./commonSchema"
+import { timestampFields, uuidSchema } from "./baseSchema"
 import { nutritionFoodSchema, nutritionSchema } from "./nutritionSchema"
 import { portionSchema } from "./portionSchema"
 
 const MealTypeSchemaEnum = z.nativeEnum(MealTypeEnum)
 
-export const mealFoodSchema = z
-  .object({
-    mealFoodId: z.string().uuid(),
-    foodId: z.string().uuid(),
+export const mealFoodSchema = z.object({
+  mealFoodId: uuidSchema,
+  foodId: uuidSchema,
 
-    name: z
-      .string()
-      .nonempty({ message: "Tên món ăn không được để trống" })
-      .max(100, { message: "Tên món ăn không được dài hơn 100 ký tự" })
-      .regex(/^[a-zA-Z0-9\s\u00C0-\u024F\u1E00-\u1EFF]*$/, {
-        message: "Tên món ăn chỉ được chứa chữ cái, số và khoảng trắng"
-      }),
+  name: z
+    .string()
+    .nonempty({ message: "Tên món ăn không được để trống" })
+    .max(100, { message: "Tên món ăn không được dài hơn 100 ký tự" })
+    .regex(/^[a-zA-Z0-9\s\u00C0-\u024F\u1E00-\u1EFF]*$/, {
+      message: "Tên món ăn chỉ được chứa chữ cái, số và khoảng trắng"
+    }),
 
-    quantity: z
-      .number()
-      .min(1, { message: "Số lượng phải lớn hơn hoặc bằng 1" }),
+  quantity: z.number().min(1, { message: "Số lượng phải lớn hơn hoặc bằng 1" }),
 
-    portion: portionSchema,
+  portion: portionSchema,
 
-    nutrition: nutritionFoodSchema,
+  nutrition: nutritionFoodSchema,
 
-    isRecommended: z.boolean(),
-    isCompleted: z.boolean()
-  })
-  .merge(timestampSchema)
+  isRecommended: z.boolean(),
+  isCompleted: z.boolean(),
+
+  ...timestampFields
+})
 
 const createMealFoodSchema = z.object({
-  foodId: z.string().uuid(),
+  foodId: uuidSchema,
 
   quantity: z.number().min(1, { message: "Số lượng phải lớn hơn hoặc bằng 1" }),
 
@@ -51,19 +49,19 @@ const createMealFoodSchema = z.object({
   unit: z.string().nonempty({ message: "Đơn vị đo lường không được để trống" })
 })
 
-export const mealSchema = z
-  .object({
-    mealId: z.string().uuid(),
-    userId: z.string().uuid(),
+export const mealSchema = z.object({
+  mealId: uuidSchema,
+  userId: uuidSchema,
 
-    type: MealTypeSchemaEnum,
+  type: MealTypeSchemaEnum,
 
-    nutrition: nutritionSchema
-  })
-  .merge(timestampSchema)
+  nutrition: nutritionSchema,
+
+  ...timestampFields
+})
 
 export const createMealSchema = z.object({
-  userId: z.string().uuid(),
+  userId: uuidSchema,
 
   type: MealTypeSchemaEnum,
 

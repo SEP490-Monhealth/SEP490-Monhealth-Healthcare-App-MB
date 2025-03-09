@@ -1,33 +1,33 @@
 import { z } from "zod"
 
-import { timestampSchema } from "./commonSchema"
+import { timestampFields, uuidSchema } from "./baseSchema"
 
-const baseWaterReminderSchema = z
-  .object({
-    waterReminderId: z.string().uuid(),
-    userId: z.string().uuid(),
+const baseWaterReminderSchema = z.object({
+  waterReminderId: uuidSchema,
+  userId: uuidSchema,
 
-    name: z
-      .string()
-      .min(3, "Tên nhắc nhở phải có ít nhất 3 ký tự")
-      .max(50, "Tên nhắc nhở không được quá 50 ký tự"),
-    time: z
-      .string()
-      .nonempty({ message: "Thời gian không được để trống" })
-      .regex(/^([01]\d|2[0-3]):([0-5]\d)$/, {
-        message: "Thời gian phải có định dạng HH:mm"
-      }),
-    volume: z
-      .number()
-      .min(1, "Dung tích phải lớn hơn hoặc bằng 1 ml")
-      .max(2000, "Dung tích không được vượt quá 2000 ml"),
+  name: z
+    .string()
+    .min(3, "Tên nhắc nhở phải có ít nhất 3 ký tự")
+    .max(50, "Tên nhắc nhở không được quá 50 ký tự"),
+  time: z
+    .string()
+    .nonempty({ message: "Thời gian không được để trống" })
+    .regex(/^([01]\d|2[0-3]):([0-5]\d)$/, {
+      message: "Thời gian phải có định dạng HH:mm"
+    }),
+  volume: z
+    .number()
+    .min(1, "Dung tích phải lớn hơn hoặc bằng 1 ml")
+    .max(2000, "Dung tích không được vượt quá 2000 ml"),
 
-    isRecurring: z.boolean(),
-    isDrunk: z.boolean(),
+  isRecurring: z.boolean(),
+  isDrunk: z.boolean(),
 
-    status: z.boolean()
-  })
-  .merge(timestampSchema)
+  status: z.boolean(),
+
+  ...timestampFields
+})
 
 export const waterReminderSchema = baseWaterReminderSchema
 

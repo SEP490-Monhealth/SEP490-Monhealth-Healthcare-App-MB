@@ -5,8 +5,8 @@ import { FoodTypeEnum } from "@/constants/enum/FoodType"
 import { MealTypeEnum } from "@/constants/enum/MealType"
 
 import { allergySetupSchema } from "./allergySchema"
+import { auditFields, timestampFields, uuidSchema } from "./baseSchema"
 import { categorySetupSchema } from "./categorySchema"
-import { auditSchema, timestampSchema } from "./commonSchema"
 import { nutritionSchema } from "./nutritionSchema"
 import { portionSchema } from "./portionSchema"
 
@@ -14,75 +14,59 @@ const FoodTypeSchemaEnum = z.nativeEnum(FoodTypeEnum)
 const MealTypeSchemaEnum = z.nativeEnum(MealTypeEnum)
 const DishTypeSchemaEnum = z.nativeEnum(DishTypeEnum)
 
-export const foodAllergySchema = z
-  .object({
-    foodAllergyId: z.string().uuid(),
-    foodId: z.string().uuid(),
-    allergyId: z.string().uuid()
-  })
-  .merge(timestampSchema)
+export const foodAllergySchema = z.object({
+  foodAllergyId: uuidSchema,
+  foodId: uuidSchema,
+  allergyId: uuidSchema,
 
-export const foodPortionSchema = z
-  .object({
-    foodPortionId: z.string().uuid(),
-    foodId: z.string().uuid(),
-    portionId: z.string().uuid()
-  })
-  .merge(timestampSchema)
+  ...timestampFields
+})
 
-const baseFoodSchema = z
-  .object({
-    foodId: z.string().uuid(),
-    userId: z.string().uuid(),
-    category: z.string(),
+export const foodPortionSchema = z.object({
+  foodPortionId: uuidSchema,
+  foodId: uuidSchema,
+  portionId: uuidSchema,
 
-    foodType: z.array(FoodTypeSchemaEnum),
-    mealType: z.array(MealTypeSchemaEnum),
-    dishType: z.array(DishTypeSchemaEnum),
+  ...timestampFields
+})
 
-    name: z
-      .string()
-      .nonempty({ message: "Tên món ăn không được để trống" })
-      .max(100, { message: "Tên món ăn không được dài hơn 100 ký tự" })
-      .regex(/^[a-zA-Z0-9\s\u00C0-\u024F\u1E00-\u1EFF]*$/, {
-        message: "Tên món ăn chỉ được chứa chữ cái, số và khoảng trắng"
-      }),
-    description: z
-      .string()
-      .nonempty({ message: "Mô tả món ăn không được để trống" })
-      .max(500, { message: "Mô tả món ăn không được dài hơn 500 ký tự" }),
+const baseFoodSchema = z.object({
+  foodId: uuidSchema,
+  userId: uuidSchema,
+  category: z.string(),
 
-    portion: portionSchema,
+  foodType: z.array(FoodTypeSchemaEnum),
+  mealType: z.array(MealTypeSchemaEnum),
+  dishType: z.array(DishTypeSchemaEnum),
 
-    nutrition: nutritionSchema,
+  name: z
+    .string()
+    .nonempty({ message: "Tên món ăn không được để trống" })
+    .max(100, { message: "Tên món ăn không được dài hơn 100 ký tự" })
+    .regex(/^[a-zA-Z0-9\s\u00C0-\u024F\u1E00-\u1EFF]*$/, {
+      message: "Tên món ăn chỉ được chứa chữ cái, số và khoảng trắng"
+    }),
+  description: z
+    .string()
+    .nonempty({ message: "Mô tả món ăn không được để trống" })
+    .max(500, { message: "Mô tả món ăn không được dài hơn 500 ký tự" }),
 
-    allergies: z.array(z.string()),
+  portion: portionSchema,
 
-    views: z.number(),
+  nutrition: nutritionSchema,
 
-    isPublic: z.boolean(),
+  allergies: z.array(z.string()),
 
-    status: z.boolean()
-  })
-  .merge(auditSchema)
+  views: z.number(),
+
+  isPublic: z.boolean(),
+
+  status: z.boolean(),
+
+  ...auditFields
+})
 
 export const foodSchema = baseFoodSchema
-  .pick({
-    foodId: true,
-    userId: true,
-    // foodType: true,
-    mealType: true,
-    dishType: true,
-    category: true,
-    name: true,
-    description: true,
-    portion: true,
-    nutrition: true,
-    allergies: true,
-    isPublic: true,
-    status: true
-  })
-  .merge(auditSchema)
 
 export const foodSaveSchema = baseFoodSchema.pick({
   foodId: true,

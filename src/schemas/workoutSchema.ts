@@ -3,7 +3,7 @@ import { z } from "zod"
 import { DifficultyLevelEnum } from "@/constants/enum/DifficultyLevel"
 import { WorkoutTypeEnum } from "@/constants/enum/WorkoutType"
 
-import { auditSchema } from "./commonSchema"
+import { auditFields, uuidSchema } from "./baseSchema"
 
 const WorkoutTypeSchemaEnum = z.nativeEnum(WorkoutTypeEnum)
 const DifficultyLevelSchemaEnum = z.nativeEnum(DifficultyLevelEnum)
@@ -15,59 +15,43 @@ const createWorkoutExerciseSchema = z.object({
   reps: z.number().optional()
 })
 
-const baseWorkoutSchema = z
-  .object({
-    workoutId: z.string().uuid(),
-    userId: z.string().uuid(),
+const baseWorkoutSchema = z.object({
+  workoutId: uuidSchema,
+  userId: uuidSchema,
 
-    category: z.string(),
-    type: WorkoutTypeSchemaEnum,
+  category: z.string(),
+  type: WorkoutTypeSchemaEnum,
 
-    name: z
-      .string()
-      .nonempty({ message: "Tên bài tập không được để trống" })
-      .max(100, { message: "Tên bài tập không được dài hơn 100 ký tự" }),
-    description: z
-      .string()
-      .nonempty({ message: "Mô tả không được để trống" })
-      .max(500, { message: "Mô tả không được dài hơn 500 ký tự" }),
-    difficultyLevel: DifficultyLevelSchemaEnum,
+  name: z
+    .string()
+    .nonempty({ message: "Tên bài tập không được để trống" })
+    .max(100, { message: "Tên bài tập không được dài hơn 100 ký tự" }),
+  description: z
+    .string()
+    .nonempty({ message: "Mô tả không được để trống" })
+    .max(500, { message: "Mô tả không được dài hơn 500 ký tự" }),
+  difficultyLevel: DifficultyLevelSchemaEnum,
 
-    exercises: z
-      .number()
-      .min(1, { message: "Số lượng bài tập phải lớn hơn hoặc bằng 1" }),
-    durationMinutes: z
-      .number()
-      .min(1, { message: "Thời lượng phải lớn hơn hoặc bằng 1" }),
-    caloriesBurned: z
-      .number()
-      .min(0, { message: "Calo đốt cháy phải lớn hơn hoặc bằng 0" }),
+  exercises: z
+    .number()
+    .min(1, { message: "Số lượng bài tập phải lớn hơn hoặc bằng 1" }),
+  durationMinutes: z
+    .number()
+    .min(1, { message: "Thời lượng phải lớn hơn hoặc bằng 1" }),
+  caloriesBurned: z
+    .number()
+    .min(0, { message: "Calo đốt cháy phải lớn hơn hoặc bằng 0" }),
 
-    views: z.number(),
+  views: z.number(),
 
-    isPublic: z.boolean(),
+  isPublic: z.boolean(),
 
-    status: z.boolean()
-  })
-  .merge(auditSchema)
+  status: z.boolean(),
 
-export const workoutSchema = baseWorkoutSchema.pick({
-  workoutId: true,
-  userId: true,
-
-  category: true,
-  type: true,
-
-  name: true,
-  description: true,
-  difficultyLevel: true,
-
-  exercises: true,
-  durationMinutes: true,
-  caloriesBurned: true,
-
-  isPublic: true
+  ...auditFields
 })
+
+export const workoutSchema = baseWorkoutSchema
 
 export const createWorkoutSchema = z.object({
   category: z.string(),

@@ -1,23 +1,23 @@
 import { z } from "zod"
 
-import { timestampSchema } from "./commonSchema"
+import { timestampFields, uuidSchema } from "./baseSchema"
 
-const baseDailyActivitySchema = z
-  .object({
-    dailyActivityId: z.string().uuid(),
-    userId: z.string().uuid(),
+const baseDailyActivitySchema = z.object({
+  dailyActivityId: uuidSchema,
+  userId: uuidSchema,
 
-    totalDuration: z
-      .number()
-      .min(1, { message: "Thời gian phải lớn hơn hoặc bằng 1 phút" })
-      .max(1000, {
-        message: "Thời gian không được vượt quá 1,000 phút"
-      }),
-    totalCaloriesBurned: z
-      .number()
-      .min(1, { message: "Kcal phải lớn hơn hoặc bằng 1" })
-  })
-  .merge(timestampSchema)
+  totalDuration: z
+    .number()
+    .min(1, { message: "Thời gian phải lớn hơn hoặc bằng 1 phút" })
+    .max(1000, {
+      message: "Thời gian không được vượt quá 1,000 phút"
+    }),
+  totalCaloriesBurned: z
+    .number()
+    .min(1, { message: "Kcal phải lớn hơn hoặc bằng 1" }),
+
+  ...timestampFields
+})
 
 export const dailyActivitySchema = baseDailyActivitySchema
 

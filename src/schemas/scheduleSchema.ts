@@ -4,58 +4,45 @@ import { ScheduleTimeSlotStatusEnum } from "@/constants/enum/ScheduleTimeSlotSta
 import { ScheduleTypeEnum } from "@/constants/enum/ScheduleType"
 
 import { RecurringDayEnum } from "./../constants/enum/RecurringDay"
-import { timestampSchema } from "./commonSchema"
+import { timestampFields, uuidSchema } from "./baseSchema"
 
 const ScheduleTypeSchemaEnum = z.nativeEnum(ScheduleTypeEnum)
 const RecurringDaySchemaEnum = z.nativeEnum(RecurringDayEnum)
 const ScheduleStatusSchemaEnum = z.nativeEnum(ScheduleTimeSlotStatusEnum)
 
-const scheduleTimeSlotSchema = z
-  .object({
-    scheduleTimeSlotId: z.string().uuid(),
-    scheduleId: z.string().uuid(),
-    timeSlotId: z.string().uuid(),
+const scheduleTimeSlotSchema = z.object({
+  scheduleTimeSlotId: uuidSchema,
+  scheduleId: uuidSchema,
+  timeSlotId: uuidSchema,
 
-    status: ScheduleStatusSchemaEnum
-  })
-  .merge(timestampSchema)
+  status: ScheduleStatusSchemaEnum,
 
-const timeSlotSchema = z
-  .object({
-    timeSlotId: z.string().uuid(),
-
-    startTime: z.string()
-  })
-  .merge(timestampSchema)
-
-const baseScheduleSchema = z
-  .object({
-    scheduleId: z.string().uuid(),
-    consultantId: z.string().uuid(),
-
-    type: ScheduleTypeSchemaEnum,
-
-    recurringDay: RecurringDaySchemaEnum.optional(),
-    specificDate: z.string().optional(),
-
-    scheduleTimeSlots: z.array(scheduleTimeSlotSchema)
-  })
-  .merge(timestampSchema)
-
-export const scheduleSchema = baseScheduleSchema.pick({
-  scheduleId: true,
-  consultantId: true,
-
-  type: true,
-
-  recurringDay: true,
-  specificDate: true,
-
-  scheduleTimeSlots: true,
-
-  createdAt: true,
-  updatedAt: true
+  ...timestampFields
 })
+
+const timeSlotSchema = z.object({
+  timeSlotId: uuidSchema,
+
+  startTime: z.string(),
+
+  ...timestampFields
+})
+
+const baseScheduleSchema = z.object({
+  scheduleId: uuidSchema,
+  consultantId: uuidSchema,
+
+  type: ScheduleTypeSchemaEnum,
+
+  recurringDay: RecurringDaySchemaEnum.optional(),
+  specificDate: z.string().optional(),
+
+  scheduleTimeSlots: z.array(scheduleTimeSlotSchema),
+
+  ...timestampFields
+})
+
+export const scheduleSchema = baseScheduleSchema
 
 const scheduleItemSchema = z.object({
   recurringDay: RecurringDaySchemaEnum.nullable().optional(),
@@ -65,7 +52,7 @@ const scheduleItemSchema = z.object({
 })
 
 export const createScheduleSchema = z.object({
-  consultantId: z.string().uuid(),
+  consultantId: uuidSchema,
 
   type: ScheduleTypeSchemaEnum,
 

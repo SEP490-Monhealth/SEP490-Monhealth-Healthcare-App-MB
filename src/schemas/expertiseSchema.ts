@@ -1,17 +1,17 @@
 import { z } from "zod"
 
-import { timestampSchema } from "./commonSchema"
+import { timestampFields, uuidSchema } from "./baseSchema"
 
-export const baseExpertiseSchema = z
-  .object({
-    expertiseId: z.string().uuid(),
+export const baseExpertiseSchema = z.object({
+  expertiseId: uuidSchema,
 
-    name: z
-      .string()
-      .nonempty({ message: "Tên chuyên môn không được để trống" })
-      .max(100, { message: "Tên chuyên môn không được dài hơn 100 ký tự" })
-  })
-  .merge(timestampSchema)
+  name: z
+    .string()
+    .nonempty({ message: "Tên chuyên môn không được để trống" })
+    .max(100, { message: "Tên chuyên môn không được dài hơn 100 ký tự" }),
+
+  ...timestampFields
+})
 
 export const expertiseSchema = baseExpertiseSchema
 

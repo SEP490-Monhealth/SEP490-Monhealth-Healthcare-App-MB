@@ -21,6 +21,7 @@ import {
   Chip,
   Container,
   Content,
+  ErrorText,
   HStack,
   Input,
   ScrollArea,
@@ -29,6 +30,7 @@ import {
 import { Header, Section } from "@/components/global/organisms"
 
 import { sampleBookingsData } from "@/constants/bookings"
+import { COLORS } from "@/constants/color"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -53,8 +55,6 @@ function ReviewCreateScreen() {
 
   const [ratingNumber, setRatingNumber] = useState(0)
   const [selectedReviews, setSelectedReviews] = useState<string[]>([])
-  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false)
-  const [isInputFocused, setIsInputFocused] = useState(false)
 
   const handleRating = (ratingValue: number) => {
     setRatingNumber(ratingValue)
@@ -68,30 +68,6 @@ function ReviewCreateScreen() {
         : [...prev, quickly]
     )
   }
-
-  const handleKeyboardDidShow = useCallback(() => {
-    setIsKeyboardVisible(true)
-  }, [])
-
-  const handleKeyboardDidHide = useCallback(() => {
-    setIsKeyboardVisible(false)
-  }, [])
-
-  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      "keyboardDidShow",
-      handleKeyboardDidShow
-    )
-    const keyboardDidHideListener = Keyboard.addListener(
-      "keyboardDidHide",
-      handleKeyboardDidHide
-    )
-
-    return () => {
-      keyboardDidShowListener.remove()
-      keyboardDidHideListener.remove()
-    }
-  }, [handleKeyboardDidShow, handleKeyboardDidHide])
 
   const {
     control,
@@ -110,108 +86,109 @@ function ReviewCreateScreen() {
   })
 
   const onSubmit = async (reviewData: CreateReviewType) => {
-    const finalData = {
-      ...reviewData,
-      comment: `${reviewData.comment}. ${selectedReviews.join(", ")}`
-    }
+    const comment = `${reviewData.comment}. ${selectedReviews.join(" - ")}`
+
+    const finalData = { ...reviewData, comment: comment }
+
     console.log("Final Data:", JSON.stringify(finalData, null, 2))
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
-    >
-      <Container>
-        <Header back label="Phản hồi" />
+    <Container>
+      <Header back label="Phản hồi" />
 
-        <Content className="mt-2">
-          <ScrollArea>
-            <VStack gap={10} className="pb-40">
-              <Text className="text-justify font-tregular text-base text-secondary">
-                Những đánh giá và phản hồi của bạn sẽ góp phần cải thiện chất
-                lượng dịch vụ của tư vấn viên, giúp mang lại trải nghiệm tốt
-                hơn.
-              </Text>
-              <VStack center gap={10}>
-                <Image
-                  source={{ uri: bookingData?.consultantAvatar }}
-                  className="rounded-2xl border border-border"
-                  style={{ height: 150, width: 150 }}
-                />
-                <VStack center>
-                  <Text className="font-tbold text-2xl text-primary">
-                    {bookingData?.consultant}
-                  </Text>
+      <Content className="mt-2">
+        <ScrollArea>
+          <VStack gap={10} className="pb-40">
+            <Text className="text-justify font-tregular text-base text-secondary">
+              Những đánh giá và phản hồi của bạn sẽ góp phần cải thiện chất
+              lượng dịch vụ của tư vấn viên, giúp mang lại trải nghiệm tốt hơn
+            </Text>
 
-                  <HStack gap={10}>
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <TouchableOpacity
-                        key={star}
-                        onPress={() => handleRating(star)}
-                      >
-                        <Star
-                          size={30}
-                          fill={star <= ratingNumber ? "#eab308" : "#e2e8f0"}
-                          color={star <= ratingNumber ? "#eab308" : "#e2e8f0"}
-                        />
-                      </TouchableOpacity>
-                    ))}
-                  </HStack>
-                  <Text className="font-tregular text-destructive">
-                    {errors.rating?.message}
-                  </Text>
-                </VStack>
-              </VStack>
+            <VStack center gap={10}>
+              <Image
+                source={{ uri: bookingData?.consultantAvatar }}
+                className="h-32 w-32 rounded-2xl border border-border"
+              />
 
-              <VStack>
-                <Section label="Đánh giá của bạn" margin={false} />
-                <VStack gap={20}>
-                  <View className="flex-row flex-wrap gap-2">
-                    {quickReviewsData.map((review) => (
-                      <Chip
-                        key={review}
-                        label={review}
-                        border
-                        borderWidth={1}
-                        size="sm"
-                        selected={selectedReviews.includes(review)}
-                        onPress={() => handleSelectQuick(review)}
+              <VStack center gap={12}>
+                <Text className="font-tbold text-2xl text-primary">
+                  {bookingData?.consultant}
+                </Text>
+
+                <HStack gap={8}>
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <TouchableOpacity
+                      key={star}
+                      activeOpacity={0.7}
+                      onPress={() => handleRating(star)}
+                    >
+                      <Star
+                        size={24}
+                        fill={
+                          star <= ratingNumber
+                            ? COLORS.PRIMARY.lemon
+                            : COLORS.border
+                        }
+                        color={
+                          star <= ratingNumber
+                            ? COLORS.PRIMARY.lemon
+                            : COLORS.border
+                        }
                       />
-                    ))}
-                  </View>
+                    </TouchableOpacity>
+                  ))}
+                </HStack>
 
-                  <Controller
-                    name="comment"
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Input
-                        value={value}
-                        placeholder="Nhập đánh giá của bạn"
-                        onChangeText={onChange}
-                        isMultiline
-                        numberOfLines={6}
-                        canClearText
-                        keyboardType="default"
-                        errorMessage={errors.comment?.message}
-                        className="mb-20"
-                        onFocus={() => setIsInputFocused(true)}
-                        onBlur={() => setIsInputFocused(false)}
-                      />
-                    )}
-                  />
-                </VStack>
+                {errors.rating?.message && (
+                  <ErrorText text={errors.rating.message} />
+                )}
               </VStack>
             </VStack>
-          </ScrollArea>
-        </Content>
-        {!isKeyboardVisible && !isInputFocused && (
-          <Button size="lg" onPress={handleSubmit(onSubmit)} className="mb-4">
-            Đánh giá
-          </Button>
-        )}
-      </Container>
-    </KeyboardAvoidingView>
+
+            <VStack gap={20}>
+              <View className="flex-row flex-wrap gap-2">
+                {quickReviewsData.map((review) => (
+                  <Chip
+                    key={review}
+                    label={review}
+                    selected={selectedReviews.includes(review)}
+                    onPress={() => handleSelectQuick(review)}
+                  />
+                ))}
+              </View>
+
+              <Section label="Phản hồi của bạn" margin={false} />
+
+              <Controller
+                name="comment"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    value={value}
+                    placeholder="Nhập phản hồi của bạn"
+                    onChangeText={onChange}
+                    isMultiline
+                    numberOfLines={6}
+                    canClearText
+                    keyboardType="default"
+                    errorMessage={errors.comment?.message}
+                  />
+                )}
+              />
+            </VStack>
+          </VStack>
+        </ScrollArea>
+
+        <Button
+          size="lg"
+          onPress={handleSubmit(onSubmit)}
+          className="absolute bottom-4 w-full"
+        >
+          Phản hồi
+        </Button>
+      </Content>
+    </Container>
   )
 }
 

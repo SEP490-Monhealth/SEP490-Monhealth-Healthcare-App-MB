@@ -1,21 +1,21 @@
 import { z } from "zod"
 
-import { timestampSchema } from "./commonSchema"
+import { timestampFields, uuidSchema } from "./baseSchema"
 
-const baseChatSchema = z
-  .object({
-    chatId: z.string(),
-    userId: z.string(),
-    consultantId: z.string(),
+const baseChatSchema = z.object({
+  chatId: uuidSchema,
+  userId: uuidSchema,
+  consultantId: uuidSchema,
 
-    consultant: z.string(),
-    user: z.string(),
-    consultantAvatar: z.string(),
-    userAvatar: z.string(),
+  consultant: z.string(),
+  user: z.string(),
+  consultantAvatar: z.string(),
+  userAvatar: z.string(),
 
-    lastMessage: z.string()
-  })
-  .merge(timestampSchema)
+  lastMessage: z.string(),
+
+  ...timestampFields
+})
 
 export const chatSchema = baseChatSchema
 

@@ -1,54 +1,54 @@
 import { z } from "zod"
 
-import { timestampSchema } from "./commonSchema"
+import { timestampFields, uuidSchema } from "./baseSchema"
 
-const baseConsultantSchema = z
-  .object({
-    consultantId: z.string().uuid(),
-    userId: z.string().uuid(),
-    expertiseId: z.string().uuid(),
+const baseConsultantSchema = z.object({
+  consultantId: uuidSchema,
+  userId: uuidSchema,
+  expertiseId: uuidSchema,
 
-    fullName: z
-      .string()
-      .nonempty({ message: "Tên không được để trống" })
-      .max(50, { message: "Tên không được dài hơn 50 ký tự" })
-      .regex(/^[^\d!@#$%^&*()_+=[\]{};':"\\|,.<>/?]*$/, {
-        message: "Tên không được chứa ký tự đặc biệt hoặc số"
-      }),
-    avatarUrl: z.string().url({ message: "Đường dẫn không hợp lệ" }).optional(),
+  fullName: z
+    .string()
+    .nonempty({ message: "Tên không được để trống" })
+    .max(50, { message: "Tên không được dài hơn 50 ký tự" })
+    .regex(/^[^\d!@#$%^&*()_+=[\]{};':"\\|,.<>/?]*$/, {
+      message: "Tên không được chứa ký tự đặc biệt hoặc số"
+    }),
+  avatarUrl: z.string().url({ message: "Đường dẫn không hợp lệ" }).optional(),
 
-    bio: z
-      .string()
-      // .min(50, {
-      //   message: "Mô tả phải có ít nhất 50 ký tự"
-      // })
-      .max(200, {
-        message: "Mô tả không được dài hơn 200 ký tự"
-      }),
-    experience: z
-      .number()
-      .min(1, { message: "Kinh nghiệm phải lớn hơn hoặc bằng 1" })
-      .max(100, {
-        message: "Kinh nghiệm không được vượt quá 100 năm"
-      }),
+  bio: z
+    .string()
+    // .min(50, {
+    //   message: "Mô tả phải có ít nhất 50 ký tự"
+    // })
+    .max(200, {
+      message: "Mô tả không được dài hơn 200 ký tự"
+    }),
+  experience: z
+    .number()
+    .min(1, { message: "Kinh nghiệm phải lớn hơn hoặc bằng 1" })
+    .max(100, {
+      message: "Kinh nghiệm không được vượt quá 100 năm"
+    }),
 
-    expertise: z
-      .string()
-      .nonempty({ message: "Tên chuyên môn không được để trống" })
-      .max(100, { message: "Tên chuyên môn không được dài hơn 100 ký tự" }),
+  expertise: z
+    .string()
+    .nonempty({ message: "Tên chuyên môn không được để trống" })
+    .max(100, { message: "Tên chuyên môn không được dài hơn 100 ký tự" }),
 
-    rating: z
-      .number()
-      .min(1, { message: "Đánh giá phải lớn hơn hoặc bằng 1" })
-      .max(5, { message: "Đánh giá không được vượt quá 5" }),
+  rating: z
+    .number()
+    .min(1, { message: "Đánh giá phải lớn hơn hoặc bằng 1" })
+    .max(5, { message: "Đánh giá không được vượt quá 5" }),
 
-    patient: z.number(),
+  patient: z.number(),
 
-    views: z.number(),
+  views: z.number(),
 
-    status: z.boolean()
-  })
-  .merge(timestampSchema)
+  status: z.boolean(),
+
+  ...timestampFields
+})
 
 export const consultantSchema = baseConsultantSchema.pick({
   consultantId: true,

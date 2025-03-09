@@ -1,40 +1,29 @@
 import { z } from "zod"
 
-import { auditSchema } from "./commonSchema"
+import { auditFields, uuidSchema } from "./baseSchema"
 
-const basePaymentSchema = z
-  .object({
-    paymentId: z.string().uuid(),
-    // bookingId: z.string().uuid(),
-    subscriptionId: z.string().uuid(),
+const basePaymentSchema = z.object({
+  paymentId: uuidSchema,
+  subscriptionId: uuidSchema,
 
-    amount: z.number(),
+  amount: z.number(),
 
-    status: z
-      .string()
-      .refine((val) => ["Pending", "Success", "Failed"].includes(val), {
-        message:
-          "Trạng thái không hợp lệ. Chỉ chấp nhận: Pending, Success, Failed"
-      })
-  })
-  .merge(auditSchema)
+  status: z
+    .string()
+    .refine((val) => ["Pending", "Success", "Failed"].includes(val), {
+      message:
+        "Trạng thái không hợp lệ. Chỉ chấp nhận: Pending, Success, Failed"
+    }),
+
+  ...auditFields
+})
 
 export const paymentSchema = basePaymentSchema
 
-// export const createBookingPaymentSchema = paymentSchema.pick({
-//   bookingId: true,
-//   amount: true
-// })
-
-export const createSubscriptionPaymentSchema = paymentSchema.pick({
+export const createPaymentSchema = paymentSchema.pick({
   subscriptionId: true,
   amount: true
 })
 
 export type PaymentType = z.infer<typeof paymentSchema>
-// export type CreateBookingPaymentType = z.infer<
-//   typeof createBookingPaymentSchema
-// >
-export type CreateSubscriptionPaymentType = z.infer<
-  typeof createSubscriptionPaymentSchema
->
+export type CreatePaymentType = z.infer<typeof createPaymentSchema>
