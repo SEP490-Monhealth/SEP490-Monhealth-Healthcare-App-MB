@@ -68,9 +68,9 @@ function OnboardingScreen() {
     if (currentIndex < activeOnboardingData.length - 1) {
       setCurrentIndex((prev) => prev + 1)
     } else if (role === "User") {
-      router.replace("/setup/user")
+      router.replace("/(setup)/user")
     } else {
-      router.replace("/setup/consultant")
+      router.replace("/(setup)/consultant")
     }
   }
 

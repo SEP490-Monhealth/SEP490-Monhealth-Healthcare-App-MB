@@ -8,7 +8,7 @@ import {
   uploadBytesResumable
 } from "firebase/storage"
 
-import { useConsultantSetupStore } from "@/stores/consultantSetupStore"
+import { useConsultantStore } from "@/stores/consultantStore"
 
 import { generateUUID } from "@/utils/helpers"
 
@@ -58,7 +58,7 @@ export const handleUploadImage = async (uri: string) => {
   const storageRef = ref(storage, `Monhealth/certificates/${fileName}`)
 
   const newImage = { uri, fileName, uploading: true, progress: 0 }
-  useConsultantSetupStore.getState().updateField("images", [newImage], true)
+  useConsultantStore.getState().updateField("imageUrls", [newImage], true)
 
   const response = await fetch(uri)
   const blob = await response.blob()
@@ -72,11 +72,11 @@ export const handleUploadImage = async (uri: string) => {
         (snapshot.bytesTransferred / snapshot.totalBytes) * 100
       )
 
-      useConsultantSetupStore.getState().updateField(
-        "images",
-        useConsultantSetupStore
+      useConsultantStore.getState().updateField(
+        "imageUrls",
+        useConsultantStore
           .getState()
-          .images.map((img) =>
+          .imageUrls.map((img) =>
             img.fileName === fileName
               ? { ...img, progress: uploadProgress }
               : img
@@ -86,11 +86,11 @@ export const handleUploadImage = async (uri: string) => {
     (error) => {
       console.error("Upload failed:", error)
 
-      useConsultantSetupStore.getState().updateField(
-        "images",
-        useConsultantSetupStore
+      useConsultantStore.getState().updateField(
+        "imageUrls",
+        useConsultantStore
           .getState()
-          .images.map((img) =>
+          .imageUrls.map((img) =>
             img.fileName === fileName ? { ...img, uploading: false } : img
           )
       )
@@ -98,11 +98,11 @@ export const handleUploadImage = async (uri: string) => {
     async () => {
       const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
 
-      useConsultantSetupStore.getState().updateField(
-        "images",
-        useConsultantSetupStore
+      useConsultantStore.getState().updateField(
+        "imageUrls",
+        useConsultantStore
           .getState()
-          .images.map((img) =>
+          .imageUrls.map((img) =>
             img.fileName === fileName
               ? { ...img, uri: downloadURL, uploading: false, progress: 100 }
               : img
@@ -113,11 +113,11 @@ export const handleUploadImage = async (uri: string) => {
 }
 
 export const handleDeleteImage = async (fileName: string) => {
-  const { images, updateField } = useConsultantSetupStore.getState()
+  const { imageUrls, updateField } = useConsultantStore.getState()
 
   updateField(
-    "images",
-    images.map((img) =>
+    "imageUrls",
+    imageUrls.map((img) =>
       img.fileName === fileName ? { ...img, deleting: true } : img
     )
   )
@@ -129,8 +129,8 @@ export const handleDeleteImage = async (fileName: string) => {
     console.log("File deleted successfully:", fileName)
 
     updateField(
-      "images",
-      images.filter((img) => img.fileName !== fileName)
+      "imageUrls",
+      imageUrls.filter((img) => img.fileName !== fileName)
     )
   } catch (error) {
     console.error("Failed to delete file:", error)

@@ -73,7 +73,7 @@ function SetupSummary() {
 
   // const handleSave = () => setIsEditing(false)
 
-  const handleFinished = () => router.replace("/setup/completed")
+  const handleFinished = () => router.replace("/(setup)/completed")
 
   if (!goalData || isLoading) return <LoadingScreen />
 

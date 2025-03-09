@@ -274,7 +274,7 @@ function SetupUserScreen() {
         setIsLoading(false)
       }
 
-      // router.replace("/setup/meal-suggestions")
+      // router.replace("/(setup)/meal-suggestions")
 
       // try {
       //   await Promise.all([
@@ -292,7 +292,7 @@ function SetupUserScreen() {
       //     )
       //   ])
 
-      //   router.replace("/setup/summary")
+      //   router.replace("/(setup)/summary")
       // } catch (error) {
       //   console.error("Error during setup submission:", error)
       // } finally {

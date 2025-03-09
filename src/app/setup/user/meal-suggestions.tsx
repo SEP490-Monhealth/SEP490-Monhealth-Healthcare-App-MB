@@ -92,7 +92,7 @@ function SetupMealSuggestions() {
       )
 
       setTimeout(() => {
-        runOnJS(router.replace)("/setup/summary")
+        runOnJS(router.replace)("/(setup)/summary")
       }, 2000)
     }
   }, [isComplete, progress, router])

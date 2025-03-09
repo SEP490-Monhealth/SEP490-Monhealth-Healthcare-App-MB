@@ -39,7 +39,7 @@ import { certificateSetupSchema } from "@/schemas/certificateSchema"
 import { informationConsultantSchema } from "@/schemas/consultantSchema"
 import { expertiseSetupSchema } from "@/schemas/expertiseSchema"
 
-import { useConsultantSetupStore } from "@/stores/consultantSetupStore"
+import { useConsultantStore } from "@/stores/consultantStore"
 
 import { formatUTCDate } from "@/utils/formatters"
 import { handleSelectImage, handleUploadImage } from "@/utils/images"
@@ -92,7 +92,7 @@ function SetupConsultantScreen() {
     expiryDate,
     imageUrls,
     updateField
-  } = useConsultantSetupStore()
+  } = useConsultantStore()
 
   const [currentStep, setCurrentStep] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -190,7 +190,7 @@ function SetupConsultantScreen() {
         // await new Promise((resolve) => setTimeout(resolve, 2000))
         // createConsultant(data as CreateConsultantType, {
         //   onSuccess: () => {
-        //     router.push("/setup/completed")
+        //     router.push("/(setup)/completed")
         //   }
         // })
       }

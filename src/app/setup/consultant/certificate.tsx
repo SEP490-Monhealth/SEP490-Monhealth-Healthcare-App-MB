@@ -23,7 +23,7 @@ import { Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
 
-import { useConsultantSetupStore } from "@/stores/consultantSetupStore"
+import { useConsultantStore } from "@/stores/consultantStore"
 
 import { formatISODate } from "@/utils/formatters"
 import { handleDeleteImage } from "@/utils/images"
@@ -41,7 +41,7 @@ function SetupCertificate({
   openUploadSheet,
   openDateSheet
 }: SetupCertificateProps) {
-  const { imageUrls } = useConsultantSetupStore()
+  const { imageUrls } = useConsultantStore()
 
   return (
     <ScrollArea>

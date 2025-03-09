@@ -89,7 +89,7 @@ export const WorkoutTab = ({
   const handleViewWorkouts = () => router.push("/workouts")
 
   const handleViewWorkout = (workoutId: string) => {
-    router.push(`/workouts/${workoutId}/details`)
+    router.push(`/workouts/${workoutId}`)
   }
 
   return (

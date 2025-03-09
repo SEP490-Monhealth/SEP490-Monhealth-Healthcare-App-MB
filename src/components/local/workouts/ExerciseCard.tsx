@@ -19,6 +19,7 @@ const exerciseOptions = [
   { label: "Thời gian", value: "duration" },
   { label: "Lần", value: "reps" }
 ]
+
 interface ExerciseItemsType {
   exerciseId: string
   exerciseType: string

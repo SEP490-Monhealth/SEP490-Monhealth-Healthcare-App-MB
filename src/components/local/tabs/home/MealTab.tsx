@@ -168,7 +168,7 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
     caloriesGoal > 0 ? (caloriesValue / caloriesGoal) * 100 : 0
 
   const handleViewMeal = (mealId: string) => {
-    router.push(`/meals/${mealId}/details`)
+    router.push(`/meals/${mealId}`)
   }
 
   const handleViewFoods = () => router.push("/foods")
