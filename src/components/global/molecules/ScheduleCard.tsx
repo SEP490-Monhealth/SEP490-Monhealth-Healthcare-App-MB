@@ -3,7 +3,7 @@ import React from "react"
 import { Text, View } from "react-native"
 
 import { COLORS } from "@/constants/color"
-import { BookingStatusEnum } from "@/constants/enum/BookingStatus"
+import { BookingStatusEnum } from "@/constants/enum/Booking"
 
 import { getBookingIcon } from "@/utils/helpers"
 

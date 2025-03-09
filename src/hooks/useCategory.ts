@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 
-import { CategoryTypeEnum } from "@/constants/enum/CategoryType"
+import { CategoryTypeEnum } from "@/constants/enum/Category"
 
 import { useError } from "@/contexts/ErrorContext"
 

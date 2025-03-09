@@ -5,7 +5,7 @@ import { Image, Text, TouchableOpacity, View } from "react-native"
 import { ChevronRight } from "lucide-react-native"
 
 import { COLORS } from "@/constants/color"
-import { MealTypeEnum } from "@/constants/enum/MealType"
+import { MealTypeEnum } from "@/constants/enum/Food"
 
 import { cn } from "@/lib/utils"
 

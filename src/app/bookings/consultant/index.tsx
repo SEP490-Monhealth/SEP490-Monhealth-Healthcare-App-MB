@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { useLocalSearchParams } from "expo-router"
+import { useLocalSearchParams, useRouter } from "expo-router"
 
 import {
   Container,
@@ -10,15 +10,18 @@ import {
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger
+  TabsTrigger,
+  VStack
 } from "@/components/global/atoms"
 import { BookingCard } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
 import { sampleBookingsData } from "@/constants/bookings"
-import { BookingStatusEnum } from "@/constants/enum/BookingStatus"
+import { BookingStatusEnum } from "@/constants/enum/Booking"
 
 function BookingsConsultantScreen() {
+  const router = useRouter()
+
   const { tab } = useLocalSearchParams<{ tab: string }>()
 
   const bookingsData = sampleBookingsData
@@ -59,7 +62,7 @@ function BookingsConsultantScreen() {
   }
 
   const handleViewBooking = (bookingId: string) => {
-    console.log(bookingId)
+    router.push(`/bookings/${bookingId}`)
   }
 
   const handleConfirm = (bookingId: string) => {
@@ -93,20 +96,22 @@ function BookingsConsultantScreen() {
               </TabsList>
 
               <TabsContent value={activeTab}>
-                {filteredBookingsData.map((booking) => (
-                  <BookingCard
-                    key={booking.bookingId}
-                    variant="consultant"
-                    name={booking.customer}
-                    date={booking.date}
-                    time={booking.time}
-                    notes={booking.notes}
-                    status={booking.status}
-                    onPress={() => handleViewBooking(booking.bookingId)}
-                    onCancelPress={() => handleCancel(booking.bookingId)}
-                    onConfirmPress={() => handleConfirm(booking.bookingId)}
-                  />
-                ))}
+                <VStack gap={12}>
+                  {filteredBookingsData.map((booking) => (
+                    <BookingCard
+                      key={booking.bookingId}
+                      variant="consultant"
+                      name={booking.customer}
+                      date={booking.date}
+                      time={booking.time}
+                      notes={booking.notes}
+                      status={booking.status}
+                      onPress={() => handleViewBooking(booking.bookingId)}
+                      onCancelPress={() => handleCancel(booking.bookingId)}
+                      onConfirmPress={() => handleConfirm(booking.bookingId)}
+                    />
+                  ))}
+                </VStack>
               </TabsContent>
             </Tabs>
           </ScrollArea>

@@ -22,7 +22,7 @@ import { ExerciseCard } from "@/components/global/molecules"
 import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
-import { WorkoutTypeEnum } from "@/constants/enum/WorkoutType"
+import { WorkoutTypeEnum } from "@/constants/enum/Workout"
 
 import {
   useGetExerciseById,

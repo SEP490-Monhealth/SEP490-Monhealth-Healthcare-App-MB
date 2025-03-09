@@ -5,8 +5,7 @@ import { Text, TouchableOpacity } from "react-native"
 import { HStack } from "@/components/global/atoms"
 
 import { DATA } from "@/constants/data"
-import { RecurringDayEnum } from "@/constants/enum/RecurringDay"
-import { ScheduleTypeEnum } from "@/constants/enum/ScheduleType"
+import { RecurringDayEnum, ScheduleTypeEnum } from "@/constants/enum/Schedule"
 
 interface DayButtonProps {
   day: { shortLabel: string; value: RecurringDayEnum }

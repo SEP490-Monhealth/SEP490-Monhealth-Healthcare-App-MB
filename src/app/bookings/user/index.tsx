@@ -1,7 +1,5 @@
 import React, { useState } from "react"
 
-import { View } from "react-native"
-
 import { useLocalSearchParams, useRouter } from "expo-router"
 
 import {
@@ -12,13 +10,14 @@ import {
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger
+  TabsTrigger,
+  VStack
 } from "@/components/global/atoms"
 import { BookingCard } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
 import { sampleBookingsData } from "@/constants/bookings"
-import { BookingStatusEnum } from "@/constants/enum/BookingStatus"
+import { BookingStatusEnum } from "@/constants/enum/Booking"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -74,7 +73,7 @@ function BookingsUserScreen() {
   }
 
   const handleViewBooking = (bookingId: string) => {
-    console.log(bookingId)
+    router.push(`/bookings/${bookingId}`)
   }
 
   const handleReview = (bookingId: string) => {
@@ -88,22 +87,25 @@ function BookingsUserScreen() {
         <Content className="mt-2">
           <ScrollArea className="flex-1">
             <Tabs defaultValue={activeTab} contentMarginTop={12}>
-              <TabsList scrollable>
+              <TabsList center>
                 <TabsTrigger value="pending" onChange={handleTabChange}>
                   Chờ xác nhận
                 </TabsTrigger>
+
                 <TabsTrigger value="ongoing" onChange={handleTabChange}>
                   Đang diễn ra
                 </TabsTrigger>
+
                 <TabsTrigger value="history" onChange={handleTabChange}>
                   Lịch sử
                 </TabsTrigger>
               </TabsList>
 
               <TabsContent value={activeTab}>
-                {filteredBookingsData.map((booking) => (
-                  <View key={booking.bookingId} className="mb-4">
+                <VStack gap={12}>
+                  {filteredBookingsData.map((booking) => (
                     <BookingCard
+                      key={booking.bookingId}
                       variant="default"
                       name={booking.consultant}
                       date={booking.date}
@@ -115,8 +117,8 @@ function BookingsUserScreen() {
                       onConfirmPress={() => handleConfirm(booking.bookingId)}
                       onReviewPress={() => handleReview(booking.bookingId)}
                     />
-                  </View>
-                ))}
+                  ))}
+                </VStack>
               </TabsContent>
             </Tabs>
           </ScrollArea>

@@ -1,10 +1,8 @@
 import { z } from "zod"
 
-import { CategoryTypeEnum } from "@/constants/enum/CategoryType"
+import { CategoryTypeSchemaEnum } from "@/constants/enum/Category"
 
 import { timestampFields, uuidSchema } from "./baseSchema"
-
-const CategoryTypeSchemaEnum = z.nativeEnum(CategoryTypeEnum)
 
 const baseCategorySchema = z.object({
   categoryId: uuidSchema,
@@ -14,14 +12,14 @@ const baseCategorySchema = z.object({
   name: z
     .string()
     .nonempty({ message: "Tên danh mục không được để trống" })
-    .max(100, { message: "Tên danh mục không được dài hơn 100 ký tự" })
+    .max(50, { message: "Tên danh mục không được dài hơn 50 ký tự" })
     .regex(/^[a-zA-Z0-9\s\u00C0-\u024F\u1E00-\u1EFF]*$/, {
       message: "Tên danh mục chỉ được chứa chữ cái, số và khoảng trắng"
     }),
   description: z
     .string()
-    .max(500, {
-      message: "Mô tả danh mục không được dài hơn 500 ký tự"
+    .max(200, {
+      message: "Mô tả danh mục không được dài hơn 200 ký tự"
     })
     .optional(),
 

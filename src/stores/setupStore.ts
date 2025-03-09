@@ -1,7 +1,7 @@
 import { create } from "zustand"
 
 import { GenderEnum } from "@/constants/enum/Gender"
-import { GoalTypeEnum } from "@/constants/enum/GoalType"
+import { GoalTypeEnum } from "@/constants/enum/Goal"
 
 interface SetupStoreState {
   dateOfBirth: string

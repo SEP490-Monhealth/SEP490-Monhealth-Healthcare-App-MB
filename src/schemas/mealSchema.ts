@@ -1,12 +1,10 @@
 import { z } from "zod"
 
-import { MealTypeEnum } from "@/constants/enum/MealType"
+import { MealTypeSchemaEnum } from "@/constants/enum/Food"
 
 import { timestampFields, uuidSchema } from "./baseSchema"
 import { nutritionFoodSchema, nutritionSchema } from "./nutritionSchema"
 import { portionSchema } from "./portionSchema"
-
-const MealTypeSchemaEnum = z.nativeEnum(MealTypeEnum)
 
 export const mealFoodSchema = z.object({
   mealFoodId: uuidSchema,
@@ -15,7 +13,7 @@ export const mealFoodSchema = z.object({
   name: z
     .string()
     .nonempty({ message: "Tên món ăn không được để trống" })
-    .max(100, { message: "Tên món ăn không được dài hơn 100 ký tự" })
+    .max(50, { message: "Tên món ăn không được dài hơn 50 ký tự" })
     .regex(/^[a-zA-Z0-9\s\u00C0-\u024F\u1E00-\u1EFF]*$/, {
       message: "Tên món ăn chỉ được chứa chữ cái, số và khoảng trắng"
     }),

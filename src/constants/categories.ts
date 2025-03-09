@@ -1,6 +1,6 @@
 import { CategoryType } from "@/schemas/categorySchema"
 
-import { CategoryTypeEnum } from "./enum/CategoryType"
+import { CategoryTypeEnum } from "./enum/Category"
 
 export const sampleCategoriesData: CategoryType[] = [
   {

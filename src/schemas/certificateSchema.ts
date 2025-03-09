@@ -11,7 +11,7 @@ const baseCertificateSchema = z.object({
   name: z
     .string()
     .nonempty({ message: "Tên chứng chỉ không được để trống" })
-    .max(100, { message: "Tên chứng chỉ không được dài hơn 100 ký tự" }),
+    .max(50, { message: "Tên chứng chỉ không được dài hơn 50 ký tự" }),
 
   issueDate: z.string().nonempty({ message: "Ngày cấp không được để trống" }),
   expiryDate: z.string().optional(),

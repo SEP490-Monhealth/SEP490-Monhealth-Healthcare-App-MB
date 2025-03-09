@@ -7,7 +7,7 @@ import { Chip, ErrorText, VStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
-import { GoalTypeEnum } from "@/constants/enum/GoalType"
+import { GoalTypeEnum } from "@/constants/enum/Goal"
 
 import { useSetupStore } from "@/stores/setupStore"
 

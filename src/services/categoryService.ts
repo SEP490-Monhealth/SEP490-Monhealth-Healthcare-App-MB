@@ -1,6 +1,6 @@
 import axios from "axios"
 
-import { CategoryTypeEnum } from "@/constants/enum/CategoryType"
+import { CategoryTypeEnum } from "@/constants/enum/Category"
 
 import monAPI from "@/lib/monAPI"
 

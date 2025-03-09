@@ -1,6 +1,6 @@
 import { BookingType } from "@/schemas/bookingSchema"
 
-import { BookingStatusEnum } from "./enum/BookingStatus"
+import { BookingStatusEnum } from "./enum/Booking"
 
 export const sampleBookingsData: BookingType[] = [
   {

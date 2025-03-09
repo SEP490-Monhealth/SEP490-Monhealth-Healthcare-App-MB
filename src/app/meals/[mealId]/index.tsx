@@ -37,7 +37,7 @@ import { NutritionSummary } from "@/components/local/meals"
 
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
-import { MealTypeEnum } from "@/constants/enum/MealType"
+import { MealTypeEnum } from "@/constants/enum/Food"
 
 import { useAuth } from "@/contexts/AuthContext"
 

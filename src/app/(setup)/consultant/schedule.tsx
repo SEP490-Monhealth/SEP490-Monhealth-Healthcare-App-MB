@@ -17,8 +17,7 @@ import { DaySelector } from "@/components/local/setup/DaySelector"
 import { TimeSlotSelector } from "@/components/local/setup/TimeSlotSelector"
 
 import { COLORS } from "@/constants/color"
-import { RecurringDayEnum } from "@/constants/enum/RecurringDay"
-import { ScheduleTypeEnum } from "@/constants/enum/ScheduleType"
+import { RecurringDayEnum, ScheduleTypeEnum } from "@/constants/enum/Schedule"
 
 import { useAuth } from "@/contexts/AuthContext"
 

@@ -8,7 +8,7 @@ import { Control, FieldValues, useController } from "react-hook-form"
 import { Chip, ErrorText, ScrollArea, VStack } from "@/components/global/atoms"
 
 import { sampleCategoriesData } from "@/constants/categories"
-import { CategoryTypeEnum } from "@/constants/enum/CategoryType"
+import { CategoryTypeEnum } from "@/constants/enum/Category"
 
 interface SetupCategoriesProps {
   control: Control<FieldValues>

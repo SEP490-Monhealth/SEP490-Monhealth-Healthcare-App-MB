@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-import { MealTypeEnum } from "@/constants/enum/MealType"
+import { MealTypeEnum } from "@/constants/enum/Food"
 
 import { timestampFields, uuidSchema } from "./baseSchema"
 import { nutritionSchema } from "./nutritionSchema"

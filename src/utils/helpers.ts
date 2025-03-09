@@ -1,9 +1,9 @@
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
-import { BookingStatusEnum } from "@/constants/enum/BookingStatus"
-import { DifficultyLevelEnum } from "@/constants/enum/DifficultyLevel"
-import { MealTypeEnum } from "@/constants/enum/MealType"
-import { RecurringDayEnum } from "@/constants/enum/RecurringDay"
+import { BookingStatusEnum } from "@/constants/enum/Booking"
+import { MealTypeEnum } from "@/constants/enum/Food"
+import { RecurringDayEnum } from "@/constants/enum/Schedule"
+import { DifficultyLevelEnum } from "@/constants/enum/Workout"
 import { TipsData } from "@/constants/tips"
 
 /**

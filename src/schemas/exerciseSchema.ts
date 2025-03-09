@@ -1,10 +1,8 @@
 import { z } from "zod"
 
-import { ExerciseTypeEnum } from "@/constants/enum/ExerciseType"
+import { ExerciseTypeSchemaEnum } from "@/constants/enum/Workout"
 
 import { auditFields, uuidSchema } from "./baseSchema"
-
-const ExerciseTypeSchemaEnum = z.nativeEnum(ExerciseTypeEnum)
 
 const baseExerciseSchema = z.object({
   exerciseId: uuidSchema,
@@ -15,7 +13,7 @@ const baseExerciseSchema = z.object({
   name: z
     .string()
     .nonempty({ message: "Tên bài tập không được để trống" })
-    .max(100, { message: "Tên bài tập không được dài hơn 100 ký tự" }),
+    .max(50, { message: "Tên bài tập không được dài hơn 50 ký tự" }),
   instructions: z
     .string()
     .nonempty({ message: "Hướng dẫn không được để trống" }),

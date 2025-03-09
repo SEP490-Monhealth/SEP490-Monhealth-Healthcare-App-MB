@@ -1,12 +1,8 @@
 import { z } from "zod"
 
-import { GoalStatusEnum } from "@/constants/enum/GoalStatus"
-import { GoalTypeEnum } from "@/constants/enum/GoalType"
+import { GoalStatusSchemaEnum, GoalTypeSchemaEnum } from "@/constants/enum/Goal"
 
 import { timestampFields, uuidSchema } from "./baseSchema"
-
-const GoalTypeSchemaEnum = z.nativeEnum(GoalTypeEnum)
-const GoalStatusSchemaEnum = z.nativeEnum(GoalStatusEnum)
 
 const baseGoalSchema = z.object({
   goalId: uuidSchema,

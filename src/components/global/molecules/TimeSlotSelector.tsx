@@ -2,7 +2,7 @@ import React from "react"
 
 import { Text, TouchableOpacity } from "react-native"
 
-import { ScheduleTimeSlotStatusEnum } from "@/constants/enum/ScheduleTimeSlotStatus"
+import { ScheduleTimeSlotStatusEnum } from "@/constants/enum/Schedule"
 
 import { cn } from "@/lib/utils"
 

@@ -48,7 +48,15 @@ const baseNutritionSchema = z.object({
   ...auditFields
 })
 
-export const nutritionSchema = baseNutritionSchema
+export const nutritionSchema = baseNutritionSchema.omit({
+  nutritionId: true,
+  foodId: true,
+
+  createdAt: true,
+  updatedAt: true,
+  createdBy: true,
+  updatedBy: true
+})
 
 export const nutritionFoodSchema = baseNutritionSchema.pick({
   calories: true

@@ -21,14 +21,12 @@ import {
   TrendingUp
 } from "lucide-react-native"
 
-import { BookingStatusEnum } from "./enum/BookingStatus"
-import { DifficultyLevelEnum } from "./enum/DifficultyLevel"
-import { DishTypeEnum } from "./enum/DishType"
+import { BookingStatusEnum } from "./enum/Booking"
+import { DishTypeEnum, MealTypeEnum } from "./enum/Food"
 import { GenderEnum } from "./enum/Gender"
-import { GoalTypeEnum } from "./enum/GoalType"
-import { MealTypeEnum } from "./enum/MealType"
-import { RecurringDayEnum } from "./enum/RecurringDay"
-import { ScheduleTimeSlotStatusEnum } from "./enum/ScheduleTimeSlotStatus"
+import { GoalTypeEnum } from "./enum/Goal"
+import { RecurringDayEnum, ScheduleTimeSlotStatusEnum } from "./enum/Schedule"
+import { DifficultyLevelEnum } from "./enum/Workout"
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window")
 

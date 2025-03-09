@@ -6,7 +6,6 @@ import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
 
-import { VStack } from "@/components/global/atoms"
 import { TimeSlotSelector } from "@/components/global/molecules"
 import { DaySelector } from "@/components/global/molecules/DaySelector"
 import { Section } from "@/components/global/organisms"
@@ -81,7 +80,6 @@ export const InformationTab = () => {
 
   return (
     <View className="mt-2 pb-10">
-      {/* Consultant Bio Section */}
       <ConsultantBio bio={consultantData.bio} />
 
       <Section

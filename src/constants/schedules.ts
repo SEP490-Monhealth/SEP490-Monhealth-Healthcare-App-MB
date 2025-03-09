@@ -1,4 +1,4 @@
-import { ScheduleTimeSlotStatusEnum } from "./enum/ScheduleTimeSlotStatus"
+import { ScheduleTimeSlotStatusEnum } from "./enum/Schedule"
 
 export const sampleSchedulesData = [
   {

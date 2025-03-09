@@ -1,12 +1,11 @@
 import { z } from "zod"
 
-import { DifficultyLevelEnum } from "@/constants/enum/DifficultyLevel"
-import { WorkoutTypeEnum } from "@/constants/enum/WorkoutType"
+import {
+  DifficultyLevelSchemaEnum,
+  WorkoutTypeSchemaEnum
+} from "@/constants/enum/Workout"
 
 import { auditFields, uuidSchema } from "./baseSchema"
-
-const WorkoutTypeSchemaEnum = z.nativeEnum(WorkoutTypeEnum)
-const DifficultyLevelSchemaEnum = z.nativeEnum(DifficultyLevelEnum)
 
 const createWorkoutExerciseSchema = z.object({
   exerciseId: z.string(),
@@ -25,11 +24,11 @@ const baseWorkoutSchema = z.object({
   name: z
     .string()
     .nonempty({ message: "Tên bài tập không được để trống" })
-    .max(100, { message: "Tên bài tập không được dài hơn 100 ký tự" }),
+    .max(50, { message: "Tên bài tập không được dài hơn 50 ký tự" }),
   description: z
     .string()
     .nonempty({ message: "Mô tả không được để trống" })
-    .max(500, { message: "Mô tả không được dài hơn 500 ký tự" }),
+    .max(200, { message: "Mô tả không được dài hơn 200 ký tự" }),
   difficultyLevel: DifficultyLevelSchemaEnum,
 
   exercises: z

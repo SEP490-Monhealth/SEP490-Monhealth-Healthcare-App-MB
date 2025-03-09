@@ -1,4 +1,4 @@
-export const sameplFoodsData = [
+export const sampleFoodsData = [
   {
     foodId: "599cfc95-4108-4dcc-9c5a-077173251f8b",
     userId: "3026595f-1414-4b74-be8f-11b7f6e7f4f6",

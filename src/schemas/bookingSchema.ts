@@ -1,10 +1,8 @@
 import { z } from "zod"
 
-import { BookingStatusEnum } from "@/constants/enum/BookingStatus"
+import { BookingStatusSchemaEnum } from "@/constants/enum/Booking"
 
 import { auditFields, uuidSchema } from "./baseSchema"
-
-const BookingStatusSchemaEnum = z.nativeEnum(BookingStatusEnum)
 
 const baseBookingSchema = z.object({
   bookingId: uuidSchema,

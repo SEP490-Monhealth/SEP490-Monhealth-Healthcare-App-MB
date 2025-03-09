@@ -20,7 +20,7 @@ import { Header, Section } from "@/components/global/organisms"
 import { BarChart } from "@/components/local/tabs/report"
 
 import { COLORS } from "@/constants/color"
-import { MealTypeEnum } from "@/constants/enum/MealType"
+import { MealTypeEnum } from "@/constants/enum/Food"
 
 import { useAuth } from "@/contexts/AuthContext"
 

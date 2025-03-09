@@ -19,7 +19,7 @@ import { Section } from "@/components/global/organisms"
 import { WorkoutTypes } from "@/components/local/workouts"
 
 import { COLORS } from "@/constants/color"
-import { CategoryTypeEnum } from "@/constants/enum/CategoryType"
+import { CategoryTypeEnum } from "@/constants/enum/Category"
 
 import { useGetCategoriesByType } from "@/hooks/useCategory"
 import { useDebounce } from "@/hooks/useDebounce"

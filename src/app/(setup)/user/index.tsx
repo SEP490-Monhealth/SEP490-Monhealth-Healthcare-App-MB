@@ -9,7 +9,7 @@ import { Button, Container, Content, Progress } from "@/components/global/atoms"
 import { CustomHeader, StepHeader } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/color"
-import { GoalTypeEnum } from "@/constants/enum/GoalType"
+import { GoalTypeEnum } from "@/constants/enum/Goal"
 
 import { useAuth } from "@/contexts/AuthContext"
 import { useStorage } from "@/contexts/StorageContext"

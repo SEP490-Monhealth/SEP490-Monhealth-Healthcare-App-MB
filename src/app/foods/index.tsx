@@ -27,7 +27,7 @@ import { Section } from "@/components/global/organisms"
 import { FoodCategories } from "@/components/local/foods"
 
 import { COLORS } from "@/constants/color"
-import { CategoryTypeEnum } from "@/constants/enum/CategoryType"
+import { CategoryTypeEnum } from "@/constants/enum/Category"
 
 import { useAuth } from "@/contexts/AuthContext"
 import { useStorage } from "@/contexts/StorageContext"

@@ -1,14 +1,10 @@
 import axios from "axios"
 
-import { DifficultyLevelEnum } from "@/constants/enum/DifficultyLevel"
+import { DifficultyLevelEnum } from "@/constants/enum/Workout"
 
 import monAPI from "@/lib/monAPI"
 
-import {
-  CreateWorkoutExerciseType,
-  CreateWorkoutType,
-  WorkoutType
-} from "@/schemas/workoutSchema"
+import { CreateWorkoutType, WorkoutType } from "@/schemas/workoutSchema"
 
 interface WorkoutResponse {
   workouts: WorkoutType[]

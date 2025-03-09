@@ -5,7 +5,7 @@ import { Text, View } from "react-native"
 import { CalendarCircle, TimerStart } from "iconsax-react-native"
 
 import { COLORS } from "@/constants/color"
-import { BookingStatusEnum } from "@/constants/enum/BookingStatus"
+import { BookingStatusEnum } from "@/constants/enum/Booking"
 
 import { formatDate } from "@/utils/formatters"
 import { getBookingColor, getBookingLabel } from "@/utils/helpers"
@@ -51,6 +51,7 @@ export const BookingCard = ({
               rounded
             />
           </HStack>
+
           <Text
             className="font-tmedium text-sm text-accent"
             numberOfLines={2}
@@ -76,7 +77,7 @@ export const BookingCard = ({
           </HStack>
         </HStack>
 
-        {status === BookingStatusEnum.Pending && (
+        {variant === "default" && status === BookingStatusEnum.Pending && (
           <Button
             variant="danger"
             size="sm"
@@ -103,7 +104,7 @@ export const BookingCard = ({
           </HStack>
         )}
 
-        {status === BookingStatusEnum.Completed && (
+        {variant === "default" && status === BookingStatusEnum.Completed && (
           <Button
             variant="primary"
             size="sm"

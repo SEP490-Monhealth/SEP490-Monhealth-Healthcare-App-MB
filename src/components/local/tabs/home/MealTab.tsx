@@ -16,7 +16,7 @@ import {
   NutritionSummary
 } from "@/components/local/tabs/home"
 
-import { MealTypeEnum } from "@/constants/enum/MealType"
+import { MealTypeEnum } from "@/constants/enum/Food"
 
 import { useAuth } from "@/contexts/AuthContext"
 

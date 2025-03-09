@@ -1,21 +1,19 @@
 import { z } from "zod"
 
-import { ScheduleTimeSlotStatusEnum } from "@/constants/enum/ScheduleTimeSlotStatus"
-import { ScheduleTypeEnum } from "@/constants/enum/ScheduleType"
+import {
+  RecurringDaySchemaEnum,
+  ScheduleTimeSlotStatusSchemaEnum,
+  ScheduleTypeSchemaEnum
+} from "@/constants/enum/Schedule"
 
-import { RecurringDayEnum } from "./../constants/enum/RecurringDay"
 import { timestampFields, uuidSchema } from "./baseSchema"
-
-const ScheduleTypeSchemaEnum = z.nativeEnum(ScheduleTypeEnum)
-const RecurringDaySchemaEnum = z.nativeEnum(RecurringDayEnum)
-const ScheduleStatusSchemaEnum = z.nativeEnum(ScheduleTimeSlotStatusEnum)
 
 const scheduleTimeSlotSchema = z.object({
   scheduleTimeSlotId: uuidSchema,
   scheduleId: uuidSchema,
   timeSlotId: uuidSchema,
 
-  status: ScheduleStatusSchemaEnum,
+  status: ScheduleTimeSlotStatusSchemaEnum,
 
   ...timestampFields
 })

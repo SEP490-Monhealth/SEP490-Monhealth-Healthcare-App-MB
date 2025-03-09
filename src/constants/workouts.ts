@@ -1,4 +1,4 @@
-import { DifficultyLevelEnum } from "./enum/DifficultyLevel"
+import { DifficultyLevelEnum } from "./enum/Workout"
 
 export const sampleWorkoutsData = [
   {

@@ -1,18 +1,16 @@
 import { z } from "zod"
 
-import { DishTypeEnum } from "@/constants/enum/DishType"
-import { FoodTypeEnum } from "@/constants/enum/FoodType"
-import { MealTypeEnum } from "@/constants/enum/MealType"
+import {
+  DishTypeSchemaEnum,
+  FoodTypeSchemaEnum,
+  MealTypeSchemaEnum
+} from "@/constants/enum/Food"
 
 import { allergySetupSchema } from "./allergySchema"
 import { auditFields, timestampFields, uuidSchema } from "./baseSchema"
 import { categorySetupSchema } from "./categorySchema"
 import { nutritionSchema } from "./nutritionSchema"
 import { portionSchema } from "./portionSchema"
-
-const FoodTypeSchemaEnum = z.nativeEnum(FoodTypeEnum)
-const MealTypeSchemaEnum = z.nativeEnum(MealTypeEnum)
-const DishTypeSchemaEnum = z.nativeEnum(DishTypeEnum)
 
 export const foodAllergySchema = z.object({
   foodAllergyId: uuidSchema,
@@ -42,14 +40,14 @@ const baseFoodSchema = z.object({
   name: z
     .string()
     .nonempty({ message: "Tên món ăn không được để trống" })
-    .max(100, { message: "Tên món ăn không được dài hơn 100 ký tự" })
+    .max(50, { message: "Tên món ăn không được dài hơn 50 ký tự" })
     .regex(/^[a-zA-Z0-9\s\u00C0-\u024F\u1E00-\u1EFF]*$/, {
       message: "Tên món ăn chỉ được chứa chữ cái, số và khoảng trắng"
     }),
   description: z
     .string()
     .nonempty({ message: "Mô tả món ăn không được để trống" })
-    .max(500, { message: "Mô tả món ăn không được dài hơn 500 ký tự" }),
+    .max(200, { message: "Mô tả món ăn không được dài hơn 200 ký tự" }),
 
   portion: portionSchema,
 
@@ -82,13 +80,18 @@ export const foodUserSchema = z.object({
 
 export const createFoodSchema = baseFoodSchema.pick({
   userId: true,
+
   // foodType: true,
   // mealType: true,
   // dishType: true,
+
   name: true,
   description: true,
+
   portion: true,
+
   nutrition: true,
+
   isPublic: true
 })
 
@@ -96,8 +99,10 @@ export const informationFoodSchema = baseFoodSchema.pick({
   // foodType: true,
   // mealType: true,
   // dishType: true,
+
   name: true,
   description: true,
+
   isPublic: true
 })
 
@@ -112,6 +117,7 @@ export const nutritionFoodSchema = baseFoodSchema.pick({
 export const updateFoodSchema = baseFoodSchema.pick({
   name: true,
   description: true,
+
   isPublic: true
 })
 

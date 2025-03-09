@@ -1,6 +1,6 @@
 import { create } from "zustand"
 
-import { DifficultyLevelEnum } from "@/constants/enum/DifficultyLevel"
+import { DifficultyLevelEnum } from "@/constants/enum/Workout"
 
 interface CreateWorkoutExerciseItemsType {
   exerciseId: string
