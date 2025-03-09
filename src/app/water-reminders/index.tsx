@@ -106,7 +106,7 @@ function WaterRemindersScreen() {
   }
 
   const handleViewWaterReminder = (waterReminderId: string) => {
-    router.push(`/water-reminders/${waterReminderId}/details`)
+    router.push(`/water-reminders/${waterReminderId}`)
   }
 
   const handleBack = () => {

@@ -20,7 +20,7 @@ function ConsultantsScreen() {
   const consultantsData = sampleConsultantsData
 
   const handleViewConsultant = (consultantId: string) => {
-    router.push(`/consultants/${consultantId}/details`)
+    router.push(`/consultants/${consultantId}`)
   }
 
   return (

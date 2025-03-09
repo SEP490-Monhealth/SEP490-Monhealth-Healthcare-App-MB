@@ -163,7 +163,7 @@ function FoodsScreen() {
 
   const handleViewFood = (foodId: string, foodName: string) => {
     addSearchHistory(foodName)
-    router.push(`/foods/${foodId}/details`)
+    router.push(`/foods/${foodId}`)
   }
 
   const handleViewUserFoods = () => router.push("/foods/user")
@@ -212,7 +212,7 @@ function FoodsScreen() {
           content={
             <Input
               value={searchQuery}
-              placeholder="Tìm kiếm tên món ăn..."
+              placeholder="Tìm kiếm món ăn..."
               onChangeText={(text) => setSearchQuery(text)}
               startIcon={<SearchNormal1 size={20} color={COLORS.primary} />}
               canClearText

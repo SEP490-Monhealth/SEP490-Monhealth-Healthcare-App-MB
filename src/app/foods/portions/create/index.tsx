@@ -83,7 +83,7 @@ function PortionCreateScreen() {
   }
 
   const handleViewFood = (foodId: string) => {
-    router.push(`/foods/${foodId}/details`)
+    router.push(`/foods/${foodId}`)
   }
 
   return (

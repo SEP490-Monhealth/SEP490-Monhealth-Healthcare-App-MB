@@ -232,7 +232,7 @@ function MealDetailsScreen() {
   }, [])
 
   const handleViewFood = (foodId: string) => {
-    router.push(`/foods/${foodId}/details`)
+    router.push(`/foods/${foodId}`)
   }
 
   if (

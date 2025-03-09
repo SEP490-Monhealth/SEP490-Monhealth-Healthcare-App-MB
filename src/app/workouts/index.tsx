@@ -95,7 +95,7 @@ function WorkoutsScreen() {
   }
 
   const handleViewWorkout = (workoutId: string) => {
-    router.push(`/workouts/${workoutId}/details`)
+    router.push(`/workouts/${workoutId}`)
   }
 
   const handleViewUserWorkouts = () => router.push("/workouts/user")
@@ -127,7 +127,7 @@ function WorkoutsScreen() {
         content={
           <Input
             value={searchQuery}
-            placeholder="Tìm kiếm tên bài tập..."
+            placeholder="Tìm kiếm bài tập..."
             onChangeText={(text) => setSearchQuery(text)}
             startIcon={<SearchNormal1 size={20} color={COLORS.primary} />}
             canClearText
