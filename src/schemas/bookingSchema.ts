@@ -49,6 +49,8 @@ const baseBookingSchema = z.object({
 
   notes: z.string().optional(),
 
+  reason: z.string().nonempty({ message: "Lý do không được để trống" }),
+
   status: BookingStatusSchemaEnum,
 
   ...auditFields
@@ -64,5 +66,12 @@ export const createBookingSchema = bookingSchema.pick({
   notes: true
 })
 
+export const cancelBookingSchema = bookingSchema.pick({
+  userId: true,
+  bookingId: true,
+  reason: true
+})
+
 export type BookingType = z.infer<typeof bookingSchema>
 export type CreateBookingType = z.infer<typeof createBookingSchema>
+export type CancelBookingType = z.infer<typeof cancelBookingSchema>

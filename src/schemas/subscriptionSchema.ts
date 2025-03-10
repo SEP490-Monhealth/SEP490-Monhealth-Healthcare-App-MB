@@ -46,7 +46,9 @@ const baseSubscriptionSchema = z.object({
     .number()
     .int({ message: "Thời hạn phải là số nguyên" })
     .positive({ message: "Thời hạn phải lớn hơn 0" }),
-  features: z.string().nonempty({ message: "Tính năng không được để trống" }),
+  features: z.array(
+    z.string().nonempty({ message: "Tính năng không được để trống" })
+  ),
   maxBookings: z
     .number()
     .int({ message: "Số lượng đặt lịch phải là số nguyên" })

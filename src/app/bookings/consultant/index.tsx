@@ -54,10 +54,9 @@ function BookingsConsultantScreen() {
 
   const handleConfirmCancel = () => {
     if (selectedBookingId) {
-      console.log("This booking has been cancelled", selectedBookingId)
+      setIsModalVisible(false)
+      router.push(`/bookings/cancel?bookingId=${selectedBookingId}`)
     }
-
-    setIsModalVisible(false)
     setSelectedBookingId(null)
   }
 
