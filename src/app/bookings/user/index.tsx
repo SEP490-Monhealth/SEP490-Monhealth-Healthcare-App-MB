@@ -61,10 +61,9 @@ function BookingsUserScreen() {
 
   const handleConfirmCancel = () => {
     if (selectedBookingId) {
-      console.log("This booking has been cancelled", selectedBookingId)
+      setIsModalVisible(false)
+      router.push(`/bookings/cancel?bookingId=${selectedBookingId}`)
     }
-
-    setIsModalVisible(false)
     setSelectedBookingId(null)
   }
 
@@ -77,7 +76,7 @@ function BookingsUserScreen() {
   }
 
   const handleReview = (bookingId: string) => {
-    router.push(`/bookings/review/${bookingId}`)
+    router.push(`/bookings/review?bookingId=${bookingId}`)
   }
 
   return (

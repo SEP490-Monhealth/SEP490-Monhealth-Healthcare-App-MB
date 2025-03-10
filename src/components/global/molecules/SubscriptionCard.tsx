@@ -7,17 +7,19 @@ import { formatCurrency } from "@/utils/formatters"
 import { Card, HStack, VStack } from "../atoms"
 
 interface SubscriptionCardProps {
-  duration: number
+  name: string
   price: number
-  discount: number
+  durationDays: number
+  maxBookings: number
   isSelected?: boolean
   onPress?: () => void
 }
 
 export const SubscriptionCard = ({
-  duration,
+  name,
   price,
-  discount,
+  durationDays,
+  maxBookings,
   isSelected,
   onPress
 }: SubscriptionCardProps) => {
@@ -29,18 +31,26 @@ export const SubscriptionCard = ({
       }`}
     >
       <HStack center className="justify-between">
-        <Text className="font-tmedium text-lg text-primary">
-          {duration / 30} tháng
-        </Text>
+        <VStack>
+          <Text className="font-tmedium text-lg text-primary">{name}</Text>
+
+          <Text className="font-tregular text-base text-accent">
+            {durationDays !== 0
+              ? `1 tháng (${durationDays} ngày)`
+              : "Dành cho tất cả người dùng"}
+          </Text>
+        </VStack>
 
         <VStack className="items-end">
           <Text className="font-tmedium text-lg text-primary">
-            {formatCurrency((price * (100 - discount)) / 100)}
+            {price !== 0 ? `${formatCurrency(price)}` : "Miễn phí"}
           </Text>
 
-          <Text className="font-tregular text-base text-accent">
-            {discount > 0 && `(Tiết kiệm ${discount}%)`} / tháng
-          </Text>
+          {maxBookings !== 0 && (
+            <Text className="font-tregular text-base text-accent">
+              {maxBookings} lần tư vấn
+            </Text>
+          )}
         </VStack>
       </HStack>
     </Card>

@@ -4,7 +4,7 @@ import { BookingStatusEnum } from "./enum/Booking"
 
 export const sampleBookingsData: BookingType[] = [
   {
-    bookingId: "a",
+    bookingId: "99b9eae6-f5e8-4b41-9394-6a8f2ca1062b",
     consultantId: "Khải",
     userId: "Toàn",
     scheduleId: "Lịch 1",
@@ -21,6 +21,7 @@ export const sampleBookingsData: BookingType[] = [
 
     notes:
       "Hướng dẫn tôi tập là nhiệt tình và chú trọng đến các kỹ thuật cơ bản, giúp tôi cải thiện thể lực và sức bền một cách đáng kể. Thầy Khải rất kiên nhẫn và luôn đưa ra những lời khuyên bổ ích, tạo động lực cho tôi mỗi lần gặp gỡ",
+    reason: "",
 
     status: BookingStatusEnum.Pending,
 
@@ -47,6 +48,7 @@ export const sampleBookingsData: BookingType[] = [
 
     notes:
       "Hướng dẫn tôi tập là nhiệt tình, luôn dành thời gian để phân tích kỹ lưỡng từng động tác và giúp tôi điều chỉnh cơ thể để đạt được hiệu quả tối đa trong mỗi buổi tập. Những buổi tập với thầy Duy luôn đầy hứng khởi và giúp tôi cảm thấy khỏe mạnh hơn mỗi ngày",
+    reason: "",
 
     status: BookingStatusEnum.Confirmed,
 
@@ -73,6 +75,7 @@ export const sampleBookingsData: BookingType[] = [
 
     notes:
       "Hướng dẫn tôi tập là nhiệt tình, với những bài tập đa dạng và luôn nhắc nhở tôi chú ý đến tư thế và cách hít thở đúng cách. Sau mỗi buổi tập, tôi cảm thấy cơ thể mình linh hoạt và mạnh mẽ hơn rất nhiều. Thầy Toàn luôn tạo cảm giác thoải mái và khích lệ tôi nỗ lực hơn nữa",
+    reason: "",
 
     status: BookingStatusEnum.Completed,
 
@@ -99,6 +102,7 @@ export const sampleBookingsData: BookingType[] = [
 
     notes:
       "Hướng dẫn tôi tập là nhiệt tình và có phương pháp rõ ràng, luôn giúp tôi hiểu sâu về các động tác và cải thiện thể lực. Tuy nhiên, do một số lý do cá nhân, tôi không thể tham gia buổi tập lần này, nhưng tôi hy vọng sẽ có cơ hội tham gia lại trong tương lai",
+    reason: "",
 
     status: BookingStatusEnum.Cancelled,
 

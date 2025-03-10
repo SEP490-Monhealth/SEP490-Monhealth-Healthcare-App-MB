@@ -7,7 +7,7 @@ export const sampleSubscriptionsData: SubscriptionType[] = [
     description:
       "Gói dịch vụ miễn phí với các tính năng cơ bản để theo dõi sức khỏe và dinh dưỡng",
     price: 0,
-    durationDays: 30,
+    durationDays: 0,
     features: [
       "Theo dõi chỉ số sức khỏe cơ bản",
       "Quản lý mục tiêu cá nhân",

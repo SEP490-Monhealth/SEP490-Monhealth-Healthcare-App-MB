@@ -9,19 +9,18 @@ import {
   Container,
   Content,
   HStack,
+  Modal,
   VStack
 } from "@/components/global/atoms"
-import { StepHeader, SubscriptionCard } from "@/components/global/molecules"
+import { SubscriptionCard } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
+import { sampleSubscriptionsData } from "@/constants/subscriptions"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import {
-  useGetAllSubscriptions,
-  useUpgradeSubscription
-} from "@/hooks/useSubscription"
+import { useUpgradeSubscription } from "@/hooks/useSubscription"
 
 import { LoadingScreen } from "../loading"
 
@@ -30,111 +29,120 @@ function SubscriptionScreen() {
   const userId = user?.userId
   const userSubscription = user?.subscription
 
-  const { data: subscriptionsData, isLoading } = useGetAllSubscriptions()
-
   const { mutate: upgradeSubscription } = useUpgradeSubscription()
 
-  const [selectedPlan, setSelectedPlan] = useState(90)
+  const subscriptionData = sampleSubscriptionsData
+  const [selectedSubscription, setSelectedSubscription] = useState<string>(
+    subscriptionData[0].name
+  )
+  const [selectedSubscriptionId, setSelectedSubscriptionId] =
+    useState<string>("")
+  const [isModalVisible, setIsModalVisible] = useState(false)
 
-  const premiumSubscription = subscriptionsData && subscriptionsData[1]
-  const hasSubscription = userSubscription === premiumSubscription?.name
+  const hasSubscription = userSubscription === subscriptionData[0].name
 
-  const featuresData = [
-    "Gợi ý bữa ăn cá nhân hóa theo tuần",
-    "Xem báo cáo dinh dưỡng hàng tuần",
-    "Tương tác với chuyên viên tư vấn sức khỏe"
-  ]
+  const selectedPlan = subscriptionData.find(
+    (item) => item.name === selectedSubscription
+  )
 
-  const plansData = [
-    {
-      duration: 30,
-      price: premiumSubscription?.price,
-      discount: 0
-    },
-    {
-      duration: 90,
-      price: premiumSubscription?.price,
-      discount: 10
-    },
-    {
-      duration: 180,
-      price: premiumSubscription?.price,
-      discount: 20
-    }
-  ]
+  const handleSelectPlan = (subscriptionId: string, name: string) => {
+    setSelectedSubscription(name)
+    setSelectedSubscriptionId(subscriptionId)
+  }
 
-  const handleSelectPlan = (duration: number) => {
-    if (!hasSubscription) {
-      setSelectedPlan(duration)
-    }
+  const handleAction = () => {
+    setIsModalVisible(true)
   }
 
   const handleUpgrade = () => {
-    if (userId && premiumSubscription?.subscriptionId) {
+    if (userId) {
       const upgradeData = {
         userId: userId,
-        subscriptionId: premiumSubscription.subscriptionId,
-        duration: selectedPlan
+        subscriptionId: selectedSubscriptionId
       }
-      upgradeSubscription(upgradeData)
+      console.log("Final Data:", JSON.stringify(upgradeData, null, 2))
+      // upgradeSubscription(upgradeData)
     }
   }
 
-  if (!subscriptionsData || !premiumSubscription || isLoading)
-    return <LoadingScreen />
+  if (!subscriptionData) return <LoadingScreen />
 
   return (
-    <Container>
-      <Header back label="Gói đăng ký" />
+    <>
+      <Container>
+        <Header back label="Gói đăng kí" />
+        <Content className="mt-2 pb-12">
+          <View className="flex-1 justify-between">
+            <VStack>
+              {selectedPlan && (
+                <VStack gap={10}>
+                  <VStack>
+                    <Text className="font-tbold text-2xl text-primary">
+                      {selectedPlan.name}
+                    </Text>
+                    <Text className="-mt-2 font-tregular text-xl text-accent">
+                      Nâng cấp trải nghiệm của bạn
+                    </Text>
+                  </VStack>
+                  <VStack>
+                    {selectedPlan.features.map((feature, idx) => (
+                      <HStack key={idx} center>
+                        <Award
+                          variant="Bold"
+                          size={26}
+                          color={COLORS.NUTRITION.protein}
+                        />
+                        <Text
+                          key={idx}
+                          className="font-tregular text-base text-accent"
+                        >
+                          {feature}
+                        </Text>
+                      </HStack>
+                    ))}
+                  </VStack>
+                </VStack>
+              )}
+            </VStack>
 
-      <Content className="mt-2 pb-12">
-        <StepHeader
-          title={premiumSubscription.name}
-          description="Nâng cấp trải nghiệm của bạn"
-        />
+            <VStack gap={12}>
+              {subscriptionData.map((item, index) => (
+                <SubscriptionCard
+                  key={index}
+                  name={item.name}
+                  price={item.price}
+                  durationDays={item.durationDays}
+                  maxBookings={item.maxBookings}
+                  isSelected={item.name === selectedSubscription}
+                  onPress={() =>
+                    handleSelectPlan(item.subscriptionId, item.name)
+                  }
+                />
+              ))}
+            </VStack>
+          </View>
+        </Content>
 
-        <View className="flex-1 justify-between gap-1">
-          <VStack>
-            {featuresData.map((feature, index) => (
-              <HStack key={index} center gap={6}>
-                <Award variant="Bold" size={20} color={COLORS.PRIMARY.lemon} />
-                <Text className="flex-1 font-tregular text-lg text-secondary">
-                  {feature}
-                </Text>
-              </HStack>
-            ))}
-          </VStack>
+        <Button
+          disabled={selectedSubscription === "Gói Cơ Bản" || hasSubscription}
+          size="lg"
+          className="mb-4"
+          onPress={handleAction}
+        >
+          Thanh toán
+        </Button>
+      </Container>
 
-          <VStack gap={12}>
-            {plansData.map((item, index) => (
-              <SubscriptionCard
-                key={index}
-                duration={item.duration}
-                price={item.price ?? 0}
-                discount={item.discount}
-                isSelected={item.duration === selectedPlan}
-                onPress={() => handleSelectPlan(item.duration)}
-              />
-            ))}
-
-            <Text className="mt-2 text-center font-tregular text-secondary">
-              Chọn gói {plansData[plansData.length - 1].duration / 30} tháng để
-              tiết kiệm {plansData[plansData.length - 1].discount}% và nhận trọn
-              vẹn các tính năng cao cấp!
-            </Text>
-          </VStack>
-        </View>
-      </Content>
-
-      <Button
-        disabled={hasSubscription}
-        size="lg"
-        onPress={handleUpgrade}
-        className="mb-4"
-      >
-        Thanh toán
-      </Button>
-    </Container>
+      <Modal
+        isVisible={isModalVisible}
+        title="Nâng cấp"
+        description="Bạn có chắc chắn muốn nâng cấp gói không?"
+        confirmText="Đồng ý"
+        cancelText="Hủy"
+        onConfirm={handleUpgrade}
+        onClose={() => setIsModalVisible(false)}
+      />
+    </>
   )
 }
 
