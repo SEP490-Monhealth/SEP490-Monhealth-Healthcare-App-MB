@@ -46,6 +46,10 @@ function VoiceScreen() {
     router.push("/bookings/user")
   }
 
+  const handleCreateExercise = () => {
+    router.push("/exercises/create")
+  }
+
   return (
     <Container>
       <Header
@@ -85,6 +89,10 @@ function VoiceScreen() {
 
             <Button size="lg" onPress={handleCreateWorkout}>
               Create Workout
+            </Button>
+
+            <Button size="lg" onPress={handleCreateExercise}>
+              Create Exercise
             </Button>
           </VStack>
         </ScrollArea>

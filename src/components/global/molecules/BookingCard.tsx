@@ -64,15 +64,15 @@ export const BookingCard = ({
         <View className="border border-border"></View>
 
         <HStack center className="justify-between">
-          <HStack center>
-            <CalendarCircle variant="Bold" size="20" color={COLORS.secondary} />
+          <HStack center gap={6}>
+            <CalendarCircle variant="Bold" size={20} color={COLORS.secondary} />
             <Text className="font-tmedium text-sm text-accent">
               {formatDate(date)}
             </Text>
           </HStack>
 
-          <HStack center>
-            <TimerStart variant="Bold" size="20" color={COLORS.secondary} />
+          <HStack center gap={6}>
+            <TimerStart variant="Bold" size={20} color={COLORS.secondary} />
             <Text className="font-tmedium text-sm text-accent">{time}</Text>
           </HStack>
         </HStack>
@@ -98,6 +98,7 @@ export const BookingCard = ({
             >
               Hủy
             </Button>
+
             <Button size="sm" onPress={onConfirmPress} className="flex-1">
               Xác nhận
             </Button>

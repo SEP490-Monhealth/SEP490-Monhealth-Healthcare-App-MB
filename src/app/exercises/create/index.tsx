@@ -2,6 +2,8 @@ import React from "react"
 
 import { Text } from "react-native"
 
+import { useRouter } from "expo-router"
+
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 
@@ -17,14 +19,20 @@ import { Header } from "@/components/global/organisms"
 
 import { useAuth } from "@/contexts/AuthContext"
 
+import { useCreateExercise } from "@/hooks/useExercise"
+
 import {
   CreateExerciseType,
   createExerciseSchema
 } from "@/schemas/exerciseSchema"
 
 function ExerciseCreateScreen() {
+  const router = useRouter()
+
   const { user } = useAuth()
   const userId = user?.userId
+
+  const { mutate: createExercise } = useCreateExercise()
 
   const {
     control,
@@ -41,10 +49,14 @@ function ExerciseCreateScreen() {
   })
 
   const onSubmit = async (exerciseData: CreateExerciseType) => {
-    console.log(exerciseData)
-  }
+    console.log(JSON.stringify(exerciseData, null, 2))
 
-  console.log(errors)
+    createExercise(exerciseData, {
+      onSuccess: () => {
+        router.push("/exercises")
+      }
+    })
+  }
 
   return (
     <Container>
@@ -62,7 +74,6 @@ function ExerciseCreateScreen() {
                   label="Tên bài tập"
                   placeholder="VD: Chạy bộ, đạp xe"
                   onChangeText={onChange}
-                  keyboardType="default"
                   canClearText
                   errorMessage={errors.name?.message}
                 />
@@ -78,7 +89,6 @@ function ExerciseCreateScreen() {
                   label="Hướng dẫn"
                   placeholder="VD: Đứng thẳng, chân mở rộng bằng vai,..."
                   onChangeText={(text) => onChange(text)}
-                  keyboardType="default"
                   isMultiline
                   numberOfLines={4}
                   canClearText
