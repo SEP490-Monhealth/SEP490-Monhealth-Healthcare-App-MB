@@ -52,9 +52,7 @@ function SetupWeightGoal({ control, setValue, errors }: SetupWeightGoalProps) {
           <Input
             value={value ? value.toString() : ""}
             label="Cân nặng mục tiêu"
-            placeholder={`Nhập cân nặng mục tiêu (Gợi ý: ${
-              idealWeight ? idealWeight.toFixed(1) : "--"
-            } kg)`}
+            placeholder="VD: 66"
             onChangeText={(text) => {
               const formattedText = text.replace(",", ".")
               if (/^\d*\.?\d*$/.test(formattedText) || formattedText === "") {

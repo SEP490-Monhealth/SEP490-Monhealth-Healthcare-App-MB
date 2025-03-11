@@ -111,7 +111,6 @@ function WaterReminderDetailsScreen() {
                   label="Tên nhắc nhở"
                   placeholder="VD: Uống nước"
                   onChangeText={onChange}
-                  keyboardType="default"
                   canClearText
                   errorMessage={errors.name?.message}
                   className="w-full"

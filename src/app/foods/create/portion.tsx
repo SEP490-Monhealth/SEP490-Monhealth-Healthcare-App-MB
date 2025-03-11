@@ -76,7 +76,6 @@ function FoodPortion({ control, errors, setValue }: FoodPortionProps) {
                   label="Kích thước"
                   placeholder="Nhập khẩu phần ăn"
                   onChangeText={onChange}
-                  keyboardType="default"
                   canClearText
                 />
               )}

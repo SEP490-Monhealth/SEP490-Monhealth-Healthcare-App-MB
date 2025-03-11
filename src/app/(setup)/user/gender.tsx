@@ -34,10 +34,10 @@ function SetupGender({ control, errors }: SetupGenderProps) {
         return (
           <Chip
             key={gender.label}
-            label={gender.label}
+            size="lg"
             border
             borderWidth={2}
-            size="lg"
+            label={gender.label}
             icon={
               <Icon
                 size={28}

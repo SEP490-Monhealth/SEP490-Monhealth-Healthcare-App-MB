@@ -52,7 +52,7 @@ function WorkoutDetailsScreen() {
   const warmupRounds = 2
   const workoutRounds = 3
 
-  const sheetHeight = 560
+  const sheetHeight = 400
 
   const openSheet = () => SheetRef.current?.scrollTo(-sheetHeight)
 

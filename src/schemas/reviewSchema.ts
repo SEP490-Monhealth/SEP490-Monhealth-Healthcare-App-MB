@@ -8,14 +8,7 @@ const baseReviewSchema = z.object({
   consultantId: uuidSchema,
   userId: uuidSchema,
 
-  name: z.string(),
-  avatarUrl: z.string(),
-
-  rating: z
-    .number()
-    .int({ message: "Điểm đánh giá phải là số nguyên" })
-    .min(1, { message: "Điểm đánh giá tối thiểu là 1" })
-    .max(5, { message: "Điểm đánh giá tối đa là 5" }),
+  rating: z.number().min(1, { message: "Chọn số sao để đánh giá" }),
   comment: z
     .string()
     .nonempty({ message: "Nội dung đánh giá không được để trống" })

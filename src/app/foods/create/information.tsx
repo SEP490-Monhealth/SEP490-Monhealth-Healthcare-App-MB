@@ -53,7 +53,6 @@ function FoodInformation({
               label="Tên món ăn"
               placeholder="VD: Cơm tấm sườn"
               onChangeText={onChange}
-              keyboardType="default"
               canClearText
               errorMessage={errors.name?.message}
             />
@@ -69,7 +68,6 @@ function FoodInformation({
               label="Mô tả"
               placeholder="VD: Món ăn ngon, dễ làm, phù hợp cho cả gia đình"
               onChangeText={onChange}
-              keyboardType="default"
               isMultiline
               numberOfLines={4}
               canClearText

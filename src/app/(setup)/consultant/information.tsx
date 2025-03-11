@@ -23,7 +23,6 @@ function SetupInformation({ control, errors }: SetupInformationProps) {
             label="Mô tả ngắn"
             placeholder="VD: Tôi là chuyên gia dinh dưỡng với hơn 5 năm kinh nghiệm."
             onChangeText={(text) => onChange(text)}
-            keyboardType="default"
             isMultiline
             numberOfLines={4}
             canClearText

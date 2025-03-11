@@ -76,7 +76,6 @@ function WorkoutInformation({
                 label="Tên bài tập"
                 placeholder="VD: Luyện tập sức bền"
                 onChangeText={onChange}
-                keyboardType="default"
                 canClearText
                 errorMessage={errors.name?.message}
               />
@@ -92,7 +91,6 @@ function WorkoutInformation({
                 label="Mô tả"
                 placeholder="VD: Bài tập giúp cải thiện sức bền..."
                 onChangeText={(text) => onChange(text)}
-                keyboardType="default"
                 isMultiline
                 numberOfLines={4}
                 canClearText

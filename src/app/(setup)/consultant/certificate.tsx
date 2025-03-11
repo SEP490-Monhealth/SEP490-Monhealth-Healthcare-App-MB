@@ -56,7 +56,6 @@ function SetupCertificate({
                 label="Số chứng chỉ"
                 placeholder="VD: HCM-00199590"
                 onChangeText={onChange}
-                keyboardType="default"
                 canClearText
                 errorMessage={errors.number?.message}
               />
@@ -72,7 +71,6 @@ function SetupCertificate({
                 label="Tên chứng chỉ"
                 placeholder="VD: Chứng chỉ dinh dưỡng cơ bản"
                 onChangeText={onChange}
-                keyboardType="default"
                 canClearText
                 errorMessage={errors.certificate?.message}
               />
@@ -118,7 +116,6 @@ function SetupCertificate({
                 label="Nơi cấp"
                 placeholder="VD: Chứng chỉ dinh dưỡng cơ bản"
                 onChangeText={onChange}
-                keyboardType="default"
                 canClearText
                 errorMessage={errors.issuedBy?.message}
               />

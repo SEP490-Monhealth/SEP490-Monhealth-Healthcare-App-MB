@@ -104,7 +104,6 @@ function PortionCreateScreen() {
                       label="Kích thước"
                       placeholder="VD: Phần, hộp, lon,..."
                       onChangeText={onChange}
-                      keyboardType="default"
                       errorMessage={errors.size?.message}
                       canClearText
                     />

@@ -116,7 +116,6 @@ function SignUpScreen() {
                     label="Họ và tên"
                     placeholder="VD: Nguyễn Văn A"
                     onChangeText={onChange}
-                    keyboardType="default"
                     startIcon={
                       <Profile
                         variant="Bold"

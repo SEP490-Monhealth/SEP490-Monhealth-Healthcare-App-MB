@@ -35,11 +35,11 @@ function SetupExpertise({
           return (
             <Chip
               key={group.groupId}
-              label={group.name}
-              description={group.description}
+              size="lg"
               border
               borderWidth={2}
-              size="lg"
+              label={group.name}
+              description={group.description}
               selected={isSelected}
               onPress={() => openExpertiseSheet(group.groupId)}
             />

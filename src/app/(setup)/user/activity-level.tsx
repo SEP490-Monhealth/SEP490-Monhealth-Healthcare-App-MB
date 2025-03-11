@@ -30,9 +30,9 @@ function SetupActivityLevel({ control }: SetupActivityLevelProps) {
           <Chip
             key={activity.label}
             size="lg"
-            label={activity.label}
-            border={true}
+            border
             borderWidth={2}
+            label={activity.label}
             icon={
               <Icon
                 size={28}
