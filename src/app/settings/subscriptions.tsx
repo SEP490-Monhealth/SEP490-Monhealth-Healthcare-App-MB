@@ -32,14 +32,16 @@ function SubscriptionScreen() {
   const { mutate: upgradeSubscription } = useUpgradeSubscription()
 
   const subscriptionData = sampleSubscriptionsData
+
+  const hasSubscription = userSubscription === subscriptionData[0].name
+
   const [selectedSubscription, setSelectedSubscription] = useState<string>(
     subscriptionData[0].name
   )
-  const [selectedSubscriptionId, setSelectedSubscriptionId] =
-    useState<string>("")
-  const [isModalVisible, setIsModalVisible] = useState(false)
-
-  const hasSubscription = userSubscription === subscriptionData[0].name
+  const [selectedSubscriptionId, setSelectedSubscriptionId] = useState<
+    string | null
+  >("")
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 
   const selectedPlan = subscriptionData.find(
     (item) => item.name === selectedSubscription
@@ -70,40 +72,40 @@ function SubscriptionScreen() {
   return (
     <>
       <Container>
-        <Header back label="Gói đăng kí" />
+        <Header back label="Gói đăng ký" />
+
         <Content className="mt-2 pb-12">
           <View className="flex-1 justify-between">
-            <VStack>
-              {selectedPlan && (
-                <VStack gap={10}>
-                  <VStack>
-                    <Text className="font-tbold text-2xl text-primary">
-                      {selectedPlan.name}
-                    </Text>
-                    <Text className="-mt-2 font-tregular text-xl text-accent">
-                      Nâng cấp trải nghiệm của bạn
-                    </Text>
-                  </VStack>
-                  <VStack>
-                    {selectedPlan.features.map((feature, idx) => (
-                      <HStack key={idx} center>
-                        <Award
-                          variant="Bold"
-                          size={26}
-                          color={COLORS.NUTRITION.protein}
-                        />
-                        <Text
-                          key={idx}
-                          className="font-tregular text-base text-accent"
-                        >
-                          {feature}
-                        </Text>
-                      </HStack>
-                    ))}
-                  </VStack>
+            {selectedPlan && (
+              <VStack gap={20}>
+                <VStack>
+                  <Text className="font-tbold text-2xl text-primary">
+                    {selectedPlan.name}
+                  </Text>
+                  <Text className="font-tregular text-xl text-accent">
+                    Nâng cấp trải nghiệm của bạn
+                  </Text>
                 </VStack>
-              )}
-            </VStack>
+
+                <VStack gap={6}>
+                  {selectedPlan.features.map((feature, idx) => (
+                    <HStack key={idx} center>
+                      <Award
+                        variant="Bold"
+                        size={24}
+                        color={COLORS.NUTRITION.protein}
+                      />
+                      <Text
+                        key={idx}
+                        className="font-tregular text-base text-primary"
+                      >
+                        {feature}
+                      </Text>
+                    </HStack>
+                  ))}
+                </VStack>
+              </VStack>
+            )}
 
             <VStack gap={12}>
               {subscriptionData.map((item, index) => (
@@ -124,10 +126,12 @@ function SubscriptionScreen() {
         </Content>
 
         <Button
-          disabled={selectedSubscription === "Gói Cơ Bản" || hasSubscription}
+          disabled={
+            selectedSubscription === subscriptionData[0].name || hasSubscription
+          }
           size="lg"
-          className="mb-4"
           onPress={handleAction}
+          className="mb-4"
         >
           Thanh toán
         </Button>

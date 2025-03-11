@@ -1,13 +1,12 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useRef, useState } from "react"
 
 import {
   Image,
-  Keyboard,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
   Text,
-  TouchableOpacity,
-  View
+  TouchableOpacity
 } from "react-native"
 
 import { useLocalSearchParams } from "expo-router"
@@ -24,7 +23,6 @@ import {
   ErrorText,
   HStack,
   Input,
-  ScrollArea,
   VStack
 } from "@/components/global/atoms"
 import { Header, Section } from "@/components/global/organisms"
@@ -37,23 +35,28 @@ import { useAuth } from "@/contexts/AuthContext"
 import { CreateReviewType, createReviewSchema } from "@/schemas/reviewSchema"
 
 const quickReviewsData = [
-  "Dịch vụ tuyệt vời",
-  "Rất hài lòng",
-  "Tư vấn tốt",
-  "Hỗ trợ nhiệt tình",
-  "Tốt hơn mong đợi",
-  "Tuyệt vời"
+  "Chuyên nghiệp",
+  "Nhiệt tình",
+  "Đúng giờ",
+  "Thân thiện",
+  "Hữu ích",
+  "Giải pháp thực tế",
+  "Phản hồi nhanh"
 ]
 
 function ReviewCreateScreen() {
-  const { bookingId } = useLocalSearchParams() as { bookingId: string }
-  const bookingData = sampleBookingsData.find(
-    (bookingData) => bookingData.bookingId === bookingId
-  )
+  const { bookingId } = useLocalSearchParams<{ bookingId: string }>()
+
   const { user } = useAuth()
   const userId = user?.userId
 
-  const [ratingNumber, setRatingNumber] = useState(0)
+  const scrollViewRef = useRef<ScrollView>(null)
+
+  const bookingData = sampleBookingsData.find(
+    (bookingData) => bookingData.bookingId === bookingId
+  )
+
+  const [ratingNumber, setRatingNumber] = useState<number>(0)
   const [selectedReviews, setSelectedReviews] = useState<string[]>([])
 
   const handleRating = (ratingValue: number) => {
@@ -86,68 +89,91 @@ function ReviewCreateScreen() {
   })
 
   const onSubmit = async (reviewData: CreateReviewType) => {
-    const comment = `${reviewData.comment}. ${selectedReviews.join(" - ")}`
+    const comment = `${selectedReviews.join(" - ")}. ${reviewData.comment}`
 
     const finalData = { ...reviewData, comment: comment }
 
     console.log("Final Data:", JSON.stringify(finalData, null, 2))
   }
 
+  const scrollToInput = () => {
+    setTimeout(() => {
+      scrollViewRef.current?.scrollToEnd({ animated: true })
+    }, 50)
+  }
+
   return (
     <Container>
       <Header back label="Phản hồi" />
 
-      <Content className="mt-2">
-        <ScrollArea>
-          <VStack gap={10} className="pb-40">
-            <Text className="text-justify font-tregular text-base text-secondary">
-              Những đánh giá và phản hồi của bạn sẽ góp phần cải thiện chất
-              lượng dịch vụ của tư vấn viên, giúp mang lại trải nghiệm tốt hơn
-            </Text>
-
-            <VStack center gap={10}>
-              <Image
-                source={{ uri: bookingData?.consultantAvatar }}
-                className="h-32 w-32 rounded-2xl border border-border"
-              />
-
-              <VStack center gap={12}>
-                <Text className="font-tbold text-2xl text-primary">
-                  {bookingData?.consultant}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 20}
+      >
+        <Content className="mt-2">
+          <ScrollView
+            ref={scrollViewRef}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 100 }}
+          >
+            <VStack className="pb-20">
+              <VStack center gap={20}>
+                <Text className="text-tregular text-center text-base text-secondary">
+                  Hãy giúp chúng tôi cải thiện bằng cách cho chúng tôi biết cuộc
+                  hẹn của bạn với chuyên gia tư vấn diễn ra như thế nào
                 </Text>
 
-                <HStack gap={8}>
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <TouchableOpacity
-                      key={star}
-                      activeOpacity={0.7}
-                      onPress={() => handleRating(star)}
-                    >
-                      <Star
-                        size={24}
-                        fill={
-                          star <= ratingNumber
-                            ? COLORS.PRIMARY.lemon
-                            : COLORS.border
-                        }
-                        color={
-                          star <= ratingNumber
-                            ? COLORS.PRIMARY.lemon
-                            : COLORS.border
-                        }
-                      />
-                    </TouchableOpacity>
-                  ))}
-                </HStack>
+                <VStack center gap={12}>
+                  <VStack center gap={8}>
+                    <Image
+                      source={{ uri: bookingData?.consultantAvatar }}
+                      className="h-32 w-32 rounded-2xl border border-border"
+                    />
 
-                {errors.rating?.message && (
-                  <ErrorText text={errors.rating.message} />
-                )}
+                    <Text className="font-tbold text-xl text-primary">
+                      {bookingData?.consultant}
+                    </Text>
+                  </VStack>
+
+                  <VStack center gap={12}>
+                    <HStack gap={8}>
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <TouchableOpacity
+                          key={star}
+                          activeOpacity={0.7}
+                          onPress={() => handleRating(star)}
+                        >
+                          <Star
+                            size={24}
+                            fill={
+                              star <= ratingNumber
+                                ? COLORS.PRIMARY.lemon
+                                : COLORS.border
+                            }
+                            color={
+                              star <= ratingNumber
+                                ? COLORS.PRIMARY.lemon
+                                : COLORS.border
+                            }
+                          />
+                        </TouchableOpacity>
+                      ))}
+                    </HStack>
+
+                    {errors.rating?.message && (
+                      <ErrorText text={errors.rating.message} />
+                    )}
+                  </VStack>
+                </VStack>
               </VStack>
-            </VStack>
 
-            <VStack gap={20}>
-              <View className="flex-row flex-wrap gap-2">
+              <Section label="Điểm nổi bật" margin={false} />
+
+              <HStack
+                gap={8}
+                className="flex-row flex-wrap justify-center gap-y-3"
+              >
                 {quickReviewsData.map((review) => (
                   <Chip
                     key={review}
@@ -156,9 +182,9 @@ function ReviewCreateScreen() {
                     onPress={() => handleSelectQuick(review)}
                   />
                 ))}
-              </View>
+              </HStack>
 
-              <Section label="Phản hồi của bạn" margin={false} />
+              <Section label="Chi tiết phản hồi" />
 
               <Controller
                 name="comment"
@@ -171,23 +197,23 @@ function ReviewCreateScreen() {
                     isMultiline
                     numberOfLines={6}
                     canClearText
-                    keyboardType="default"
                     errorMessage={errors.comment?.message}
+                    onFocus={scrollToInput}
                   />
                 )}
               />
             </VStack>
-          </VStack>
-        </ScrollArea>
+          </ScrollView>
 
-        <Button
-          size="lg"
-          onPress={handleSubmit(onSubmit)}
-          className="absolute bottom-4 w-full"
-        >
-          Phản hồi
-        </Button>
-      </Content>
+          <Button
+            size="lg"
+            onPress={handleSubmit(onSubmit)}
+            className="absolute bottom-4 w-full"
+          >
+            Phản hồi
+          </Button>
+        </Content>
+      </KeyboardAvoidingView>
     </Container>
   )
 }

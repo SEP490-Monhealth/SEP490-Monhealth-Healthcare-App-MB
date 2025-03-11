@@ -1,42 +1,54 @@
-import React from "react"
+import React, { useRef, useState } from "react"
 
-import { Image, Text, View } from "react-native"
+import { KeyboardAvoidingView, Platform, ScrollView, Text } from "react-native"
 
 import { useLocalSearchParams } from "expo-router"
 
-import { LoadingScreen } from "@/app/loading"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { CalendarCircle, TimerStart } from "iconsax-react-native"
 import { Controller, useForm } from "react-hook-form"
 
 import {
   Button,
+  Chip,
   Container,
   Content,
   HStack,
   Input,
-  ScrollArea,
   VStack
 } from "@/components/global/atoms"
 import { Header, Section } from "@/components/global/organisms"
-
-import { sampleBookingsData } from "@/constants/bookings"
-import { COLORS } from "@/constants/color"
 
 import { useAuth } from "@/contexts/AuthContext"
 
 import { CancelBookingType, cancelBookingSchema } from "@/schemas/bookingSchema"
 
-import { formatDate } from "@/utils/formatters"
+const cancellationReasons = [
+  "Việc đột xuất",
+  "Đổi lịch",
+  "Không phù hợp",
+  "Đổi tư vấn viên",
+  "Hết nhu cầu",
+  "Lỗi kỹ thuật",
+  "Lý do khác"
+]
 
-function CancelBookingScreen() {
+function BookingCancelScreen() {
+  const { bookingId } = useLocalSearchParams<{ bookingId: string }>()
+
   const { user } = useAuth()
   const userId = user?.userId
-  const { bookingId } = useLocalSearchParams() as { bookingId: string }
 
-  const bookingData = sampleBookingsData.find(
-    (bookingData) => bookingData.bookingId === bookingId
-  )
+  const scrollViewRef = useRef<ScrollView>(null)
+
+  const [selectedReasons, setSelectedReasons] = useState<string[]>([])
+
+  const handleSelectQuick = (quickly: string) => {
+    setSelectedReasons((prev) =>
+      prev.includes(quickly)
+        ? prev.filter((item) => item !== quickly)
+        : [...prev, quickly]
+    )
+  }
 
   const {
     control,
@@ -45,120 +57,93 @@ function CancelBookingScreen() {
   } = useForm<CancelBookingType>({
     resolver: zodResolver(cancelBookingSchema),
     defaultValues: {
-      userId: userId,
-      bookingId: bookingId,
-      reason: ""
+      cancellationReason: ""
     }
   })
 
-  const onSubmit = async (cancelData: CancelBookingType) => {
-    console.log("Final Data:", JSON.stringify(cancelData, null, 2))
+  const onSubmit = async (data: CancelBookingType) => {
+    const cancel = `${selectedReasons.join(" - ")}. ${data.cancellationReason}`
+
+    const finalData = { ...data, cancel }
+
+    console.log("Final Data:", JSON.stringify(finalData, null, 2))
   }
 
-  if (!bookingData) return <LoadingScreen />
+  const scrollToInput = () => {
+    setTimeout(() => {
+      scrollViewRef.current?.scrollToEnd({ animated: true })
+    }, 50)
+  }
 
   return (
     <Container>
       <Header back label="Hủy lịch hẹn" />
 
-      <Content className="mt-2">
-        <ScrollArea>
-          <VStack gap={20}>
-            <HStack center gap={12}>
-              <Image
-                source={{ uri: bookingData.consultantAvatar }}
-                className="h-20 w-20 rounded-2xl border border-border"
-              />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 20}
+      >
+        <Content className="mt-2">
+          <ScrollView
+            ref={scrollViewRef}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 100 }}
+          >
+            <VStack className="pb-20">
+              <Text className="text-tregular text-center text-base text-secondary">
+                Bạn đang hủy buổi hẹn với chuyên gia tư vấn. Vui lòng cho chúng
+                tôi biết lý do để chúng tôi có thể cải thiện dịch vụ
+              </Text>
 
-              <VStack>
-                <Section label="Tư vấn viên" margin={false} />
-                <Text className="-mt-2 font-tbold text-2xl text-primary">
-                  {bookingData.consultant}
-                </Text>
-              </VStack>
-            </HStack>
-
-            <HStack center gap={12}>
-              <Image
-                source={{ uri: bookingData.customerAvatar }}
-                className="h-20 w-20 rounded-2xl border border-border"
-              />
-
-              <VStack>
-                <Section label="Khách hàng" margin={false} />
-                <Text className="-mt-2 font-tbold text-2xl text-primary">
-                  {bookingData.customer}
-                </Text>
-              </VStack>
-            </HStack>
-
-            <VStack>
-              <Section label="Thời gian đặt lịch" margin={false} />
-              <HStack center className="justify-between">
-                <HStack center>
-                  <TimerStart
-                    variant="Bold"
-                    size="30"
-                    color={COLORS.secondary}
-                  />
-                  <Text className="font-tmedium text-lg text-accent">
-                    {bookingData.time}
-                  </Text>
-                </HStack>
-                <HStack center>
-                  <CalendarCircle
-                    variant="Bold"
-                    size="30"
-                    color={COLORS.secondary}
-                  />
-                  <Text className="font-tmedium text-lg text-accent">
-                    {formatDate(bookingData.date)}
-                  </Text>
-                </HStack>
-              </HStack>
-            </VStack>
-
-            <VStack>
-              <Section label="Ghi chú dành cho tư vấn viên" margin={false} />
-
-              <Input
-                disabled
-                value={bookingData.notes || "Không có ghi chú"}
-                keyboardType="default"
-                isMultiline
-                numberOfLines={6}
-              />
-            </VStack>
-
-            <VStack>
               <Section label="Lý do hủy" margin={false} />
 
+              <HStack
+                gap={8}
+                className="flex-row flex-wrap justify-center gap-y-3"
+              >
+                {cancellationReasons.map((reason) => (
+                  <Chip
+                    key={reason}
+                    label={reason}
+                    selected={selectedReasons.includes(reason)}
+                    onPress={() => handleSelectQuick(reason)}
+                  />
+                ))}
+              </HStack>
+
+              <Section label="Chi tiết lý do" />
+
               <Controller
-                name="reason"
+                name="cancellationReason"
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value}
-                    placeholder="VD: Vì bận công việc, không cần nữa,..."
-                    onChangeText={(text) => onChange(text)}
-                    keyboardType="default"
+                    placeholder="Nhập lý do của bạn"
+                    onChangeText={onChange}
                     isMultiline
-                    numberOfLines={4}
+                    numberOfLines={6}
                     canClearText
-                    errorMessage={errors.reason?.message}
+                    errorMessage={errors.cancellationReason?.message}
+                    onFocus={scrollToInput}
                   />
                 )}
               />
             </VStack>
-          </VStack>
-        </ScrollArea>
-      </Content>
+          </ScrollView>
 
-      <Button size="lg" onPress={handleSubmit(onSubmit)} className="mb-4">
-        Hủy lịch hẹn
-      </Button>
+          <Button
+            size="lg"
+            onPress={handleSubmit(onSubmit)}
+            className="absolute bottom-4 w-full"
+          >
+            Xác nhận
+          </Button>
+        </Content>
+      </KeyboardAvoidingView>
     </Container>
   )
 }
 
-export default CancelBookingScreen
+export default BookingCancelScreen

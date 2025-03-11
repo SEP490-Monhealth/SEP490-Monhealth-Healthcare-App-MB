@@ -1,5 +1,10 @@
 import { z } from "zod"
 
+export enum ExerciseTypeEnum {
+  Time,
+  Reps
+}
+
 export enum WorkoutTypeEnum {
   Warmup,
   Workout
@@ -11,11 +16,6 @@ export enum DifficultyLevelEnum {
   Hard
 }
 
-export enum ExerciseTypeEnum {
-  Time,
-  Reps
-}
-
+export const ExerciseTypeSchemaEnum = z.nativeEnum(ExerciseTypeEnum)
 export const WorkoutTypeSchemaEnum = z.nativeEnum(WorkoutTypeEnum)
 export const DifficultyLevelSchemaEnum = z.nativeEnum(DifficultyLevelEnum)
-export const ExerciseTypeSchemaEnum = z.nativeEnum(ExerciseTypeEnum)

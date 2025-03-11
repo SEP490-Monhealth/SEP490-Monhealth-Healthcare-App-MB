@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-import { UserSubscriptionSchemaEnum } from "@/constants/enum/UserSubscriptionStatus"
+import { UserSubscriptionSchemaEnum } from "@/constants/enum/UserSubscription"
 
 import { auditFields, timestampFields, uuidSchema } from "./baseSchema"
 
