@@ -10,6 +10,17 @@ const baseBookingSchema = z.object({
   consultantId: uuidSchema,
   scheduleId: uuidSchema,
 
+  customer: z
+    .string()
+    .nonempty({ message: "Tên người dùng không được để trống" })
+    .max(50, { message: "Tên người dùng không được dài hơn 50 ký tự" })
+    .regex(/^[^\d!@#$%^&*()_+=[\]{};':"\\|,.<>/?]*$/, {
+      message: "Tên người dùng không được chứa ký tự đặc biệt hoặc số"
+    }),
+  customerAvatar: z
+    .string()
+    .url({ message: "Đường dẫn không hợp lệ" })
+    .optional(),
   consultant: z
     .string()
     .nonempty({ message: "Tên chuyên viên không được để trống" })
@@ -22,30 +33,13 @@ const baseBookingSchema = z.object({
     .url({ message: "Đường dẫn không hợp lệ" })
     .optional(),
 
-  customer: z
-    .string()
-    .nonempty({ message: "Tên người dùng không được để trống" })
-    .max(50, { message: "Tên người dùng không được dài hơn 50 ký tự" })
-    .regex(/^[^\d!@#$%^&*()_+=[\]{};':"\\|,.<>/?]*$/, {
-      message: "Tên người dùng không được chứa ký tự đặc biệt hoặc số"
-    }),
-  customerAvatar: z
-    .string()
-    .url({ message: "Đường dẫn không hợp lệ" })
-    .optional(),
-
   date: z
     .string()
     .nonempty({ message: "Ngày không được để trống" })
     .refine((val) => new Date(val) >= new Date(), {
       message: "Ngày không được là ngày trong quá khứ"
     }),
-  time: z
-    .string()
-    .nonempty({ message: "Giờ không được để trống" })
-    .refine((val) => new Date(val) >= new Date(), {
-      message: "Giờ không được là ngày trong quá khứ"
-    }),
+  time: z.string().nonempty({ message: "Giờ không được để trống" }),
 
   notes: z.string().optional(),
 

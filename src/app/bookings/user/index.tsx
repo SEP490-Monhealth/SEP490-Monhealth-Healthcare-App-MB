@@ -83,6 +83,7 @@ function BookingsUserScreen() {
     <>
       <Container>
         <Header back label="Lịch hẹn" />
+
         <Content className="mt-2">
           <ScrollArea className="flex-1">
             <Tabs defaultValue={activeTab} contentMarginTop={12}>
