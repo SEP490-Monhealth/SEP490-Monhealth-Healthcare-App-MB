@@ -62,11 +62,11 @@ const baseSubscriptionSchema = z.object({
 
 export const subscriptionSchema = baseSubscriptionSchema
 
-export const subscriptionUpgradeSchema = baseUserSubscriptionSchema.pick({
+export const upgradeSubscriptionSchema = baseUserSubscriptionSchema.pick({
   userId: true,
   subscriptionId: true
 })
 
 export type UserSubscriptionType = z.infer<typeof baseUserSubscriptionSchema>
 export type SubscriptionType = z.infer<typeof subscriptionSchema>
-export type SubscriptionUpgradeType = z.infer<typeof subscriptionUpgradeSchema>
+export type UpgradeSubscriptionType = z.infer<typeof upgradeSubscriptionSchema>

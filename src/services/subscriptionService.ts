@@ -4,7 +4,7 @@ import monAPI from "@/lib/monAPI"
 
 import {
   SubscriptionType,
-  SubscriptionUpgradeType
+  UpgradeSubscriptionType
 } from "@/schemas/subscriptionSchema"
 
 export const getAllSubscriptions = async (): Promise<SubscriptionType[]> => {
@@ -44,7 +44,7 @@ export const getAllSubscriptions = async (): Promise<SubscriptionType[]> => {
 }
 
 export const upgradeSubscription = async (
-  upgradeSubscriptionData: SubscriptionUpgradeType
+  upgradeSubscriptionData: UpgradeSubscriptionType
 ): Promise<string> => {
   try {
     const response = await monAPI.post(

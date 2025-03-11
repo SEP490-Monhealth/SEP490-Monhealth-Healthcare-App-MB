@@ -59,7 +59,7 @@ function SignInScreen() {
   } = useForm<LoginType>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      phoneNumber: "0987654321",
+      phoneNumber: "0792766979",
       password: "123As@"
     }
   })

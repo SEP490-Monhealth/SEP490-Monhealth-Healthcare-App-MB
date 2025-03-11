@@ -15,7 +15,8 @@ import {
   Progress,
   Sheet,
   SheetRefProps,
-  SheetSelect
+  SheetSelect,
+  VStack
 } from "@/components/global/atoms"
 import { CustomHeader, StepHeader } from "@/components/global/molecules"
 

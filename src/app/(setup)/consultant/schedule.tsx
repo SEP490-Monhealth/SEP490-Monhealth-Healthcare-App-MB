@@ -1,6 +1,18 @@
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
+
+import {
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View
+} from "react-native"
+import { Keyboard } from "react-native"
 
 import { zodResolver } from "@hookform/resolvers/zod"
+import DateTimePicker, {
+  DateTimePickerEvent
+} from "@react-native-community/datetimepicker"
 import { useForm } from "react-hook-form"
 
 import {
@@ -8,6 +20,8 @@ import {
   Container,
   Content,
   ScrollArea,
+  Sheet,
+  SheetRefProps,
   Toggle,
   VStack
 } from "@/components/global/atoms"
@@ -30,6 +44,8 @@ function SetupSchedule() {
   const { user } = useAuth()
   const userId = user?.userId
 
+  const SheetRef = useRef<SheetRefProps>(null)
+
   const now = new Date()
   now.setUTCHours(now.getUTCHours() + 7)
 
@@ -45,6 +61,11 @@ function SetupSchedule() {
   const [selectedTimeSlots, setSelectedTimeSlots] = useState<{
     [key: string]: string[]
   }>({})
+
+  const [selectedDay, setSelectedDay] = useState<RecurringDayEnum | null>(null)
+  const [selectedTime, setSelectedTime] = useState<Date>(new Date())
+
+  const sheetHeight = 600
 
   const [previousData, setPreviousData] = useState({
     [ScheduleTypeEnum.OneTime]: {
@@ -150,6 +171,37 @@ function SetupSchedule() {
     })
   }
 
+  const handleOpenTimeSheet = (day: RecurringDayEnum) => {
+    setSelectedDay(day)
+    SheetRef.current?.scrollTo(-sheetHeight)
+  }
+
+  const handleTimeChange = (
+    _event: DateTimePickerEvent,
+    selectedTime?: Date
+  ) => {
+    if (selectedTime) {
+      setSelectedTime(selectedTime)
+    }
+  }
+
+  const handleConfirmTime = () => {
+    if (selectedDay !== null) {
+      const hours = selectedTime.getHours().toString().padStart(2, "0")
+      const minutes = selectedTime.getMinutes().toString().padStart(2, "0")
+
+      const timeString = `${hours}:${minutes}:00`
+
+      console.log(`Selected time for day ${selectedDay}: ${timeString}`)
+
+      if (!selectedTimeSlots[selectedDay]?.includes(timeString)) {
+        toggleTimeSlot(selectedDay, timeString)
+      }
+
+      SheetRef.current?.scrollTo(0)
+    }
+  }
+
   const onSubmit = (data: CreateScheduleType) => {
     setIsLoading(true)
 
@@ -165,53 +217,73 @@ function SetupSchedule() {
   // console.log(errors)
 
   return (
-    <Container>
-      <Header back label="Tạo lịch trình" />
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <SafeAreaView className="flex-1 bg-background">
+        <Container>
+          <Header back label="Tạo lịch trình" />
 
-      <Content className="mt-2 pb-4">
-        <ScrollArea className="flex-1">
-          <VStack className="pb-24">
-            <Section
-              label="Lặp lại"
-              margin={false}
-              action={
-                <Toggle
-                  value={scheduleType === ScheduleTypeEnum.Recurring}
-                  onValueChange={handleScheduleTypeChange}
-                  trackColor={{ false: COLORS.border, true: COLORS.border }}
-                  thumbColorTrue={COLORS.primary}
+          <Content className="mt-2 pb-4">
+            <ScrollArea className="flex-1">
+              <VStack className="pb-24">
+                <Section
+                  label="Lặp lại"
+                  margin={false}
+                  action={
+                    <Toggle
+                      value={scheduleType === ScheduleTypeEnum.Recurring}
+                      onValueChange={handleScheduleTypeChange}
+                      trackColor={{ false: COLORS.border, true: COLORS.border }}
+                      thumbColorTrue={COLORS.primary}
+                    />
+                  }
                 />
-              }
+
+                <Section label="Chọn ngày" margin={false} />
+
+                <DaySelector
+                  selectedDays={selectedDays}
+                  toggleDay={toggleDay}
+                  scheduleType={scheduleType}
+                />
+
+                <Section label="Chọn khung giờ" />
+
+                <TimeSlotSelector
+                  selectedDays={selectedDays}
+                  selectedTimeSlots={selectedTimeSlots}
+                  toggleTimeSlot={toggleTimeSlot}
+                  onOpenTimeSheet={handleOpenTimeSheet}
+                />
+              </VStack>
+            </ScrollArea>
+
+            <Button
+              loading={isLoading}
+              onPress={handleSubmit(onSubmit)}
+              size="lg"
+              className="absolute bottom-4 w-full"
+            >
+              Hoàn thành
+            </Button>
+          </Content>
+        </Container>
+
+        <Sheet ref={SheetRef} dynamicHeight={sheetHeight}>
+          <VStack center>
+            <DateTimePicker
+              value={selectedTime}
+              mode="time"
+              display="spinner"
+              onChange={handleTimeChange}
             />
 
-            <Section label="Chọn ngày" margin={false} />
-
-            <DaySelector
-              selectedDays={selectedDays}
-              toggleDay={toggleDay}
-              scheduleType={scheduleType}
-            />
-
-            <Section label="Chọn khung giờ" />
-
-            <TimeSlotSelector
-              selectedDays={selectedDays}
-              selectedTimeSlots={selectedTimeSlots}
-              toggleTimeSlot={toggleTimeSlot}
-            />
+            <Button size="lg" onPress={handleConfirmTime} className="w-full">
+              Xác nhận
+            </Button>
           </VStack>
-        </ScrollArea>
-
-        <Button
-          loading={isLoading}
-          onPress={handleSubmit(onSubmit)}
-          size="lg"
-          className="absolute bottom-4 w-full"
-        >
-          Hoàn thành
-        </Button>
-      </Content>
-    </Container>
+        </Sheet>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   )
 }
 

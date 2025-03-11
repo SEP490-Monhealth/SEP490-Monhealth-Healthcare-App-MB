@@ -22,7 +22,8 @@ import {
   Progress,
   Sheet,
   SheetRefProps,
-  SheetSelect
+  SheetSelect,
+  VStack
 } from "@/components/global/atoms"
 import { CustomHeader, StepHeader } from "@/components/global/molecules"
 
@@ -324,21 +325,23 @@ function SetupConsultantScreen() {
         </Sheet>
 
         <Sheet ref={DateSheetRef} dynamicHeight={dateSheetHeight}>
-          <DateTimePicker
-            value={selectedDate || new Date()}
-            mode="date"
-            display="spinner"
-            minimumDate={
-              dateType === "expiryDate" &&
-              getValues("issueDate") &&
-              !isNaN(new Date(getValues("issueDate")).getTime())
-                ? new Date(getValues("issueDate"))
-                : new Date(1904, 0, 1)
-            }
-            maximumDate={new Date()}
-            onChange={handleDateSelect}
-            locale="vi"
-          />
+          <VStack center>
+            <DateTimePicker
+              value={selectedDate || new Date()}
+              mode="date"
+              display="spinner"
+              minimumDate={
+                dateType === "expiryDate" &&
+                getValues("issueDate") &&
+                !isNaN(new Date(getValues("issueDate")).getTime())
+                  ? new Date(getValues("issueDate"))
+                  : new Date(1904, 0, 1)
+              }
+              maximumDate={new Date()}
+              onChange={handleDateSelect}
+              locale="vi"
+            />
+          </VStack>
         </Sheet>
 
         <Sheet ref={UploadSheetRef} dynamicHeight={uploadSheetHeight}>

@@ -40,10 +40,15 @@ const TimeSlotButton = ({ time, isSelected, onPress }: TimeSlotButtonProps) => {
   )
 }
 
-const AddTimeButton = () => {
+interface AddTimeButtonProps {
+  onPress: () => void
+}
+
+const AddTimeButton = ({ onPress }: AddTimeButtonProps) => {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
+      onPress={onPress}
       className="items-center justify-center rounded-xl border border-none bg-primary px-3 py-1.5"
     >
       <Text className="font-tmedium text-base text-white">Thêm</Text>
@@ -56,13 +61,15 @@ interface DayTimeSlotsProps {
   selectedTimeSlots: Record<number, string[]>
   toggleTimeSlot: (day: number, time: string) => void
   isLastDay: boolean
+  onAddTimeSlot: (day: number) => void
 }
 
 const DayTimeSlots = ({
   day,
   selectedTimeSlots,
   toggleTimeSlot,
-  isLastDay
+  isLastDay,
+  onAddTimeSlot
 }: DayTimeSlotsProps) => {
   const timeSlotsForDay = selectedTimeSlots[day] || []
   const availableTimeSlotsForDay = defaultTimeSlots[day] || []
@@ -96,7 +103,7 @@ const DayTimeSlots = ({
           />
         ))}
 
-        <AddTimeButton />
+        <AddTimeButton onPress={() => onAddTimeSlot(day)} />
       </View>
     </HStack>
   )
@@ -108,12 +115,14 @@ interface TimeSlotSelectorProps {
   selectedDays: number[]
   selectedTimeSlots: Record<number, string[]>
   toggleTimeSlot: (day: number, time: string) => void
+  onOpenTimeSheet: (day: number) => void
 }
 
 export const TimeSlotSelector = ({
   selectedDays,
   selectedTimeSlots,
-  toggleTimeSlot
+  toggleTimeSlot,
+  onOpenTimeSheet
 }: TimeSlotSelectorProps) => {
   if (selectedDays.length === 0) return null
 
@@ -126,6 +135,7 @@ export const TimeSlotSelector = ({
           selectedTimeSlots={selectedTimeSlots}
           toggleTimeSlot={toggleTimeSlot}
           isLastDay={index === selectedDays.length - 1}
+          onAddTimeSlot={onOpenTimeSheet}
         />
       ))}
     </VStack>

@@ -276,6 +276,19 @@ export const parsePortion = (
  * @param value
  * @returns
  */
+export const parseJSON = (json: string[]): string[] => {
+  if (Array.isArray(json) && json.length > 0) {
+    return json[0].split("\n")
+  }
+
+  return []
+}
+
+/**
+ *
+ * @param value
+ * @returns
+ */
 export const getBookingLabel = (value: BookingStatusEnum): string => {
   return DATA.BOOKINGS.find((item) => item.value === value)?.label || ""
 }

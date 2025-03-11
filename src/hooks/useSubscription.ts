@@ -4,7 +4,7 @@ import { useError } from "@/contexts/ErrorContext"
 
 import {
   SubscriptionType,
-  SubscriptionUpgradeType
+  UpgradeSubscriptionType
 } from "@/schemas/subscriptionSchema"
 
 import {
@@ -33,7 +33,7 @@ export const useUpgradeSubscription = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
 
-  return useMutation<string, Error, SubscriptionUpgradeType>({
+  return useMutation<string, Error, UpgradeSubscriptionType>({
     mutationFn: async (upgrade) => {
       try {
         return await upgradeSubscription(upgrade)

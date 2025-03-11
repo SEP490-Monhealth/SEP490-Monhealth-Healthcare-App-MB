@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import { Text, View } from "react-native"
 
@@ -16,11 +16,15 @@ import { SubscriptionCard } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
-import { sampleSubscriptionsData } from "@/constants/subscriptions"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useUpgradeSubscription } from "@/hooks/useSubscription"
+import {
+  useGetAllSubscriptions,
+  useUpgradeSubscription
+} from "@/hooks/useSubscription"
+
+import { parseJSON } from "@/utils/helpers"
 
 import { LoadingScreen } from "../loading"
 
@@ -29,21 +33,27 @@ function SubscriptionScreen() {
   const userId = user?.userId
   const userSubscription = user?.subscription
 
+  const { data: subscriptionsData, isLoading } = useGetAllSubscriptions()
   const { mutate: upgradeSubscription } = useUpgradeSubscription()
 
-  const subscriptionData = sampleSubscriptionsData
-
-  const hasSubscription = userSubscription === subscriptionData[0].name
-
-  const [selectedSubscription, setSelectedSubscription] = useState<string>(
-    subscriptionData[0].name
-  )
+  const [selectedSubscription, setSelectedSubscription] = useState<string>("")
   const [selectedSubscriptionId, setSelectedSubscriptionId] = useState<
     string | null
   >("")
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 
-  const selectedPlan = subscriptionData.find(
+  useEffect(() => {
+    if (subscriptionsData && subscriptionsData.length > 0) {
+      setSelectedSubscription(subscriptionsData[0].name)
+      setSelectedSubscriptionId(subscriptionsData[0].subscriptionId)
+    }
+  }, [subscriptionsData])
+
+  if (!subscriptionsData || isLoading) return <LoadingScreen />
+
+  const hasSubscription = userSubscription === subscriptionsData[0].name
+
+  const selectedPlan = subscriptionsData.find(
     (item) => item.name === selectedSubscription
   )
 
@@ -57,17 +67,17 @@ function SubscriptionScreen() {
   }
 
   const handleUpgrade = () => {
-    if (userId) {
+    if (userId && selectedSubscriptionId) {
       const upgradeData = {
         userId: userId,
         subscriptionId: selectedSubscriptionId
       }
+
       console.log("Final Data:", JSON.stringify(upgradeData, null, 2))
+
       // upgradeSubscription(upgradeData)
     }
   }
-
-  if (!subscriptionData) return <LoadingScreen />
 
   return (
     <>
@@ -88,17 +98,14 @@ function SubscriptionScreen() {
                 </VStack>
 
                 <VStack gap={6}>
-                  {selectedPlan.features.map((feature, idx) => (
-                    <HStack key={idx} center>
+                  {parseJSON(selectedPlan.features).map((feature, index) => (
+                    <HStack key={index} center>
                       <Award
                         variant="Bold"
                         size={24}
                         color={COLORS.NUTRITION.protein}
                       />
-                      <Text
-                        key={idx}
-                        className="font-tregular text-base text-primary"
-                      >
+                      <Text className="font-tregular text-base text-primary">
                         {feature}
                       </Text>
                     </HStack>
@@ -108,14 +115,14 @@ function SubscriptionScreen() {
             )}
 
             <VStack gap={12}>
-              {subscriptionData.map((item, index) => (
+              {subscriptionsData.map((item, index) => (
                 <SubscriptionCard
                   key={index}
                   name={item.name}
                   price={item.price}
                   durationDays={item.durationDays}
                   maxBookings={item.maxBookings}
-                  isSelected={item.name === selectedSubscription}
+                  isSelected={item.subscriptionId === selectedSubscriptionId}
                   onPress={() =>
                     handleSelectPlan(item.subscriptionId, item.name)
                   }
@@ -127,7 +134,8 @@ function SubscriptionScreen() {
 
         <Button
           disabled={
-            selectedSubscription === subscriptionData[0].name || hasSubscription
+            selectedSubscription === subscriptionsData[0].name ||
+            hasSubscription
           }
           size="lg"
           onPress={handleAction}

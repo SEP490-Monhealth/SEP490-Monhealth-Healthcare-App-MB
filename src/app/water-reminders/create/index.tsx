@@ -90,12 +90,14 @@ function WaterReminderCreateScreen() {
       <Header back label="Tạo nhắc nhở" />
 
       <Content className="mt-2">
-        <DateTimePicker
-          value={time}
-          mode="time"
-          display="spinner"
-          onChange={handleTimeChange}
-        />
+        <VStack center>
+          <DateTimePicker
+            value={time}
+            mode="time"
+            display="spinner"
+            onChange={handleTimeChange}
+          />
+        </VStack>
 
         <VStack gap={32}>
           <VStack gap={12}>
