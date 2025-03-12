@@ -23,6 +23,7 @@ import { useAuth } from "@/contexts/AuthContext"
 
 function HomeScreen() {
   const { user } = useAuth()
+  const fullName = user?.fullName
 
   // console.log(user)
 
@@ -58,7 +59,7 @@ function HomeScreen() {
     <Container>
       <LoadingOverlay visible={overlayLoading} />
 
-      <HomeHeader fullName={user?.fullName} />
+      <HomeHeader fullName={fullName} />
 
       <ScrollArea>
         <Content className="pb-12">

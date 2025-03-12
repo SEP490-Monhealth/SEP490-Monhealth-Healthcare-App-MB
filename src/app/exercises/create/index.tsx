@@ -90,7 +90,7 @@ function ExerciseCreateScreen() {
                   placeholder="VD: Đứng thẳng, chân mở rộng bằng vai,..."
                   onChangeText={(text) => onChange(text)}
                   isMultiline
-                  numberOfLines={4}
+                  numberOfLines={6}
                   canClearText
                   errorMessage={errors.instructions?.message}
                 />

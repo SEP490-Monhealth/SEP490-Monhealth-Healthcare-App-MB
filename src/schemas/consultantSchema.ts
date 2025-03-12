@@ -21,8 +21,8 @@ const baseConsultantSchema = z.object({
     // .min(50, {
     //   message: "Mô tả phải có ít nhất 50 ký tự"
     // })
-    .max(500, {
-      message: "Mô tả không được dài hơn 500 ký tự"
+    .max(200, {
+      message: "Mô tả không được dài hơn 200 ký tự"
     }),
   experience: z
     .number()

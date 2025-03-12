@@ -24,15 +24,22 @@ interface ConsultantStoreState {
 }
 
 export const useConsultantStore = create<ConsultantStoreState>((set) => ({
-  bio: "Halo",
-  experience: 5,
-  expertise: "",
-  number: "",
-  certificate: "",
-  issueDate: "",
-  expiryDate: "",
-  issuedBy: "",
-  imageUrls: [],
+  bio: "Với kinh nghiệm hơn 2 năm trong lĩnh vực tư vấn tâm lý, tôi chuyên hỗ trợ những người gặp phải các triệu chứng trầm cảm, lo âu và căng thẳng kéo dài",
+  experience: 2,
+  expertise: "Trầm cảm",
+  number: "CERT-2025-002",
+  certificate: "Chứng chỉ chuyên môn về Trầm cảm",
+  issueDate: "2021-01-01",
+  expiryDate: "2024-01-01",
+  issuedBy: "Hiệp hội tâm lý học Việt Nam",
+  imageUrls: [
+    {
+      uri: "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Monhealth%2Fcertificates%2F3055f764-ebb5-454e-a5cf-9ba217434959.jpg?alt=media&token=4f7b6209-4d14-4d80-944f-ca0e3a9d02af",
+      fileName: "meomeo.jpg",
+      uploading: false,
+      progress: 100
+    }
+  ],
 
   updateField: (key, value, append = false) =>
     set((state) => {

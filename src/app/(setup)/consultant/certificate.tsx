@@ -114,7 +114,7 @@ function SetupCertificate({
               <Input
                 value={value}
                 label="Nơi cấp"
-                placeholder="VD: Chứng chỉ dinh dưỡng cơ bản"
+                placeholder="VD: Trường đại học y dược"
                 onChangeText={onChange}
                 canClearText
                 errorMessage={errors.issuedBy?.message}

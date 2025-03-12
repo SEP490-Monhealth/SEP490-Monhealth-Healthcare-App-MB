@@ -4,7 +4,7 @@ import { Text } from "react-native"
 
 import { useRouter } from "expo-router"
 
-import { aboutItems, generalItems } from "@/configs/site"
+import { userAboutRoutes, userProfileRoutes } from "@/configs/routes"
 
 import { Card, Container, Content, Modal } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
@@ -12,6 +12,7 @@ import { Header } from "@/components/global/organisms"
 import { ListItem } from "@/components/local/tabs/settings"
 
 import { APP } from "@/constants/app"
+import { COLORS } from "@/constants/color"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -41,27 +42,39 @@ function SettingsScreen() {
         <Content className="mt-2 justify-between pb-12">
           {/* <ScrollArea> */}
           <Card activeOpacity={1}>
-            {generalItems.map((item, index) => (
-              <ListItem
-                key={index}
-                startIcon={item.icon}
-                label={item.label}
-                route={item.route}
-              />
-            ))}
+            {userProfileRoutes.map((item, index) => {
+              const Icon = item.icon
+
+              return (
+                <ListItem
+                  key={index}
+                  startIcon={
+                    <Icon variant="Bold" size={24} color={COLORS.accent} />
+                  }
+                  label={item.label}
+                  route={item.route}
+                />
+              )
+            })}
           </Card>
 
           <Card activeOpacity={1}>
-            {aboutItems.map((item, index) => (
-              <ListItem
-                key={index}
-                startIcon={item.icon}
-                label={item.label}
-                route={item.route}
-                action={item.action}
-                onPress={() => handleAction(item.action)}
-              />
-            ))}
+            {userAboutRoutes.map((item, index) => {
+              const Icon = item.icon
+
+              return (
+                <ListItem
+                  key={index}
+                  startIcon={
+                    <Icon variant="Bold" size={24} color={COLORS.accent} />
+                  }
+                  label={item.label}
+                  route={item.route}
+                  action={item.action}
+                  onPress={() => handleAction(item.action)}
+                />
+              )
+            })}
 
             <Text className="mt-4 text-center font-dregular text-base text-accent">
               Monhealth - Version {APP.version}

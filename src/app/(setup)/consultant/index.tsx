@@ -19,6 +19,7 @@ import {
   Button,
   Container,
   Content,
+  Modal,
   Progress,
   Sheet,
   SheetRefProps,
@@ -71,10 +72,12 @@ function SetupConsultantScreen() {
   const DateSheetRef = useRef<SheetRefProps>(null)
   const UploadSheetRef = useRef<SheetRefProps>(null)
 
+  const [expertiseSheetHeight, setExpertiseSheetHeight] = useState<number>(320)
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null)
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [dateType, setDateType] = useState<"issueDate" | "expiryDate">()
-  const [expertiseSheetHeight, setExpertiseSheetHeight] = useState<number>(320)
 
   const expertiseData =
     sampleExpertiseGroupData.find((group) => group.groupId === selectedGroup)
@@ -116,7 +119,7 @@ function SetupConsultantScreen() {
     {
       step: 1,
       title: "Thông tin",
-      description: "Nhập giới thiệu bản thân và kinh nghiệm làm việc của bạn",
+      description: "Giới thiệu bản thân và kinh nghiệm làm việc của bạn",
       component: SetupInformation,
       fields: ["bio", "experience"],
       schema: informationConsultantSchema
@@ -196,17 +199,10 @@ function SetupConsultantScreen() {
         updateField(field, data[field])
       })
 
-      if (currentStep < setupSteps.length) {
-        setCurrentStep(currentStep + 1)
-      } else {
+      if (currentStep === setupSteps.length) {
         console.log("Final Data", data)
 
-        // await new Promise((resolve) => setTimeout(resolve, 2000))
-        // createConsultant(data as CreateConsultantType, {
-        //   onSuccess: () => {
-        //     router.push("/(setup)/completed")
-        //   }
-        // })
+        setIsModalVisible(true)
       }
     } catch (error) {
       console.error("Error submitting form:", error)
@@ -257,6 +253,18 @@ function SetupConsultantScreen() {
     UploadSheetRef.current?.scrollTo(0)
   }
 
+  const handleNextStep = (data: Record<string, any>) => {
+    currentStepData.fields.forEach((field) => {
+      updateField(field, data[field])
+    })
+
+    if (currentStep < setupSteps.length) {
+      setCurrentStep(currentStep + 1)
+    } else {
+      setIsModalVisible(true)
+    }
+  }
+
   const handleBack = () => {
     if (currentStep === 1) {
       router.back()
@@ -303,7 +311,7 @@ function SetupConsultantScreen() {
             <Button
               loading={isLoading}
               size="lg"
-              onPress={handleSubmit(onSubmit)}
+              onPress={handleSubmit(handleNextStep)}
               className="absolute bottom-4 w-full"
             >
               {currentStep === setupSteps.length ? "Hoàn thành" : "Tiếp tục"}
@@ -366,6 +374,19 @@ function SetupConsultantScreen() {
             )
           })}
         </Sheet>
+
+        <Modal
+          isVisible={isModalVisible}
+          title="Hoàn tất đăng ký"
+          description="Thông tin của bạn đang được xác nhận. Vui lòng chờ thông báo từ hệ thống"
+          cancelText="Hủy"
+          confirmText="Đồng ý"
+          onConfirm={() => {
+            setIsModalVisible(false)
+            router.push("/(setup)/consultant/completed")
+          }}
+          onClose={() => setIsModalVisible(false)}
+        />
       </SafeAreaView>
     </TouchableWithoutFeedback>
   )

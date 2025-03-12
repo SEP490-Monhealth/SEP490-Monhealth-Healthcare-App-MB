@@ -74,7 +74,7 @@ function FoodPortion({ control, errors, setValue }: FoodPortionProps) {
                 <Input
                   value={value}
                   label="Kích thước"
-                  placeholder="Nhập khẩu phần ăn"
+                  placeholder="VD: Phần, hộp, lon,..."
                   onChangeText={onChange}
                   canClearText
                 />
@@ -91,7 +91,7 @@ function FoodPortion({ control, errors, setValue }: FoodPortionProps) {
                   <Input
                     value={value ? value.toString() : ""}
                     label="Khối lượng"
-                    placeholder="1"
+                    placeholder="VD: 100"
                     onChangeText={(text) => onChange(parseFloat(text) || 0)}
                     keyboardType="numeric"
                   />

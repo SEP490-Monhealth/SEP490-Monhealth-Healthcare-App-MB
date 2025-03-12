@@ -24,7 +24,7 @@ function SetupInformation({ control, errors }: SetupInformationProps) {
             placeholder="VD: Tôi là chuyên gia dinh dưỡng với hơn 5 năm kinh nghiệm."
             onChangeText={(text) => onChange(text)}
             isMultiline
-            numberOfLines={4}
+            numberOfLines={6}
             canClearText
             errorMessage={errors.bio?.message}
           />
