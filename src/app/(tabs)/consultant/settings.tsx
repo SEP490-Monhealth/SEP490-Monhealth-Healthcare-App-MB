@@ -73,6 +73,8 @@ function SettingsScreen() {
                   }
                   label={item.label}
                   route={item.route}
+                  action={item.action}
+                  onPress={() => handleAction(item.action)}
                 />
               )
             })}
