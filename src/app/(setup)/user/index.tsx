@@ -14,8 +14,8 @@ import { GoalTypeEnum } from "@/constants/enum/Goal"
 import { useAuth } from "@/contexts/AuthContext"
 import { useStorage } from "@/contexts/StorageContext"
 
-import { useCreateUserFoods } from "@/hooks/useFood"
 import { useCreateMetric } from "@/hooks/useMetric"
+import { useCreateUserAllergy } from "@/hooks/useUserAllergy"
 
 import { allergySetupSchema } from "@/schemas/allergySchema"
 import {
@@ -60,7 +60,7 @@ function SetupUserScreen() {
   const { addAllergies } = useStorage()
 
   const { mutate: createMetric } = useCreateMetric()
-  const { mutate: createUserFoods } = useCreateUserFoods()
+  const { mutate: createUserAllergies } = useCreateUserAllergy()
 
   const {
     dateOfBirth,
@@ -259,22 +259,22 @@ function SetupUserScreen() {
 
         await addAllergies(userAllergiesData.allergies)
 
-        // await Promise.all([
-        //   new Promise((resolve, reject) =>
-        //     // @ts-ignore
-        //     createMetric(newMetricData, {
-        //       onSuccess: resolve,
-        //       onError: reject
-        //     })
-        //   ),
-        //   new Promise((resolve, reject) =>
-        //     // @ts-ignore
-        //     createUserFoods(newUserFoodsData, {
-        //       onSuccess: resolve,
-        //       onError: reject
-        //     })
-        //   )
-        // ])
+        await Promise.all([
+          new Promise((resolve, reject) =>
+            // @ts-ignore
+            createMetric(newMetricData, {
+              onSuccess: resolve,
+              onError: reject
+            })
+          ),
+          new Promise((resolve, reject) =>
+            // @ts-ignore
+            createUserAllergies(newUserFoodsData, {
+              onSuccess: resolve,
+              onError: reject
+            })
+          )
+        ])
 
         router.replace("/(setup)/user/summary")
       } catch (error) {
