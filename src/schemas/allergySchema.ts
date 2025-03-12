@@ -19,10 +19,16 @@ const baseAllergySchema = z.object({
   ...timestampFields
 })
 
-export const allergySchema = baseAllergySchema
+const allergySchema = baseAllergySchema
 
 export const allergySetupSchema = z.object({
   allergies: z.array(allergySchema.shape.name)
 })
 
+const createUserAllergySchema = z.object({
+  userId: uuidSchema,
+  allergyId: z.array(z.string())
+})
+
 export type AllergyType = z.infer<typeof allergySchema>
+export type CreateUserAllergyType = z.infer<typeof createUserAllergySchema>

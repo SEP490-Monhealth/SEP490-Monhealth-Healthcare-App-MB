@@ -3,20 +3,13 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
 
-import {
-  CreateFoodType,
-  FoodType,
-  FoodUserType,
-  UpdateFoodType
-} from "@/schemas/foodSchema"
+import { CreateFoodType, FoodType } from "@/schemas/foodSchema"
 
 import {
   createFood,
-  createUserFood,
   getAllFoods,
   getFoodById,
-  getFoodsByUserId,
-  updateFood
+  getFoodsByUserId
 } from "@/services/foodService"
 
 interface FoodResponse {
@@ -115,45 +108,6 @@ export const useCreateFood = () => {
     mutationFn: async (newFoodData) => {
       try {
         return await createFood(newFoodData, showModal)
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["foods"] })
-    }
-  })
-}
-
-export const useCreateUserFoods = () => {
-  const handleError = useError()
-
-  return useMutation<string, Error, FoodUserType>({
-    mutationFn: async (newUserFoodsData) => {
-      try {
-        return await createUserFood(newUserFoodsData)
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
-    }
-  })
-}
-
-export const useUpdateFood = () => {
-  const queryClient = useQueryClient()
-  const handleError = useError()
-  const { showModal } = useModal()
-
-  return useMutation<
-    string,
-    Error,
-    { foodId: string; foodData: UpdateFoodType }
-  >({
-    mutationFn: async ({ foodId, foodData }) => {
-      try {
-        return await updateFood(foodId, foodData, showModal)
       } catch (error) {
         handleError(error)
         throw error
