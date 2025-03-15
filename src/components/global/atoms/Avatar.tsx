@@ -5,7 +5,7 @@ import { Image, Text, View } from "react-native"
 import { getInitials } from "@/utils/helpers"
 
 interface AvatarProps {
-  source: string
+  source: string | undefined
   alt?: string
   size?: number
   className?: string

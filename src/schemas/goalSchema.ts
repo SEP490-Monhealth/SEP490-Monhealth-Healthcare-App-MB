@@ -8,7 +8,7 @@ const baseGoalSchema = z.object({
   goalId: uuidSchema,
   userId: uuidSchema,
 
-  type: GoalTypeSchemaEnum,
+  goalType: GoalTypeSchemaEnum,
 
   caloriesRatio: z.number().optional(),
 

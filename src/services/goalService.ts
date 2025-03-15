@@ -11,9 +11,9 @@ import {
 
 export const getGoalByUserId = async (
   userId: string | undefined
-): Promise<GoalType> => {
+): Promise<GoalType[]> => {
   try {
-    const response = await monAPI.get(`/goals/${userId}`)
+    const response = await monAPI.get(`/goals/user/${userId}`)
 
     if (!response || !response.data) {
       throw {
@@ -26,7 +26,7 @@ export const getGoalByUserId = async (
     const { success, message, data } = response.data
 
     if (success) {
-      return data as GoalType
+      return data as GoalType[]
     } else {
       throw {
         isCustomError: true,
