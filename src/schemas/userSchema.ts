@@ -51,8 +51,7 @@ export const userSchema = baseUserSchema
 export const updateUserSchema = baseUserSchema.pick({
   fullName: true,
   email: true,
-  phoneNumber: true,
-  avatarUrl: true
+  phoneNumber: true
 })
 
 export const phoneNumberSchema = baseUserSchema.pick({

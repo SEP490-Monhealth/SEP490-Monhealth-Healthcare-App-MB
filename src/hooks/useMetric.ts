@@ -6,20 +6,20 @@ import { CreateMetricType, MetricType } from "@/schemas/metricSchema"
 
 import { createMetric, getMetricsByUserId } from "@/services/metricService"
 
-export const useGetMetricsByUserId = (metricId: string | undefined) => {
+export const useGetMetricsByUserId = (userId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<MetricType[], Error>({
-    queryKey: ["metrics", metricId],
+    queryKey: ["metrics", userId],
     queryFn: async () => {
       try {
-        return await getMetricsByUserId(metricId)
+        return await getMetricsByUserId(userId)
       } catch (error) {
         handleError(error)
         throw error
       }
     },
-    enabled: !!metricId,
+    enabled: !!userId,
     staleTime: 1000 * 60 * 5
   })
 }

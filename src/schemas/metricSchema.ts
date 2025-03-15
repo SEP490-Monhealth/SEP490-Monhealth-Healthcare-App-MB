@@ -43,7 +43,7 @@ const baseMetricSchema = z.object({
       "Hệ số hoạt động không hợp lệ. Các giá trị hợp lệ: 1.2, 1.375, 1.55, 1.725, 1.9"
   }),
 
-  goalType: goalSchema.shape.type,
+  goalType: goalSchema.shape.goalType,
   weightGoal: goalSchema.shape.weightGoal,
   caloriesRatio: goalSchema.shape.caloriesRatio,
 

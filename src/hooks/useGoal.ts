@@ -20,7 +20,7 @@ import {
 export const useGetGoalByUserId = (userId: string | undefined) => {
   const handleError = useError()
 
-  return useQuery<GoalType, Error>({
+  return useQuery<GoalType[], Error>({
     queryKey: ["goals", userId],
     queryFn: async () => {
       try {

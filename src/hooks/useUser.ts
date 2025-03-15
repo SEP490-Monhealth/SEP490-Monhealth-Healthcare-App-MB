@@ -1,10 +1,11 @@
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { useError } from "@/contexts/ErrorContext"
+import { useModal } from "@/contexts/ModalContext"
 
-import { UserType } from "@/schemas/userSchema"
+import { UpdateUserType, UserType } from "@/schemas/userSchema"
 
-import { getAllUsers, getUserById } from "@/services/userService"
+import { getAllUsers, getUserById, updateUser } from "@/services/userService"
 
 interface UserResponse {
   users: UserType[]
@@ -50,5 +51,31 @@ export const useGetUserById = (userId: string | undefined) => {
     },
     enabled: !!userId,
     staleTime: 1000 * 60 * 5
+  })
+}
+
+export const useUpdateUser = () => {
+  const queryClient = useQueryClient()
+  const handleError = useError()
+  const { showModal } = useModal()
+
+  return useMutation<
+    string,
+    Error,
+    { userId: string; updateData: UpdateUserType }
+  >({
+    mutationFn: async ({ userId, updateData }) => {
+      try {
+        return await updateUser(userId, updateData, showModal)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    onSuccess: (_data, { userId }) => {
+      queryClient.invalidateQueries({
+        queryKey: ["user", userId]
+      })
+    }
   })
 }
