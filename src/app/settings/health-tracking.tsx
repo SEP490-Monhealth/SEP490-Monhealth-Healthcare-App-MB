@@ -2,6 +2,8 @@ import React from "react"
 
 import { FlatList, Text, View } from "react-native"
 
+import { Setting2 } from "iconsax-react-native"
+
 import {
   Card,
   Container,
@@ -11,6 +13,7 @@ import {
 } from "@/components/global/atoms"
 import { Header, Section } from "@/components/global/organisms"
 
+import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
 
 import { useAuth } from "@/contexts/AuthContext"
@@ -53,7 +56,14 @@ function HealthTrackingScreen() {
 
   return (
     <Container>
-      <Header back label="Theo dõi sức khỏe" />
+      <Header
+        back
+        label="Theo dõi sức khỏe"
+        action={{
+          icon: <Setting2 size={24} color={COLORS.primary} />,
+          href: "/user/metric"
+        }}
+      />
 
       <Content className="mt-2">
         <ScrollArea>
