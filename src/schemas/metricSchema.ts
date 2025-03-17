@@ -32,11 +32,11 @@ const baseMetricSchema = z.object({
   gender: GenderSchemaEnum,
   height: z
     .number()
-    .min(100, { message: "Chiều cao tối thiểu là 100 cm" })
+    .min(50, { message: "Chiều cao tối thiểu là 50 cm" })
     .max(250, { message: "Chiều cao tối đa là 250 cm" }),
   weight: z
     .number()
-    .min(20, { message: "Cân nặng tối thiểu là 20 kg" })
+    .min(10, { message: "Cân nặng tối thiểu là 10 kg" })
     .max(300, { message: "Cân nặng tối đa là 300 kg" }),
   activityLevel: z.number().refine((value) => activityLevels.includes(value), {
     message:

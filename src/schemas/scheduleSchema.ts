@@ -18,10 +18,12 @@ const scheduleTimeSlotSchema = z.object({
   ...timestampFields
 })
 
-const timeSlotSchema = z.object({
+export const timeSlotSchema = z.object({
   timeSlotId: uuidSchema,
 
-  startTime: z.string(),
+  startTime: z
+    .string()
+    .nonempty({ message: "Thời gian bắt đầu không được để trống" }),
 
   ...timestampFields
 })
@@ -56,6 +58,8 @@ export const createScheduleSchema = z.object({
 
   schedules: z.array(scheduleItemSchema)
 })
+
+export type TimeSlotType = z.infer<typeof timeSlotSchema>
 
 export type ScheduleType = z.infer<typeof scheduleSchema>
 export type CreateScheduleType = z.infer<typeof createScheduleSchema>

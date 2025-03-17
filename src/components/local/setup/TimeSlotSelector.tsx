@@ -6,14 +6,9 @@ import { HStack, VStack } from "@/components/global/atoms"
 
 import { getDayLabel } from "@/utils/helpers"
 
-const defaultTimeSlots: { [key: number]: string[] } = {
-  0: ["08:00", "09:00", "10:00", "11:00", "14:00", "15:00", "16:00"],
-  1: ["08:00", "09:00", "10:00", "11:00", "14:00", "15:00", "16:00"],
-  2: ["08:00", "09:00", "10:00", "11:00", "14:00", "15:00", "16:00"],
-  3: ["08:00", "09:00", "10:00", "11:00", "14:00", "15:00", "16:00"],
-  4: ["08:00", "09:00", "10:00", "11:00", "14:00", "15:00", "16:00"],
-  5: ["09:00", "10:00", "11:00", "14:00", "15:00"],
-  6: ["09:00", "10:00", "11:00"]
+export type TimeSlot = {
+  dayOfWeek: number
+  timeSlots: string[]
 }
 
 interface TimeSlotButtonProps {
@@ -56,23 +51,33 @@ const AddTimeButton = ({ onPress }: AddTimeButtonProps) => {
   )
 }
 
+interface SelectedTimeSlots {
+  dayOfWeek: number
+  timeSlots: string[]
+}
+
 interface DayTimeSlotsProps {
+  data: TimeSlot[]
   day: number
-  selectedTimeSlots: Record<number, string[]>
+  selectedTimeSlots: SelectedTimeSlots[]
   toggleTimeSlot: (day: number, time: string) => void
   isLastDay: boolean
   onAddTimeSlot: (day: number) => void
 }
 
 const DayTimeSlots = ({
+  data,
   day,
   selectedTimeSlots,
   toggleTimeSlot,
   isLastDay,
   onAddTimeSlot
 }: DayTimeSlotsProps) => {
-  const timeSlotsForDay = selectedTimeSlots[day] || []
-  const availableTimeSlotsForDay = defaultTimeSlots[day] || []
+  const selectedSlot = selectedTimeSlots.find((slot) => slot.dayOfWeek === day)
+  const timeSlotsForDay = selectedSlot?.timeSlots || []
+
+  const availableSlot = data.find((slot) => slot.dayOfWeek === day)
+  const availableTimeSlotsForDay = availableSlot?.timeSlots || []
 
   return (
     <HStack
@@ -112,13 +117,15 @@ const DayTimeSlots = ({
 const MemoizedDayTimeSlots = memo(DayTimeSlots)
 
 interface TimeSlotSelectorProps {
+  data: TimeSlot[]
   selectedDays: number[]
-  selectedTimeSlots: Record<number, string[]>
+  selectedTimeSlots: SelectedTimeSlots[]
   toggleTimeSlot: (day: number, time: string) => void
   onOpenTimeSheet: (day: number) => void
 }
 
 export const TimeSlotSelector = ({
+  data,
   selectedDays,
   selectedTimeSlots,
   toggleTimeSlot,
@@ -131,6 +138,7 @@ export const TimeSlotSelector = ({
       {selectedDays.map((day, index) => (
         <MemoizedDayTimeSlots
           key={day}
+          data={data}
           day={day}
           selectedTimeSlots={selectedTimeSlots}
           toggleTimeSlot={toggleTimeSlot}

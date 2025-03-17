@@ -25,6 +25,8 @@ function HomeScreen() {
   const { user } = useAuth()
   const fullName = user?.fullName
 
+  console.log(user?.userId)
+
   // console.log(user)
 
   const { tab } = useLocalSearchParams<{ tab: string }>()

@@ -1,14 +1,9 @@
 import React, { useRef, useState } from "react"
 
-import {
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View
-} from "react-native"
+import { SafeAreaView, TouchableWithoutFeedback } from "react-native"
 import { Keyboard } from "react-native"
 
+import { LoadingScreen } from "@/app/loading"
 import { zodResolver } from "@hookform/resolvers/zod"
 import DateTimePicker, {
   DateTimePickerEvent
@@ -35,14 +30,24 @@ import { RecurringDayEnum, ScheduleTypeEnum } from "@/constants/enum/Schedule"
 
 import { useAuth } from "@/contexts/AuthContext"
 
+import { useGetAllScheduleTimeSlots } from "@/hooks/useSchedule"
+
 import {
   CreateScheduleType,
   createScheduleSchema
 } from "@/schemas/scheduleSchema"
 
+interface SelectedTimeSlots {
+  dayOfWeek: number
+  timeSlots: string[]
+}
+
 function SetupSchedule() {
   const { user } = useAuth()
   const userId = user?.userId
+
+  const { data: scheduleTimeSlotsData, isLoading: isScheduleTimeSlotsLoading } =
+    useGetAllScheduleTimeSlots()
 
   const SheetRef = useRef<SheetRefProps>(null)
 
@@ -58,9 +63,9 @@ function SetupSchedule() {
   const [selectedDays, setSelectedDays] = useState<RecurringDayEnum[]>([
     mappedDay
   ])
-  const [selectedTimeSlots, setSelectedTimeSlots] = useState<{
-    [key: string]: string[]
-  }>({})
+  const [selectedTimeSlots, setSelectedTimeSlots] = useState<
+    SelectedTimeSlots[]
+  >([{ dayOfWeek: mappedDay, timeSlots: [] }])
 
   const [selectedDay, setSelectedDay] = useState<RecurringDayEnum | null>(null)
   const [selectedTime, setSelectedTime] = useState<Date>(new Date())
@@ -112,14 +117,19 @@ function SetupSchedule() {
     setSelectedDays(updatedDays)
     setSelectedTimeSlots(updatedTimeSlots)
 
-    const schedules = updatedDays.map((day) => ({
-      recurringDay: newType === ScheduleTypeEnum.Recurring ? day : null,
-      specificDate:
-        newType === ScheduleTypeEnum.OneTime
-          ? new Date().toISOString().split("T")[0]
-          : null,
-      timeSlots: updatedTimeSlots[day] || []
-    }))
+    const schedules = updatedDays.map((day) => {
+      const dayTimeSlot = updatedTimeSlots.find(
+        (slot) => slot.dayOfWeek === day
+      )
+      return {
+        recurringDay: newType === ScheduleTypeEnum.Recurring ? day : null,
+        specificDate:
+          newType === ScheduleTypeEnum.OneTime
+            ? new Date().toISOString().split("T")[0]
+            : null,
+        timeSlots: dayTimeSlot?.timeSlots || []
+      }
+    })
 
     setValue("schedules", schedules)
   }
@@ -134,14 +144,32 @@ function SetupSchedule() {
         ? prev.filter((d) => d !== day)
         : sortDays([...prev, day])
 
-      const schedules = updatedDays.map((day) => ({
-        recurringDay: scheduleType === ScheduleTypeEnum.Recurring ? day : null,
-        specificDate:
-          scheduleType === ScheduleTypeEnum.OneTime
-            ? new Date().toISOString().split("T")[0]
-            : null,
-        timeSlots: selectedTimeSlots[day] || []
-      }))
+      // Cập nhật selectedTimeSlots khi ngày được thêm vào
+      if (
+        !prev.includes(day) &&
+        !selectedTimeSlots.some((slot) => slot.dayOfWeek === day)
+      ) {
+        setSelectedTimeSlots((currentSlots) => [
+          ...currentSlots,
+          { dayOfWeek: day, timeSlots: [] }
+        ])
+      }
+
+      // Cập nhật cách tạo schedules để làm việc với cấu trúc dữ liệu mới
+      const schedules = updatedDays.map((day) => {
+        const dayTimeSlot = selectedTimeSlots.find(
+          (slot) => slot.dayOfWeek === day
+        )
+        return {
+          recurringDay:
+            scheduleType === ScheduleTypeEnum.Recurring ? day : null,
+          specificDate:
+            scheduleType === ScheduleTypeEnum.OneTime
+              ? new Date().toISOString().split("T")[0]
+              : null,
+          timeSlots: dayTimeSlot?.timeSlots || []
+        }
+      })
 
       setValue("schedules", schedules)
       return updatedDays
@@ -149,22 +177,44 @@ function SetupSchedule() {
   }
 
   const toggleTimeSlot = (day: RecurringDayEnum, time: string) => {
-    setSelectedTimeSlots((prev) => {
-      const updatedSlots = { ...prev }
-      if (!updatedSlots[day]) updatedSlots[day] = []
+    setSelectedTimeSlots((prevSlots) => {
+      // Tìm slot cho ngày tương ứng
+      const dayIndex = prevSlots.findIndex((slot) => slot.dayOfWeek === day)
+      const updatedSlots = [...prevSlots]
 
-      updatedSlots[day] = updatedSlots[day].includes(time)
-        ? updatedSlots[day].filter((t) => t !== time)
-        : [...updatedSlots[day], time]
+      // Nếu không tìm thấy, tạo mới
+      if (dayIndex === -1) {
+        updatedSlots.push({ dayOfWeek: day, timeSlots: [time] })
+      } else {
+        // Nếu đã tồn tại, toggle time slot
+        const currentTimeSlots = [...updatedSlots[dayIndex].timeSlots]
+        const timeIndex = currentTimeSlots.indexOf(time)
 
-      const schedules = selectedDays.map((day) => ({
-        recurringDay: scheduleType === ScheduleTypeEnum.Recurring ? day : null,
-        specificDate:
-          scheduleType === ScheduleTypeEnum.OneTime
-            ? new Date().toISOString().split("T")[0]
-            : null,
-        timeSlots: updatedSlots[day] || []
-      }))
+        if (timeIndex >= 0) {
+          currentTimeSlots.splice(timeIndex, 1)
+        } else {
+          currentTimeSlots.push(time)
+        }
+
+        updatedSlots[dayIndex] = {
+          ...updatedSlots[dayIndex],
+          timeSlots: currentTimeSlots
+        }
+      }
+
+      // Cập nhật schedules
+      const schedules = selectedDays.map((day) => {
+        const dayTimeSlot = updatedSlots.find((slot) => slot.dayOfWeek === day)
+        return {
+          recurringDay:
+            scheduleType === ScheduleTypeEnum.Recurring ? day : null,
+          specificDate:
+            scheduleType === ScheduleTypeEnum.OneTime
+              ? new Date().toISOString().split("T")[0]
+              : null,
+          timeSlots: dayTimeSlot?.timeSlots || []
+        }
+      })
 
       setValue("schedules", schedules)
       return updatedSlots
@@ -194,7 +244,11 @@ function SetupSchedule() {
 
       console.log(`Selected time for day ${selectedDay}: ${timeString}`)
 
-      if (!selectedTimeSlots[selectedDay]?.includes(timeString)) {
+      // Kiểm tra xem thời gian đã được chọn chưa
+      const daySlot = selectedTimeSlots.find(
+        (slot) => slot.dayOfWeek === selectedDay
+      )
+      if (!daySlot?.timeSlots.includes(timeString)) {
         toggleTimeSlot(selectedDay, timeString)
       }
 
@@ -215,6 +269,9 @@ function SetupSchedule() {
   }
 
   // console.log(errors)
+
+  if (!scheduleTimeSlotsData || isScheduleTimeSlotsLoading)
+    return <LoadingScreen />
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -249,6 +306,7 @@ function SetupSchedule() {
                 <Section label="Chọn khung giờ" />
 
                 <TimeSlotSelector
+                  data={scheduleTimeSlotsData}
                   selectedDays={selectedDays}
                   selectedTimeSlots={selectedTimeSlots}
                   toggleTimeSlot={toggleTimeSlot}

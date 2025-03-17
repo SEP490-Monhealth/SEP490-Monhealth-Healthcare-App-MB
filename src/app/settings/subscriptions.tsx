@@ -33,8 +33,8 @@ function SubscriptionScreen() {
   const userId = user?.userId
   const userSubscription = user?.subscription
 
-  const { data: subscriptionsData, isLoading } = useGetAllSubscriptions()
   const { mutate: upgradeSubscription } = useUpgradeSubscription()
+  const { data: subscriptionsData, isLoading } = useGetAllSubscriptions()
 
   const [selectedSubscription, setSelectedSubscription] = useState<string>("")
   const [selectedSubscriptionId, setSelectedSubscriptionId] = useState<
@@ -49,11 +49,13 @@ function SubscriptionScreen() {
     }
   }, [subscriptionsData])
 
-  if (!subscriptionsData || isLoading) return <LoadingScreen />
+  const hasSubscription =
+    userSubscription ===
+    (subscriptionsData && subscriptionsData.length > 0
+      ? subscriptionsData[0].name
+      : "")
 
-  const hasSubscription = userSubscription === subscriptionsData[0].name
-
-  const selectedPlan = subscriptionsData.find(
+  const selectedPlan = subscriptionsData?.find(
     (item) => item.name === selectedSubscription
   )
 
@@ -67,17 +69,17 @@ function SubscriptionScreen() {
   }
 
   const handleUpgrade = () => {
-    if (userId && selectedSubscriptionId) {
+    if (userId) {
       const upgradeData = {
         userId: userId,
         subscriptionId: selectedSubscriptionId
       }
-
       console.log("Final Data:", JSON.stringify(upgradeData, null, 2))
-
       // upgradeSubscription(upgradeData)
     }
   }
+
+  if (!subscriptionsData || isLoading) return <LoadingScreen />
 
   return (
     <>
@@ -105,7 +107,10 @@ function SubscriptionScreen() {
                         size={24}
                         color={COLORS.NUTRITION.protein}
                       />
-                      <Text className="font-tregular text-base text-primary">
+                      <Text
+                        key={index}
+                        className="font-tregular text-base text-primary"
+                      >
                         {feature}
                       </Text>
                     </HStack>
@@ -122,7 +127,7 @@ function SubscriptionScreen() {
                   price={item.price}
                   durationDays={item.durationDays}
                   maxBookings={item.maxBookings}
-                  isSelected={item.subscriptionId === selectedSubscriptionId}
+                  isSelected={item.name === selectedSubscription}
                   onPress={() =>
                     handleSelectPlan(item.subscriptionId, item.name)
                   }

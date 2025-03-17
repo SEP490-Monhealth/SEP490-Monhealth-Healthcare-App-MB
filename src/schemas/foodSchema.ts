@@ -6,9 +6,7 @@ import {
   MealTypeSchemaEnum
 } from "@/constants/enum/Food"
 
-import { allergySetupSchema } from "./allergySchema"
 import { auditFields, timestampFields, uuidSchema } from "./baseSchema"
-import { categorySetupSchema } from "./categorySchema"
 import { nutritionSchema } from "./nutritionSchema"
 import { portionSchema } from "./portionSchema"
 

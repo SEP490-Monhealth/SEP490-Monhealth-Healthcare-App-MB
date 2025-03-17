@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-import { DifficultyLevelEnum } from "@/constants/enum/DifficultyLevel"
+import { DifficultyLevelEnum } from "@/constants/enum/Workout"
 
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"

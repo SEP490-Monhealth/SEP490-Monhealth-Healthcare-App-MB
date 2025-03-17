@@ -4,13 +4,17 @@ import { GoalStatusSchemaEnum, GoalTypeSchemaEnum } from "@/constants/enum/Goal"
 
 import { timestampFields, uuidSchema } from "./baseSchema"
 
+const caloriesRatios = [0.9, 0.8, 0.7, 1, 1.1, 1.2, 1.3]
+
 const baseGoalSchema = z.object({
   goalId: uuidSchema,
   userId: uuidSchema,
 
   type: GoalTypeSchemaEnum,
 
-  caloriesRatio: z.number().optional(),
+  caloriesRatio: z.number().refine((val) => caloriesRatios.includes(val), {
+    message: `Tỷ lệ calo không hợp lệ. Các giá trị hợp lệ: ${caloriesRatios.join(", ")}`
+  }),
 
   weightGoal: z
     .number()
