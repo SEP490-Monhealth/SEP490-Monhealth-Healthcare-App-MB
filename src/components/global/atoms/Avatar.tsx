@@ -1,43 +1,63 @@
 import React, { useState } from "react"
 
-import { Image, Text, View } from "react-native"
+import { Image, Text, TouchableOpacity, View } from "react-native"
 
 import { getInitials } from "@/utils/helpers"
 
 interface AvatarProps {
-  source: string
+  source: string | undefined
   alt?: string
   size?: number
+  icon?: React.ReactNode
   className?: string
+  onPress?: () => void
 }
 
 export const Avatar = ({
   source,
   alt = "",
   size = 50,
-  className = ""
+  icon,
+  className = "",
+  onPress
 }: AvatarProps) => {
   const [imgError, setImgError] = useState(false)
 
   return (
     <View className={className}>
-      {imgError || !source ? (
-        <View
-          className="flex items-center justify-center rounded-full border-4 border-muted bg-border"
-          style={{ width: size, height: size }}
-        >
-          <Text className="font-tbold text-2xl text-secondary">
-            {getInitials(alt)}
-          </Text>
-        </View>
-      ) : (
-        <Image
-          source={{ uri: source }}
-          className="rounded-full border-4 border-white bg-border shadow"
-          style={{ width: size, height: size }}
-          onError={() => setImgError(true)}
-        />
-      )}
+      <View className="relative">
+        {imgError || !source ? (
+          <View
+            className="flex items-center justify-center rounded-full border-4 border-muted bg-border"
+            style={{ width: size, height: size }}
+          >
+            <Text className="font-tbold text-2xl text-secondary">
+              {getInitials(alt)}
+            </Text>
+          </View>
+        ) : (
+          <Image
+            source={{ uri: source }}
+            className="rounded-full border-4 border-white bg-border shadow"
+            style={{ width: size, height: size }}
+            onError={() => setImgError(true)}
+          />
+        )}
+
+        {icon && (
+          <TouchableOpacity activeOpacity={0.7} onPress={onPress}>
+            <View
+              className="absolute rounded-full bg-card p-2 shadow"
+              style={{
+                bottom: -5,
+                right: 15
+              }}
+            >
+              {icon}
+            </View>
+          </TouchableOpacity>
+        )}
+      </View>
     </View>
   )
 }

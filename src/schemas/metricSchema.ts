@@ -127,5 +127,14 @@ export const createMetricSchema = baseMetricSchema.pick({
   caloriesRatio: true
 })
 
+export const updateMetricSchema = baseMetricSchema.pick({
+  dateOfBirth: true,
+  gender: true,
+  height: true,
+  weight: true,
+  activityLevel: true
+})
+
 export type MetricType = z.infer<typeof metricSchema>
 export type CreateMetricType = z.infer<typeof createMetricSchema>
+export type UpdateMetricType = z.infer<typeof updateMetricSchema>

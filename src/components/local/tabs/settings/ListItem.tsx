@@ -11,10 +11,11 @@ import { COLORS } from "@/constants/color"
 interface ListItemProps {
   startIcon?: React.ReactNode
   endIcon?: React.ReactNode
-  label: string
+  label: string | number | undefined
   route?: string
   action?: string
   more?: boolean
+  isBorder?: boolean
   onPress?: () => void
 }
 
@@ -25,6 +26,7 @@ export const ListItem = ({
   route,
   action,
   more = true,
+  isBorder = true,
   onPress
 }: ListItemProps) => {
   const router = useRouter()
@@ -40,7 +42,7 @@ export const ListItem = ({
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      className="flex-row items-center justify-between border-b border-border py-4"
+      className={`flex-row items-center justify-between py-4 ${isBorder ? "border-b border-border" : ""}`}
       onPress={handlePress}
     >
       <View className="flex-row items-center">

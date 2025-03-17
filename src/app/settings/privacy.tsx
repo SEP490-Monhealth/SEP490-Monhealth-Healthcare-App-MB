@@ -17,14 +17,23 @@ import { Header } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
 
+import { useAuth } from "@/contexts/AuthContext"
+
+import { useUpdatePasswordUser } from "@/hooks/useUser"
+
 import { UpdatePasswordType, updatePasswordSchema } from "@/schemas/userSchema"
 
 function PrivacyScreen() {
+  const { user } = useAuth()
+  const userId = user?.userId
+
   const [isLoading, setIsLoading] = useState(false)
 
   const [showPassword, setShowPassword] = useState(false)
   const [showNewPassword, setShowNewPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+
+  const { mutate: updatePassword } = useUpdatePasswordUser()
 
   const {
     control,
@@ -40,13 +49,18 @@ function PrivacyScreen() {
   })
 
   const onSubmit = (data: UpdatePasswordType) => {
+    if (!userId) {
+      console.error("Không tìm thấy User ID")
+      setIsLoading(false)
+      return
+    }
+
     setIsLoading(true)
-    // console.log("Submit:", data)
     const { oldPassword, newPassword } = data
-
     const finalData = { oldPassword, newPassword }
-
     console.log("Final Data", JSON.stringify(finalData, null, 2))
+
+    // updatePassword({ userId, updatePasswordData: finalData })
 
     setIsLoading(false)
   }

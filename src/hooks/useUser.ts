@@ -1,10 +1,22 @@
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { useError } from "@/contexts/ErrorContext"
+import { useModal } from "@/contexts/ModalContext"
 
-import { UserType } from "@/schemas/userSchema"
+import {
+  UpdateAvatarType,
+  UpdatePasswordUserType,
+  UpdateUserType,
+  UserType
+} from "@/schemas/userSchema"
 
-import { getAllUsers, getUserById } from "@/services/userService"
+import {
+  getAllUsers,
+  getUserById,
+  updateAvatarUser,
+  updatePasswordUser,
+  updateUser
+} from "@/services/userService"
 
 interface UserResponse {
   users: UserType[]
@@ -50,5 +62,77 @@ export const useGetUserById = (userId: string | undefined) => {
     },
     enabled: !!userId,
     staleTime: 1000 * 60 * 5
+  })
+}
+
+export const useUpdateUser = () => {
+  const queryClient = useQueryClient()
+  const handleError = useError()
+  const { showModal } = useModal()
+
+  return useMutation<
+    string,
+    Error,
+    { userId: string; updateData: UpdateUserType }
+  >({
+    mutationFn: async ({ userId, updateData }) => {
+      try {
+        return await updateUser(userId, updateData, showModal)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    onSuccess: (_data, { userId }) => {
+      queryClient.invalidateQueries({
+        queryKey: ["user", userId]
+      })
+    }
+  })
+}
+
+export const useUpdatePasswordUser = () => {
+  const handleError = useError()
+  const { showModal } = useModal()
+
+  return useMutation<
+    string,
+    Error,
+    { userId: string; updatePasswordData: UpdatePasswordUserType }
+  >({
+    mutationFn: async ({ userId, updatePasswordData }) => {
+      try {
+        return await updatePasswordUser(userId, updatePasswordData, showModal)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    }
+  })
+}
+
+export const useUpdateAvatarUser = () => {
+  const queryClient = useQueryClient()
+  const handleError = useError()
+  const { showModal } = useModal()
+
+  return useMutation<
+    string,
+    Error,
+    { userId: string; updateAvatarData: UpdateAvatarType }
+  >({
+    mutationFn: async ({ userId, updateAvatarData }) => {
+      try {
+        return await updateAvatarUser(userId, updateAvatarData, showModal)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    onSuccess: (_data, { userId }) => {
+      queryClient.invalidateQueries({
+        queryKey: ["user", userId]
+      })
+    }
   })
 }

@@ -51,8 +51,7 @@ export const userSchema = baseUserSchema
 export const updateUserSchema = baseUserSchema.pick({
   fullName: true,
   email: true,
-  phoneNumber: true,
-  avatarUrl: true
+  phoneNumber: true
 })
 
 export const phoneNumberSchema = baseUserSchema.pick({
@@ -69,6 +68,15 @@ export const updatePasswordSchema = z
     message: "Mật khẩu mới và xác nhận mật khẩu không khớp",
     path: ["confirmPassword"]
   })
+
+export const updatePasswordUserSchema = z.object({
+  oldPassword: userSchema.shape.password,
+  newPassword: userSchema.shape.password
+})
+
+export const updateAvatarSchema = z.object({
+  avatar: userSchema.shape.avatarUrl
+})
 
 export const loginSchema = baseUserSchema.pick({
   phoneNumber: true,
@@ -103,6 +111,8 @@ export type UserType = z.infer<typeof userSchema>
 export type UpdateUserType = z.infer<typeof updateUserSchema>
 export type PhoneNumberType = z.infer<typeof phoneNumberSchema>
 export type UpdatePasswordType = z.infer<typeof updatePasswordSchema>
+export type UpdatePasswordUserType = z.infer<typeof updatePasswordUserSchema>
+export type UpdateAvatarType = z.infer<typeof updateAvatarSchema>
 export type LoginType = z.infer<typeof loginSchema>
 export type RegisterType = z.infer<typeof registerSchema>
 export type ResetPasswordType = z.infer<typeof resetPasswordSchema>
