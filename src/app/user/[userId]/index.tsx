@@ -1,6 +1,6 @@
 import React from "react"
 
-import { useLocalSearchParams } from "expo-router"
+import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -15,12 +15,18 @@ import {
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
+import { useAuth } from "@/contexts/AuthContext"
+
 import { useGetUserById, useUpdateUser } from "@/hooks/useUser"
 
 import { UpdateUserType, updateUserSchema } from "@/schemas/userSchema"
 
 function UpdateInformationScreen() {
+  const router = useRouter()
   const { userId } = useLocalSearchParams() as { userId: string }
+
+  // const { setUser } = useAuth()
+
   const { data: userData, isLoading: isUserLoading } = useGetUserById(userId)
 
   const { mutate: updateUser } = useUpdateUser()
@@ -41,7 +47,17 @@ function UpdateInformationScreen() {
   })
 
   const onSubmit = async (data: UpdateUserType) => {
-    updateUser({ userId, updateData: data })
+    updateUser(
+      { userId, updateData: data },
+      {
+        onSuccess: () => {
+          router.back()
+        },
+        onError: (error) => {
+          console.error("Cập nhật thất bại:", error)
+        }
+      }
+    )
   }
 
   return (

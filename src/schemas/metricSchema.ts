@@ -43,7 +43,7 @@ const baseMetricSchema = z.object({
       "Hệ số hoạt động không hợp lệ. Các giá trị hợp lệ: 1.2, 1.375, 1.55, 1.725, 1.9"
   }),
 
-  goalType: goalSchema.shape.goalType,
+  goalType: goalSchema.shape.type,
   weightGoal: goalSchema.shape.weightGoal,
   caloriesRatio: goalSchema.shape.caloriesRatio,
 
@@ -132,7 +132,7 @@ export const updateMetricSchema = baseMetricSchema.pick({
   gender: true,
   height: true,
   weight: true,
-  activityLevel: true,
+  activityLevel: true
 })
 
 export type MetricType = z.infer<typeof metricSchema>

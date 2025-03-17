@@ -1,6 +1,6 @@
-import React from "react"
+import React, { useRef } from "react"
 
-import { Text } from "react-native"
+import { SafeAreaView, Text, TouchableWithoutFeedback } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -15,6 +15,7 @@ import {
   Sms,
   Weight
 } from "iconsax-react-native"
+import { Instagram } from "lucide-react-native"
 
 import {
   Avatar,
@@ -23,6 +24,9 @@ import {
   Content,
   HStack,
   ScrollArea,
+  Sheet,
+  SheetRefProps,
+  SheetSelect,
   VStack
 } from "@/components/global/atoms"
 import { Header, Section } from "@/components/global/organisms"
@@ -50,6 +54,13 @@ function UserInformationScreen() {
   const { data: userData, isLoading: isUserLoading } = useGetUserById(userId)
   const { data: metricData, isLoading: isMetricLoading } =
     useGetMetricsByUserId(userId)
+
+  const ImageSheetRef = useRef<SheetRefProps>(null)
+  const imageSheetHeight = 180
+
+  const openImageSheet = () => {
+    ImageSheetRef.current?.scrollTo(-imageSheetHeight)
+  }
 
   const handleUpdateProfile = () => router.push(`/user/${userId}`)
 
@@ -95,81 +106,120 @@ function UserInformationScreen() {
     }
   ]
   return (
-    <Container>
-      <Header back label="Thông tin cá nhân" />
+    <TouchableWithoutFeedback>
+      <SafeAreaView className="flex-1 bg-background">
+        <Container>
+          <Header back label="Thông tin cá nhân" />
 
-      <Content className="mt-2">
-        <ScrollArea>
-          <VStack gap={20} className="pb-20">
-            <VStack center>
-              <Avatar
-                source={userData.avatarUrl}
-                alt={userData.fullName}
-                size={150}
+          <Content className="mt-2">
+            <ScrollArea>
+              <VStack gap={20} className="pb-20">
+                <VStack center gap={15}>
+                  <Avatar
+                    source={userData.avatarUrl}
+                    alt={userData.fullName}
+                    size={150}
+                    icon={
+                      <Instagram
+                        size={25}
+                        strokeWidth={2}
+                        color={COLORS.accent}
+                        absoluteStrokeWidth
+                      />
+                    }
+                    onPress={() => openImageSheet()}
+                  />
+                  <VStack center>
+                    <Text className="font-tbold text-2xl text-primary">
+                      {userData.fullName}
+                    </Text>
+                    <HStack center>
+                      <Text className="text-center text-base text-secondary">
+                        Tham gia từ
+                      </Text>
+                      <Text className="text-center font-tmedium text-base text-primary">
+                        {formatDate(userData.createdAt)}
+                      </Text>
+                    </HStack>
+                  </VStack>
+                </VStack>
+
+                <VStack>
+                  <Section
+                    label="Thông tin tài khoản"
+                    actionText="Chỉnh sửa"
+                    margin={false}
+                    onPress={handleUpdateProfile}
+                  />
+                  <Card>
+                    {userInfoList.map((item, index) => {
+                      const Icon = item.icon
+
+                      return (
+                        <ListItem
+                          key={index}
+                          isBorder={false}
+                          label={item.label}
+                          startIcon={
+                            <Icon
+                              variant="Bold"
+                              size={24}
+                              color={COLORS.accent}
+                            />
+                          }
+                          endIcon={<Text></Text>}
+                        />
+                      )
+                    })}
+                  </Card>
+                </VStack>
+
+                <VStack>
+                  <Section label="Thông tin cá nhân" margin={false} />
+                  <Card>
+                    {userMetricList.map((item, index) => {
+                      const Icon = item.icon
+
+                      return (
+                        <ListItem
+                          key={index}
+                          isBorder={false}
+                          label={item.label}
+                          startIcon={
+                            <Icon
+                              variant="Bold"
+                              size={24}
+                              color={COLORS.accent}
+                            />
+                          }
+                          endIcon={<Text></Text>}
+                        />
+                      )
+                    })}
+                  </Card>
+                </VStack>
+              </VStack>
+            </ScrollArea>
+          </Content>
+        </Container>
+
+        <Sheet ref={ImageSheetRef} dynamicHeight={imageSheetHeight}>
+          {DATA.UPLOADS.map((option) => {
+            const Icon = option.icon
+
+            return (
+              <SheetSelect
+                key={option.value}
+                label={option.label}
+                icon={
+                  <Icon variant="Bold" size={24} color={COLORS.secondary} />
+                }
               />
-              <Text className="font-tbold text-2xl text-primary">
-                {userData.fullName}
-              </Text>
-              <HStack center>
-                <Text className="text-center text-base text-secondary">
-                  Tham gia từ
-                </Text>
-                <Text className="text-center font-tmedium text-base text-primary">
-                  {formatDate(userData.createdAt)}
-                </Text>
-              </HStack>
-            </VStack>
-
-            <VStack>
-              <Section
-                label="Thông tin tài khoản"
-                actionText="Chỉnh sửa"
-                margin={false}
-                onPress={handleUpdateProfile}
-              />
-              <Card>
-                {userInfoList.map((item, index) => {
-                  const Icon = item.icon
-
-                  return (
-                    <ListItem
-                      key={index}
-                      isBorder={false}
-                      label={item.label}
-                      startIcon={
-                        <Icon variant="Bold" size={24} color={COLORS.accent} />
-                      }
-                      endIcon={<Text></Text>}
-                    />
-                  )
-                })}
-              </Card>
-            </VStack>
-
-            <VStack>
-              <Section label="Thông tin cá nhân" margin={false} />
-              <Card>
-                {userMetricList.map((item, index) => {
-                  const Icon = item.icon
-
-                  return (
-                    <ListItem
-                      key={index}
-                      isBorder={false}
-                      label={item.label}
-                      startIcon={
-                        <Icon variant="Bold" size={24} color={COLORS.accent} />
-                      }
-                      endIcon={<Text></Text>}
-                    />
-                  )
-                })}
-              </Card>
-            </VStack>
-          </VStack>
-        </ScrollArea>
-      </Content>
-    </Container>
+            )
+          })}
+        </Sheet>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   )
 }
 

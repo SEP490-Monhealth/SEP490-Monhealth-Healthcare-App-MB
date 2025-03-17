@@ -52,7 +52,7 @@ function HealthTrackingScreen() {
     { label: "Sugar", value: `${toFixed(goalData[0].sugarGoal || 0)} g` }
   ]
 
-  const userGoal = DATA.GOALS.find((g) => g.value === goalData?.[0].goalType)
+  const userGoal = DATA.GOALS.find((g) => g.value === goalData?.[0].type)
 
   return (
     <Container>
