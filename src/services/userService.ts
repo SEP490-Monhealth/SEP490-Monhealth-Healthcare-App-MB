@@ -4,7 +4,7 @@ import monAPI from "@/lib/monAPI"
 
 import {
   UpdateAvatarType,
-  UpdatePasswordUserType,
+  UpdateUserPasswordType,
   UpdateUserType,
   UserType
 } from "@/schemas/userSchema"
@@ -144,9 +144,9 @@ export const updateUser = async (
   }
 }
 
-export const updatePasswordUser = async (
+export const updateUserPassword = async (
   userId: string,
-  passwordData: UpdatePasswordUserType,
+  passwordData: UpdateUserPasswordType,
   showModal: (message: string) => void
 ): Promise<string> => {
   try {

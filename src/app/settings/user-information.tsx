@@ -69,19 +69,13 @@ function UserInformationScreen() {
 
   const userInfoList = [
     { label: userData.fullName, icon: ProfileCircle },
-    {
-      label: userData.phoneNumber,
-      icon: CallCalling
-    },
+    { label: userData.phoneNumber, icon: CallCalling },
     { label: userData.email, icon: Sms },
     {
       label: userData.role === "User" ? "Thành viên hệ thống" : "Tư vấn viên",
       icon: ProfileTick
     },
-    {
-      label: subscriptionUser,
-      icon: Award
-    }
+    { label: subscriptionUser, icon: Award }
   ]
 
   const userMetricList = [
@@ -92,19 +86,11 @@ function UserInformationScreen() {
         DATA.GENDERS.find((g) => g.value === metricData?.[0]?.gender)?.icon ||
         Man
     },
-    {
-      label: formatDate(metricData[0].dateOfBirth),
-      icon: CalendarCircle
-    },
-    {
-      label: `${metricData[0].height} cm`,
-      icon: AlignVertically
-    },
-    {
-      label: `${metricData[0].weight} kg`,
-      icon: Weight
-    }
+    { label: formatDate(metricData[0].dateOfBirth), icon: CalendarCircle },
+    { label: `${metricData[0].height} cm`, icon: AlignVertically },
+    { label: `${metricData[0].weight} kg`, icon: Weight }
   ]
+
   return (
     <TouchableWithoutFeedback>
       <SafeAreaView className="flex-1 bg-background">
@@ -151,6 +137,7 @@ function UserInformationScreen() {
                     margin={false}
                     onPress={handleUpdateProfile}
                   />
+
                   <Card>
                     {userInfoList.map((item, index) => {
                       const Icon = item.icon
@@ -158,7 +145,6 @@ function UserInformationScreen() {
                       return (
                         <ListItem
                           key={index}
-                          isBorder={false}
                           label={item.label}
                           startIcon={
                             <Icon
@@ -168,6 +154,7 @@ function UserInformationScreen() {
                             />
                           }
                           endIcon={<Text></Text>}
+                          isBorder={false}
                         />
                       )
                     })}
@@ -176,6 +163,7 @@ function UserInformationScreen() {
 
                 <VStack>
                   <Section label="Thông tin cá nhân" margin={false} />
+
                   <Card>
                     {userMetricList.map((item, index) => {
                       const Icon = item.icon
@@ -183,7 +171,6 @@ function UserInformationScreen() {
                       return (
                         <ListItem
                           key={index}
-                          isBorder={false}
                           label={item.label}
                           startIcon={
                             <Icon
@@ -193,6 +180,7 @@ function UserInformationScreen() {
                             />
                           }
                           endIcon={<Text></Text>}
+                          isBorder={false}
                         />
                       )
                     })}

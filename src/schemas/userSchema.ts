@@ -54,6 +54,10 @@ export const updateUserSchema = baseUserSchema.pick({
   phoneNumber: true
 })
 
+export const updateUserAvatarSchema = baseUserSchema.pick({
+  avatarUrl: true
+})
+
 export const phoneNumberSchema = baseUserSchema.pick({
   phoneNumber: true
 })
@@ -72,10 +76,6 @@ export const updatePasswordSchema = z
 export const updatePasswordUserSchema = z.object({
   oldPassword: userSchema.shape.password,
   newPassword: userSchema.shape.password
-})
-
-export const updateAvatarSchema = z.object({
-  avatar: userSchema.shape.avatarUrl
 })
 
 export const loginSchema = baseUserSchema.pick({
@@ -111,8 +111,8 @@ export type UserType = z.infer<typeof userSchema>
 export type UpdateUserType = z.infer<typeof updateUserSchema>
 export type PhoneNumberType = z.infer<typeof phoneNumberSchema>
 export type UpdatePasswordType = z.infer<typeof updatePasswordSchema>
-export type UpdatePasswordUserType = z.infer<typeof updatePasswordUserSchema>
-export type UpdateAvatarType = z.infer<typeof updateAvatarSchema>
+export type UpdateUserPasswordType = z.infer<typeof updatePasswordUserSchema>
+export type UpdateAvatarType = z.infer<typeof updateUserAvatarSchema>
 export type LoginType = z.infer<typeof loginSchema>
 export type RegisterType = z.infer<typeof registerSchema>
 export type ResetPasswordType = z.infer<typeof resetPasswordSchema>

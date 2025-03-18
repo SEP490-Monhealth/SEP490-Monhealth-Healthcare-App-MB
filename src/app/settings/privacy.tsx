@@ -25,15 +25,15 @@ import { UpdatePasswordType, updatePasswordSchema } from "@/schemas/userSchema"
 
 function PrivacyScreen() {
   const { user } = useAuth()
-  const userId = user?.userId
+  const userId = user?.userId || ""
 
-  const [isLoading, setIsLoading] = useState(false)
+  const { mutate: updatePassword } = useUpdatePasswordUser()
 
   const [showPassword, setShowPassword] = useState(false)
   const [showNewPassword, setShowNewPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
-  const { mutate: updatePassword } = useUpdatePasswordUser()
+  const [isLoading, setIsLoading] = useState(false)
 
   const {
     control,
@@ -49,15 +49,11 @@ function PrivacyScreen() {
   })
 
   const onSubmit = (data: UpdatePasswordType) => {
-    if (!userId) {
-      console.error("Không tìm thấy User ID")
-      setIsLoading(false)
-      return
-    }
-
     setIsLoading(true)
+
     const { oldPassword, newPassword } = data
     const finalData = { oldPassword, newPassword }
+
     console.log("Final Data", JSON.stringify(finalData, null, 2))
 
     // updatePassword({ userId, updatePasswordData: finalData })

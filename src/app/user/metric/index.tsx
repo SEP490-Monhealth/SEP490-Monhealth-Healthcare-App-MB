@@ -4,8 +4,7 @@ import {
   Keyboard,
   SafeAreaView,
   Text,
-  TouchableWithoutFeedback,
-  View
+  TouchableWithoutFeedback
 } from "react-native"
 
 import { LoadingScreen } from "@/app/loading"

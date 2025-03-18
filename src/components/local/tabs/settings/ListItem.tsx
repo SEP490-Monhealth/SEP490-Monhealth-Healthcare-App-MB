@@ -11,7 +11,7 @@ import { COLORS } from "@/constants/color"
 interface ListItemProps {
   startIcon?: React.ReactNode
   endIcon?: React.ReactNode
-  label: string | number | undefined
+  label?: string | number
   route?: string
   action?: string
   more?: boolean

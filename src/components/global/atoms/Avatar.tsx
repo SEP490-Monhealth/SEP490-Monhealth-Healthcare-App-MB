@@ -5,7 +5,7 @@ import { Image, Text, TouchableOpacity, View } from "react-native"
 import { getInitials } from "@/utils/helpers"
 
 interface AvatarProps {
-  source: string | undefined
+  source?: string
   alt?: string
   size?: number
   icon?: React.ReactNode

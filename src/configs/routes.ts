@@ -50,7 +50,7 @@ export const userProfileRoutes: RouteType[] = [
   },
   {
     route: "/settings/health-tracking",
-    label: "Theo dõi sức khỏe",
+    label: "Chỉ số sức khỏe",
     icon: Command
   },
   {

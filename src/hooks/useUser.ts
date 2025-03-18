@@ -5,7 +5,7 @@ import { useModal } from "@/contexts/ModalContext"
 
 import {
   UpdateAvatarType,
-  UpdatePasswordUserType,
+  UpdateUserPasswordType,
   UpdateUserType,
   UserType
 } from "@/schemas/userSchema"
@@ -14,8 +14,8 @@ import {
   getAllUsers,
   getUserById,
   updateAvatarUser,
-  updatePasswordUser,
-  updateUser
+  updateUser,
+  updateUserPassword
 } from "@/services/userService"
 
 interface UserResponse {
@@ -98,11 +98,11 @@ export const useUpdatePasswordUser = () => {
   return useMutation<
     string,
     Error,
-    { userId: string; updatePasswordData: UpdatePasswordUserType }
+    { userId: string; updatePasswordData: UpdateUserPasswordType }
   >({
     mutationFn: async ({ userId, updatePasswordData }) => {
       try {
-        return await updatePasswordUser(userId, updatePasswordData, showModal)
+        return await updateUserPassword(userId, updatePasswordData, showModal)
       } catch (error) {
         handleError(error)
         throw error
@@ -111,7 +111,7 @@ export const useUpdatePasswordUser = () => {
   })
 }
 
-export const useUpdateAvatarUser = () => {
+export const useUpdateUserAvatar = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
   const { showModal } = useModal()
