@@ -15,7 +15,7 @@ export const sampleSubscriptionsData: SubscriptionType[] = [
       "Truy cập danh sách bài tập giới hạn",
       "Báo cáo tiến độ hàng tuần cơ bản"
     ],
-    maxBookings: 0,
+    bookingAllowance: 0,
     status: true,
     createdAt: "2025-03-09T00:00:00Z",
     updatedAt: "2025-03-09T00:00:00Z",
@@ -36,7 +36,7 @@ export const sampleSubscriptionsData: SubscriptionType[] = [
       "Nhận thông báo nhắc nhở theo lịch trình",
       "Phân tích chỉ số dinh dưỡng chi tiết"
     ],
-    maxBookings: 0,
+    bookingAllowance: 0,
     status: true,
     createdAt: "2025-03-09T00:00:00Z",
     updatedAt: "2025-03-09T00:00:00Z",
@@ -58,7 +58,7 @@ export const sampleSubscriptionsData: SubscriptionType[] = [
       "Kế hoạch dinh dưỡng và tập luyện cá nhân hóa",
       "Đánh giá và phản hồi dịch vụ chi tiết"
     ],
-    maxBookings: 3,
+    bookingAllowance: 3,
     status: true,
     createdAt: "2025-03-09T00:00:00Z",
     updatedAt: "2025-03-09T00:00:00Z",

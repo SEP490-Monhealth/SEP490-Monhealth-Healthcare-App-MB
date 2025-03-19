@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react"
 
 import { Text, View } from "react-native"
 
+import { router } from "expo-router"
+
 import { Award } from "iconsax-react-native"
 
 import {
@@ -24,58 +26,71 @@ import {
   useUpgradeSubscription
 } from "@/hooks/useSubscription"
 
+import { whoIAm } from "@/services/authService"
+
 import { parseJSON } from "@/utils/helpers"
 
 import { LoadingScreen } from "../loading"
 
 function SubscriptionScreen() {
-  const { user } = useAuth()
+  const { user, setUser } = useAuth()
   const userId = user?.userId
   const userSubscription = user?.subscription
 
   const { mutate: upgradeSubscription } = useUpgradeSubscription()
-  const { data: subscriptionsData, isLoading } = useGetAllSubscriptions()
+  const { data: subscriptionsData, isLoading } = useGetAllSubscriptions(
+    1,
+    3,
+    "",
+    true,
+    true
+  )
 
   const [selectedSubscription, setSelectedSubscription] = useState<string>("")
   const [selectedSubscriptionId, setSelectedSubscriptionId] = useState<
     string | null
-  >("")
+  >(null)
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 
   useEffect(() => {
-    if (subscriptionsData && subscriptionsData.length > 0) {
-      setSelectedSubscription(subscriptionsData[0].name)
-      setSelectedSubscriptionId(subscriptionsData[0].subscriptionId)
+    if (subscriptionsData?.subscriptions.length) {
+      const firstSub = subscriptionsData.subscriptions[0]
+      setSelectedSubscription(firstSub.name)
+      setSelectedSubscriptionId(firstSub.subscriptionId)
     }
   }, [subscriptionsData])
 
-  const hasSubscription =
-    userSubscription ===
-    (subscriptionsData && subscriptionsData.length > 0
-      ? subscriptionsData[0].name
-      : "")
-
-  const selectedPlan = subscriptionsData?.find(
+  const selectedPlan = subscriptionsData?.subscriptions.find(
     (item) => item.name === selectedSubscription
   )
+
+  const hasSubscription = userSubscription === selectedPlan?.name
 
   const handleSelectPlan = (subscriptionId: string, name: string) => {
     setSelectedSubscription(name)
     setSelectedSubscriptionId(subscriptionId)
   }
 
-  const handleAction = () => {
-    setIsModalVisible(true)
-  }
-
   const handleUpgrade = () => {
-    if (userId) {
+    if (userId && selectedSubscriptionId) {
       const upgradeData = {
         userId: userId,
         subscriptionId: selectedSubscriptionId
       }
-      console.log("Final Data:", JSON.stringify(upgradeData, null, 2))
-      // upgradeSubscription(upgradeData)
+
+      // console.log("Final Data:", JSON.stringify(upgradeData, null, 2))
+
+      upgradeSubscription(upgradeData, {
+        onSuccess: async () => {
+          try {
+            const updatedUser = await whoIAm()
+            setUser(updatedUser)
+            router.push("/user-information")
+          } catch (error) {
+            console.error("Lỗi cập nhật user sau upgrade:", error)
+          }
+        }
+      })
     }
   }
 
@@ -120,13 +135,13 @@ function SubscriptionScreen() {
             )}
 
             <VStack gap={12}>
-              {subscriptionsData.map((item, index) => (
+              {subscriptionsData.subscriptions.map((item, index) => (
                 <SubscriptionCard
                   key={index}
                   name={item.name}
                   price={item.price}
                   durationDays={item.durationDays}
-                  maxBookings={item.maxBookings}
+                  bookingAllowance={item.bookingAllowance}
                   isSelected={item.name === selectedSubscription}
                   onPress={() =>
                     handleSelectPlan(item.subscriptionId, item.name)
@@ -139,11 +154,11 @@ function SubscriptionScreen() {
 
         <Button
           disabled={
-            selectedSubscription === subscriptionsData[0].name ||
+            selectedSubscription === subscriptionsData.subscriptions[0].name ||
             hasSubscription
           }
           size="lg"
-          onPress={handleAction}
+          onPress={() => setIsModalVisible(true)}
           className="mb-4"
         >
           Thanh toán

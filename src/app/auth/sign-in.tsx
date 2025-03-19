@@ -29,7 +29,7 @@ interface SignInDataType {
 }
 
 const signInData: Record<string, SignInDataType> = {
-  User: {
+  Member: {
     title: "Đăng nhập",
     description: "Đăng nhập để tiếp tục theo dõi sức khỏe của bạn"
   },
@@ -41,8 +41,8 @@ const signInData: Record<string, SignInDataType> = {
 
 function SignInScreen() {
   const router = useRouter()
-  const { userType = "User" } = useLocalSearchParams() as {
-    userType: "User" | "Consultant"
+  const { userType = "Member" } = useLocalSearchParams() as {
+    userType: "Member" | "Consultant"
   }
 
   const { login } = useAuth()

@@ -12,6 +12,7 @@ interface UserPayload {
 interface AuthContextType {
   isAuthenticated: boolean
   user: UserPayload | null
+  setUser: (user: UserPayload | null) => void
   role: string | null
   hasMetrics: boolean
   login: (phoneNumber: string, password: string) => Promise<void>

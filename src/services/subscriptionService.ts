@@ -7,9 +7,23 @@ import {
   UpgradeSubscriptionType
 } from "@/schemas/subscriptionSchema"
 
-export const getAllSubscriptions = async (): Promise<SubscriptionType[]> => {
+interface SubscriptionsResponse {
+  totalPages: number
+  totalItems: number
+  subscriptions: SubscriptionType[]
+}
+
+export const getAllSubscriptions = async (
+  page: number,
+  limit?: number,
+  search?: string,
+  sort?: boolean,
+  status?: boolean
+): Promise<SubscriptionsResponse> => {
   try {
-    const response = await monAPI.get("/subscriptions")
+    const response = await monAPI.get(`/subscriptions`, {
+      params: { page, limit, search, sort, status }
+    })
 
     if (!response || !response.data) {
       throw {
@@ -22,7 +36,8 @@ export const getAllSubscriptions = async (): Promise<SubscriptionType[]> => {
     const { success, message, data } = response.data
 
     if (success) {
-      return data as SubscriptionType[]
+      const { totalPages, totalItems, items: subscriptions } = data
+      return { subscriptions, totalPages, totalItems }
     } else {
       throw {
         isCustomError: true,
@@ -44,7 +59,8 @@ export const getAllSubscriptions = async (): Promise<SubscriptionType[]> => {
 }
 
 export const upgradeSubscription = async (
-  upgradeSubscriptionData: UpgradeSubscriptionType
+  upgradeSubscriptionData: UpgradeSubscriptionType,
+  showModal: (message: string) => void
 ): Promise<string> => {
   try {
     const response = await monAPI.post(
@@ -69,13 +85,19 @@ export const upgradeSubscription = async (
       }
     }
 
+    showModal(message || "Nâng cấp gói thành viên thành công")
+
     console.log(message)
     return message
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
+      showModal("Đã xảy ra lỗi khi nâng cấp gói thành viên")
+
       console.log("Lỗi từ server:", error.response?.data || error.message)
       throw error
     } else {
+      showModal("Đã xảy ra lỗi không mong muốn")
+
       console.log("Lỗi không phải Axios:", error)
       throw {
         isCustomError: true,

@@ -45,7 +45,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(userInfo)
         setRole(userInfo?.role)
 
-        if (userInfo.role === "User") {
+        if (
+          userInfo.role === "Member" ||
+          userInfo.role === "Subscription Member"
+        ) {
           const metricData = await getMetricsByUserId(userInfo.userId)
           const metricExist = metricData && metricData.length > 0
           setHasMetrics(metricExist)
@@ -97,14 +100,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(userInfo)
       setRole(userInfo?.role)
 
-      if (userInfo.role === "User") {
+      if (
+        userInfo.role === "Member" ||
+        userInfo.role === "Subscription Member"
+      ) {
         const metricData = await getMetricsByUserId(userInfo.userId)
         const metricExist = metricData && metricData.length > 0
 
         if (metricExist) {
           router.replace("/(tabs)/user/home")
         } else {
-          router.replace({ pathname: "/onboarding", params: { role: "User" } })
+          router.replace({
+            pathname: "/onboarding",
+            params: { role: "Member" }
+          })
         }
       } else if (userInfo.role === "Consultant") {
         // const consultantData = await getConsultantByUserId(userInfo.userId)
@@ -169,6 +178,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         isAuthenticated,
         user,
+        setUser,
         role,
         hasMetrics,
         login: handleLogin,

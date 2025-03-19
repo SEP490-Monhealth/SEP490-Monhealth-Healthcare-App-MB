@@ -1,6 +1,11 @@
 import React, { useRef } from "react"
 
-import { SafeAreaView, Text, TouchableWithoutFeedback } from "react-native"
+import {
+  SafeAreaView,
+  Text,
+  TouchableWithoutFeedback,
+  View
+} from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -11,14 +16,13 @@ import {
   CallCalling,
   Man,
   ProfileCircle,
-  ProfileTick,
   Sms,
   Weight
 } from "iconsax-react-native"
-import { Instagram } from "lucide-react-native"
 
 import {
   Avatar,
+  Badge,
   Card,
   Container,
   Content,
@@ -47,20 +51,19 @@ import { LoadingScreen } from "../loading"
 
 function UserInformationScreen() {
   const router = useRouter()
+
   const { user } = useAuth()
   const userId = user?.userId
-  const subscriptionUser = user?.subscription
+  const userSubscription = user?.subscription
 
   const { data: userData, isLoading: isUserLoading } = useGetUserById(userId)
   const { data: metricData, isLoading: isMetricLoading } =
     useGetMetricsByUserId(userId)
 
-  const ImageSheetRef = useRef<SheetRefProps>(null)
-  const imageSheetHeight = 180
+  const SheetRef = useRef<SheetRefProps>(null)
+  const sheetHeight = 180
 
-  const openImageSheet = () => {
-    ImageSheetRef.current?.scrollTo(-imageSheetHeight)
-  }
+  const openSheet = () => SheetRef.current?.scrollTo(-sheetHeight)
 
   const handleUpdateProfile = () => router.push(`/user/${userId}`)
 
@@ -71,20 +74,14 @@ function UserInformationScreen() {
     { label: userData.fullName, icon: ProfileCircle },
     { label: userData.phoneNumber, icon: CallCalling },
     { label: userData.email, icon: Sms },
-    {
-      label: userData.role === "User" ? "Thành viên hệ thống" : "Tư vấn viên",
-      icon: ProfileTick
-    },
-    { label: subscriptionUser, icon: Award }
+    { label: userSubscription, icon: Award }
   ]
 
   const userMetricList = [
     {
-      label: DATA.GENDERS.find((g) => g.value === metricData?.[0]?.gender)
-        ?.label,
+      label: DATA.GENDERS.find((g) => g.value === metricData[0]?.gender)?.label,
       icon:
-        DATA.GENDERS.find((g) => g.value === metricData?.[0]?.gender)?.icon ||
-        Man
+        DATA.GENDERS.find((g) => g.value === metricData[0]?.gender)?.icon || Man
     },
     { label: formatDate(metricData[0].dateOfBirth), icon: CalendarCircle },
     { label: `${metricData[0].height} cm`, icon: AlignVertically },
@@ -100,25 +97,23 @@ function UserInformationScreen() {
           <Content className="mt-2">
             <ScrollArea>
               <VStack gap={20} className="pb-20">
-                <VStack center gap={15}>
+                <VStack center gap={12}>
                   <Avatar
                     source={userData.avatarUrl}
                     alt={userData.fullName}
                     size={150}
-                    icon={
-                      <Instagram
-                        size={25}
-                        strokeWidth={2}
-                        color={COLORS.accent}
-                        absoluteStrokeWidth
-                      />
-                    }
-                    onPress={() => openImageSheet()}
+                    onPress={() => openSheet()}
                   />
+
                   <VStack center>
-                    <Text className="font-tbold text-2xl text-primary">
-                      {userData.fullName}
-                    </Text>
+                    <HStack center gap={8}>
+                      <Text className="font-tbold text-2xl text-primary">
+                        {userData.fullName}
+                      </Text>
+
+                      <Badge label={userData?.role} />
+                    </HStack>
+
                     <HStack center>
                       <Text className="text-center text-base text-secondary">
                         Tham gia từ
@@ -130,9 +125,9 @@ function UserInformationScreen() {
                   </VStack>
                 </VStack>
 
-                <VStack>
+                <View>
                   <Section
-                    label="Thông tin tài khoản"
+                    label="Tài khoản"
                     actionText="Chỉnh sửa"
                     margin={false}
                     onPress={handleUpdateProfile}
@@ -153,16 +148,16 @@ function UserInformationScreen() {
                               color={COLORS.accent}
                             />
                           }
-                          endIcon={<Text></Text>}
+                          endIcon={<View></View>}
                           isBorder={false}
                         />
                       )
                     })}
                   </Card>
-                </VStack>
+                </View>
 
-                <VStack>
-                  <Section label="Thông tin cá nhân" margin={false} />
+                <View>
+                  <Section label="Sức khỏe" margin={false} />
 
                   <Card>
                     {userMetricList.map((item, index) => {
@@ -179,19 +174,19 @@ function UserInformationScreen() {
                               color={COLORS.accent}
                             />
                           }
-                          endIcon={<Text></Text>}
+                          endIcon={<View></View>}
                           isBorder={false}
                         />
                       )
                     })}
                   </Card>
-                </VStack>
+                </View>
               </VStack>
             </ScrollArea>
           </Content>
         </Container>
 
-        <Sheet ref={ImageSheetRef} dynamicHeight={imageSheetHeight}>
+        <Sheet ref={SheetRef} dynamicHeight={sheetHeight}>
           {DATA.UPLOADS.map((option) => {
             const Icon = option.icon
 

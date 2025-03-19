@@ -110,6 +110,7 @@ function UpdateInformationScreen() {
           />
         </VStack>
       </Content>
+
       <Button size="lg" onPress={handleSubmit(onSubmit)} className="mb-4">
         Cập nhật
       </Button>

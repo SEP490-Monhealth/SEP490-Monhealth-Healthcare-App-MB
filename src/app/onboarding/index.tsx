@@ -15,7 +15,7 @@ interface OnboardingType {
 }
 
 const onboardingData: Record<string, OnboardingType[]> = {
-  User: [
+  Member: [
     {
       title: "Gợi ý các bữa ăn và theo dõi dinh dưỡng",
       description:
@@ -62,12 +62,12 @@ function OnboardingScreen() {
 
   const [currentIndex, setCurrentIndex] = useState(0)
 
-  const activeOnboardingData = onboardingData[role ?? "User"]
+  const activeOnboardingData = onboardingData[role ?? "Member"]
 
   const handleNext = () => {
     if (currentIndex < activeOnboardingData.length - 1) {
       setCurrentIndex((prev) => prev + 1)
-    } else if (role === "User") {
+    } else if (role === "Member") {
       router.replace("/(setup)/user")
     } else {
       router.replace("/(setup)/consultant")

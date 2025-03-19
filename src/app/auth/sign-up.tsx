@@ -25,19 +25,19 @@ import { RegisterType, registerSchema } from "@/schemas/userSchema"
 
 function SignUpScreen() {
   const router = useRouter()
-  const { userType = "user" } = useLocalSearchParams() as {
-    userType: "user" | "consultant"
+  const { userType = "Member" } = useLocalSearchParams() as {
+    userType: "Member" | "Consultant"
   }
 
   const { register } = useAuth()
 
   const signUpData: { [key: string]: { title: string; description: string } } =
     {
-      user: {
+      Member: {
         title: "Đăng Ký",
         description: "Đăng ký để theo dõi sức khỏe và dinh dưỡng hàng ngày"
       },
-      consultant: {
+      Consultant: {
         title: "Đăng Ký",
         description: "Đăng ký để hỗ trợ người dùng theo dõi sức khỏe"
       }
@@ -71,7 +71,7 @@ function SignUpScreen() {
     // console.log(registerData)
 
     try {
-      if (userType === "user") {
+      if (userType === "Member") {
         await register(
           registerData.fullName,
           registerData.phoneNumber,

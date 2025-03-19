@@ -18,6 +18,10 @@ export const baseUserSubscriptionSchema = z.object({
     .string()
     .datetime({ message: "Định dạng thời gian kết thúc không hợp lệ" }),
 
+  remainingBooking: z
+    .number()
+    .int({ message: "Số lượng đặt lịch phải là số nguyên" }),
+
   status: UserSubscriptionSchemaEnum,
 
   ...timestampFields
@@ -49,7 +53,7 @@ const baseSubscriptionSchema = z.object({
   features: z.array(
     z.string().nonempty({ message: "Tính năng không được để trống" })
   ),
-  maxBookings: z
+  bookingAllowance: z
     .number()
     .int({ message: "Số lượng đặt lịch phải là số nguyên" })
     .nonnegative({ message: "Số lượng đặt lịch phải lớn hơn hoặc bằng 0" })

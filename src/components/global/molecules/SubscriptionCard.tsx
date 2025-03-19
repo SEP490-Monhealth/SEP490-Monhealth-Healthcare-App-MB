@@ -10,7 +10,7 @@ interface SubscriptionCardProps {
   name: string
   price: number
   durationDays: number
-  maxBookings: number
+  bookingAllowance: number
   isSelected?: boolean
   onPress?: () => void
 }
@@ -19,7 +19,7 @@ export const SubscriptionCard = ({
   name,
   price,
   durationDays,
-  maxBookings,
+  bookingAllowance,
   isSelected,
   onPress
 }: SubscriptionCardProps) => {
@@ -46,9 +46,9 @@ export const SubscriptionCard = ({
             {price !== 0 ? `${formatCurrency(price)}` : "Miễn phí"}
           </Text>
 
-          {maxBookings !== 0 && (
+          {bookingAllowance !== 0 && (
             <Text className="font-tregular text-base text-accent">
-              {maxBookings} lần tư vấn
+              {bookingAllowance} lần tư vấn
             </Text>
           )}
         </VStack>
