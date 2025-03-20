@@ -338,3 +338,7 @@ export const getMeasurementUnitLabel = (value: string): string => {
     DATA.MEASUREMENT_UNITS.find((item) => item.value === value)?.label || ""
   )
 }
+
+export const getSubscriptionColor = (value: string): string => {
+  return DATA.SUBSCRIPTIONS.find((item) => item.value === value)?.color || ""
+}

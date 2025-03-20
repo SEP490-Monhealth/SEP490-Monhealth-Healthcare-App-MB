@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 
-import { ActivityIndicator, View } from "react-native"
+import { ActivityIndicator, TouchableOpacity, View } from "react-native"
 import { FlatList } from "react-native"
 import { Keyboard } from "react-native"
 
@@ -40,6 +40,8 @@ import { useCreateMeal } from "@/hooks/useMeal"
 import { FoodType } from "@/schemas/foodSchema"
 import { CreateMealType } from "@/schemas/mealSchema"
 
+import { clearAllStorage, getAllStorage } from "@/stores/localStorageStore"
+
 import { getMealTypeByTime } from "@/utils/helpers"
 
 import { LoadingScreen } from "../loading"
@@ -50,8 +52,12 @@ function FoodsScreen() {
   const { user } = useAuth()
   const userId = user?.userId
 
-  const { userAllergies, searchHistory, addSearchHistory, clearSearchHistory } =
-    useStorage()
+  const {
+    userAllergies,
+    searchFoodHistory,
+    addSearchFoodHistory,
+    clearSearchFoodHistory
+  } = useStorage()
 
   const { mutate: addMeal } = useCreateMeal()
 
@@ -162,7 +168,7 @@ function FoodsScreen() {
   }
 
   const handleViewFood = (foodId: string, foodName: string) => {
-    addSearchHistory(foodName)
+    addSearchFoodHistory(foodName)
     router.push(`/foods/${foodId}`)
   }
 
@@ -179,17 +185,22 @@ function FoodsScreen() {
           onSelectCategory={setSelectedCategory}
         />
 
-        {searchHistory.length > 0 && (
+        {searchFoodHistory.length > 0 && (
           <Section
             label="Tìm kiếm gần đây"
             actionText="Xóa tất cả"
-            onPress={clearSearchHistory}
+            onPress={clearSearchFoodHistory}
           />
         )}
 
         <HStack gap={6} className="flex-wrap">
-          {searchHistory.map((search, index) => (
-            <Badge key={index} label={search} />
+          {searchFoodHistory.map((search, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => handleViewFood(search, search)}
+            >
+              <Badge label={search} />
+            </TouchableOpacity>
           ))}
         </HStack>
 
@@ -200,7 +211,7 @@ function FoodsScreen() {
         />
       </ListHeader>
     )
-  }, [categoriesData, selectedCategory, searchHistory])
+  }, [categoriesData, selectedCategory, searchFoodHistory])
 
   if ((!foodsData && isLoading) || !categoriesData || isCategoriesLoading)
     return <LoadingScreen />

@@ -9,12 +9,14 @@ import { FoodSaveType } from "@/schemas/foodSchema"
 export const StorageProvider = ({ children }: { children: ReactNode }) => {
   const [savedFoods, setSavedFoods] = useState<FoodSaveType[]>([])
   const [userAllergies, setUserAllergies] = useState<string[]>([])
-  const [searchHistory, setSearchHistory] = useState<string[]>([])
+  const [searchFoodHistory, setSearchFoodHistory] = useState<string[]>([])
+  const [searchConsultantHistory, setSearchConsultantHistory] = useState<
+    string[]
+  >([])
 
   const loadSavedFoods = async () => {
     try {
       const foods = await AsyncStorage.getItem("savedFoods")
-
       if (foods) {
         const parsedData = JSON.parse(foods)
         if (Array.isArray(parsedData)) {
@@ -29,7 +31,6 @@ export const StorageProvider = ({ children }: { children: ReactNode }) => {
   const loadUserAllergies = async () => {
     try {
       const allergies = await AsyncStorage.getItem("userAllergies")
-
       if (allergies) {
         const parsedData = JSON.parse(allergies)
         if (Array.isArray(parsedData)) {
@@ -41,24 +42,39 @@ export const StorageProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
-  const loadSearchHistory = async () => {
+  const loadSearchFoodHistory = async () => {
     try {
-      const searches = await AsyncStorage.getItem("searchHistory")
+      const searches = await AsyncStorage.getItem("searchFoodHistory")
       if (searches) {
         const parsedData = JSON.parse(searches)
         if (Array.isArray(parsedData)) {
-          setSearchHistory(parsedData)
+          setSearchFoodHistory(parsedData)
         }
       }
     } catch (error) {
-      console.error("Failed to load search history:", error)
+      console.error("Failed to load search food history:", error)
+    }
+  }
+
+  const loadSearchConsultantHistory = async () => {
+    try {
+      const searches = await AsyncStorage.getItem("searchConsultantHistory")
+      if (searches) {
+        const parsedData = JSON.parse(searches)
+        if (Array.isArray(parsedData)) {
+          setSearchConsultantHistory(parsedData)
+        }
+      }
+    } catch (error) {
+      console.error("Failed to load search consultant history:", error)
     }
   }
 
   useEffect(() => {
     loadSavedFoods()
     loadUserAllergies()
-    loadSearchHistory()
+    loadSearchFoodHistory()
+    loadSearchConsultantHistory()
   }, [])
 
   const toggleSavedFood = async (food: FoodSaveType) => {
@@ -104,9 +120,9 @@ export const StorageProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
-  const addSearchHistory = async (search: string) => {
+  const addSearchFoodHistory = async (search: string) => {
     try {
-      let updatedSearches = searchHistory.filter((item) => item !== search)
+      let updatedSearches = searchFoodHistory.filter((item) => item !== search)
       updatedSearches.unshift(search)
 
       if (updatedSearches.length > 6) {
@@ -114,21 +130,51 @@ export const StorageProvider = ({ children }: { children: ReactNode }) => {
       }
 
       await AsyncStorage.setItem(
-        "searchHistory",
+        "searchFoodHistory",
         JSON.stringify(updatedSearches)
       )
-      setSearchHistory(updatedSearches)
+      setSearchFoodHistory(updatedSearches)
     } catch (error) {
-      console.error("Failed to add search history:", error)
+      console.error("Failed to add search food history:", error)
     }
   }
 
-  const clearSearchHistory = async () => {
+  const addSearchConsultantHistory = async (search: string) => {
     try {
-      await AsyncStorage.removeItem("searchHistory")
-      setSearchHistory([])
+      let updatedSearches = searchConsultantHistory.filter(
+        (item) => item !== search
+      )
+      updatedSearches.unshift(search)
+
+      if (updatedSearches.length > 6) {
+        updatedSearches.pop()
+      }
+
+      await AsyncStorage.setItem(
+        "searchConsultantHistory",
+        JSON.stringify(updatedSearches)
+      )
+      setSearchConsultantHistory(updatedSearches)
     } catch (error) {
-      console.error("Failed to clear search history:", error)
+      console.error("Failed to add search consultant history:", error)
+    }
+  }
+
+  const clearSearchFoodHistory = async () => {
+    try {
+      await AsyncStorage.removeItem("searchFoodHistory")
+      setSearchFoodHistory([])
+    } catch (error) {
+      console.error("Failed to clear search food history:", error)
+    }
+  }
+
+  const clearSearchConsultantHistory = async () => {
+    try {
+      await AsyncStorage.removeItem("searchConsultantHistory")
+      setSearchConsultantHistory([])
+    } catch (error) {
+      console.error("Failed to clear search consultant history:", error)
     }
   }
 
@@ -137,12 +183,15 @@ export const StorageProvider = ({ children }: { children: ReactNode }) => {
       value={{
         savedFoods,
         userAllergies,
-        searchHistory,
+        searchFoodHistory,
+        searchConsultantHistory,
         toggleSavedFood,
         clearSavedFoods,
         addAllergies,
-        addSearchHistory,
-        clearSearchHistory
+        addSearchFoodHistory,
+        addSearchConsultantHistory,
+        clearSearchFoodHistory,
+        clearSearchConsultantHistory
       }}
     >
       {children}

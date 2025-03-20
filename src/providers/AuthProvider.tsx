@@ -128,6 +128,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         // }
 
         // router.replace("/(tabs)/consultant/dashboard")
+
         router.replace({
           pathname: "/onboarding",
           params: { role: "Consultant" }

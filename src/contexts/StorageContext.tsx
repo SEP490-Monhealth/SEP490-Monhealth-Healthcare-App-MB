@@ -5,12 +5,15 @@ import { FoodSaveType } from "@/schemas/foodSchema"
 export interface StorageContextType {
   savedFoods: FoodSaveType[]
   userAllergies: string[]
-  searchHistory: string[]
+  searchFoodHistory: string[]
+  searchConsultantHistory: string[]
   toggleSavedFood: (food: FoodSaveType) => Promise<void>
   clearSavedFoods: () => Promise<void>
   addAllergies: (allergies: string[]) => Promise<void>
-  addSearchHistory: (search: string) => Promise<void>
-  clearSearchHistory: () => Promise<void>
+  addSearchFoodHistory: (search: string) => Promise<void>
+  clearSearchFoodHistory: () => Promise<void>
+  addSearchConsultantHistory: (search: string) => Promise<void>
+  clearSearchConsultantHistory: () => Promise<void>
 }
 
 export const StorageContext = createContext<StorageContextType | undefined>(

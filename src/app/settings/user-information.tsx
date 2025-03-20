@@ -12,6 +12,7 @@ import { useRouter } from "expo-router"
 import {
   AlignVertically,
   Award,
+  Calendar,
   CalendarCircle,
   CallCalling,
   Man,
@@ -26,7 +27,6 @@ import {
   Card,
   Container,
   Content,
-  HStack,
   ScrollArea,
   Sheet,
   SheetRefProps,
@@ -46,6 +46,7 @@ import { useGetMetricsByUserId } from "@/hooks/useMetric"
 import { useGetUserById } from "@/hooks/useUser"
 
 import { formatDate } from "@/utils/formatters"
+import { getSubscriptionColor } from "@/utils/helpers"
 
 import { LoadingScreen } from "../loading"
 
@@ -65,12 +66,11 @@ function UserInformationScreen() {
 
   const openSheet = () => SheetRef.current?.scrollTo(-sheetHeight)
 
-  const handleUpdateProfile = () => router.push(`/user/${userId}`)
-
   if (!userData || isUserLoading || !metricData || isMetricLoading)
     return <LoadingScreen />
 
   const userInfoList = [
+    { label: formatDate(userData.createdAt), icon: CalendarCircle },
     { label: userData.fullName, icon: ProfileCircle },
     { label: userData.phoneNumber, icon: CallCalling },
     { label: userData.email, icon: Sms },
@@ -83,10 +83,12 @@ function UserInformationScreen() {
       icon:
         DATA.GENDERS.find((g) => g.value === metricData[0]?.gender)?.icon || Man
     },
-    { label: formatDate(metricData[0].dateOfBirth), icon: CalendarCircle },
+    { label: formatDate(metricData[0].dateOfBirth), icon: Calendar },
     { label: `${metricData[0].height} cm`, icon: AlignVertically },
     { label: `${metricData[0].weight} kg`, icon: Weight }
   ]
+
+  const handleUpdateProfile = () => router.push(`/users/${userId}`)
 
   return (
     <TouchableWithoutFeedback>
@@ -106,22 +108,15 @@ function UserInformationScreen() {
                   />
 
                   <VStack center>
-                    <HStack center gap={8}>
-                      <Text className="font-tbold text-2xl text-primary">
-                        {userData.fullName}
-                      </Text>
+                    <Text className="font-tbold text-2xl text-primary">
+                      {userData.fullName}
+                    </Text>
 
-                      <Badge label={userData?.role} />
-                    </HStack>
-
-                    <HStack center>
-                      <Text className="text-center text-base text-secondary">
-                        Tham gia từ
-                      </Text>
-                      <Text className="text-center font-tmedium text-base text-primary">
-                        {formatDate(userData.createdAt)}
-                      </Text>
-                    </HStack>
+                    <Badge
+                      label={userData?.role}
+                      background={getSubscriptionColor(userData?.role)}
+                      color="#fff"
+                    />
                   </VStack>
                 </VStack>
 

@@ -9,53 +9,61 @@ import { COLORS } from "@/constants/color"
 import { HStack } from "../atoms"
 
 interface RatingStarsProps {
+  count: number
   rating: number
-  count?: number
   showRating?: boolean
   showCount?: boolean
 }
 
 export const RatingStars = ({
-  rating,
-  count,
+  count = 0,
+  rating = 0,
   showRating = false,
   showCount = false
 }: RatingStarsProps) => {
   return (
-    <HStack center>
-      {Array.from({ length: 5 })
-        .map((_, index) => {
-          const starValue = index + 1
+    <>
+      {count > 0 ? (
+        <HStack center>
+          {Array.from({ length: 5 })
+            .map((_, index) => {
+              const starValue = index + 1
 
-          if (rating >= starValue) {
-            return (
-              <Star
-                key={index}
-                size={14}
-                fill={COLORS.PRIMARY.lemon}
-                color={COLORS.PRIMARY.lemon}
-              />
-            )
-          } else if (rating >= starValue - 0.5) {
-            return (
-              <StarHalf
-                key={index}
-                size={14}
-                fill={COLORS.PRIMARY.lemon}
-                color={COLORS.PRIMARY.lemon}
-              />
-            )
-          }
-          return null
-        })
-        .filter(Boolean)}
+              if (rating >= starValue) {
+                return (
+                  <Star
+                    key={index}
+                    size={14}
+                    fill={COLORS.PRIMARY.lemon}
+                    color={COLORS.PRIMARY.lemon}
+                  />
+                )
+              } else if (rating >= starValue - 0.5) {
+                return (
+                  <StarHalf
+                    key={index}
+                    size={14}
+                    fill={COLORS.PRIMARY.lemon}
+                    color={COLORS.PRIMARY.lemon}
+                  />
+                )
+              }
+              return null
+            })
+            .filter(Boolean)}
 
-      {(showRating || count) && (
-        <Text className="font-tmedium text-sm text-accent">
-          {showRating && `(${rating.toFixed(1)})`}
-          {count && ` (${count}${showCount ? " đánh giá" : ""})`}
+          {(showRating || count) && (
+            <Text className="font-tmedium text-sm text-accent">
+              {showRating && `(${rating.toFixed(1)})`}
+              {count && ` (${count}${showCount ? " đánh giá" : ""})`}
+            </Text>
+          )}
+        </HStack>
+      ) : (
+        <Text className="text-sm text-secondary">
+          Chưa có đánh giá ({count})
         </Text>
       )}
-    </HStack>
+    </>
   )
 }

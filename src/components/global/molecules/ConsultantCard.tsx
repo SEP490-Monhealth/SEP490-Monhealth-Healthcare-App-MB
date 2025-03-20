@@ -12,10 +12,11 @@ import { RatingStars } from "./RatingStars"
 
 interface ConsultantCardProps {
   name: string
-  avatarUrl: string
+  avatarUrl?: string
   expertise: string
   experience: number
-  rating: number
+  ratingCount: number
+  averageRating: number
   onPress?: () => void
 }
 
@@ -24,11 +25,10 @@ export const ConsultantCard = ({
   avatarUrl,
   expertise,
   experience,
-  rating,
+  ratingCount,
+  averageRating,
   onPress
 }: ConsultantCardProps) => {
-  const reviewsCount = 100
-
   return (
     <Card
       hasImage
@@ -52,7 +52,7 @@ export const ConsultantCard = ({
             </Text>
           </VStack>
 
-          <RatingStars rating={rating} count={reviewsCount} />
+          <RatingStars count={ratingCount} rating={averageRating} />
         </VStack>
       </HStack>
 

@@ -1,7 +1,5 @@
 import React from "react"
 
-import { useRouter } from "expo-router"
-
 import { Chip, HStack, ScrollArea } from "@/components/global/atoms"
 
 import { CategoryType } from "@/schemas/categorySchema"
@@ -17,16 +15,10 @@ export const WorkoutTypes = ({
   selectedType,
   onSelectType
 }: WorkoutTypesProps) => {
-  const router = useRouter()
-
   const types = ["Tất cả", ...(typesData?.map((typ) => typ.name) || [])]
-
-  const handleViewSavedWorkout = () => router.push("/workouts/saved")
 
   return (
     <HStack gap={8}>
-      {/* <Chip variant="lemon" label="Đã lưu" onPress={handleViewSavedWorkout} /> */}
-
       <ScrollArea orientation="horizontal" className="flex-1">
         {types.map((type, index) => (
           <Chip

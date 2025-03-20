@@ -13,11 +13,10 @@ import {
   createConsultant,
   getAllConsultants,
   getConsultantById,
-  getConsultantsByExpertise,
   updateConsultant
 } from "@/services/consultantService"
 
-interface FoodResponse {
+interface ConsultantResponse {
   consultants: ConsultantType[]
   totalPages: number
   totalItems: number
@@ -26,38 +25,36 @@ interface FoodResponse {
 export const useGetAllConsultants = (
   page: number,
   limit?: number,
+  expertise?: string,
   search?: string,
+  verified?: boolean,
   popular?: boolean,
   status?: boolean
 ) => {
   const handleError = useError()
 
-  return useQuery<FoodResponse, Error>({
-    queryKey: ["consultants", page, limit, search, popular, status],
+  return useQuery<ConsultantResponse, Error>({
+    queryKey: [
+      "consultants",
+      page,
+      limit,
+      expertise,
+      search,
+      verified,
+      popular,
+      status
+    ],
     queryFn: async () => {
       try {
-        return await getAllConsultants(page, limit, search, popular, status)
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
-    },
-    staleTime: 1000 * 60 * 5
-  })
-}
-
-export const useGetConsultantsByExpertise = (
-  expertise: string,
-  page: number,
-  limit: number
-) => {
-  const handleError = useError()
-
-  return useQuery<FoodResponse, Error>({
-    queryKey: ["consultants", expertise, page, limit],
-    queryFn: async () => {
-      try {
-        return await getConsultantsByExpertise(expertise, page, limit)
+        return await getAllConsultants(
+          page,
+          limit,
+          expertise,
+          search,
+          verified,
+          popular,
+          status
+        )
       } catch (error) {
         handleError(error)
         throw error

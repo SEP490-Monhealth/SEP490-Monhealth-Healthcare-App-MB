@@ -85,7 +85,7 @@ function SubscriptionScreen() {
           try {
             const updatedUser = await whoIAm()
             setUser(updatedUser)
-            router.push("/user-information")
+            router.push("/settings/user-information")
           } catch (error) {
             console.error("Lỗi cập nhật user sau upgrade:", error)
           }

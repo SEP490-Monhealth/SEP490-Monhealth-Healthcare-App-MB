@@ -227,5 +227,10 @@ export const DATA = {
     { label: "Mức dễ", value: DifficultyLevelEnum.Easy },
     { label: "Mức trung bình", value: DifficultyLevelEnum.Medium },
     { label: "Mức khó", value: DifficultyLevelEnum.Hard }
+  ],
+  SUBSCRIPTIONS: [
+    { label: "Gói Cơ Bản", value: "Member", color: "#22c55e" },
+    { label: "Gói Nâng Cao", value: "Subscription Member", color: "#eab308" },
+    { label: "Gói Cao Cấp", value: "Subscription Member", color: "#ef4444" }
   ]
 }

@@ -36,12 +36,11 @@ const baseConsultantSchema = z.object({
     .nonempty({ message: "Tên chuyên môn không được để trống" })
     .max(100, { message: "Tên chuyên môn không được dài hơn 100 ký tự" }),
 
-  rating: z
+  ratingCount: z.number().default(0),
+  averageRating: z
     .number()
     .min(1, { message: "Đánh giá phải lớn hơn hoặc bằng 1" })
     .max(5, { message: "Đánh giá không được vượt quá 5" }),
-
-  patient: z.number(),
 
   views: z.number(),
 
@@ -50,23 +49,7 @@ const baseConsultantSchema = z.object({
   ...timestampFields
 })
 
-export const consultantSchema = baseConsultantSchema.pick({
-  consultantId: true,
-  userId: true,
-
-  fullName: true,
-  avatarUrl: true,
-
-  bio: true,
-  experience: true,
-  expertise: true,
-
-  rating: true,
-
-  views: true,
-
-  status: true
-})
+export const consultantSchema = baseConsultantSchema
 
 export const createConsultantSchema = consultantSchema.pick({
   userId: true,

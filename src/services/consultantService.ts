@@ -17,13 +17,15 @@ interface ConsultantResponse {
 export const getAllConsultants = async (
   page: number,
   limit?: number,
+  expertise?: string,
   search?: string,
+  verified?: boolean,
   popular?: boolean,
   status?: boolean
 ): Promise<ConsultantResponse> => {
   try {
     const response = await monAPI.get(`/consultants`, {
-      params: { page, limit, search, popular, status }
+      params: { page, limit, expertise, search, verified, popular, status }
     })
 
     if (!response || !response.data) {
@@ -43,50 +45,6 @@ export const getAllConsultants = async (
       throw {
         isCustomError: true,
         message: message || "Không thể lấy danh sách tư vấn viên"
-      }
-    }
-  } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
-    }
-  }
-}
-
-export const getConsultantsByExpertise = async (
-  expertise: string,
-  page: number,
-  limit: number
-): Promise<ConsultantResponse> => {
-  try {
-    const response = await monAPI.get(`/consultants/expertise/${expertise}`, {
-      params: { page, limit }
-    })
-
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
-
-    const { success, message, data } = response.data
-
-    if (success) {
-      const { totalPages, totalItems, items: consultants } = data
-      return { consultants, totalPages, totalItems }
-    } else {
-      throw {
-        isCustomError: true,
-        message:
-          message || "Không thể lấy danh sách tư vấn viên theo chuyên ngành"
       }
     }
   } catch (error: any) {
