@@ -114,7 +114,9 @@ function ReportScreen() {
             <VStack gap={20}>
               <TabsList>
                 <TabsTrigger value="meal">Bữa ăn</TabsTrigger>
+
                 <TabsTrigger value="water">Nước</TabsTrigger>
+
                 <TabsTrigger value="activity">Luyện tập</TabsTrigger>
               </TabsList>
             </VStack>
@@ -157,9 +159,11 @@ function ReportScreen() {
                 ))}
               </VStack>
             </TabsContent>
+
             <TabsContent value="water" contentMarginTop={12}>
               <Text>asd</Text>
             </TabsContent>
+
             <TabsContent value="activity" contentMarginTop={12}>
               <Text>asd</Text>
             </TabsContent>

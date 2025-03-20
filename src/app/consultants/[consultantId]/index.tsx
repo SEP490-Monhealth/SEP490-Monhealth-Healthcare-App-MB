@@ -28,26 +28,21 @@ import {
   ReviewTab
 } from "@/components/local/consultants"
 
-import { sampleConsultantsData } from "@/constants/consultants"
+import { useGetConsultantById } from "@/hooks/useConsultant"
 
 function ConsultantDetailsScreen() {
+  const { tab } = useLocalSearchParams<{ tab: string }>()
   const { consultantId } = useLocalSearchParams() as { consultantId: string }
 
-  const consultantData = sampleConsultantsData.find(
-    (c) => c.consultantId === consultantId
-  )
+  const { data: consultantData, isLoading } = useGetConsultantById(consultantId)
 
-  const { tab } = useLocalSearchParams<{ tab: string }>()
   const [activeTab, setActiveTab] = useState(tab || "info")
-
-  const rating = 5
-  const count = 100
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab)
   }
 
-  if (!consultantData) return <LoadingScreen />
+  if (!consultantData || isLoading) return <LoadingScreen />
 
   return (
     <Container>
@@ -74,14 +69,18 @@ function ConsultantDetailsScreen() {
                     </Text>
                   </VStack>
 
-                  <RatingStars rating={rating} count={count} showCount />
+                  <RatingStars
+                    rating={consultantData.averageRating}
+                    count={consultantData.ratingCount}
+                    showCount
+                  />
                 </VStack>
               </HStack>
 
               <ConsultantOverview
                 experience={consultantData.experience}
-                rating={consultantData.rating}
-                patients={consultantData.patient}
+                patients={0}
+                rating={consultantData.averageRating}
               />
             </VStack>
 

@@ -6,13 +6,13 @@ import { HStack, VStack } from "@/components/global/atoms"
 
 interface ConsultantOverviewProps {
   experience: number
-  patients: number
+  patients?: number
   rating: number
 }
 
 export const ConsultantOverview = ({
   experience,
-  patients,
+  patients = 0,
   rating
 }: ConsultantOverviewProps) => {
   return (

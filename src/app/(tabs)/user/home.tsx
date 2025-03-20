@@ -68,9 +68,11 @@ function HomeScreen() {
               <TabsTrigger value="meal" onChange={handleTabChange}>
                 Bữa ăn
               </TabsTrigger>
+
               <TabsTrigger value="water" onChange={handleTabChange}>
                 Nước
               </TabsTrigger>
+
               <TabsTrigger value="workout" onChange={handleTabChange}>
                 Luyện tập
               </TabsTrigger>
