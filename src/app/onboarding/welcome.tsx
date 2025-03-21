@@ -6,15 +6,20 @@ import { useRouter } from "expo-router"
 
 import { Button, Container, Content, VStack } from "@/components/global/atoms"
 
+import { useAuth } from "@/contexts/AuthContext"
+
 function WelcomeScreen() {
   const router = useRouter()
+  const { setRole } = useAuth()
 
-  const handleUser = () => {
-    router.push("/auth/sign-in?userType=Member")
+  const handleSelectUser = () => {
+    setRole("Member")
+    router.push("/auth/sign-in")
   }
 
-  const handleConsultant = () => {
-    router.push("/auth/sign-in?userType=Consultant")
+  const handleSelectConsultant = () => {
+    setRole("Consultant")
+    router.push("/auth/sign-in")
   }
 
   return (
@@ -35,11 +40,11 @@ function WelcomeScreen() {
 
         <VStack gap={20}>
           <VStack gap={12}>
-            <Button variant="secondary" onPress={handleConsultant}>
+            <Button variant="secondary" onPress={handleSelectConsultant}>
               Tôi là chuyên viên tư vấn
             </Button>
 
-            <Button onPress={handleUser}>Tôi là người dùng</Button>
+            <Button onPress={handleSelectUser}>Tôi là người dùng</Button>
           </VStack>
 
           <Text className="text-center text-accent">

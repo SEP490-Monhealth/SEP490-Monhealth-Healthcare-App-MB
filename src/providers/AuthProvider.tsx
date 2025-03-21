@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react"
 
+import { Alert } from "react-native"
+
 import { useRouter } from "expo-router"
 
 import AsyncStorage from "@react-native-async-storage/async-storage"
+
+import { Modal } from "@/components/global/atoms"
 
 import { AuthContext } from "@/contexts/AuthContext"
 import { useError } from "@/contexts/ErrorContext"
@@ -32,6 +36,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [loading, setLoading] = useState<boolean>(true)
   const [hasMetrics, setHasMetrics] = useState<boolean>(false)
+
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [modalContent, setModalContent] = useState({
+    title: "",
+    description: "",
+    confirmText: "Đồng ý"
+  })
 
   const checkAuthentication = async () => {
     try {
@@ -98,6 +109,22 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       const userInfo = await whoIAm()
       setUser(userInfo)
+
+      if (role && userInfo.role !== role) {
+        setModalContent({
+          title: "Cảnh báo",
+          description: "Tài khoản chưa được đăng ký là chuyên viên tư vấn",
+          confirmText: "Đồng ý"
+        })
+
+        setIsModalVisible(true)
+        await AsyncStorage.removeItem("accessToken")
+        await AsyncStorage.removeItem("refreshToken")
+        setIsAuthenticated(false)
+        setUser(null)
+        return
+      }
+
       setRole(userInfo?.role)
 
       if (
@@ -181,6 +208,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         user,
         setUser,
         role,
+        setRole,
         hasMetrics,
         login: handleLogin,
         register: handleRegister,
@@ -189,6 +217,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }}
     >
       {children}
+
+      <Modal
+        isVisible={isModalVisible}
+        title={modalContent.title}
+        description={modalContent.description}
+        confirmText={modalContent.confirmText}
+        onClose={() => setIsModalVisible(false)}
+      />
     </AuthContext.Provider>
   )
 }

@@ -23,27 +23,27 @@ import { useAuth } from "@/contexts/AuthContext"
 
 import { RegisterType, registerSchema } from "@/schemas/userSchema"
 
+interface SignUpDataType {
+  title: string
+  description: string
+}
+
+const signUpData: Record<string, SignUpDataType> = {
+  Member: {
+    title: "Đăng Ký",
+    description: "Đăng ký để theo dõi sức khỏe và dinh dưỡng hàng ngày"
+  },
+  Consultant: {
+    title: "Đăng Ký",
+    description: "Đăng ký để hỗ trợ người dùng theo dõi sức khỏe"
+  }
+}
+
 function SignUpScreen() {
   const router = useRouter()
-  const { userType = "Member" } = useLocalSearchParams() as {
-    userType: "Member" | "Consultant"
-  }
+  const { role, register } = useAuth()
 
-  const { register } = useAuth()
-
-  const signUpData: { [key: string]: { title: string; description: string } } =
-    {
-      Member: {
-        title: "Đăng Ký",
-        description: "Đăng ký để theo dõi sức khỏe và dinh dưỡng hàng ngày"
-      },
-      Consultant: {
-        title: "Đăng Ký",
-        description: "Đăng ký để hỗ trợ người dùng theo dõi sức khỏe"
-      }
-    }
-
-  const { title, description } = signUpData[userType] || signUpData.user
+  const { title, description } = signUpData[role ?? "Member"]
 
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -71,7 +71,7 @@ function SignUpScreen() {
     // console.log(registerData)
 
     try {
-      if (userType === "Member") {
+      if (role === "Member") {
         await register(
           registerData.fullName,
           registerData.phoneNumber,

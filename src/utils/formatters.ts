@@ -6,9 +6,7 @@ import { format, parseISO } from "date-fns"
  * @returns Chuỗi định dạng tiền tệ, ví dụ: "10.000 VND".
  */
 export const formatCurrency = (value: number): string => {
-  return value
-    .toLocaleString("vi-VN", { style: "currency", currency: "VND" })
-    .replace("₫", "VND")
+  return value.toLocaleString("vi-VN", { style: "currency", currency: "VND" })
 }
 
 /**

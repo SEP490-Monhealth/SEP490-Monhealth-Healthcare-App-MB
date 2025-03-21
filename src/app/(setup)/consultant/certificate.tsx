@@ -23,10 +23,10 @@ import { Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
 
-import { useConsultantStore } from "@/stores/consultantStore"
+import { useImageUpload } from "@/hooks/useImageUpload"
 
 import { formatISODate } from "@/utils/formatters"
-import { handleDeleteImage } from "@/utils/images"
+import { handleSelectImage } from "@/utils/images"
 
 interface SetupCertificateProps {
   control: Control<FieldValues>
@@ -41,7 +41,11 @@ function SetupCertificate({
   openUploadSheet,
   openDateSheet
 }: SetupCertificateProps) {
-  const { imageUrls } = useConsultantStore()
+  const { images, uploadImage, deleteImage } = useImageUpload()
+
+  const handleImageSelect = async (useLibrary: boolean) => {
+    await handleSelectImage(useLibrary, uploadImage)
+  }
 
   return (
     <ScrollArea>
@@ -135,49 +139,48 @@ function SetupCertificate({
           </VStack>
         </Card>
 
-        {errors.imageUrls?.message && imageUrls.length === 0 && (
+        {errors.imageUrls?.message && images.length === 0 && (
           <ErrorText text={errors.imageUrls?.message} />
         )}
 
         <View className="mt-3 flex-row flex-wrap">
-          {imageUrls.length > 0 &&
-            imageUrls.map((item, index) => (
-              <View
-                key={index}
-                style={{ width: "30%", aspectRatio: 1, margin: "1.5%" }}
-              >
-                {item.uri && (
-                  <Image
-                    source={{ uri: item.uri }}
-                    className="h-full w-full rounded-xl"
-                  />
-                )}
+          {images.map((item, index) => (
+            <View
+              key={index}
+              style={{ width: "30%", aspectRatio: 1, margin: "1.5%" }}
+            >
+              {item.uri && (
+                <Image
+                  source={{ uri: item.uri }}
+                  className="h-full w-full rounded-xl"
+                />
+              )}
 
-                {(item.uploading || item.deleting) && (
-                  <View
-                    className="absolute inset-0 items-center justify-center rounded-xl"
-                    style={{
-                      backgroundColor: "rgba(0,0,0,0.5)"
-                    }}
-                  >
-                    <ActivityIndicator size="small" color="#fff" />
-                    <Text className="font-tmedium text-sm text-white">
-                      {item.progress}%
-                    </Text>
-                  </View>
-                )}
+              {(item.uploading || item.deleting) && (
+                <View
+                  className="absolute inset-0 items-center justify-center rounded-xl"
+                  style={{
+                    backgroundColor: "rgba(0,0,0,0.5)"
+                  }}
+                >
+                  <ActivityIndicator size="small" color="#fff" />
+                  <Text className="font-tmedium text-sm text-white">
+                    {item.progress}%
+                  </Text>
+                </View>
+              )}
 
-                {!item.uploading && !item.deleting && (
-                  <TouchableOpacity
-                    activeOpacity={0.7}
-                    onPress={() => handleDeleteImage(item.fileName)}
-                    className="absolute right-2 top-2 rounded-full bg-border p-1"
-                  >
-                    <X size={14} color={COLORS.primary} />
-                  </TouchableOpacity>
-                )}
-              </View>
-            ))}
+              {!item.uploading && !item.deleting && (
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={() => deleteImage(item.fileName)}
+                  className="absolute right-2 top-2 rounded-full bg-border p-1"
+                >
+                  <X size={14} color={COLORS.primary} />
+                </TouchableOpacity>
+              )}
+            </View>
+          ))}
         </View>
       </View>
     </ScrollArea>

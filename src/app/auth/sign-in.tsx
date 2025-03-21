@@ -2,7 +2,7 @@ import React, { useState } from "react"
 
 import { Keyboard, Text, TouchableOpacity, View } from "react-native"
 
-import { useLocalSearchParams, useRouter } from "expo-router"
+import { useRouter } from "expo-router"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Eye, EyeSlash, Lock1, Sms } from "iconsax-react-native"
@@ -41,13 +41,9 @@ const signInData: Record<string, SignInDataType> = {
 
 function SignInScreen() {
   const router = useRouter()
-  const { userType = "Member" } = useLocalSearchParams() as {
-    userType: "Member" | "Consultant"
-  }
+  const { role, login } = useAuth()
 
-  const { login } = useAuth()
-
-  const { title, description } = signInData[userType] || signInData.user
+  const { title, description } = signInData[role ?? "Member"]
 
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -64,7 +60,7 @@ function SignInScreen() {
     }
   })
 
-  const handleSignUp = () => router.push(`/auth/sign-up?userType=${userType}`)
+  const handleSignUp = () => router.push("/auth/sign-up")
 
   const handleForgotPassword = () => router.push("/auth/forgot-password")
 
