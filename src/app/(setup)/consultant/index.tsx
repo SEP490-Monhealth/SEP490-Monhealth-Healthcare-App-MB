@@ -37,7 +37,7 @@ import { useAuth } from "@/contexts/AuthContext"
 import { useCreateConsultant } from "@/hooks/useConsultant"
 
 import { certificateSetupSchema } from "@/schemas/certificateSchema"
-import { informationConsultantSchema } from "@/schemas/consultantSchema"
+import { informationSetupSchema } from "@/schemas/consultantSchema"
 import { expertiseSetupSchema } from "@/schemas/expertiseSchema"
 
 import { useConsultantStore } from "@/stores/consultantStore"
@@ -122,7 +122,7 @@ function SetupConsultantScreen() {
       description: "Giới thiệu bản thân và kinh nghiệm làm việc của bạn",
       component: SetupInformation,
       fields: ["bio", "experience"],
-      schema: informationConsultantSchema
+      schema: informationSetupSchema
     },
     {
       step: 2,
@@ -175,11 +175,6 @@ function SetupConsultantScreen() {
     }
   }
 
-  // useEffect(() => {
-  //   const imagesUris = imageUrls.map((img) => img.uri)
-  //   setValue("imageUrls", imagesUris)
-  // }, [imageUrls, setValue])
-
   useEffect(() => {
     if (imageUrls && imageUrls.length > 0) {
       setValue(
@@ -188,28 +183,6 @@ function SetupConsultantScreen() {
       )
     }
   }, [imageUrls, setValue])
-
-  const onSubmit = async (data: Record<string, any>) => {
-    setIsLoading(true)
-
-    // console.log(`Step Data ${currentStep}:`, data)
-
-    try {
-      currentStepData.fields.forEach((field) => {
-        updateField(field, data[field])
-      })
-
-      if (currentStep === setupSteps.length) {
-        console.log("Final Data", data)
-
-        setIsModalVisible(true)
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error)
-    } finally {
-      setIsLoading(false)
-    }
-  }
 
   const calculateSheetHeight = (expertiseLength: number) => {
     const minHeight = 160
@@ -258,6 +231,8 @@ function SetupConsultantScreen() {
       updateField(field, data[field])
     })
 
+    console.log(`Completed Step ${currentStep} with data:`, data)
+
     if (currentStep < setupSteps.length) {
       setCurrentStep(currentStep + 1)
     } else {
@@ -273,9 +248,41 @@ function SetupConsultantScreen() {
     }
   }
 
-  const StepComponent = currentStepData.component
+  const handleApiSubmission = () => {
+    setIsLoading(true)
 
-  console.log(errors)
+    try {
+      const currentImageUrls = imageUrls || []
+
+      const processedImageUrls = currentImageUrls
+        .filter((img) => img && (img.uri || typeof img === "string"))
+        .map((img) => {
+          if (typeof img === "string") return img
+          return img.uri
+        })
+
+      const finalData = {
+        userId,
+        bio,
+        experience,
+        expertise,
+        number,
+        certificate,
+        issueDate,
+        expiryDate,
+        issuedBy,
+        imageUrls: processedImageUrls
+      }
+
+      console.log("Submitting data to API:", JSON.stringify(finalData, null, 2))
+      router.push("/(setup)/consultant/completed")
+    } catch (error) {
+      console.error("Error during API submission:", error)
+      setIsLoading(false)
+    }
+  }
+
+  const StepComponent = currentStepData.component
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -382,8 +389,7 @@ function SetupConsultantScreen() {
           cancelText="Hủy"
           confirmText="Đồng ý"
           onConfirm={() => {
-            setIsModalVisible(false)
-            router.push("/(setup)/consultant/completed")
+            handleApiSubmission()
           }}
           onClose={() => setIsModalVisible(false)}
         />

@@ -65,7 +65,7 @@ export const updateConsultantSchema = consultantSchema.pick({
   expertise: true
 })
 
-export const informationConsultantSchema = consultantSchema.pick({
+export const informationSetupSchema = consultantSchema.pick({
   bio: true,
   experience: true
 })

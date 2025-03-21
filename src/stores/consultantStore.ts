@@ -32,14 +32,7 @@ export const useConsultantStore = create<ConsultantStoreState>((set) => ({
   issueDate: "2021-01-01",
   expiryDate: "2024-01-01",
   issuedBy: "Hiệp hội tâm lý học Việt Nam",
-  imageUrls: [
-    {
-      uri: "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Monhealth%2Fcertificates%2F3055f764-ebb5-454e-a5cf-9ba217434959.jpg?alt=media&token=4f7b6209-4d14-4d80-944f-ca0e3a9d02af",
-      fileName: "meomeo.jpg",
-      uploading: false,
-      progress: 100
-    }
-  ],
+  imageUrls: [],
 
   updateField: (key, value, append = false) =>
     set((state) => {

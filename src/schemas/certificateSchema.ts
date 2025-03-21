@@ -52,4 +52,19 @@ export const certificateSetupSchema = z.object({
   imageUrls: certificateSchema.shape.imageUrls
 })
 
+export const certificateNumberSchema = z.object({
+  number: certificateSchema.shape.number,
+  certificate: certificateSchema.shape.name
+})
+
+export const certificateIssueSchema = z.object({
+  issueDate: certificateSchema.shape.issueDate,
+  expiryDate: certificateSchema.shape.expiryDate,
+  issuedBy: certificateSchema.shape.issuedBy
+})
+
+export const certificateImageSchema = z.object({
+  imageUrls: certificateSchema.shape.imageUrls
+})
+
 export type CertificateType = z.infer<typeof certificateSchema>
