@@ -40,8 +40,6 @@ import { useCreateMeal } from "@/hooks/useMeal"
 import { FoodType } from "@/schemas/foodSchema"
 import { CreateMealType } from "@/schemas/mealSchema"
 
-import { clearAllStorage, getAllStorage } from "@/stores/localStorageStore"
-
 import { getMealTypeByTime } from "@/utils/helpers"
 
 import { LoadingScreen } from "../loading"

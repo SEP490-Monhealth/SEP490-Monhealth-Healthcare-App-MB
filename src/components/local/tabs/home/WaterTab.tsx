@@ -47,7 +47,7 @@ export const WaterTab = ({ onLoading, onOverlayLoading }: WaterTabProps) => {
 
   const { mutate: updateWaterReminderDrunk } = useUpdateWaterReminderDrunk()
 
-  const waterIntakesValue = dailyWaterIntakeData?.volume || 0
+  const waterIntakesValue = dailyWaterIntakeData?.totalVolume || 0
   const waterIntakesGoal = waterIntakeGoalData?.waterIntakesGoal || 0
 
   const isFetching = useIsFetching()

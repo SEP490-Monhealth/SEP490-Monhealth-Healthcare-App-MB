@@ -20,7 +20,7 @@ interface FoodResponse {
 
 export const useGetAllFoods = (
   page: number,
-  limit?: number,
+  limit: number,
   category?: string,
   search?: string,
   isPublic?: boolean,

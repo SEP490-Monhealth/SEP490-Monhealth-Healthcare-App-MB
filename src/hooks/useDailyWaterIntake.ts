@@ -4,7 +4,7 @@ import { useError } from "@/contexts/ErrorContext"
 
 import { DailyWaterIntakeType } from "@/schemas/dailyWaterIntakeSchema"
 
-import { getDailyWaterIntakesByUserId } from "@/services/dailyWaterIntakeService"
+import { getDailyWaterIntakeByUserId } from "@/services/dailyWaterIntakeService"
 
 export const useGetDailyWaterIntakeByUserId = (
   userId: string | undefined,
@@ -16,7 +16,7 @@ export const useGetDailyWaterIntakeByUserId = (
     queryKey: ["dailyWaterIntake", userId, date],
     queryFn: async () => {
       try {
-        return await getDailyWaterIntakesByUserId(userId, date)
+        return await getDailyWaterIntakeByUserId(userId, date)
       } catch (error) {
         handleError(error)
         throw error

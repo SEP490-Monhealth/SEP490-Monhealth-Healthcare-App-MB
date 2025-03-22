@@ -4,7 +4,7 @@ import { useError } from "@/contexts/ErrorContext"
 
 import { DailyMealType } from "@/schemas/dailyMealSchema"
 
-import { getDailyMealsByUserId } from "@/services/dailyMealService"
+import { getDailyMealByUserId } from "@/services/dailyMealService"
 
 export const useGetDailyMealByUserId = (
   userId: string | undefined,
@@ -16,7 +16,7 @@ export const useGetDailyMealByUserId = (
     queryKey: ["dailyMeal", userId, date],
     queryFn: async () => {
       try {
-        return await getDailyMealsByUserId(userId, date)
+        return await getDailyMealByUserId(userId, date)
       } catch (error) {
         handleError(error)
         throw error

@@ -15,8 +15,8 @@ interface ConsultantCardProps {
   avatarUrl?: string
   expertise: string
   experience: number
-  ratingCount: number
-  averageRating: number
+  ratingCount?: number
+  averageRating?: number
   onPress?: () => void
 }
 
@@ -25,8 +25,8 @@ export const ConsultantCard = ({
   avatarUrl,
   expertise,
   experience,
-  ratingCount,
-  averageRating,
+  ratingCount = 0,
+  averageRating = 0,
   onPress
 }: ConsultantCardProps) => {
   return (
