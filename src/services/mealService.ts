@@ -10,14 +10,6 @@ export const getMealsByUserId = async (
   try {
     const response = await monAPI.get(`/meals/user/${userId}`)
 
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
-
     const { success, message, data } = response.data
 
     if (success) {
@@ -47,14 +39,6 @@ export const getMealById = async (
 ): Promise<MealType> => {
   try {
     const response = await monAPI.get(`/meals/${mealId}`)
-
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
 
     const { success, message, data } = response.data
 
@@ -86,14 +70,6 @@ export const createMeal = async (
 ): Promise<{ mealId: string; message: string }> => {
   try {
     const response = await monAPI.post("/meals", newMealData)
-
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
 
     const { success, message, data } = response.data
 
@@ -129,14 +105,6 @@ export const getMealFoodsByMealId = async (
 ): Promise<MealFoodType[]> => {
   try {
     const response = await monAPI.get(`/meal/${mealId}/foods`)
-
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
 
     const { success, message, data } = response.data
 
@@ -175,14 +143,6 @@ export const updateMealFoodQuantity = async (
       }
     )
 
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
-
     const { success, message } = response.data
 
     if (!success) {
@@ -213,14 +173,6 @@ export const updateMealFoodStatus = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.patch(`/meal/food/${mealFoodId}/status`)
-
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
 
     const { success, message } = response.data
 

@@ -27,14 +27,6 @@ export const getAllUsers = async (
       params: { page, limit, search, role, status }
     })
 
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
-
     const { success, message, data } = response.data
 
     if (success) {
@@ -65,14 +57,6 @@ export const getUserById = async (
 ): Promise<UserType> => {
   try {
     const response = await monAPI.get(`/users/${userId}`)
-
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
 
     const { success, message, data } = response.data
 
@@ -105,14 +89,6 @@ export const updateUser = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.put(`/users/${userId}`, userData)
-
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
 
     const { success, message } = response.data
 
@@ -152,14 +128,6 @@ export const updateUserPassword = async (
   try {
     const response = await monAPI.put(`/users/${userId}/password`, passwordData)
 
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
-
     const { success, message } = response.data
 
     if (!success) {
@@ -197,14 +165,6 @@ export const updateAvatarUser = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.put(`/users/${userId}/avatar`, avatarData)
-
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
 
     const { success, message } = response.data
 

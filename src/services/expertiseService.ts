@@ -19,14 +19,6 @@ export const getAllExpertise = async (
       params: { page, limit }
     })
 
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
-
     const { success, message, data } = response.data
 
     if (success) {

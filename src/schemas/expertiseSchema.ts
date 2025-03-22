@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-import { timestampFields, uuidSchema } from "./baseSchema"
+import { auditFields, uuidSchema } from "./baseSchema"
 
 export const baseExpertiseSchema = z.object({
   expertiseId: uuidSchema,
@@ -16,7 +16,7 @@ export const baseExpertiseSchema = z.object({
     })
     .optional(),
 
-  ...timestampFields
+  ...auditFields
 })
 
 export const expertiseSchema = baseExpertiseSchema

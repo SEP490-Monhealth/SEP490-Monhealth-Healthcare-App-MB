@@ -4,7 +4,7 @@ import monAPI from "@/lib/monAPI"
 
 import { DailyMealType } from "@/schemas/dailyMealSchema"
 
-export const getDailyMealsByUserId = async (
+export const getDailyMealByUserId = async (
   userId: string | undefined,
   date: string
 ): Promise<DailyMealType> => {
@@ -13,23 +13,12 @@ export const getDailyMealsByUserId = async (
       params: { userId, date }
     })
 
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
-
     const { success, message, data } = response.data
 
     if (success) {
       return data as DailyMealType
     } else {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy danh sách bữa ăn"
-      }
+      throw { isCustomError: true, message: message }
     }
   } catch (error: any) {
     if (axios.isAxiosError(error)) {

@@ -10,14 +10,6 @@ export const getPortionByFoodId = async (
   try {
     const response = await monAPI.get(`/portions/food/${foodId}`)
 
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
-
     const { success, message, data } = response.data
 
     if (success) {
@@ -48,14 +40,6 @@ export const createPortion = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.post(`/portions`, newPortionData)
-
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
 
     const { success, message } = response.data
 

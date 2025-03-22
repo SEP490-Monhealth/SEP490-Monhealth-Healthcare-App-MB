@@ -15,14 +15,6 @@ export const getGoalByUserId = async (
   try {
     const response = await monAPI.get(`/goals/user/${userId}`)
 
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
-
     const { success, message, data } = response.data
 
     if (success) {
@@ -52,14 +44,6 @@ export const getGoalById = async (
 ): Promise<GoalType> => {
   try {
     const response = await monAPI.get(`/goals/${goalId}`)
-
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
 
     const { success, message, data } = response.data
 
@@ -91,14 +75,6 @@ export const getWeightGoalByUserId = async (
   try {
     const response = await monAPI.get(`/goals/user/${userId}/weight`)
 
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
-
     const { success, message, data } = response.data
 
     if (success) {
@@ -128,14 +104,6 @@ export const getNutritionGoalByUserId = async (
 ): Promise<NutritionGoalType> => {
   try {
     const response = await monAPI.get(`/goals/user/${userId}/nutrition`)
-
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
 
     const { success, message, data } = response.data
 
@@ -167,14 +135,6 @@ export const getWaterIntakeGoalByUserId = async (
   try {
     const response = await monAPI.get(`/goals/user/${userId}/water-intake`)
 
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
-
     const { success, message, data } = response.data
 
     if (success) {
@@ -183,6 +143,36 @@ export const getWaterIntakeGoalByUserId = async (
       throw {
         isCustomError: true,
         message: message || "Không thể lấy thông tin mục tiêu nước uống"
+      }
+    }
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      console.log("Lỗi từ server:", error.response?.data || error.message)
+      throw error
+    } else {
+      console.log("Lỗi không phải Axios:", error)
+      throw {
+        isCustomError: true,
+        message: "Đã xảy ra lỗi không mong muốn"
+      }
+    }
+  }
+}
+
+export const getWorkoutGoalByUserId = async (
+  userId: string | undefined
+): Promise<GoalType> => {
+  try {
+    const response = await monAPI.get(`/goals/user/${userId}/workout`)
+
+    const { success, message, data } = response.data
+
+    if (success) {
+      return data as GoalType
+    } else {
+      throw {
+        isCustomError: true,
+        message: message || "Không thể lấy thông tin mục tiêu tập luyện"
       }
     }
   } catch (error: any) {

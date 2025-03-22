@@ -14,14 +14,6 @@ export const getWaterRemindersByUserId = async (
   try {
     const response = await monAPI.get(`/water-reminders/user/${userId}`)
 
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
-
     const { success, message, data } = response.data
 
     if (success) {
@@ -51,14 +43,6 @@ export const getWaterReminderById = async (
 ): Promise<WaterReminderType> => {
   try {
     const response = await monAPI.get(`/water-reminders/${waterReminderId}`)
-
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
 
     const { success, message, data } = response.data
 
@@ -90,14 +74,6 @@ export const createWaterReminder = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.post(`/water-reminders`, newWaterReminderData)
-
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
 
     const { success, message } = response.data
 
@@ -141,14 +117,6 @@ export const updateWaterReminder = async (
       waterReminderData
     )
 
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
-
     const { success, message } = response.data
 
     if (!success) {
@@ -186,14 +154,6 @@ export const deleteWaterReminder = async (
   try {
     const response = await monAPI.delete(`/water-reminders/${waterReminderId}`)
 
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
-
     const { success, message } = response.data
 
     if (!success) {
@@ -227,14 +187,6 @@ export const updateWaterReminderStatus = async (
       `/water-reminders/${waterReminderId}/status`
     )
 
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
-
     const { success, message } = response.data
 
     if (!success) {
@@ -267,14 +219,6 @@ export const updateWaterReminderDrunk = async (
     const response = await monAPI.patch(
       `/water-reminders/${waterReminderId}/drunk`
     )
-
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
 
     const { success, message } = response.data
 

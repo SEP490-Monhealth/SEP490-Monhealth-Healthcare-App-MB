@@ -24,36 +24,20 @@ export const getAllFoods = async (
       params: { page, limit, category, search, isPublic, popular, status }
     })
 
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
-
     const { success, message, data } = response.data
 
-    if (success) {
-      const { totalPages, totalItems, items: foods } = data
-      return { foods, totalPages, totalItems }
-    } else {
+    if (!success) {
       throw {
         isCustomError: true,
         message: message || "Không thể lấy danh sách món ăn"
       }
     }
-  } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
-    }
+
+    const { totalPages, totalItems, items: foods } = data
+    return { foods, totalPages, totalItems }
+  } catch (error) {
+    console.error("Lỗi lấy danh sách món ăn", error)
+    throw new Error("Lấy danh sách món ăn thất bại")
   }
 }
 
@@ -66,14 +50,6 @@ export const getFoodsByUserId = async (
     const response = await monAPI.get(`/foods/user/${userId}`, {
       params: { page, limit }
     })
-
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
 
     const { success, message, data } = response.data
 
@@ -103,14 +79,6 @@ export const getFoodsByUserId = async (
 export const getFoodById = async (foodId: string): Promise<FoodType> => {
   try {
     const response = await monAPI.get(`/foods/${foodId}`)
-
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
 
     const { success, message, data } = response.data
 
@@ -142,14 +110,6 @@ export const createFood = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.post(`/foods`, newFoodData)
-
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
 
     const { success, message } = response.data
 

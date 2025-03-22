@@ -21,48 +21,17 @@ const baseGoalSchema = z.object({
     .min(1, { message: "Trọng lượng mục tiêu phải lớn hơn hoặc bằng 1" })
     .optional(),
 
-  caloriesGoal: z
-    .number()
-    .min(1, { message: "Mục tiêu calo phải lớn hơn hoặc bằng 1" })
-    .optional(),
-  proteinGoal: z
-    .number()
-    .min(1, { message: "Mục tiêu protein phải lớn hơn hoặc bằng 1" })
-    .optional(),
-  carbsGoal: z
-    .number()
-    .min(1, { message: "Mục tiêu carbohydrate phải lớn hơn hoặc bằng 1" })
-    .optional(),
-  fatGoal: z
-    .number()
-    .min(1, { message: "Mục tiêu chất béo phải lớn hơn hoặc bằng 1" })
-    .optional(),
-  fiberGoal: z
-    .number()
-    .min(1, { message: "Mục tiêu chất xơ phải lớn hơn hoặc bằng 1" })
-    .optional(),
-  sugarGoal: z
-    .number()
-    .min(1, { message: "Mục tiêu đường phải lớn hơn hoặc bằng 1" })
-    .optional(),
+  caloriesGoal: z.number().default(0),
+  proteinGoal: z.number().default(0),
+  carbsGoal: z.number().default(0),
+  fatGoal: z.number().default(0),
+  fiberGoal: z.number().default(0),
+  sugarGoal: z.number().default(0),
 
-  waterIntakesGoal: z
-    .number()
-    .min(1, { message: "Mục tiêu nước uống phải lớn hơn hoặc bằng 1" })
-    .optional(),
+  waterIntakesGoal: z.number().default(0),
 
-  caloriesBurnedGoal: z
-    .number()
-    .min(1, {
-      message: "Mục tiêu calo tập luyện phải lớn hơn hoặc bằng 1"
-    })
-    .optional(),
-  durationGoal: z
-    .number()
-    .min(1, {
-      message: "Mục tiêu thời gian tập luyện phải lớn hơn hoặc bằng 1"
-    })
-    .optional(),
+  workoutDurationGoal: z.number().default(0),
+  caloriesBurnedGoal: z.number().default(0),
 
   status: GoalStatusSchemaEnum,
 
@@ -89,7 +58,7 @@ export const waterIntakeGoalSchema = goalSchema.pick({
 })
 
 export const workoutGoalSchema = goalSchema.pick({
-  durationGoal: true,
+  workoutDurationGoal: true,
   caloriesBurnedGoal: true
 })
 

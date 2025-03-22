@@ -37,6 +37,7 @@ const mealFoodSchema = z.object({
 export const dailyMealSchema = z.object({
   dailyMealId: uuidSchema,
   userId: uuidSchema,
+  goalId: uuidSchema,
 
   nutrition: nutritionSchema,
 

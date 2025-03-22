@@ -10,14 +10,6 @@ export const getAllScheduleTimeSlots = async (): Promise<TimeSlot[]> => {
   try {
     const response = await monAPI.get("/schedules/time-slots")
 
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
-
     const { success, message, data } = response.data
 
     if (success) {
@@ -51,14 +43,6 @@ export const getSchedulesByConsultantId = async (
       params: { date }
     })
 
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
-
     const { success, message, data } = response.data
 
     if (success) {
@@ -89,14 +73,6 @@ export const createSchedule = async (
 ) => {
   try {
     const response = await monAPI.post(`/schedules`, newScheduleData)
-
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
 
     const { success, message } = response.data
 
@@ -140,14 +116,6 @@ export const updateSchedule = async (
       newScheduleData
     )
 
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
-
     const { success, message } = response.data
 
     if (!success) {
@@ -186,14 +154,6 @@ export const deleteSchedule = async (
   try {
     const response = await monAPI.delete(`/schedules/${scheduleId}`)
 
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
-
     const { success, message } = response.data
 
     if (!success) {
@@ -231,14 +191,6 @@ export const updateScheduleStatus = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.put(`/schedules/${scheduleId}/status`)
-
-    if (!response || !response.data) {
-      throw {
-        isCustomError: true,
-        message:
-          "Không nhận được phản hồi từ máy chủ. Có thể máy chủ đang gặp sự cố hoặc kết nối mạng của bạn bị gián đoạn"
-      }
-    }
 
     const { success, message } = response.data
 

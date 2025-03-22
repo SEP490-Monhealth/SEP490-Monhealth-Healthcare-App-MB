@@ -5,6 +5,7 @@ import { timestampFields, uuidSchema } from "./baseSchema"
 const baseDailyActivitySchema = z.object({
   dailyActivityId: uuidSchema,
   userId: uuidSchema,
+  goalId: uuidSchema,
 
   totalDuration: z
     .number()
