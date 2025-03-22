@@ -47,9 +47,7 @@ export const certificateSetupSchema = z.object({
 
   issueDate: certificateSchema.shape.issueDate,
   expiryDate: certificateSchema.shape.expiryDate,
-  issuedBy: certificateSchema.shape.issuedBy,
-
-  imageUrls: certificateSchema.shape.imageUrls
+  issuedBy: certificateSchema.shape.issuedBy
 })
 
 export const certificateNumberSchema = z.object({
@@ -63,7 +61,7 @@ export const certificateIssueSchema = z.object({
   issuedBy: certificateSchema.shape.issuedBy
 })
 
-export const certificateImageSchema = z.object({
+export const certificateImageSetupSchema = z.object({
   imageUrls: certificateSchema.shape.imageUrls
 })
 

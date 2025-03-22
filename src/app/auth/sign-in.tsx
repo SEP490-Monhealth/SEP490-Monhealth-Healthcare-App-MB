@@ -43,7 +43,8 @@ function SignInScreen() {
   const router = useRouter()
   const { role, login } = useAuth()
 
-  const { title, description } = signInData[role ?? "Member"]
+  const { title, description } =
+    signInData[role ?? "Member"] || signInData.Member
 
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -60,7 +61,7 @@ function SignInScreen() {
     }
   })
 
-  const handleSignUp = () => router.push("/auth/sign-up")
+  const handleSignUp = () => router.push(`/auth/sign-up?userType=${role}`)
 
   const handleForgotPassword = () => router.push("/auth/forgot-password")
 

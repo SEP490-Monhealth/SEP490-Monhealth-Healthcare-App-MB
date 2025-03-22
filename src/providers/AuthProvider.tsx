@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
 
   const [user, setUser] = useState<UserPayload | null>(null)
-  const [role, setRole] = useState<string | null>(null)
+  const [role, setRole] = useState<string | null>("Member")
 
   const [loading, setLoading] = useState<boolean>(true)
   const [hasMetrics, setHasMetrics] = useState<boolean>(false)
@@ -110,7 +110,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const userInfo = await whoIAm()
       setUser(userInfo)
 
-      if (role && userInfo.role !== role) {
+      if (
+        (role === "Consultant" && userInfo.role !== "Consultant") ||
+        (role === "Member" &&
+          userInfo.role !== "Member" &&
+          userInfo.role !== "Subscription Member")
+      ) {
         setModalContent({
           title: "Cảnh báo",
           description: "Tài khoản chưa được đăng ký là chuyên viên tư vấn",

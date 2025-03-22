@@ -68,8 +68,8 @@ function SetupUserScreen() {
     height,
     weight,
     activityLevel,
-    goalType,
     weightGoal,
+    goalType,
     caloriesRatio,
     // categories,
     allergies,
@@ -86,8 +86,8 @@ function SetupUserScreen() {
     height,
     weight,
     activityLevel,
-    goalType,
     weightGoal,
+    goalType,
     caloriesRatio,
     // categories,
     allergies
@@ -123,18 +123,18 @@ function SetupUserScreen() {
       schema: activityLevelSetupSchema
     },
     {
-      title: "Mục tiêu",
-      description: "Xác định mục tiêu sức khỏe chính của bạn",
-      component: SetupGoalType,
-      fields: ["goalType"],
-      schema: goalTypeSetupSchema
-    },
-    {
       title: "Cân nặng",
       description: "Nhập cân nặng mục tiêu mà bạn mong muốn",
       component: SetupWeightGoal,
       fields: ["weightGoal"],
       schema: weightGoalSetupSchema
+    },
+    {
+      title: "Mục tiêu",
+      description: "Xác định mục tiêu sức khỏe chính của bạn",
+      component: SetupGoalType,
+      fields: ["goalType"],
+      schema: goalTypeSetupSchema
     }
   ]
 

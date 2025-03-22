@@ -36,7 +36,10 @@ import { useAuth } from "@/contexts/AuthContext"
 
 import { useCreateConsultant } from "@/hooks/useConsultant"
 
-import { certificateSetupSchema } from "@/schemas/certificateSchema"
+import {
+  certificateImageSetupSchema,
+  certificateSetupSchema
+} from "@/schemas/certificateSchema"
 import { informationSetupSchema } from "@/schemas/consultantSchema"
 import { expertiseSetupSchema } from "@/schemas/expertiseSchema"
 
@@ -47,6 +50,7 @@ import { handleSelectImage, handleUploadImage } from "@/utils/images"
 
 import SetupCertificate from "./certificate"
 import SetupExpertise from "./expertise"
+import SetupImage from "./images"
 import SetupInformation from "./information"
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window")
@@ -137,15 +141,16 @@ function SetupConsultantScreen() {
       title: "Chứng chỉ",
       description: "Thêm thông tin chứng chỉ và tải lên ảnh chứng chỉ",
       component: SetupCertificate,
-      fields: [
-        "number",
-        "certificate",
-        "issueDate",
-        "expiryDate",
-        "issuedBy",
-        "imageUrls"
-      ],
+      fields: ["number", "certificate", "issueDate", "expiryDate", "issuedBy"],
       schema: certificateSetupSchema
+    },
+    {
+      step: 4,
+      title: "Hình ảnh",
+      description: "Tải lên hình ảnh chứng chỉ của bạn để hoàn tất hồ sơ",
+      component: SetupImage,
+      fields: ["imageUrls"],
+      schema: certificateImageSetupSchema
     }
   ]
 
@@ -248,6 +253,8 @@ function SetupConsultantScreen() {
     }
   }
 
+  console.log(errors)
+
   const handleApiSubmission = () => {
     setIsLoading(true)
 
@@ -275,7 +282,7 @@ function SetupConsultantScreen() {
       }
 
       console.log("Submitting data to API:", JSON.stringify(finalData, null, 2))
-      router.push("/(setup)/consultant/completed")
+      // router.push("/(setup)/consultant/completed")
     } catch (error) {
       console.error("Error during API submission:", error)
       setIsLoading(false)

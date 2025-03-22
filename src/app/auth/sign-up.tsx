@@ -23,12 +23,7 @@ import { useAuth } from "@/contexts/AuthContext"
 
 import { RegisterType, registerSchema } from "@/schemas/userSchema"
 
-interface SignUpDataType {
-  title: string
-  description: string
-}
-
-const signUpData: Record<string, SignUpDataType> = {
+const signUpData: { [key: string]: { title: string; description: string } } = {
   Member: {
     title: "Đăng Ký",
     description: "Đăng ký để theo dõi sức khỏe và dinh dưỡng hàng ngày"
@@ -62,7 +57,7 @@ function SignUpScreen() {
     }
   })
 
-  const handleSignIn = () => router.replace("/auth/sign-in")
+  const handleSignIn = () => router.replace(`/auth/sign-in?userType=${role}`)
 
   const onSubmit = async (registerData: RegisterType) => {
     setIsLoading(true)

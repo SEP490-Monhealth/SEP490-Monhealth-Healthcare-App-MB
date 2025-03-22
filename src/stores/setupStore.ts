@@ -9,8 +9,8 @@ interface SetupStoreState {
   height: number | undefined
   weight: number | undefined
   activityLevel: 1.2 | 1.375 | 1.55 | 1.725 | 1.9
-  goalType: GoalTypeEnum | undefined
   weightGoal: number | undefined
+  goalType: GoalTypeEnum | undefined
   caloriesRatio: number
   // categories: string[]
   allergies: string[]
@@ -25,8 +25,8 @@ export const useSetupStore = create<SetupStoreState>((set) => ({
   height: 170,
   weight: 50,
   activityLevel: 1.375,
-  goalType: GoalTypeEnum.WeightGain,
   weightGoal: 66,
+  goalType: GoalTypeEnum.WeightGain,
   caloriesRatio: 1.2,
 
   // categories: [
@@ -46,8 +46,8 @@ export const useSetupStore = create<SetupStoreState>((set) => ({
   // height: undefined,
   // weight: undefined,
   // activityLevel: 1.2,
-  // goalType: undefined,
   // weightGoal: undefined,
+  // goalType: undefined,
   // caloriesRatio: 1,
   // categories: [],
   // allergies: [],
@@ -65,8 +65,8 @@ export const useSetupStore = create<SetupStoreState>((set) => ({
       height: undefined,
       weight: undefined,
       activityLevel: 1.2,
-      goalType: undefined,
       weightGoal: undefined,
+      goalType: undefined,
       caloriesRatio: 1,
       // categories: [],
       allergies: []
