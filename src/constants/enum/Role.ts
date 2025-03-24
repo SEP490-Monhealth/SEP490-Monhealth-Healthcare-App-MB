@@ -1,8 +1,8 @@
 import { z } from "zod"
 
 export enum RoleEnum {
-  User,
   Member,
+  SubscriptionMember,
   Consultant,
   Admin
 }

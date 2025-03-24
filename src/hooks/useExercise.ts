@@ -3,21 +3,14 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
 
-import {
-  CreateExerciseType,
-  ExerciseType,
-  UpdateExerciseType
-} from "@/schemas/exerciseSchema"
+import { ExerciseType } from "@/schemas/exerciseSchema"
 import { WorkoutExerciseType } from "@/schemas/exerciseSchema"
 
 import {
-  createExercise,
-  deleteExercise,
   getAllExercises,
   getExerciseById,
   getExercisesByUserId,
-  getExercisesByWorkoutId,
-  updateExercise
+  getExercisesByWorkoutId
 } from "@/services/exerciseService"
 
 interface ExerciseResponse {
@@ -103,74 +96,5 @@ export const useGetExercisesByUserId = (
     },
     enabled: !!userId,
     staleTime: 1000 * 60 * 5
-  })
-}
-
-export const useCreateExercise = () => {
-  const queryClient = useQueryClient()
-  const handleError = useError()
-  const { showModal } = useModal()
-
-  return useMutation<string, Error, CreateExerciseType>({
-    mutationFn: async (newExercise) => {
-      try {
-        return await createExercise(newExercise, showModal)
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["exercisesAll"] })
-      queryClient.invalidateQueries({ queryKey: ["exerciseUser"] })
-    }
-  })
-}
-
-export const useUpdateExercise = () => {
-  const queryClient = useQueryClient()
-  const handleError = useError()
-  const { showModal } = useModal()
-
-  return useMutation<
-    string,
-    Error,
-    { exerciseId: string; exerciseData: UpdateExerciseType }
-  >({
-    mutationFn: async ({ exerciseId, exerciseData }) => {
-      try {
-        return await updateExercise(exerciseId, exerciseData, showModal)
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
-    },
-    onSuccess: (_data, { exerciseId }) => {
-      queryClient.invalidateQueries({
-        queryKey: ["exercise", exerciseId]
-      })
-      queryClient.invalidateQueries({ queryKey: ["exercisesAll"] })
-      queryClient.invalidateQueries({ queryKey: ["exerciseUser"] })
-    }
-  })
-}
-
-export const useDeleteExercise = () => {
-  const queryClient = useQueryClient()
-  const handleError = useError()
-
-  return useMutation<string, Error, string>({
-    mutationFn: async (exerciseId) => {
-      try {
-        return await deleteExercise(exerciseId)
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["exercisesAll"] })
-      queryClient.invalidateQueries({ queryKey: ["exerciseUser"] })
-    }
   })
 }

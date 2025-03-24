@@ -98,8 +98,6 @@ function WorkoutsScreen() {
     router.push(`/workouts/${workoutId}`)
   }
 
-  const handleViewUserWorkouts = () => router.push("/workouts/user")
-
   const FlatListHeader = useMemo(() => {
     return (
       <ListHeader className="pt-4">
@@ -109,11 +107,7 @@ function WorkoutsScreen() {
           onSelectType={setSelectedType}
         />
 
-        <Section
-          label="Danh sách bài tập"
-          actionText="Bài tập của tôi"
-          onPress={handleViewUserWorkouts}
-        />
+        <Section label="Danh sách bài tập" />
       </ListHeader>
     )
   }, [typesData, selectedType])

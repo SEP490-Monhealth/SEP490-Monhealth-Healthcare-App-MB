@@ -35,28 +35,6 @@ const baseExerciseSchema = z.object({
 
 export const exerciseSchema = baseExerciseSchema
 
-export const createExerciseSchema = baseExerciseSchema
-  .pick({
-    userId: true,
-    name: true,
-    instructions: true,
-    caloriesPerMinute: true
-  })
-  .extend({
-    caloriesPerMinute: z
-      .string()
-      .refine((val) => /^\d*\.?\d*$/.test(val), {
-        message: "Calories phải là số hợp lệ"
-      })
-      .transform((val) => parseFloat(val) || 0)
-  })
-
-export const updateExerciseSchema = baseExerciseSchema.pick({
-  name: true,
-  instructions: true,
-  caloriesPerMinute: true
-})
-
 export const workoutExerciseSchema = z.object({
   warmupDuration: z.number(),
   workoutDuration: z.number(),
@@ -66,7 +44,5 @@ export const workoutExerciseSchema = z.object({
 })
 
 export type ExerciseType = z.infer<typeof exerciseSchema>
-export type CreateExerciseType = z.infer<typeof createExerciseSchema>
-export type UpdateExerciseType = z.infer<typeof updateExerciseSchema>
 
 export type WorkoutExerciseType = z.infer<typeof workoutExerciseSchema>

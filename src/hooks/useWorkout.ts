@@ -1,14 +1,12 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 
 import { DifficultyLevelEnum } from "@/constants/enum/Workout"
 
 import { useError } from "@/contexts/ErrorContext"
-import { useModal } from "@/contexts/ModalContext"
 
-import { CreateWorkoutType, WorkoutType } from "@/schemas/workoutSchema"
+import { WorkoutType } from "@/schemas/workoutSchema"
 
 import {
-  createWorkout,
   getAllWorkouts,
   getWorkoutById,
   getWorkoutsByUserId
@@ -99,25 +97,5 @@ export const useGetWorkoutsByUserId = (
     },
     enabled: !!userId,
     staleTime: 1000 * 60 * 5
-  })
-}
-
-export const useCreateUserWorkout = () => {
-  const queryClient = useQueryClient()
-  const handleError = useError()
-  const { showModal } = useModal()
-
-  return useMutation<string, Error, CreateWorkoutType>({
-    mutationFn: async (newWorkoutData) => {
-      try {
-        return await createWorkout(newWorkoutData, showModal)
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["workouts"] })
-    }
   })
 }

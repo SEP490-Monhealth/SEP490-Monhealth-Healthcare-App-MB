@@ -4,7 +4,7 @@ import { DifficultyLevelEnum } from "@/constants/enum/Workout"
 
 import monAPI from "@/lib/monAPI"
 
-import { CreateWorkoutType, WorkoutType } from "@/schemas/workoutSchema"
+import { WorkoutType } from "@/schemas/workoutSchema"
 
 interface WorkoutResponse {
   workouts: WorkoutType[]
@@ -115,44 +115,6 @@ export const getWorkoutById = async (
       console.log("Lỗi từ server:", error.response?.data || error.message)
       throw error
     } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
-    }
-  }
-}
-
-export const createWorkout = async (
-  newWorkout: CreateWorkoutType,
-  showModal: (message: string) => void
-): Promise<string> => {
-  try {
-    const response = await monAPI.post(`/workouts`, newWorkout)
-
-    const { success, message } = response.data
-
-    if (!success) {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể tạo bài tập"
-      }
-    }
-
-    showModal(message || "Tạo bài tập thành công")
-
-    console.log(message)
-    return message
-  } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      showModal("Đã xảy ra lỗi khi tạo bài tập")
-
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      showModal("Đã xảy ra lỗi không mong muốn")
-
       console.log("Lỗi không phải Axios:", error)
       throw {
         isCustomError: true,

@@ -52,20 +52,4 @@ const baseWorkoutSchema = z.object({
 
 export const workoutSchema = baseWorkoutSchema
 
-export const createWorkoutSchema = z.object({
-  category: z.string(),
-  userId: z.string(),
-
-  name: workoutSchema.shape.name,
-  description: workoutSchema.shape.description,
-  difficultyLevel: workoutSchema.shape.difficultyLevel,
-
-  exercises: z.array(createWorkoutExerciseSchema).min(3, {
-    message: "Số lượng bài tập phải lớn hơn hoặc bằng 3"
-  }),
-
-  isPublic: workoutSchema.shape.isPublic
-})
-
 export type WorkoutType = z.infer<typeof workoutSchema>
-export type CreateWorkoutType = z.infer<typeof createWorkoutSchema>
