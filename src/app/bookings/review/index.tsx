@@ -9,8 +9,9 @@ import {
   TouchableOpacity
 } from "react-native"
 
-import { useLocalSearchParams } from "expo-router"
+import { useLocalSearchParams, useRouter } from "expo-router"
 
+import { LoadingScreen } from "@/app/loading"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Star } from "lucide-react-native"
 import { Controller, useForm } from "react-hook-form"
@@ -27,10 +28,12 @@ import {
 } from "@/components/global/atoms"
 import { Header, Section } from "@/components/global/organisms"
 
-import { sampleBookingsData } from "@/constants/bookings"
 import { COLORS } from "@/constants/color"
 
 import { useAuth } from "@/contexts/AuthContext"
+
+import { useGetBookingById } from "@/hooks/useBooking"
+import { useCreateReview } from "@/hooks/useReview"
 
 import { CreateReviewType, createReviewSchema } from "@/schemas/reviewSchema"
 
@@ -45,6 +48,8 @@ const quickReviewsData = [
 ]
 
 function ReviewCreateScreen() {
+  const router = useRouter()
+
   const { bookingId } = useLocalSearchParams<{ bookingId: string }>()
 
   const { user } = useAuth()
@@ -52,9 +57,9 @@ function ReviewCreateScreen() {
 
   const scrollViewRef = useRef<ScrollView>(null)
 
-  const bookingData = sampleBookingsData.find(
-    (bookingData) => bookingData.bookingId === bookingId
-  )
+  const { mutate: createReview } = useCreateReview()
+
+  const { data: bookingData, isLoading } = useGetBookingById(bookingId)
 
   const [ratingNumber, setRatingNumber] = useState<number>(0)
   const [selectedReviews, setSelectedReviews] = useState<string[]>([])
@@ -90,16 +95,28 @@ function ReviewCreateScreen() {
 
   const onSubmit = async (reviewData: CreateReviewType) => {
     const comment = `${selectedReviews.join(" - ")}. ${reviewData.comment}`
-
     const finalData = { ...reviewData, comment: comment }
 
     console.log("Final Data:", JSON.stringify(finalData, null, 2))
+
+    await createReview(finalData, {
+      onSuccess: () => {
+        router.replace({
+          pathname: "/bookings/user",
+          params: { tab: "history" }
+        })
+      }
+    })
   }
 
   const scrollToInput = () => {
     setTimeout(() => {
       scrollViewRef.current?.scrollToEnd({ animated: true })
     }, 50)
+  }
+
+  if (!bookingData || isLoading) {
+    return <LoadingScreen />
   }
 
   return (
@@ -127,12 +144,12 @@ function ReviewCreateScreen() {
                 <VStack center gap={12}>
                   <VStack center gap={8}>
                     <Image
-                      source={{ uri: bookingData?.consultantAvatar }}
+                      source={{ uri: bookingData?.consultant.avatarUrl }}
                       className="h-32 w-32 rounded-2xl border border-border"
                     />
 
                     <Text className="font-tbold text-xl text-primary">
-                      {bookingData?.consultant}
+                      {bookingData?.consultant.fullName}
                     </Text>
                   </VStack>
 
