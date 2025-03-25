@@ -16,7 +16,7 @@ function SetupCompleted() {
     <Container>
       <View className="flex-1 justify-center">
         <ErrorDisplay
-          imageSource={require("../../../../public/images/monhealth-congratulations.png")}
+          imageSource={require("../../../../public/images/monhealth-congratulations-image.png")}
           title="Cài đặt hoàn tất"
           description="Bạn đã sẵn sàng để sử dụng ứng dụng!"
         />

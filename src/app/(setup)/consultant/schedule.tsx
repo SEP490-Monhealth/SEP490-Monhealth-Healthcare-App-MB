@@ -144,7 +144,6 @@ function SetupSchedule() {
         ? prev.filter((d) => d !== day)
         : sortDays([...prev, day])
 
-      // Cập nhật selectedTimeSlots khi ngày được thêm vào
       if (
         !prev.includes(day) &&
         !selectedTimeSlots.some((slot) => slot.dayOfWeek === day)
@@ -155,7 +154,6 @@ function SetupSchedule() {
         ])
       }
 
-      // Cập nhật cách tạo schedules để làm việc với cấu trúc dữ liệu mới
       const schedules = updatedDays.map((day) => {
         const dayTimeSlot = selectedTimeSlots.find(
           (slot) => slot.dayOfWeek === day
@@ -178,15 +176,12 @@ function SetupSchedule() {
 
   const toggleTimeSlot = (day: RecurringDayEnum, time: string) => {
     setSelectedTimeSlots((prevSlots) => {
-      // Tìm slot cho ngày tương ứng
       const dayIndex = prevSlots.findIndex((slot) => slot.dayOfWeek === day)
       const updatedSlots = [...prevSlots]
 
-      // Nếu không tìm thấy, tạo mới
       if (dayIndex === -1) {
         updatedSlots.push({ dayOfWeek: day, timeSlots: [time] })
       } else {
-        // Nếu đã tồn tại, toggle time slot
         const currentTimeSlots = [...updatedSlots[dayIndex].timeSlots]
         const timeIndex = currentTimeSlots.indexOf(time)
 
@@ -202,7 +197,6 @@ function SetupSchedule() {
         }
       }
 
-      // Cập nhật schedules
       const schedules = selectedDays.map((day) => {
         const dayTimeSlot = updatedSlots.find((slot) => slot.dayOfWeek === day)
         return {
@@ -244,7 +238,6 @@ function SetupSchedule() {
 
       console.log(`Selected time for day ${selectedDay}: ${timeString}`)
 
-      // Kiểm tra xem thời gian đã được chọn chưa
       const daySlot = selectedTimeSlots.find(
         (slot) => slot.dayOfWeek === selectedDay
       )
@@ -268,7 +261,7 @@ function SetupSchedule() {
     }
   }
 
-  // console.log(errors)
+  console.log(errors)
 
   if (!scheduleTimeSlotsData || isScheduleTimeSlotsLoading)
     return <LoadingScreen />

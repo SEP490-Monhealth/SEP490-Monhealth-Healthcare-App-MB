@@ -255,7 +255,7 @@ function SetupConsultantScreen() {
 
   console.log(errors)
 
-  const handleApiSubmission = () => {
+  const handleSubmission = () => {
     setIsLoading(true)
 
     try {
@@ -396,7 +396,7 @@ function SetupConsultantScreen() {
           cancelText="Hủy"
           confirmText="Đồng ý"
           onConfirm={() => {
-            handleApiSubmission()
+            handleSubmission()
           }}
           onClose={() => setIsModalVisible(false)}
         />
