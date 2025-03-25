@@ -36,8 +36,8 @@ export const getAllScheduleTimeSlots = async (): Promise<TimeSlot[]> => {
 
 export const getSchedulesByConsultantId = async (
   consultantId: string | undefined,
-  date: string
-): Promise<ScheduleType> => {
+  date?: string
+): Promise<ScheduleType[]> => {
   try {
     const response = await monAPI.get(`/schedules/consultant/${consultantId}`, {
       params: { date }
@@ -46,7 +46,7 @@ export const getSchedulesByConsultantId = async (
     const { success, message, data } = response.data
 
     if (success) {
-      return data as ScheduleType
+      return data as ScheduleType[]
     } else {
       throw {
         isCustomError: true,

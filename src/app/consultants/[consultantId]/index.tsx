@@ -1,16 +1,17 @@
-import React, { useState } from "react"
+import React, { useCallback, useState } from "react"
 
 import { Image, Text, View } from "react-native"
 
-import { useLocalSearchParams } from "expo-router"
+import { useLocalSearchParams, useRouter } from "expo-router"
 
-import { LoadingScreen } from "@/app/loading"
+import { LoadingOverlay, LoadingScreen } from "@/app/loading"
 
 import {
   Button,
   Container,
   Content,
   HStack,
+  Modal,
   ScrollArea,
   Tabs,
   TabsContent,
@@ -30,97 +31,150 @@ import {
 
 import { useGetConsultantById } from "@/hooks/useConsultant"
 
+import { useBookingStore } from "@/stores/bookingStore"
+
 function ConsultantDetailsScreen() {
+  const router = useRouter()
+
   const { tab } = useLocalSearchParams<{ tab: string }>()
   const { consultantId } = useLocalSearchParams() as { consultantId: string }
 
-  const { data: consultantData, isLoading } = useGetConsultantById(consultantId)
+  const { date } = useBookingStore()
 
-  const [activeTab, setActiveTab] = useState(tab || "info")
+  const { data: consultantData, isLoading: isConsultantLoading } =
+    useGetConsultantById(consultantId)
+
+  const [activeTab, setActiveTab] = useState<string>(tab || "info")
+  const [loading, setLoading] = useState<boolean>(false)
+  const [overlayLoading, setOverlayLoading] = useState<boolean>(false)
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab)
   }
 
-  if (!consultantData || isLoading) return <LoadingScreen />
+  const handleLoading = useCallback((isLoading: boolean) => {
+    setLoading(isLoading)
+  }, [])
+
+  const handleOverlayLoading = useCallback((isLoading: boolean) => {
+    setOverlayLoading(isLoading)
+  }, [])
+
+  const handleBooking = () => {
+    console.log(date)
+
+    const dateTime =
+      (date && /^\d{4}-\d{2}-\d{2}$/.test(date)) ||
+      new Date(date).toTimeString().split(" ")[0] === "00:00:00"
+
+    if (dateTime) {
+      setIsModalVisible(true)
+      return
+    }
+
+    router.push({
+      pathname: "/bookings",
+      params: { consultantId, bookingDate: date }
+    })
+  }
+
+  if (!consultantData || isConsultantLoading) return <LoadingScreen />
 
   return (
-    <Container>
-      <Header back label={consultantData.fullName} />
+    <>
+      <Container>
+        <LoadingOverlay visible={overlayLoading} />
 
-      <Content className="mt-2">
-        <ScrollArea className="flex-1">
-          <View className="pb-12">
-            <VStack gap={20}>
-              <HStack center gap={20}>
-                <Image
-                  source={{ uri: consultantData.avatarUrl }}
-                  className="h-24 w-24 rounded-2xl border border-border"
-                />
+        <Header back label={consultantData.fullName} />
 
-                <VStack gap={8}>
-                  <VStack gap={0}>
-                    <Text className="font-tbold text-2xl text-primary">
-                      {consultantData.fullName}
-                    </Text>
-
-                    <Text className="font-tmedium text-base text-accent">
-                      {consultantData.expertise}
-                    </Text>
-                  </VStack>
-
-                  <RatingStars
-                    rating={consultantData.averageRating}
-                    count={consultantData.ratingCount}
-                    showCount
+        <Content className="mt-2">
+          <ScrollArea className="flex-1">
+            <View className="pb-12">
+              <VStack gap={20}>
+                <HStack center gap={20}>
+                  <Image
+                    source={{ uri: consultantData.avatarUrl }}
+                    className="h-24 w-24 rounded-2xl border border-border"
                   />
-                </VStack>
-              </HStack>
 
-              <ConsultantOverview
-                experience={consultantData.experience}
-                patients={0}
-                rating={consultantData.averageRating}
-              />
-            </VStack>
+                  <VStack gap={8}>
+                    <VStack gap={0}>
+                      <Text className="font-tbold text-2xl text-primary">
+                        {consultantData.fullName}
+                      </Text>
 
-            <Button className="mt-4">Gửi tin nhắn</Button>
+                      <Text className="font-tmedium text-base text-accent">
+                        {consultantData.expertise}
+                      </Text>
+                    </VStack>
 
-            <Tabs
-              defaultValue={activeTab}
-              contentMarginTop={8}
-              className="mt-6"
-            >
-              <TabsList>
-                <TabsTrigger value="info" onChange={handleTabChange}>
-                  Thông tin
-                </TabsTrigger>
+                    <RatingStars
+                      rating={consultantData.averageRating}
+                      count={consultantData.ratingCount}
+                      showCount
+                    />
+                  </VStack>
+                </HStack>
 
-                <TabsTrigger value="certificate" onChange={handleTabChange}>
-                  Chứng chỉ
-                </TabsTrigger>
+                <ConsultantOverview
+                  experience={consultantData.experience}
+                  patients={0}
+                  rating={consultantData.averageRating}
+                />
+              </VStack>
 
-                <TabsTrigger value="review" onChange={handleTabChange}>
-                  Đánh giá
-                </TabsTrigger>
-              </TabsList>
+              <Button onPress={handleBooking} className="mt-4">
+                Đặt lịch hẹn
+              </Button>
 
-              <TabsContent value="info">
-                <InformationTab />
-              </TabsContent>
+              <Tabs
+                defaultValue={activeTab}
+                contentMarginTop={8}
+                className="mt-6"
+              >
+                <TabsList>
+                  <TabsTrigger value="info" onChange={handleTabChange}>
+                    Thông tin
+                  </TabsTrigger>
 
-              <TabsContent value="certificate">
-                <CertificateTab />
-              </TabsContent>
+                  <TabsTrigger value="certificate" onChange={handleTabChange}>
+                    Chứng chỉ
+                  </TabsTrigger>
 
-              <TabsContent value="review">
-                <ReviewTab />
-              </TabsContent>
-            </Tabs>
-          </View>
-        </ScrollArea>
-      </Content>
-    </Container>
+                  <TabsTrigger value="review" onChange={handleTabChange}>
+                    Đánh giá
+                  </TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="info">
+                  <InformationTab
+                    onLoading={handleLoading}
+                    onOverlayLoading={handleOverlayLoading}
+                  />
+                </TabsContent>
+
+                <TabsContent value="certificate">
+                  <CertificateTab />
+                </TabsContent>
+
+                <TabsContent value="review">
+                  <ReviewTab />
+                </TabsContent>
+              </Tabs>
+            </View>
+          </ScrollArea>
+        </Content>
+      </Container>
+
+      <Modal
+        isVisible={isModalVisible}
+        title="Cảnh báo"
+        description="Vui lòng chọn thời gian để đặt lịch hẹn"
+        confirmText="Đồng ý"
+        onClose={() => setIsModalVisible(false)}
+      />
+    </>
   )
 }
 

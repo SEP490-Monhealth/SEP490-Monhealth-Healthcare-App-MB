@@ -7,28 +7,14 @@ import {
 } from "@/constants/enum/Schedule"
 
 import { timestampFields, uuidSchema } from "./baseSchema"
+import { waterReminderSchema } from "./waterReminderSchema"
 
-const scheduleTimeSlotSchema = z.object({
-  scheduleTimeSlotId: uuidSchema,
-  scheduleId: uuidSchema,
-  timeSlotId: uuidSchema,
-
-  status: ScheduleTimeSlotStatusSchemaEnum,
-
-  ...timestampFields
+const timeSlotSchema = z.object({
+  startTime: waterReminderSchema.shape.time,
+  status: ScheduleTimeSlotStatusSchemaEnum
 })
 
-export const timeSlotSchema = z.object({
-  timeSlotId: uuidSchema,
-
-  startTime: z
-    .string()
-    .nonempty({ message: "Thời gian bắt đầu không được để trống" }),
-
-  ...timestampFields
-})
-
-const baseScheduleSchema = z.object({
+const scheduleSchema = z.object({
   scheduleId: uuidSchema,
   consultantId: uuidSchema,
 
@@ -37,12 +23,10 @@ const baseScheduleSchema = z.object({
   recurringDay: RecurringDaySchemaEnum.optional(),
   specificDate: z.string().optional(),
 
-  scheduleTimeSlots: z.array(scheduleTimeSlotSchema),
+  timeSlots: z.array(timeSlotSchema),
 
   ...timestampFields
 })
-
-export const scheduleSchema = baseScheduleSchema
 
 const scheduleItemSchema = z.object({
   recurringDay: RecurringDaySchemaEnum.nullable().optional(),

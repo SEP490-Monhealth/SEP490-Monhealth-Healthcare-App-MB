@@ -15,12 +15,12 @@ import {
 
 export const useGetSchedulesByConsultantId = (
   consultantId: string | undefined,
-  date: string
+  date?: string
 ) => {
   const handleError = useError()
 
-  return useQuery<ScheduleType, Error>({
-    queryKey: ["schedules", consultantId],
+  return useQuery<ScheduleType[], Error>({
+    queryKey: ["schedules", consultantId, date],
     queryFn: async () => {
       try {
         return await getSchedulesByConsultantId(consultantId, date)
