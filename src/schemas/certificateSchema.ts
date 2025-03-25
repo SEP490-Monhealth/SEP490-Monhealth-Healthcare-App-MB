@@ -21,7 +21,7 @@ const baseCertificateSchema = z.object({
     .array(z.string().nonempty("Đường dẫn hình ảnh không hợp lệ"))
     .min(1, { message: "Cần ít nhất một hình ảnh" }),
 
-  status: z.boolean(),
+  isVerified: z.boolean(),
 
   ...timestampFields
 })

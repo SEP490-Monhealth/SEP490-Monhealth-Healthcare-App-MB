@@ -4,7 +4,7 @@ import { auditFields, uuidSchema } from "./baseSchema"
 
 const roles = ["User", "Member", "Consultant", "Admin"]
 
-const baseUserSchema = z.object({
+export const userSchema = z.object({
   userId: uuidSchema,
 
   fullName: z
@@ -46,19 +46,17 @@ const baseUserSchema = z.object({
   ...auditFields
 })
 
-export const userSchema = baseUserSchema
-
-export const updateUserSchema = baseUserSchema.pick({
+export const updateUserSchema = userSchema.pick({
   fullName: true,
   email: true,
   phoneNumber: true
 })
 
-export const updateUserAvatarSchema = baseUserSchema.pick({
+export const updateUserAvatarSchema = userSchema.pick({
   avatarUrl: true
 })
 
-export const phoneNumberSchema = baseUserSchema.pick({
+export const phoneNumberSchema = userSchema.pick({
   phoneNumber: true
 })
 
@@ -78,12 +76,12 @@ export const updatePasswordUserSchema = z.object({
   newPassword: userSchema.shape.password
 })
 
-export const loginSchema = baseUserSchema.pick({
+export const loginSchema = userSchema.pick({
   phoneNumber: true,
   password: true
 })
 
-export const registerSchema = baseUserSchema.pick({
+export const registerSchema = userSchema.pick({
   fullName: true,
   phoneNumber: true,
   email: true,

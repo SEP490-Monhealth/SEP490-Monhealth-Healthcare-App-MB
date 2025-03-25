@@ -7,7 +7,7 @@ import { CalendarCircle, TimerStart } from "iconsax-react-native"
 import { COLORS } from "@/constants/color"
 import { BookingStatusEnum } from "@/constants/enum/Booking"
 
-import { formatDate } from "@/utils/formatters"
+import { formatDate, formatTime } from "@/utils/formatters"
 import { getBookingColor, getBookingLabel } from "@/utils/helpers"
 
 import { Badge, Button, Card, CardHeader, HStack, VStack } from "../atoms"
@@ -16,11 +16,12 @@ interface BookingCardProps {
   variant?: "default" | "consultant"
   name: string
   date: string
-  time: string
-  status: number
+  status: BookingStatusEnum
   notes?: string
+  cancellationReason?: string
   onPress?: () => void
   onConfirmPress?: () => void
+  onCompletePress?: () => void
   onCancelPress?: () => void
   onReviewPress?: () => void
 }
@@ -29,11 +30,12 @@ export const BookingCard = ({
   variant = "default",
   name,
   date,
-  time,
   status,
   notes,
+  cancellationReason,
   onPress,
   onConfirmPress,
+  onCompletePress,
   onCancelPress,
   onReviewPress
 }: BookingCardProps) => {
@@ -57,7 +59,9 @@ export const BookingCard = ({
             numberOfLines={2}
             ellipsizeMode="tail"
           >
-            {notes}
+            {status === BookingStatusEnum.Cancelled
+              ? cancellationReason
+              : notes}
           </Text>
         </VStack>
 
@@ -73,7 +77,9 @@ export const BookingCard = ({
 
           <HStack center gap={6}>
             <TimerStart variant="Bold" size={20} color={COLORS.secondary} />
-            <Text className="font-tmedium text-sm text-accent">{time}</Text>
+            <Text className="font-tmedium text-sm text-accent">
+              {formatTime(date)}
+            </Text>
           </HStack>
         </HStack>
 
@@ -85,6 +91,28 @@ export const BookingCard = ({
             className="flex-1"
           >
             Hủy
+          </Button>
+        )}
+
+        {variant === "default" && status === BookingStatusEnum.Confirmed && (
+          <Button
+            variant="primary"
+            size="sm"
+            onPress={onCompletePress}
+            className="flex-1"
+          >
+            Hoàn thành
+          </Button>
+        )}
+
+        {variant === "default" && status === BookingStatusEnum.Completed && (
+          <Button
+            variant="primary"
+            size="sm"
+            onPress={onReviewPress}
+            className="flex-1"
+          >
+            Phản hồi
           </Button>
         )}
 
@@ -103,17 +131,6 @@ export const BookingCard = ({
               Xác nhận
             </Button>
           </HStack>
-        )}
-
-        {variant === "default" && status === BookingStatusEnum.Completed && (
-          <Button
-            variant="primary"
-            size="sm"
-            onPress={onReviewPress}
-            className="flex-1"
-          >
-            Phản hồi
-          </Button>
         )}
       </VStack>
     </Card>

@@ -2,6 +2,8 @@ import React, { useState } from "react"
 
 import { useLocalSearchParams, useRouter } from "expo-router"
 
+import { LoadingScreen } from "@/app/loading"
+
 import {
   Container,
   Content,
@@ -13,13 +15,17 @@ import {
   TabsTrigger,
   VStack
 } from "@/components/global/atoms"
-import { BookingCard } from "@/components/global/molecules"
+import { BookingCard, ErrorDisplay } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
-import { sampleBookingsData } from "@/constants/bookings"
 import { BookingStatusEnum } from "@/constants/enum/Booking"
 
 import { useAuth } from "@/contexts/AuthContext"
+
+import {
+  useGetBookingsByUserId,
+  useUpdateBookingStatus
+} from "@/hooks/useBooking"
 
 function BookingsUserScreen() {
   const router = useRouter()
@@ -29,15 +35,18 @@ function BookingsUserScreen() {
   const { user } = useAuth()
   const userId = user?.userId
 
-  const bookingsData = sampleBookingsData
+  // const bookingsData = sampleBookingsData
+
+  const { mutate: updateBookingStatus } = useUpdateBookingStatus()
+
+  const { data: bookingsData, isLoading } = useGetBookingsByUserId(userId)
 
   const [activeTab, setActiveTab] = useState(tab || "pending")
+  const [modalType, setModalType] = useState<"cancel" | "complete">("cancel")
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
-  const [selectedBookingId, setSelectedBookingId] = useState<string | null>(
-    null
-  )
+  const [selectedBooking, setSelectedBooking] = useState<string | null>(null)
 
-  const filteredBookingsData = bookingsData.filter((booking) => {
+  const filteredBookingsData = bookingsData?.filter((booking) => {
     if (activeTab === "pending") {
       return booking.status === BookingStatusEnum.Pending
     }
@@ -55,20 +64,41 @@ function BookingsUserScreen() {
   }
 
   const handleCancel = (bookingId: string) => {
-    setSelectedBookingId(bookingId)
+    setSelectedBooking(bookingId)
+    setModalType("cancel")
     setIsModalVisible(true)
   }
 
-  const handleConfirmCancel = () => {
-    if (selectedBookingId) {
-      setIsModalVisible(false)
-      router.push(`/bookings/cancel?bookingId=${selectedBookingId}`)
-    }
-    setSelectedBookingId(null)
+  const handleComplete = (bookingId: string) => {
+    setSelectedBooking(bookingId)
+    setModalType("complete")
+    setIsModalVisible(true)
   }
 
-  const handleConfirm = (bookingId: string) => {
-    console.log("Confirm booking id", bookingId)
+  const handleConfirmAction = () => {
+    if (selectedBooking) {
+      setIsModalVisible(false)
+
+      if (modalType === "cancel") {
+        router.push({
+          pathname: "/bookings/cancel",
+          params: { bookingId: selectedBooking }
+        })
+      } else if (modalType === "complete") {
+        updateBookingStatus(
+          { bookingId: selectedBooking },
+          {
+            onSuccess: () => {
+              router.replace({
+                pathname: "/bookings/user",
+                params: { tab: "history" }
+              })
+            }
+          }
+        )
+      }
+    }
+    setSelectedBooking(null)
   }
 
   const handleViewBooking = (bookingId: string) => {
@@ -76,7 +106,14 @@ function BookingsUserScreen() {
   }
 
   const handleReview = (bookingId: string) => {
-    router.push(`/bookings/review?bookingId=${bookingId}`)
+    router.push({
+      pathname: "/bookings/review",
+      params: { bookingId }
+    })
+  }
+
+  if (!bookingsData || isLoading) {
+    return <LoadingScreen />
   }
 
   return (
@@ -102,23 +139,33 @@ function BookingsUserScreen() {
               </TabsList>
 
               <TabsContent value={activeTab}>
-                <VStack gap={12}>
-                  {filteredBookingsData.map((booking) => (
-                    <BookingCard
-                      key={booking.bookingId}
-                      variant="default"
-                      name={booking.consultant}
-                      date={booking.date}
-                      time={booking.time}
-                      notes={booking.notes}
-                      status={booking.status}
-                      onPress={() => handleViewBooking(booking.bookingId)}
-                      onCancelPress={() => handleCancel(booking.bookingId)}
-                      onConfirmPress={() => handleConfirm(booking.bookingId)}
-                      onReviewPress={() => handleReview(booking.bookingId)}
-                    />
-                  ))}
-                </VStack>
+                {filteredBookingsData && filteredBookingsData.length > 0 ? (
+                  <VStack gap={12}>
+                    {filteredBookingsData?.map((booking) => (
+                      <BookingCard
+                        key={booking.bookingId}
+                        name={booking.consultant.fullName}
+                        date={booking.date}
+                        notes={booking.notes}
+                        status={booking.status}
+                        cancellationReason={booking.cancellationReason}
+                        onPress={() => handleViewBooking(booking.bookingId)}
+                        onCancelPress={() => handleCancel(booking.bookingId)}
+                        onCompletePress={() =>
+                          handleComplete(booking.bookingId)
+                        }
+                        onReviewPress={() => handleReview(booking.bookingId)}
+                      />
+                    ))}
+                  </VStack>
+                ) : (
+                  <ErrorDisplay
+                    imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
+                    title="Chưa có lịch hẹn"
+                    description="Bạn chưa có lịch hẹn nào ở đây!"
+                    marginTop={24}
+                  />
+                )}
               </TabsContent>
             </Tabs>
           </ScrollArea>
@@ -128,11 +175,15 @@ function BookingsUserScreen() {
       <Modal
         isVisible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
-        title="Hủy lịch hẹn"
-        description="Bạn có chắc chắn muốn hủy lịch hẹn này không?"
+        title={modalType === "cancel" ? "Hủy lịch hẹn" : "Hoàn thành lịch hẹn"}
+        description={
+          modalType === "cancel"
+            ? "Bạn có chắc chắn muốn hủy lịch hẹn này không?"
+            : "Bạn có chắc chắn muốn đánh dấu lịch hẹn này là hoàn thành không?"
+        }
         confirmText="Đồng ý"
         cancelText="Hủy"
-        onConfirm={handleConfirmCancel}
+        onConfirm={handleConfirmAction}
       />
     </>
   )

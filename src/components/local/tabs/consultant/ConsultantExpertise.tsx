@@ -22,7 +22,7 @@ export const ConsultantExpertise = ({
       <ScrollArea orientation="horizontal" className="flex-1">
         {expertise.map((expertise, index) => (
           <Chip
-            key={expertise}
+            key={`expertise-${index}`}
             label={expertise}
             selected={selectedExpertise === expertise}
             onPress={() => onSelectExpertise(expertise)}
