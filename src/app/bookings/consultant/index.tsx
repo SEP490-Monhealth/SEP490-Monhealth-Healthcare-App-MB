@@ -20,8 +20,10 @@ import { Header } from "@/components/global/organisms"
 
 import { BookingStatusEnum } from "@/constants/enum/Booking"
 
+import { useAuth } from "@/contexts/AuthContext"
+
 import {
-  useGetBookingsByConsultantId,
+  useGetBookingsByUserId,
   useUpdateBookingStatus
 } from "@/hooks/useBooking"
 
@@ -30,12 +32,12 @@ function BookingsConsultantScreen() {
 
   const { tab } = useLocalSearchParams<{ tab: string }>()
 
-  const consultantId = "122DC7DF-16DE-49A3-AB83-5299686F6203"
+  const { user } = useAuth()
+  const userId = user?.userId
 
   const { mutate: updateBookingStatus } = useUpdateBookingStatus()
 
-  const { data: bookingsData, isLoading } =
-    useGetBookingsByConsultantId(consultantId)
+  const { data: bookingsData, isLoading } = useGetBookingsByUserId(userId)
 
   const [activeTab, setActiveTab] = useState(tab || "pending")
   const [modalType, setModalType] = useState<"cancel" | "confirm">("cancel")

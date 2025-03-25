@@ -35,8 +35,6 @@ function BookingsUserScreen() {
   const { user } = useAuth()
   const userId = user?.userId
 
-  // const bookingsData = sampleBookingsData
-
   const { mutate: updateBookingStatus } = useUpdateBookingStatus()
 
   const { data: bookingsData, isLoading } = useGetBookingsByUserId(userId)

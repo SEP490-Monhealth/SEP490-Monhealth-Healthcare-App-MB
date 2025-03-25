@@ -1,7 +1,6 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 
 import { useError } from "@/contexts/ErrorContext"
-import { useModal } from "@/contexts/ModalContext"
 
 import { ExerciseType } from "@/schemas/exerciseSchema"
 import { WorkoutExerciseType } from "@/schemas/exerciseSchema"

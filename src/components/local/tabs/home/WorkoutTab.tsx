@@ -11,8 +11,6 @@ import { HStack, Progress, VStack } from "@/components/global/atoms"
 import { WorkoutCard } from "@/components/global/molecules/WorkoutCard"
 import { Section } from "@/components/global/organisms"
 
-import { sampleWorkoutDailyData } from "@/constants/dailyWorkouts"
-
 import { useAuth } from "@/contexts/AuthContext"
 
 import { useGetDailyActivityByUserId } from "@/hooks/useDailyWorkout"

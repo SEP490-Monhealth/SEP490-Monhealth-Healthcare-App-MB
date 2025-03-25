@@ -30,6 +30,7 @@ import { COLORS } from "@/constants/color"
 import { CategoryTypeEnum } from "@/constants/enum/Category"
 
 import { useAuth } from "@/contexts/AuthContext"
+import { useSearch } from "@/contexts/SearchContext"
 import { useStorage } from "@/contexts/StorageContext"
 
 import { useGetCategoriesByType } from "@/hooks/useCategory"
@@ -50,12 +51,9 @@ function FoodsScreen() {
   const { user } = useAuth()
   const userId = user?.userId
 
-  const {
-    userAllergies,
-    searchFoodHistory,
-    addSearchFoodHistory,
-    clearSearchFoodHistory
-  } = useStorage()
+  const { userAllergies } = useStorage()
+  const { searchFoodHistory, addSearchFoodHistory, clearSearchFoodHistory } =
+    useSearch()
 
   const { mutate: addMeal } = useCreateMeal()
 
@@ -166,7 +164,7 @@ function FoodsScreen() {
   }
 
   const handleViewFood = (foodId: string, foodName: string) => {
-    addSearchFoodHistory(foodName)
+    addSearchFoodHistory({ foodId, name: foodName })
     router.push(`/foods/${foodId}`)
   }
 
@@ -192,12 +190,12 @@ function FoodsScreen() {
         )}
 
         <HStack gap={6} className="flex-wrap">
-          {searchFoodHistory.map((search, index) => (
+          {searchFoodHistory.map((search) => (
             <TouchableOpacity
-              key={index}
-              onPress={() => handleViewFood(search, search)}
+              key={search.foodId}
+              onPress={() => handleViewFood(search.foodId, search.name)}
             >
-              <Badge label={search} />
+              <Badge label={search.name} />
             </TouchableOpacity>
           ))}
         </HStack>

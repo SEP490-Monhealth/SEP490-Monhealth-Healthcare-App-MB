@@ -1,6 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react"
 
-import { ActivityIndicator, FlatList, Keyboard, View } from "react-native"
+import {
+  ActivityIndicator,
+  FlatList,
+  Keyboard,
+  TouchableOpacity,
+  View
+} from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -26,7 +32,7 @@ import ConsultantExpertise from "@/components/local/tabs/consultant/ConsultantEx
 
 import { COLORS } from "@/constants/color"
 
-import { useStorage } from "@/contexts/StorageContext"
+import { useSearch } from "@/contexts/SearchContext"
 
 import { useGetAllConsultants } from "@/hooks/useConsultant"
 import { useDebounce } from "@/hooks/useDebounce"
@@ -41,7 +47,7 @@ function ConsultantScreen() {
     searchConsultantHistory,
     addSearchConsultantHistory,
     clearSearchConsultantHistory
-  } = useStorage()
+  } = useSearch()
 
   const [consultantsData, setConsultantsData] = useState<ConsultantType[]>([])
   const [page, setPage] = useState<number>(1)
@@ -105,7 +111,7 @@ function ConsultantScreen() {
   }
 
   const handleViewConsultant = (consultantId: string, fullName: string) => {
-    addSearchConsultantHistory(fullName)
+    addSearchConsultantHistory({ consultantId, fullName })
     router.push(`/consultants/${consultantId}`)
   }
 
@@ -128,7 +134,14 @@ function ConsultantScreen() {
 
         <HStack gap={6} className="flex-wrap">
           {searchConsultantHistory.map((search, index) => (
-            <Badge key={index} label={search} />
+            <TouchableOpacity
+              key={index}
+              onPress={() =>
+                handleViewConsultant(search.consultantId, search.fullName)
+              }
+            >
+              <Badge key={index} label={search.fullName} />
+            </TouchableOpacity>
           ))}
         </HStack>
 

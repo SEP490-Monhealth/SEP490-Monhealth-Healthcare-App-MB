@@ -24,9 +24,9 @@ function FoodUserScreen() {
   const router = useRouter()
 
   const { user } = useAuth()
-  // const userId = user?.userId
+  const userId = user?.userId
 
-  const userId = "3026595f-1414-4b74-be8f-11b7f6e7f4f6"
+  // const userId = "3026595f-1414-4b74-be8f-11b7f6e7f4f6"
 
   const [foodsData, setFoodsData] = useState<FoodType[]>([])
   const [page, setPage] = useState<number>(1)
