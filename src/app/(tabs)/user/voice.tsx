@@ -26,20 +26,16 @@ function VoiceScreen() {
     router.push("/(setup)/user")
   }
 
-  const handleViewBooking = () => {
-    router.push("/bookings/consultant")
+  const handleViewUserBooking = () => {
+    router.push("/bookings/user")
   }
 
-  const handleCreateWorkout = () => {
-    router.push("/workouts/create")
+  const handleViewConsultantBooking = () => {
+    router.push("/bookings/consultant")
   }
 
   const handleCreateSchedule = () => {
     router.push("/(setup)/consultant/schedule")
-  }
-
-  const handleCreateExercise = () => {
-    router.push("/exercises/create")
   }
 
   const handleTeleport = () => {
@@ -71,16 +67,12 @@ function VoiceScreen() {
               Create Schedule
             </Button>
 
-            <Button size="lg" onPress={handleViewBooking}>
+            <Button size="lg" onPress={handleViewUserBooking}>
+              User Booking
+            </Button>
+
+            <Button size="lg" onPress={handleViewConsultantBooking}>
               Consultant Booking
-            </Button>
-
-            <Button size="lg" onPress={handleCreateWorkout}>
-              Create Workout
-            </Button>
-
-            <Button size="lg" onPress={handleCreateExercise}>
-              Create Exercise
             </Button>
 
             <Button size="lg" onPress={handleTeleport}>

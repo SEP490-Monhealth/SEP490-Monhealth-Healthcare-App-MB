@@ -171,7 +171,9 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
     router.push(`/meals/${mealId}`)
   }
 
-  const handleViewFoods = () => router.push("/foods")
+  const handleViewFoods = () => {
+    router.push("/foods")
+  }
 
   return (
     <View className="mt-4">

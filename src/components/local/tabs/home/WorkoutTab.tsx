@@ -15,6 +15,9 @@ import { sampleWorkoutDailyData } from "@/constants/dailyWorkouts"
 
 import { useAuth } from "@/contexts/AuthContext"
 
+import { useGetDailyActivityByUserId } from "@/hooks/useDailyWorkout"
+import { useGetWorkoutGoal } from "@/hooks/useGoal"
+
 import { formatDateY, toFixed } from "@/utils/formatters"
 
 import { WorkoutProgress } from "./WorkoutProgress"
@@ -36,42 +39,66 @@ export const WorkoutTab = ({
 
   const today = formatDateY(new Date())
 
-  const workoutData = sampleWorkoutDailyData[0]
+  const { data: dailyActivityData, isLoading: isDailyActivityLoading } =
+    useGetDailyActivityByUserId(userId, today)
+
+  console.log(dailyActivityData)
+
+  const { data: workoutGoalData, isLoading: isGoalLoading } =
+    useGetWorkoutGoal(userId)
+
+  // const workoutGoalData = {
+  //   caloriesIntakeGoal: 200,
+  //   caloriesBurnedGoal: 500,
+  //   durationGoal: 100,
+  //   stepsGoal: 1300
+  // }
 
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()
 
-  const workoutGoalData = {
-    caloriesIntakeGoal: 200,
-    caloriesBurnedGoal: 500,
-    durationGoal: 100,
-    stepsGoal: 1300
-  }
+  useEffect(() => {
+    if (onLoading) {
+      onLoading(
+        !dailyActivityData ||
+          isDailyActivityLoading ||
+          !isDailyActivityLoading ||
+          isGoalLoading
+      )
+    }
+  }, [
+    dailyActivityData,
+    isDailyActivityLoading,
+    isDailyActivityLoading,
+    isGoalLoading,
+    onLoading
+  ])
 
-  const caloriesBurnedValue = workoutData?.progress?.caloriesBurned || 0
+  useEffect(() => {
+    if (onOverlayLoading) {
+      onOverlayLoading(isFetching > 0 || isMutating > 0)
+    }
+  }, [isFetching, isMutating, onOverlayLoading])
+
+  const caloriesBurnedValue = dailyActivityData?.totalCaloriesBurned || 0
   const caloriesBurnedGoal = workoutGoalData?.caloriesBurnedGoal || 0
 
   const caloriesBurnedData = {
     label: "Calories",
-    value: workoutData?.progress?.caloriesBurned || 0,
+    value: dailyActivityData?.totalCaloriesBurned || 0,
     targetValue: caloriesBurnedGoal
   }
 
   const workoutsData = [
     {
       label: "Đã nạp",
-      value: workoutData?.progress?.caloriesBurned || 0,
-      targetValue: workoutGoalData?.caloriesIntakeGoal || 0
+      value: toFixed(dailyActivityData?.totalCaloriesBurned ?? 0, 0) || 0,
+      targetValue: toFixed(workoutGoalData?.caloriesBurnedGoal ?? 0, 0)
     },
     {
       label: "Thời gian",
-      value: workoutData?.progress?.duration || 0,
-      targetValue: workoutGoalData?.durationGoal || 0
-    },
-    {
-      label: "Số bước",
-      value: workoutData?.progress?.steps || 0,
-      targetValue: workoutGoalData?.stepsGoal || 0
+      value: dailyActivityData?.totalDuration || 0,
+      targetValue: workoutGoalData?.workoutDurationGoal || 0
     }
   ]
 
@@ -80,17 +107,7 @@ export const WorkoutTab = ({
       ? (caloriesBurnedValue / caloriesBurnedGoal) * 100
       : 0
 
-  useEffect(() => {
-    if (onOverlayLoading) {
-      onOverlayLoading(isFetching > 0 || isMutating > 0)
-    }
-  }, [isFetching, isMutating, onOverlayLoading])
-
   const handleViewWorkouts = () => router.push("/workouts")
-
-  const handleViewWorkout = (workoutId: string) => {
-    router.push(`/workouts/${workoutId}`)
-  }
 
   return (
     <View className="mt-4">
@@ -117,8 +134,8 @@ export const WorkoutTab = ({
         onPress={handleViewWorkouts}
       />
 
-      <VStack gap={12}>
-        {workoutData.items.map((item) => (
+      {/* <VStack gap={12}>
+        {dailyActivityData.map((item) => (
           <WorkoutCard
             key={item.workoutId}
             name={item.name}
@@ -128,7 +145,7 @@ export const WorkoutTab = ({
             onPress={() => handleViewWorkout(item.workoutId)}
           />
         ))}
-      </VStack>
+      </VStack> */}
     </View>
   )
 }

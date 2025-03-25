@@ -4,83 +4,103 @@ import { View } from "react-native"
 
 import { useLocalSearchParams, useRouter } from "expo-router"
 
-import { LoadingScreen } from "@/app/loading"
+import { useIsFetching, useIsMutating } from "@tanstack/react-query"
 
 import { TimeSlotSelector } from "@/components/global/molecules"
 import { DaySelector } from "@/components/global/molecules/DaySelector"
 import { Section } from "@/components/global/organisms"
 
-import { sampleConsultantsData } from "@/constants/consultants"
-import { sampleSchedulesData } from "@/constants/schedules"
+import { useGetConsultantById } from "@/hooks/useConsultant"
+import { useGetSchedulesByConsultantId } from "@/hooks/useSchedule"
+
+import { useBookingStore } from "@/stores/bookingStore"
 
 import { ConsultantBio } from "./ConsultantBio"
 
-export const InformationTab = () => {
-  const router = useRouter()
-  const { consultantId, selectedDate: newSelectedDate } =
-    useLocalSearchParams() as { consultantId: string; selectedDate?: string }
+interface InformationTabProps {
+  onLoading: (isLoading: boolean) => void
+  onOverlayLoading: (isLoading: boolean) => void
+}
 
-  const consultantData = sampleConsultantsData.find(
-    (c) => c.consultantId === consultantId
-  )
-  const schedulesData = sampleSchedulesData
+export const InformationTab = ({
+  onLoading,
+  onOverlayLoading
+}: InformationTabProps) => {
+  const router = useRouter()
+  const { consultantId } = useLocalSearchParams() as { consultantId: string }
 
   const today = new Date().toISOString().split("T")[0]
 
+  const { date: storedDate, updateField } = useBookingStore()
+
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
-  const [selectedScheduleId, setSelectedScheduleId] = useState<string | null>(
-    null
-  )
+  const [selectedTime, setSelectedTime] = useState<string | null>(null)
+
+  const { data: consultantData, isLoading: isConsultantLoading } =
+    useGetConsultantById(consultantId)
+  const { data: schedulesData, isLoading: isSchedulesLoading } =
+    useGetSchedulesByConsultantId(consultantId, selectedDate ?? "")
+
+  const isFetching = useIsFetching()
+  const isMutating = useIsMutating()
 
   useEffect(() => {
-    if (newSelectedDate) {
-      const formattedDate = newSelectedDate.split("T")[0]
-      setSelectedDate(formattedDate)
-    } else {
-      setSelectedDate(today)
+    if (selectedDate) {
+      updateField("date", selectedDate)
     }
-  }, [newSelectedDate])
+  }, [selectedDate, updateField])
 
-  console.log("🚀 Final Selected Date:", selectedDate)
+  useEffect(() => {
+    onLoading?.(
+      isConsultantLoading ||
+        isSchedulesLoading ||
+        !consultantData ||
+        !schedulesData
+    )
+  }, [
+    consultantData,
+    isConsultantLoading,
+    schedulesData,
+    isSchedulesLoading,
+    onLoading
+  ])
 
-  const selectedSchedule = schedulesData.find(
-    (schedule) => schedule.scheduleId === selectedScheduleId
-  )
-
-  const timezoneOffset = new Date().getTimezoneOffset() * 60000
-
-  const bookingDate =
-    selectedDate && selectedSchedule
-      ? new Date(
-          new Date(`${selectedDate}T${selectedSchedule.time}:00`).getTime() -
-            timezoneOffset
-        ).toISOString()
-      : null
-
-  // console.log(bookingDate)
+  useEffect(() => {
+    onOverlayLoading?.(isFetching > 0 || isMutating > 0)
+  }, [isFetching, isMutating, onOverlayLoading])
 
   const handleDateSelect = (date: string) => {
     const formattedDate = new Date(date).toISOString().split("T")[0]
     setSelectedDate(formattedDate)
-    console.log("🚀 Selected Date:", formattedDate)
   }
 
-  const handleScheduleSelect = (scheduleId: string) => {
-    setSelectedScheduleId(scheduleId)
+  const handleScheduleSelect = (time: string) => {
+    setSelectedTime(time)
+
+    const timezoneOffset = new Date().getTimezoneOffset() * 60000
+    const bookingDate = new Date(
+      new Date(`${selectedDate}T${time}`).getTime() - timezoneOffset
+    ).toISOString()
+
+    updateField("date", bookingDate)
   }
+
+  useEffect(() => {
+    if (storedDate) {
+      const formattedDate = storedDate.split("T")[0]
+      setSelectedDate(formattedDate)
+    } else {
+      setSelectedDate(today)
+    }
+  }, [storedDate, today])
 
   const handleViewCalendar = () => {
-    router.push({
-      pathname: "/consultants/calendar",
-      params: { selectedDate }
-    })
+    router.push({ pathname: "/consultants/calendar", params: { selectedDate } })
   }
-
-  if (!consultantData) return <LoadingScreen />
 
   return (
     <View className="mt-2 pb-10">
-      <ConsultantBio bio={consultantData.bio} />
+      {consultantData && <ConsultantBio bio={consultantData.bio} />}
 
       <Section
         label="Ngày đặt lịch"
@@ -96,15 +116,17 @@ export const InformationTab = () => {
       <Section label="Thời gian" />
 
       <View className="flex-row flex-wrap gap-x-2 gap-y-3">
-        {schedulesData.map((schedule) => (
-          <TimeSlotSelector
-            key={schedule.scheduleId}
-            time={schedule.time}
-            isSelected={selectedScheduleId === schedule.scheduleId}
-            status={schedule.status}
-            onPress={() => handleScheduleSelect(schedule.scheduleId)}
-          />
-        ))}
+        {schedulesData?.map((schedule) =>
+          schedule.timeSlots.map((slot) => (
+            <TimeSlotSelector
+              key={slot.startTime}
+              time={slot.startTime}
+              isSelected={selectedTime === slot.startTime}
+              status={slot.status}
+              onPress={() => handleScheduleSelect(slot.startTime)}
+            />
+          ))
+        )}
       </View>
     </View>
   )
