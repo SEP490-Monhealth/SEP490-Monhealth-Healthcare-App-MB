@@ -163,7 +163,7 @@ export const formatDateTime = (dateString: string): string => {
   const year = date.getUTCFullYear()
 
   // Format the date and time in UTC
-  return `${hours}h${minutes}, ${day}/${month}/${year}`
+  return `${hours}:${minutes}, ${day}/${month}/${year}`
 }
 
 /**
@@ -175,5 +175,5 @@ export const formatTime = (isoString: string): string => {
   const date = new Date(isoString)
   const hours = date.getHours().toString().padStart(2, "0")
   const minutes = date.getMinutes().toString().padStart(2, "0")
-  return `${hours}:${minutes}`
+  return `${hours}h${minutes}`
 }

@@ -16,8 +16,9 @@ interface BookingCardProps {
   variant?: "default" | "consultant"
   name: string
   date: string
-  status: BookingStatusEnum
   notes?: string
+  reviewed: boolean
+  status: BookingStatusEnum
   cancellationReason?: string
   onPress?: () => void
   onConfirmPress?: () => void
@@ -30,8 +31,9 @@ export const BookingCard = ({
   variant = "default",
   name,
   date,
-  status,
   notes,
+  reviewed,
+  status,
   cancellationReason,
   onPress,
   onConfirmPress,
@@ -105,16 +107,18 @@ export const BookingCard = ({
           </Button>
         )}
 
-        {variant === "default" && status === BookingStatusEnum.Completed && (
-          <Button
-            variant="primary"
-            size="sm"
-            onPress={onReviewPress}
-            className="flex-1"
-          >
-            Phản hồi
-          </Button>
-        )}
+        {variant === "default" &&
+          status === BookingStatusEnum.Completed &&
+          !reviewed && (
+            <Button
+              variant="primary"
+              size="sm"
+              onPress={onReviewPress}
+              className="flex-1"
+            >
+              Phản hồi
+            </Button>
+          )}
 
         {variant === "consultant" && status === BookingStatusEnum.Pending && (
           <HStack gap={16}>

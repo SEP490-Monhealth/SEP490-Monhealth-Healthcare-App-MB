@@ -29,6 +29,8 @@ const bookingSchema = z.object({
   notes: z.string().optional(),
   cancellationReason: z.string().optional(),
 
+  isReviewed: z.boolean().default(false),
+
   status: BookingStatusSchemaEnum,
 
   ...auditFields
