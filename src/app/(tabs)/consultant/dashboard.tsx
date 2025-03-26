@@ -61,7 +61,7 @@ function DashboardScreen() {
       <ScrollArea>
         <Content className="pb-12">
           <VStack className="px-2">
-            <Text className="font-tbold text-xl text-primary">Tổng quan</Text>
+            <Text className="font-tbold text-xl text-secondary">Tổng quan</Text>
 
             <HStack className="-mb-2 items-center justify-between">
               <Text className="font-tbold text-2xl text-primary">

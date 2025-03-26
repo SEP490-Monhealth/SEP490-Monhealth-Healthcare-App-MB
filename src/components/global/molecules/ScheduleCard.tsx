@@ -5,26 +5,28 @@ import { Text, View } from "react-native"
 import { COLORS } from "@/constants/color"
 import { BookingStatusEnum } from "@/constants/enum/Booking"
 
-import { getBookingIcon } from "@/utils/helpers"
+import {
+  getBookingColor,
+  getBookingIcon,
+  getBookingLabel
+} from "@/utils/helpers"
 
-import { Card, CardHeader, VStack } from "../atoms"
+import { Badge, Card, CardHeader, HStack, VStack } from "../atoms"
 import { IconButton } from "./IconButton"
 
 interface ScheduleCardProps {
+  member: string
   startTime: string
-  endTime?: string | null
-  customer: string
-  status: BookingStatusEnum
   notes?: string
+  status: BookingStatusEnum
   onPress?: () => void
 }
 
 export const ScheduleCard = ({
+  member,
   startTime,
-  endTime,
-  customer,
-  status,
   notes,
+  status,
   onPress
 }: ScheduleCardProps) => {
   const BookingIcon = getBookingIcon(status)
@@ -44,13 +46,21 @@ export const ScheduleCard = ({
       </VStack>
 
       <View className="flex-1 flex-col gap-2">
-        <Text className="ml-2 mt-3 font-tmedium text-base text-primary">
-          {startTime}
-          {endTime && ` - ${endTime}`}
-        </Text>
+        <HStack center className="mr-1 justify-between">
+          <Text className="ml-2 font-tmedium text-base text-primary">
+            {startTime}
+          </Text>
+
+          <Badge
+            label={getBookingLabel(status)}
+            background={getBookingColor(status)}
+            color="#fff"
+            rounded
+          />
+        </HStack>
 
         <Card onPress={onPress}>
-          <CardHeader label={customer} />
+          <CardHeader label={member} />
 
           <Text
             className="font-tregular text-sm text-accent"

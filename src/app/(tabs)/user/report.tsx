@@ -124,7 +124,7 @@ function ReportScreen() {
 
             <TabsContent value="meal" contentMarginTop={16}>
               <VStack className="px-2">
-                <Text className="font-tbold text-xl text-primary">
+                <Text className="font-tbold text-xl text-secondary">
                   Tổng quan
                 </Text>
 

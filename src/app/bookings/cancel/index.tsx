@@ -19,6 +19,8 @@ import {
 } from "@/components/global/atoms"
 import { Header, Section } from "@/components/global/organisms"
 
+import { useAuth } from "@/contexts/AuthContext"
+
 import { useCancelBooking } from "@/hooks/useBooking"
 
 import { CancelBookingType, cancelBookingSchema } from "@/schemas/bookingSchema"
@@ -35,6 +37,9 @@ const cancellationReasons = [
 
 function BookingCancelScreen() {
   const router = useRouter()
+
+  const { user } = useAuth()
+  const userRole = user?.role
 
   const { bookingId } = useLocalSearchParams<{ bookingId: string }>()
 
@@ -97,10 +102,17 @@ function BookingCancelScreen() {
       { bookingId, cancellationReason: cancel },
       {
         onSuccess: () => {
-          router.replace({
-            pathname: "/bookings/user",
-            params: { tab: "history" }
-          })
+          if (userRole === "user") {
+            router.replace({
+              pathname: "/bookings/user",
+              params: { tab: "history" }
+            })
+          } else if (userRole === "consultant") {
+            router.replace({
+              pathname: "/(tabs)/consultant/booking",
+              params: { tab: "cancelled" }
+            })
+          }
         },
         onError: (error) => {
           alert("Đã xảy ra lỗi khi hủy lịch hẹn. Vui lòng thử lại.")

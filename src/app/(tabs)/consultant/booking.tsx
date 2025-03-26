@@ -1,78 +1,178 @@
 import React, { useState } from "react"
 
-import { View } from "react-native"
+import { useLocalSearchParams, useRouter } from "expo-router"
+
+import { LoadingScreen } from "@/app/loading"
 
 import {
   Container,
   Content,
-  Schedule,
+  Modal,
   ScrollArea,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
   VStack
 } from "@/components/global/atoms"
-import { ScheduleCard } from "@/components/global/molecules"
-import { Header, Section } from "@/components/global/organisms"
+import { BookingCard, ErrorDisplay } from "@/components/global/molecules"
+import { Header } from "@/components/global/organisms"
 
-import { sampleBookingsData } from "@/constants/bookings"
+import { BookingStatusEnum } from "@/constants/enum/Booking"
 
-function BookingScreen() {
-  const bookingsData = sampleBookingsData
+import { useAuth } from "@/contexts/AuthContext"
 
-  const today = new Date()
+import {
+  useGetBookingsByUserId,
+  useUpdateBookingStatus
+} from "@/hooks/useBooking"
 
-  const [selectedDate, setSelectedDate] = useState<string | null>(
-    today.toISOString()
-  )
-  const [selectedSCheduleId, setSelectedSCheduleId] = useState<string | null>(
-    null
-  )
+function BookingsScreen() {
+  const router = useRouter()
 
-  console.log(selectedSCheduleId)
+  const { tab } = useLocalSearchParams<{ tab: string }>()
 
-  const handleDateSelect = (date: string) => {
-    setSelectedDate(date)
-    console.log(date)
+  const { user } = useAuth()
+  const userId = user?.userId
+
+  const { mutate: updateBookingStatus } = useUpdateBookingStatus()
+
+  const { data: bookingsData, isLoading } = useGetBookingsByUserId(userId)
+
+  const [activeTab, setActiveTab] = useState(tab || "pending")
+  const [modalType, setModalType] = useState<"cancel" | "confirm">("cancel")
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+  const [selectedBooking, setSelectedBooking] = useState<string | null>(null)
+
+  const tabStatusMap: Record<string, BookingStatusEnum> = {
+    pending: BookingStatusEnum.Pending,
+    confirmed: BookingStatusEnum.Confirmed,
+    completed: BookingStatusEnum.Completed,
+    cancelled: BookingStatusEnum.Cancelled
   }
 
-  const handleSelectSchedule = (scheduleId: string) => {
-    setSelectedSCheduleId(scheduleId)
+  const filteredBookingsData = bookingsData?.filter(
+    (booking) => booking.status === tabStatusMap[activeTab]
+  )
+
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab)
+  }
+
+  const handleCancel = (bookingId: string) => {
+    setSelectedBooking(bookingId)
+    setModalType("cancel")
+    setIsModalVisible(true)
+  }
+
+  const handleConfirm = (bookingId: string) => {
+    setSelectedBooking(bookingId)
+    setModalType("confirm")
+    setIsModalVisible(true)
+  }
+
+  const handleConfirmAction = () => {
+    if (selectedBooking) {
+      setIsModalVisible(false)
+
+      if (modalType === "cancel") {
+        router.push({
+          pathname: "/bookings/cancel",
+          params: { bookingId: selectedBooking }
+        })
+      } else if (modalType === "confirm") {
+        updateBookingStatus(
+          { bookingId: selectedBooking },
+          {
+            onSuccess: () => {
+              router.replace({
+                pathname: "/(tabs)/consultant/bookings",
+                params: { tab: "confirmed" }
+              })
+            }
+          }
+        )
+      }
+    }
+    setSelectedBooking(null)
+  }
+
+  if (!bookingsData || isLoading) {
+    return <LoadingScreen />
   }
 
   return (
-    <Container>
-      <Header label="Lịch hẹn" />
+    <>
+      <Container>
+        <Header back label="Lịch hẹn" />
 
-      <Content className="mt-2">
-        <ScrollArea className="flex-1">
-          <VStack className="pb-12">
-            <Schedule initialDate={today} onDateSelect={handleDateSelect} />
+        <Content className="mt-2">
+          <ScrollArea className="flex-1">
+            <Tabs defaultValue={activeTab} contentMarginTop={12}>
+              <TabsList scrollable>
+                <TabsTrigger value="pending" onChange={handleTabChange}>
+                  Chờ xác nhận
+                </TabsTrigger>
 
-            <VStack>
-              <Section label="Danh sách lịch hẹn" />
+                <TabsTrigger value="confirmed" onChange={handleTabChange}>
+                  Đã xác nhận
+                </TabsTrigger>
 
-              {bookingsData.map((schedule) => {
-                const endTime =
-                  schedule.updatedAt !== schedule.createdAt
-                    ? schedule.updatedAt.split("T")[1].slice(0, 5)
-                    : null
+                <TabsTrigger value="completed" onChange={handleTabChange}>
+                  Hoàn thành
+                </TabsTrigger>
 
-                return (
-                  <ScheduleCard
-                    key={schedule.scheduleId}
-                    customer={schedule.customer}
-                    startTime={schedule.time}
-                    endTime={endTime}
-                    status={schedule.status}
-                    notes={schedule.notes}
-                    onPress={() => handleSelectSchedule(schedule.scheduleId)}
+                <TabsTrigger value="cancelled" onChange={handleTabChange}>
+                  Đã hủy
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value={activeTab}>
+                {filteredBookingsData && filteredBookingsData.length > 0 ? (
+                  <VStack gap={12}>
+                    {filteredBookingsData?.map((booking) => (
+                      <BookingCard
+                        key={booking.bookingId}
+                        variant="consultant"
+                        name={booking.consultant.fullName}
+                        date={booking.date}
+                        notes={booking.notes}
+                        status={booking.status}
+                        cancellationReason={booking.cancellationReason}
+                        onCancelPress={() => handleCancel(booking.bookingId)}
+                        onConfirmPress={() => handleConfirm(booking.bookingId)}
+                      />
+                    ))}
+                  </VStack>
+                ) : (
+                  <ErrorDisplay
+                    imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
+                    title="Chưa có lịch hẹn"
+                    description="Bạn chưa có lịch hẹn nào ở đây!"
+                    marginTop={24}
                   />
-                )
-              })}
-            </VStack>
-          </VStack>
-        </ScrollArea>
-      </Content>
-    </Container>
+                )}
+              </TabsContent>
+            </Tabs>
+          </ScrollArea>
+        </Content>
+      </Container>
+
+      <Modal
+        isVisible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+        title={modalType === "cancel" ? "Hủy lịch hẹn" : "Xác nhận lịch hẹn"}
+        description={
+          modalType === "cancel"
+            ? "Bạn có chắc chắn muốn hủy lịch hẹn này không?"
+            : "Bạn có chắc chắn muốn xác nhận lịch hẹn này không?"
+        }
+        confirmText="Đồng ý"
+        cancelText="Hủy"
+        onConfirm={handleConfirmAction}
+      />
+    </>
   )
 }
 
-export default BookingScreen
+export default BookingsScreen

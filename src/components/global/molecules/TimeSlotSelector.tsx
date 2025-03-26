@@ -32,7 +32,7 @@ export const TimeSlotSelector = ({
       activeOpacity={0.7}
       onPress={onPress}
       className={cn(
-        "items-center rounded-xl border border-border px-6 py-3",
+        "items-center rounded-xl border border-border px-5 py-3",
         isSelected ? "bg-primary" : "bg-card"
       )}
     >

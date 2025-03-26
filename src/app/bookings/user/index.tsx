@@ -99,10 +99,6 @@ function BookingsUserScreen() {
     setSelectedBooking(null)
   }
 
-  const handleViewBooking = (bookingId: string) => {
-    router.push(`/bookings/${bookingId}`)
-  }
-
   const handleReview = (bookingId: string) => {
     router.push({
       pathname: "/bookings/review",
@@ -148,7 +144,6 @@ function BookingsUserScreen() {
                         reviewed={booking.isReviewed}
                         status={booking.status}
                         cancellationReason={booking.cancellationReason}
-                        onPress={() => handleViewBooking(booking.bookingId)}
                         onCancelPress={() => handleCancel(booking.bookingId)}
                         onCompletePress={() =>
                           handleComplete(booking.bookingId)

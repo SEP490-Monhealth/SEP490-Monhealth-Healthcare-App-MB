@@ -109,6 +109,8 @@ function ReviewCreateScreen() {
     })
   }
 
+  console.log(errors)
+
   const scrollToInput = () => {
     setTimeout(() => {
       scrollViewRef.current?.scrollToEnd({ animated: true })

@@ -9,6 +9,7 @@ import {
   I3Dcube,
   Lock1,
   Logout,
+  Message,
   NotificationStatus,
   Profile,
   Ram,
@@ -36,9 +37,9 @@ export const userRoutes: RouteType[] = [
 
 export const consultantRoutes: RouteType[] = [
   { name: "dashboard", label: "Trang chủ", icon: Home2 },
-  { name: "booking", label: "Lịch hẹn", icon: Ram },
-  { name: "voice", label: "", icon: Sound, main: true },
   { name: "schedule", label: "Lịch trình", icon: Calendar2 },
+  { name: "chat", label: "", icon: Message, main: true },
+  { name: "booking", label: "Lịch hẹn", icon: Ram },
   { name: "settings", label: "Cài đặt", icon: Setting }
 ]
 

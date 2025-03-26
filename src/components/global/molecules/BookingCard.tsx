@@ -17,10 +17,9 @@ interface BookingCardProps {
   name: string
   date: string
   notes?: string
-  reviewed: boolean
+  reviewed?: boolean
   status: BookingStatusEnum
   cancellationReason?: string
-  onPress?: () => void
   onConfirmPress?: () => void
   onCompletePress?: () => void
   onCancelPress?: () => void
@@ -35,14 +34,13 @@ export const BookingCard = ({
   reviewed,
   status,
   cancellationReason,
-  onPress,
   onConfirmPress,
   onCompletePress,
   onCancelPress,
   onReviewPress
 }: BookingCardProps) => {
   return (
-    <Card onPress={onPress}>
+    <Card>
       <VStack gap={12}>
         <VStack>
           <HStack center className="justify-between">
@@ -109,7 +107,7 @@ export const BookingCard = ({
 
         {variant === "default" &&
           status === BookingStatusEnum.Completed &&
-          !reviewed && (
+          reviewed && (
             <Button
               variant="primary"
               size="sm"
