@@ -26,14 +26,16 @@ import { useAuth } from "@/contexts/AuthContext"
 
 import { useGetNutritionGoal } from "@/hooks/useGoal"
 
+const labels = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"]
+
 const data = [
-  { label: "T2", date: "2025-02-03", calories: 500 },
-  { label: "T3", date: "2025-02-04", calories: 1500 },
-  { label: "T4", date: "2025-02-05", calories: 2500 },
-  { label: "T5", date: "2025-02-06", calories: 1000 },
-  { label: "T6", date: "2025-02-07", calories: 700 },
-  { label: "T7", date: "2025-02-08", calories: 800 },
-  { label: "CN", date: "2025-02-09", calories: 2000 }
+  { date: "2025-02-03", calories: 500 },
+  { date: "2025-02-04", calories: 1500 },
+  { date: "2025-02-05", calories: 2500 },
+  { date: "2025-02-06", calories: 1000 },
+  { date: "2025-02-07", calories: 700 },
+  { date: "2025-02-08", calories: 800 },
+  { date: "2025-02-09", calories: 2000 }
 ]
 
 function ReportScreen() {
@@ -46,7 +48,6 @@ function ReportScreen() {
   // const today = new Date().toISOString().split("T")[0]
   const today = "2025-02-08"
 
-  const labels = data.map((item) => item.label)
   const caloriesData = data.map((item) => item.calories)
 
   const totalCalories = caloriesData.reduce((a, b) => a + b, 0)

@@ -21,6 +21,11 @@ export const TimeSlotSelector = ({
 }: TimeSlotSelectorProps) => {
   const isDisabled = status !== ScheduleTimeSlotStatusEnum.Available
 
+  const formatTime = (time: string) => {
+    const [hour, minute] = time.split(":")
+    return `${hour}h${minute}`
+  }
+
   return (
     <TouchableOpacity
       disabled={isDisabled}
@@ -41,7 +46,7 @@ export const TimeSlotSelector = ({
               : "text-primary"
         )}
       >
-        {time}
+        {formatTime(time)}
       </Text>
     </TouchableOpacity>
   )

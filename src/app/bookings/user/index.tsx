@@ -145,6 +145,7 @@ function BookingsUserScreen() {
                         name={booking.consultant.fullName}
                         date={booking.date}
                         notes={booking.notes}
+                        reviewed={booking.isReviewed}
                         status={booking.status}
                         cancellationReason={booking.cancellationReason}
                         onPress={() => handleViewBooking(booking.bookingId)}
