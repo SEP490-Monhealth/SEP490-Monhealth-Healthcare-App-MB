@@ -14,13 +14,14 @@ import { Header, Section } from "@/components/global/organisms"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useGetBookingsByUserId } from "@/hooks/useBooking"
+import { useGetBookingsByConsultantId } from "@/hooks/useBooking"
 
 function BookingScreen() {
   const { user } = useAuth()
-  const userId = user?.userId
+  const consultantId = user?.consultantId
 
-  const { data: bookingsData, isLoading } = useGetBookingsByUserId(userId)
+  const { data: bookingsData, isLoading } =
+    useGetBookingsByConsultantId(consultantId)
 
   const today = new Date()
 
@@ -58,19 +59,30 @@ function BookingScreen() {
             <Section label="Danh sách lịch hẹn" />
 
             <VStack gap={0}>
-              {bookingsData.map((schedule) => (
-                <ScheduleCard
-                  key={schedule.bookingId}
-                  member={schedule.member.fullName}
-                  startTime={schedule.date
-                    .split("T")[1]
-                    .slice(0, 5)
-                    .replace(":", "h")}
-                  notes={schedule.notes}
-                  status={schedule.status}
-                  onPress={() => handleSelectSchedule(schedule.bookingId)}
-                />
-              ))}
+              {bookingsData
+                .slice()
+                .sort((a, b) => {
+                  const timeA =
+                    parseInt(a.date.split("T")[1].slice(0, 2)) * 60 +
+                    parseInt(a.date.split("T")[1].slice(3, 5))
+                  const timeB =
+                    parseInt(b.date.split("T")[1].slice(0, 2)) * 60 +
+                    parseInt(b.date.split("T")[1].slice(3, 5))
+                  return timeA - timeB
+                })
+                .map((schedule) => (
+                  <ScheduleCard
+                    key={schedule.bookingId}
+                    member={schedule.member.fullName}
+                    startTime={schedule.date
+                      .split("T")[1]
+                      .slice(0, 5)
+                      .replace(":", "h")}
+                    notes={schedule.notes}
+                    status={schedule.status}
+                    onPress={() => handleSelectSchedule(schedule.bookingId)}
+                  />
+                ))}
             </VStack>
           </VStack>
         </ScrollArea>

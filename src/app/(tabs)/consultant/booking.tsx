@@ -23,7 +23,7 @@ import { BookingStatusEnum } from "@/constants/enum/Booking"
 import { useAuth } from "@/contexts/AuthContext"
 
 import {
-  useGetBookingsByUserId,
+  useGetBookingsByConsultantId,
   useUpdateBookingStatus
 } from "@/hooks/useBooking"
 
@@ -33,11 +33,14 @@ function BookingsScreen() {
   const { tab } = useLocalSearchParams<{ tab: string }>()
 
   const { user } = useAuth()
-  const userId = user?.userId
+  const consultantId = user?.consultantId
+
+  console.log(consultantId)
 
   const { mutate: updateBookingStatus } = useUpdateBookingStatus()
 
-  const { data: bookingsData, isLoading } = useGetBookingsByUserId(userId)
+  const { data: bookingsData, isLoading } =
+    useGetBookingsByConsultantId(consultantId)
 
   const [activeTab, setActiveTab] = useState(tab || "pending")
   const [modalType, setModalType] = useState<"cancel" | "confirm">("cancel")

@@ -9,6 +9,7 @@ import {
   cancelBooking,
   createBooking,
   getBookingById,
+  getBookingsByConsultantId,
   getBookingsByUserId,
   updateBookingStatus
 } from "@/services/bookingService"
@@ -30,6 +31,27 @@ export const useGetBookingsByUserId = (userId: string | undefined) => {
     staleTime: 1000 * 60 * 5
   })
 }
+
+export const useGetBookingsByConsultantId = (
+  consultantId: string | undefined
+) => {
+  const handleError = useError()
+
+  return useQuery<BookingType[], Error>({
+    queryKey: ["bookings", consultantId],
+    queryFn: async () => {
+      try {
+        return await getBookingsByConsultantId(consultantId)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    enabled: !!consultantId,
+    staleTime: 1000 * 60 * 5
+  })
+}
+
 export const useGetBookingById = (foodId: string) => {
   const handleError = useError()
 
