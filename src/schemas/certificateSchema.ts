@@ -2,7 +2,7 @@ import { z } from "zod"
 
 import { timestampFields, uuidSchema } from "./baseSchema"
 
-const baseCertificateSchema = z.object({
+const certificateSchema = z.object({
   certificateId: uuidSchema,
   consultantId: uuidSchema,
   expertiseId: uuidSchema,
@@ -24,21 +24,6 @@ const baseCertificateSchema = z.object({
   isVerified: z.boolean(),
 
   ...timestampFields
-})
-
-export const certificateSchema = baseCertificateSchema.pick({
-  certificateId: true,
-  consultantId: true,
-  expertiseId: true,
-
-  number: true,
-  name: true,
-
-  issueDate: true,
-  expiryDate: true,
-  issuedBy: true,
-
-  imageUrls: true
 })
 
 export const certificateSetupSchema = z.object({
