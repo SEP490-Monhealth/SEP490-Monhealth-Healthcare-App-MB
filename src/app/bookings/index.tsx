@@ -70,7 +70,7 @@ function BookingsScreen() {
 
       await createBooking(data, {
         onSuccess: () => {
-          router.push("/bookings/user")
+          router.replace("/bookings/user")
         }
       })
     } catch (error) {

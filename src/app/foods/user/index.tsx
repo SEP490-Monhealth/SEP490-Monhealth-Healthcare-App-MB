@@ -7,7 +7,12 @@ import { useRouter } from "expo-router"
 import { Add } from "iconsax-react-native"
 
 import { Container, Content } from "@/components/global/atoms"
-import { FoodCard, ListFooter, ListHeader } from "@/components/global/molecules"
+import {
+  ErrorDisplay,
+  FoodCard,
+  ListFooter,
+  ListHeader
+} from "@/components/global/molecules"
 import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
@@ -77,7 +82,7 @@ function FoodUserScreen() {
     router.push(`/foods/${foodId}`)
   }
 
-  if (!foodsData && isLoading) return <LoadingScreen />
+  if (foodsData.length === 0 && isLoading) return <LoadingScreen />
 
   return (
     <Container>
@@ -129,6 +134,14 @@ function FoodUserScreen() {
             ) : (
               <ListFooter />
             )
+          }
+          ListEmptyComponent={
+            <ErrorDisplay
+              imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
+              title="Không có dữ liệu"
+              description="Không có món ăn nào phù hợp với tìm kiếm của bạn!"
+              marginTop={24}
+            />
           }
           ItemSeparatorComponent={() => <View className="h-3" />}
         />

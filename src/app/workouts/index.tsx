@@ -10,6 +10,7 @@ import { SearchNormal1 } from "iconsax-react-native"
 import { Container, Content, Input } from "@/components/global/atoms"
 import {
   CustomHeader,
+  ErrorDisplay,
   ListFooter,
   ListHeader,
   WorkoutCard
@@ -112,7 +113,7 @@ function WorkoutsScreen() {
     )
   }, [typesData, selectedType])
 
-  if ((!workoutsData && isLoading) || !typesData || isTypesLoading)
+  if ((workoutsData.length === 0 && isLoading) || !typesData || isTypesLoading)
     return <LoadingScreen />
 
   return (
@@ -160,6 +161,14 @@ function WorkoutsScreen() {
             ) : (
               <ListFooter />
             )
+          }
+          ListEmptyComponent={
+            <ErrorDisplay
+              imageSource={require("../../../public/images/monhealth-no-data-image.png")}
+              title="Không có dữ liệu"
+              description="Không có bộ bài tập nào phù hợp với tìm kiếm của bạn!"
+              marginTop={24}
+            />
           }
           ItemSeparatorComponent={() => <View className="h-3" />}
         />

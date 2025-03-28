@@ -18,6 +18,7 @@ import {
 } from "@/components/global/atoms"
 import {
   CustomHeader,
+  ErrorDisplay,
   FoodCard,
   ListFooter,
   ListHeader
@@ -121,6 +122,7 @@ function FoodsScreen() {
     setIsRefreshing(true)
     Keyboard.dismiss()
     setPage(1)
+    setIsRefreshing(false)
   }
 
   const handleAddFood = useCallback(
@@ -156,10 +158,10 @@ function FoodsScreen() {
   const confirmAddMeal = (mealData: CreateMealType) => {
     console.log(JSON.stringify(mealData, null, 2))
 
-    // addMeal(mealData, {
-    //   onSuccess: () =>
-    //     setAddedFoods((prev) => new Set(prev).add(mealData.items[0].foodId))
-    // })
+    addMeal(mealData, {
+      onSuccess: () =>
+        setAddedFoods((prev) => new Set(prev).add(mealData.items[0].foodId))
+    })
     setIsModalVisible(false)
   }
 
@@ -193,6 +195,7 @@ function FoodsScreen() {
           {searchFoodHistory.map((search) => (
             <TouchableOpacity
               key={search.foodId}
+              activeOpacity={0.7}
               onPress={() => handleViewFood(search.foodId, search.name)}
             >
               <Badge label={search.name} />
@@ -209,7 +212,11 @@ function FoodsScreen() {
     )
   }, [categoriesData, selectedCategory, searchFoodHistory])
 
-  if ((!foodsData && isLoading) || !categoriesData || isCategoriesLoading)
+  if (
+    (foodsData.length === 0 && isLoading) ||
+    !categoriesData ||
+    isCategoriesLoading
+  )
     return <LoadingScreen />
 
   return (
@@ -264,6 +271,14 @@ function FoodsScreen() {
               ) : (
                 <ListFooter />
               )
+            }
+            ListEmptyComponent={
+              <ErrorDisplay
+                imageSource={require("../../../public/images/monhealth-no-data-image.png")}
+                title="Không có dữ liệu"
+                description="Không có món ăn nào phù hợp với tìm kiếm của bạn!"
+                marginTop={12}
+              />
             }
             ItemSeparatorComponent={() => <View className="h-3" />}
           />

@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react"
 
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   Keyboard,
   TouchableOpacity,
@@ -11,7 +12,7 @@ import {
 import { useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
-import { Message, SearchNormal1 } from "iconsax-react-native"
+import { SearchNormal1 } from "iconsax-react-native"
 
 import {
   Badge,
@@ -23,6 +24,7 @@ import {
 import {
   ConsultantCard,
   CustomHeader,
+  ErrorDisplay,
   ListFooter,
   ListHeader
 } from "@/components/global/molecules"
@@ -64,7 +66,7 @@ function ConsultantScreen() {
   const { data: expertiseData, isLoading: isExpertiseLoading } =
     useGetAllExpertise(1, 100)
 
-  const { data, isLoading } = useGetAllConsultants(
+  const { data, isLoading, refetch } = useGetAllConsultants(
     page,
     limit,
     debouncedFilter === "Tất cả" ? "" : debouncedFilter,
@@ -108,6 +110,7 @@ function ConsultantScreen() {
     setIsRefreshing(true)
     Keyboard.dismiss()
     setPage(1)
+    setIsRefreshing(false)
   }
 
   const handleViewConsultant = (consultantId: string, fullName: string) => {
@@ -136,6 +139,7 @@ function ConsultantScreen() {
           {searchConsultantHistory.map((search, index) => (
             <TouchableOpacity
               key={index}
+              activeOpacity={0.7}
               onPress={() =>
                 handleViewConsultant(search.consultantId, search.fullName)
               }
@@ -150,7 +154,11 @@ function ConsultantScreen() {
     )
   }, [expertiseData, selectedExpertise, searchConsultantHistory])
 
-  if ((!consultantsData && isLoading) || !expertiseData || isExpertiseLoading)
+  if (
+    (consultantsData.length === 0 && isLoading) ||
+    !expertiseData ||
+    isExpertiseLoading
+  )
     return <LoadingScreen />
 
   return (
@@ -205,6 +213,14 @@ function ConsultantScreen() {
             ) : (
               <ListFooter />
             )
+          }
+          ListEmptyComponent={
+            <ErrorDisplay
+              imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
+              title="Không có dữ liệu"
+              description="Không có chuyên viên nào phù hợp với tìm kiếm của bạn!"
+              marginTop={12}
+            />
           }
           ItemSeparatorComponent={() => <View className="h-3" />}
         />
