@@ -18,6 +18,7 @@ import { delay } from "@/utils/helpers"
 
 interface UserPayload {
   userId: string
+  consultantId?: string
   fullName: string
   phoneNumber: string
   email: string
@@ -35,7 +36,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [role, setRole] = useState<string | null>("Member")
 
   const [loading, setLoading] = useState<boolean>(true)
-  const [hasMetrics, setHasMetrics] = useState<boolean>(false)
 
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [modalContent, setModalContent] = useState({
@@ -62,7 +62,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         ) {
           const metricData = await getMetricsByUserId(userInfo.userId)
           const metricExist = metricData && metricData.length > 0
-          setHasMetrics(metricExist)
 
           await delay(2000)
 
@@ -87,7 +86,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       setIsAuthenticated(false)
       setUser(null)
-      setHasMetrics(false)
 
       await delay(2000)
       router.replace("/auth/sign-in")
@@ -110,15 +108,27 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const userInfo = await whoIAm()
       setUser(userInfo)
 
-      if (
-        (role === "Consultant" && userInfo.role !== "Consultant") ||
-        (role === "Member" &&
-          userInfo.role !== "Member" &&
-          userInfo.role !== "Subscription Member")
-      ) {
+      if (role === "Consultant" && userInfo.role !== "Consultant") {
         setModalContent({
           title: "Cảnh báo",
-          description: "Tài khoản chưa được đăng ký là chuyên viên tư vấn",
+          description:
+            "Tài khoản không phải chuyên viên tư vấn. Vui lòng đăng nhập với tư cách thành viên.",
+          confirmText: "Đồng ý"
+        })
+
+        setIsModalVisible(true)
+        await AsyncStorage.removeItem("accessToken")
+        await AsyncStorage.removeItem("refreshToken")
+        setIsAuthenticated(false)
+        setUser(null)
+        return
+      }
+
+      if (role === "Member" && userInfo.role === "Consultant") {
+        setModalContent({
+          title: "Cảnh báo",
+          description:
+            "Tài khoản của bạn đã được đăng ký là chuyên viên tư vấn.",
           confirmText: "Đồng ý"
         })
 
@@ -148,25 +158,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           })
         }
       } else if (userInfo.role === "Consultant") {
-        // const consultantData = await getConsultantByUserId(userInfo.userId)
-        // const consultantExist = consultantData && consultantData.length > 0
-        // if (consultantExist && consultantExist.status) {
-        //   router.replace("/(tabs)/consultant/dashboard")
-        // } else {
-        //   router.replace({
-        //     pathname: "/onboarding",
-        //     params: { role: "Consultant" }
-        //   })
-        // }
-
-        // router.replace("/(tabs)/consultant/dashboard")
-
-        router.replace({
-          pathname: "/onboarding",
-          params: { role: "Consultant" }
-        })
-      } else {
-        router.replace("/auth/sign-in")
+        if (userInfo.consultantId !== null) {
+          router.replace("/(tabs)/consultant/dashboard")
+        } else {
+          router.replace({
+            pathname: "/onboarding",
+            params: { role: "Consultant" }
+          })
+        }
       }
     } catch (error) {
       handleError(error)
@@ -196,7 +195,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       await AsyncStorage.removeItem("refreshToken")
       setIsAuthenticated(false)
       setUser(null)
-      setHasMetrics(false)
       router.replace("/auth/sign-in")
     } catch (error) {
       handleError(error)
@@ -214,7 +212,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser,
         role,
         setRole,
-        hasMetrics,
         login: handleLogin,
         register: handleRegister,
         logout: handleLogout,

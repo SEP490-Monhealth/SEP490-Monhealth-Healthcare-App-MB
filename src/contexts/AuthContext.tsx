@@ -2,6 +2,7 @@ import { createContext, useContext } from "react"
 
 interface UserPayload {
   userId: string
+  consultantId?: string
   fullName: string
   phoneNumber: string
   email: string
@@ -15,7 +16,6 @@ interface AuthContextType {
   setUser: (user: UserPayload | null) => void
   role: string | null
   setRole: (role: string | null) => void
-  hasMetrics: boolean
   login: (phoneNumber: string, password: string) => Promise<void>
   register: (
     fullName: string,
