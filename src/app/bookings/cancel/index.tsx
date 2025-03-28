@@ -70,25 +70,8 @@ function BookingCancelScreen() {
     }
   })
 
-  const onSubmit = async (data: CancelBookingType) => {
-    const cancel = `${selectedReasons.join(" - ")}. ${data.cancellationReason}`
-    const finalData = { ...data, cancel }
-
-    // console.log("Final Data:", JSON.stringify(finalData, null, 2))
-
+  const onSubmit = async () => {
     setIsModalVisible(true)
-
-    // await cancelBooking(
-    //   { bookingId, cancellationReason: finalData.cancel },
-    //   {
-    //     onSuccess: () => {
-    //       router.replace({
-    //         pathname: "/bookings/user",
-    //         params: { tab: "history" }
-    //       })
-    //     }
-    //   }
-    // )
   }
 
   const handleConfirmCancel = async () => {
@@ -102,12 +85,12 @@ function BookingCancelScreen() {
       { bookingId, cancellationReason: cancel },
       {
         onSuccess: () => {
-          if (userRole === "user") {
+          if (userRole === "Subscription Member") {
             router.replace({
               pathname: "/bookings/user",
               params: { tab: "history" }
             })
-          } else if (userRole === "consultant") {
+          } else if (userRole === "Consultant") {
             router.replace({
               pathname: "/(tabs)/consultant/booking",
               params: { tab: "cancelled" }

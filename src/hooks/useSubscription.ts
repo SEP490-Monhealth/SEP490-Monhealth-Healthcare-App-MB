@@ -58,6 +58,7 @@ export const useUpgradeSubscription = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["subscription"] })
+      queryClient.invalidateQueries({ queryKey: ["dailyMeal"] })
     }
   })
 }

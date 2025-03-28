@@ -44,14 +44,14 @@ function WaterRemindersScreen() {
   const { user } = useAuth()
   const userId = user?.userId
 
+  const { mutate: updateWaterReminderStatus } = useUpdateWaterReminderStatus()
+  const { mutate: deleteWaterReminder } = useDeleteWaterReminder()
+
   const {
     data: remindersData,
     isLoading,
     refetch
   } = useGetWaterReminderByUserId(userId)
-
-  const { mutate: updateWaterReminderStatus } = useUpdateWaterReminderStatus()
-  const { mutate: deleteWaterReminder } = useDeleteWaterReminder()
 
   const [isModalVisible, setIsModalVisible] = useState(false)
 
@@ -62,12 +62,12 @@ function WaterRemindersScreen() {
     (waterReminder) => waterReminder.waterReminderId === selectedReminder
   )?.status
 
-  const openMealSheet = (waterReminder: WaterReminderType) => {
+  const openWaterReminderSheet = (waterReminder: WaterReminderType) => {
     setSelectedReminder(waterReminder.waterReminderId)
     WaterSheetRef.current?.scrollTo(-240)
   }
 
-  const closeReminderSheet = () => WaterSheetRef.current?.scrollTo(0)
+  const closeWaterReminderSheet = () => WaterSheetRef.current?.scrollTo(0)
 
   const onRefresh = async () => {
     setIsRefreshing(true)
@@ -87,11 +87,11 @@ function WaterRemindersScreen() {
       updateWaterReminderStatus(selectedReminder)
     }
 
-    closeReminderSheet()
+    closeWaterReminderSheet()
   }
 
   const handleDeleteReminder = () => {
-    closeReminderSheet()
+    closeWaterReminderSheet()
     setIsModalVisible(true)
   }
 
@@ -102,7 +102,7 @@ function WaterRemindersScreen() {
 
   const handleUpdateReminder = (waterReminderId: string) => {
     handleViewWaterReminder(waterReminderId)
-    closeReminderSheet()
+    closeWaterReminderSheet()
   }
 
   const handleViewWaterReminder = (waterReminderId: string) => {
@@ -145,7 +145,7 @@ function WaterRemindersScreen() {
                 volume={item.volume}
                 isDrunk={item.status}
                 onPress={() => handleViewWaterReminder(item.waterReminderId)}
-                onMorePress={() => openMealSheet(item)}
+                onMorePress={() => openWaterReminderSheet(item)}
               />
             )}
             ListEmptyComponent={() => (

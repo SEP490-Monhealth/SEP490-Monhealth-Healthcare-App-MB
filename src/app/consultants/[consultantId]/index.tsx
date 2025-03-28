@@ -29,12 +29,17 @@ import {
   ReviewTab
 } from "@/components/local/consultants"
 
+import { useAuth } from "@/contexts/AuthContext"
+
 import { useGetConsultantById } from "@/hooks/useConsultant"
 
 import { useBookingStore } from "@/stores/bookingStore"
 
 function ConsultantDetailsScreen() {
   const router = useRouter()
+
+  const { user } = useAuth()
+  const userId = user?.userId
 
   const { tab } = useLocalSearchParams<{ tab: string }>()
   const { consultantId } = useLocalSearchParams() as { consultantId: string }
@@ -43,6 +48,8 @@ function ConsultantDetailsScreen() {
 
   const { data: consultantData, isLoading: isConsultantLoading } =
     useGetConsultantById(consultantId)
+  // const { data: userSubscriptionData, isLoading: isUserSubscriptionLoading } =
+  //   useGetUserSubscriptionByUserId(userId)
 
   const [activeTab, setActiveTab] = useState<string>(tab || "info")
   const [loading, setLoading] = useState<boolean>(false)
@@ -155,7 +162,10 @@ function ConsultantDetailsScreen() {
                 </TabsContent>
 
                 <TabsContent value="certificate">
-                  <CertificateTab />
+                  <CertificateTab
+                    onLoading={handleLoading}
+                    onOverlayLoading={handleOverlayLoading}
+                  />
                 </TabsContent>
 
                 <TabsContent value="review">

@@ -60,12 +60,12 @@ export const BookingCard = ({
             ellipsizeMode="tail"
           >
             {status === BookingStatusEnum.Cancelled
-              ? cancellationReason
-              : notes}
+              ? `Lý do hủy: ${cancellationReason}`
+              : `Ghi chú: ${notes}`}
           </Text>
         </VStack>
 
-        <View className="border border-border"></View>
+        <View className="border border-border" />
 
         <HStack center className="justify-between">
           <HStack center gap={6}>
@@ -107,7 +107,7 @@ export const BookingCard = ({
 
         {variant === "default" &&
           status === BookingStatusEnum.Completed &&
-          reviewed && (
+          !reviewed && (
             <Button
               variant="primary"
               size="sm"

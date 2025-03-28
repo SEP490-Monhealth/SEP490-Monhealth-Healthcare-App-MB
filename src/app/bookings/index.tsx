@@ -153,17 +153,16 @@ function BookingsScreen() {
               <Text className="ml-1 mt-4 font-tregular text-sm text-accent">
                 Thông tin thêm giúp tư vấn viên chuẩn bị tốt hơn cho buổi tư vấn
               </Text>
+
+              <Button
+                loading={isLoading}
+                onPress={handleOpenModal}
+                className="mt-8"
+              >
+                Đặt lịch
+              </Button>
             </View>
           </ScrollArea>
-
-          <Button
-            loading={isLoading}
-            onPress={handleOpenModal}
-            size="lg"
-            className="absolute bottom-4 w-full"
-          >
-            Đặt lịch
-          </Button>
         </Content>
       </Container>
 

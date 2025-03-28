@@ -66,7 +66,7 @@ function ConsultantScreen() {
   const { data: expertiseData, isLoading: isExpertiseLoading } =
     useGetAllExpertise(1, 100)
 
-  const { data, isLoading, refetch } = useGetAllConsultants(
+  const { data, isLoading } = useGetAllConsultants(
     page,
     limit,
     debouncedFilter === "Tất cả" ? "" : debouncedFilter,
@@ -149,7 +149,10 @@ function ConsultantScreen() {
           ))}
         </HStack>
 
-        <Section label="Danh sách chuyên viên" />
+        <Section
+          label="Danh sách chuyên viên"
+          actionText="Số lần đặt lịch: 3"
+        />
       </ListHeader>
     )
   }, [expertiseData, selectedExpertise, searchConsultantHistory])

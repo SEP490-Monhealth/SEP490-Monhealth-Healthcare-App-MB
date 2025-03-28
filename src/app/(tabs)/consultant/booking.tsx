@@ -89,7 +89,7 @@ function BookingsScreen() {
           {
             onSuccess: () => {
               router.replace({
-                pathname: "/(tabs)/consultant/bookings",
+                pathname: "/(tabs)/consultant/booking",
                 params: { tab: "confirmed" }
               })
             }

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 
 import {
   Image,
@@ -52,6 +52,8 @@ function ReviewCreateScreen() {
 
   const { bookingId } = useLocalSearchParams<{ bookingId: string }>()
 
+  console.log(bookingId)
+
   const { user } = useAuth()
   const userId = user?.userId
 
@@ -81,17 +83,30 @@ function ReviewCreateScreen() {
     control,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors }
   } = useForm<CreateReviewType>({
     resolver: zodResolver(createReviewSchema),
     defaultValues: {
-      bookingId: bookingData?.bookingId,
-      consultantId: bookingData?.consultantId,
-      userId: userId,
+      bookingId: "",
+      consultantId: "",
+      userId: "",
       rating: 0,
       comment: ""
     }
   })
+
+  useEffect(() => {
+    if (bookingId && bookingData && userId) {
+      reset({
+        bookingId: bookingId,
+        consultantId: bookingData.consultantId,
+        userId: userId,
+        rating: 0,
+        comment: ""
+      })
+    }
+  }, [bookingId, bookingData, userId, reset])
 
   const onSubmit = async (reviewData: CreateReviewType) => {
     const comment = `${selectedReviews.join(" - ")}. ${reviewData.comment}`
