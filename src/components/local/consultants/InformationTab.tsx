@@ -39,7 +39,7 @@ export const InformationTab = ({
   const { data: consultantData, isLoading: isConsultantLoading } =
     useGetConsultantById(consultantId)
   const { data: schedulesData, isLoading: isSchedulesLoading } =
-    useGetSchedulesByConsultantId(consultantId, selectedDate ?? "")
+    useGetSchedulesByConsultantId(consultantId, today)
 
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()

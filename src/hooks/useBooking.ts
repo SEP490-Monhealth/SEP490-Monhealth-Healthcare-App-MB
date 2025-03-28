@@ -75,9 +75,9 @@ export const useCreateBooking = () => {
   const { showModal } = useModal()
 
   return useMutation<string, Error, CreateBookingType>({
-    mutationFn: async (newBookingData) => {
+    mutationFn: async (newData) => {
       try {
-        return await createBooking(newBookingData, showModal)
+        return await createBooking(newData, showModal)
       } catch (error) {
         handleError(error)
         throw error

@@ -105,9 +105,9 @@ export const useCreateFood = () => {
   const { showModal } = useModal()
 
   return useMutation<string, Error, CreateFoodType>({
-    mutationFn: async (newFoodData) => {
+    mutationFn: async (newData) => {
       try {
-        return await createFood(newFoodData, showModal)
+        return await createFood(newData, showModal)
       } catch (error) {
         handleError(error)
         throw error

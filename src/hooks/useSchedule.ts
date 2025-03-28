@@ -57,9 +57,9 @@ export const useCreateSchedule = () => {
   const { showModal } = useModal()
 
   return useMutation<string, Error, CreateScheduleType>({
-    mutationFn: async (newScheduleData) => {
+    mutationFn: async (newData) => {
       try {
-        return await createSchedule(newScheduleData, showModal)
+        return await createSchedule(newData, showModal)
       } catch (error) {
         handleError(error)
         throw error

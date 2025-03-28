@@ -87,9 +87,9 @@ export const useCreateConsultant = () => {
   const { showModal } = useModal()
 
   return useMutation<string, Error, CreateConsultantType>({
-    mutationFn: async (newConsultantData) => {
+    mutationFn: async (newData) => {
       try {
-        return await createConsultant(newConsultantData, showModal)
+        return await createConsultant(newData, showModal)
       } catch (error) {
         handleError(error)
         throw error

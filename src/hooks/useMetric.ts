@@ -38,9 +38,9 @@ export const useCreateMetric = () => {
   const handleError = useError()
 
   return useMutation<string, Error, CreateMetricType>({
-    mutationFn: async (metric) => {
+    mutationFn: async (newData) => {
       try {
-        return await createMetric(metric)
+        return await createMetric(newData)
       } catch (error) {
         handleError(error)
         throw error

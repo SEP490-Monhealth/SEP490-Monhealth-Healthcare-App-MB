@@ -1,8 +1,10 @@
 import { ArcProgress } from "./ArcProgress"
+import { BankCard } from "./BankCard"
 import { BookingCard } from "./BookingCard"
 import { CertificateCard } from "./CertificateCard"
 import { ChatCard } from "./ChatCard"
 import { CircularProgress } from "./CircularProgress"
+import { ConsultantBankCard } from "./ConsultantBankCard"
 import { ConsultantCard } from "./ConsultantCard"
 import { CounterText } from "./CounterText"
 import { CustomHeader } from "./CustomHeader"
@@ -28,10 +30,12 @@ import { WorkoutCard } from "./WorkoutCard"
 
 export {
   ArcProgress,
+  BankCard,
   BookingCard,
   CertificateCard,
   ChatCard,
   CircularProgress,
+  ConsultantBankCard,
   ConsultantCard,
   CounterText,
   CustomHeader,

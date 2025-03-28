@@ -1,26 +1,25 @@
 import { z } from "zod"
 
+import { PaymentStatusSchemaEnum } from "@/constants/enum/Payment"
+
 import { auditFields, uuidSchema } from "./baseSchema"
 
-const basePaymentSchema = z.object({
+const paymentSchema = z.object({
   paymentId: uuidSchema,
+  userId: uuidSchema,
   subscriptionId: uuidSchema,
 
-  amount: z.number(),
+  amount: z
+    .number({ message: "Số tiền thanh toán phải là một số" })
+    .positive({ message: "Số tiền thanh toán phải lớn hơn 0" }),
 
-  status: z
-    .string()
-    .refine((val) => ["Pending", "Success", "Failed"].includes(val), {
-      message:
-        "Trạng thái không hợp lệ. Chỉ chấp nhận: Pending, Success, Failed"
-    }),
+  status: PaymentStatusSchemaEnum,
 
   ...auditFields
 })
 
-export const paymentSchema = basePaymentSchema
-
 export const createPaymentSchema = paymentSchema.pick({
+  userId: true,
   subscriptionId: true,
   amount: true
 })

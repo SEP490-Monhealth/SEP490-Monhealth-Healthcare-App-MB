@@ -10,9 +10,9 @@ export const useCreateUserAllergy = () => {
   const handleError = useError()
 
   return useMutation<string, Error, CreateUserAllergyType>({
-    mutationFn: async (data) => {
+    mutationFn: async (newData) => {
       try {
-        return await createUserAllergy(data)
+        return await createUserAllergy(newData)
       } catch (error) {
         handleError(error)
         throw error

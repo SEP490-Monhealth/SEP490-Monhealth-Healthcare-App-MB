@@ -34,16 +34,21 @@ import ConsultantExpertise from "@/components/local/tabs/consultant/ConsultantEx
 
 import { COLORS } from "@/constants/color"
 
+import { useAuth } from "@/contexts/AuthContext"
 import { useSearch } from "@/contexts/SearchContext"
 
 import { useGetAllConsultants } from "@/hooks/useConsultant"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useGetAllExpertise } from "@/hooks/useExpertise"
+import { useGetRemainingBookingByUserId } from "@/hooks/useUserSubscription"
 
 import { ConsultantType } from "@/schemas/consultantSchema"
 
 function ConsultantScreen() {
   const router = useRouter()
+
+  const { user } = useAuth()
+  const userId = user?.userId
 
   const {
     searchConsultantHistory,
@@ -62,6 +67,8 @@ function ConsultantScreen() {
 
   const debouncedSearch = useDebounce(searchQuery)
   const debouncedFilter = useDebounce(selectedExpertise, 0)
+
+  const { data: userSubscriptionData } = useGetRemainingBookingByUserId(userId)
 
   const { data: expertiseData, isLoading: isExpertiseLoading } =
     useGetAllExpertise(1, 100)
@@ -151,7 +158,7 @@ function ConsultantScreen() {
 
         <Section
           label="Danh sách chuyên viên"
-          actionText="Số lần đặt lịch: 3"
+          actionText={`Số lần đặt lịch: ${userSubscriptionData || 0}`}
         />
       </ListHeader>
     )

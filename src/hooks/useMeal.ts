@@ -59,9 +59,9 @@ export const useCreateMeal = () => {
     Error,
     CreateMealType
   >({
-    mutationFn: async (meal) => {
+    mutationFn: async (newData) => {
       try {
-        return await createMeal(meal, showModal)
+        return await createMeal(newData, showModal)
       } catch (error) {
         handleError(error)
         throw error

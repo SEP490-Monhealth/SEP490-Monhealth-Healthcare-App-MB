@@ -72,6 +72,6 @@ export const commissionStructure = {
     appPercentage: 30, // Hệ thống nhận 30%
     consultantPercentage: 70, // Tư vấn viên nhận 70%
     bookingValue: 899000 / 3, // Giá trị mỗi buổi tư vấn: 299,667 VND
-    hourlyRate: 299667 // Tương đương khoảng 300,000 VND/buổi
+    hourlyRate: 299667 // Tương đương khoảng 300,000 VND/buổi - 1 buoi = 1h30
   }
 }
