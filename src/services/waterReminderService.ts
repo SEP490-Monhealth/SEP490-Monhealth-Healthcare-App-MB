@@ -69,11 +69,11 @@ export const getWaterReminderById = async (
 }
 
 export const createWaterReminder = async (
-  newWaterReminderData: CreateWaterReminderType,
+  newData: CreateWaterReminderType,
   showModal: (message: string) => void
 ): Promise<string> => {
   try {
-    const response = await monAPI.post(`/water-reminders`, newWaterReminderData)
+    const response = await monAPI.post(`/water-reminders`, newData)
 
     const { success, message } = response.data
 

@@ -20,19 +20,24 @@ export const TransactionStatusSchemaEnum = z.nativeEnum(TransactionStatusEnum)
 
 export const transactionTypeMap: Record<TransactionTypeEnum, EnumMeta> = {
   [TransactionTypeEnum.Earning]: {
-    label: "Thu nhập"
+    label: "Thu nhập",
+    icon: require("../../../public/icons/transactions/income.png")
   },
   [TransactionTypeEnum.Withdrawal]: {
-    label: "Rút tiền"
+    label: "Rút tiền",
+    icon: require("../../../public/icons/transactions/expense.png")
   },
   [TransactionTypeEnum.Refund]: {
-    label: "Hoàn tiền"
+    label: "Hoàn tiền",
+    icon: require("../../../public/icons/transactions/income.png")
   },
   [TransactionTypeEnum.Fee]: {
-    label: "Phí"
+    label: "Phí",
+    icon: require("../../../public/icons/transactions/expense.png")
   },
   [TransactionTypeEnum.Bonus]: {
-    label: "Thưởng"
+    label: "Thưởng",
+    icon: require("../../../public/icons/transactions/income.png")
   }
 }
 
