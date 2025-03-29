@@ -76,14 +76,28 @@ function DashboardScreen() {
 
           <IncomeExpenseChart data={data} labels={labels} />
 
-          <Section label="Chi tiết chi tiêu" />
+          <Section label="Chi tiết chi tiêu" actionText="Xem tất cả" />
 
           <VStack gap={12}>
             <TransactionCard
-              type={TransactionTypeEnum.Earning}
+              type={TransactionTypeEnum.Withdrawal}
               datetime="2025-03-26T10:00:00Z"
               amount={300000}
               status={TransactionStatusEnum.Completed}
+            />
+
+            <TransactionCard
+              type={TransactionTypeEnum.Bonus}
+              datetime="2025-03-27T12:00:00Z"
+              amount={10000}
+              status={TransactionStatusEnum.Failed}
+            />
+
+            <TransactionCard
+              type={TransactionTypeEnum.Earning}
+              datetime="2025-03-28T22:00:00Z"
+              amount={5000000}
+              status={TransactionStatusEnum.Pending}
             />
           </VStack>
         </Content>

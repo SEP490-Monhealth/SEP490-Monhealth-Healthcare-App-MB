@@ -88,7 +88,9 @@ function UserInformationScreen() {
     { label: `${metricData[0].weight} kg`, icon: Weight }
   ]
 
-  const handleUpdateProfile = () => router.push(`/users/${userId}`)
+  const handleUpdateUser = () => {
+    router.push(`/users/${userId}`)
+  }
 
   return (
     <TouchableWithoutFeedback>
@@ -123,9 +125,9 @@ function UserInformationScreen() {
                 <View>
                   <Section
                     label="Tài khoản"
-                    actionText="Chỉnh sửa"
+                    actionText="Cập nhật"
                     margin={false}
-                    onPress={handleUpdateProfile}
+                    onPress={handleUpdateUser}
                   />
 
                   <Card>

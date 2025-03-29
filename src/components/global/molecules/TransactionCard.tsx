@@ -2,9 +2,6 @@ import React from "react"
 
 import { Image, Text, TouchableOpacity, View } from "react-native"
 
-import { ChevronRight } from "lucide-react-native"
-
-import { COLORS } from "@/constants/color"
 import {
   TransactionStatusEnum,
   TransactionTypeEnum,
@@ -45,7 +42,8 @@ export const TransactionCard = ({
   amount,
   status
 }: TransactionCardProps) => {
-  const { label: transactionTypeLabel } = getTransactionTypeMeta(type)
+  const { label: transactionTypeLabel, icon: transactionTypeIcon } =
+    getTransactionTypeMeta(type)
   const { label: transactionStatusLabel, color: transactionStatusColor } =
     getTransactionStatusMeta(status)
 
@@ -64,7 +62,10 @@ export const TransactionCard = ({
         className="mr-4 h-12 w-12 items-center justify-center rounded-full bg-muted"
       >
         <Image
-          source={require("../../../../public/icons/meals/dish.png")}
+          source={
+            transactionTypeIcon ||
+            require("../../../../public/icons/transactions/income.png")
+          }
           style={{ width: 24, height: 24 }}
         />
       </TouchableOpacity>

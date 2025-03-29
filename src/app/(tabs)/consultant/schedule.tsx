@@ -9,7 +9,7 @@ import {
   ScrollArea,
   VStack
 } from "@/components/global/atoms"
-import { ScheduleCard } from "@/components/global/molecules"
+import { ErrorDisplay, ScheduleCard } from "@/components/global/molecules"
 import { Header, Section } from "@/components/global/organisms"
 
 import { useAuth } from "@/contexts/AuthContext"
@@ -83,6 +83,13 @@ function BookingScreen() {
                     onPress={() => handleSelectSchedule(schedule.bookingId)}
                   />
                 ))}
+
+              <ErrorDisplay
+                imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
+                title="Chưa có lịch hẹn"
+                description="Bạn chưa có lịch hẹn nào ở đây!"
+                marginTop={12}
+              />
             </VStack>
           </VStack>
         </ScrollArea>
