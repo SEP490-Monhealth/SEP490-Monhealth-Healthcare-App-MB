@@ -90,37 +90,5 @@ export const sampleCategoriesData: CategoryType[] = [
     imageUrl: require("../../public/icons/categories/burger.png"),
     createdAt: "2025-01-06T00:00:00Z",
     updatedAt: "2025-01-06T00:00:00Z"
-  },
-  {
-    categoryId: "fccb0ebd-ff54-401b-a1ec-0e9f63804bb9",
-    type: CategoryTypeEnum.Workout,
-    name: "Toàn thân",
-    imageUrl: require("../../public/icons/workouts/upper-body.png"),
-    createdAt: "2025-01-06T00:00:00Z",
-    updatedAt: "2025-01-06T00:00:00Z"
-  },
-  {
-    categoryId: "036a94f2-013a-4375-a685-76ff6ffcc24e",
-    type: CategoryTypeEnum.Workout,
-    name: "Thân trên",
-    imageUrl: require("../../public/icons/workouts/upper-body.png"),
-    createdAt: "2025-01-06T00:00:00Z",
-    updatedAt: "2025-01-06T00:00:00Z"
-  },
-  {
-    categoryId: "2f998806-6963-42cf-9fce-7a5b5c2df540",
-    type: CategoryTypeEnum.Workout,
-    name: "Thân dưới",
-    imageUrl: require("../../public/icons/workouts/lower-body.png"),
-    createdAt: "2025-01-06T00:00:00Z",
-    updatedAt: "2025-01-06T00:00:00Z"
-  },
-  {
-    categoryId: "4575699a-5bb6-42ec-9d52-ea19d1170187",
-    type: CategoryTypeEnum.Workout,
-    name: "Bụng",
-    imageUrl: require("../../public/icons/workouts/core.png"),
-    createdAt: "2025-01-06T00:00:00Z",
-    updatedAt: "2025-01-06T00:00:00Z"
   }
 ]
