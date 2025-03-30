@@ -1,68 +1,159 @@
-import React, { useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
+
+import { ActivityIndicator, Keyboard, View } from "react-native"
+import { FlatList } from "react-native"
 
 import { useRouter } from "expo-router"
 
-import { Ghost, SearchNormal1 } from "iconsax-react-native"
+import { LoadingScreen } from "@/app/loading"
+import { SearchNormal1 } from "iconsax-react-native"
 
+import { Container, Content, Input } from "@/components/global/atoms"
 import {
-  Container,
-  Content,
-  Input,
-  ScrollArea,
-  VStack
-} from "@/components/global/atoms"
-import { ChatCard } from "@/components/global/molecules"
-import { Header } from "@/components/global/organisms"
+  ChatCard,
+  CustomHeader,
+  ErrorDisplay,
+  ListFooter,
+  ListHeader
+} from "@/components/global/molecules"
+import { Section } from "@/components/global/organisms"
 
 import { sampleChatsData } from "@/constants/chats"
 import { COLORS } from "@/constants/color"
 
+import { useDebounce } from "@/hooks/useDebounce"
+
+import { ChatType } from "@/schemas/chatSchema"
+
 function ChatScreen() {
   const router = useRouter()
 
-  const chatData = sampleChatsData
-
+  const [chatsData, setChatsData] = useState<ChatType[]>([])
+  const [page, setPage] = useState<number>(1)
+  const [hasMore, setHasMore] = useState<boolean>(true)
   const [searchQuery, setSearchQuery] = useState<string>("")
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
+
+  const limit = 10
+
+  const debouncedSearch = useDebounce(searchQuery)
+
+  // const { data, isLoading } = useGetAllChats(
+  //   page,
+  //   limit,
+  //   debouncedSearch,
+  // )
+
+  const data = sampleChatsData
+  const isLoading = false
+
+  useEffect(() => {
+    if (data?.chats) {
+      setChatsData((prev) =>
+        page === 1 ? data.chats : [...prev, ...data.chats]
+      )
+      setHasMore(page * limit < data.totalItems)
+    }
+  }, [data, page])
+
+  useEffect(() => {
+    setPage(1)
+  }, [debouncedSearch])
+
+  useEffect(() => {
+    if (!isLoading && isRefreshing) {
+      setIsRefreshing(false)
+    }
+  }, [isLoading, isRefreshing])
+
+  const loadMoreData = () => {
+    if (!hasMore || isLoading) return
+    setPage((prev) => prev + 1)
+  }
+
+  const onEndReached = () => {
+    if (isLoading || !hasMore) return
+    Keyboard.dismiss()
+    loadMoreData()
+  }
+
+  const onRefresh = () => {
+    setIsRefreshing(true)
+    Keyboard.dismiss()
+    setPage(1)
+  }
 
   const handleViewChat = (chatId: string) => {
     router.push(`/chats/${chatId}`)
   }
 
+  const FlatListHeader = useMemo(() => {
+    return (
+      <ListHeader className="mt-2">
+        <Section label="Danh sách tin nhắn" margin={false} />
+      </ListHeader>
+    )
+  }, [])
+
+  if (chatsData.length === 0 && isLoading) return <LoadingScreen />
+
   return (
     <Container>
-      <Header
-        label="Tin nhắn"
-        action={{
-          icon: <Ghost variant="Bold" size={20} color={COLORS.primary} />,
-          href: "/chats/monai"
-        }}
+      <CustomHeader
+        content={
+          <Input
+            value={searchQuery}
+            placeholder="Tìm kiếm tin nhắn..."
+            onChangeText={(text) => setSearchQuery(text)}
+            startIcon={<SearchNormal1 size={20} color={COLORS.primary} />}
+            canClearText
+          />
+        }
       />
 
-      <Content className="mt-2 pb-12">
-        <ScrollArea className="flex-1">
-          <VStack gap={20}>
-            <Input
-              value={searchQuery}
-              placeholder="Tìm kiếm người dùng..."
-              onChangeText={(text) => setSearchQuery(text)}
-              startIcon={<SearchNormal1 size={20} color={COLORS.primary} />}
-              canClearText
+      <Content>
+        <FlatList
+          data={chatsData || []}
+          keyExtractor={(item, index) => `${item.chatId}-${index}`}
+          onRefresh={onRefresh}
+          refreshing={isRefreshing}
+          showsVerticalScrollIndicator={false}
+          stickyHeaderIndices={[0]}
+          initialNumToRender={10}
+          maxToRenderPerBatch={5}
+          windowSize={5}
+          onEndReached={onEndReached}
+          onEndReachedThreshold={0.5}
+          ListHeaderComponent={FlatListHeader}
+          renderItem={({ item }) => (
+            <ChatCard
+              key={item.chatId}
+              fullName={item.member.fullName}
+              avatarUrl={item.member.avatarUrl}
+              lastMessage={item.lastMessage}
+              lastMessageAt={item.updatedAt}
+              onPress={() => handleViewChat(item.chatId)}
             />
-
-            <VStack gap={12}>
-              {chatData.map((chat) => (
-                <ChatCard
-                  key={chat.chatId}
-                  fullName={chat.member.fullName}
-                  avatarUrl={chat.member.avatarUrl}
-                  lastMessage={chat.lastMessage}
-                  lastMessageAt={chat.updatedAt}
-                  onPress={() => handleViewChat(chat.chatId)}
-                />
-              ))}
-            </VStack>
-          </VStack>
-        </ScrollArea>
+          )}
+          ListFooterComponent={
+            hasMore ? (
+              <ListFooter>
+                <ActivityIndicator color={COLORS.primary} />
+              </ListFooter>
+            ) : (
+              <ListFooter />
+            )
+          }
+          ListEmptyComponent={
+            <ErrorDisplay
+              imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
+              title="Không có dữ liệu"
+              description="Không tìm thấy có tin nhắn nào ở đây!"
+              marginTop={24}
+            />
+          }
+          ItemSeparatorComponent={() => <View className="h-3" />}
+        />
       </Content>
     </Container>
   )

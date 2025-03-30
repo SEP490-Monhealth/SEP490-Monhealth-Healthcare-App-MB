@@ -9,22 +9,16 @@ import {
 
 import { useRouter } from "expo-router"
 
-import { LoadingScreen } from "@/app/loading"
 import {
+  AlignVertically,
   Award,
+  Calendar,
   CalendarCircle,
   CallCalling,
-  ColorsSquare,
-  Crown,
-  HeartCircle,
-  HeartTick,
-  MedalStar,
-  Profile2User,
+  Man,
   ProfileCircle,
-  ReceiptDisscount,
   Sms,
-  Star1,
-  Verify
+  Weight
 } from "iconsax-react-native"
 
 import {
@@ -48,69 +42,54 @@ import { DATA } from "@/constants/data"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useGetConsultantById } from "@/hooks/useConsultant"
+import { useGetMetricsByUserId } from "@/hooks/useMetric"
+import { useGetUserById } from "@/hooks/useUser"
 
 import { formatDate } from "@/utils/formatters"
+import { getSubscriptionColor } from "@/utils/helpers"
 
-function ConsultantInformationScreen() {
+import { LoadingScreen } from "../../loading"
+
+function UserInformationScreen() {
   const router = useRouter()
 
   const { user } = useAuth()
-  const consultantId = user?.consultantId
-  const userRole = user?.role || ""
+  const userId = user?.userId
+  const userSubscription = user?.subscription
 
-  const { data: consultantData, isLoading: isConsultantLoading } =
-    useGetConsultantById(consultantId)
+  const { data: userData, isLoading: isUserLoading } = useGetUserById(userId)
+  const { data: metricData, isLoading: isMetricLoading } =
+    useGetMetricsByUserId(userId)
 
   const SheetRef = useRef<SheetRefProps>(null)
   const sheetHeight = 180
 
   const openSheet = () => SheetRef.current?.scrollTo(-sheetHeight)
 
-  // if (!consultantData || !isConsultantLoading) return <LoadingScreen />
+  if (!userData || isUserLoading || !metricData || isMetricLoading)
+    return <LoadingScreen />
 
   const userInfoList = [
-    {
-      label: consultantData?.createdAt
-        ? formatDate(consultantData.createdAt)
-        : "Không có ngày tạo",
-      icon: CalendarCircle
-    },
-    { label: consultantData?.fullName, icon: ProfileCircle },
-    { label: consultantData?.phoneNumber, icon: CallCalling },
-    { label: consultantData?.email, icon: Sms },
-    {
-      label: consultantData?.isVerified ? "Đã xác thực" : "Chưa được xác thực",
-      icon: Verify
-    }
+    { label: formatDate(userData?.createdAt), icon: CalendarCircle },
+    { label: userData?.fullName, icon: ProfileCircle },
+    { label: userData?.phoneNumber, icon: CallCalling },
+    { label: userData?.email, icon: Sms },
+    { label: userSubscription, icon: Award }
   ]
 
   const userMetricList = [
     {
-      label: consultantData?.expertise,
-      icon: HeartTick
+      label: DATA.GENDERS.find((g) => g.value === metricData[0]?.gender)?.label,
+      icon:
+        DATA.GENDERS.find((g) => g.value === metricData[0]?.gender)?.icon || Man
     },
-    { label: `${consultantData?.experience} năm`, icon: Crown },
-    {
-      label: `${consultantData?.bookingCount} lịch hẹn`,
-      icon: Profile2User
-    },
-    {
-      label: `${consultantData?.ratingCount} lượt đánh giá`,
-      icon: MedalStar
-    },
-    {
-      label: `${consultantData?.averageRating} đánh giá trung bình`,
-      icon: Star1
-    }
+    { label: formatDate(metricData[0].dateOfBirth), icon: Calendar },
+    { label: `${metricData[0].height} cm`, icon: AlignVertically },
+    { label: `${metricData[0].weight} kg`, icon: Weight }
   ]
 
-  const handleUpdateProfile = () => {
-    router.push(`/consultant/${consultantId}`)
-  }
-
-  const handleUpdateBio = () => {
-    router.push(`/consultant/${consultantId}`)
+  const handleUpdateUser = () => {
+    router.push(`/users/${userId}`)
   }
 
   return (
@@ -124,18 +103,22 @@ function ConsultantInformationScreen() {
               <VStack gap={20} className="pb-20">
                 <VStack center gap={12}>
                   <Avatar
-                    source={consultantData?.avatarUrl}
-                    alt={consultantData?.fullName}
+                    source={userData.avatarUrl}
+                    alt={userData.fullName}
                     size={150}
                     onPress={() => openSheet()}
                   />
 
                   <VStack center>
                     <Text className="font-tbold text-2xl text-primary">
-                      {consultantData?.fullName}
+                      {userData.fullName}
                     </Text>
 
-                    <Badge label={userRole} background="#16a34a" color="#fff" />
+                    <Badge
+                      label={userData?.role}
+                      background={getSubscriptionColor(userData?.role)}
+                      color="#fff"
+                    />
                   </VStack>
                 </VStack>
 
@@ -144,7 +127,7 @@ function ConsultantInformationScreen() {
                     label="Tài khoản"
                     actionText="Cập nhật"
                     margin={false}
-                    onPress={handleUpdateProfile}
+                    onPress={handleUpdateUser}
                   />
 
                   <Card>
@@ -171,7 +154,7 @@ function ConsultantInformationScreen() {
                 </View>
 
                 <View>
-                  <Section label="Tổng quát" margin={false} />
+                  <Section label="Sức khỏe" margin={false} />
 
                   <Card>
                     {userMetricList.map((item, index) => {
@@ -193,16 +176,6 @@ function ConsultantInformationScreen() {
                         />
                       )
                     })}
-                  </Card>
-                </View>
-
-                <View>
-                  <Section label="Mô tả" margin={false} />
-
-                  <Card>
-                    <Text className="text-justify font-tregular text-base text-secondary">
-                      {consultantData?.bio}
-                    </Text>
                   </Card>
                 </View>
               </VStack>
@@ -230,4 +203,4 @@ function ConsultantInformationScreen() {
   )
 }
 
-export default ConsultantInformationScreen
+export default UserInformationScreen

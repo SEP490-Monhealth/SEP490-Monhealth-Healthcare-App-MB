@@ -12,7 +12,7 @@ function AppAboutScreen() {
 
       <Content className="mt-2">
         <ScrollArea>
-          <Text>ahihi e nứng</Text>
+          <Text>asd</Text>
         </ScrollArea>
       </Content>
     </Container>

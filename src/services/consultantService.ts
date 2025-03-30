@@ -58,6 +58,7 @@ export const getConsultantById = async (
 ): Promise<ConsultantType> => {
   try {
     const response = await monAPI.get(`/consultants/${consultantId}`)
+
     const { success, message, data } = response.data
 
     if (success) {

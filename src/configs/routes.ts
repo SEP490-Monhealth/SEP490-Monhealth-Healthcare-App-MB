@@ -44,17 +44,17 @@ export const consultantRoutes: RouteType[] = [
 
 export const userProfileRoutes: RouteType[] = [
   {
-    route: "/settings/user/user-information",
+    route: "/settings/user/information",
     label: "Thông tin cá nhân",
     icon: Profile
   },
   {
-    route: "/settings/user/health-tracking",
+    route: "/settings/user/health",
     label: "Chỉ số sức khỏe",
     icon: Command
   },
   {
-    route: "/settings/user/activity-tracking",
+    route: "/settings/user/activity",
     label: "Hoạt động thể chất",
     icon: Activity
   },
@@ -90,7 +90,7 @@ export const userAboutRoutes: RouteType[] = [
 
 export const consultantProfileRoutes: RouteType[] = [
   {
-    route: "/settings/consultant/consultant-information",
+    route: "/settings/consultant/information",
     label: "Thông tin cá nhân",
     icon: Profile
   },

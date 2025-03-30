@@ -9,21 +9,22 @@ import {
 
 import { useRouter } from "expo-router"
 
+import { LoadingScreen } from "@/app/loading"
 import {
-  AlignVertically,
-  Award,
-  Calendar,
   CalendarCircle,
   CallCalling,
-  Man,
+  Crown,
+  HeartTick,
+  MedalStar,
+  Profile2User,
   ProfileCircle,
   Sms,
-  Weight
+  Star1,
+  Verify
 } from "iconsax-react-native"
 
 import {
   Avatar,
-  Badge,
   Card,
   Container,
   Content,
@@ -42,55 +43,64 @@ import { DATA } from "@/constants/data"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useGetMetricsByUserId } from "@/hooks/useMetric"
-import { useGetUserById } from "@/hooks/useUser"
+import { useGetConsultantById } from "@/hooks/useConsultant"
 
 import { formatDate } from "@/utils/formatters"
-import { getSubscriptionColor } from "@/utils/helpers"
 
-import { LoadingScreen } from "../../loading"
-
-function UserInformationScreen() {
+function ConsultantInformationScreen() {
   const router = useRouter()
 
   const { user } = useAuth()
-  const userId = user?.userId
-  const userSubscription = user?.subscription
+  const consultantId = user?.consultantId
 
-  const { data: userData, isLoading: isUserLoading } = useGetUserById(userId)
-  const { data: metricData, isLoading: isMetricLoading } =
-    useGetMetricsByUserId(userId)
+  const { data: consultantData, isLoading } = useGetConsultantById(consultantId)
 
   const SheetRef = useRef<SheetRefProps>(null)
   const sheetHeight = 180
 
   const openSheet = () => SheetRef.current?.scrollTo(-sheetHeight)
 
-  if (!userData || isUserLoading || !metricData || isMetricLoading)
-    return <LoadingScreen />
-
   const userInfoList = [
-    { label: formatDate(userData.createdAt), icon: CalendarCircle },
-    { label: userData.fullName, icon: ProfileCircle },
-    { label: userData.phoneNumber, icon: CallCalling },
-    { label: userData.email, icon: Sms },
-    { label: userSubscription, icon: Award }
+    {
+      label: consultantData?.createdAt
+        ? formatDate(consultantData.createdAt)
+        : "Không có ngày tạo",
+      icon: CalendarCircle
+    },
+    { label: consultantData?.fullName, icon: ProfileCircle },
+    { label: consultantData?.phoneNumber, icon: CallCalling },
+    { label: consultantData?.email, icon: Sms },
+    {
+      label: consultantData?.isVerified ? "Đã xác thực" : "Chưa được xác thực",
+      icon: Verify
+    }
   ]
 
   const userMetricList = [
     {
-      label: DATA.GENDERS.find((g) => g.value === metricData[0]?.gender)?.label,
-      icon:
-        DATA.GENDERS.find((g) => g.value === metricData[0]?.gender)?.icon || Man
+      label: consultantData?.expertise,
+      icon: HeartTick
     },
-    { label: formatDate(metricData[0].dateOfBirth), icon: Calendar },
-    { label: `${metricData[0].height} cm`, icon: AlignVertically },
-    { label: `${metricData[0].weight} kg`, icon: Weight }
+    { label: `${consultantData?.experience} năm`, icon: Crown },
+    {
+      label: `${consultantData?.bookingCount} lịch hẹn`,
+      icon: Profile2User
+    },
+    {
+      label: `${consultantData?.ratingCount} lượt đánh giá`,
+      icon: MedalStar
+    },
+    {
+      label: `${consultantData?.averageRating} đánh giá trung bình`,
+      icon: Star1
+    }
   ]
 
-  const handleUpdateUser = () => {
-    router.push(`/users/${userId}`)
+  const handleUpdateConsultant = () => {
+    router.push(`/consultant/${consultantId}`)
   }
+
+  if (!consultantData || isLoading) return <LoadingScreen />
 
   return (
     <TouchableWithoutFeedback>
@@ -103,23 +113,15 @@ function UserInformationScreen() {
               <VStack gap={20} className="pb-20">
                 <VStack center gap={12}>
                   <Avatar
-                    source={userData.avatarUrl}
-                    alt={userData.fullName}
+                    source={consultantData.avatarUrl}
+                    alt={consultantData.fullName}
                     size={150}
                     onPress={() => openSheet()}
                   />
 
-                  <VStack center>
-                    <Text className="font-tbold text-2xl text-primary">
-                      {userData.fullName}
-                    </Text>
-
-                    <Badge
-                      label={userData?.role}
-                      background={getSubscriptionColor(userData?.role)}
-                      color="#fff"
-                    />
-                  </VStack>
+                  <Text className="font-tbold text-2xl text-primary">
+                    {consultantData.fullName}
+                  </Text>
                 </VStack>
 
                 <View>
@@ -127,7 +129,7 @@ function UserInformationScreen() {
                     label="Tài khoản"
                     actionText="Cập nhật"
                     margin={false}
-                    onPress={handleUpdateUser}
+                    onPress={handleUpdateConsultant}
                   />
 
                   <Card>
@@ -154,7 +156,7 @@ function UserInformationScreen() {
                 </View>
 
                 <View>
-                  <Section label="Sức khỏe" margin={false} />
+                  <Section label="Tổng quát" margin={false} />
 
                   <Card>
                     {userMetricList.map((item, index) => {
@@ -176,6 +178,16 @@ function UserInformationScreen() {
                         />
                       )
                     })}
+                  </Card>
+                </View>
+
+                <View>
+                  <Section label="Mô tả" margin={false} />
+
+                  <Card>
+                    <Text className="text-justify font-tregular text-base text-secondary">
+                      {consultantData.bio}
+                    </Text>
                   </Card>
                 </View>
               </VStack>
@@ -203,4 +215,4 @@ function UserInformationScreen() {
   )
 }
 
-export default UserInformationScreen
+export default ConsultantInformationScreen

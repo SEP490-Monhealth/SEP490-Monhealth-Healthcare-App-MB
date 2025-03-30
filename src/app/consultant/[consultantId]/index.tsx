@@ -11,7 +11,7 @@ function UpdateConsultantScreen() {
       <Header back label="Cập nhập thông tin" />
 
       <Content className="mt-2">
-        <Text>Địt e đi</Text>
+        <Text>asd</Text>
       </Content>
     </Container>
   )
