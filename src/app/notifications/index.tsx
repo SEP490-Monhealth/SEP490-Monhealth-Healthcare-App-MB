@@ -58,7 +58,7 @@ function NotificationScreen() {
               <ErrorDisplay
                 imageSource={require("../../../public/images/monhealth-no-data-image.png")}
                 title="Không có thông báo"
-                description="Bạn chưa có thông báo nào vào lúc này!"
+                description="Không tìm thấy có thông báo nào ở đây!"
                 marginTop={24}
               />
             )}

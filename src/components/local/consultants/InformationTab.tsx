@@ -27,7 +27,8 @@ export const InformationTab = ({
   onOverlayLoading
 }: InformationTabProps) => {
   const router = useRouter()
-  const { consultantId } = useLocalSearchParams() as { consultantId: string }
+  const { consultantId, selectedDate: newSelectedDate } =
+    useLocalSearchParams() as { consultantId: string; selectedDate?: string }
 
   const today = new Date().toISOString().split("T")[0]
 
@@ -39,23 +40,24 @@ export const InformationTab = ({
   const { data: consultantData, isLoading: isConsultantLoading } =
     useGetConsultantById(consultantId)
   const { data: schedulesData, isLoading: isSchedulesLoading } =
-    useGetSchedulesByConsultantId(consultantId, today)
+    useGetSchedulesByConsultantId(consultantId, selectedDate || today)
 
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()
 
   useEffect(() => {
-    if (selectedDate) {
-      updateField("date", selectedDate)
+    if (newSelectedDate) {
+      setSelectedDate(newSelectedDate)
+      updateField("date", newSelectedDate)
     }
-  }, [selectedDate, updateField])
+  }, [newSelectedDate, updateField])
 
   useEffect(() => {
     onLoading?.(
-      isConsultantLoading ||
-        isSchedulesLoading ||
-        !consultantData ||
-        !schedulesData
+      !consultantData ||
+        isConsultantLoading ||
+        !schedulesData ||
+        isSchedulesLoading
     )
   }, [
     consultantData,
@@ -70,6 +72,8 @@ export const InformationTab = ({
   }, [isFetching, isMutating, onOverlayLoading])
 
   const handleDateSelect = (date: string) => {
+    console.log(date)
+
     const formattedDate = new Date(date).toISOString().split("T")[0]
     setSelectedDate(formattedDate)
   }

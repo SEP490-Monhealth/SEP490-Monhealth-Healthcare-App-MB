@@ -139,7 +139,7 @@ function FoodUserScreen() {
             <ErrorDisplay
               imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
               title="Không có dữ liệu"
-              description="Không có món ăn nào phù hợp với tìm kiếm của bạn!"
+              description="Không tìm thấy có món ăn nào ở đây!"
               marginTop={24}
             />
           }

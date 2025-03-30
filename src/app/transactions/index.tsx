@@ -25,8 +25,6 @@ import { TransactionType } from "@/schemas/transactionSchema"
 import { LoadingScreen } from "../loading"
 
 function TransactionsScreen() {
-  const router = useRouter()
-
   const { user } = useAuth()
   const consultantId = user?.consultantId
 
@@ -79,8 +77,8 @@ function TransactionsScreen() {
 
   const FlatListHeader = useMemo(() => {
     return (
-      <ListHeader className="pt-4">
-        <Section label="Danh sách giao dịch" />
+      <ListHeader className="mt-2">
+        <Section label="Danh sách giao dịch" margin={false} />
       </ListHeader>
     )
   }, [])
@@ -110,6 +108,7 @@ function TransactionsScreen() {
               type={item.type}
               datetime={item.createdAt}
               amount={item.amount}
+              showStatus
               status={item.status}
             />
           )}
@@ -126,7 +125,7 @@ function TransactionsScreen() {
             <ErrorDisplay
               imageSource={require("../../../public/images/monhealth-no-data-image.png")}
               title="Không có dữ liệu"
-              description="Không có bộ giao dịch nào phù hợp với tìm kiếm của bạn!"
+              description="Không tìm thấy có giao dịch nào ở đây!"
               marginTop={24}
             />
           }

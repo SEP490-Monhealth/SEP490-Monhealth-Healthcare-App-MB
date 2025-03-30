@@ -7,7 +7,7 @@ import { TransactionType } from "@/schemas/transactionSchema"
 import { getTransactionsByConsultantId } from "@/services/transactionService"
 
 interface TransactionResponse {
-  transaction: TransactionType[]
+  transactions: TransactionType[]
   totalPages: number
   totalItems: number
 }

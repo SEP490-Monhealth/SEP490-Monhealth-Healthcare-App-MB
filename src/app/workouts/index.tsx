@@ -166,7 +166,7 @@ function WorkoutsScreen() {
             <ErrorDisplay
               imageSource={require("../../../public/images/monhealth-no-data-image.png")}
               title="Không có dữ liệu"
-              description="Không có bộ bài tập nào phù hợp với tìm kiếm của bạn!"
+              description="Không tìm thấy có bộ bài tập nào ở đây!"
               marginTop={24}
             />
           }

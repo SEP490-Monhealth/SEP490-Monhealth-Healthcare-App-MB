@@ -11,15 +11,17 @@ import {
 
 import { formatCurrency } from "@/utils/formatters"
 
-import { Card } from "../atoms"
+import { Card, VStack } from "../atoms"
 
 const formatDateTime = (isoString: string) => {
   if (!isoString) return { date: "", time: "" }
 
   const dateObj = new Date(isoString)
 
-  const utcDate = dateObj.toISOString().split("T")[0]
-  const utcTime = dateObj.toISOString().split("T")[1].slice(0, 5)
+  const localDateObj = new Date(dateObj.getTime() + 7 * 60 * 60 * 1000)
+
+  const utcDate = localDateObj.toISOString().split("T")[0]
+  const utcTime = localDateObj.toISOString().split("T")[1].slice(0, 5)
 
   const [year, month, day] = utcDate.split("-")
   const formattedDate = `${day}/${month}/${year}`
@@ -33,6 +35,7 @@ interface TransactionCardProps {
   type: TransactionTypeEnum
   datetime: string
   amount: number
+  showStatus?: boolean
   status: TransactionStatusEnum
 }
 
@@ -40,6 +43,7 @@ export const TransactionCard = ({
   type,
   datetime,
   amount,
+  showStatus = false,
   status
 }: TransactionCardProps) => {
   const { label: transactionTypeLabel, icon: transactionTypeIcon } =
@@ -48,6 +52,8 @@ export const TransactionCard = ({
     getTransactionStatusMeta(status)
 
   const { date, time } = formatDateTime(datetime)
+
+  // console.log(time)
 
   const isPositiveTransaction = [
     TransactionTypeEnum.Earning,
@@ -80,10 +86,18 @@ export const TransactionCard = ({
         </Text>
       </View>
 
-      <Text className="font-tmedium text-sm text-primary">
-        {isPositiveTransaction ? "+" : "-"}
-        {formatCurrency(amount)}
-      </Text>
+      <VStack gap={4}>
+        <Text className="font-tmedium text-sm text-primary">
+          {isPositiveTransaction ? "+" : "-"}
+          {formatCurrency(amount)}
+        </Text>
+
+        {showStatus && (
+          <Text className="font-tregular text-accent">
+            {transactionStatusLabel}
+          </Text>
+        )}
+      </VStack>
     </Card>
   )
 }

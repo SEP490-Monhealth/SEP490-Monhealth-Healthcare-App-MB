@@ -256,7 +256,7 @@ function MealDetailsScreen() {
             label={getMealTypeName("vi", mealType)}
             action={{
               icon: <Add size={24} color={COLORS.primary} />,
-              href: `/foods`
+              href: "/foods"
             }}
           />
 

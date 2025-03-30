@@ -1,8 +1,12 @@
 import React from "react"
 
 import { Text } from "react-native"
+import { View } from "react-native"
+
+import { useRouter } from "expo-router"
 
 import { HStack, VStack } from "@/components/global/atoms"
+import { TipText } from "@/components/global/atoms/Typography"
 import { TransactionCard } from "@/components/global/molecules/TransactionCard"
 import { Section } from "@/components/global/organisms"
 
@@ -12,6 +16,7 @@ import {
 } from "@/constants/enum/Transaction"
 
 import { formatCurrency } from "@/utils/formatters"
+import { getRandomTip } from "@/utils/helpers"
 
 import { IncomeExpenseChart } from "./IncomeExpenseChart"
 
@@ -47,8 +52,14 @@ export const SpendingTab = ({
   onLoading,
   onOverlayLoading
 }: SpendingTabProps) => {
+  const router = useRouter()
+
+  const handleViewTransactions = () => {
+    router.push("/transactions")
+  }
+
   return (
-    <>
+    <View className="mt-2">
       <VStack className="px-2">
         <Text className="font-tbold text-xl text-secondary">Tổng quan</Text>
 
@@ -65,7 +76,11 @@ export const SpendingTab = ({
 
       <IncomeExpenseChart data={spendingData} labels={labels} />
 
-      <Section label="Chi tiết chi tiêu" actionText="Xem tất cả" />
+      <Section
+        label="Chi tiết chi tiêu"
+        actionText="Xem tất cả"
+        onPress={handleViewTransactions}
+      />
 
       <VStack gap={12}>
         <TransactionCard
@@ -89,6 +104,10 @@ export const SpendingTab = ({
           status={TransactionStatusEnum.Pending}
         />
       </VStack>
-    </>
+
+      <View className="mt-8">
+        <TipText text={getRandomTip()} />
+      </View>
+    </View>
   )
 }

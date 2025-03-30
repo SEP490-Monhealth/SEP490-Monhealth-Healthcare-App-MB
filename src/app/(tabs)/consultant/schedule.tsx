@@ -35,10 +35,11 @@ function BookingScreen() {
 
   const handleDateSelect = (date: string) => {
     setSelectedDate(date)
-    console.log(date)
+    // console.log(date)
   }
 
   const handleSelectSchedule = (scheduleId: string) => {
+    // redirect to booking detail screen
     setSelectedSchedule(scheduleId)
   }
 
@@ -88,8 +89,8 @@ function BookingScreen() {
               ) : (
                 <ErrorDisplay
                   imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
-                  title="Chưa có lịch hẹn"
-                  description="Bạn chưa có lịch hẹn nào ở đây!"
+                  title="Không có lịch hẹn"
+                  description="Không tìm thấy có lịch hẹn nào ở đây!"
                   marginTop={12}
                 />
               )}

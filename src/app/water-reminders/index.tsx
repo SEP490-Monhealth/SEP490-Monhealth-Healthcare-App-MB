@@ -151,8 +151,8 @@ function WaterRemindersScreen() {
             ListEmptyComponent={() => (
               <ErrorDisplay
                 imageSource={require("../../../public/images/monhealth-no-data-image.png")}
-                title="Chưa có nhắc nhở"
-                description="Bạn chưa đặt nhắc nhở uống nước nào!"
+                title="Không có dữ liệu"
+                description="Không tìm thấy có nhắc nhở uống nước nào ở đây!"
                 marginTop={24}
               />
             )}

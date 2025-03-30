@@ -16,9 +16,10 @@ export const getTransactionsByConsultantId = async (
   limit?: number
 ): Promise<TransactionResponse> => {
   try {
-    const response = await monAPI.get(`/transactions`, {
-      params: { consultantId, page, limit }
-    })
+    const response = await monAPI.get(
+      `/transactions/consultant/${consultantId}`,
+      { params: { page, limit } }
+    )
 
     const { success, message, data } = response.data
 
