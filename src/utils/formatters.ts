@@ -169,7 +169,7 @@ export const formatDateTime = (dateString: string): string => {
 /**
  * Chuyển đổi chuỗi ISO thành chuỗi thời gian định dạng HH:mm.
  * @param isoString Chuỗi ISO, ví dụ: "2023-11-18T10:30:00Z".
- * @returns Chuỗi thời gian đã định dạng theo kiểu HH:mm, ví dụ: "17:30" (tùy vào múi giờ).
+ * @returns Chuỗi thời gian đã định dạng theo kiểu HH:mm, ví dụ: "17h30" (tùy vào múi giờ).
  */
 export const formatTime = (isoString: string): string => {
   const date = new Date(isoString)

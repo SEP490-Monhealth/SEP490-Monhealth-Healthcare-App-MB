@@ -1,22 +1,25 @@
 import { z } from "zod"
 
 import { timestampFields, uuidSchema } from "./baseSchema"
+import { userSchema } from "./userSchema"
 
-const baseChatSchema = z.object({
+const chatSchema = z.object({
   chatId: uuidSchema,
   userId: uuidSchema,
   consultantId: uuidSchema,
 
-  consultant: z.string(),
-  user: z.string(),
-  consultantAvatar: z.string(),
-  userAvatar: z.string(),
+  member: z.object({
+    fullName: userSchema.shape.fullName,
+    avatarUrl: userSchema.shape.avatarUrl
+  }),
+  consultant: z.object({
+    fullName: userSchema.shape.fullName,
+    avatarUrl: userSchema.shape.avatarUrl
+  }),
 
   lastMessage: z.string(),
 
   ...timestampFields
 })
-
-export const chatSchema = baseChatSchema
 
 export type ChatType = z.infer<typeof chatSchema>

@@ -7,15 +7,15 @@ import { formatTimeAgo } from "@/utils/formatters"
 import { Card, CardHeader, HStack } from "../atoms"
 
 interface ChatCardProps {
-  name: string
-  avatarUrl: string
+  fullName: string
+  avatarUrl?: string
   lastMessage: string
   lastMessageAt: string
   onPress?: () => void
 }
 
 export const ChatCard = ({
-  name,
+  fullName,
   avatarUrl,
   lastMessage,
   lastMessageAt,
@@ -31,9 +31,9 @@ export const ChatCard = ({
 
         <View className="flex-1 flex-col">
           <HStack center className="justify-between">
-            <CardHeader label={name} />
+            <CardHeader label={fullName} />
 
-            <Text className="font-tregular text-sm text-secondary">
+            <Text className="font-tregular text-sm text-accent">
               {formatTimeAgo(lastMessageAt)}
             </Text>
           </HStack>

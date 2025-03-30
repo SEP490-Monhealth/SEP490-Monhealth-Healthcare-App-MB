@@ -1,75 +1,66 @@
-import React from "react"
+import React, { useState } from "react"
 
 import { useRouter } from "expo-router"
 
-import { Microphone } from "iconsax-react-native"
+import { Ghost, SearchNormal1 } from "iconsax-react-native"
 
 import {
-  Button,
   Container,
   Content,
+  Input,
   ScrollArea,
   VStack
 } from "@/components/global/atoms"
+import { ChatCard } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
+import { sampleChatsData } from "@/constants/chats"
 import { COLORS } from "@/constants/color"
 
 function ChatScreen() {
   const router = useRouter()
 
-  const handleSetupConsultant = () => {
-    router.push("/(setup)/consultant")
-  }
+  const chatData = sampleChatsData
 
-  const handleSetupUser = () => {
-    router.push("/(setup)/user")
-  }
+  const [searchQuery, setSearchQuery] = useState<string>("")
 
-  const handleViewUserBooking = () => {
-    router.push("/bookings/user")
-  }
-
-  const handleCreateSchedule = () => {
-    router.push("/(setup)/consultant/schedule")
-  }
-
-  const handleTeleport = () => {
-    router.push("/(tabs)/consultant/dashboard")
+  const handleViewChat = (chatId: string) => {
+    router.push(`/chats/${chatId}`)
   }
 
   return (
     <Container>
       <Header
-        label="AI Voice"
+        label="Tin nhắn"
         action={{
-          icon: <Microphone variant="Bold" size={20} color={COLORS.primary} />,
-          href: "/(tabs)/home"
+          icon: <Ghost variant="Bold" size={20} color={COLORS.primary} />,
+          href: "/chats/monai"
         }}
       />
 
-      <Content className="mt-2">
-        <ScrollArea>
+      <Content className="mt-2 pb-12">
+        <ScrollArea className="flex-1">
           <VStack gap={20}>
-            <Button size="lg" onPress={handleSetupUser}>
-              Setup User
-            </Button>
+            <Input
+              value={searchQuery}
+              placeholder="Tìm kiếm người dùng..."
+              onChangeText={(text) => setSearchQuery(text)}
+              startIcon={<SearchNormal1 size={20} color={COLORS.primary} />}
+              canClearText
+            />
 
-            <Button size="lg" onPress={handleSetupConsultant}>
-              Setup Consultant
-            </Button>
-
-            <Button size="lg" onPress={handleCreateSchedule}>
-              Create Schedule
-            </Button>
-
-            <Button size="lg" onPress={handleViewUserBooking}>
-              User Booking
-            </Button>
-
-            <Button size="lg" onPress={handleTeleport}>
-              Teleport
-            </Button>
+            <VStack gap={12}>
+              {chatData.map((chat) => (
+                <ChatCard
+                  key={chat.chatId}
+                  fullName={chat.member.fullName}
+                  avatarUrl={chat.member.avatarUrl}
+                  lastMessage={chat.lastMessage}
+                  lastMessageAt={chat.updatedAt}
+                  onPress={() => handleViewChat(chat.chatId)}
+                />
+              ))}
+            </VStack>
           </VStack>
         </ScrollArea>
       </Content>
