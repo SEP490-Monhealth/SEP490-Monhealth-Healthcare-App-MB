@@ -24,7 +24,7 @@ export const HomeHeader = ({ fullName }: HomeHeaderProps) => {
   const paddingClass = Platform.OS === "ios" ? "pb-3 pt-0" : "py-4"
 
   const handleViewNotifications = () => {
-    router.push("notifications")
+    router.push("/notifications")
   }
 
   return (

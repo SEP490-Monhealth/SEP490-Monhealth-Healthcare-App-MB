@@ -1,105 +1,94 @@
-import React from "react"
+import React, { useCallback, useEffect, useState } from "react"
 
 import { Text } from "react-native"
+
+import { useLocalSearchParams } from "expo-router"
 
 import {
   Container,
   Content,
-  HStack,
   ScrollArea,
-  VStack
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger
 } from "@/components/global/atoms"
-import { TransactionCard } from "@/components/global/molecules/TransactionCard"
-import { Section } from "@/components/global/organisms"
 
-import { IncomeExpenseChart } from "@/components/local/tabs/dashboard"
-import { HomeHeader } from "@/components/local/tabs/home"
-
-import {
-  TransactionStatusEnum,
-  TransactionTypeEnum
-} from "@/constants/enum/Transaction"
+import { BookingTab, SpendingTab } from "@/components/local/tabs/dashboard"
+import { DashboardHeader } from "@/components/local/tabs/home/DashboardHeader"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { formatCurrency } from "@/utils/formatters"
-
-const labels = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"]
-
-const data = {
-  income: [
-    { date: "2025-03-24", amount: 100000 },
-    { date: "2025-03-25", amount: 150000 },
-    { date: "2025-03-26", amount: 1000000 },
-    { date: "2025-03-27", amount: 500000 },
-    { date: "2025-03-28", amount: 700000 },
-    { date: "2025-03-29", amount: 2000000 },
-    { date: "2025-03-30", amount: 300000 }
-  ],
-  expense: [
-    { date: "2025-03-24", amount: 50000 },
-    { date: "2025-03-25", amount: 100000 },
-    { date: "2025-03-26", amount: 800000 },
-    { date: "2025-03-27", amount: 400000 },
-    { date: "2025-03-28", amount: 600000 },
-    { date: "2025-03-29", amount: 1500000 },
-    { date: "2025-03-30", amount: 200000 }
-  ]
-}
-
 function DashboardScreen() {
+  const { tab } = useLocalSearchParams<{ tab: string }>()
+
   const { user } = useAuth()
   const userId = user?.userId
   const fullName = user?.fullName
 
   const today = "2025-03-29"
 
+  const [activeTab, setActiveTab] = useState(tab || "spending")
+  const [loading, setLoading] = useState(false)
+  const [overlayLoading, setOverlayLoading] = useState(false)
+
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab)
+  }
+
+  useEffect(() => {
+    if (tab) {
+      setActiveTab(tab)
+    }
+  }, [tab])
+
+  const handleLoading = useCallback((isLoading: boolean) => {
+    setLoading(isLoading)
+  }, [])
+
+  const handleOverlayLoading = useCallback((isLoading: boolean) => {
+    setOverlayLoading(isLoading)
+  }, [])
+
   return (
     <Container>
-      <HomeHeader fullName={fullName} />
+      <DashboardHeader fullName={fullName} balance={100000} />
 
       <ScrollArea>
         <Content className="pb-12">
-          <VStack className="px-2">
-            <Text className="font-tbold text-xl text-secondary">Tổng quan</Text>
+          <Tabs defaultValue={activeTab} contentMarginTop={8}>
+            <TabsList center gap={32}>
+              <TabsTrigger value="spending" onChange={handleTabChange}>
+                Chi tiêu
+              </TabsTrigger>
 
-            <HStack className="-mb-2 items-center justify-between">
-              <Text className="font-tbold text-2xl text-primary">
-                {formatCurrency(5000000)}
-              </Text>
+              <TabsTrigger value="bookings" onChange={handleTabChange}>
+                Lịch hẹn
+              </TabsTrigger>
 
-              <Text className="font-tmedium text-primary">
-                24 - 30 Tháng 3 2025
-              </Text>
-            </HStack>
-          </VStack>
+              <TabsTrigger value="reviews" onChange={handleTabChange}>
+                Đánh giá
+              </TabsTrigger>
+            </TabsList>
 
-          <IncomeExpenseChart data={data} labels={labels} />
+            <TabsContent value="spending">
+              <SpendingTab
+                onLoading={handleLoading}
+                onOverlayLoading={handleOverlayLoading}
+              />
+            </TabsContent>
 
-          <Section label="Chi tiết chi tiêu" actionText="Xem tất cả" />
+            <TabsContent value="bookings">
+              <BookingTab
+                onLoading={handleLoading}
+                onOverlayLoading={handleOverlayLoading}
+              />
+            </TabsContent>
 
-          <VStack gap={12}>
-            <TransactionCard
-              type={TransactionTypeEnum.Withdrawal}
-              datetime="2025-03-26T10:00:00Z"
-              amount={300000}
-              status={TransactionStatusEnum.Completed}
-            />
-
-            <TransactionCard
-              type={TransactionTypeEnum.Bonus}
-              datetime="2025-03-27T12:00:00Z"
-              amount={10000}
-              status={TransactionStatusEnum.Failed}
-            />
-
-            <TransactionCard
-              type={TransactionTypeEnum.Earning}
-              datetime="2025-03-28T22:00:00Z"
-              amount={5000000}
-              status={TransactionStatusEnum.Pending}
-            />
-          </VStack>
+            <TabsContent value="reviews">
+              <Text>asd</Text>
+            </TabsContent>
+          </Tabs>
         </Content>
       </ScrollArea>
     </Container>

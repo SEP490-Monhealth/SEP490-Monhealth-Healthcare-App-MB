@@ -1,5 +1,15 @@
-import { BarChart } from "./bar-chart"
-import { IncomeExpenseChart } from "./income-expense-chart"
-import { LineChart } from "./line-chart"
+import { BarChart } from "./BarChart"
+import { BookingTab } from "./BookingTab"
+import { IncomeExpenseChart } from "./IncomeExpenseChart"
+import { LineChart } from "./LineChart"
+import { ReviewTab } from "./ReviewTab"
+import { SpendingTab } from "./SpendingTab"
 
-export { BarChart, IncomeExpenseChart, LineChart }
+export {
+  BarChart,
+  BookingTab,
+  IncomeExpenseChart,
+  LineChart,
+  ReviewTab,
+  SpendingTab
+}
