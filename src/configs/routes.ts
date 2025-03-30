@@ -13,8 +13,7 @@ import {
   NotificationStatus,
   Profile,
   Ram,
-  Setting,
-  Sound
+  Setting
 } from "iconsax-react-native"
 import { IconProps } from "iconsax-react-native"
 
@@ -45,27 +44,27 @@ export const consultantRoutes: RouteType[] = [
 
 export const userProfileRoutes: RouteType[] = [
   {
-    route: "/settings/user-information",
+    route: "/settings/user/user-information",
     label: "Thông tin cá nhân",
     icon: Profile
   },
   {
-    route: "/settings/health-tracking",
+    route: "/settings/user/health-tracking",
     label: "Chỉ số sức khỏe",
     icon: Command
   },
   {
-    route: "/settings/activity-tracking",
+    route: "/settings/user/activity-tracking",
     label: "Hoạt động thể chất",
     icon: Activity
   },
   {
-    route: "/settings/reminder",
+    route: "/settings/user/reminder",
     label: "Nhắc nhở và thông báo",
     icon: NotificationStatus
   },
   {
-    route: "/settings/privacy",
+    route: "/settings/user/privacy",
     label: "Bảo mật và quyền riêng tư",
     icon: Lock1
   }
@@ -78,7 +77,7 @@ export const userAboutRoutes: RouteType[] = [
     icon: I3Dcube
   },
   {
-    route: "/settings/subscriptions",
+    route: "/settings/user/subscriptions",
     label: "Gói đăng ký",
     icon: Award
   },
@@ -91,17 +90,17 @@ export const userAboutRoutes: RouteType[] = [
 
 export const consultantProfileRoutes: RouteType[] = [
   {
-    route: "/settings/user-information",
+    route: "/settings/consultant/consultant-information",
     label: "Thông tin cá nhân",
     icon: Profile
   },
   {
-    route: "/settings/reminder",
+    route: "/settings/consultant/reminder",
     label: "Nhắc nhở và thông báo",
     icon: NotificationStatus
   },
   {
-    route: "/settings/privacy",
+    route: "/settings/consultant/privacy",
     label: "Bảo mật và quyền riêng tư",
     icon: Lock1
   }

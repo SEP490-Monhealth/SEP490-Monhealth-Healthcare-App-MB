@@ -30,7 +30,7 @@ import { whoIAm } from "@/services/authService"
 
 import { parseJSON } from "@/utils/helpers"
 
-import { LoadingScreen } from "../loading"
+import { LoadingScreen } from "../../loading"
 
 function SubscriptionScreen() {
   const { user, setUser } = useAuth()

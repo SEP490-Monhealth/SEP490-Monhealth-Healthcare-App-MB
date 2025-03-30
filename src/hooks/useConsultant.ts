@@ -64,7 +64,7 @@ export const useGetAllConsultants = (
   })
 }
 
-export const useGetConsultantById = (consultantId: string) => {
+export const useGetConsultantById = (consultantId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<ConsultantType, Error>({
@@ -77,6 +77,7 @@ export const useGetConsultantById = (consultantId: string) => {
         throw error
       }
     },
+    enabled: !!consultantId,
     staleTime: 1000 * 60 * 5
   })
 }
