@@ -35,10 +35,13 @@ export const getBookingsByUserId = async (
 }
 
 export const getBookingsByConsultantId = async (
-  consultantId: string | undefined
+  consultantId: string | undefined,
+  date?: string
 ): Promise<BookingType[]> => {
   try {
-    const response = await monAPI.get(`/bookings/consultant/${consultantId}`)
+    const response = await monAPI.get(`/bookings/consultant/${consultantId}`, {
+      params: { date }
+    })
 
     const { success, message, data } = response.data
 

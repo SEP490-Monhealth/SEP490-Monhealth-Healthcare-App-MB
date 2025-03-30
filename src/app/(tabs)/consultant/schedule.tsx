@@ -20,19 +20,18 @@ function BookingScreen() {
   const { user } = useAuth()
   const consultantId = user?.consultantId
 
-  const { data: bookingsData, isLoading } =
-    useGetBookingsByConsultantId(consultantId)
-
   const today = new Date()
 
   const [selectedDate, setSelectedDate] = useState<string | null>(
     today.toISOString()
   )
-  const [selectedSCheduleId, setSelectedSCheduleId] = useState<string | null>(
-    null
+
+  const { data: bookingsData, isLoading } = useGetBookingsByConsultantId(
+    consultantId,
+    selectedDate || today.toISOString()
   )
 
-  console.log(selectedSCheduleId)
+  const [selectedSChedule, setSelectedSchedule] = useState<string | null>(null)
 
   const handleDateSelect = (date: string) => {
     setSelectedDate(date)
@@ -40,7 +39,7 @@ function BookingScreen() {
   }
 
   const handleSelectSchedule = (scheduleId: string) => {
-    setSelectedSCheduleId(scheduleId)
+    setSelectedSchedule(scheduleId)
   }
 
   if (!bookingsData || isLoading) {
@@ -64,7 +63,10 @@ function BookingScreen() {
       <Content className="mt-2">
         <ScrollArea className="flex-1">
           <VStack className="pb-12">
-            <Schedule initialDate={today} onDateSelect={handleDateSelect} />
+            <Schedule
+              initialDate={new Date(selectedDate || today.toISOString())}
+              onDateSelect={handleDateSelect}
+            />
 
             <Section label="Danh sách lịch hẹn" />
 

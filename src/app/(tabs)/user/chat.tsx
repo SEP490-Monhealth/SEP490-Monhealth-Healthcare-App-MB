@@ -15,7 +15,7 @@ import { Header } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
 
-function VoiceScreen() {
+function ChatScreen() {
   const router = useRouter()
 
   const handleSetupConsultant = () => {
@@ -77,4 +77,4 @@ function VoiceScreen() {
   )
 }
 
-export default VoiceScreen
+export default ChatScreen

@@ -33,15 +33,16 @@ export const useGetBookingsByUserId = (userId: string | undefined) => {
 }
 
 export const useGetBookingsByConsultantId = (
-  consultantId: string | undefined
+  consultantId: string | undefined,
+  date?: string
 ) => {
   const handleError = useError()
 
   return useQuery<BookingType[], Error>({
-    queryKey: ["bookings-consultant", consultantId],
+    queryKey: ["bookings-consultant", consultantId, date],
     queryFn: async () => {
       try {
-        return await getBookingsByConsultantId(consultantId)
+        return await getBookingsByConsultantId(consultantId, date)
       } catch (error) {
         handleError(error)
         throw error

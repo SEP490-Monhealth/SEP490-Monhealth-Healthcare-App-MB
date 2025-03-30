@@ -62,7 +62,7 @@ export const Schedule = ({ initialDate, onDateSelect }: ScheduleProps) => {
       (day) => day.date.toDateString() === selectedDay.toDateString()
     )
     if (flatListScrollRef.current && index >= 0) {
-      flatListScrollRef.current.scrollToIndex({ index, animated: true })
+      flatListScrollRef.current.scrollToIndex({ index, animated: false })
     }
   }, [selectedDay, daysInMonth])
 
@@ -135,7 +135,7 @@ export const Schedule = ({ initialDate, onDateSelect }: ScheduleProps) => {
             if (flatListScrollRef.current) {
               flatListScrollRef.current.scrollToIndex({
                 index: info.index,
-                animated: true
+                animated: false
               })
             }
           }, 500)
