@@ -18,7 +18,7 @@ export const useGetBookingsByUserId = (userId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<BookingType[], Error>({
-    queryKey: ["bookings", userId],
+    queryKey: ["bookings-user", userId],
     queryFn: async () => {
       try {
         return await getBookingsByUserId(userId)
@@ -38,7 +38,7 @@ export const useGetBookingsByConsultantId = (
   const handleError = useError()
 
   return useQuery<BookingType[], Error>({
-    queryKey: ["bookings", consultantId],
+    queryKey: ["bookings-consultant", consultantId],
     queryFn: async () => {
       try {
         return await getBookingsByConsultantId(consultantId)
@@ -56,7 +56,7 @@ export const useGetBookingById = (foodId: string) => {
   const handleError = useError()
 
   return useQuery<BookingType, Error>({
-    queryKey: ["food", foodId],
+    queryKey: ["booking", foodId],
     queryFn: async () => {
       try {
         return await getBookingById(foodId)

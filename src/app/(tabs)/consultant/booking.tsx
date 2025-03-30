@@ -88,10 +88,7 @@ function BookingsScreen() {
           { bookingId: selectedBooking },
           {
             onSuccess: () => {
-              router.replace({
-                pathname: "/(tabs)/consultant/booking",
-                params: { tab: "confirmed" }
-              })
+              handleTabChange("confirmed")
             }
           }
         )

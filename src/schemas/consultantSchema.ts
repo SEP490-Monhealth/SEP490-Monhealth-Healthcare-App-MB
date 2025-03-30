@@ -36,6 +36,7 @@ const baseConsultantSchema = z.object({
     .nonempty({ message: "Tên chuyên môn không được để trống" })
     .max(100, { message: "Tên chuyên môn không được dài hơn 100 ký tự" }),
 
+  bookingCount: z.number().default(0),
   ratingCount: z.number().default(0),
   averageRating: z
     .number()

@@ -126,7 +126,7 @@ function ConsultantDetailsScreen() {
 
                 <ConsultantOverview
                   experience={consultantData.experience}
-                  patients={0}
+                  patients={consultantData.bookingCount}
                   rating={consultantData.averageRating}
                 />
               </VStack>
