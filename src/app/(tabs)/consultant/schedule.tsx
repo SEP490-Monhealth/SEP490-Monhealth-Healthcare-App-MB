@@ -47,6 +47,16 @@ function BookingScreen() {
     return <LoadingScreen />
   }
 
+  const sortedBookings = bookingsData.slice().sort((a, b) => {
+    const timeA =
+      parseInt(a.date.split("T")[1].slice(0, 2)) * 60 +
+      parseInt(a.date.split("T")[1].slice(3, 5))
+    const timeB =
+      parseInt(b.date.split("T")[1].slice(0, 2)) * 60 +
+      parseInt(b.date.split("T")[1].slice(3, 5))
+    return timeA - timeB
+  })
+
   return (
     <Container>
       <Header label="Lịch hẹn" />
@@ -59,18 +69,8 @@ function BookingScreen() {
             <Section label="Danh sách lịch hẹn" />
 
             <VStack gap={0}>
-              {bookingsData
-                .slice()
-                .sort((a, b) => {
-                  const timeA =
-                    parseInt(a.date.split("T")[1].slice(0, 2)) * 60 +
-                    parseInt(a.date.split("T")[1].slice(3, 5))
-                  const timeB =
-                    parseInt(b.date.split("T")[1].slice(0, 2)) * 60 +
-                    parseInt(b.date.split("T")[1].slice(3, 5))
-                  return timeA - timeB
-                })
-                .map((schedule) => (
+              {sortedBookings.length > 0 ? (
+                sortedBookings.map((schedule) => (
                   <ScheduleCard
                     key={schedule.bookingId}
                     member={schedule.member.fullName}
@@ -82,14 +82,15 @@ function BookingScreen() {
                     status={schedule.status}
                     onPress={() => handleSelectSchedule(schedule.bookingId)}
                   />
-                ))}
-
-              <ErrorDisplay
-                imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
-                title="Chưa có lịch hẹn"
-                description="Bạn chưa có lịch hẹn nào ở đây!"
-                marginTop={12}
-              />
+                ))
+              ) : (
+                <ErrorDisplay
+                  imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
+                  title="Chưa có lịch hẹn"
+                  description="Bạn chưa có lịch hẹn nào ở đây!"
+                  marginTop={12}
+                />
+              )}
             </VStack>
           </VStack>
         </ScrollArea>
