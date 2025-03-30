@@ -54,11 +54,10 @@ export const getAllConsultants = async (
 }
 
 export const getConsultantById = async (
-  consultantId: string
+  consultantId: string | undefined
 ): Promise<ConsultantType> => {
   try {
     const response = await monAPI.get(`/consultants/${consultantId}`)
-
     const { success, message, data } = response.data
 
     if (success) {
@@ -66,7 +65,7 @@ export const getConsultantById = async (
     } else {
       throw {
         isCustomError: true,
-        message: message || "Không thể lấy thông tin chi tiết tư vấn viên"
+        message: message || "Không thể lấy thông tin chi tiết chuyên viên"
       }
     }
   } catch (error: any) {

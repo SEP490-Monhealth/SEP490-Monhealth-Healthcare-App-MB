@@ -14,16 +14,17 @@ const baseConsultantSchema = z.object({
     .regex(/^[^\d!@#$%^&*()_+=[\]{};':"\\|,.<>/?]*$/, {
       message: "Tên không được chứa ký tự đặc biệt hoặc số"
     }),
+  email: z.string().email({ message: "Email không hợp lệ" }),
+  phoneNumber: z
+    .string()
+    .regex(/^[0-9]+$/, { message: "Số điện thoại chỉ được chứa số" })
+    .min(10, { message: "Số điện thoại phải có ít nhất 10 ký tự" })
+    .max(15, { message: "Số điện thoại không được dài hơn 15 ký tự" }),
   avatarUrl: z.string().url({ message: "Đường dẫn không hợp lệ" }).optional(),
 
-  bio: z
-    .string()
-    // .min(50, {
-    //   message: "Mô tả phải có ít nhất 50 ký tự"
-    // })
-    .max(200, {
-      message: "Mô tả không được dài hơn 200 ký tự"
-    }),
+  bio: z.string().max(200, {
+    message: "Mô tả không được dài hơn 200 ký tự"
+  }),
   experience: z
     .number()
     .min(1, { message: "Kinh nghiệm phải lớn hơn hoặc bằng 1" })
@@ -45,6 +46,7 @@ const baseConsultantSchema = z.object({
 
   views: z.number(),
 
+  isVerified: z.boolean(),
   status: z.boolean(),
 
   ...timestampFields
