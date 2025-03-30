@@ -103,7 +103,7 @@ export const TabsTrigger: React.FC<TabsTriggerProps> = ({
 
   return (
     <TouchableOpacity
-      activeOpacity={0.7}
+      activeOpacity={0.8}
       className="flex items-center justify-center"
       onPress={handlePress}
     >

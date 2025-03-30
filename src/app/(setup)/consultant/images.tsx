@@ -73,7 +73,7 @@ function SetupImage({ errors, openUploadSheet }: SetupImageProps) {
 
               {!item.uploading && !item.deleting && (
                 <TouchableOpacity
-                  activeOpacity={0.7}
+                  activeOpacity={0.8}
                   onPress={() => handleDeleteImage(item.fileName)}
                   className="absolute right-2 top-2 rounded-full bg-border p-1"
                 >

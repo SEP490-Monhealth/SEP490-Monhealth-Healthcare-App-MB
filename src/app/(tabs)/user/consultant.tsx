@@ -146,7 +146,7 @@ function ConsultantScreen() {
           {searchConsultantHistory.map((search, index) => (
             <TouchableOpacity
               key={index}
-              activeOpacity={0.7}
+              activeOpacity={0.8}
               onPress={() =>
                 handleViewConsultant(search.consultantId, search.fullName)
               }
@@ -228,7 +228,7 @@ function ConsultantScreen() {
             <ErrorDisplay
               imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
               title="Không có dữ liệu"
-              description="Không có chuyên viên nào phù hợp với tìm kiếm của bạn!"
+              description="Không tìm thấy có chuyên viên nào ở đây!"
               marginTop={12}
             />
           }

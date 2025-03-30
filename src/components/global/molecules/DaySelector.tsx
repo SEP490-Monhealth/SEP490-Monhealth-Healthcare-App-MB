@@ -142,7 +142,7 @@ const DayItem = memo(
 
     return (
       <TouchableOpacity
-        activeOpacity={0.7}
+        activeOpacity={0.8}
         className={`h-20 items-center justify-center gap-1 rounded-xl border border-border px-2 py-4 ${
           isSelected ? "bg-primary" : "bg-card"
         }`}

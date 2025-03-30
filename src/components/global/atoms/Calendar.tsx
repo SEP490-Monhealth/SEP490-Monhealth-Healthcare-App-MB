@@ -124,14 +124,14 @@ export const Calendar = ({ initialDate }: CalendarProps) => {
 
         <HStack gap={0}>
           <TouchableOpacity
-            activeOpacity={0.7}
+            activeOpacity={0.8}
             className="p-2"
             onPress={handlePrevMonth}
           >
             <ChevronLeft size={24} color={COLORS.primary} />
           </TouchableOpacity>
           <TouchableOpacity
-            activeOpacity={0.7}
+            activeOpacity={0.8}
             className="p-2"
             onPress={handleNextMonth}
           >

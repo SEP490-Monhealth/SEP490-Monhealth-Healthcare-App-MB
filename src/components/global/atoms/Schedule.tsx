@@ -82,7 +82,7 @@ export const Schedule = ({ initialDate, onDateSelect }: ScheduleProps) => {
 
     return (
       <TouchableOpacity
-        activeOpacity={0.7}
+        activeOpacity={0.8}
         className={`h-20 w-[45px] items-center justify-center gap-3 rounded-xl px-2 py-4 ${isSelected ? "bg-primary" : ""}`}
         onPress={() => handleSelectedDay(date)}
       >

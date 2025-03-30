@@ -175,7 +175,7 @@ function ReviewCreateScreen() {
                       {[1, 2, 3, 4, 5].map((star) => (
                         <TouchableOpacity
                           key={star}
-                          activeOpacity={0.7}
+                          activeOpacity={0.8}
                           onPress={() => handleRating(star)}
                         >
                           <Star

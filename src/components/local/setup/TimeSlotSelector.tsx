@@ -20,7 +20,7 @@ interface TimeSlotButtonProps {
 const TimeSlotButton = ({ time, isSelected, onPress }: TimeSlotButtonProps) => {
   return (
     <TouchableOpacity
-      activeOpacity={0.7}
+      activeOpacity={0.8}
       onPress={onPress}
       className={`items-center justify-center rounded-xl border ${
         isSelected ? "border-none bg-primary" : "border-border bg-card"
@@ -42,7 +42,7 @@ interface AddTimeButtonProps {
 const AddTimeButton = ({ onPress }: AddTimeButtonProps) => {
   return (
     <TouchableOpacity
-      activeOpacity={0.7}
+      activeOpacity={0.8}
       onPress={onPress}
       className="items-center justify-center rounded-xl border border-none bg-primary px-3 py-1.5"
     >

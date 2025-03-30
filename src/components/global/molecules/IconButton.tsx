@@ -29,7 +29,7 @@ export const IconButton = ({
   return (
     <TouchableOpacity
       testID={testID}
-      activeOpacity={0.7}
+      activeOpacity={0.8}
       onPress={onPress}
       className={cn(
         "flex items-center justify-center rounded-full bg-muted",

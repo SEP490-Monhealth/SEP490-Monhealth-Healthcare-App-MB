@@ -48,7 +48,7 @@ function ConsultantTabLayout() {
                 tabBarLabel: () => null,
                 tabBarIcon: () => (
                   <View className="h-20 w-20 items-center justify-center rounded-full border-[6px] border-white bg-primary">
-                    <route.icon size={24} color="#fff" />
+                    <route.icon variant="Bold" size={24} color="#fff" />
                   </View>
                 )
               }}

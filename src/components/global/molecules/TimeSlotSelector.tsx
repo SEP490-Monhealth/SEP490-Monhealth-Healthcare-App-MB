@@ -29,7 +29,7 @@ export const TimeSlotSelector = ({
   return (
     <TouchableOpacity
       disabled={isDisabled}
-      activeOpacity={0.7}
+      activeOpacity={0.8}
       onPress={onPress}
       className={cn(
         "items-center rounded-xl border border-border px-5 py-3",

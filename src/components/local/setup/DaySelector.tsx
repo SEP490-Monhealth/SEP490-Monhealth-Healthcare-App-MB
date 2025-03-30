@@ -31,7 +31,7 @@ const DayButton = ({
 
   return (
     <TouchableOpacity
-      activeOpacity={0.7}
+      activeOpacity={0.8}
       onPress={onPress}
       className={`h-20 flex-1 items-center justify-center rounded-xl border ${
         isSelected ? "border-none bg-primary" : "border-border bg-card"

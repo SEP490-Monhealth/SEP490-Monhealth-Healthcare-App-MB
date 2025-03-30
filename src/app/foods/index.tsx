@@ -195,7 +195,7 @@ function FoodsScreen() {
           {searchFoodHistory.map((search) => (
             <TouchableOpacity
               key={search.foodId}
-              activeOpacity={0.7}
+              activeOpacity={0.8}
               onPress={() => handleViewFood(search.foodId, search.name)}
             >
               <Badge label={search.name} />
@@ -276,7 +276,7 @@ function FoodsScreen() {
               <ErrorDisplay
                 imageSource={require("../../../public/images/monhealth-no-data-image.png")}
                 title="Không có dữ liệu"
-                description="Không có món ăn nào phù hợp với tìm kiếm của bạn!"
+                description="Không tìm thấy có món ăn nào ở đây!"
                 marginTop={12}
               />
             }

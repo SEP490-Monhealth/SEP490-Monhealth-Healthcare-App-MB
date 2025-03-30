@@ -36,7 +36,7 @@ export const Select = ({
       )}
 
       <TouchableOpacity
-        activeOpacity={0.7}
+        activeOpacity={0.8}
         onPress={onPress}
         className={cn(
           `flex flex-row items-center rounded-2xl border border-border bg-white px-4 ${

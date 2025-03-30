@@ -25,7 +25,7 @@ export const Checkbox = ({
 }: CheckboxProps) => {
   return (
     <TouchableOpacity
-      activeOpacity={0.7}
+      activeOpacity={0.8}
       onPress={() => onCheckChange?.(!checked)}
       style={{
         height: size,

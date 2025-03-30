@@ -13,7 +13,7 @@ interface SheetItemProps {
 export const SheetItem = ({ item, isSelected, onSelect }: SheetItemProps) => {
   return (
     <TouchableOpacity
-      activeOpacity={0.7}
+      activeOpacity={0.8}
       onPress={() => onSelect(item)}
       className="border-b border-border py-3"
     >
@@ -43,7 +43,7 @@ export const SheetSelect = ({
 }: SheetSelectProps) => {
   return (
     <TouchableOpacity
-      activeOpacity={0.7}
+      activeOpacity={0.8}
       disabled={disabled}
       onPress={!disabled ? onPress : undefined}
       className={`border-b border-border p-4 ${disabled ? "opacity-30" : "opacity-100"}`}
