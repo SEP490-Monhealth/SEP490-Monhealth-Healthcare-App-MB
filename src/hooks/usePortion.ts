@@ -7,14 +7,34 @@ import { CreatePortionType, PortionType } from "@/schemas/portionSchema"
 
 import { createPortion, getPortionByFoodId } from "@/services/portionService"
 
-export const useGetPortionByFoodId = (foodId: string | undefined) => {
+interface PortionsResponse {
+  totalPages: number
+  totalItems: number
+  portions: PortionType[]
+}
+
+export const useGetPortionByFoodId = (
+  foodId: string | undefined,
+  page: number,
+  limit?: number,
+  search?: string,
+  sort?: boolean,
+  order?: boolean
+) => {
   const handleError = useError()
 
-  return useQuery<PortionType[], Error>({
-    queryKey: ["portions", foodId],
+  return useQuery<PortionsResponse, Error>({
+    queryKey: ["portions", foodId, page, limit, search, sort, order],
     queryFn: async () => {
       try {
-        return await getPortionByFoodId(foodId)
+        return await getPortionByFoodId(
+          foodId,
+          page,
+          limit,
+          search,
+          sort,
+          order
+        )
       } catch (error) {
         handleError(error)
         throw error

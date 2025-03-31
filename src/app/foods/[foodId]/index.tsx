@@ -74,12 +74,12 @@ function FoodDetailsScreen() {
   const { data: nutritionData, isLoading: isNutritionLoading } =
     useGetNutritionByFoodId(foodId)
   const { data: portionData, isLoading: isPortionLoading } =
-    useGetPortionByFoodId(foodId)
+    useGetPortionByFoodId(foodId, 1)
 
   const formattedPortionData = [
     "g",
     "ml",
-    ...(portionData?.map((portion) =>
+    ...(portionData?.portions.map((portion) =>
       portion.size && portion.size.trim() !== ""
         ? `${portion.size} (${toFixed(portion.weight, 1)} ${portion.unit})`
         : `${toFixed(portion.weight, 1)} ${portion.unit}`

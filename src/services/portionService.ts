@@ -4,22 +4,36 @@ import monAPI from "@/lib/monAPI"
 
 import { CreatePortionType, PortionType } from "@/schemas/portionSchema"
 
+interface PortionsResponse {
+  totalPages: number
+  totalItems: number
+  portions: PortionType[]
+}
+
 export const getPortionByFoodId = async (
-  foodId: string | undefined
-): Promise<PortionType[]> => {
+  foodId: string | undefined,
+  page: number,
+  limit?: number,
+  search?: string,
+  sort?: boolean,
+  order?: boolean
+): Promise<PortionsResponse> => {
   try {
-    const response = await monAPI.get(`/portions/food/${foodId}`)
+    const response = await monAPI.get(`/portions/food/${foodId}`, {
+      params: { page, limit, search, sort, order }
+    })
 
     const { success, message, data } = response.data
 
-    if (success) {
-      return data as PortionType[]
-    } else {
+    if (!success) {
       throw {
         isCustomError: true,
         message: message || "Không thể lấy thông tin chi tiết khẩu phần ăn"
       }
     }
+
+    const { totalPages, totalItems, items: portions } = data
+    return { portions, totalPages, totalItems }
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
       console.log("Lỗi từ server:", error.response?.data || error.message)
