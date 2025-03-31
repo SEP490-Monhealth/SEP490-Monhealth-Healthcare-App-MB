@@ -1,11 +1,9 @@
 import { z } from "zod"
 
-import {
-  MessageStatusSchemaEnum,
-  MessageTypeSchemaEnum
-} from "@/constants/enum/Chat"
+import { MessageTypeSchemaEnum } from "@/constants/enum/Chat"
 
 import { timestampFields, uuidSchema } from "./baseSchema"
+import { userSchema } from "./userSchema"
 
 const messageSchema = z.object({
   messageId: uuidSchema,
@@ -13,10 +11,10 @@ const messageSchema = z.object({
   senderId: uuidSchema,
   receiveId: uuidSchema,
 
+  avatarUrl: userSchema.shape.avatarUrl.optional(),
+
   type: MessageTypeSchemaEnum,
   content: z.string(),
-
-  status: MessageStatusSchemaEnum,
 
   ...timestampFields
 })

@@ -2,12 +2,14 @@ import React from "react"
 
 import { Image, Text, TouchableOpacity, View } from "react-native"
 
+import { MessageTypeEnum } from "@/constants/enum/Chat"
+
 import { cn } from "@/lib/utils"
 
 import { formatTime } from "@/utils/formatters"
 
 interface MessageCardProps {
-  type: "sent" | "received"
+  type: MessageTypeEnum
   message: string
   timestamp: string
   avatarUrl?: string
@@ -19,11 +21,10 @@ export const MessageCard = ({
   timestamp,
   avatarUrl
 }: MessageCardProps) => {
-  const isSent = type === "sent"
+  const isSent = type === MessageTypeEnum.Sent
 
   return (
-    <TouchableOpacity
-      activeOpacity={0.7}
+    <View
       className={cn(
         "flex-row items-end",
         isSent ? "justify-end" : "justify-start"
@@ -59,6 +60,6 @@ export const MessageCard = ({
           {formatTime(timestamp)}
         </Text>
       </View>
-    </TouchableOpacity>
+    </View>
   )
 }

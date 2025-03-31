@@ -168,12 +168,17 @@ export const formatDateTime = (dateString: string): string => {
 
 /**
  * Chuyển đổi chuỗi ISO thành chuỗi thời gian định dạng HH:mm.
- * @param isoString Chuỗi ISO, ví dụ: "2023-11-18T10:30:00Z".
- * @returns Chuỗi thời gian đã định dạng theo kiểu HH:mm, ví dụ: "17h30" (tùy vào múi giờ).
+ * @param isoString Chuỗi ISO, ví dụ: "2025-03-30T19:06:00Z".
+ * @param offset Múi giờ cần điều chỉnh (đơn vị: giờ), ví dụ: 7 cho GMT+7.
+ * @returns Chuỗi thời gian đã định dạng theo kiểu HH:mm, ví dụ: "19h06".
  */
 export const formatTime = (isoString: string): string => {
   const date = new Date(isoString)
-  const hours = date.getHours().toString().padStart(2, "0")
-  const minutes = date.getMinutes().toString().padStart(2, "0")
+
+  // Tính toán giờ theo múi giờ cụ thể
+  const localTime = new Date(date.getTime())
+  const hours = localTime.getUTCHours().toString().padStart(2, "0")
+  const minutes = localTime.getUTCMinutes().toString().padStart(2, "0")
+
   return `${hours}h${minutes}`
 }
