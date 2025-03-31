@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react"
 
-import { Alert } from "react-native"
-
 import { useRouter } from "expo-router"
 
 import AsyncStorage from "@react-native-async-storage/async-storage"

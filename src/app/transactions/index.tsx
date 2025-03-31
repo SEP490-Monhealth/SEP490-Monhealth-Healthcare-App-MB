@@ -3,8 +3,6 @@ import React, { useEffect, useMemo, useState } from "react"
 import { ActivityIndicator, Keyboard, View } from "react-native"
 import { FlatList } from "react-native"
 
-import { useRouter } from "expo-router"
-
 import { Container, Content } from "@/components/global/atoms"
 import {
   ErrorDisplay,
@@ -78,7 +76,9 @@ function TransactionsScreen() {
   const FlatListHeader = useMemo(() => {
     return (
       <ListHeader className="mt-2">
-        <Section label="Danh sách giao dịch" margin={false} />
+        {transactionsData.length > 0 && (
+          <Section label="Danh sách giao dịch" margin={false} />
+        )}
       </ListHeader>
     )
   }, [])

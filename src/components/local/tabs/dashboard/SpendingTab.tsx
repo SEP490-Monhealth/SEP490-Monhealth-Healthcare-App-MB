@@ -59,7 +59,7 @@ export const SpendingTab = ({
   }
 
   return (
-    <View className="mt-2">
+    <View>
       <VStack className="px-2">
         <Text className="font-tbold text-xl text-secondary">Tổng quan</Text>
 

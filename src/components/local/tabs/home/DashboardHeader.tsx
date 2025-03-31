@@ -2,6 +2,7 @@ import React from "react"
 
 import { Platform, Text } from "react-native"
 import { View } from "react-native"
+import { TouchableOpacity } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -28,6 +29,10 @@ export const DashboardHeader = ({
 
   const paddingClass = Platform.OS === "ios" ? "pb-3 pt-0" : "py-4"
 
+  const handleViewWithdrawalRequests = () => {
+    router.push("/withdrawal-request")
+  }
+
   const handleViewNotifications = () => {
     router.push("/notifications")
   }
@@ -41,9 +46,15 @@ export const DashboardHeader = ({
           {getGreeting()}
         </Text>
         <Text className="font-tbold text-2xl text-primary">{fullName}</Text>
-        <Text className="font-tmedium text-lg text-secondary">
-          Số dư: <Text className="font-tbold">{formatCurrency(balance)}</Text>
-        </Text>
+
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={handleViewWithdrawalRequests}
+        >
+          <Text className="font-tmedium text-lg text-secondary">
+            Số dư: <Text className="font-tbold">{formatCurrency(balance)}</Text>
+          </Text>
+        </TouchableOpacity>
       </View>
 
       <View>

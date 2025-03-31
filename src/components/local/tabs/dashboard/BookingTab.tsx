@@ -34,7 +34,7 @@ export const BookingTab = ({
   const today = "2025-03-29"
 
   return (
-    <>
+    <View>
       <VStack className="px-2">
         <Text className="font-tbold text-xl text-secondary">Tổng quan</Text>
 
@@ -42,7 +42,7 @@ export const BookingTab = ({
           <HStack className="items-end">
             <Text className="font-tbold text-3xl text-primary">3000</Text>
             <Text className="mb-1 font-tmedium text-base text-secondary">
-              tổng kcal
+              kcal
             </Text>
           </HStack>
 
@@ -83,6 +83,6 @@ export const BookingTab = ({
           progress={65}
         />
       </VStack>
-    </>
+    </View>
   )
 }

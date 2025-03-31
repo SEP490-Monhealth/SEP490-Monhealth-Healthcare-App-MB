@@ -13,20 +13,24 @@ interface ReviewOverviewProps {
   totalReviews: number
   averageRating: number
   ratingData: { stars: number; percent: number }[]
+  showSection?: boolean
 }
 
 export const ReviewOverview = ({
   totalReviews,
   averageRating,
-  ratingData
+  ratingData,
+  showSection = true
 }: ReviewOverviewProps) => {
   return (
     <View>
-      <Section
-        label={`Điểm đánh giá (${totalReviews})`}
-        actionText={`${averageRating.toString()} / 5.0`}
-        margin={false}
-      />
+      {showSection && (
+        <Section
+          label={`Điểm đánh giá (${totalReviews})`}
+          actionText={`${averageRating.toString()} / 5.0`}
+          margin={false}
+        />
+      )}
 
       <VStack gap={8}>
         {ratingData.map(({ stars, percent }) => (

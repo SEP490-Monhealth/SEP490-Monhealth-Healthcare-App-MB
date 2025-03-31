@@ -5,7 +5,7 @@ import { Text } from "react-native"
 import { Container, Content } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-function UpdateConsultantScreen() {
+function ConsultantUpdateScreen() {
   return (
     <Container>
       <Header back label="Cập nhập thông tin" />
@@ -17,4 +17,4 @@ function UpdateConsultantScreen() {
   )
 }
 
-export default UpdateConsultantScreen
+export default ConsultantUpdateScreen

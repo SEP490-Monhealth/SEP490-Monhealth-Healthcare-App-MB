@@ -1,7 +1,7 @@
 import React from "react"
 
 import { Dimensions } from "react-native"
-import Svg, { Circle, Line, Polyline, Text as SvgText } from "react-native-svg"
+import Svg, { Line, Polyline, Text as SvgText } from "react-native-svg"
 
 import { COLORS } from "@/constants/color"
 

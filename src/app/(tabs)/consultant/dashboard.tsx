@@ -1,7 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react"
 
-import { Text } from "react-native"
-
 import { useLocalSearchParams } from "expo-router"
 
 import {
@@ -14,7 +12,11 @@ import {
   TabsTrigger
 } from "@/components/global/atoms"
 
-import { BookingTab, SpendingTab } from "@/components/local/tabs/dashboard"
+import {
+  BookingTab,
+  ReviewTab,
+  SpendingTab
+} from "@/components/local/tabs/dashboard"
 import { DashboardHeader } from "@/components/local/tabs/home/DashboardHeader"
 
 import { useAuth } from "@/contexts/AuthContext"
@@ -86,7 +88,10 @@ function DashboardScreen() {
             </TabsContent>
 
             <TabsContent value="reviews">
-              <Text>asd</Text>
+              <ReviewTab
+                onLoading={handleLoading}
+                onOverlayLoading={handleOverlayLoading}
+              />
             </TabsContent>
           </Tabs>
         </Content>
