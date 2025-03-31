@@ -17,7 +17,7 @@ import {
 import { HomeHeader } from "@/components/local/tabs/home"
 import { MealTab } from "@/components/local/tabs/home/MealTab"
 import { WaterTab } from "@/components/local/tabs/home/WaterTab"
-import { WorkoutTab } from "@/components/local/tabs/home/WorkoutTab"
+import { ActivityTab } from "@/components/local/tabs/home/ActivityTab"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -93,7 +93,7 @@ function HomeScreen() {
             </TabsContent>
 
             <TabsContent value="workout">
-              <WorkoutTab
+              <ActivityTab
                 onLoading={handleLoading}
                 onOverlayLoading={handleOverlayLoading}
               />

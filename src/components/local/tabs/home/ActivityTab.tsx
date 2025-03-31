@@ -21,15 +21,15 @@ import { formatDateY, toFixed } from "@/utils/formatters"
 import { WorkoutProgress } from "./WorkoutProgress"
 import { WorkoutSummary } from "./WorkoutSummary"
 
-interface WorkoutTabProps {
+interface ActivityTabProps {
   onLoading: (isLoading: boolean) => void
   onOverlayLoading: (isLoading: boolean) => void
 }
 
-export const WorkoutTab = ({
+export const ActivityTab = ({
   onLoading,
   onOverlayLoading
-}: WorkoutTabProps) => {
+}: ActivityTabProps) => {
   const router = useRouter()
 
   const { user } = useAuth()
@@ -39,11 +39,10 @@ export const WorkoutTab = ({
 
   const { data: dailyActivityData, isLoading: isDailyActivityLoading } =
     useGetDailyActivityByUserId(userId, today)
-
-  console.log(dailyActivityData)
-
   const { data: workoutGoalData, isLoading: isGoalLoading } =
     useGetWorkoutGoal(userId)
+
+  console.log(dailyActivityData)
 
   // const workoutGoalData = {
   //   caloriesIntakeGoal: 200,
@@ -78,6 +77,39 @@ export const WorkoutTab = ({
     }
   }, [isFetching, isMutating, onOverlayLoading])
 
+  const activitiesData = dailyActivityData?.items || []
+
+  const defaultActivitiesData = [
+    {
+      workoutId: "default-workout-1",
+      name: "Hoạt động 1",
+      exercises: 0,
+      duration: 0,
+      caloriesBurned: 0,
+      isDefault: true
+    },
+    {
+      workoutId: "default-workout-2",
+      name: "Hoạt động 2",
+      exercises: 0,
+      duration: 0,
+      caloriesBurned: 0,
+      isDefault: true
+    },
+    {
+      workoutId: "default-workout-3",
+      name: "Hoạt động 2",
+      exercises: 0,
+      duration: 0,
+      caloriesBurned: 0,
+      isDefault: true
+    }
+  ]
+
+  const mergedActivitiesData = dailyActivityData?.items?.length
+    ? activitiesData
+    : defaultActivitiesData
+
   const caloriesBurnedValue = dailyActivityData?.totalCaloriesBurned || 0
   const caloriesBurnedGoal = workoutGoalData?.caloriesBurnedGoal || 0
 
@@ -105,7 +137,13 @@ export const WorkoutTab = ({
       ? (caloriesBurnedValue / caloriesBurnedGoal) * 100
       : 0
 
-  const handleViewWorkouts = () => router.push("/workouts")
+  const handleViewWorkouts = () => {
+    router.push("/workouts")
+  }
+
+  const handleViewWorkout = (workoutId: string) => {
+    router.push(`/workouts/${workoutId}`)
+  }
 
   return (
     <View className="mt-4">
@@ -128,22 +166,24 @@ export const WorkoutTab = ({
 
       <Section
         label="Hoạt động hôm nay"
-        actionText="Thêm bài tập"
+        actionText="Thêm bộ bài tập"
         onPress={handleViewWorkouts}
       />
 
-      {/* <VStack gap={12}>
-        {dailyActivityData.map((item) => (
+      <VStack gap={12}>
+        {mergedActivitiesData.map((item) => (
           <WorkoutCard
             key={item.workoutId}
             name={item.name}
             exercises={item.exercises}
-            duration={item.duration}
+            duration={item.durationMinutes}
             caloriesBurned={item.caloriesBurned}
-            onPress={() => handleViewWorkout(item.workoutId)}
+            onPress={() =>
+              item.isDefault ? null : handleViewWorkout(item.workoutId)
+            }
           />
         ))}
-      </VStack> */}
+      </VStack>
     </View>
   )
 }

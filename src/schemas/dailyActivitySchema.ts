@@ -1,8 +1,9 @@
 import { z } from "zod"
 
+import { activitySchema } from "./activitySchema"
 import { timestampFields, uuidSchema } from "./baseSchema"
 
-const baseDailyActivitySchema = z.object({
+const dailyActivitySchema = z.object({
   dailyActivityId: uuidSchema,
   userId: uuidSchema,
   goalId: uuidSchema,
@@ -17,9 +18,9 @@ const baseDailyActivitySchema = z.object({
     .number()
     .min(1, { message: "Kcal phải lớn hơn hoặc bằng 1" }),
 
+  items: z.array(activitySchema),
+
   ...timestampFields
 })
-
-export const dailyActivitySchema = baseDailyActivitySchema
 
 export type DailyActivityType = z.infer<typeof dailyActivitySchema>

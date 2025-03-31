@@ -7,14 +7,7 @@ import {
 
 import { auditFields, uuidSchema } from "./baseSchema"
 
-const createWorkoutExerciseSchema = z.object({
-  exerciseId: z.string(),
-
-  duration: z.number().optional(),
-  reps: z.number().optional()
-})
-
-const baseWorkoutSchema = z.object({
+export const workoutSchema = z.object({
   workoutId: uuidSchema,
   userId: uuidSchema,
 
@@ -49,7 +42,5 @@ const baseWorkoutSchema = z.object({
 
   ...auditFields
 })
-
-export const workoutSchema = baseWorkoutSchema
 
 export type WorkoutType = z.infer<typeof workoutSchema>

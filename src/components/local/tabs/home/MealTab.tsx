@@ -41,7 +41,6 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
 
   const { data: dailyMealData, isLoading: isDailyMealLoading } =
     useGetDailyMealByUserId(userId, today)
-
   const { data: nutritionGoalData, isLoading: isGoalLoading } =
     useGetNutritionGoal(userId)
 
