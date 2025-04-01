@@ -15,16 +15,17 @@ import { COLORS } from "@/constants/color"
 import { getGreeting } from "@/utils/helpers"
 
 interface HomeHeaderProps {
+  userId?: string
   fullName?: string
 }
 
-export const HomeHeader = ({ fullName }: HomeHeaderProps) => {
+export const HomeHeader = ({ userId, fullName }: HomeHeaderProps) => {
   const router = useRouter()
 
   const paddingClass = Platform.OS === "ios" ? "pb-3 pt-0" : "py-4"
 
   const handleViewNotifications = () => {
-    router.push("/notifications")
+    router.push(`/notifications/user/${userId}`)
   }
 
   return (

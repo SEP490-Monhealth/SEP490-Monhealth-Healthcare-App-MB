@@ -17,11 +17,13 @@ import { formatCurrency } from "@/utils/formatters"
 import { getGreeting } from "@/utils/helpers"
 
 interface DashboardHeaderProps {
+  consultantId?: string
   fullName?: string
   balance: number
 }
 
 export const DashboardHeader = ({
+  consultantId,
   fullName,
   balance
 }: DashboardHeaderProps) => {
@@ -30,11 +32,11 @@ export const DashboardHeader = ({
   const paddingClass = Platform.OS === "ios" ? "pb-3 pt-0" : "py-4"
 
   const handleViewWithdrawalRequests = () => {
-    router.push("/banks/consultant")
+    router.push(`/banks/consultant/${consultantId}`)
   }
 
   const handleViewNotifications = () => {
-    router.push("/notifications")
+    router.push(`/notifications/consultant/${consultantId}`)
   }
 
   return (

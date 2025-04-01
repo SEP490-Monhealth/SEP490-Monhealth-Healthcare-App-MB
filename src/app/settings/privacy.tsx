@@ -25,7 +25,7 @@ import { UpdatePasswordType, updatePasswordSchema } from "@/schemas/userSchema"
 
 function PrivacyScreen() {
   const { user } = useAuth()
-  const userId = user?.userId || ""
+  const userId = user?.userId
 
   const { mutate: updatePassword } = useUpdatePasswordUser()
 

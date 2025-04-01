@@ -15,14 +15,15 @@ import {
 } from "@/components/global/atoms"
 
 import { HomeHeader } from "@/components/local/tabs/home"
+import { ActivityTab } from "@/components/local/tabs/home/ActivityTab"
 import { MealTab } from "@/components/local/tabs/home/MealTab"
 import { WaterTab } from "@/components/local/tabs/home/WaterTab"
-import { ActivityTab } from "@/components/local/tabs/home/ActivityTab"
 
 import { useAuth } from "@/contexts/AuthContext"
 
 function HomeScreen() {
   const { user } = useAuth()
+  const userId = user?.userId
   const fullName = user?.fullName
 
   // console.log(user)
@@ -59,7 +60,7 @@ function HomeScreen() {
     <Container>
       <LoadingOverlay visible={overlayLoading} />
 
-      <HomeHeader fullName={fullName} />
+      <HomeHeader userId={userId} fullName={fullName} />
 
       <ScrollArea>
         <Content className="pb-12">

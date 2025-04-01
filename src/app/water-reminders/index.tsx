@@ -177,14 +177,14 @@ function WaterRemindersScreen() {
 
         <SheetSelect
           label="Chỉnh sửa"
-          icon={<Edit2 variant="Bold" size="24" color={COLORS.primary} />}
+          icon={<Edit2 variant="Bold" size="20" color={COLORS.primary} />}
           onPress={handleUpdateReminderWrapper}
         />
 
         <SheetSelect
           variant="danger"
           label="Xóa"
-          icon={<Trash variant="Bold" size={24} color={COLORS.destructive} />}
+          icon={<Trash variant="Bold" size="20" color={COLORS.destructive} />}
           onPress={handleDeleteReminder}
         />
       </Sheet>

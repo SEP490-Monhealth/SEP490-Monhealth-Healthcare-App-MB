@@ -48,7 +48,7 @@ function WaterReminderCreateScreen() {
   } = useForm<CreateWaterReminderType>({
     resolver: zodResolver(createWaterReminderSchema),
     defaultValues: {
-      userId: userId || "",
+      userId: userId,
       name: "",
       time: new Date().toLocaleTimeString([], {
         hour: "2-digit",

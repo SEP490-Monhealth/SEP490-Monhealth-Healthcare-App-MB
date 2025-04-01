@@ -18,13 +18,15 @@ interface ConsultantBankCardProps {
   number: string
   name: string
   isDefault?: boolean
+  onMorePress?: () => void
 }
 
 export const ConsultantBankCard = ({
   bank,
   number,
   name,
-  isDefault
+  isDefault,
+  onMorePress
 }: ConsultantBankCardProps) => {
   return (
     <Card>
@@ -56,6 +58,7 @@ export const ConsultantBankCard = ({
           <IconButton
             size="sm"
             icon={<MoreHorizontal size={20} color={COLORS.primary} />}
+            onPress={onMorePress}
           />
         </HStack>
 

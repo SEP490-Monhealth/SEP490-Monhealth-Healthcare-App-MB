@@ -18,7 +18,9 @@ import { useAuth } from "@/contexts/AuthContext"
 
 function SettingsScreen() {
   const router = useRouter()
-  const { logout } = useAuth()
+
+  const { user, logout } = useAuth()
+  const userId = user?.userId
 
   const [isModalVisible, setIsModalVisible] = useState(false)
 
@@ -43,16 +45,20 @@ function SettingsScreen() {
           {/* <ScrollArea> */}
           <Card activeOpacity={1}>
             {userProfileRoutes.map((item, index) => {
+              const route =
+                typeof item.route === "function"
+                  ? item.route(userId!)
+                  : item.route
               const Icon = item.icon
 
               return (
                 <ListItem
                   key={index}
+                  route={route}
+                  label={item.label}
                   startIcon={
                     <Icon variant="Bold" size={24} color={COLORS.accent} />
                   }
-                  label={item.label}
-                  route={item.route}
                 />
               )
             })}
@@ -60,16 +66,20 @@ function SettingsScreen() {
 
           <Card activeOpacity={1}>
             {userAboutRoutes.map((item, index) => {
+              const route =
+                typeof item.route === "function"
+                  ? item.route(userId!)
+                  : item.route
               const Icon = item.icon
 
               return (
                 <ListItem
                   key={index}
+                  route={route}
                   startIcon={
                     <Icon variant="Bold" size={24} color={COLORS.accent} />
                   }
                   label={item.label}
-                  route={item.route}
                   action={item.action}
                   onPress={() => handleAction(item.action)}
                 />

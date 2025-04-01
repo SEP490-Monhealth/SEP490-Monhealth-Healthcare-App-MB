@@ -18,7 +18,7 @@ import {
 import { IconProps } from "iconsax-react-native"
 
 interface RouteType {
-  route?: string
+  route?: string | ((id: string) => string)
   name?: string
   label: string
   icon: React.ComponentType<IconProps>
@@ -44,27 +44,27 @@ export const consultantRoutes: RouteType[] = [
 
 export const userProfileRoutes: RouteType[] = [
   {
-    route: "/settings/user/information",
+    route: (userId: string) => `/settings/user/${userId}/information`,
     label: "Thông tin cá nhân",
     icon: Profile
   },
   {
-    route: "/settings/user/health",
+    route: (userId: string) => `/settings/user/${userId}/health`,
     label: "Chỉ số sức khỏe",
     icon: Command
   },
   {
-    route: "/settings/user/activity",
+    route: (userId: string) => `/settings/user/${userId}/activity`,
     label: "Hoạt động thể chất",
     icon: Activity
   },
   {
-    route: "/settings/user/reminder",
+    route: "/settings/reminder",
     label: "Nhắc nhở và thông báo",
     icon: NotificationStatus
   },
   {
-    route: "/settings/user/privacy",
+    route: (userId: string) => `/settings/user/${userId}/privacy`,
     label: "Bảo mật và quyền riêng tư",
     icon: Lock1
   }
@@ -90,17 +90,19 @@ export const userAboutRoutes: RouteType[] = [
 
 export const consultantProfileRoutes: RouteType[] = [
   {
-    route: "/settings/consultant/information",
+    route: (consultantId: string) =>
+      `/settings/consultant/${consultantId}/information`,
     label: "Thông tin cá nhân",
     icon: Profile
   },
   {
-    route: "/settings/consultant/reminder",
+    route: "/settings/reminder",
     label: "Nhắc nhở và thông báo",
     icon: NotificationStatus
   },
   {
-    route: "/settings/consultant/privacy",
+    route: (consultantId: string) =>
+      `/settings/consultant/${consultantId}/privacy`,
     label: "Bảo mật và quyền riêng tư",
     icon: Lock1
   }

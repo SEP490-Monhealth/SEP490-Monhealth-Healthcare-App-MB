@@ -48,11 +48,12 @@ export const SheetSelect = ({
       onPress={!disabled ? onPress : undefined}
       className={`border-b border-border p-4 ${disabled ? "opacity-30" : "opacity-100"}`}
     >
-      <HStack center>
-        <View className="mr-4">{icon}</View>
+      <HStack center gap={16}>
+        <View>{icon}</View>
+
         <Text
-          className={`font-tmedium text-lg ${
-            variant === "danger" ? "text-destructive" : "text-secondary"
+          className={`font-tmedium text-base ${
+            variant === "danger" ? "text-destructive" : "text-primary"
           }`}
         >
           {label}

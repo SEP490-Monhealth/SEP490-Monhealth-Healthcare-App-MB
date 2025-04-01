@@ -65,12 +65,14 @@ export const ReviewTab = ({ onLoading, onOverlayLoading }: ReviewTabProps) => {
           </HStack>
         </VStack>
 
-        <ReviewOverview
-          totalReviews={totalReviews}
-          averageRating={averageRating}
-          ratingData={ratingData}
-          showSection={false}
-        />
+        <View className="px-2">
+          <ReviewOverview
+            totalReviews={totalReviews}
+            averageRating={averageRating}
+            ratingData={ratingData}
+            showSection={false}
+          />
+        </View>
       </VStack>
 
       <Section

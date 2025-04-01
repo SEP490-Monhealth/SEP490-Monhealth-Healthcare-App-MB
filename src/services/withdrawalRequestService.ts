@@ -19,9 +19,12 @@ export const getWithdrawalRequestsByConsultantId = async (
   limit?: number
 ): Promise<WithdrawalRequestResponse> => {
   try {
-    const response = await monAPI.get(`/withdrawal-requests`, {
-      params: { consultantId, page, limit }
-    })
+    const response = await monAPI.get(
+      `/withdrawal-requests/consultant/${consultantId}`,
+      {
+        params: { page, limit }
+      }
+    )
 
     const { success, message, data } = response.data
 

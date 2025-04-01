@@ -25,7 +25,7 @@ function DashboardScreen() {
   const { tab } = useLocalSearchParams<{ tab: string }>()
 
   const { user } = useAuth()
-  const userId = user?.userId
+  const consultantId = user?.consultantId
   const fullName = user?.fullName
 
   const today = "2025-03-29"
@@ -54,7 +54,11 @@ function DashboardScreen() {
 
   return (
     <Container>
-      <DashboardHeader fullName={fullName} balance={100000} />
+      <DashboardHeader
+        consultantId={consultantId}
+        fullName={fullName}
+        balance={100000}
+      />
 
       <ScrollArea>
         <Content className="pb-12">

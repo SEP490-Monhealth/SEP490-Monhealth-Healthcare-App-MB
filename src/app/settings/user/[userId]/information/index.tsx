@@ -7,7 +7,7 @@ import {
   View
 } from "react-native"
 
-import { useRouter } from "expo-router"
+import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
 import {
@@ -51,9 +51,9 @@ import { getSubscriptionColor } from "@/utils/helpers"
 
 function UserInformationScreen() {
   const router = useRouter()
+  const { userId } = useLocalSearchParams<{ userId: string }>()
 
   const { user } = useAuth()
-  const userId = user?.userId
   const userSubscription = user?.subscription
 
   const SheetRef = useRef<SheetRefProps>(null)
