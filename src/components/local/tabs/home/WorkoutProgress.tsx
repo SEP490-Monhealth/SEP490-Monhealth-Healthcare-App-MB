@@ -52,7 +52,7 @@ export const WorkoutProgress = ({
       <VStack center>
         <Image
           source={require("../../../../../public/images/monhealth-workout-image.png")}
-          className="-rotate-45"
+          className="rotate-45"
           style={{ width: 24, height: 24 }}
         />
 

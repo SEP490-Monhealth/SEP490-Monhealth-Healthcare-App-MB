@@ -70,7 +70,7 @@ export const TransactionCard = ({
         <Image
           source={
             transactionTypeIcon ||
-            require("../../../../public/icons/transactions/income.png")
+            require("../../../../public/icons/transactions/money.png")
           }
           style={{ width: 24, height: 24 }}
         />

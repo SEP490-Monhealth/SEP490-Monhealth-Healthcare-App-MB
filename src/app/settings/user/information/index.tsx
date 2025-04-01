@@ -9,6 +9,7 @@ import {
 
 import { useRouter } from "expo-router"
 
+import { LoadingScreen } from "@/app/loading"
 import {
   AlignVertically,
   Award,
@@ -48,8 +49,6 @@ import { useGetUserById } from "@/hooks/useUser"
 import { formatDate } from "@/utils/formatters"
 import { getSubscriptionColor } from "@/utils/helpers"
 
-import { LoadingScreen } from "../../loading"
-
 function UserInformationScreen() {
   const router = useRouter()
 
@@ -57,11 +56,12 @@ function UserInformationScreen() {
   const userId = user?.userId
   const userSubscription = user?.subscription
 
+  const SheetRef = useRef<SheetRefProps>(null)
+
   const { data: userData, isLoading: isUserLoading } = useGetUserById(userId)
   const { data: metricData, isLoading: isMetricLoading } =
     useGetMetricsByUserId(userId)
 
-  const SheetRef = useRef<SheetRefProps>(null)
   const sheetHeight = 180
 
   const openSheet = () => SheetRef.current?.scrollTo(-sheetHeight)
@@ -72,8 +72,8 @@ function UserInformationScreen() {
   const userInfoList = [
     { label: formatDate(userData?.createdAt), icon: CalendarCircle },
     { label: userData?.fullName, icon: ProfileCircle },
-    { label: userData?.phoneNumber, icon: CallCalling },
     { label: userData?.email, icon: Sms },
+    { label: userData?.phoneNumber, icon: CallCalling },
     { label: userSubscription, icon: Award }
   ]
 
@@ -89,7 +89,10 @@ function UserInformationScreen() {
   ]
 
   const handleUpdateUser = () => {
-    router.push(`/users/${userId}`)
+    router.push({
+      pathname: "/settings/user/information/update",
+      params: { userId }
+    })
   }
 
   return (

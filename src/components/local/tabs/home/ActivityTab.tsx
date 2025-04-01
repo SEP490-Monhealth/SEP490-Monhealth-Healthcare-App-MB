@@ -8,6 +8,7 @@ import { LoadingOverlay } from "@/app/loading"
 import { useIsFetching, useIsMutating } from "@tanstack/react-query"
 
 import { HStack, Progress, VStack } from "@/components/global/atoms"
+import { ActivityCard } from "@/components/global/molecules"
 import { WorkoutCard } from "@/components/global/molecules/WorkoutCard"
 import { Section } from "@/components/global/organisms"
 
@@ -172,7 +173,7 @@ export const ActivityTab = ({
 
       <VStack gap={12}>
         {mergedActivitiesData.map((item) => (
-          <WorkoutCard
+          <ActivityCard
             key={item.workoutId}
             name={item.name}
             exercises={item.exercises}

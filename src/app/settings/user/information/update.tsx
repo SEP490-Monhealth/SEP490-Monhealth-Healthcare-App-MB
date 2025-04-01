@@ -19,9 +19,9 @@ import { useGetUserById, useUpdateUser } from "@/hooks/useUser"
 
 import { UpdateUserType, updateUserSchema } from "@/schemas/userSchema"
 
-function UpdateInformationScreen() {
+function UserInformationUpdateScreen() {
   const router = useRouter()
-  const { userId } = useLocalSearchParams() as { userId: string }
+  const { userId } = useLocalSearchParams<{ userId: string }>()
 
   // const { setUser } = useAuth()
 
@@ -50,9 +50,6 @@ function UpdateInformationScreen() {
       {
         onSuccess: () => {
           router.back()
-        },
-        onError: (error) => {
-          console.error("Cập nhật thất bại:", error)
         }
       }
     )
@@ -116,4 +113,4 @@ function UpdateInformationScreen() {
   )
 }
 
-export default UpdateInformationScreen
+export default UserInformationUpdateScreen

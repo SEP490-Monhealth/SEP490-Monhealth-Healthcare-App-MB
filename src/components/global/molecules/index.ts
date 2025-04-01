@@ -1,3 +1,4 @@
+import { ActivityCard } from "./ActivityCard"
 import { ArcProgress } from "./ArcProgress"
 import { BankCard } from "./BankCard"
 import { BookingCard } from "./BookingCard"
@@ -29,6 +30,7 @@ import { WaterReminderCard } from "./WaterReminderCard"
 import { WorkoutCard } from "./WorkoutCard"
 
 export {
+  ActivityCard,
   ArcProgress,
   BankCard,
   BookingCard,
