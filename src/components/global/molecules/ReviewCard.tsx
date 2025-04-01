@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 
 import { Image, Text, View } from "react-native"
 
@@ -7,12 +7,13 @@ import { Star, StarHalf } from "lucide-react-native"
 import { COLORS } from "@/constants/color"
 
 import { formatTimeAgo } from "@/utils/formatters"
+import { getInitials } from "@/utils/helpers"
 
 import { Card, HStack, VStack } from "../atoms"
 
 interface ReviewCardProps {
   name: string
-  avatarUrl: string
+  avatarUrl: string | undefined
   rating: number
   comment: string
   time: string
@@ -25,14 +26,25 @@ export const ReviewCard = ({
   comment,
   time
 }: ReviewCardProps) => {
+  const [imgError, setImgError] = useState(false)
+
   return (
     <Card activeOpacity={1} hasImage>
       <VStack gap={8}>
         <HStack center gap={12}>
-          <Image
-            source={{ uri: avatarUrl }}
-            className="h-14 w-14 rounded-xl border border-border"
-          />
+          {imgError || !avatarUrl ? (
+            <View className="h-14 w-14 rounded-xl border border-border">
+              <Text className="font-tbold text-2xl text-secondary">
+                {getInitials(name)}
+              </Text>
+            </View>
+          ) : (
+            <Image
+              source={{ uri: avatarUrl }}
+              className="h-14 w-14 rounded-xl border border-border"
+              onError={() => setImgError(true)}
+            />
+          )}
 
           <View className="flex-1 gap-1">
             <HStack center className="justify-between">

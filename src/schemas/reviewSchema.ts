@@ -1,12 +1,20 @@
 import { z } from "zod"
 
 import { auditFields, uuidSchema } from "./baseSchema"
+import { userSchema } from "./userSchema"
 
 const baseReviewSchema = z.object({
   reviewId: uuidSchema,
   bookingId: uuidSchema,
   consultantId: uuidSchema,
   userId: uuidSchema,
+
+  member: z.object({
+    fullName: userSchema.shape.fullName,
+    email: userSchema.shape.email,
+    phoneNumber: userSchema.shape.phoneNumber,
+    avatarUrl: userSchema.shape.avatarUrl
+  }),
 
   rating: z.number().min(1, { message: "Chọn số sao để đánh giá" }),
   comment: z

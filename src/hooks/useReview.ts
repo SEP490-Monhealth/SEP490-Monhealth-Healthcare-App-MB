@@ -1,11 +1,20 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
 
-import { CreateReviewType } from "@/schemas/reviewSchema"
+import { CreateReviewType, ReviewType } from "@/schemas/reviewSchema"
 
-import { createReview } from "@/services/reviewService"
+import {
+  createReview,
+  getReviewsByConsultantId
+} from "@/services/reviewService"
+
+interface ReviewResponse {
+  reviews: ReviewType[]
+  totalPages: number
+  totalItems: number
+}
 
 export const useCreateReview = () => {
   const queryClient = useQueryClient()
@@ -25,5 +34,26 @@ export const useCreateReview = () => {
       queryClient.invalidateQueries({ queryKey: ["reviews"] })
       queryClient.invalidateQueries({ queryKey: ["bookings-user"] })
     }
+  })
+}
+
+export const useGetReviewsByConsultantId = (
+  consultantId: string | undefined,
+  page: number,
+  limit?: number
+) => {
+  const handleError = useError()
+
+  return useQuery<ReviewResponse, Error>({
+    queryKey: ["reviews", consultantId, page, limit],
+    queryFn: async () => {
+      try {
+        return await getReviewsByConsultantId(consultantId, page, limit)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    staleTime: 1000 * 60 * 5
   })
 }

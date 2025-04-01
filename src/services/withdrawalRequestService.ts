@@ -56,7 +56,7 @@ export const createWithdrawalRequest = async (
   showModal: (message: string) => void
 ): Promise<string> => {
   try {
-    const response = await monAPI.post(`/reviews`, newData)
+    const response = await monAPI.post(`/withdrawal-requests`, newData)
 
     const { success, message } = response.data
 

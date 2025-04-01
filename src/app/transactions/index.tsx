@@ -75,9 +75,13 @@ function TransactionsScreen() {
 
   const FlatListHeader = useMemo(() => {
     return (
-      <ListHeader className="mt-2">
+      <ListHeader>
         {transactionsData.length > 0 && (
-          <Section label="Danh sách giao dịch" margin={false} />
+          <Section
+            label="Danh sách giao dịch"
+            margin={false}
+            className="mt-2"
+          />
         )}
       </ListHeader>
     )
