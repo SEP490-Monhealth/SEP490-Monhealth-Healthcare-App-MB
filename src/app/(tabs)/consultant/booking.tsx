@@ -29,7 +29,6 @@ import {
 
 function BookingsScreen() {
   const router = useRouter()
-
   const { tab } = useLocalSearchParams<{ tab: string }>()
 
   const { user } = useAuth()
@@ -86,6 +85,7 @@ function BookingsScreen() {
           { bookingId: selectedBooking },
           {
             onSuccess: () => {
+              console.log("Mutation succeeded")
               handleTabChange("confirmed")
             }
           }

@@ -13,11 +13,16 @@ import { sampleReviewsData } from "@/constants/reviews"
 import { ReviewOverview } from "../../consultants"
 
 interface ReviewTabProps {
+  consultantId?: string
   onLoading: (isLoading: boolean) => void
   onOverlayLoading: (isLoading: boolean) => void
 }
 
-export const ReviewTab = ({ onLoading, onOverlayLoading }: ReviewTabProps) => {
+export const ReviewTab = ({
+  consultantId,
+  onLoading,
+  onOverlayLoading
+}: ReviewTabProps) => {
   const router = useRouter()
 
   const reviewsData = sampleReviewsData.reviews
@@ -40,7 +45,7 @@ export const ReviewTab = ({ onLoading, onOverlayLoading }: ReviewTabProps) => {
   }))
 
   const handleViewReviews = () => {
-    router.push("/reviews")
+    router.push(`/reviews/consultant/${consultantId}`)
   }
 
   return (

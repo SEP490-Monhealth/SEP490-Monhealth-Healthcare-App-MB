@@ -43,7 +43,7 @@ export const Header = ({
 
   const handleAction = () => {
     if (action?.href) {
-      router.push(action.href)
+      router.replace(action.href)
     } else if (onActionPress) {
       onActionPress()
     }

@@ -2,6 +2,10 @@ import React, { useEffect, useMemo, useState } from "react"
 
 import { ActivityIndicator, FlatList, Keyboard, View } from "react-native"
 
+import { useLocalSearchParams } from "expo-router"
+
+import { LoadingScreen } from "@/app/loading"
+
 import { Container, Content } from "@/components/global/atoms"
 import {
   ErrorDisplay,
@@ -13,19 +17,12 @@ import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
 
-import { useAuth } from "@/contexts/AuthContext"
-
 import { useGetReviewsByConsultantId } from "@/hooks/useReview"
 
 import { ReviewType } from "@/schemas/reviewSchema"
 
-import { LoadingScreen } from "../loading"
-
-function ReviewConsultantScreen() {
-  const { user } = useAuth()
-  const consultantId = user?.consultantId
-
-  console.log(consultantId)
+function ReviewsScreen() {
+  const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
 
   const [reviewsData, setReviewsData] = useState<ReviewType[]>([])
   const [page, setPage] = useState<number>(1)
@@ -75,7 +72,7 @@ function ReviewConsultantScreen() {
     return (
       <ListHeader>
         {reviewsData.length > 0 && (
-          <Section label="Lịch sử đánh giá" margin={false} className="mt-2" />
+          <Section label="Tất cả đánh giá" margin={false} className="pt-2" />
         )}
       </ListHeader>
     )
@@ -87,7 +84,7 @@ function ReviewConsultantScreen() {
 
   return (
     <Container>
-      <Header back label="Phản hồi" />
+      <Header back label="Đánh giá" />
 
       <Content>
         <FlatList
@@ -123,9 +120,9 @@ function ReviewConsultantScreen() {
           }
           ListEmptyComponent={
             <ErrorDisplay
-              imageSource={require("../../../public/images/monhealth-no-data-image.png")}
+              imageSource={require("../../../../../public/images/monhealth-no-data-image.png")}
               title="Không có dữ liệu"
-              description="Không tìm thấy có đánh giá nào ở đây!"
+              description="Không tìm thấy có phản hồi nào ở đây!"
               marginTop={24}
             />
           }
@@ -136,4 +133,4 @@ function ReviewConsultantScreen() {
   )
 }
 
-export default ReviewConsultantScreen
+export default ReviewsScreen

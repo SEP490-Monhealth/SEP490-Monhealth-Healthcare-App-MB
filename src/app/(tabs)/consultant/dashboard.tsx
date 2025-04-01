@@ -93,6 +93,7 @@ function DashboardScreen() {
 
             <TabsContent value="reviews">
               <ReviewTab
+                consultantId={consultantId}
                 onLoading={handleLoading}
                 onOverlayLoading={handleOverlayLoading}
               />

@@ -2,6 +2,9 @@ import React, { useEffect, useMemo, useState } from "react"
 
 import { ActivityIndicator, FlatList, Keyboard, Text, View } from "react-native"
 
+import { useLocalSearchParams } from "expo-router"
+
+import { LoadingScreen } from "@/app/loading"
 import { Add } from "iconsax-react-native"
 
 import { Container, Content } from "@/components/global/atoms"
@@ -15,19 +18,14 @@ import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
 
-import { useAuth } from "@/contexts/AuthContext"
-
 import { useGetWithdrawalRequestsByConsultantId } from "@/hooks/useWithdrawalRequest"
 
 import { WithdrawalRequestType } from "@/schemas/withdrawalRequestSchema"
 
-import { LoadingScreen } from "../loading"
+function WithdrawalRequestsScreen() {
+  const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
 
-function WithdrawalRequestScreen() {
-  const { user } = useAuth()
-  const consultantId = user?.consultantId
-
-  const [withdrawalsData, setWithdrawalsData] = useState<
+  const [withdrawalRequestsData, setWithdrawalRequestsData] = useState<
     WithdrawalRequestType[]
   >([])
   const [page, setPage] = useState<number>(1)
@@ -44,7 +42,7 @@ function WithdrawalRequestScreen() {
 
   useEffect(() => {
     if (data?.withdrawalRequests) {
-      setWithdrawalsData((prev) =>
+      setWithdrawalRequestsData((prev) =>
         page === 1
           ? data.withdrawalRequests
           : [...prev, ...data.withdrawalRequests]
@@ -75,17 +73,18 @@ function WithdrawalRequestScreen() {
     Keyboard.dismiss()
     setPage(1)
   }
+
   const FlatListHeader = useMemo(() => {
     return (
       <ListHeader>
-        {withdrawalsData.length > 0 && (
-          <Section label="Danh sách rút tiền" margin={false} className="mt-2" />
+        {withdrawalRequestsData.length > 0 && (
+          <Section label="Danh sách yêu cầu" margin={false} className="pt-2" />
         )}
       </ListHeader>
     )
-  }, [withdrawalsData.length])
+  }, [withdrawalRequestsData.length])
 
-  if (withdrawalsData.length === 0 && isLoading) {
+  if (withdrawalRequestsData.length === 0 && isLoading) {
     return <LoadingScreen />
   }
 
@@ -93,16 +92,16 @@ function WithdrawalRequestScreen() {
     <Container>
       <Header
         back
-        label="Rút tiền"
+        label="Yêu cầu rút tiền"
         action={{
           icon: <Add size={24} color={COLORS.primary} />,
-          href: "/withdrawal-request/create"
+          href: `/withdrawal-requests/consultant/${consultantId}/create`
         }}
       />
 
       <Content>
         <FlatList
-          data={withdrawalsData || []}
+          data={withdrawalRequestsData || []}
           keyExtractor={(item, index) => `${item.withdrawalRequestId}-${index}`}
           onRefresh={onRefresh}
           refreshing={isRefreshing}
@@ -118,6 +117,7 @@ function WithdrawalRequestScreen() {
             <WithdrawalRequestCard
               description={item.description}
               amount={item.amount}
+              time={item.createdAt}
               status={item.status}
             />
           )}
@@ -132,7 +132,7 @@ function WithdrawalRequestScreen() {
           }
           ListEmptyComponent={
             <ErrorDisplay
-              imageSource={require("../../../public/images/monhealth-no-data-image.png")}
+              imageSource={require("../../../../../public/images/monhealth-no-data-image.png")}
               title="Không có dữ liệu"
               description="Không tìm thấy có yêu cầu nào ở đây!"
               marginTop={24}
@@ -145,4 +145,4 @@ function WithdrawalRequestScreen() {
   )
 }
 
-export default WithdrawalRequestScreen
+export default WithdrawalRequestsScreen

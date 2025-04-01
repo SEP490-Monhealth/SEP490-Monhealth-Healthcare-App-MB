@@ -19,7 +19,7 @@ export const Avatar = ({
   className = "",
   onPress = () => {}
 }: AvatarProps) => {
-  const [imgError, setImgError] = useState(false)
+  const [imgError, setImgError] = useState<boolean>(false)
 
   return (
     <TouchableOpacity activeOpacity={1} onPress={onPress} className={className}>
@@ -28,7 +28,7 @@ export const Avatar = ({
           className="flex items-center justify-center rounded-full border-4 border-muted bg-border"
           style={{ width: size, height: size }}
         >
-          <Text className="font-tbold text-2xl text-secondary">
+          <Text className="font-tbold text-2xl text-primary">
             {getInitials(alt)}
           </Text>
         </View>

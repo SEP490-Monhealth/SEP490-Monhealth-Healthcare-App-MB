@@ -33,7 +33,6 @@ import { CreatePortionType, createPortionSchema } from "@/schemas/portionSchema"
 
 function PortionCreateScreen() {
   const router = useRouter()
-
   const { foodId } = useLocalSearchParams() as { foodId: string }
 
   const { mutate: createPortion } = useCreatePortion()

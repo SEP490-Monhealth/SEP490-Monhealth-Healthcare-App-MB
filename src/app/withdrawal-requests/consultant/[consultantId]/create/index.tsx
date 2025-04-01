@@ -2,7 +2,7 @@ import React from "react"
 
 import { Text } from "react-native"
 
-import { useRouter } from "expo-router"
+import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
@@ -16,8 +16,6 @@ import {
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import { useAuth } from "@/contexts/AuthContext"
-
 import { useCreateWithdrawalRequest } from "@/hooks/useWithdrawalRequest"
 
 import {
@@ -26,10 +24,8 @@ import {
 } from "@/schemas/withdrawalRequestSchema"
 
 function WithdrawalRequestCreateScreen() {
-  const { user } = useAuth()
-  const consultantId = user?.consultantId
-
   const router = useRouter()
+  const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
 
   const { mutate: addWithdrawalRequest } = useCreateWithdrawalRequest()
 
@@ -46,23 +42,25 @@ function WithdrawalRequestCreateScreen() {
     }
   })
 
-  const onSubmit = (newWithdrawalRequestData: CreateWithdrawalRequestType) => {
-    const finalData = { ...newWithdrawalRequestData }
+  const onSubmit = (newData: CreateWithdrawalRequestType) => {
+    const finalData = newData
 
     // console.log(JSON.stringify(finalData, null, 2))
 
     addWithdrawalRequest(finalData, {
       onSuccess: () => {
-        router.replace("/withdrawal-request")
+        router.replace(`/withdrawal-requests/consultant/${consultantId}`)
       }
     })
   }
+
   return (
     <Container dismissKeyboard>
-      <Header back label="Tạo yêu cầu rút tiền" />
+      <Header back label="Thêm yêu cầu" />
+
       <Content className="mt-2">
         <VStack gap={32}>
-          <VStack gap={12}>
+          <VStack gap={8}>
             <Controller
               name="description"
               control={control}
@@ -70,11 +68,10 @@ function WithdrawalRequestCreateScreen() {
                 <Input
                   value={value}
                   label="Mô tả yêu cầu"
-                  placeholder="VD: Rút tiền"
+                  placeholder="VD: Rút tiền hàng tháng"
                   onChangeText={onChange}
                   canClearText
                   errorMessage={errors.description?.message}
-                  className="w-full"
                 />
               )}
             />
@@ -97,16 +94,14 @@ function WithdrawalRequestCreateScreen() {
                   canClearText
                   alwaysShowEndIcon
                   errorMessage={errors.amount?.message}
-                  className="w-full"
                 />
               )}
             />
           </VStack>
+
+          <Button onPress={handleSubmit(onSubmit)}>Tạo yêu cầu</Button>
         </VStack>
       </Content>
-      <Button size="lg" onPress={handleSubmit(onSubmit)} className="mb-4">
-        Tạo yêu cầu
-      </Button>
     </Container>
   )
 }

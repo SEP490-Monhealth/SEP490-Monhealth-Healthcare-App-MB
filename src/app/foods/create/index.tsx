@@ -73,7 +73,7 @@ function FoodCreateScreen() {
   const steps = [
     {
       step: 1,
-      title: "Tạo món ăn",
+      title: "Thêm món ăn",
       component: FoodInformation,
       fields: ["name", "description", "isPublic"],
       schema: informationFoodSchema

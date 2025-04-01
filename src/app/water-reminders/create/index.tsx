@@ -87,7 +87,7 @@ function WaterReminderCreateScreen() {
 
   return (
     <Container dismissKeyboard>
-      <Header back label="Tạo nhắc nhở" />
+      <Header back label="Thêm nhắc nhở" />
 
       <Content className="mt-2">
         <VStack center>

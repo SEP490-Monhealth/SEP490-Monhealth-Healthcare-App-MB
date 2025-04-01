@@ -13,7 +13,7 @@ import { Card, HStack, VStack } from "../atoms"
 
 interface ReviewCardProps {
   name: string
-  avatarUrl: string | undefined
+  avatarUrl?: string
   rating: number
   comment: string
   time: string
@@ -26,15 +26,15 @@ export const ReviewCard = ({
   comment,
   time
 }: ReviewCardProps) => {
-  const [imgError, setImgError] = useState(false)
+  const [imgError, setImgError] = useState<boolean>(false)
 
   return (
     <Card activeOpacity={1} hasImage>
       <VStack gap={8}>
         <HStack center gap={12}>
           {imgError || !avatarUrl ? (
-            <View className="h-14 w-14 rounded-xl border border-border">
-              <Text className="font-tbold text-2xl text-secondary">
+            <View className="flex h-14 w-14 items-center justify-center rounded-xl border border-muted bg-border">
+              <Text className="font-tbold text-lg text-primary">
                 {getInitials(name)}
               </Text>
             </View>
