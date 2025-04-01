@@ -65,11 +65,11 @@ export const getMealById = async (
 }
 
 export const createMeal = async (
-  newMealData: CreateMealType,
+  newData: CreateMealType,
   showModal: (message: string) => void
 ): Promise<{ mealId: string; message: string }> => {
   try {
-    const response = await monAPI.post("/meals", newMealData)
+    const response = await monAPI.post("/meals", newData)
 
     const { success, message, data } = response.data
 

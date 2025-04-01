@@ -39,10 +39,10 @@ export const getMetricsByUserId = async (
 }
 
 export const createMetric = async (
-  newMetricData: CreateMetricType
+  newData: CreateMetricType
 ): Promise<string> => {
   try {
-    const response = await monAPI.post(`/metrics`, newMetricData)
+    const response = await monAPI.post(`/metrics`, newData)
 
     const { success, message } = response.data
 

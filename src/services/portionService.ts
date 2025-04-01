@@ -49,11 +49,11 @@ export const getPortionByFoodId = async (
 }
 
 export const createPortion = async (
-  newPortionData: CreatePortionType,
+  newData: CreatePortionType,
   showModal: (message: string) => void
 ): Promise<string> => {
   try {
-    const response = await monAPI.post(`/portions`, newPortionData)
+    const response = await monAPI.post(`/portions`, newData)
 
     const { success, message } = response.data
 

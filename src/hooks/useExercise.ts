@@ -8,7 +8,6 @@ import { WorkoutExerciseType } from "@/schemas/exerciseSchema"
 import {
   getAllExercises,
   getExerciseById,
-  getExercisesByUserId,
   getExercisesByWorkoutId
 } from "@/services/exerciseService"
 
@@ -72,28 +71,6 @@ export const useGetExerciseById = (exerciseId: string | undefined) => {
       }
     },
     enabled: !!exerciseId,
-    staleTime: 1000 * 60 * 5
-  })
-}
-
-export const useGetExercisesByUserId = (
-  userId: string | undefined,
-  page: number,
-  limit: number
-) => {
-  const handleError = useError()
-
-  return useQuery<ExerciseResponse, Error>({
-    queryKey: ["exerciseUser", userId, page, limit],
-    queryFn: async () => {
-      try {
-        return await getExercisesByUserId(userId, page, limit)
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
-    },
-    enabled: !!userId,
     staleTime: 1000 * 60 * 5
   })
 }

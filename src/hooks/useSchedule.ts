@@ -13,6 +13,23 @@ import {
   getSchedulesByConsultantId
 } from "@/services/scheduleService"
 
+export const useGetAllScheduleTimeSlots = () => {
+  const handleError = useError()
+
+  return useQuery<TimeSlot[], Error>({
+    queryKey: ["schedules-time-slots"],
+    queryFn: async () => {
+      try {
+        return await getAllScheduleTimeSlots()
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    staleTime: 1000 * 60 * 5
+  })
+}
+
 export const useGetSchedulesByConsultantId = (
   consultantId: string | undefined,
   date?: string
@@ -30,23 +47,6 @@ export const useGetSchedulesByConsultantId = (
       }
     },
     enabled: !!consultantId,
-    staleTime: 1000 * 60 * 5
-  })
-}
-
-export const useGetAllScheduleTimeSlots = () => {
-  const handleError = useError()
-
-  return useQuery<TimeSlot[], Error>({
-    queryKey: ["schedules-time-slots"],
-    queryFn: async () => {
-      try {
-        return await getAllScheduleTimeSlots()
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
-    },
     staleTime: 1000 * 60 * 5
   })
 }

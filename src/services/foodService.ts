@@ -76,7 +76,9 @@ export const getFoodsByUserId = async (
   }
 }
 
-export const getFoodById = async (foodId: string): Promise<FoodType> => {
+export const getFoodById = async (
+  foodId: string | undefined
+): Promise<FoodType> => {
   try {
     const response = await monAPI.get(`/foods/${foodId}`)
 
@@ -105,11 +107,11 @@ export const getFoodById = async (foodId: string): Promise<FoodType> => {
 }
 
 export const createFood = async (
-  newFoodData: CreateFoodType,
+  newData: CreateFoodType,
   showModal: (message: string) => void
 ): Promise<string> => {
   try {
-    const response = await monAPI.post(`/foods`, newFoodData)
+    const response = await monAPI.post(`/foods`, newData)
 
     const { success, message } = response.data
 

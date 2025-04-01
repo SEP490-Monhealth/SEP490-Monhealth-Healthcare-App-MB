@@ -5,7 +5,7 @@ import monAPI from "@/lib/monAPI"
 import { NutritionType } from "@/schemas/nutritionSchema"
 
 export const getNutritionByFoodId = async (
-  foodId: string
+  foodId: string | undefined
 ): Promise<NutritionType> => {
   try {
     const response = await monAPI.get(`/nutrition/food/${foodId}`)

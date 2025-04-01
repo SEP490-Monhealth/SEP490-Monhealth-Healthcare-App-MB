@@ -106,38 +106,3 @@ export const getExerciseById = async (
     }
   }
 }
-
-export const getExercisesByUserId = async (
-  userId: string | undefined,
-  page: number,
-  limit: number
-): Promise<ExerciseResponse> => {
-  try {
-    const response = await monAPI.get(`/exercises/user/${userId}`, {
-      params: { page, limit }
-    })
-
-    const { success, message, data } = response.data
-
-    if (success) {
-      const { totalPages, totalItems, items: exercises } = data
-      return { exercises, totalPages, totalItems }
-    } else {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy danh sách bài tập của người dùng"
-      }
-    }
-  } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
-    }
-  }
-}

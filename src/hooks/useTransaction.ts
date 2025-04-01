@@ -29,6 +29,7 @@ export const useGetTransactionsByConsultantId = (
         throw error
       }
     },
+    enabled: !!consultantId,
     staleTime: 1000 * 60 * 5
   })
 }

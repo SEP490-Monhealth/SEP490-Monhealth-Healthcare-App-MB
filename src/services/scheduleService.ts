@@ -68,11 +68,11 @@ export const getSchedulesByConsultantId = async (
 }
 
 export const createSchedule = async (
-  newScheduleData: CreateScheduleType,
+  newData: CreateScheduleType,
   showModal: (message: string) => void
 ) => {
   try {
-    const response = await monAPI.post(`/schedules`, newScheduleData)
+    const response = await monAPI.post(`/schedules`, newData)
 
     const { success, message } = response.data
 

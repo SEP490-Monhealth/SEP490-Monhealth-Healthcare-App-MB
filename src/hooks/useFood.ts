@@ -82,7 +82,7 @@ export const useGetFoodsByUserId = (
   })
 }
 
-export const useGetFoodById = (foodId: string) => {
+export const useGetFoodById = (foodId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<FoodType, Error>({
@@ -95,6 +95,7 @@ export const useGetFoodById = (foodId: string) => {
         throw error
       }
     },
+    enabled: !!foodId,
     staleTime: 1000 * 60 * 5
   })
 }

@@ -1,3 +1,5 @@
+import { useRouter } from "expo-router"
+
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { useError } from "@/contexts/ErrorContext"
@@ -53,14 +55,14 @@ export const useGetBookingsByConsultantId = (
   })
 }
 
-export const useGetBookingById = (foodId: string) => {
+export const useGetBookingById = (bookingId: string) => {
   const handleError = useError()
 
   return useQuery<BookingType, Error>({
-    queryKey: ["booking", foodId],
+    queryKey: ["booking", bookingId],
     queryFn: async () => {
       try {
-        return await getBookingById(foodId)
+        return await getBookingById(bookingId)
       } catch (error) {
         handleError(error)
         throw error
@@ -91,6 +93,7 @@ export const useCreateBooking = () => {
 }
 
 export const useUpdateBookingStatus = () => {
+  const router = useRouter()
   const queryClient = useQueryClient()
   const handleError = useError()
   const { showModal } = useModal()
@@ -106,6 +109,10 @@ export const useUpdateBookingStatus = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["bookings"] })
+      router.replace({
+        pathname: "/bookings",
+        params: { tab: "confirmed" }
+      })
     }
   })
 }

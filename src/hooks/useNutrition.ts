@@ -6,7 +6,7 @@ import { NutritionType } from "@/schemas/nutritionSchema"
 
 import { getNutritionByFoodId } from "@/services/nutritionService"
 
-export const useGetNutritionByFoodId = (foodId: string) => {
+export const useGetNutritionByFoodId = (foodId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<NutritionType, Error>({
@@ -19,6 +19,7 @@ export const useGetNutritionByFoodId = (foodId: string) => {
         throw error
       }
     },
+    enabled: !!foodId,
     staleTime: 1000 * 60 * 5
   })
 }

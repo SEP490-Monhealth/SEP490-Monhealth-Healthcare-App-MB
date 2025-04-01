@@ -3,7 +3,7 @@ import { z } from "zod"
 import { auditFields, uuidSchema } from "./baseSchema"
 import { userSchema } from "./userSchema"
 
-const baseReviewSchema = z.object({
+const reviewSchema = z.object({
   reviewId: uuidSchema,
   bookingId: uuidSchema,
   consultantId: uuidSchema,
@@ -24,8 +24,6 @@ const baseReviewSchema = z.object({
 
   ...auditFields
 })
-
-const reviewSchema = baseReviewSchema
 
 export const createReviewSchema = reviewSchema.pick({
   bookingId: true,

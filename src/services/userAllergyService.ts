@@ -4,9 +4,9 @@ import monAPI from "@/lib/monAPI"
 
 import { CreateUserAllergyType } from "@/schemas/allergySchema"
 
-export const createUserAllergy = async (data: CreateUserAllergyType) => {
+export const createUserAllergy = async (newData: CreateUserAllergyType) => {
   try {
-    const response = await monAPI.post("/user-allergies", data)
+    const response = await monAPI.post("/user-allergies", newData)
 
     const { success, message } = response.data
 

@@ -27,6 +27,7 @@ export const useGetMealsByUserId = (userId: string | undefined) => {
         throw error
       }
     },
+    enabled: !!userId,
     staleTime: 1000 * 60 * 5
   })
 }

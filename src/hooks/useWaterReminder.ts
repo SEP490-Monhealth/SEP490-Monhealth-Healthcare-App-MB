@@ -23,7 +23,7 @@ export const useGetWaterReminderByUserId = (userId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<WaterReminderType[], Error>({
-    queryKey: ["waterReminders", userId],
+    queryKey: ["water-reminders", userId],
     queryFn: async () => {
       try {
         return await getWaterRemindersByUserId(userId)
@@ -43,7 +43,7 @@ export const useGetWaterReminderById = (
   const handleError = useError()
 
   return useQuery<WaterReminderType, Error>({
-    queryKey: ["waterReminder", waterReminderId],
+    queryKey: ["water-reminder", waterReminderId],
     queryFn: async () => {
       try {
         return await getWaterReminderById(waterReminderId)
@@ -72,7 +72,7 @@ export const useCreateWaterReminder = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["waterReminders"] })
+      queryClient.invalidateQueries({ queryKey: ["water-reminders"] })
     }
   })
 }
@@ -103,7 +103,7 @@ export const useUpdateWaterReminder = () => {
       queryClient.invalidateQueries({
         queryKey: ["waterReminder", waterReminderId]
       })
-      queryClient.invalidateQueries({ queryKey: ["waterReminders"] })
+      queryClient.invalidateQueries({ queryKey: ["water-reminders"] })
     }
   })
 }
@@ -122,7 +122,7 @@ export const useDeleteWaterReminder = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["waterReminders"] })
+      queryClient.invalidateQueries({ queryKey: ["water-reminders"] })
     }
   })
 }
@@ -141,7 +141,7 @@ export const useUpdateWaterReminderStatus = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["waterReminders"] })
+      queryClient.invalidateQueries({ queryKey: ["water-reminders"] })
     }
   })
 }
@@ -166,7 +166,7 @@ export const useUpdateWaterReminderDrunk = () => {
     onSuccess: (_, variables) => {
       const { userId, today } = variables
 
-      queryClient.invalidateQueries({ queryKey: ["waterReminders"] })
+      queryClient.invalidateQueries({ queryKey: ["water-reminders"] })
       queryClient.invalidateQueries({
         queryKey: ["dailyWaterIntake", userId, today]
       })

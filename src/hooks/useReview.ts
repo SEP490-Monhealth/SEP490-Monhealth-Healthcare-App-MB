@@ -16,6 +16,28 @@ interface ReviewResponse {
   totalItems: number
 }
 
+export const useGetReviewsByConsultantId = (
+  consultantId: string | undefined,
+  page: number,
+  limit?: number
+) => {
+  const handleError = useError()
+
+  return useQuery<ReviewResponse, Error>({
+    queryKey: ["reviews", consultantId, page, limit],
+    queryFn: async () => {
+      try {
+        return await getReviewsByConsultantId(consultantId, page, limit)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    enabled: !!consultantId,
+    staleTime: 1000 * 60 * 5
+  })
+}
+
 export const useCreateReview = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
@@ -34,26 +56,5 @@ export const useCreateReview = () => {
       queryClient.invalidateQueries({ queryKey: ["reviews"] })
       queryClient.invalidateQueries({ queryKey: ["bookings-user"] })
     }
-  })
-}
-
-export const useGetReviewsByConsultantId = (
-  consultantId: string | undefined,
-  page: number,
-  limit?: number
-) => {
-  const handleError = useError()
-
-  return useQuery<ReviewResponse, Error>({
-    queryKey: ["reviews", consultantId, page, limit],
-    queryFn: async () => {
-      try {
-        return await getReviewsByConsultantId(consultantId, page, limit)
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
-    },
-    staleTime: 1000 * 60 * 5
   })
 }

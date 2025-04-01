@@ -84,11 +84,11 @@ export const getConsultantById = async (
 }
 
 export const createConsultant = async (
-  newConsultant: CreateConsultantType,
+  newData: CreateConsultantType,
   showModal: (message: string) => void
 ): Promise<string> => {
   try {
-    const response = await monAPI.post(`/consultants`, newConsultant)
+    const response = await monAPI.post(`/consultants`, newData)
 
     const { success, message } = response.data
 

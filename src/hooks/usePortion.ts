@@ -60,6 +60,7 @@ export const useCreatePortion = () => {
       }
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["foods"] })
       queryClient.invalidateQueries({ queryKey: ["portions"] })
     }
   })
