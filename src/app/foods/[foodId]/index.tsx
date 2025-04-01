@@ -123,10 +123,7 @@ function FoodDetailsScreen() {
   const closePortionSheet = () => PortionSheetRef.current?.scrollTo(0)
 
   const handleCreatePortion = () => {
-    router.push({
-      pathname: "/foods/portions/create",
-      params: { foodId }
-    })
+    router.push(`/foods/${foodId}/portions/create`)
   }
 
   const handleQuantityChange = (number: string) => {

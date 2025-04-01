@@ -10,8 +10,7 @@ export const sampleReviewsData = {
       bookingId: "111",
       userId: "khai",
       name: "Phan Văn Khải",
-      avatarUrl:
-        "https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-3.jpg",
+      avatarUrl: null,
       rating: 5,
       comment:
         "Tư vấn rất chuyên nghiệp và tận tâm. Tôi thực sự hài lòng với cách mà chuyên gia đã lắng nghe, phân tích vấn đề và đưa ra những giải pháp phù hợp với nhu cầu của tôi. Không chỉ có kiến thức sâu rộng, mà cách truyền đạt cũng rất dễ hiểu.",

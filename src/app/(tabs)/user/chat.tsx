@@ -90,7 +90,7 @@ function ChatScreen() {
   const FlatListHeader = useMemo(() => {
     return (
       <ListHeader>
-        <Section label="Danh sách tin nhắn" margin={false} className="mt-2" />
+        <Section label="Danh sách tin nhắn" margin={false} className="pt-2" />
       </ListHeader>
     )
   }, [])

@@ -138,7 +138,7 @@ function ReviewCreateScreen() {
 
   return (
     <Container>
-      <Header back label="Phản hồi" />
+      <Header back label="Đánh giá" />
 
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -218,7 +218,7 @@ function ReviewCreateScreen() {
                 ))}
               </HStack>
 
-              <Section label="Chi tiết phản hồi" />
+              <Section label="Chi tiết đánh giá" />
 
               <Controller
                 name="comment"
@@ -226,7 +226,7 @@ function ReviewCreateScreen() {
                 render={({ field: { onChange, value } }) => (
                   <Input
                     value={value}
-                    placeholder="Nhập phản hồi của bạn"
+                    placeholder="Nhập đánh giá của bạn"
                     onChangeText={onChange}
                     isMultiline
                     numberOfLines={6}
@@ -244,7 +244,7 @@ function ReviewCreateScreen() {
             onPress={handleSubmit(onSubmit)}
             className="absolute bottom-4 w-full"
           >
-            Phản hồi
+            Đánh giá
           </Button>
         </Content>
       </KeyboardAvoidingView>

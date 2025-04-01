@@ -32,8 +32,6 @@ import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
 
-import { useAuth } from "@/contexts/AuthContext"
-
 import { useGetConsultantBanksByConsultantId } from "@/hooks/useConsultantBank"
 import { useGetWithdrawalRequestsByConsultantId } from "@/hooks/useWithdrawalRequest"
 
@@ -131,16 +129,17 @@ const BanksScreen = () => {
   }
 
   const handleViewWithdrawalRequests = () => {
-    router.push("/withdrawal-requests")
+    router.push(`/withdrawal-requests/consultant/${consultantId}`)
   }
 
   const FlatListHeader = useMemo(() => {
     return (
-      <ListHeader className="mt-2">
+      <ListHeader>
         <Section
           label="Lịch sử rút tiền"
           actionText="Xem tất cả"
           onPress={handleViewWithdrawalRequests}
+          className="pt-2"
         />
       </ListHeader>
     )
@@ -163,13 +162,17 @@ const BanksScreen = () => {
             label="Ngân hàng"
             action={{
               icon: <Add size={24} color={COLORS.primary} />,
-              href: "/banks/create"
+              href: `/banks/consultant/${consultantId}/create`
             }}
           />
 
           <Content>
-            <ListHeader className="pt-2">
-              <Section label="Danh sách tài khoản" margin={false} />
+            <ListHeader>
+              <Section
+                label="Danh sách tài khoản"
+                margin={false}
+                className="pt-2"
+              />
             </ListHeader>
 
             {consultantBanksData?.map((item) => (
@@ -202,6 +205,7 @@ const BanksScreen = () => {
                 <WithdrawalRequestCard
                   description={item.description}
                   amount={item.amount}
+                  time={item.createdAt}
                   status={item.status}
                 />
               )}
@@ -231,17 +235,20 @@ const BanksScreen = () => {
           <SheetSelect
             label="Mặc định"
             icon={<Star1 variant="Bold" size="20" color={COLORS.primary} />}
+            onPress={handleDefaultConsultantBank}
           />
 
           <SheetSelect
             label="Chỉnh sửa"
             icon={<Edit2 variant="Bold" size="20" color={COLORS.primary} />}
+            onPress={handleUpdateConsultantBank}
           />
 
           <SheetSelect
             variant="danger"
             label="Xóa"
             icon={<Trash variant="Bold" size="20" color={COLORS.destructive} />}
+            onPress={handleDeleteConsultantBank}
           />
         </Sheet>
       </SafeAreaView>
