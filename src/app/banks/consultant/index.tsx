@@ -87,12 +87,12 @@ const BanksScreen = () => {
   }
 
   const handleViewWithdrawalRequests = () => {
-    router.push("/withdrawal-requests")
+    router.push("/withdrawal-request")
   }
 
   const FlatListHeader = useMemo(() => {
     return (
-      <ListHeader className="mt-2">
+      <ListHeader>
         <Section
           label="Lịch sử rút tiền"
           actionText="Xem tất cả"

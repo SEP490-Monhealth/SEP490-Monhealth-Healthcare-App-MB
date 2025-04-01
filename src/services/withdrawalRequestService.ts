@@ -19,9 +19,12 @@ export const getWithdrawalRequestsByConsultantId = async (
   limit?: number
 ): Promise<WithdrawalRequestResponse> => {
   try {
-    const response = await monAPI.get(`/withdrawal-requests`, {
-      params: { consultantId, page, limit }
-    })
+    const response = await monAPI.get(
+      `/withdrawal-requests/consultant/${consultantId}`,
+      {
+        params: { consultantId, page, limit }
+      }
+    )
 
     const { success, message, data } = response.data
 
@@ -53,7 +56,7 @@ export const createWithdrawalRequest = async (
   showModal: (message: string) => void
 ): Promise<string> => {
   try {
-    const response = await monAPI.post(`/reviews`, newData)
+    const response = await monAPI.post(`/withdrawal-requests`, newData)
 
     const { success, message } = response.data
 
