@@ -1,8 +1,8 @@
 import React from "react"
 
-import { Image, Text, TouchableOpacity } from "react-native"
+import { Image, Text, TouchableOpacity, View } from "react-native"
 
-import { Card, VStack } from "../atoms"
+import { Card } from "../atoms"
 
 interface BankCardProps {
   onPress?: () => void
@@ -24,13 +24,13 @@ export const BankCard = ({ onPress }: BankCardProps) => {
         />
       </TouchableOpacity>
 
-      <VStack>
+      <View className="flex-1">
         <Text className="font-tmedium text-base text-primary">BIDV</Text>
 
         <Text className="font-tmedium text-sm text-accent">
           Ngân hàng TMCP Đầu tư và Phát triển Việt Nam
         </Text>
-      </VStack>
+      </View>
     </Card>
   )
 }

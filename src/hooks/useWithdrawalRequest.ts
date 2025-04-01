@@ -1,25 +1,34 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
 
-import { CreateWithdrawalRequestType } from "@/schemas/withdrawalRequestSchema"
+import {
+  CreateWithdrawalRequestType,
+  WithdrawalRequestType
+} from "@/schemas/withdrawalRequestSchema"
 
 import {
   createWithdrawalRequest,
   getWithdrawalRequestsByConsultantId
 } from "@/services/withdrawalRequestService"
 
+interface WithdrawalRequestResponse {
+  withdrawalRequests: WithdrawalRequestType[]
+  totalPages: number
+  totalItems: number
+}
+
 export const useGetWithdrawalRequestsByConsultantId = (
   consultantId: string | undefined,
   page: number,
   limit?: number
 ) => {
-  const queryClient = useQueryClient()
   const handleError = useError()
 
-  return useMutation({
-    mutationFn: async () => {
+  return useQuery<WithdrawalRequestResponse, Error>({
+    queryKey: ["withdrawal-requests", consultantId, page, limit],
+    queryFn: async () => {
       try {
         return await getWithdrawalRequestsByConsultantId(
           consultantId,
@@ -31,9 +40,7 @@ export const useGetWithdrawalRequestsByConsultantId = (
         throw error
       }
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["withdrawalRequests"] })
-    }
+    staleTime: 1000 * 60 * 5
   })
 }
 
@@ -52,7 +59,7 @@ export const useCreateWithdrawalRequest = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["withdrawalRequest"] })
+      queryClient.invalidateQueries({ queryKey: ["withdrawal-requests"] })
     }
   })
 }
