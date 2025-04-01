@@ -30,7 +30,7 @@ export const DashboardHeader = ({
   const paddingClass = Platform.OS === "ios" ? "pb-3 pt-0" : "py-4"
 
   const handleViewWithdrawalRequests = () => {
-    router.push("/banks")
+    router.push("/banks/consultant")
   }
 
   const handleViewNotifications = () => {

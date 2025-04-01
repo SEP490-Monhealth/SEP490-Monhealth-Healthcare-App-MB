@@ -81,9 +81,11 @@ function TransactionsScreen() {
         )}
       </ListHeader>
     )
-  }, [])
+  }, [transactionsData.length])
 
-  if (transactionsData.length === 0 && isLoading) return <LoadingScreen />
+  if (transactionsData.length === 0 && isLoading) {
+    return <LoadingScreen />
+  }
 
   return (
     <Container>

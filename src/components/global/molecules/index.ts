@@ -27,6 +27,7 @@ import { StepHeader } from "./StepHeader"
 import { SubscriptionCard } from "./SubscriptionCard"
 import { TimeSlotSelector } from "./TimeSlotSelector"
 import { WaterReminderCard } from "./WaterReminderCard"
+import { WithdrawalRequestCard } from "./WithdrawalRequestCard"
 import { WorkoutCard } from "./WorkoutCard"
 
 export {
@@ -59,5 +60,6 @@ export {
   SubscriptionCard,
   TimeSlotSelector,
   WaterReminderCard,
+  WithdrawalRequestCard,
   WorkoutCard
 }

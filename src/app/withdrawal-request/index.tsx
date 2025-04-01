@@ -2,12 +2,12 @@ import React from "react"
 
 import { Text, View } from "react-native"
 
-const WithdrawalRequestScreen = () => {
+const WithdrawalRequestsScreen = () => {
   return (
     <View>
-      <Text>WithdrawalRequestScreen</Text>
+      <Text>WithdrawalRequestsScreen</Text>
     </View>
   )
 }
 
-export default WithdrawalRequestScreen
+export default WithdrawalRequestsScreen

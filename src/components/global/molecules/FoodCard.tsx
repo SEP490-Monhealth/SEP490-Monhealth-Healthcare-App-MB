@@ -70,7 +70,9 @@ export const FoodCard = ({
             {recommended && <Badge label="Đề xuất" />}
           </HStack>
 
-          <Text className="font-tmedium text-sm text-accent">
+          <Text
+            className={`font-tmedium text-sm text-accent ${recommended ? "mt-1" : ""}`}
+          >
             {toFixed(Number(calories), 0) ?? 0} kcal
             {size
               ? ` • ${quantity} ${size.toLowerCase()}`
