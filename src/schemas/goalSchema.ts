@@ -30,8 +30,8 @@ const baseGoalSchema = z.object({
 
   waterIntakesGoal: z.number().default(0),
 
-  workoutDurationGoal: z.number().default(0),
   caloriesBurnedGoal: z.number().default(0),
+  workoutDurationGoal: z.number().default(0),
 
   status: GoalStatusSchemaEnum,
 
@@ -58,8 +58,9 @@ export const waterIntakeGoalSchema = goalSchema.pick({
 })
 
 export const workoutGoalSchema = goalSchema.pick({
-  workoutDurationGoal: true,
-  caloriesBurnedGoal: true
+  caloriesGoal: true,
+  caloriesBurnedGoal: true,
+  workoutDurationGoal: true
 })
 
 export const goalTypeSetupSchema = z.object({

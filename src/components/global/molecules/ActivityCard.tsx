@@ -5,22 +5,19 @@ import { Image, Text, TouchableOpacity, View } from "react-native"
 import { MealTypeEnum } from "@/constants/enum/Food"
 
 import { toFixed } from "@/utils/formatters"
-import { getMealTypeImage } from "@/utils/helpers"
 
-import { Card, CardHeader, VStack } from "../atoms"
+import { Card } from "../atoms"
 
 interface ActivityCardProps {
   name: string
-  exercises: number
-  duration: number
+  durationMinutes: number
   caloriesBurned: number
   onPress?: () => void
 }
 
 export const ActivityCard = ({
   name,
-  exercises,
-  duration,
+  durationMinutes,
   caloriesBurned,
   onPress
 }: ActivityCardProps) => {
@@ -43,8 +40,7 @@ export const ActivityCard = ({
         <Text className="font-tmedium text-base text-primary">{name}</Text>
 
         <Text className="font-tmedium text-sm text-accent">
-          {exercises} bài tập • {toFixed(caloriesBurned, 1)} kcal •{" "}
-          {duration ?? 0} phút
+          {toFixed(caloriesBurned, 1)} kcal • {durationMinutes ?? 0} phút
         </Text>
       </View>
     </Card>

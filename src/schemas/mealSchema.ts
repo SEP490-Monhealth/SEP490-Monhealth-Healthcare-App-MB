@@ -8,7 +8,6 @@ import { portionSchema } from "./portionSchema"
 
 export const mealFoodSchema = z.object({
   mealFoodId: uuidSchema,
-  foodId: uuidSchema,
 
   name: z
     .string()

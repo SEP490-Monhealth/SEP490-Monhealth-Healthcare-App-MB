@@ -9,10 +9,8 @@ export const activitySchema = z.object({
   dailyActivityId: uuidSchema,
   workoutId: uuidSchema,
 
-  workouts: z.number(),
-
-  durationMinutes: workoutSchema.shape.durationMinutes,
   caloriesBurned: workoutSchema.shape.caloriesBurned,
+  durationMinutes: workoutSchema.shape.durationMinutes,
 
   ...timestampFields
 })

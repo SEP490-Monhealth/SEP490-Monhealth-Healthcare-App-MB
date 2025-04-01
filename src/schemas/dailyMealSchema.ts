@@ -9,6 +9,9 @@ const MealTypeSchemaEnum = z.nativeEnum(MealTypeEnum)
 
 const mealFoodSchema = z.object({
   mealFoodId: uuidSchema,
+  mealId: uuidSchema,
+  foodId: uuidSchema,
+  portionId: uuidSchema,
 
   type: MealTypeSchemaEnum,
 

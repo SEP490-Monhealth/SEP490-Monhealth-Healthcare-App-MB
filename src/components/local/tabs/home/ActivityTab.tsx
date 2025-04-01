@@ -2,14 +2,12 @@ import { useEffect } from "react"
 
 import { View } from "react-native"
 
-import { router, useRouter } from "expo-router"
+import { useRouter } from "expo-router"
 
-import { LoadingOverlay } from "@/app/loading"
 import { useIsFetching, useIsMutating } from "@tanstack/react-query"
 
 import { HStack, Progress, VStack } from "@/components/global/atoms"
 import { ActivityCard } from "@/components/global/molecules"
-import { WorkoutCard } from "@/components/global/molecules/WorkoutCard"
 import { Section } from "@/components/global/organisms"
 
 import { useAuth } from "@/contexts/AuthContext"
@@ -45,13 +43,6 @@ export const ActivityTab = ({
 
   console.log(dailyActivityData)
 
-  // const workoutGoalData = {
-  //   caloriesIntakeGoal: 200,
-  //   caloriesBurnedGoal: 500,
-  //   durationGoal: 100,
-  //   stepsGoal: 1300
-  // }
-
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()
 
@@ -82,27 +73,24 @@ export const ActivityTab = ({
 
   const defaultActivitiesData = [
     {
-      workoutId: "default-workout-1",
+      activityId: "default-workout-1",
       name: "Hoạt động 1",
-      exercises: 0,
-      duration: 0,
       caloriesBurned: 0,
+      durationMinutes: 0,
       isDefault: true
     },
     {
-      workoutId: "default-workout-2",
+      activityId: "default-workout-2",
       name: "Hoạt động 2",
-      exercises: 0,
-      duration: 0,
       caloriesBurned: 0,
+      durationMinutes: 0,
       isDefault: true
     },
     {
-      workoutId: "default-workout-3",
-      name: "Hoạt động 2",
-      exercises: 0,
-      duration: 0,
+      activityId: "default-workout-3",
+      name: "Hoạt động 3",
       caloriesBurned: 0,
+      durationMinutes: 0,
       isDefault: true
     }
   ]
@@ -123,12 +111,12 @@ export const ActivityTab = ({
   const workoutsData = [
     {
       label: "Đã nạp",
-      value: toFixed(dailyActivityData?.totalCaloriesBurned ?? 0, 0) || 0,
-      targetValue: toFixed(workoutGoalData?.caloriesBurnedGoal ?? 0, 0)
+      value: toFixed(dailyActivityData?.totalCaloriesIntake ?? 0, 0) || 0,
+      targetValue: toFixed(workoutGoalData?.caloriesGoal ?? 0, 0)
     },
     {
       label: "Thời gian",
-      value: dailyActivityData?.totalDuration || 0,
+      value: dailyActivityData?.totalDurationMinutes || 0,
       targetValue: workoutGoalData?.workoutDurationGoal || 0
     }
   ]
@@ -142,8 +130,8 @@ export const ActivityTab = ({
     router.push("/workouts")
   }
 
-  const handleViewWorkout = (workoutId: string) => {
-    router.push(`/workouts/${workoutId}`)
+  const handleViewWorkout = (activityId: string) => {
+    router.push(`/workouts/${activityId}`)
   }
 
   return (
@@ -172,15 +160,16 @@ export const ActivityTab = ({
       />
 
       <VStack gap={12}>
-        {mergedActivitiesData.map((item) => (
+        {mergedActivitiesData.map((item, index) => (
           <ActivityCard
-            key={item.workoutId}
-            name={item.name}
-            exercises={item.exercises}
-            duration={item.durationMinutes}
+            key={item.activityId}
+            name={`Hoạt động ${index + 1}`}
+            durationMinutes={item.durationMinutes}
             caloriesBurned={item.caloriesBurned}
             onPress={() =>
-              item.isDefault ? null : handleViewWorkout(item.workoutId)
+              "isDefault" in item &&
+              !item.isDefault &&
+              handleViewWorkout(item.activityId)
             }
           />
         ))}
