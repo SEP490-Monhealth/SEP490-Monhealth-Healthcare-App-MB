@@ -15,6 +15,8 @@ const messageSchema = z.object({
   type: MessageTypeSchemaEnum,
   content: z.string(),
 
+  isRead: z.boolean().default(false),
+
   ...timestampFields
 })
 

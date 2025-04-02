@@ -70,7 +70,10 @@ function BookingsScreen() {
 
       await createBooking(data, {
         onSuccess: () => {
-          router.replace("/bookings/user")
+          router.replace({
+            pathname: `/bookings/user/${userId}`,
+            params: { tab: "pending" }
+          })
         }
       })
     } catch (error) {

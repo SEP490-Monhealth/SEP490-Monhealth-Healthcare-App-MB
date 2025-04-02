@@ -11,7 +11,7 @@ const BankUpdateScreen = () => {
       <Header back label="Cập nhật ngân hàng" />
 
       <Content className="mt-2">
-        <Text>BankCreateScreen</Text>
+        <Text>BankUpdateScreen</Text>
       </Content>
     </Container>
   )

@@ -76,10 +76,7 @@ function BookingsScreen() {
       setIsModalVisible(false)
 
       if (modalType === "cancel") {
-        router.push({
-          pathname: "/bookings/cancel",
-          params: { bookingId: selectedBooking }
-        })
+        router.push(`/bookings/cancel/${selectedBooking}`)
       } else if (modalType === "confirm") {
         updateBookingStatus(
           { bookingId: selectedBooking },

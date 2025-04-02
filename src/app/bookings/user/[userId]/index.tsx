@@ -20,8 +20,6 @@ import { Header } from "@/components/global/organisms"
 
 import { BookingStatusEnum } from "@/constants/enum/Booking"
 
-import { useAuth } from "@/contexts/AuthContext"
-
 import {
   useGetBookingsByUserId,
   useUpdateBookingStatus
@@ -29,11 +27,10 @@ import {
 
 function BookingsUserScreen() {
   const router = useRouter()
-
-  const { tab } = useLocalSearchParams<{ tab: string }>()
-
-  const { user } = useAuth()
-  const userId = user?.userId
+  const { userId, tab } = useLocalSearchParams<{
+    userId: string
+    tab: string
+  }>()
 
   const { mutate: updateBookingStatus } = useUpdateBookingStatus()
 
@@ -78,17 +75,14 @@ function BookingsUserScreen() {
       setIsModalVisible(false)
 
       if (modalType === "cancel") {
-        router.push({
-          pathname: "/bookings/cancel",
-          params: { bookingId: selectedBooking }
-        })
+        router.push(`/bookings/cancel/${selectedBooking}`)
       } else if (modalType === "complete") {
         updateBookingStatus(
           { bookingId: selectedBooking },
           {
             onSuccess: () => {
               router.replace({
-                pathname: "/bookings/user",
+                pathname: `/bookings/user/${userId}`,
                 params: { tab: "history" }
               })
             }
@@ -100,10 +94,7 @@ function BookingsUserScreen() {
   }
 
   const handleReview = (bookingId: string) => {
-    router.push({
-      pathname: "/bookings/review",
-      params: { bookingId }
-    })
+    router.push(`/bookings/review/${bookingId}`)
   }
 
   if (!bookingsData || isLoading) {

@@ -9,8 +9,8 @@ import { Card, CardHeader, HStack } from "../atoms"
 interface ChatCardProps {
   fullName: string
   avatarUrl?: string
-  lastMessage: string
-  lastMessageAt: string
+  lastMessage?: string
+  lastMessageAt?: string
   onPress?: () => void
 }
 
@@ -34,7 +34,7 @@ export const ChatCard = ({
             <CardHeader label={fullName} />
 
             <Text className="font-tregular text-sm text-accent">
-              {formatTimeAgo(lastMessageAt)}
+              {lastMessageAt ? formatTimeAgo(lastMessageAt) : ""}
             </Text>
           </HStack>
 

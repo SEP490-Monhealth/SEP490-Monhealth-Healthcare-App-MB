@@ -49,10 +49,9 @@ const quickReviewsData = [
 
 function ReviewCreateScreen() {
   const router = useRouter()
-
   const { bookingId } = useLocalSearchParams<{ bookingId: string }>()
 
-  console.log(bookingId)
+  // console.log(bookingId)
 
   const { user } = useAuth()
   const userId = user?.userId
@@ -117,7 +116,7 @@ function ReviewCreateScreen() {
     await createReview(finalData, {
       onSuccess: () => {
         router.replace({
-          pathname: "/bookings/user",
+          pathname: `/bookings/user/${userId}`,
           params: { tab: "history" }
         })
       }

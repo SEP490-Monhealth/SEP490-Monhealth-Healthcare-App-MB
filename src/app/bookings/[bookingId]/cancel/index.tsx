@@ -37,11 +37,11 @@ const cancellationReasons = [
 
 function BookingCancelScreen() {
   const router = useRouter()
+  const { bookingId } = useLocalSearchParams<{ bookingId: string }>()
 
   const { user } = useAuth()
+  const userId = user?.userId
   const userRole = user?.role
-
-  const { bookingId } = useLocalSearchParams<{ bookingId: string }>()
 
   const scrollViewRef = useRef<ScrollView>(null)
 
@@ -87,7 +87,7 @@ function BookingCancelScreen() {
         onSuccess: () => {
           if (userRole === "Subscription Member") {
             router.replace({
-              pathname: "/bookings/user",
+              pathname: `/bookings/user/${userId}`,
               params: { tab: "history" }
             })
           } else if (userRole === "Consultant") {

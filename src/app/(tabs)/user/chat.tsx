@@ -83,14 +83,20 @@ function ChatScreen() {
     setPage(1)
   }
 
+  const handleChatMonAI = () => {
+    router.push("/chats/mon-ai")
+  }
+
   const handleViewChat = (chatId: string) => {
     router.push(`/chats/${chatId}`)
   }
 
   const FlatListHeader = useMemo(() => {
     return (
-      <ListHeader>
-        <Section label="Danh sách tin nhắn" margin={false} className="pt-2" />
+      <ListHeader className="pt-4">
+        <ChatCard fullName="MonAI" avatarUrl="" onPress={handleChatMonAI} />
+
+        <Section label="Danh sách tin nhắn" />
       </ListHeader>
     )
   }, [])
