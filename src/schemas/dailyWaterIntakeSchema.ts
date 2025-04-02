@@ -1,11 +1,14 @@
 import { z } from "zod"
 
 import { timestampFields, uuidSchema } from "./baseSchema"
+import { goalSchema } from "./goalSchema"
 
 export const dailyWaterIntakeSchema = z.object({
   dailyWaterIntakeId: uuidSchema,
   userId: uuidSchema,
   goalId: uuidSchema,
+
+  goalType: goalSchema.shape.type,
 
   totalVolume: z
     .number()

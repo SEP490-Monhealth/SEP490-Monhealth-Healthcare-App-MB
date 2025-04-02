@@ -9,7 +9,6 @@ const messageSchema = z.object({
   messageId: uuidSchema,
   chatId: uuidSchema,
   senderId: uuidSchema,
-  receiveId: uuidSchema,
 
   avatarUrl: userSchema.shape.avatarUrl.optional(),
 
@@ -20,8 +19,8 @@ const messageSchema = z.object({
 })
 
 export const createMessageSchema = messageSchema.pick({
+  chatId: true,
   senderId: true,
-  receiveId: true,
   content: true
 })
 

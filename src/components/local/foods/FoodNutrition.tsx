@@ -26,9 +26,12 @@ export const FoodNutrition = ({
   const adjustedCarbs = carbs * weightRatio
   const adjustedFat = fat * weightRatio
 
-  const proteinFill = ((adjustedProtein * 4) / adjustedCalories) * 100
-  const carbsFill = ((adjustedCarbs * 4) / adjustedCalories) * 100
-  const fatFill = ((adjustedFat * 9) / adjustedCalories) * 100
+  const proteinFill =
+    adjustedCalories > 0 ? ((adjustedProtein * 4) / adjustedCalories) * 100 : 0
+  const carbsFill =
+    adjustedCalories > 0 ? ((adjustedCarbs * 4) / adjustedCalories) * 100 : 0
+  const fatFill =
+    adjustedCalories > 0 ? ((adjustedFat * 9) / adjustedCalories) * 100 : 0
 
   return (
     <HStack center className="justify-between">
@@ -36,7 +39,7 @@ export const FoodNutrition = ({
         variant="sm"
         size={110}
         width={8}
-        fill={proteinFill}
+        fill={proteinFill || 0}
         tintColor={getNutritionColor("Protein")}
         centerCircle={true}
         valueType="percentage"
@@ -48,7 +51,7 @@ export const FoodNutrition = ({
         variant="sm"
         size={110}
         width={8}
-        fill={carbsFill}
+        fill={carbsFill || 0}
         tintColor={getNutritionColor("Carbs")}
         centerCircle={true}
         valueType="percentage"
@@ -60,7 +63,7 @@ export const FoodNutrition = ({
         variant="sm"
         size={110}
         width={8}
-        fill={fatFill}
+        fill={fatFill || 0}
         tintColor={getNutritionColor("Fat")}
         centerCircle={true}
         valueType="percentage"

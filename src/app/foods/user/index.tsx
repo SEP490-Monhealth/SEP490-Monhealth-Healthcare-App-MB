@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 
 import { ActivityIndicator, FlatList, Keyboard, View } from "react-native"
 
@@ -78,6 +78,16 @@ function FoodUserScreen() {
     setPage(1)
   }
 
+  const FlatListHeader = useMemo(() => {
+    return (
+      <ListHeader>
+        {foodsData.length > 0 && (
+          <Section label="Danh sách món ăn" margin={false} className="mt-2" />
+        )}
+      </ListHeader>
+    )
+  }, [foodsData.length])
+
   const handleViewFood = (foodId: string) => {
     router.push(`/foods/${foodId}`)
   }
@@ -110,11 +120,7 @@ function FoodUserScreen() {
           updateCellsBatchingPeriod={50}
           onEndReached={onEndReached}
           onEndReachedThreshold={0.5}
-          ListHeaderComponent={
-            <ListHeader>
-              <Section label="Món ăn của tôi" margin={false} />
-            </ListHeader>
-          }
+          ListHeaderComponent={FlatListHeader}
           renderItem={({ item }) => (
             <FoodCard
               variant="more"

@@ -2,11 +2,14 @@ import { z } from "zod"
 
 import { activitySchema } from "./activitySchema"
 import { timestampFields, uuidSchema } from "./baseSchema"
+import { goalSchema } from "./goalSchema"
 
 const dailyActivitySchema = z.object({
   dailyActivityId: uuidSchema,
   userId: uuidSchema,
   goalId: uuidSchema,
+
+  goalType: goalSchema.shape.type,
 
   totalCaloriesIntake: z
     .number()

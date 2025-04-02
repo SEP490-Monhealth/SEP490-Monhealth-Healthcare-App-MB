@@ -79,7 +79,7 @@ function WorkoutDetailsScreen() {
                   {workoutData?.description}
                 </Text>
 
-                <Button className="mt-4">Bắt đầu</Button>
+                <Button className="mt-4">Thêm vào hoạt động</Button>
 
                 {workoutData.type === WorkoutTypeEnum.Workout && (
                   <Section

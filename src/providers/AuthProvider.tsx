@@ -73,6 +73,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           router.replace("/(tabs)/consultant/dashboard")
         } else {
           await delay(2000)
+          setRole("Member")
           router.replace("/auth/sign-in")
         }
       } else {
@@ -86,6 +87,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(null)
 
       await delay(2000)
+      setRole("Member")
       router.replace("/auth/sign-in")
     } finally {
       setLoading(false)

@@ -35,13 +35,16 @@ import { useSearch } from "@/contexts/SearchContext"
 import { useStorage } from "@/contexts/StorageContext"
 
 import { useGetCategoriesByType } from "@/hooks/useCategory"
+import { useGetDailyMealByUserId } from "@/hooks/useDailyMeal"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useGetAllFoods } from "@/hooks/useFood"
+import { useGetNutritionGoal } from "@/hooks/useGoal"
 import { useCreateMeal } from "@/hooks/useMeal"
 
 import { FoodType } from "@/schemas/foodSchema"
 import { CreateMealType } from "@/schemas/mealSchema"
 
+import { formatDateY } from "@/utils/formatters"
 import { getMealTypeByTime } from "@/utils/helpers"
 
 import { LoadingScreen } from "../loading"
@@ -51,6 +54,8 @@ function FoodsScreen() {
 
   const { user } = useAuth()
   const userId = user?.userId
+
+  const today = formatDateY(new Date())
 
   const { userAllergies } = useStorage()
   const { searchFoodHistory, addSearchFoodHistory, clearSearchFoodHistory } =
@@ -68,12 +73,22 @@ function FoodsScreen() {
   const [pendingMealData, setPendingMealData] = useState<CreateMealType | null>(
     null
   )
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+  const [warningModal, setWarningModal] = useState<{
+    title: string
+    description: string
+    type: "allergy" | "calorie"
+  } | null>(null)
 
   const limit = 10
 
   const debouncedSearch = useDebounce(searchQuery)
   const debouncedFilter = useDebounce(selectedCategory, 0)
+
+  const { data: dailyMealData, isLoading: isDailyMealLoading } =
+    useGetDailyMealByUserId(userId, today)
+
+  const { data: nutritionGoalData, isLoading: isGoalLoading } =
+    useGetNutritionGoal(userId)
 
   const { data: categoriesData, isLoading: isCategoriesLoading } =
     useGetCategoriesByType(CategoryTypeEnum.Food)
@@ -127,10 +142,6 @@ function FoodsScreen() {
 
   const handleAddFood = useCallback(
     (food: FoodType) => {
-      const hasAllergy = food.allergies?.some((allergy) =>
-        userAllergies.includes(allergy)
-      )
-
       const mealData = {
         userId: userId || "",
         type: getMealTypeByTime(),
@@ -145,14 +156,40 @@ function FoodsScreen() {
         ]
       }
 
-      if (hasAllergy) {
+      const totalCalories = dailyMealData?.nutrition.calories || 0
+      const goalCalories = nutritionGoalData?.caloriesGoal || 0
+      const foodCalories = food.nutrition.calories
+
+      const hasAllergyWarning = food?.allergies?.some((allergy) =>
+        userAllergies.includes(allergy)
+      )
+      const hasCalorieWarning =
+        totalCalories + foodCalories > goalCalories * 1.2
+
+      if (hasAllergyWarning) {
         setPendingMealData(mealData)
-        setIsModalVisible(true)
-      } else {
-        confirmAddMeal(mealData)
+        setWarningModal({
+          title: "Cảnh báo dị ứng",
+          description:
+            "Món ăn này có thể chứa thành phần gây dị ứng. Bạn có chắc chắn muốn thêm không?",
+          type: "allergy"
+        })
+        return
       }
+
+      if (hasCalorieWarning) {
+        setWarningModal({
+          title: "Cảnh báo lượng calories",
+          description:
+            "Lượng calories nạp vào sẽ vượt quá mục tiêu của bạn đáng kể. Bạn có chắc chắn muốn thêm món ăn này không?",
+          type: "calorie"
+        })
+        return
+      }
+
+      confirmAddMeal(mealData)
     },
-    [userId, userAllergies]
+    [userId, userAllergies, dailyMealData, nutritionGoalData]
   )
 
   const confirmAddMeal = (mealData: CreateMealType) => {
@@ -162,7 +199,7 @@ function FoodsScreen() {
       onSuccess: () =>
         setAddedFoods((prev) => new Set(prev).add(mealData.items[0].foodId))
     })
-    setIsModalVisible(false)
+    setWarningModal(null)
   }
 
   const handleViewFood = (foodId: string, foodName: string) => {
@@ -171,8 +208,6 @@ function FoodsScreen() {
   }
 
   const handleViewUserFoods = () => router.push("/foods/user")
-
-  // const handleScanFood = () => router.push("/foods/test-camera")
 
   const FlatListHeader = useMemo(() => {
     return (
@@ -215,7 +250,9 @@ function FoodsScreen() {
   if (
     (foodsData.length === 0 && isLoading) ||
     !categoriesData ||
-    isCategoriesLoading
+    isCategoriesLoading ||
+    isDailyMealLoading ||
+    isGoalLoading
   )
     return <LoadingScreen />
 
@@ -285,15 +322,21 @@ function FoodsScreen() {
         </Content>
       </Container>
 
-      <Modal
-        isVisible={isModalVisible}
-        title="Cảnh báo"
-        description="Món ăn này có thể chứa thành phần gây dị ứng. Bạn có chắc chắn muốn thêm không?"
-        confirmText="Đồng ý"
-        cancelText="Hủy"
-        onConfirm={() => pendingMealData && confirmAddMeal(pendingMealData)}
-        onClose={() => setIsModalVisible(false)}
-      />
+      {warningModal && (
+        <Modal
+          isVisible={!!warningModal}
+          title={warningModal.title}
+          description={warningModal.description}
+          confirmText="Đồng ý"
+          cancelText="Hủy"
+          onConfirm={() =>
+            warningModal.type === "allergy" && pendingMealData
+              ? confirmAddMeal(pendingMealData)
+              : setWarningModal(null)
+          }
+          onClose={() => setWarningModal(null)}
+        />
+      )}
     </>
   )
 }

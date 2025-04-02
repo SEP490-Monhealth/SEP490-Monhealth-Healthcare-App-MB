@@ -3,6 +3,7 @@ import { z } from "zod"
 import { MealTypeEnum } from "@/constants/enum/Food"
 
 import { timestampFields, uuidSchema } from "./baseSchema"
+import { goalSchema } from "./goalSchema"
 import { nutritionSchema } from "./nutritionSchema"
 
 const MealTypeSchemaEnum = z.nativeEnum(MealTypeEnum)
@@ -29,6 +30,8 @@ export const dailyMealSchema = z.object({
   dailyMealId: uuidSchema,
   userId: uuidSchema,
   goalId: uuidSchema,
+
+  goalType: goalSchema.shape.type,
 
   nutrition: nutritionSchema,
 

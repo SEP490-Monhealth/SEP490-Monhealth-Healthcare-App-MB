@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useMemo, useRef, useState } from "react"
 
 import {
   Dimensions,
@@ -20,6 +20,7 @@ import {
   Content,
   HStack,
   Input,
+  Modal,
   ScrollArea,
   Select,
   Sheet,
@@ -33,34 +34,40 @@ import { FoodNutrition, NutritionFacts } from "@/components/local/foods"
 
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
+import { MealTypeEnum } from "@/constants/enum/Food"
 
 import { useAuth } from "@/contexts/AuthContext"
 import { useStorage } from "@/contexts/StorageContext"
 
+import { useGetDailyMealByUserId } from "@/hooks/useDailyMeal"
 import { useGetFoodById } from "@/hooks/useFood"
+import { useGetNutritionGoal } from "@/hooks/useGoal"
 import { useCreateMeal } from "@/hooks/useMeal"
 import { useGetNutritionByFoodId } from "@/hooks/useNutrition"
 import { useGetPortionByFoodId } from "@/hooks/usePortion"
 
-import { toFixed } from "@/utils/formatters"
+import { CreateMealType } from "@/schemas/mealSchema"
+
+import { formatDateY, toFixed } from "@/utils/formatters"
 import { getMealType, parsePortion } from "@/utils/helpers"
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window")
 
 function FoodDetailsScreen() {
   const router = useRouter()
-
   const { foodId } = useLocalSearchParams() as { foodId: string }
 
   const { user } = useAuth()
   const userId = user?.userId
+
+  const today = formatDateY(new Date())
 
   const MealSheetRef = useRef<SheetRefProps>(null)
   const PortionSheetRef = useRef<SheetRefProps>(null)
 
   const { mutate: addMeal } = useCreateMeal()
 
-  const { savedFoods, toggleSavedFood } = useStorage()
+  const { userAllergies, savedFoods, toggleSavedFood } = useStorage()
 
   const isSaved = savedFoods.some((saved) => saved.foodId === foodId)
 
@@ -69,27 +76,46 @@ function FoodDetailsScreen() {
   const [selectedPortion, setSelectedPortion] = useState("g")
   const [quantity, setQuantity] = useState("100")
   const [portionSheetHeight, setPortionSheetHeight] = useState(320)
+  const [pendingMealData, setPendingMealData] = useState<CreateMealType | null>(
+    null
+  )
+  const [warningModal, setWarningModal] = useState<{
+    title: string
+    description: string
+    type: "allergy" | "calorie"
+  } | null>(null)
+
+  const { data: dailyMealData, isLoading: isDailyMealLoading } =
+    useGetDailyMealByUserId(userId, today)
+
+  const { data: nutritionGoalData, isLoading: isGoalLoading } =
+    useGetNutritionGoal(userId)
 
   const { data: foodData, isLoading: isFoodLoading } = useGetFoodById(foodId)
+
   const { data: nutritionData, isLoading: isNutritionLoading } =
     useGetNutritionByFoodId(foodId)
+
   const { data: portionData, isLoading: isPortionLoading } =
     useGetPortionByFoodId(foodId, 1)
 
-  const formattedPortionData = [
-    "g",
-    "ml",
-    ...(portionData?.portions.map((portion) =>
-      portion.size && portion.size.trim() !== ""
-        ? `${portion.size} (${toFixed(portion.weight, 1)} ${portion.unit})`
-        : `${toFixed(portion.weight, 1)} ${portion.unit}`
-    ) || [])
-  ].map((portion) => portion.toLowerCase())
+  const formattedPortionData = useMemo(() => {
+    return [
+      "g",
+      "ml",
+      ...(portionData?.portions.map((portion) =>
+        portion.size && portion.size.trim() !== ""
+          ? `${portion.size} (${toFixed(portion.weight, 1)} ${portion.unit})`
+          : `${toFixed(portion.weight, 1)} ${portion.unit}`
+      ) || [])
+    ].map((portion) => portion.toLowerCase())
+  }, [portionData])
 
-  const weightRatio =
-    selectedPortion === "g"
+  const weightRatio = useMemo(() => {
+    return selectedPortion === "g"
       ? parseInt(quantity, 10) / 100
       : parsePortion(selectedPortion, quantity).portionWeight / 100
+  }, [selectedPortion, quantity])
 
   useEffect(() => {
     const minHeight = 160
@@ -154,7 +180,7 @@ function FoodDetailsScreen() {
 
     const mealData = {
       userId: userId || "",
-      type: selectedMealValue?.value,
+      type: selectedMealValue?.value || MealTypeEnum.Breakfast,
       items: [
         {
           foodId: foodId,
@@ -167,10 +193,44 @@ function FoodDetailsScreen() {
       ]
     }
 
+    const totalCalories = dailyMealData?.nutrition?.calories || 0
+    const goalCalories = nutritionGoalData?.caloriesGoal || 0
+    const foodCalories = nutritionData?.calories || 0
+
+    const hasAllergyWarning = foodData?.allergies?.some((allergy) =>
+      userAllergies.includes(allergy)
+    )
+    const hasCalorieWarning = totalCalories + foodCalories > goalCalories * 1.2
+
+    if (hasAllergyWarning) {
+      setPendingMealData(mealData)
+      setWarningModal({
+        title: "Cảnh báo dị ứng",
+        description:
+          "Món ăn này có thể chứa thành phần gây dị ứng. Bạn có chắc chắn muốn thêm không?",
+        type: "allergy"
+      })
+      return
+    }
+
+    if (hasCalorieWarning) {
+      setWarningModal({
+        title: "Cảnh báo lượng calories",
+        description:
+          "Lượng calories nạp vào sẽ vượt quá mục tiêu của bạn đáng kể. Bạn có chắc chắn muốn thêm món ăn này không?",
+        type: "calorie"
+      })
+      return
+    }
+
+    confirmAddMeal(mealData)
+  }
+
+  const confirmAddMeal = (mealData: CreateMealType) => {
     console.log(JSON.stringify(mealData, null, 2))
 
-    // @ts-ignore
     addMeal(mealData)
+    setWarningModal(null)
   }
 
   if (
@@ -179,11 +239,13 @@ function FoodDetailsScreen() {
     !nutritionData ||
     isNutritionLoading ||
     !portionData ||
-    isPortionLoading
+    isPortionLoading ||
+    isDailyMealLoading ||
+    isGoalLoading
   )
     return <LoadingScreen />
 
-  const handletoggleSavedFood = () => {
+  const handleToggleSavedFood = () => {
     if (foodData && nutritionData && portionData) {
       const { portionSize, portionWeight, portionUnit } = parsePortion(
         selectedPortion,
@@ -222,7 +284,7 @@ function FoodDetailsScreen() {
                 />
               )
             }}
-            onActionPress={handletoggleSavedFood}
+            onActionPress={handleToggleSavedFood}
           />
 
           <Content className="mt-2">
@@ -329,6 +391,22 @@ function FoodDetailsScreen() {
             />
           ))}
         </Sheet>
+
+        {warningModal && (
+          <Modal
+            isVisible={!!warningModal}
+            title={warningModal.title}
+            description={warningModal.description}
+            confirmText="Đồng ý"
+            cancelText="Hủy"
+            onConfirm={() =>
+              warningModal.type === "allergy" && pendingMealData
+                ? confirmAddMeal(pendingMealData)
+                : setWarningModal(null)
+            }
+            onClose={() => setWarningModal(null)}
+          />
+        )}
       </SafeAreaView>
     </TouchableWithoutFeedback>
   )
