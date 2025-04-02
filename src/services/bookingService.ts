@@ -68,7 +68,7 @@ export const getBookingsByConsultantId = async (
 }
 
 export const getBookingById = async (
-  bookingId: string
+  bookingId: string | undefined
 ): Promise<BookingType> => {
   try {
     const response = await monAPI.get(`/bookings/${bookingId}`)
@@ -136,7 +136,7 @@ export const createBooking = async (
 }
 
 export const updateBookingStatus = async (
-  bookingId: string,
+  bookingId: string | undefined,
   showModal: (message: string) => void
 ): Promise<string> => {
   try {

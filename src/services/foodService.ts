@@ -44,7 +44,7 @@ export const getAllFoods = async (
 export const getFoodsByUserId = async (
   userId: string | undefined,
   page: number,
-  limit: number
+  limit?: number
 ): Promise<FoodResponse> => {
   try {
     const response = await monAPI.get(`/foods/user/${userId}`, {

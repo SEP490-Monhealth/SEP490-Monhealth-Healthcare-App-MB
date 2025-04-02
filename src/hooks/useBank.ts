@@ -14,7 +14,7 @@ interface BankResponse {
 
 export const useGetAllBanks = (
   page: number,
-  limit: number,
+  limit?: number,
   search?: string,
   status?: boolean
 ) => {

@@ -20,7 +20,7 @@ interface FoodResponse {
 
 export const useGetAllFoods = (
   page: number,
-  limit: number,
+  limit?: number,
   category?: string,
   search?: string,
   isPublic?: boolean,
@@ -63,7 +63,7 @@ export const useGetAllFoods = (
 export const useGetFoodsByUserId = (
   userId: string | undefined,
   page: number,
-  limit: number
+  limit?: number
 ) => {
   const handleError = useError()
 

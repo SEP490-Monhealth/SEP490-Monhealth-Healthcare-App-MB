@@ -81,7 +81,7 @@ export const useGetWorkoutById = (workoutId: string | undefined) => {
 export const useGetWorkoutsByUserId = (
   userId: string | undefined,
   page: number,
-  limit: number
+  limit?: number
 ) => {
   const handleError = useError()
 

@@ -20,12 +20,15 @@ const messageSchema = z.object({
 })
 
 export const createMessageSchema = messageSchema.pick({
-  chatId: true,
   senderId: true,
   receiveId: true,
-  type: true,
+  content: true
+})
+
+export const updateMessageSchema = messageSchema.pick({
   content: true
 })
 
 export type MessageType = z.infer<typeof messageSchema>
 export type CreateMessageType = z.infer<typeof createMessageSchema>
+export type UpdateMessageType = z.infer<typeof updateMessageSchema>

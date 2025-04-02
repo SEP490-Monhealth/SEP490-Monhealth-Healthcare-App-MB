@@ -55,7 +55,7 @@ export const useGetBookingsByConsultantId = (
   })
 }
 
-export const useGetBookingById = (bookingId: string) => {
+export const useGetBookingById = (bookingId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<BookingType, Error>({
@@ -68,6 +68,7 @@ export const useGetBookingById = (bookingId: string) => {
         throw error
       }
     },
+    enabled: !!bookingId,
     staleTime: 1000 * 60 * 5
   })
 }
@@ -98,7 +99,7 @@ export const useUpdateBookingStatus = () => {
   const handleError = useError()
   const { showModal } = useModal()
 
-  return useMutation<string, Error, { bookingId: string }>({
+  return useMutation<string, Error, { bookingId: string | undefined }>({
     mutationFn: async ({ bookingId }) => {
       try {
         return await updateBookingStatus(bookingId, showModal)

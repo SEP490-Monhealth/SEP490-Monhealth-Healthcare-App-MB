@@ -21,7 +21,7 @@ interface SubscriptionsResponse {
 
 export const useGetAllSubscriptions = (
   page: number,
-  limit: number,
+  limit?: number,
   search?: string,
   sort?: boolean,
   status?: boolean
