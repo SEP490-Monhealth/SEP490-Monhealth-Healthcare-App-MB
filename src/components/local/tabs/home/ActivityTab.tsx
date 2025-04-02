@@ -12,7 +12,7 @@ import { Section } from "@/components/global/organisms"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useGetDailyActivityByUserId } from "@/hooks/useDailyWorkout"
+import { useGetDailyActivityByUserId } from "@/hooks/useDailyActivity"
 import { useGetWorkoutGoal } from "@/hooks/useGoal"
 
 import { formatDateY, toFixed } from "@/utils/formatters"

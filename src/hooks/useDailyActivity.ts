@@ -13,7 +13,7 @@ export const useGetDailyActivityByUserId = (
   const handleError = useError()
 
   return useQuery<DailyActivityType, Error>({
-    queryKey: ["dailyActivity", userId, date],
+    queryKey: ["daily-activity", userId, date],
     queryFn: async () => {
       try {
         return await getDailyActivityByUserId(userId, date)
