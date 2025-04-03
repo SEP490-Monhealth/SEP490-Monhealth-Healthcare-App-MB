@@ -145,7 +145,7 @@ function BookingsUserScreen() {
                   </VStack>
                 ) : (
                   <ErrorDisplay
-                    imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
+                    imageSource={require("../../../../../public/images/monhealth-no-data-image.png")}
                     title="Không có lịch hẹn"
                     description="Không tìm thấy có lịch hẹn nào ở đây!"
                     marginTop={24}

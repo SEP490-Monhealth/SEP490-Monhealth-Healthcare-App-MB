@@ -49,7 +49,7 @@ function WithdrawalRequestCreateScreen() {
 
     addWithdrawalRequest(finalData, {
       onSuccess: () => {
-        router.replace(`/withdrawal-requests/consultant/${consultantId}`)
+        router.back()
       }
     })
   }

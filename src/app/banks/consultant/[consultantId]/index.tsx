@@ -17,6 +17,7 @@ import { Add, Edit2, Star1, Trash } from "iconsax-react-native"
 import {
   Container,
   Content,
+  Modal,
   Sheet,
   SheetRefProps,
   SheetSelect
@@ -32,7 +33,11 @@ import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
 
-import { useGetConsultantBanksByConsultantId } from "@/hooks/useConsultantBank"
+import {
+  useDeleteConsultantBank,
+  useGetConsultantBanksByConsultantId,
+  useUpdateConsultantBankDefault
+} from "@/hooks/useConsultantBank"
 import { useGetWithdrawalRequestsByConsultantId } from "@/hooks/useWithdrawalRequest"
 
 import { ConsultantBankType } from "@/schemas/consultantBankSchema"
@@ -47,6 +52,9 @@ const BanksScreen = () => {
   const { data: consultantBanksData, isLoading: isConsultantBanksLoading } =
     useGetConsultantBanksByConsultantId(consultantId)
 
+  const { mutate: updateBankDefault } = useUpdateConsultantBankDefault()
+  const { mutate: deleteBank } = useDeleteConsultantBank()
+
   // console.log(JSON.stringify(consultantBanksData, null, 2))
 
   const [withdrawalRequestsData, setWithdrawalRequestsData] = useState<
@@ -55,6 +63,7 @@ const BanksScreen = () => {
   const [page, setPage] = useState<number>(1)
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
+  const [isConfirm, setIsConfirm] = useState<boolean>(false)
   const [selectedConsultantBank, setSelectedConsultantBank] =
     useState<ConsultantBankType | null>(null)
 
@@ -112,24 +121,38 @@ const BanksScreen = () => {
 
   const handleDefaultConsultantBank = () => {
     if (!selectedConsultantBank) return
-    console.log("Set default bank:", selectedConsultantBank.consultantBankId)
+    // console.log("Set default bank:", selectedConsultantBank.consultantBankId)
+    updateBankDefault(selectedConsultantBank.consultantBankId)
     closeSheet()
   }
 
   const handleUpdateConsultantBank = () => {
     if (!selectedConsultantBank) return
     router.push(`/banks/consultant/${consultantId}/update`)
+    router.setParams({
+      consultantBankId: selectedConsultantBank.consultantBankId
+    })
     closeSheet()
   }
 
   const handleDeleteConsultantBank = () => {
     if (!selectedConsultantBank) return
-    console.log("Delete bank:", selectedConsultantBank.consultantBankId)
+    // console.log("Delete bank:", selectedConsultantBank.consultantBankId)
+    deleteBank(selectedConsultantBank.consultantBankId)
+    closeSheet()
+  }
+
+  const handleConfirmDelete = () => {
+    setIsConfirm(true)
     closeSheet()
   }
 
   const handleViewWithdrawalRequests = () => {
     router.push(`/withdrawal-requests/consultant/${consultantId}`)
+  }
+
+  const handleCreateConsultantBank = () => {
+    router.push(`/banks/consultant/${consultantId}/create`)
   }
 
   const FlatListHeader = useMemo(() => {
@@ -233,8 +256,16 @@ const BanksScreen = () => {
 
         <Sheet ref={SheetRef} dynamicHeight={sheetHeight}>
           <SheetSelect
-            label="Mặc định"
-            icon={<Star1 variant="Bold" size="20" color={COLORS.primary} />}
+            label={
+              selectedConsultantBank?.isDefault ? "Tài khoản phụ" : "Mặc định"
+            }
+            icon={
+              <Star1
+                variant={selectedConsultantBank?.isDefault ? "Linear" : "Bold"}
+                size={20}
+                color={COLORS.primary}
+              />
+            }
             onPress={handleDefaultConsultantBank}
           />
 
@@ -248,9 +279,19 @@ const BanksScreen = () => {
             variant="danger"
             label="Xóa"
             icon={<Trash variant="Bold" size="20" color={COLORS.destructive} />}
-            onPress={handleDeleteConsultantBank}
+            onPress={handleConfirmDelete}
           />
         </Sheet>
+
+        <Modal
+          isVisible={isConfirm}
+          onClose={() => setIsConfirm(false)}
+          title="Xác nhận xóa tài khoản"
+          description="Bạn có chắc chắn muốn xóa tài khoản này không? Hành động này không thể hoàn tác."
+          confirmText="Đồng ý"
+          cancelText="Hủy"
+          onConfirm={handleDeleteConsultantBank}
+        />
       </SafeAreaView>
     </TouchableWithoutFeedback>
   )

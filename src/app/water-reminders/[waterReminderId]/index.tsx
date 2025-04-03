@@ -83,7 +83,7 @@ function WaterReminderDetailsScreen() {
       { waterReminderId, waterReminderData: data },
       {
         onSuccess: () => {
-          router.replace("/water-reminders")
+          router.back()
         }
       }
     )
