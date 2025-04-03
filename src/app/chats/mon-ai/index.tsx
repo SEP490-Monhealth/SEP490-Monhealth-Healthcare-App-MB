@@ -77,11 +77,18 @@ const ChatMonAIScreen = () => {
             const validatedMessage = {
               messageId: message.messageId || Date.now().toString(),
               sender: message.sender || "MonAI",
-              content: message.content,
-              createdAt: message.createdAt || new Date().toISOString()
+              content: message.content
             }
 
-            setMessages((prevMessages) => [...prevMessages, validatedMessage])
+            setMessages((prevMessages) => {
+              const isDuplicate = prevMessages.some(
+                (msg) => msg.messageId === validatedMessage.messageId
+              )
+              if (isDuplicate) {
+                return prevMessages
+              }
+              return [...prevMessages, validatedMessage]
+            })
           }
         } catch (error) {
           console.error("Error processing received message:", error)
@@ -178,6 +185,7 @@ const ChatMonAIScreen = () => {
           onChangeText={setNewMessage}
           onSubmit={handleSendMessage}
           isDisabled={!newMessage.trim() || !connectionStatus}
+          isAITyping={isAITyping}
         />
       </KeyboardAvoidingView>
     </SafeAreaView>

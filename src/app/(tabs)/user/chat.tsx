@@ -16,10 +16,13 @@ import {
   ListFooter,
   ListHeader
 } from "@/components/global/molecules"
-import { Section } from "@/components/global/organisms"
+import { Header, Section } from "@/components/global/organisms"
 
-import { sampleChatsData } from "@/constants/chats"
 import { COLORS } from "@/constants/color"
+import { sampleChatsData } from "@/constants/data/chats"
+import { sampleSubscriptionsData } from "@/constants/data/subscriptions"
+
+import { useAuth } from "@/contexts/AuthContext"
 
 import { useDebounce } from "@/hooks/useDebounce"
 
@@ -27,6 +30,11 @@ import { ChatType } from "@/schemas/chatSchema"
 
 function ChatScreen() {
   const router = useRouter()
+
+  const { user } = useAuth()
+  const userSubscription = user?.subscription
+
+  const checkSubscription = userSubscription !== sampleSubscriptionsData[0].name
 
   const [chatsData, setChatsData] = useState<ChatType[]>([])
   const [page, setPage] = useState<number>(1)
@@ -93,15 +101,19 @@ function ChatScreen() {
 
   const FlatListHeader = useMemo(() => {
     return (
-      <ListHeader className="pt-4">
-        <ChatCard
-          fullName="MonAI"
-          avatarUrl={require("../../../../public/images/avatars/mon-ai/mon-ai-avatar.jpg")}
-          lastMessage="Chào bạn! Tôi là MonAI, trợ lý ảo của bạn. Tôi có thể giúp gì cho bạn?"
-          onPress={handleChatMonAI}
-        />
+      <ListHeader>
+        {checkSubscription && (
+          <View className="pt-4">
+            <ChatCard
+              fullName="MonAI"
+              avatarUrl={require("../../../../public/images/avatars/mon-ai/mon-ai-avatar.jpg")}
+              lastMessage="Chào bạn! Tôi là MonAI, trợ lý ảo của bạn. Tôi có thể giúp gì cho bạn?"
+              onPress={handleChatMonAI}
+            />
+          </View>
+        )}
 
-        <Section label="Danh sách tin nhắn" />
+        {chatsData.length > 0 && <Section label="Danh sách tin nhắn" />}
       </ListHeader>
     )
   }, [])
@@ -110,19 +122,17 @@ function ChatScreen() {
 
   return (
     <Container>
-      <CustomHeader
-        content={
-          <Input
-            value={searchQuery}
-            placeholder="Tìm kiếm tin nhắn..."
-            onChangeText={(text) => setSearchQuery(text)}
-            startIcon={<SearchNormal1 size={20} color={COLORS.primary} />}
-            canClearText
-          />
-        }
-      />
+      <Header label="Nhắn tin" />
 
-      <Content>
+      <Content className="mt-2">
+        <Input
+          value={searchQuery}
+          placeholder="Tìm kiếm tin nhắn..."
+          onChangeText={(text) => setSearchQuery(text)}
+          startIcon={<SearchNormal1 size={20} color={COLORS.primary} />}
+          canClearText
+        />
+
         <FlatList
           data={chatsData || []}
           keyExtractor={(item, index) => `${item.chatId}-${index}`}

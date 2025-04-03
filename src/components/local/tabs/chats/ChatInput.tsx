@@ -1,6 +1,6 @@
 import { TouchableOpacity, View } from "react-native"
 
-import { Send2 } from "iconsax-react-native"
+import { Pause, Send2 } from "iconsax-react-native"
 
 import { HStack, Input } from "@/components/global/atoms"
 
@@ -9,13 +9,15 @@ interface ChatInputProps {
   onChangeText: (text: string) => void
   onSubmit: () => void
   isDisabled: boolean
+  isAITyping: boolean
 }
 
 export const ChatInput = ({
   value,
   onChangeText,
   onSubmit,
-  isDisabled
+  isDisabled,
+  isAITyping
 }: ChatInputProps) => {
   return (
     <HStack center gap={16} className="border-t border-border py-4">
@@ -34,7 +36,11 @@ export const ChatInput = ({
         onPress={onSubmit}
         className="flex h-12 w-12 items-center justify-center rounded-full bg-primary"
       >
-        <Send2 variant="Bold" size="20" color="white" />
+        {isAITyping ? (
+          <Pause variant="Bold" size="20" color="white" />
+        ) : (
+          <Send2 variant="Bold" size="20" color="white" />
+        )}
       </TouchableOpacity>
     </HStack>
   )
