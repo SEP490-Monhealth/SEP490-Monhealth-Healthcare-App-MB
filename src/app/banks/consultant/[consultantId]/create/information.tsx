@@ -1,7 +1,6 @@
-import React from "react"
+import React, { useEffect } from "react"
 
-import { Text, TouchableOpacity, View } from "react-native"
-import { SvgUri } from "react-native-svg"
+import { Text } from "react-native"
 
 import { Control, Controller, FieldValues } from "react-hook-form"
 
@@ -13,45 +12,55 @@ import {
   Input,
   VStack
 } from "@/components/global/atoms"
+import { BankCard } from "@/components/global/molecules"
 
-import { useBankStore, useSelectBankStore } from "@/stores/bankStore"
+import { useGetBankById } from "@/hooks/useBank"
+
+import { useBankStore } from "@/stores/bankStore"
 
 interface BankSelectionProps {
   control: Control<FieldValues>
   errors: any
   setValue: any
+  setIsLoading?: (isLoading: boolean) => void
 }
 
-function BankInformation({ control, errors, setValue }: BankSelectionProps) {
-  const { isDefault, updateField } = useBankStore()
+export const BankInformation = ({
+  control,
+  errors,
+  setValue,
+  setIsLoading
+}: BankSelectionProps) => {
+  const { bankId, isDefault, updateField } = useBankStore()
 
-  const { name, shortName, logoUrl } = useSelectBankStore()
+  const { data: bankData, isLoading } = useGetBankById(bankId)
 
-  const handleVisibilitySelect = (value: boolean) => {
+  useEffect(() => {
+    if (setIsLoading) {
+      setIsLoading(isLoading)
+    }
+  }, [isLoading, setIsLoading])
+
+  const handleDefaultSelect = (value: boolean) => {
     updateField("isDefault", value)
     setValue("isDefault", value)
   }
 
+  if (!bankData && isLoading) {
+    return null
+  }
+
   return (
     <VStack gap={32} className="px-6">
-      <VStack gap={12}>
-        <Card>
-          <HStack center gap={16}>
-            <TouchableOpacity
-              activeOpacity={1}
-              className="h-12 w-12 items-center justify-center rounded-full bg-muted"
-            >
-              <SvgUri uri={logoUrl} width={24} height={24} />
-            </TouchableOpacity>
+      <VStack gap={8}>
+        {bankData && (
+          <BankCard
+            name={bankData.name}
+            shortName={bankData.shortName}
+            logoUrl={bankData.logoUrl}
+          />
+        )}
 
-            <View className="flex-1">
-              <Text className="font-tmedium text-base text-primary">
-                {shortName}
-              </Text>
-              <Text className="font-tmedium text-sm text-accent">{name}</Text>
-            </View>
-          </HStack>
-        </Card>
         <Controller
           name="name"
           control={control}
@@ -98,13 +107,13 @@ function BankInformation({ control, errors, setValue }: BankSelectionProps) {
             <Chip
               label="Tùy chỉnh"
               selected={!isDefault}
-              onPress={() => handleVisibilitySelect(false)}
+              onPress={() => handleDefaultSelect(false)}
             />
 
             <Chip
               label="Mặc định"
               selected={isDefault}
-              onPress={() => handleVisibilitySelect(true)}
+              onPress={() => handleDefaultSelect(true)}
             />
           </HStack>
         </VStack>
@@ -112,5 +121,3 @@ function BankInformation({ control, errors, setValue }: BankSelectionProps) {
     </VStack>
   )
 }
-
-export default BankInformation

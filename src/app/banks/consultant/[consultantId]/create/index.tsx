@@ -9,6 +9,7 @@ import {
 
 import { useRouter } from "expo-router"
 
+import { LoadingOverlay } from "@/app/loading"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { set } from "lodash"
 import { useForm } from "react-hook-form"
@@ -20,17 +21,14 @@ import { useAuth } from "@/contexts/AuthContext"
 
 import { useCreateConsultantBank } from "@/hooks/useConsultantBank"
 
-import {
-  bankInformationSchema,
-  bankSelectionSchema
-} from "@/schemas/consultantBankSchema"
+import { createConsultantBankSchema } from "@/schemas/consultantBankSchema"
 
 import { useBankStore } from "@/stores/bankStore"
 
-import BankInformation from "./bankInformation"
-import BankSelection from "./bankSelection"
+import { BankSelection } from "./bank"
+import { BankInformation } from "./information"
 
-function FoodCreateScreen() {
+function BankCreateScreen() {
   const router = useRouter()
 
   const { user } = useAuth()
@@ -38,32 +36,39 @@ function FoodCreateScreen() {
 
   const { mutate: createConsultantBank } = useCreateConsultantBank()
 
-  const { bank, number, name, isDefault, updateField } = useBankStore()
+  const { bankId, number, name, isDefault, updateField } = useBankStore()
 
   const [currentStep, setCurrentStep] = useState(1)
+  const [isStepLoading, setIsStepLoading] = useState(false)
 
   const formData: Record<string, any> = {
     consultantId,
-    name,
-    bank,
+    bankId,
     number,
+    name,
     isDefault
   }
 
   const steps = [
     {
       step: 1,
-      title: "Chọn ngân hàng",
+      title: "Ngân hàng",
       component: BankSelection,
-      fields: ["bank"],
-      schema: bankSelectionSchema
+      fields: ["bankId"],
+      schema: createConsultantBankSchema.pick({
+        bankId: true
+      })
     },
     {
       step: 2,
-      title: "Thông tin tài khoản",
+      title: "Thông tin",
       component: BankInformation,
       fields: ["name", "number", "isDefault"],
-      schema: bankInformationSchema
+      schema: createConsultantBankSchema.pick({
+        number: true,
+        name: true,
+        isDefault: true
+      })
     }
   ]
 
@@ -85,12 +90,8 @@ function FoodCreateScreen() {
   })
 
   const onSubmitStep = (data: Record<string, any>) => {
-    console.log("Submitted data:", data)
-    console.log("Errors after submit:", errors)
-
-    if (currentStep === 1) {
-      useBankStore.getState().setBankFromSelectBank()
-    }
+    // console.log("Submitted data:", data)
+    // console.log("Errors after submit:", errors)
 
     Object.keys(data).forEach((key) => {
       set(formData, key, data[key])
@@ -114,7 +115,7 @@ function FoodCreateScreen() {
         consultantId: formData.consultantId
       }
 
-      console.log("Final Form Data:", JSON.stringify(finalData, null, 2))
+      // console.log("Final Form Data:", JSON.stringify(finalData, null, 2))
 
       createConsultantBank(finalData, {
         onSuccess: () => {
@@ -137,15 +138,18 @@ function FoodCreateScreen() {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView className="h-full flex-1 bg-background">
+        <LoadingOverlay visible={isStepLoading} />
+
         <View className="px-6">
           <Header back label={currentStepData.title} onBackPress={handleBack} />
         </View>
 
-        <Content className="mt-2">
+        <Content className="mt-2 pb-28">
           <StepComponent
             control={control}
             errors={errors}
             setValue={setValue}
+            setIsLoading={setIsStepLoading}
           />
         </Content>
 
@@ -154,11 +158,11 @@ function FoodCreateScreen() {
           onPress={handleSubmit(onSubmitStep)}
           className="absolute bottom-12 left-6 right-6"
         >
-          {currentStep === steps.length ? "Tạo mới" : "Tiếp tục"}
+          {currentStep === steps.length ? "Thêm mới" : "Tiếp tục"}
         </Button>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   )
 }
 
-export default FoodCreateScreen
+export default BankCreateScreen

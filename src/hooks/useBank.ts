@@ -4,7 +4,7 @@ import { useError } from "@/contexts/ErrorContext"
 
 import { BankType } from "@/schemas/bankSchema"
 
-import { getAllBanks } from "@/services/bankService"
+import { getAllBanks, getBankById } from "@/services/bankService"
 
 interface BankResponse {
   banks: BankType[]
@@ -31,5 +31,23 @@ export const useGetAllBanks = (
       }
     },
     staleTime: 1000 * 60 * 5
+  })
+}
+
+export const useGetBankById = (bankId: string | undefined) => {
+  const handleError = useError()
+
+  return useQuery<BankType, Error>({
+    queryKey: ["bank", bankId],
+    queryFn: async () => {
+      try {
+        return await getBankById(bankId)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    staleTime: 1000 * 60 * 5,
+    enabled: !!bankId
   })
 }

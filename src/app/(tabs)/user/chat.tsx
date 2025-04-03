@@ -113,7 +113,9 @@ function ChatScreen() {
           </View>
         )}
 
-        {chatsData.length > 0 && <Section label="Danh sách tin nhắn" />}
+        {checkSubscription && chatsData.length > 0 && (
+          <Section label="Danh sách tin nhắn" />
+        )}
       </ListHeader>
     )
   }, [])

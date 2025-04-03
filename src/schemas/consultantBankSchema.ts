@@ -1,4 +1,3 @@
-import { zip } from "lodash"
 import { z } from "zod"
 
 import { bankSchema } from "./bankSchema"
@@ -10,6 +9,7 @@ const consultantBankSchema = z.object({
   bankId: uuidSchema,
 
   bank: z.object({
+    name: bankSchema.shape.name,
     shortName: bankSchema.shape.shortName,
     logoUrl: bankSchema.shape.logoUrl
   }),
@@ -30,27 +30,23 @@ const consultantBankSchema = z.object({
   ...timestampFields
 })
 
-export const bankSelectionSchema = z.object({
-  bank: bankSchema.shape.code
-})
-
 export const bankInformationSchema = consultantBankSchema.pick({
   name: true,
   number: true,
   isDefault: true
 })
 
-export const createConsultantBankSchema = z.object({
-  consultantId: consultantBankSchema.shape.consultantId,
-  bank: bankSchema.shape.code,
-  number: consultantBankSchema.shape.number,
-  name: consultantBankSchema.shape.name,
-  isDefault: consultantBankSchema.shape.isDefault
+export const createConsultantBankSchema = consultantBankSchema.pick({
+  consultantId: true,
+  bankId: true,
+  number: true,
+  name: true,
+  isDefault: true
 })
 
-export const updateConsultantBankSchema = z.object({
-  number: consultantBankSchema.shape.number,
-  name: consultantBankSchema.shape.name
+export const updateConsultantBankSchema = consultantBankSchema.pick({
+  number: true,
+  name: true
 })
 
 export type ConsultantBankType = z.infer<typeof consultantBankSchema>

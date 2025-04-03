@@ -1,19 +1,18 @@
 import React, { useEffect, useMemo, useState } from "react"
 
-import { FlatList, Keyboard, Text, View } from "react-native"
+import { FlatList, Keyboard, View } from "react-native"
 import { ActivityIndicator } from "react-native"
-import { TouchableOpacity } from "react-native"
 
 import { SearchNormal1 } from "iconsax-react-native"
-import { Control, FieldValues } from "react-hook-form"
 
-import { HStack, Input } from "@/components/global/atoms"
+import { Input } from "@/components/global/atoms"
 import {
   BankCard,
-  CustomHeader,
+  ErrorDisplay,
   ListFooter,
   ListHeader
 } from "@/components/global/molecules"
+import { Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
 
@@ -22,27 +21,37 @@ import { useDebounce } from "@/hooks/useDebounce"
 
 import { BankType } from "@/schemas/bankSchema"
 
-import { useSelectBankStore } from "@/stores/bankStore"
+import { useBankStore } from "@/stores/bankStore"
 
 interface BankSelectionProps {
-  control: Control<FieldValues>
-  errors: any
   setValue: any
+  setIsLoading?: (isLoading: boolean) => void
 }
 
-function BankSelection({ control, errors, setValue }: BankSelectionProps) {
+export const BankSelection = ({
+  setValue,
+  setIsLoading
+}: BankSelectionProps) => {
+  const { updateField } = useBankStore()
+
   const [banksData, setBanksData] = useState<BankType[]>([])
   const [page, setPage] = useState<number>(1)
   const [searchQuery, setSearchQuery] = useState<string>("")
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
+  const [selectedBank, setSelectedBank] = useState<string | null>(null)
 
   const limit = 10
+
   const debouncedSearch = useDebounce(searchQuery)
 
   const { data, isLoading } = useGetAllBanks(page, limit, debouncedSearch, true)
 
-  const { code, shortName } = useSelectBankStore()
+  useEffect(() => {
+    if (setIsLoading) {
+      setIsLoading(isLoading && banksData.length === 0)
+    }
+  }, [isLoading, banksData, setIsLoading])
 
   useEffect(() => {
     if (data?.banks) {
@@ -81,61 +90,38 @@ function BankSelection({ control, errors, setValue }: BankSelectionProps) {
     setIsRefreshing(false)
   }
 
-  const handleDelete = () => {
-    useSelectBankStore.getState().reset()
-
-    setValue("bank", "", { shouldValidate: true })
+  const handleSelectBank = (bankId: string) => {
+    if (selectedBank === bankId) {
+      setSelectedBank(null)
+      setValue("bankId", null)
+      updateField("bankId", "")
+    } else {
+      setSelectedBank(bankId)
+      setValue("bankId", bankId)
+      updateField("bankId", bankId)
+    }
   }
-
-  const handleSelectBank = (
-    code: string,
-    name: string,
-    shortName: string,
-    logoUrl: string
-  ) => {
-    useSelectBankStore.getState().updateBank("code", code)
-    useSelectBankStore.getState().updateBank("name", name)
-    useSelectBankStore.getState().updateBank("shortName", shortName)
-    useSelectBankStore.getState().updateBank("logoUrl", logoUrl)
-
-    setValue("bank", code, { shouldValidate: true })
-  }
-
-  console.log(errors)
 
   const FlatListHeader = useMemo(() => {
     return (
       <ListHeader>
-        <HStack center className="justify-between">
-          <Text
-            className={`font-base py-4 text-lg ${
-              errors.bank ? "text-destructive" : "text-primary"
-            }`}
-          >
-            Chọn ngân hàng của bạn
-          </Text>
-
-          <TouchableOpacity activeOpacity={0.8} onPress={handleDelete}>
-            <Text className="font-tregular text-base text-accent">Xóa</Text>
-          </TouchableOpacity>
-        </HStack>
+        <Section label="Danh sách ngân hàng" />
       </ListHeader>
     )
-  }, [code, shortName, errors.bank?.message])
+  }, [])
+
+  if (banksData.length === 0 && isLoading) {
+    return null
+  }
 
   return (
-    <View className="px-6 pb-4">
-      <CustomHeader
-        back={false}
-        content={
-          <Input
-            value={searchQuery}
-            placeholder="Tìm kiếm ngân hàng..."
-            onChangeText={(text) => setSearchQuery(text)}
-            startIcon={<SearchNormal1 size={20} color={COLORS.primary} />}
-            canClearText
-          />
-        }
+    <View className="px-6">
+      <Input
+        value={searchQuery}
+        placeholder="Tìm kiếm ngân hàng..."
+        onChangeText={(text) => setSearchQuery(text)}
+        startIcon={<SearchNormal1 size={20} color={COLORS.primary} />}
+        canClearText
       />
 
       <FlatList
@@ -146,27 +132,19 @@ function BankSelection({ control, errors, setValue }: BankSelectionProps) {
         showsVerticalScrollIndicator={false}
         stickyHeaderIndices={[0]}
         initialNumToRender={10}
-        maxToRenderPerBatch={10}
-        windowSize={21}
-        removeClippedSubviews
-        updateCellsBatchingPeriod={50}
+        maxToRenderPerBatch={5}
+        windowSize={5}
         onEndReached={onEndReached}
         onEndReachedThreshold={0.5}
         ListHeaderComponent={FlatListHeader}
         renderItem={({ item }) => (
           <BankCard
-            code={item.code}
             name={item.name}
             shortName={item.shortName}
             logoUrl={item.logoUrl}
-            onPress={() => {
-              handleSelectBank(
-                item.code,
-                item.name,
-                item.shortName,
-                item.logoUrl
-              )
-            }}
+            isSelected={item.bankId === selectedBank}
+            addNewButton
+            onPress={() => handleSelectBank(item.bankId)}
           />
         )}
         ListFooterComponent={
@@ -175,13 +153,19 @@ function BankSelection({ control, errors, setValue }: BankSelectionProps) {
               <ActivityIndicator color={COLORS.primary} />
             </ListFooter>
           ) : (
-            <ListFooter className="pb-28" />
+            <ListFooter />
           )
+        }
+        ListEmptyComponent={
+          <ErrorDisplay
+            imageSource={require("../../../../../../public/images/monhealth-no-data-image.png")}
+            title="Không có dữ liệu"
+            description="Không tìm thấy có ngân hàng nào ở đây!"
+            marginTop={24}
+          />
         }
         ItemSeparatorComponent={() => <View className="h-3" />}
       />
     </View>
   )
 }
-
-export default BankSelection

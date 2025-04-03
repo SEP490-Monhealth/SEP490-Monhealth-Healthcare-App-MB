@@ -88,14 +88,14 @@ export const useUpdateConsultantBank = () => {
     Error,
     {
       consultantBankId: string | undefined
-      consultantBankData: UpdateConsultantBankType
+      updatedData: UpdateConsultantBankType
     }
   >({
-    mutationFn: async ({ consultantBankId, consultantBankData }) => {
+    mutationFn: async ({ consultantBankId, updatedData }) => {
       try {
         return await updateConsultantBank(
           consultantBankId,
-          consultantBankData,
+          updatedData,
           showModal
         )
       } catch (error) {

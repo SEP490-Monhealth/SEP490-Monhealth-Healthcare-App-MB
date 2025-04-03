@@ -1,3 +1,5 @@
+import axios from "axios"
+
 import monAPI from "@/lib/monAPI"
 
 import { BankType } from "@/schemas/bankSchema"
@@ -30,8 +32,46 @@ export const getAllBanks = async (
 
     const { totalPages, totalItems, items: banks } = data
     return { banks, totalPages, totalItems }
-  } catch (error) {
-    console.error("Lỗi lấy danh sách ngân hàng", error)
-    throw new Error("Lấy danh sách ngân hàng thất bại")
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      console.log("Lỗi từ server:", error.response?.data || error.message)
+      throw error
+    } else {
+      console.log("Lỗi không phải Axios:", error)
+      throw {
+        isCustomError: true,
+        message: "Đã xảy ra lỗi không mong muốn"
+      }
+    }
+  }
+}
+
+export const getBankById = async (
+  bankId: string | undefined
+): Promise<BankType> => {
+  try {
+    const response = await monAPI.get(`/banks/${bankId}`)
+
+    const { success, message, data } = response.data
+
+    if (!success) {
+      throw {
+        isCustomError: true,
+        message: message || "Không thể lấy thông tin ngân hàng"
+      }
+    }
+
+    return data as BankType
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      console.log("Lỗi từ server:", error.response?.data || error.message)
+      throw error
+    } else {
+      console.log("Lỗi không phải Axios:", error)
+      throw {
+        isCustomError: true,
+        message: "Đã xảy ra lỗi không mong muốn"
+      }
+    }
   }
 }
