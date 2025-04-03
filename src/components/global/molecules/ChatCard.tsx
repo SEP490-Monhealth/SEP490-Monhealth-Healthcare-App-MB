@@ -8,7 +8,7 @@ import { Card, CardHeader, HStack } from "../atoms"
 
 interface ChatCardProps {
   fullName: string
-  avatarUrl?: string
+  avatarUrl?: string | number
   lastMessage?: string
   lastMessageAt?: string
   onPress?: () => void
@@ -21,11 +21,13 @@ export const ChatCard = ({
   lastMessageAt,
   onPress
 }: ChatCardProps) => {
+  const isUrl = typeof avatarUrl === "string"
+
   return (
     <Card hasImage onPress={onPress}>
       <HStack center gap={12}>
         <Image
-          source={{ uri: avatarUrl }}
+          source={isUrl ? { uri: avatarUrl } : avatarUrl}
           className="h-14 w-14 rounded-xl border border-border"
         />
 

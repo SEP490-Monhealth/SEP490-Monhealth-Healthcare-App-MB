@@ -2,8 +2,6 @@ import React from "react"
 
 import { Image, Text, TouchableOpacity, View } from "react-native"
 
-import { MealTypeEnum } from "@/constants/enum/Food"
-
 import { toFixed } from "@/utils/formatters"
 
 import { Card } from "../atoms"
@@ -21,8 +19,6 @@ export const ActivityCard = ({
   caloriesBurned,
   onPress
 }: ActivityCardProps) => {
-  const type = MealTypeEnum.Breakfast
-
   return (
     <Card onPress={onPress} className="flex-row items-center justify-between">
       <TouchableOpacity

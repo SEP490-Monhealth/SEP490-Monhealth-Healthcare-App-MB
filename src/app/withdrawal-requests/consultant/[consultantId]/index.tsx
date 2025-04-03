@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react"
 
-import { ActivityIndicator, FlatList, Keyboard, Text, View } from "react-native"
+import { ActivityIndicator, FlatList, Keyboard, View } from "react-native"
 
 import { useLocalSearchParams } from "expo-router"
 
