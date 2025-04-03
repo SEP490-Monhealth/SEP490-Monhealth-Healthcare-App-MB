@@ -129,7 +129,7 @@ const ChatDetailsScreen = () => {
           </View>
 
           <TouchableOpacity
-            activeOpacity={0.7}
+            activeOpacity={0.8}
             disabled={!newMessage.trim() || !connectionStatus}
             onPress={handleSendMessage}
             className="flex h-12 w-12 items-center justify-center rounded-full bg-primary"

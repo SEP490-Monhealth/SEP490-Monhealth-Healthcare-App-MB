@@ -50,11 +50,11 @@ const BanksScreen = () => {
 
   const SheetRef = useRef<SheetRefProps>(null)
 
-  const { data: consultantBanksData, isLoading: isConsultantBanksLoading } =
-    useGetConsultantBanksByConsultantId(consultantId)
-
   const { mutate: updateBankDefault } = useUpdateConsultantBankDefault()
   const { mutate: deleteBank } = useDeleteConsultantBank()
+
+  const { data: consultantBanksData, isLoading: isConsultantBanksLoading } =
+    useGetConsultantBanksByConsultantId(consultantId)
 
   // console.log(JSON.stringify(consultantBanksData, null, 2))
 
@@ -64,12 +64,14 @@ const BanksScreen = () => {
   const [page, setPage] = useState<number>(1)
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
-  const [isConfirm, setIsConfirm] = useState<boolean>(false)
   const [selectedConsultantBank, setSelectedConsultantBank] =
     useState<ConsultantBankType | null>(null)
+  const [isConfirm, setIsConfirm] = useState<boolean>(false)
 
   const limit = 10
-  const sheetHeight = 240
+
+  const defaultBankSheetHeight = 180
+  const normalBankSheetHeight = 240
 
   const { data, isLoading } = useGetWithdrawalRequestsByConsultantId(
     consultantId,
@@ -79,6 +81,9 @@ const BanksScreen = () => {
 
   const openSheet = (consultantBank: ConsultantBankType) => {
     setSelectedConsultantBank(consultantBank)
+    const sheetHeight = consultantBank.isDefault
+      ? defaultBankSheetHeight
+      : normalBankSheetHeight
     SheetRef.current?.scrollTo(-sheetHeight)
   }
 
@@ -120,26 +125,23 @@ const BanksScreen = () => {
     setPage(1)
   }
 
-  const handleDefaultConsultantBank = () => {
+  const handleDefaultConsultantBank = async () => {
     if (!selectedConsultantBank) return
-    // console.log("Set default bank:", selectedConsultantBank.consultantBankId)
-    updateBankDefault(selectedConsultantBank.consultantBankId)
+    await updateBankDefault(selectedConsultantBank.consultantBankId)
     closeSheet()
   }
 
   const handleUpdateConsultantBank = () => {
     if (!selectedConsultantBank) return
-    router.push(`/banks/consultant/${consultantId}/update`)
-    router.setParams({
-      consultantBankId: selectedConsultantBank.consultantBankId
-    })
+    router.push(
+      `/banks/consultant/${consultantId}/update/${selectedConsultantBank.consultantBankId}`
+    )
     closeSheet()
   }
 
-  const handleDeleteConsultantBank = () => {
+  const handleDeleteConsultantBank = async () => {
     if (!selectedConsultantBank) return
-    // console.log("Delete bank:", selectedConsultantBank.consultantBankId)
-    deleteBank(selectedConsultantBank.consultantBankId)
+    await deleteBank(selectedConsultantBank.consultantBankId)
     closeSheet()
   }
 
@@ -150,10 +152,6 @@ const BanksScreen = () => {
 
   const handleViewWithdrawalRequests = () => {
     router.push(`/withdrawal-requests/consultant/${consultantId}`)
-  }
-
-  const handleCreateConsultantBank = () => {
-    router.push(`/banks/consultant/${consultantId}/create`)
   }
 
   const FlatListHeader = useMemo(() => {
@@ -241,20 +239,21 @@ const BanksScreen = () => {
           </Content>
         </Container>
 
-        <Sheet ref={SheetRef} dynamicHeight={sheetHeight}>
-          <SheetSelect
-            label={
-              selectedConsultantBank?.isDefault ? "Tài khoản phụ" : "Mặc định"
-            }
-            icon={
-              <Star1
-                variant={selectedConsultantBank?.isDefault ? "Linear" : "Bold"}
-                size={20}
-                color={COLORS.primary}
-              />
-            }
-            onPress={handleDefaultConsultantBank}
-          />
+        <Sheet
+          ref={SheetRef}
+          dynamicHeight={
+            selectedConsultantBank?.isDefault
+              ? defaultBankSheetHeight
+              : normalBankSheetHeight
+          }
+        >
+          {!selectedConsultantBank?.isDefault && (
+            <SheetSelect
+              label="Mặc định"
+              icon={<Star1 variant="Bold" size={20} color={COLORS.primary} />}
+              onPress={handleDefaultConsultantBank}
+            />
+          )}
 
           <SheetSelect
             label="Chỉnh sửa"
@@ -273,8 +272,8 @@ const BanksScreen = () => {
         <Modal
           isVisible={isConfirm}
           onClose={() => setIsConfirm(false)}
-          title="Xác nhận xóa tài khoản"
-          description="Bạn có chắc chắn muốn xóa tài khoản này không? Hành động này không thể hoàn tác."
+          title="Xóa tài khoản"
+          description="Bạn có chắc chắn muốn xóa tài khoản này không?"
           confirmText="Đồng ý"
           cancelText="Hủy"
           onConfirm={handleDeleteConsultantBank}

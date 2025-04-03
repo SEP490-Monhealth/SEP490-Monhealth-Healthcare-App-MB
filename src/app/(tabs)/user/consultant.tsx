@@ -57,8 +57,8 @@ function ConsultantScreen() {
 
   const [consultantsData, setConsultantsData] = useState<ConsultantType[]>([])
   const [page, setPage] = useState<number>(1)
-  const [hasMore, setHasMore] = useState<boolean>(true)
   const [searchQuery, setSearchQuery] = useState<string>("")
+  const [hasMore, setHasMore] = useState<boolean>(true)
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
   const [selectedExpertise, setSelectedExpertise] = useState<string>("Tất cả")
 

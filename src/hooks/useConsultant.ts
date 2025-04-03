@@ -110,11 +110,11 @@ export const useUpdateBioConsultant = () => {
   return useMutation<
     string,
     Error,
-    { consultantId: string; consultantData: UpdateConsultantType }
+    { consultantId: string; updatedData: UpdateConsultantType }
   >({
-    mutationFn: async ({ consultantId, consultantData }) => {
+    mutationFn: async ({ consultantId, updatedData }) => {
       try {
-        return await updateConsultant(consultantId, consultantData, showModal)
+        return await updateConsultant(consultantId, updatedData, showModal)
       } catch (error) {
         handleError(error)
         throw error

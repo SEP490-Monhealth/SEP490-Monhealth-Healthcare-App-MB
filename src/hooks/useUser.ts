@@ -98,11 +98,11 @@ export const useUpdatePasswordUser = () => {
   return useMutation<
     string,
     Error,
-    { userId: string; updatePasswordData: UpdateUserPasswordType }
+    { userId: string; updatedData: UpdateUserPasswordType }
   >({
-    mutationFn: async ({ userId, updatePasswordData }) => {
+    mutationFn: async ({ userId, updatedData }) => {
       try {
-        return await updateUserPassword(userId, updatePasswordData, showModal)
+        return await updateUserPassword(userId, updatedData, showModal)
       } catch (error) {
         handleError(error)
         throw error

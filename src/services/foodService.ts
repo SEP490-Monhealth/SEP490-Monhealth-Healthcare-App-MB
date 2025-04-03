@@ -35,9 +35,17 @@ export const getAllFoods = async (
 
     const { totalPages, totalItems, items: foods } = data
     return { foods, totalPages, totalItems }
-  } catch (error) {
-    console.error("Lỗi lấy danh sách món ăn", error)
-    throw new Error("Lấy danh sách món ăn thất bại")
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      console.log("Lỗi từ server:", error.response?.data || error.message)
+      throw error
+    } else {
+      console.log("Lỗi không phải Axios:", error)
+      throw {
+        isCustomError: true,
+        message: "Đã xảy ra lỗi không mong muốn"
+      }
+    }
   }
 }
 

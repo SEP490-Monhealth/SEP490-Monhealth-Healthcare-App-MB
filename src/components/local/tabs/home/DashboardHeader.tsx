@@ -50,7 +50,7 @@ export const DashboardHeader = ({
         <Text className="font-tbold text-2xl text-primary">{fullName}</Text>
 
         <TouchableOpacity
-          activeOpacity={0.7}
+          activeOpacity={0.8}
           onPress={handleViewWithdrawalRequests}
         >
           <Text className="font-tmedium text-lg text-secondary">
