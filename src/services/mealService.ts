@@ -74,6 +74,8 @@ export const createMeal = async (
     const { success, message, data } = response.data
 
     if (!success) {
+      showModal(message || "Không thể tạo bữa ăn mới")
+
       throw {
         isCustomError: true,
         message: message || "Không thể tạo bữa ăn mới"

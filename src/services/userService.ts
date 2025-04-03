@@ -93,6 +93,8 @@ export const updateUser = async (
     const { success, message } = response.data
 
     if (!success) {
+      showModal(message || "Cập nhật thông tin không thành công")
+
       throw {
         isCustomError: true,
         message: message || "Không thể cập nhật thông tin"
@@ -131,6 +133,8 @@ export const updateUserPassword = async (
     const { success, message } = response.data
 
     if (!success) {
+      showModal(message || "Cập nhật mật khẩu không thành công")
+
       throw {
         isCustomError: true,
         message: message || "Không thể cập nhật mật khẩu"
@@ -169,6 +173,8 @@ export const updateAvatarUser = async (
     const { success, message } = response.data
 
     if (!success) {
+      showModal(message || "Cập nhật hình ảnh không thành công")
+
       throw {
         isCustomError: true,
         message: message || "Không thể cập nhật hình ảnh"

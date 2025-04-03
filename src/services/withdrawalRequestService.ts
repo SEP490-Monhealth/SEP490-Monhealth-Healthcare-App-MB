@@ -61,6 +61,8 @@ export const createWithdrawalRequest = async (
     const { success, message } = response.data
 
     if (!success) {
+      showModal(message || "Không thể tạo yêu cầu rút tiền mới")
+
       throw {
         isCustomError: true,
         message: message || "Không thể tạo yêu cầu rút tiền mới"

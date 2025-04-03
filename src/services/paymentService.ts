@@ -55,6 +55,8 @@ export const createPayment = async (
     const { success, message } = response.data
 
     if (!success) {
+      showModal(message || "Không thể tạo khẩu thanh toán mới")
+
       throw {
         isCustomError: true,
         message: message || "Không thể tạo khẩu thanh toán mới"
@@ -93,6 +95,8 @@ export const completePayment = async (
     const { success, message } = response.data
 
     if (!success) {
+      showModal(message || "Không thể hoàn thành khẩu thanh toán")
+
       throw {
         isCustomError: true,
         message: message || "Không thể hoàn thành khẩu thanh toán"

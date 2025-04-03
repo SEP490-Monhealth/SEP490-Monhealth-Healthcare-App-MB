@@ -93,6 +93,8 @@ export const createConsultant = async (
     const { success, message } = response.data
 
     if (!success) {
+      showModal(message || "Tạo tư vấn viên thất bại")
+
       throw {
         isCustomError: true,
         message: message || "Không thể tạo tư vấn viên"
@@ -135,13 +137,14 @@ export const updateConsultant = async (
     const { success, message } = response.data
 
     if (!success) {
+      showModal(message || "Cập nhật thông tin chuyên viên thất bại")
       throw {
         isCustomError: true,
-        message: message || "Không thể cập nhật thông tin"
+        message: message || "Không thể cập nhật thông tin chuyên viên"
       }
     }
 
-    showModal(message || "Cập nhật thành công")
+    showModal(message || "Cập nhật thông tin chuyên viên thành công")
 
     console.log(message)
     return message

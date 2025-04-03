@@ -63,6 +63,8 @@ export const upgradeSubscription = async (
     const { success, message } = response.data
 
     if (!success) {
+      showModal(message || "Không thể nâng cấp gói thành viên")
+
       throw {
         isCustomError: true,
         message: message || "Không thể nâng cấp gói thành viên"

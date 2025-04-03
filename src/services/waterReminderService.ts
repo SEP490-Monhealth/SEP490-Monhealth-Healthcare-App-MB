@@ -78,6 +78,8 @@ export const createWaterReminder = async (
     const { success, message } = response.data
 
     if (!success) {
+      showModal(message || "Tạo nhắc nhở mới thất bại")
+
       throw {
         isCustomError: true,
         message: message || "Không thể tạo nhắc nhở mới"
@@ -120,6 +122,8 @@ export const updateWaterReminder = async (
     const { success, message } = response.data
 
     if (!success) {
+      showModal(message || "Cập nhật nhắc nhở thất bại")
+
       throw {
         isCustomError: true,
         message: message || "Không thể cập nhật nhắc nhở"

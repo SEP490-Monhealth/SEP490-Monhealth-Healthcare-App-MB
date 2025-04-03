@@ -55,6 +55,8 @@ export const createReview = async (
     const { success, message } = response.data
 
     if (!success) {
+      showModal(message || "Không thể tạo đánh giá mới")
+
       throw {
         isCustomError: true,
         message: message || "Không thể tạo đánh giá mới"

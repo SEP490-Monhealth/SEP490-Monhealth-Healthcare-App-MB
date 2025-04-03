@@ -107,6 +107,8 @@ export const createBooking = async (
     const { success, message } = response.data
 
     if (!success) {
+      showModal(message || "Tạo lịch hẹn mới thất bại")
+
       throw {
         isCustomError: true,
         message: message || "Không thể tạo lịch hẹn mới"
@@ -145,6 +147,8 @@ export const updateBookingStatus = async (
     const { success, message } = response.data
 
     if (!success) {
+      showModal(message || "Cập nhật trạng thái lịch hẹn thất bại")
+
       throw {
         isCustomError: true,
         message: message || "Không thể cập nhật trạng thái lịch hẹn"
@@ -186,6 +190,8 @@ export const cancelBooking = async (
     const { success, message } = response.data
 
     if (!success) {
+      showModal(message || "Hủy lịch hẹn thất bại")
+
       throw {
         isCustomError: true,
         message: message || "Không thể hủy lịch hẹn"

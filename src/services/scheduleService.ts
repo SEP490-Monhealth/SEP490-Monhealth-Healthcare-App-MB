@@ -77,6 +77,8 @@ export const createSchedule = async (
     const { success, message } = response.data
 
     if (!success) {
+      showModal(message || "Không thể tạo lịch hẹn mới")
+
       throw {
         isCustomError: true,
         message: message || "Không thể tạo lịch hẹn mới"
@@ -119,6 +121,8 @@ export const updateSchedule = async (
     const { success, message } = response.data
 
     if (!success) {
+      showModal(message || "Không thể cập nhật lịch hẹn")
+
       throw {
         isCustomError: true,
         message: message || "Không thể cập nhật lịch hẹn"
@@ -157,6 +161,8 @@ export const deleteSchedule = async (
     const { success, message } = response.data
 
     if (!success) {
+      showModal(message || "Không thể xóa lịch hẹn")
+
       throw {
         isCustomError: true,
         message: message || "Không thể xóa lịch hẹn"
@@ -195,6 +201,8 @@ export const updateScheduleStatus = async (
     const { success, message } = response.data
 
     if (!success) {
+      showModal(message || "Cập nhật trạng thái lịch hẹn thất bại")
+
       throw {
         isCustomError: true,
         message: message || "Không thể cập nhật trạng thái lịch hẹn"

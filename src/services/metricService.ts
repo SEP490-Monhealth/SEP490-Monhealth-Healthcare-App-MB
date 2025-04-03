@@ -80,6 +80,8 @@ export const updateMetric = async (
     const { success, message } = response.data
 
     if (!success) {
+      showModal(message || "Không thể cập nhật thông tin sức khỏe")
+
       throw {
         isCustomError: true,
         message: message || "Không thể cập nhật thông tin"
