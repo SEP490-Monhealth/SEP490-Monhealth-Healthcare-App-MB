@@ -6,7 +6,7 @@ import { VStack } from "@/components/global/atoms"
 import { ReviewCard } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
 
-import { sampleReviewsData } from "@/constants/reviews"
+import { sampleReviewsData } from "@/constants/data/reviews"
 
 import { ReviewOverview } from "./ReviewOverview"
 

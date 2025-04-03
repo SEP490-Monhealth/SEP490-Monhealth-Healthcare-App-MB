@@ -22,8 +22,7 @@ export const sampleReviewsData = {
       bookingId: "112",
       userId: "toan",
       name: "Văn Hữu Toàn",
-      avatarUrl:
-        "https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-3.jpg",
+      avatarUrl: null,
       rating: 2.7,
       comment:
         "Rất hài lòng với dịch vụ của tư vấn viên, tuy nhiên vẫn còn một số điểm có thể cải thiện để trải nghiệm trở nên hoàn hảo hơn.",
@@ -35,8 +34,7 @@ export const sampleReviewsData = {
       bookingId: "113",
       userId: "duy",
       name: "Phạm Hoài Duy",
-      avatarUrl:
-        "https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-3.jpg",
+      avatarUrl: null,
       rating: 3,
       comment:
         "Nếu có cơ hội tôi sẽ quay lại lần sau và hy vọng dịch vụ vẫn duy trì chất lượng như hiện tại hoặc tốt hơn nữa.",
@@ -48,8 +46,7 @@ export const sampleReviewsData = {
       bookingId: "114",
       userId: "khanh",
       name: "Nguyễn Phạm Khanh",
-      avatarUrl:
-        "https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-3.jpg",
+      avatarUrl: null,
       rating: 4,
       comment:
         "Một người tư vấn chuyên nghiệp và tận tụy, luôn sẵn sàng giải đáp mọi thắc mắc một cách tận tình và dễ hiểu.",
@@ -61,8 +58,7 @@ export const sampleReviewsData = {
       bookingId: "115",
       userId: "dai",
       name: "Nguyễn Quốc Đại",
-      avatarUrl:
-        "https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-3.jpg",
+      avatarUrl: null,
       rating: 5,
       comment:
         "Một người tư vấn chuyên nghiệp và tận tụy, luôn đặt lợi ích của khách hàng lên hàng đầu và mang lại cảm giác an tâm khi sử dụng dịch vụ.",

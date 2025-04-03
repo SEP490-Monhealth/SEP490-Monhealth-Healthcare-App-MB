@@ -1,10 +1,10 @@
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
+import { TipsData } from "@/constants/data/tips"
 import { BookingStatusEnum } from "@/constants/enum/Booking"
 import { MealTypeEnum } from "@/constants/enum/Food"
 import { RecurringDayEnum } from "@/constants/enum/Schedule"
 import { DifficultyLevelEnum } from "@/constants/enum/Workout"
-import { TipsData } from "@/constants/tips"
 
 /**
  * Tạm dừng thực thi trong một khoảng thời gian nhất định.

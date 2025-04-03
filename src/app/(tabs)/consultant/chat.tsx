@@ -18,7 +18,7 @@ import {
 } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
 
-import { sampleChatsData } from "@/constants/chats"
+import { sampleChatsData } from "@/constants/data/chats"
 import { COLORS } from "@/constants/color"
 
 import { useDebounce } from "@/hooks/useDebounce"
