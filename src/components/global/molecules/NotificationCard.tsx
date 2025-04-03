@@ -1,57 +1,53 @@
 import React from "react"
 
-import { Text, View } from "react-native"
+import { Image, Text, TouchableOpacity, View } from "react-native"
 
 import { useRouter } from "expo-router"
-
-import { ICONS } from "@/constants/app"
-import { COLORS } from "@/constants/color"
 
 import { formatTimeAgo } from "@/utils/formatters"
 
 import { Card, HStack } from "../atoms"
 
-export type NotificationType = "reminder" | "suggestion" | "warning"
-
 interface NotificationCardProps {
-  type: NotificationType
   title: string
-  description: string
-  time: string
-  href?: string
-  status: boolean
+  content: string
+  timestamp: string
+  actionUrl?: string
+  isRead: boolean
   onPress?: () => void
   onReadChange?: (value: boolean) => void
 }
 
 export const NotificationCard = ({
-  type,
   title,
-  description,
-  time,
-  href = "",
-  status,
-  onPress,
-  onReadChange
+  content,
+  timestamp,
+  actionUrl = "",
+  isRead = false,
+  onPress
 }: NotificationCardProps) => {
   const router = useRouter()
 
-  const bgColor = COLORS.NOTIFICATIONS[type] || COLORS.accent
-  const IconComponent =
-    ICONS.NOTIFICATIONS[type] || ICONS.NOTIFICATIONS.reminder
-
   const handlePress = () => {
-    if (href) router.push(href)
-    if (onReadChange) onReadChange(!status)
-    if (onPress) onPress()
+    if (onPress) {
+      onPress()
+    } else if (actionUrl) {
+      router.push(actionUrl)
+    }
   }
 
   return (
     <Card onPress={handlePress}>
       <HStack center gap={12}>
-        <View className="rounded-xl p-4" style={{ backgroundColor: bgColor }}>
-          <IconComponent variant="Bold" size={24} color="white" />
-        </View>
+        <TouchableOpacity
+          activeOpacity={1}
+          className="mr-4 h-12 w-12 items-center justify-center rounded-full bg-muted"
+        >
+          <Image
+            source={require("../../../../public/icons/notifications/ring.png")}
+            style={{ width: 24, height: 24 }}
+          />
+        </TouchableOpacity>
 
         <View className="flex-1">
           <HStack center gap={12} className="justify-between">
@@ -60,10 +56,11 @@ export const NotificationCard = ({
               numberOfLines={1}
               ellipsizeMode="tail"
             >
-              {title}
+              {title} {isRead ? "" : "(Mới)"}
             </Text>
+
             <Text className="mr-1 font-tregular text-sm text-secondary">
-              {formatTimeAgo(time)}
+              {formatTimeAgo(timestamp)}
             </Text>
           </HStack>
 
@@ -72,7 +69,7 @@ export const NotificationCard = ({
             numberOfLines={2}
             ellipsizeMode="tail"
           >
-            {description}
+            {content}
           </Text>
         </View>
       </HStack>
