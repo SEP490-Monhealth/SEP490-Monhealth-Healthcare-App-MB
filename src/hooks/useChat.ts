@@ -1,10 +1,19 @@
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { useError } from "@/contexts/ErrorContext"
 
-import { ChatType } from "@/schemas/chatSchema"
+import {
+  ChatType,
+  CreateChatMonAIType,
+  CreateChatType
+} from "@/schemas/chatSchema"
 
-import { getChatById, getChatsByUserId } from "@/services/chatService"
+import {
+  createChat,
+  createChatMonAI,
+  getChatById,
+  getChatsByUserId
+} from "@/services/chatService"
 
 export const useGetChatsByUserId = (userId: string | undefined) => {
   const handleError = useError()
@@ -57,5 +66,43 @@ export const useGetChatById = (chatId: string | undefined) => {
     },
     enabled: !!chatId,
     staleTime: 1000 * 60 * 5
+  })
+}
+
+export const useCreateChat = () => {
+  const queryClient = useQueryClient()
+  const handleError = useError()
+
+  return useMutation<string, Error, CreateChatType>({
+    mutationFn: async (newData) => {
+      try {
+        return await createChat(newData)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["chats-user"] })
+    }
+  })
+}
+
+export const useCreateChatMonAI = () => {
+  const queryClient = useQueryClient()
+  const handleError = useError()
+
+  return useMutation<string, Error, CreateChatMonAIType>({
+    mutationFn: async (newData) => {
+      try {
+        return await createChatMonAI(newData)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["chats-user"] })
+    }
   })
 }

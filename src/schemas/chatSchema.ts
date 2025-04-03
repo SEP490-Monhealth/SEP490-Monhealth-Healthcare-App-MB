@@ -22,4 +22,16 @@ const chatSchema = z.object({
   ...timestampFields
 })
 
+export const createChatSchema = chatSchema.pick({
+  userId: true,
+  consultantId: true
+})
+
+export const createChatMonAISchema = z.object({
+  userId: uuidSchema,
+  query: z.string()
+})
+
 export type ChatType = z.infer<typeof chatSchema>
+export type CreateChatType = z.infer<typeof createChatSchema>
+export type CreateChatMonAIType = z.infer<typeof createChatMonAISchema>
