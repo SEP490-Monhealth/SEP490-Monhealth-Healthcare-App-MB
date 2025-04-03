@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Image, Text, TouchableOpacity, View } from "react-native"
+import { Text, TouchableOpacity, View } from "react-native"
 import { SvgUri } from "react-native-svg"
 
 import { MoreHorizontal } from "lucide-react-native"

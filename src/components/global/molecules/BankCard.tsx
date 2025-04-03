@@ -1,36 +1,82 @@
 import React from "react"
 
-import { Image, Text, TouchableOpacity, View } from "react-native"
+import { Text, TouchableOpacity, View } from "react-native"
+import { SvgUri } from "react-native-svg"
 
-import { Card } from "../atoms"
+import {
+  ArchiveAdd,
+  ArchiveMinus,
+  ArchiveTick,
+  FilterAdd,
+  FilterTick
+} from "iconsax-react-native"
+import { Bold } from "lucide-react-native"
+
+import { COLORS } from "@/constants/color"
+
+import { useSelectBankStore } from "@/stores/bankStore"
+
+import { Card, VStack } from "../atoms"
+import { IconButton } from "./IconButton"
 
 interface BankCardProps {
+  code: string
+  name: string
+  shortName: string
+  logoUrl: string
   onPress?: () => void
 }
 
-export const BankCard = ({ onPress }: BankCardProps) => {
+export const BankCard = ({
+  code,
+  name,
+  shortName,
+  logoUrl,
+  onPress
+}: BankCardProps) => {
+  const selectedCode = useSelectBankStore((state) => state.code)
+
+  const isSelected = selectedCode === code
   return (
-    <Card onPress={onPress}>
-      <TouchableOpacity
-        activeOpacity={1}
-        onPress={onPress}
-        className="mr-4 h-12 w-12 items-center justify-center rounded-full bg-muted"
-      >
-        <Image
-          source={{
-            uri: "https://cdn.banklookup.net/assets/images/bank-icons/BIDV.svg"
-          }}
-          style={{ width: 24, height: 24 }}
-        />
-      </TouchableOpacity>
+    <Card className={`${isSelected && "border border-primary"}`}>
+      <VStack gap={12}>
+        <View className="flex-1 flex-row items-center justify-between gap-2">
+          <View className="flex-1 flex-row gap-2">
+            <TouchableOpacity
+              activeOpacity={1}
+              className="h-12 w-12 items-center justify-center rounded-full bg-muted"
+            >
+              <SvgUri uri={logoUrl} width={24} height={24} />
+            </TouchableOpacity>
 
-      <View className="flex-1">
-        <Text className="font-tmedium text-base text-primary">BIDV</Text>
+            <View className="flex-1 flex-col">
+              <Text className="font-tmedium text-base text-primary">
+                {shortName}
+              </Text>
 
-        <Text className="font-tmedium text-sm text-accent">
-          Ngân hàng TMCP Đầu tư và Phát triển Việt Nam
-        </Text>
-      </View>
+              <Text
+                className="mt-1 font-tmedium text-sm text-accent"
+                numberOfLines={1}
+                ellipsizeMode="tail"
+              >
+                {name}
+              </Text>
+            </View>
+          </View>
+
+          <IconButton
+            size="sm"
+            icon={
+              isSelected ? (
+                <ArchiveTick variant="Bold" size={20} color={COLORS.primary} />
+              ) : (
+                <ArchiveAdd variant="Linear" size={20} color={COLORS.primary} />
+              )
+            }
+            onPress={onPress}
+          />
+        </View>
+      </VStack>
     </Card>
   )
 }
