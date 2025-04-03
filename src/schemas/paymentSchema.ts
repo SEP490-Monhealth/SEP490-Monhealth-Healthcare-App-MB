@@ -7,7 +7,6 @@ import { auditFields, uuidSchema } from "./baseSchema"
 const paymentSchema = z.object({
   paymentId: uuidSchema,
   userId: uuidSchema,
-  subscriptionId: uuidSchema,
 
   amount: z
     .number({ message: "Số tiền thanh toán phải là một số" })
@@ -18,11 +17,25 @@ const paymentSchema = z.object({
   ...auditFields
 })
 
+export const paymentResponseSchema = z.object({
+  paymentId: uuidSchema,
+  userId: uuidSchema,
+
+  amount: paymentSchema.shape.amount,
+  status: paymentSchema.shape.status,
+
+  paymentUrl: z.string().url({
+    message: "Đường dẫn thanh toán không hợp lệ"
+  }),
+  qrCode: z.string()
+})
+
 export const createPaymentSchema = paymentSchema.pick({
   userId: true,
-  subscriptionId: true,
   amount: true
 })
 
 export type PaymentType = z.infer<typeof paymentSchema>
 export type CreatePaymentType = z.infer<typeof createPaymentSchema>
+
+export type PaymentResponseType = z.infer<typeof paymentResponseSchema>

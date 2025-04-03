@@ -21,6 +21,7 @@ import { COLORS } from "@/constants/color"
 
 import { useAuth } from "@/contexts/AuthContext"
 
+import { useCreatePayment } from "@/hooks/usePayment"
 import {
   useGetAllSubscriptions,
   useUpgradeSubscription
@@ -37,7 +38,9 @@ function SubscriptionScreen() {
   const userId = user?.userId
   const userSubscription = user?.subscription
 
+  const { mutate: createPayment } = useCreatePayment()
   const { mutate: upgradeSubscription } = useUpgradeSubscription()
+
   const { data: subscriptionsData, isLoading } = useGetAllSubscriptions(
     1,
     3,
@@ -51,20 +54,30 @@ function SubscriptionScreen() {
     string | null
   >(null)
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+  const [warningModalVisible, setWarningModalVisible] = useState<boolean>(false)
+  const [downgradeModalVisible, setDowngradeModalVisible] =
+    useState<boolean>(false)
 
   useEffect(() => {
     if (subscriptionsData?.subscriptions.length) {
-      const firstSub = subscriptionsData.subscriptions[0]
-      setSelectedSubscription(firstSub.name)
-      setSelectedSubscriptionId(firstSub.subscriptionId)
+      const currentUserSubscription = subscriptionsData.subscriptions.find(
+        (sub) => sub.name === userSubscription
+      )
+
+      if (currentUserSubscription) {
+        setSelectedSubscription(currentUserSubscription.name)
+        setSelectedSubscriptionId(currentUserSubscription.subscriptionId)
+      } else {
+        const firstSub = subscriptionsData.subscriptions[0]
+        setSelectedSubscription(firstSub.name)
+        setSelectedSubscriptionId(firstSub.subscriptionId)
+      }
     }
-  }, [subscriptionsData])
+  }, [subscriptionsData, userSubscription])
 
   const selectedPlan = subscriptionsData?.subscriptions.find(
     (item) => item.name === selectedSubscription
   )
-
-  const hasSubscription = userSubscription === selectedPlan?.name
 
   const handleSelectPlan = (subscriptionId: string, name: string) => {
     setSelectedSubscription(name)
@@ -94,7 +107,26 @@ function SubscriptionScreen() {
     }
   }
 
-  if (!subscriptionsData || isLoading) return <LoadingScreen />
+  if (!subscriptionsData || isLoading) {
+    return <LoadingScreen />
+  }
+
+  const handlePaymentPress = () => {
+    const currentPlanIndex = subscriptionsData.subscriptions.findIndex(
+      (sub) => sub.name === userSubscription
+    )
+    const selectedPlanIndex = subscriptionsData.subscriptions.findIndex(
+      (sub) => sub.name === selectedSubscription
+    )
+
+    if (selectedPlanIndex < currentPlanIndex) {
+      setDowngradeModalVisible(true)
+    } else if (selectedPlanIndex > currentPlanIndex) {
+      setWarningModalVisible(true)
+    } else {
+      setIsModalVisible(true)
+    }
+  }
 
   return (
     <>
@@ -153,12 +185,9 @@ function SubscriptionScreen() {
         </Content>
 
         <Button
-          disabled={
-            selectedSubscription === subscriptionsData.subscriptions[0].name ||
-            hasSubscription
-          }
           size="lg"
-          onPress={() => setIsModalVisible(true)}
+          disabled={selectedSubscription === userSubscription}
+          onPress={handlePaymentPress}
           className="mb-4"
         >
           Thanh toán
@@ -173,6 +202,28 @@ function SubscriptionScreen() {
         cancelText="Hủy"
         onConfirm={handleUpgrade}
         onClose={() => setIsModalVisible(false)}
+      />
+
+      <Modal
+        isVisible={warningModalVisible}
+        title="Cảnh báo nâng cấp"
+        description="Bạn đang nâng cấp lên gói cao hơn. Bạn có chắc chắn muốn tiếp tục?"
+        confirmText="Đồng ý"
+        cancelText="Hủy"
+        onConfirm={() => {
+          setWarningModalVisible(false)
+          setIsModalVisible(true)
+        }}
+        onClose={() => setWarningModalVisible(false)}
+      />
+
+      <Modal
+        isVisible={downgradeModalVisible}
+        title="Không thể hạ cấp"
+        description="Bạn không thể hạ cấp xuống gói thấp hơn. Vui lòng chọn gói hiện tại hoặc nâng cấp."
+        confirmText="Đồng ý"
+        onConfirm={() => setDowngradeModalVisible(false)}
+        onClose={() => setDowngradeModalVisible(false)}
       />
     </>
   )

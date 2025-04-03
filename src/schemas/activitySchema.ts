@@ -12,6 +12,8 @@ export const activitySchema = z.object({
   caloriesBurned: workoutSchema.shape.caloriesBurned,
   durationMinutes: workoutSchema.shape.durationMinutes,
 
+  isCompleted: z.boolean(),
+
   ...timestampFields
 })
 

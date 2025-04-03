@@ -3,13 +3,13 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
 
-import { CreatePaymentType, PaymentType } from "@/schemas/paymentSchema"
-
 import {
-  completePayment,
-  createPayment,
-  getPaymentsByUserId
-} from "@/services/paymentService"
+  CreatePaymentType,
+  PaymentResponseType,
+  PaymentType
+} from "@/schemas/paymentSchema"
+
+import { createPayment, getPaymentsByUserId } from "@/services/paymentService"
 
 interface PaymentResponse {
   payments: PaymentType[]
@@ -44,30 +44,14 @@ export const useCreatePayment = () => {
   const handleError = useError()
   const { showModal } = useModal()
 
-  return useMutation<string, Error, CreatePaymentType>({
+  return useMutation<
+    { message: string; data: PaymentResponseType },
+    Error,
+    CreatePaymentType
+  >({
     mutationFn: async (newData) => {
       try {
         return await createPayment(newData, showModal)
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["payments"] })
-    }
-  })
-}
-
-export const useCompletePayment = () => {
-  const queryClient = useQueryClient()
-  const handleError = useError()
-  const { showModal } = useModal()
-
-  return useMutation<string, Error, { paymentId: string }>({
-    mutationFn: async ({ paymentId }) => {
-      try {
-        return await completePayment(paymentId, showModal)
       } catch (error) {
         handleError(error)
         throw error

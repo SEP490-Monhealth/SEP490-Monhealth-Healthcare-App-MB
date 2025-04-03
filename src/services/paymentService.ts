@@ -2,7 +2,11 @@ import axios from "axios"
 
 import monAPI from "@/lib/monAPI"
 
-import { CreatePaymentType, PaymentType } from "@/schemas/paymentSchema"
+import {
+  CreatePaymentType,
+  PaymentResponseType,
+  PaymentType
+} from "@/schemas/paymentSchema"
 
 interface PaymentResponse {
   payments: PaymentType[]
@@ -48,11 +52,11 @@ export const getPaymentsByUserId = async (
 export const createPayment = async (
   newData: CreatePaymentType,
   showModal: (message: string) => void
-): Promise<string> => {
+): Promise<{ message: string; data: PaymentResponseType }> => {
   try {
     const response = await monAPI.post(`/payments`, newData)
 
-    const { success, message } = response.data
+    const { success, message, data } = response.data
 
     if (!success) {
       showModal(message || "Không thể tạo khẩu thanh toán mới")
@@ -66,50 +70,10 @@ export const createPayment = async (
     showModal(message || "Tạo khẩu thanh toán thành công")
 
     console.log(message)
-    return message
+    return { message, data }
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
       showModal("Đã xảy ra lỗi khi tạo khẩu thanh toán")
-
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      showModal("Đã xảy ra lỗi không mong muốn")
-
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
-    }
-  }
-}
-
-export const completePayment = async (
-  paymentId: string,
-  showModal: (message: string) => void
-): Promise<string> => {
-  try {
-    const response = await monAPI.post(`/payments/${paymentId}/complete`)
-
-    const { success, message } = response.data
-
-    if (!success) {
-      showModal(message || "Không thể hoàn thành khẩu thanh toán")
-
-      throw {
-        isCustomError: true,
-        message: message || "Không thể hoàn thành khẩu thanh toán"
-      }
-    }
-
-    showModal(message || "Hoàn thành khẩu thanh toán thành công")
-
-    console.log(message)
-    return message
-  } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      showModal("Đã xảy ra lỗi khi hoàn thành khẩu thanh toán")
 
       console.log("Lỗi từ server:", error.response?.data || error.message)
       throw error
