@@ -22,13 +22,14 @@ import {
   SheetSelect
 } from "@/components/global/atoms"
 import {
-  ConsultantBankCard,
   ErrorDisplay,
   ListFooter,
   ListHeader,
   WithdrawalRequestCard
 } from "@/components/global/molecules"
 import { Header, Section } from "@/components/global/organisms"
+
+import { ConsultantBanks } from "@/components/local/banks"
 
 import { COLORS } from "@/constants/color"
 
@@ -46,8 +47,6 @@ const BanksScreen = () => {
 
   const { data: consultantBanksData, isLoading: isConsultantBanksLoading } =
     useGetConsultantBanksByConsultantId(consultantId)
-
-  // console.log(JSON.stringify(consultantBanksData, null, 2))
 
   const [withdrawalRequestsData, setWithdrawalRequestsData] = useState<
     WithdrawalRequestType[]
@@ -139,7 +138,6 @@ const BanksScreen = () => {
           label="Lịch sử rút tiền"
           actionText="Xem tất cả"
           onPress={handleViewWithdrawalRequests}
-          className="pt-2"
         />
       </ListHeader>
     )
@@ -166,25 +164,12 @@ const BanksScreen = () => {
             }}
           />
 
-          <Content>
-            <ListHeader>
-              <Section
-                label="Danh sách tài khoản"
-                margin={false}
-                className="pt-2"
-              />
-            </ListHeader>
-
-            {consultantBanksData?.map((item) => (
-              <ConsultantBankCard
-                key={item.consultantBankId}
-                bank={item.bank}
-                number={item.number}
-                name={item.name}
-                isDefault={item.isDefault}
-                onMorePress={() => openSheet(item)}
-              />
-            ))}
+          <Content className="mt-2">
+            <ConsultantBanks
+              consultantBanks={consultantBanksData}
+              isLoading={isConsultantBanksLoading}
+              onOpenSheet={openSheet}
+            />
 
             <FlatList
               data={withdrawalRequestsData || []}

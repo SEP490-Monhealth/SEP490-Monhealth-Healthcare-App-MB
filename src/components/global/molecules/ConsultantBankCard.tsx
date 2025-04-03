@@ -11,12 +11,12 @@ import { Badge, Card, HStack, VStack } from "../atoms"
 import { IconButton } from "./IconButton"
 
 interface ConsultantBankCardProps {
-  bank: {
+  bank?: {
     shortName: string
     logoUrl: string
   }
-  number: string
-  name: string
+  number?: string
+  name?: string
   isDefault?: boolean
   onMorePress?: () => void
 }
@@ -37,22 +37,32 @@ export const ConsultantBankCard = ({
               activeOpacity={1}
               className="h-12 w-12 items-center justify-center rounded-full bg-muted"
             >
-              <SvgUri uri={bank.logoUrl} width={24} height={24} />
+              {bank ? (
+                <SvgUri uri={bank.logoUrl} width={24} height={24} />
+              ) : (
+                <Text className="font-tmedium text-base text-primary">TK</Text>
+              )}
             </TouchableOpacity>
 
-            <View>
-              <HStack center gap={8}>
-                <Text className="font-tmedium text-base text-primary">
-                  {bank.shortName}
+            {bank ? (
+              <View>
+                <HStack center gap={8}>
+                  <Text className="font-tmedium text-base text-primary">
+                    {bank.shortName}
+                  </Text>
+
+                  {isDefault && <Badge label="Mặc định" />}
+                </HStack>
+
+                <Text className="mt-1 font-tmedium text-sm text-accent">
+                  {number}
                 </Text>
-
-                {isDefault && <Badge label="Mặc định" />}
-              </HStack>
-
-              <Text className="mt-1 font-tmedium text-sm text-accent">
-                {number}
+              </View>
+            ) : (
+              <Text className="font-tmedium text-base text-accent">
+                Chưa có tài khoản
               </Text>
-            </View>
+            )}
           </HStack>
 
           <IconButton
@@ -70,7 +80,7 @@ export const ConsultantBankCard = ({
               Tên tài khoản
             </Text>
             <Text className="font-tmedium text-base text-primary">
-              {name.toUpperCase()}
+              {name ? name.toUpperCase() : "Chưa thiết lập"}
             </Text>
           </HStack>
 
@@ -79,7 +89,7 @@ export const ConsultantBankCard = ({
               Số tài khoản
             </Text>
             <Text className="font-tmedium text-base text-primary">
-              {number}
+              {number ? number : "Chưa thiết lập"}
             </Text>
           </HStack>
         </VStack>
