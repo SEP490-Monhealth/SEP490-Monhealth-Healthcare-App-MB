@@ -11,7 +11,6 @@ import { SearchNormal1 } from "iconsax-react-native"
 import { Container, Content, Input } from "@/components/global/atoms"
 import {
   ChatCard,
-  CustomHeader,
   ErrorDisplay,
   ListFooter,
   ListHeader
@@ -113,9 +112,7 @@ function ChatScreen() {
           </View>
         )}
 
-        {checkSubscription && chatsData.length > 0 && (
-          <Section label="Danh sách tin nhắn" />
-        )}
+        {chatsData.length > 0 && <Section label="Danh sách tin nhắn" />}
       </ListHeader>
     )
   }, [])
