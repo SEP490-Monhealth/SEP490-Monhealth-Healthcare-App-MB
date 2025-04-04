@@ -48,14 +48,11 @@ function AppLayout() {
   useEffect(() => {
     registerForPushNotificationsAsync()
 
-    // Lắng nghe khi nhận thông báo ở foreground
     const foregroundSubscription =
       Notifications.addNotificationReceivedListener((notification) => {
         console.log("Thông báo nhận được ở foreground:", notification)
-        // Nếu không cần hiển thị UI tùy chỉnh, bạn có thể thực hiện xử lý khác tại đây.
       })
 
-    // Dọn dẹp listener khi component unmount
     return () => {
       foregroundSubscription.remove()
     }

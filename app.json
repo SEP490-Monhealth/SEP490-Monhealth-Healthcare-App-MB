@@ -1,6 +1,5 @@
 {
   "expo": {
-    "projectId": "d10a089c-848d-4b64-98ac-1097860ed7ce",
     "owner": "vanhuutoan27",
     "name": "monhealth",
     "slug": "monhealth",
@@ -16,7 +15,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.vanhuutoan27.monhealth"
     },
     "android": {
       "adaptiveIcon": {
@@ -27,7 +27,7 @@
     },
     "web": {
       "bundler": "metro",
-      "favicon": "./public/assets/favicon.png"
+      "favicon": "./public/assets/monhealth-splash.png"
     },
     "plugins": ["expo-router"],
     "updates": {
