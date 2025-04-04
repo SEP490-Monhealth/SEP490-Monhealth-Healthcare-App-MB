@@ -1,5 +1,6 @@
 {
   "expo": {
+    "projectId": "0f00f175-e10d-453b-92a7-2d3e69f6cb3f",
     "name": "monhealth",
     "slug": "monhealth",
     "scheme": "monhealth",
@@ -20,8 +21,7 @@
       "adaptiveIcon": {
         "foregroundImage": "./public/assets/monhealth-splash.png",
         "backgroundColor": "#fff"
-      },
-      "package": "com.monapp.monhealth"
+      }
     },
     "web": {
       "bundler": "metro",
