@@ -1,8 +1,8 @@
 import { z } from "zod"
 
-import { timestampFields, uuidSchema } from "./baseSchema"
+import { timeSchema, timestampFields, uuidSchema } from "./baseSchema"
 
-const baseWaterReminderSchema = z.object({
+const waterReminderSchema = z.object({
   waterReminderId: uuidSchema,
   userId: uuidSchema,
 
@@ -10,12 +10,7 @@ const baseWaterReminderSchema = z.object({
     .string()
     .min(3, "Tên nhắc nhở phải có ít nhất 3 ký tự")
     .max(50, "Tên nhắc nhở không được quá 50 ký tự"),
-  time: z
-    .string()
-    .nonempty({ message: "Thời gian không được để trống" })
-    .regex(/^([01]\d|2[0-3]):([0-5]\d)$/, {
-      message: "Thời gian phải có định dạng HH:mm"
-    }),
+  time: timeSchema.shape.time,
   volume: z
     .number()
     .min(1, "Dung tích phải lớn hơn hoặc bằng 1 ml")
@@ -29,9 +24,7 @@ const baseWaterReminderSchema = z.object({
   ...timestampFields
 })
 
-export const waterReminderSchema = baseWaterReminderSchema
-
-export const waterIntakeSchema = baseWaterReminderSchema.pick({
+export const waterIntakeSchema = waterReminderSchema.pick({
   waterReminderId: true,
   name: true,
   time: true,
@@ -39,7 +32,7 @@ export const waterIntakeSchema = baseWaterReminderSchema.pick({
   isDrunk: true
 })
 
-export const createWaterReminderSchema = baseWaterReminderSchema.pick({
+export const createWaterReminderSchema = waterReminderSchema.pick({
   userId: true,
   name: true,
   time: true,
@@ -47,7 +40,7 @@ export const createWaterReminderSchema = baseWaterReminderSchema.pick({
   isRecurring: true
 })
 
-export const updateWaterReminderSchema = baseWaterReminderSchema.pick({
+export const updateWaterReminderSchema = waterReminderSchema.pick({
   name: true,
   time: true,
   volume: true,

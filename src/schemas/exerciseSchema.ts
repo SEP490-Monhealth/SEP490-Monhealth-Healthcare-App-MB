@@ -4,7 +4,7 @@ import { ExerciseTypeSchemaEnum } from "@/constants/enum/Workout"
 
 import { auditFields, uuidSchema } from "./baseSchema"
 
-const baseExerciseSchema = z.object({
+const exerciseSchema = z.object({
   exerciseId: uuidSchema,
   userId: uuidSchema,
 
@@ -32,8 +32,6 @@ const baseExerciseSchema = z.object({
 
   ...auditFields
 })
-
-export const exerciseSchema = baseExerciseSchema
 
 export const workoutExerciseSchema = z.object({
   warmupDuration: z.number(),

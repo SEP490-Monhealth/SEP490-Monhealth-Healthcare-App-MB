@@ -6,12 +6,14 @@ import {
 } from "@/constants/enum/Workout"
 
 import { auditFields, uuidSchema } from "./baseSchema"
+import { categorySchema } from "./categorySchema"
 
 export const workoutSchema = z.object({
   workoutId: uuidSchema,
   userId: uuidSchema,
+  categoryId: uuidSchema,
 
-  category: z.string(),
+  category: categorySchema.shape.name,
   type: WorkoutTypeSchemaEnum,
 
   name: z

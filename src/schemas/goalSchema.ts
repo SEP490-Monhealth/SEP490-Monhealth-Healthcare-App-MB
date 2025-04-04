@@ -6,7 +6,7 @@ import { timestampFields, uuidSchema } from "./baseSchema"
 
 const caloriesRatios = [0.9, 0.8, 0.7, 1, 1.1, 1.2, 1.3]
 
-const baseGoalSchema = z.object({
+export const goalSchema = z.object({
   goalId: uuidSchema,
   userId: uuidSchema,
 
@@ -21,24 +21,22 @@ const baseGoalSchema = z.object({
     .min(1, { message: "Trọng lượng mục tiêu phải lớn hơn hoặc bằng 1" })
     .optional(),
 
-  caloriesGoal: z.number().default(0),
-  proteinGoal: z.number().default(0),
-  carbsGoal: z.number().default(0),
-  fatGoal: z.number().default(0),
-  fiberGoal: z.number().default(0),
-  sugarGoal: z.number().default(0),
+  caloriesGoal: z.number(),
+  proteinGoal: z.number(),
+  carbsGoal: z.number(),
+  fatGoal: z.number(),
+  fiberGoal: z.number(),
+  sugarGoal: z.number(),
 
-  waterIntakesGoal: z.number().default(0),
+  waterIntakesGoal: z.number(),
 
-  caloriesBurnedGoal: z.number().default(0),
-  workoutDurationGoal: z.number().default(0),
+  workoutDurationGoal: z.number(),
+  caloriesBurnedGoal: z.number(),
 
   status: GoalStatusSchemaEnum,
 
   ...timestampFields
 })
-
-export const goalSchema = baseGoalSchema
 
 export const weightGoalSetupSchema = goalSchema.pick({
   weightGoal: true

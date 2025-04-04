@@ -2,7 +2,7 @@ import { z } from "zod"
 
 import { auditFields, uuidSchema } from "./baseSchema"
 
-export const baseExpertiseSchema = z.object({
+export const expertiseSchema = z.object({
   expertiseId: uuidSchema,
 
   name: z
@@ -18,8 +18,6 @@ export const baseExpertiseSchema = z.object({
 
   ...auditFields
 })
-
-export const expertiseSchema = baseExpertiseSchema
 
 export const expertiseSetupSchema = z.object({
   expertise: expertiseSchema.shape.name

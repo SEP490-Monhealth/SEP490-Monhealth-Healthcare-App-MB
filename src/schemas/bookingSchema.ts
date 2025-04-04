@@ -26,10 +26,15 @@ const bookingSchema = z.object({
 
   date: z.string().nonempty({ message: "Ngày không được để trống" }),
 
-  notes: z.string().optional(),
+  notes: z
+    .string()
+    .nonempty({ message: "Ghi chú không được để trống" })
+    .min(10, {
+      message: "Ghi chú phải có ít nhất 10 ký tự"
+    }),
   cancellationReason: z.string().optional(),
 
-  isReviewed: z.boolean().default(false),
+  isReviewed: z.boolean(),
 
   status: BookingStatusSchemaEnum,
 

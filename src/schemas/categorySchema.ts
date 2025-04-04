@@ -4,7 +4,7 @@ import { CategoryTypeSchemaEnum } from "@/constants/enum/Category"
 
 import { timestampFields, uuidSchema } from "./baseSchema"
 
-const baseCategorySchema = z.object({
+export const categorySchema = z.object({
   categoryId: uuidSchema,
 
   type: CategoryTypeSchemaEnum,
@@ -27,8 +27,6 @@ const baseCategorySchema = z.object({
 
   ...timestampFields
 })
-
-export const categorySchema = baseCategorySchema
 
 export const categorySetupSchema = z.object({
   categories: z

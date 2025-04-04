@@ -6,7 +6,7 @@ import { auditFields, timestampFields, uuidSchema } from "./baseSchema"
 
 const subscriptionNames = ["Gói Cơ Bản", "Gói Nâng Cao", "Gói Cao Cấp"] as const
 
-export const baseUserSubscriptionSchema = z.object({
+export const userSubscriptionSchema = z.object({
   userSubscriptionId: uuidSchema,
   subscriptionId: uuidSchema,
   userId: uuidSchema,
@@ -27,7 +27,7 @@ export const baseUserSubscriptionSchema = z.object({
   ...timestampFields
 })
 
-const baseSubscriptionSchema = z.object({
+const subscriptionSchema = z.object({
   subscriptionId: uuidSchema,
 
   name: z
@@ -64,13 +64,11 @@ const baseSubscriptionSchema = z.object({
   ...auditFields
 })
 
-export const subscriptionSchema = baseSubscriptionSchema
-
-export const upgradeSubscriptionSchema = baseUserSubscriptionSchema.pick({
+export const upgradeSubscriptionSchema = userSubscriptionSchema.pick({
   userId: true,
   subscriptionId: true
 })
 
-export type UserSubscriptionType = z.infer<typeof baseUserSubscriptionSchema>
+export type UserSubscriptionType = z.infer<typeof userSubscriptionSchema>
 export type SubscriptionType = z.infer<typeof subscriptionSchema>
 export type UpgradeSubscriptionType = z.infer<typeof upgradeSubscriptionSchema>

@@ -21,7 +21,7 @@ export const bankSchema = z.object({
     message: "Đường dẫn logo không hợp lệ"
   }),
 
-  status: z.string().optional(),
+  status: z.boolean(),
 
   ...auditFields
 })

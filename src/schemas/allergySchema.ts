@@ -2,7 +2,7 @@ import { z } from "zod"
 
 import { timestampFields, uuidSchema } from "./baseSchema"
 
-const baseAllergySchema = z.object({
+export const allergySchema = z.object({
   allergyId: uuidSchema,
 
   name: z
@@ -18,8 +18,6 @@ const baseAllergySchema = z.object({
 
   ...timestampFields
 })
-
-const allergySchema = baseAllergySchema
 
 export const allergySetupSchema = z.object({
   allergies: z.array(allergySchema.shape.name)

@@ -12,8 +12,7 @@ const messageSchema = z.object({
 
   content: z.string(),
 
-  isSender: z.boolean().optional(),
-  isRead: z.boolean().optional(),
+  isRead: z.boolean(),
 
   ...timestampFields
 })

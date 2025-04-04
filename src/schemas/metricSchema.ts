@@ -7,7 +7,7 @@ import { goalSchema } from "./goalSchema"
 
 const activityLevels = [1.2, 1.375, 1.55, 1.725, 1.9]
 
-const baseMetricSchema = z.object({
+const metricSchema = z.object({
   metricId: uuidSchema,
   userId: uuidSchema,
 
@@ -32,52 +32,37 @@ const baseMetricSchema = z.object({
   gender: GenderSchemaEnum,
   height: z
     .number()
-    .min(50, { message: "Chiều cao tối thiểu là 50 cm" })
-    .max(250, { message: "Chiều cao tối đa là 250 cm" }),
+    .min(50, { message: "Chiều cao phải lớn hơn 50 cm" })
+    .max(250, { message: "Chiều cao không được lớn hơn 250 cm" }),
   weight: z
     .number()
-    .min(10, { message: "Cân nặng tối thiểu là 10 kg" })
-    .max(300, { message: "Cân nặng tối đa là 300 kg" }),
-  activityLevel: z.number().refine((value) => activityLevels.includes(value), {
-    message:
-      "Hệ số hoạt động không hợp lệ. Các giá trị hợp lệ: 1.2, 1.375, 1.55, 1.725, 1.9"
+    .min(10, { message: "Cân nặng phải lớn hơn 10 kg" })
+    .max(500, { message: "Cân nặng không được lớn hơn 500 kg" }),
+  activityLevel: z.number().refine((val) => activityLevels.includes(val), {
+    message: `Hệ số hoạt động không hợp lệ. Các giá trị hợp lệ: ${activityLevels.join(", ")}`
   }),
 
   goalType: goalSchema.shape.type,
   weightGoal: goalSchema.shape.weightGoal,
   caloriesRatio: goalSchema.shape.caloriesRatio,
 
-  bmi: z
-    .number()
-    .min(10, { message: "BMI phải lớn hơn hoặc bằng 10" })
-    .max(60, { message: "BMI phải nhỏ hơn hoặc bằng 60" }),
-  bmr: z
-    .number()
-    .min(1, { message: "BMR phải lớn hơn hoặc bằng 1" })
-    .max(5000, { message: "BMR tối đa là 5000" }),
-  tdee: z
-    .number()
-    .min(1, { message: "TDEE phải lớn hơn hoặc bằng 1" })
-    .max(10000, { message: "TDEE tối đa là 10000" }),
-  ibw: z
-    .number()
-    .min(1, { message: "IBW phải lớn hơn hoặc bằng 1" })
-    .max(300, { message: "IBW tối đa là 300 kg" }),
+  bmi: z.number(),
+  bmr: z.number(),
+  tdee: z.number(),
+  ibw: z.number(),
 
   ...timestampFields
 })
 
-export const metricSchema = baseMetricSchema
-
-export const dateOfBirthSetupSchema = baseMetricSchema.pick({
+export const dateOfBirthSetupSchema = metricSchema.pick({
   dateOfBirth: true
 })
 
-export const genderSetupSchema = baseMetricSchema.pick({
+export const genderSetupSchema = metricSchema.pick({
   gender: true
 })
 
-export const heightWeightSetupSchema = baseMetricSchema
+export const heightWeightSetupSchema = metricSchema
   .pick({
     height: true,
     weight: true
@@ -98,11 +83,11 @@ export const heightWeightSetupSchema = baseMetricSchema
       .transform((val) => parseFloat(val.toString()) || 0)
   })
 
-export const activityLevelSetupSchema = baseMetricSchema.pick({
+export const activityLevelSetupSchema = metricSchema.pick({
   activityLevel: true
 })
 
-export const weightGoalSetupSchema = baseMetricSchema
+export const weightGoalSetupSchema = metricSchema
   .pick({
     weightGoal: true
   })
@@ -115,7 +100,7 @@ export const weightGoalSetupSchema = baseMetricSchema
       .transform((val) => parseFloat(val.toString()) || 0)
   })
 
-export const createMetricSchema = baseMetricSchema.pick({
+export const createMetricSchema = metricSchema.pick({
   userId: true,
   dateOfBirth: true,
   gender: true,
@@ -127,7 +112,7 @@ export const createMetricSchema = baseMetricSchema.pick({
   caloriesRatio: true
 })
 
-export const updateMetricSchema = baseMetricSchema.pick({
+export const updateMetricSchema = metricSchema.pick({
   dateOfBirth: true,
   gender: true,
   height: true,

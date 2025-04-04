@@ -6,11 +6,11 @@ import {
   ScheduleTypeSchemaEnum
 } from "@/constants/enum/Schedule"
 
-import { timestampFields, uuidSchema } from "./baseSchema"
-import { waterReminderSchema } from "./waterReminderSchema"
+import { timeSchema, timestampFields, uuidSchema } from "./baseSchema"
 
 const timeSlotSchema = z.object({
-  startTime: waterReminderSchema.shape.time,
+  startTime: timeSchema.shape.time,
+  endTime: timeSchema.shape.time,
   status: ScheduleTimeSlotStatusSchemaEnum
 })
 

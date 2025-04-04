@@ -2,7 +2,7 @@ import { z } from "zod"
 
 import { auditFields, uuidSchema } from "./baseSchema"
 
-const basePortionSchema = z.object({
+export const portionSchema = z.object({
   portionId: uuidSchema,
   foodId: uuidSchema,
 
@@ -20,17 +20,7 @@ const basePortionSchema = z.object({
   ...auditFields
 })
 
-export const portionSchema = basePortionSchema.omit({
-  portionId: true,
-  foodId: true,
-
-  createdAt: true,
-  updatedAt: true,
-  createdBy: true,
-  updatedBy: true
-})
-
-export const createPortionSchema = basePortionSchema.pick({
+export const createPortionSchema = portionSchema.pick({
   foodId: true,
   size: true,
   weight: true,

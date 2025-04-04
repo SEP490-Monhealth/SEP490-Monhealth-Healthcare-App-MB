@@ -2,7 +2,9 @@ import { z } from "zod"
 
 import { DishTypeSchemaEnum, MealTypeSchemaEnum } from "@/constants/enum/Food"
 
+import { allergySchema } from "./allergySchema"
 import { auditFields, timestampFields, uuidSchema } from "./baseSchema"
+import { categorySchema } from "./categorySchema"
 import { nutritionSchema } from "./nutritionSchema"
 import { portionSchema } from "./portionSchema"
 
@@ -17,7 +19,9 @@ export const foodPortionSchema = z.object({
 const foodSchema = z.object({
   foodId: uuidSchema,
   userId: uuidSchema,
-  category: z.string(),
+  categoryId: uuidSchema,
+
+  category: categorySchema.shape.name,
 
   mealType: z.array(MealTypeSchemaEnum),
   dishType: z.array(DishTypeSchemaEnum),
@@ -36,9 +40,9 @@ const foodSchema = z.object({
 
   nutrition: nutritionSchema,
 
-  allergies: z.array(z.string()),
+  allergies: z.array(allergySchema.shape.name),
 
-  views: z.number().default(0),
+  views: z.number(),
 
   isPublic: z.boolean(),
 
