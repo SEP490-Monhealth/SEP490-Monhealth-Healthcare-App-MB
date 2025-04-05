@@ -51,12 +51,12 @@ function SchedulesScreen() {
     setSelectedSchedule(scheduleId)
   }
 
-  const handleCreateSchedule = () => {
+  const handleViewSchedules = () => {
     router.push(`/schedules/consultant/${consultantId}`)
   }
 
-  const handleViewScheduleExceptions = () => {
-    router.push(`/schedules/consultant/${consultantId}/exceptions`)
+  const handleCreateSchedule = () => {
+    router.push(`/schedules/consultant/${consultantId}`)
   }
 
   if (isSchedulesLoading) {
@@ -74,7 +74,7 @@ function SchedulesScreen() {
           <ErrorDisplay
             imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
             title="Chưa thiết lập lịch"
-            description="Bạn cần thiết lập lịch trình để nhận lịch trình từ khách hàng."
+            description="Bạn cần thiết lập lịch trình để nhận đặt lịch hẹn từ khách hàng."
             marginTop={24}
           />
 
@@ -114,8 +114,8 @@ function SchedulesScreen() {
 
             <Section
               label="Danh sách lịch trình"
-              actionText="Xem lịch nghỉ"
-              onPress={handleViewScheduleExceptions}
+              actionText="Xem thời gian biểu"
+              onPress={handleViewSchedules}
             />
 
             <VStack gap={0}>
