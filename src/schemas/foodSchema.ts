@@ -51,7 +51,7 @@ const foodSchema = z.object({
   ...auditFields
 })
 
-export const foodSaveSchema = foodSchema.pick({
+export const saveFoodSchema = foodSchema.pick({
   foodId: true,
   name: true,
   portion: true,
@@ -104,6 +104,6 @@ export const updateFoodSchema = foodSchema.pick({
 export type FoodPortionType = z.infer<typeof foodPortionSchema>
 
 export type FoodType = z.infer<typeof foodSchema>
-export type FoodSaveType = z.infer<typeof foodSaveSchema>
+export type FoodSaveType = z.infer<typeof saveFoodSchema>
 export type CreateFoodType = z.infer<typeof createFoodSchema>
 export type UpdateFoodType = z.infer<typeof updateFoodSchema>

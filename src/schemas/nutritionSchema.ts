@@ -2,7 +2,7 @@ import { z } from "zod"
 
 import { auditFields, uuidSchema } from "./baseSchema"
 
-export const nutritionSchema = z.object({
+const baseNutritionSchema = z.object({
   nutritionId: uuidSchema,
   foodId: uuidSchema,
 
@@ -46,6 +46,15 @@ export const nutritionSchema = z.object({
   vitaminE: z.number().optional(),
 
   ...auditFields
+})
+
+export const nutritionSchema = baseNutritionSchema.pick({
+  calories: true,
+  protein: true,
+  carbs: true,
+  fat: true,
+  fiber: true,
+  sugar: true
 })
 
 export const nutritionFoodSchema = nutritionSchema.pick({
