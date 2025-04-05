@@ -1,8 +1,11 @@
 import React, { useState } from "react"
 
+import { useRouter } from "expo-router"
+
 import { LoadingScreen } from "@/app/loading"
 
 import {
+  Button,
   Container,
   Content,
   Schedule,
@@ -15,35 +18,77 @@ import { Header, Section } from "@/components/global/organisms"
 import { useAuth } from "@/contexts/AuthContext"
 
 import { useGetBookingsByConsultantId } from "@/hooks/useBooking"
+import { useGetSchedulesByConsultantId } from "@/hooks/useSchedule"
 
-function BookingScreen() {
+function SchedulesScreen() {
+  const router = useRouter()
+
   const { user } = useAuth()
   const consultantId = user?.consultantId
 
-  const today = new Date()
+  const now = new Date()
+
+  // First fetch schedules
+  const { data: schedulesData, isLoading: isSchedulesLoading } =
+    useGetSchedulesByConsultantId(consultantId)
 
   const [selectedDate, setSelectedDate] = useState<string | null>(
-    today.toISOString()
+    now.toISOString()
   )
 
-  const { data: bookingsData, isLoading } = useGetBookingsByConsultantId(
-    consultantId,
-    selectedDate || today.toISOString()
-  )
+  // Then fetch bookings
+  const { data: bookingsData, isLoading: isBookingsLoading } =
+    useGetBookingsByConsultantId(
+      consultantId,
+      selectedDate || now.toISOString()
+    )
 
-  const [selectedSChedule, setSelectedSchedule] = useState<string | null>(null)
+  const [selectedSchedule, setSelectedSchedule] = useState<string | null>(null)
 
   const handleDateSelect = (date: string) => {
     setSelectedDate(date)
-    // console.log(date)
   }
 
   const handleSelectSchedule = (scheduleId: string) => {
-    // redirect to booking detail screen
     setSelectedSchedule(scheduleId)
   }
 
-  if (!bookingsData || isLoading) {
+  const handleCreateSchedule = () => {
+    router.push(`/schedules/consultant/${consultantId}`)
+  }
+
+  // IMPORTANT: Check loading state first before any other conditional rendering
+  if (isSchedulesLoading) {
+    return <LoadingScreen />
+  }
+
+  // Only after confirming schedules are loaded, check if schedules exist
+  const hasSetupSchedule = schedulesData && schedulesData.length > 0
+
+  // Now it's safe to check if no schedules are set up
+  if (hasSetupSchedule) {
+    return (
+      <Container>
+        <Header label="Lịch hẹn" />
+
+        <Content className="mt-2">
+          <ErrorDisplay
+            imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
+            title="Chưa thiết lập lịch"
+            description="Bạn cần thiết lập lịch trình để nhận lịch hẹn từ khách hàng."
+            marginTop={24}
+          />
+
+          <Button size="lg" onPress={handleCreateSchedule} className="mt-12">
+            Thiết lập lịch
+          </Button>
+        </Content>
+      </Container>
+    )
+  }
+
+  // Finally check if bookings are loading
+  if (isBookingsLoading || !bookingsData) {
     return <LoadingScreen />
   }
 
@@ -65,7 +110,7 @@ function BookingScreen() {
         <ScrollArea className="flex-1">
           <VStack className="pb-12">
             <Schedule
-              initialDate={new Date(selectedDate || today.toISOString())}
+              initialDate={new Date(selectedDate || now.toISOString())}
               onDateSelect={handleDateSelect}
             />
 
@@ -102,4 +147,4 @@ function BookingScreen() {
   )
 }
 
-export default BookingScreen
+export default SchedulesScreen

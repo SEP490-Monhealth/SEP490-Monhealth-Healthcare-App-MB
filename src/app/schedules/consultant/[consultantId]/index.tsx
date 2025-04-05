@@ -30,7 +30,10 @@ import { RecurringDayEnum, ScheduleTypeEnum } from "@/constants/enum/Schedule"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useGetAllScheduleTimeSlots } from "@/hooks/useSchedule"
+import {
+  useCreateSchedule,
+  useGetAllScheduleTimeSlots
+} from "@/hooks/useSchedule"
 
 import {
   CreateScheduleType,
@@ -42,14 +45,17 @@ interface SelectedTimeSlots {
   timeSlots: string[]
 }
 
-function SetupSchedule() {
+function ScheduleCreateScreen() {
   const { user } = useAuth()
-  const userId = user?.userId
+  const consultantId = user?.consultantId
+
+  const { mutate: createSchedule } = useCreateSchedule()
 
   const { data: scheduleTimeSlotsData, isLoading: isScheduleTimeSlotsLoading } =
     useGetAllScheduleTimeSlots()
 
   const SheetRef = useRef<SheetRefProps>(null)
+  const sheetHeight = 600
 
   const now = new Date()
   now.setUTCHours(now.getUTCHours() + 7)
@@ -69,8 +75,6 @@ function SetupSchedule() {
 
   const [selectedDay, setSelectedDay] = useState<RecurringDayEnum | null>(null)
   const [selectedTime, setSelectedTime] = useState<Date>(new Date())
-
-  const sheetHeight = 600
 
   const [previousData, setPreviousData] = useState({
     [ScheduleTypeEnum.OneTime]: {
@@ -92,7 +96,7 @@ function SetupSchedule() {
   } = useForm<CreateScheduleType>({
     resolver: zodResolver(createScheduleSchema),
     defaultValues: {
-      consultantId: userId,
+      consultantId: consultantId,
       type: scheduleType,
       schedules: []
     }
@@ -236,7 +240,7 @@ function SetupSchedule() {
 
       const timeString = `${hours}:${minutes}:00`
 
-      console.log(`Selected time for day ${selectedDay}: ${timeString}`)
+      // console.log(`Selected time for day ${selectedDay}: ${timeString}`)
 
       const daySlot = selectedTimeSlots.find(
         (slot) => slot.dayOfWeek === selectedDay
@@ -249,11 +253,13 @@ function SetupSchedule() {
     }
   }
 
-  const onSubmit = (data: CreateScheduleType) => {
+  const onSubmit = async (data: CreateScheduleType) => {
     setIsLoading(true)
 
     try {
-      console.log("Final Data:", JSON.stringify(data, null, 2))
+      // console.log("Final Data:", JSON.stringify(data, null, 2))
+
+      await createSchedule(data)
     } catch (error) {
       console.log(error)
     } finally {
@@ -261,7 +267,7 @@ function SetupSchedule() {
     }
   }
 
-  console.log(errors)
+  // console.log(errors)
 
   if (!scheduleTimeSlotsData || isScheduleTimeSlotsLoading)
     return <LoadingScreen />
@@ -338,4 +344,4 @@ function SetupSchedule() {
   )
 }
 
-export default SetupSchedule
+export default ScheduleCreateScreen

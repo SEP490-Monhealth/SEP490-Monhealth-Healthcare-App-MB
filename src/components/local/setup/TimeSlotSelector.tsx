@@ -29,7 +29,7 @@ const TimeSlotButton = ({ time, isSelected, onPress }: TimeSlotButtonProps) => {
       <Text
         className={`font-tmedium text-base ${isSelected ? "text-white" : "text-primary"}`}
       >
-        {time}
+        {time.slice(0, 5)}
       </Text>
     </TouchableOpacity>
   )
@@ -79,6 +79,10 @@ const DayTimeSlots = ({
   const availableSlot = data.find((slot) => slot.dayOfWeek === day)
   const availableTimeSlotsForDay = availableSlot?.timeSlots || []
 
+  const allTimeSlots = Array.from(
+    new Set([...availableTimeSlotsForDay, ...timeSlotsForDay])
+  ).sort()
+
   return (
     <HStack
       center
@@ -99,7 +103,7 @@ const DayTimeSlots = ({
       </View>
 
       <View className="flex-1 flex-row flex-wrap gap-2">
-        {availableTimeSlotsForDay.map((time) => (
+        {allTimeSlots.map((time) => (
           <TimeSlotButton
             key={time}
             time={time}
