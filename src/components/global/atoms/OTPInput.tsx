@@ -21,7 +21,7 @@ export const OTPInput = ({
 }: OTPInputProps) => {
   const [otp, setOTP] = useState<string[]>(Array(length).fill(""))
   const [timer, setTimer] = useState(60)
-  const inputs = useRef<Array<TextInput | null>>([])
+  const inputs = useRef<(TextInput | null)[]>([])
 
   useEffect(() => {
     if (value) {

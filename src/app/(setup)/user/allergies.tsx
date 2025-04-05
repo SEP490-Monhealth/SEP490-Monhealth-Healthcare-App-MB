@@ -4,7 +4,7 @@ import { Control, FieldValues, useController } from "react-hook-form"
 
 import { Chip, ScrollArea, VStack } from "@/components/global/atoms"
 
-import { sampleAllergiesData } from "@/constants/allergies"
+import { sampleAllergiesData } from "@/constants/data/allergies"
 
 interface SetupAllergiesProps {
   control: Control<FieldValues>
