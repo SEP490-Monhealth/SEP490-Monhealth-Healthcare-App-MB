@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react"
 
-import { SafeAreaView, TouchableWithoutFeedback } from "react-native"
+import { SafeAreaView, TouchableWithoutFeedback, View } from "react-native"
 import { Keyboard } from "react-native"
 
 import { LoadingScreen } from "@/app/loading"
@@ -55,7 +55,7 @@ function ScheduleCreateScreen() {
     useGetAllScheduleTimeSlots()
 
   const SheetRef = useRef<SheetRefProps>(null)
-  const sheetHeight = 600
+  const sheetHeight = 480
 
   const now = new Date()
   now.setUTCHours(now.getUTCHours() + 7)
@@ -229,8 +229,30 @@ function ScheduleCreateScreen() {
     selectedTime?: Date
   ) => {
     if (selectedTime) {
-      setSelectedTime(selectedTime)
+      const hours = selectedTime.getHours()
+      const minutes = selectedTime.getMinutes()
+
+      if (hours < 8 || hours > 18 || (hours === 18 && minutes > 0)) {
+        const validTime = new Date(selectedTime)
+        if (hours < 8) validTime.setHours(8, 0)
+        if (hours > 18 || (hours === 18 && minutes > 0))
+          validTime.setHours(18, 0)
+        setSelectedTime(validTime)
+      } else {
+        setSelectedTime(selectedTime)
+      }
     }
+  }
+
+  const setHoursAndMinutes = (
+    date: Date,
+    hours: number,
+    minutes: number
+  ): Date => {
+    const newDate = new Date(date)
+    newDate.setHours(hours)
+    newDate.setMinutes(minutes)
+    return newDate
   }
 
   const handleConfirmTime = () => {
@@ -332,6 +354,9 @@ function ScheduleCreateScreen() {
               mode="time"
               display="spinner"
               onChange={handleTimeChange}
+              minuteInterval={15}
+              minimumDate={setHoursAndMinutes(new Date(), 8, 0)}
+              maximumDate={setHoursAndMinutes(new Date(), 18, 0)}
             />
 
             <Button size="lg" onPress={handleConfirmTime} className="w-full">

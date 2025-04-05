@@ -132,7 +132,8 @@ export const Input: React.FC<InputProps> = ({
             hasError ? "text-destructive" : "text-primary"
           } ${disabled ? "text-accent" : ""}`}
           style={{
-            height: isMultiline ? numberOfLines * 20 : undefined
+            height: isMultiline ? numberOfLines * 20 : undefined,
+            lineHeight: isMultiline ? 20 : undefined
           }}
           {...props}
         />

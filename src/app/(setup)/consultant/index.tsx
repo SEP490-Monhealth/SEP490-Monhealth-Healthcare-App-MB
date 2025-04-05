@@ -30,7 +30,7 @@ import { CustomHeader, StepHeader } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
-import { sampleExpertiseGroupData } from "@/constants/expertise"
+import { sampleExpertiseGroupData } from "@/constants/data/expertise"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -236,7 +236,7 @@ function SetupConsultantScreen() {
       updateField(field, data[field])
     })
 
-    console.log(`Completed Step ${currentStep} with data:`, data)
+    // console.log(`Completed Step ${currentStep} with data:`, data)
 
     if (currentStep < setupSteps.length) {
       setCurrentStep(currentStep + 1)
@@ -253,7 +253,7 @@ function SetupConsultantScreen() {
     }
   }
 
-  console.log(errors)
+  // console.log(errors)
 
   const handleSubmission = () => {
     setIsLoading(true)
@@ -281,8 +281,14 @@ function SetupConsultantScreen() {
         imageUrls: processedImageUrls
       }
 
-      console.log("Submitting data to API:", JSON.stringify(finalData, null, 2))
-      // router.push("/(setup)/consultant/completed")
+      // console.log("Submitting data to API:", JSON.stringify(finalData, null, 2))
+
+      // @ts-ignore
+      createConsultant(finalData, {
+        onSuccess: () => {
+          router.replace("/(setup)/consultant/completed")
+        },
+      })
     } catch (error) {
       console.error("Error during API submission:", error)
       setIsLoading(false)
@@ -359,7 +365,6 @@ function SetupConsultantScreen() {
                   ? new Date(getValues("issueDate"))
                   : new Date(1904, 0, 1)
               }
-              maximumDate={new Date()}
               onChange={handleDateSelect}
               locale="vi"
             />

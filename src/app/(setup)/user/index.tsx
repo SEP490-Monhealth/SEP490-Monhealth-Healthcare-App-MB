@@ -321,6 +321,7 @@ function SetupUserScreen() {
       </Content>
 
       <Button
+        loading={isLoading}
         size="lg"
         onPress={handleSubmit((data) => onSubmitStep(data, setError))}
         className="absolute bottom-4 left-6 right-6"

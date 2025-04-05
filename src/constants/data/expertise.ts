@@ -38,7 +38,7 @@ export const sampleExpertiseGroupData = [
     expertise: [
       {
         expertiseId: "c32b7429-13df-4aa0-b32d-705d1050de5f",
-        name: "Phục hồi sau phẫu thuật/chấn thương"
+        name: "Phục hồi sau phẫu thuật / chấn thương"
       },
       {
         expertiseId: "6c6a7d90-1c16-44ae-9b2a-b3addfe55dbc",
@@ -96,7 +96,7 @@ export const sampleExpertiseGroupData = [
     expertise: [
       {
         expertiseId: "768178b4-2241-4914-9309-74f89462eddc",
-        name: "Cai thuốc lá/rượu"
+        name: "Cai thuốc lá / rượu"
       },
       {
         expertiseId: "0131b574-2c27-477b-af1f-5abbb7dd08a4",
