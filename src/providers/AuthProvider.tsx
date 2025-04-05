@@ -102,72 +102,82 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const handleLogin = async (phoneNumber: string, password: string) => {
     try {
+      // 1. Login và lưu token
       const response = await login(phoneNumber, password, showModal)
       await AsyncStorage.setItem("accessToken", response.accessToken)
       await AsyncStorage.setItem("refreshToken", response.refreshToken)
       setIsAuthenticated(true)
 
+      // 2. Lấy thông tin user
       const userInfo = await whoIAm(showModal)
       setUser(userInfo)
 
-      if (role === "Consultant" && userInfo.role !== "Consultant") {
-        setModalContent({
-          title: "Cảnh báo",
-          description:
-            "Tài khoản không phải chuyên viên tư vấn. Vui lòng đăng nhập với tư cách thành viên.",
-          confirmText: "Đồng ý"
-        })
+      const selectedRole = role || "Member"
+      const actualRole = userInfo.role
 
-        setIsModalVisible(true)
-        await AsyncStorage.removeItem("accessToken")
-        await AsyncStorage.removeItem("refreshToken")
-        setIsAuthenticated(false)
-        setUser(null)
-        return
-      }
+      // CASE 1: Đăng nhập dưới dạng Member
+      if (selectedRole === "Member") {
+        // 1.1: Tài khoản là Consultant
+        if (actualRole === "Consultant") {
+          setModalContent({
+            title: "Thông báo",
+            description:
+              "Tài khoản này là chuyên viên tư vấn. Vui lòng đăng nhập với tư cách chuyên viên.",
+            confirmText: "Đồng ý"
+          })
+          setIsModalVisible(true)
 
-      if (role === "Member" && userInfo.role === "Consultant") {
-        setModalContent({
-          title: "Cảnh báo",
-          description:
-            "Tài khoản của bạn đã được đăng ký là chuyên viên tư vấn.",
-          confirmText: "Đồng ý"
-        })
+          // Logout và chuyển về sign-in cho Consultant
+          await AsyncStorage.removeItem("accessToken")
+          await AsyncStorage.removeItem("refreshToken")
+          setIsAuthenticated(false)
+          setUser(null)
+          setRole("Consultant")
+          router.replace("/auth/sign-in")
+          return
+        }
 
-        setIsModalVisible(true)
-        await AsyncStorage.removeItem("accessToken")
-        await AsyncStorage.removeItem("refreshToken")
-        setIsAuthenticated(false)
-        setUser(null)
-        return
-      }
-
-      setRole(userInfo?.role)
-
-      if (
-        userInfo.role === "Member" ||
-        userInfo.role === "Subscription Member"
-      ) {
+        // 1.2: Tài khoản là Member
         const metricData = await getMetricsByUserId(userInfo.userId)
-        const metricExist = metricData && metricData.length > 0
-
-        if (metricExist) {
+        if (metricData && metricData.length > 0) {
+          // Đã có metrics -> vào home
           router.replace("/(tabs)/user/home")
         } else {
+          // Chưa có metrics -> vào onboarding
           router.replace({
             pathname: "/onboarding",
             params: { role: "Member" }
           })
         }
-      } else if (userInfo.role === "Consultant") {
-        if (userInfo.consultantId !== null) {
-          router.replace("/(tabs)/consultant/dashboard")
-        } else {
+        return
+      }
+
+      // CASE 2: Đăng nhập dưới dạng Consultant
+      if (selectedRole === "Consultant") {
+        // 2.1: Tài khoản là Member - Cho phép chuyển đổi thành Consultant
+        if (actualRole === "Member" || actualRole === "Subscription Member") {
+          // Chuyển tới onboarding consultant để setup profile
           router.replace({
             pathname: "/onboarding",
             params: { role: "Consultant" }
           })
+          return
         }
+
+        // 2.2: Tài khoản là Consultant
+        if (actualRole === "Consultant") {
+          if (userInfo.consultantId) {
+            // Đã setup consultant profile -> vào dashboard
+            router.replace("/(tabs)/consultant/dashboard")
+          } else {
+            // Chưa setup consultant profile -> vào onboarding
+            router.replace({
+              pathname: "/onboarding",
+              params: { role: "Consultant" }
+            })
+          }
+        }
+        return
       }
     } catch (error) {
       handleError(error)

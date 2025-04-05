@@ -50,9 +50,13 @@ function SignUpScreen() {
   } = useForm<RegisterType>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      fullName: "Van Huu Toan",
-      phoneNumber: "0123456789",
-      email: "asd@gmail.com",
+      // fullName: "Van Huu Toan",
+      // phoneNumber: "0123456789",
+      // email: "asd@gmail.com",
+      // password: "123As@"
+      fullName: "Dang Tien Hoang",
+      phoneNumber: "0112223333",
+      email: "toilavikhuan@gmail.com",
       password: "123As@"
     }
   })
@@ -66,18 +70,14 @@ function SignUpScreen() {
     // console.log(registerData)
 
     try {
-      if (role === "Member") {
-        await register(
-          registerData.fullName,
-          registerData.phoneNumber,
-          registerData.email,
-          registerData.password
-        )
+      // console.log(JSON.stringify(registerData, null, 2))
 
-        router.replace("/setup")
-      } else {
-        console.log("Đăng ký chuyên viên tư vấn")
-      }
+      await register(
+        registerData.fullName,
+        registerData.phoneNumber,
+        registerData.email,
+        registerData.password
+      )
     } catch (error: any) {
       console.log("Lỗi khi đăng ký:", error.response?.data || error.message)
     } finally {

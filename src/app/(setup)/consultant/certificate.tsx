@@ -51,6 +51,21 @@ function SetupCertificate({
         />
 
         <Controller
+          name="issuedBy"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <Input
+              value={value}
+              label="Nơi cấp"
+              placeholder="VD: Trường đại học y dược"
+              onChangeText={onChange}
+              canClearText
+              errorMessage={errors.issuedBy?.message}
+            />
+          )}
+        />
+
+        <Controller
           name="issueDate"
           control={control}
           render={({ field: { value } }) => (
@@ -76,21 +91,6 @@ function SetupCertificate({
               placeholder="VD: 01/01/2024"
               onPress={() => openDateSheet("expiryDate")}
               errorMessage={errors.expiryDate?.message}
-            />
-          )}
-        />
-
-        <Controller
-          name="issuedBy"
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <Input
-              value={value}
-              label="Nơi cấp"
-              placeholder="VD: Trường đại học y dược"
-              onChangeText={onChange}
-              canClearText
-              errorMessage={errors.issuedBy?.message}
             />
           )}
         />

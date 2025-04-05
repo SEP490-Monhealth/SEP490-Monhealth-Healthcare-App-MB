@@ -4,7 +4,7 @@ import { Control, FieldValues, useController } from "react-hook-form"
 
 import { Chip, ErrorText, ScrollArea, VStack } from "@/components/global/atoms"
 
-import { sampleExpertiseGroupData } from "@/constants/expertise"
+import { sampleExpertiseGroupData } from "@/constants/data/expertise"
 
 interface SetupExpertiseProps {
   control: Control<FieldValues>
@@ -26,7 +26,7 @@ function SetupExpertise({
 
   return (
     <ScrollArea>
-      <VStack gap={12} className="pb-24">
+      <VStack gap={12} className="pb-28">
         {expertiseData.map((group) => {
           const isSelected = group.expertise.some(
             (exp) => exp.name === field.value

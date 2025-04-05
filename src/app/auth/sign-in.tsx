@@ -58,7 +58,8 @@ function SignInScreen() {
     defaultValues: {
       // 0987654321 chuyên viên
       // 0792766979 người dùng
-      phoneNumber: "0792766979",
+      // 0112223333 vi khuẩn
+      phoneNumber: "0112223333",
       password: "123As@"
     }
   })
