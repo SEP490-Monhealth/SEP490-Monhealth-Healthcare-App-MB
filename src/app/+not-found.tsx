@@ -21,7 +21,7 @@ function NotFoundScreen() {
       if (user) {
         router.push("/")
       } else {
-        router.push("/auth/login")
+        router.push("/auth/sign-in")
       }
     }
   }

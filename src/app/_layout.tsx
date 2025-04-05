@@ -53,8 +53,8 @@ function AppLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ErrorProvider>
-        <ModalProvider>
+      <ModalProvider>
+        <ErrorProvider>
           <AuthProvider>
             <StorageProvider>
               <SearchProvider>
@@ -67,8 +67,8 @@ function AppLayout() {
               </SearchProvider>
             </StorageProvider>
           </AuthProvider>
-        </ModalProvider>
-      </ErrorProvider>
+        </ErrorProvider>
+      </ModalProvider>
     </QueryClientProvider>
   )
 }

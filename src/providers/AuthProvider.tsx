@@ -8,6 +8,7 @@ import { Modal } from "@/components/global/atoms"
 
 import { AuthContext } from "@/contexts/AuthContext"
 import { useError } from "@/contexts/ErrorContext"
+import { useModal } from "@/contexts/ModalContext"
 
 import { login, logout, register, whoIAm } from "@/services/authService"
 import { getMetricsByUserId } from "@/services/metricService"
@@ -27,6 +28,7 @@ interface UserPayload {
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter()
   const handleError = useError()
+  const { showModal } = useModal()
 
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
 
@@ -49,7 +51,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setIsAuthenticated(!!token)
 
       if (token) {
-        const userInfo = await whoIAm()
+        const userInfo = await whoIAm(showModal)
 
         setUser(userInfo)
         setRole(userInfo?.role)
@@ -100,12 +102,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const handleLogin = async (phoneNumber: string, password: string) => {
     try {
-      const response = await login(phoneNumber, password)
+      const response = await login(phoneNumber, password, showModal)
       await AsyncStorage.setItem("accessToken", response.accessToken)
       await AsyncStorage.setItem("refreshToken", response.refreshToken)
       setIsAuthenticated(true)
 
-      const userInfo = await whoIAm()
+      const userInfo = await whoIAm(showModal)
       setUser(userInfo)
 
       if (role === "Consultant" && userInfo.role !== "Consultant") {
@@ -180,7 +182,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     password: string
   ) => {
     try {
-      await register(fullName, email, phoneNumber, password)
+      await register(fullName, email, phoneNumber, password, showModal)
       await handleLogin(phoneNumber, password)
     } catch (error) {
       handleError(error)
@@ -190,7 +192,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const handleLogout = async () => {
     try {
-      await logout()
+      await logout(showModal)
       await AsyncStorage.removeItem("accessToken")
       await AsyncStorage.removeItem("refreshToken")
       setIsAuthenticated(false)
