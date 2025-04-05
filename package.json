@@ -8,9 +8,16 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
+    "doctor": "expo doctor",
+    "lint": "expo lint",
+    "lint:fix": "eslint --fix .",
     "test": "jest --watchAll",
     "coverage": "jest --coverage",
-    "lint": "expo lint"
+    "build:dev": "eas build --profile development -p android",
+    "build:preview": "eas build --profile preview -p android",
+    "build:android:prod": "eas build --profile production -p android",
+    "build:ios:prod": "eas build --profile production -p ios",
+    "update:prod": "eas update --channel production"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -24,6 +31,7 @@
     "date-fns": "^4.1.0",
     "expo": "~52.0.42",
     "expo-constants": "~17.0.8",
+    "expo-dev-client": "^5.0.20",
     "expo-device": "^7.0.3",
     "expo-file-system": "~18.0.12",
     "expo-font": "^13.0.4",
