@@ -38,13 +38,19 @@ function WelcomeScreen() {
           </Text>
         </VStack>
 
-        <VStack gap={20}>
-          <VStack gap={12}>
-            <Button variant="secondary" onPress={handleSelectConsultant}>
+        <VStack gap={24}>
+          <VStack gap={20}>
+            <Button
+              variant="secondary"
+              size="lg"
+              onPress={handleSelectConsultant}
+            >
               Tôi là chuyên viên tư vấn
             </Button>
 
-            <Button onPress={handleSelectUser}>Tôi là người dùng</Button>
+            <Button size="lg" onPress={handleSelectUser}>
+              Tôi là người dùng
+            </Button>
           </VStack>
 
           <Text className="text-center text-accent">

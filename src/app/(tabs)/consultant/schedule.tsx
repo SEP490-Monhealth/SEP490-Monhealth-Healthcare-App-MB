@@ -28,7 +28,6 @@ function SchedulesScreen() {
 
   const now = new Date()
 
-  // First fetch schedules
   const { data: schedulesData, isLoading: isSchedulesLoading } =
     useGetSchedulesByConsultantId(consultantId)
 
@@ -36,7 +35,6 @@ function SchedulesScreen() {
     now.toISOString()
   )
 
-  // Then fetch bookings
   const { data: bookingsData, isLoading: isBookingsLoading } =
     useGetBookingsByConsultantId(
       consultantId,
@@ -57,25 +55,26 @@ function SchedulesScreen() {
     router.push(`/schedules/consultant/${consultantId}`)
   }
 
-  // IMPORTANT: Check loading state first before any other conditional rendering
+  const handleViewScheduleExceptions = () => {
+    router.push(`/schedules/consultant/${consultantId}/exceptions`)
+  }
+
   if (isSchedulesLoading) {
     return <LoadingScreen />
   }
 
-  // Only after confirming schedules are loaded, check if schedules exist
   const hasSetupSchedule = schedulesData && schedulesData.length > 0
 
-  // Now it's safe to check if no schedules are set up
-  if (hasSetupSchedule) {
+  if (!hasSetupSchedule) {
     return (
       <Container>
-        <Header label="Lịch hẹn" />
+        <Header label="Lịch trình" />
 
         <Content className="mt-2">
           <ErrorDisplay
             imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
             title="Chưa thiết lập lịch"
-            description="Bạn cần thiết lập lịch trình để nhận lịch hẹn từ khách hàng."
+            description="Bạn cần thiết lập lịch trình để nhận lịch trình từ khách hàng."
             marginTop={24}
           />
 
@@ -87,7 +86,6 @@ function SchedulesScreen() {
     )
   }
 
-  // Finally check if bookings are loading
   if (isBookingsLoading || !bookingsData) {
     return <LoadingScreen />
   }
@@ -104,7 +102,7 @@ function SchedulesScreen() {
 
   return (
     <Container>
-      <Header label="Lịch hẹn" />
+      <Header label="Lịch trình" />
 
       <Content className="mt-2">
         <ScrollArea className="flex-1">
@@ -114,7 +112,11 @@ function SchedulesScreen() {
               onDateSelect={handleDateSelect}
             />
 
-            <Section label="Danh sách lịch hẹn" />
+            <Section
+              label="Danh sách lịch trình"
+              actionText="Xem lịch nghỉ"
+              onPress={handleViewScheduleExceptions}
+            />
 
             <VStack gap={0}>
               {sortedBookings.length > 0 ? (
@@ -134,8 +136,8 @@ function SchedulesScreen() {
               ) : (
                 <ErrorDisplay
                   imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
-                  title="Không có lịch hẹn"
-                  description="Không tìm thấy có lịch hẹn nào ở đây!"
+                  title="Không có lịch trình"
+                  description="Không tìm thấy có lịch trình nào ở đây!"
                   marginTop={12}
                 />
               )}
