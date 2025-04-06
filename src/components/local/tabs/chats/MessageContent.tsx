@@ -2,6 +2,8 @@ import { Text, View } from "react-native"
 
 import { ChatMonAIType } from "@/types/chat"
 
+import { VStack } from "@/components/global/atoms"
+
 interface MessageContentProps {
   content: ChatMonAIType["content"]
 }
@@ -9,18 +11,18 @@ interface MessageContentProps {
 export const MessageContent = ({ content }: MessageContentProps) => {
   if (content.health_or_fitness === false) {
     return (
-      <View className="flex flex-col gap-2">
+      <VStack gap={8}>
         {content.GeneralAdvice && (
           <Text className="font-tregular text-base text-primary">
             {content.GeneralAdvice}
           </Text>
         )}
-      </View>
+      </VStack>
     )
   }
 
   return (
-    <View className="flex flex-col gap-2">
+    <VStack gap={8}>
       {/* Summary */}
       {content.SummaryConversation && (
         <Text className="font-tregular text-base text-primary">
@@ -150,6 +152,6 @@ export const MessageContent = ({ content }: MessageContentProps) => {
           </Text>
         </View>
       )}
-    </View>
+    </VStack>
   )
 }

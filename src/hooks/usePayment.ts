@@ -9,7 +9,11 @@ import {
   PaymentType
 } from "@/schemas/paymentSchema"
 
-import { createPayment, getPaymentsByUserId } from "@/services/paymentService"
+import {
+  completePayment,
+  createPayment,
+  getPaymentsByUserId
+} from "@/services/paymentService"
 
 interface PaymentResponse {
   payments: PaymentType[]
@@ -52,6 +56,26 @@ export const useCreatePayment = () => {
     mutationFn: async (newData) => {
       try {
         return await createPayment(newData, showModal)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["payments"] })
+    }
+  })
+}
+
+export const useCompletePayment = () => {
+  const queryClient = useQueryClient()
+  const handleError = useError()
+  const { showModal } = useModal()
+
+  return useMutation<string, Error, { paymentId: string | undefined }>({
+    mutationFn: async ({ paymentId }) => {
+      try {
+        return await completePayment(paymentId, showModal)
       } catch (error) {
         handleError(error)
         throw error

@@ -130,14 +130,14 @@ export const logout = async (
   }
 }
 
-export const whoIAm = async (showModal: (message: string) => void) => {
+export const whoIAm = async (showModal?: (message: string) => void) => {
   try {
     const response = await monAPI.get(`/auth/me`)
 
     const { success, message, data } = response.data
 
     if (!success) {
-      showModal(message || "Không thể lấy thông tin người dùng")
+      if (showModal) showModal(message || "Không thể lấy thông tin người dùng")
 
       throw {
         isCustomError: true,
@@ -148,7 +148,7 @@ export const whoIAm = async (showModal: (message: string) => void) => {
     return data
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
-      showModal("Đã xảy ra lỗi không mong muốn")
+      if (showModal) showModal("Đã xảy ra lỗi không mong muốn")
 
       console.log(
         "Lỗi từ server (whoIAm):",
