@@ -54,14 +54,14 @@ function SignInScreen() {
     handleSubmit,
     formState: { errors }
   } = useForm<LoginType>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      // 0987654321 chuyên viên
-      // 0792766979 người dùng
-      // 0112223333 vi khuẩn
-      phoneNumber: "0112223333",
-      password: "123As@"
-    }
+    resolver: zodResolver(loginSchema)
+    // defaultValues: {
+    //   // 0987654321 chuyên viên
+    //   // 0792766979 người dùng
+    //   // 0112223333 vi khuẩn
+    //   phoneNumber: "0112223333",
+    //   password: "123As@"
+    // }
   })
 
   const handleSignUp = () => router.push(`/auth/sign-up?userType=${role}`)

@@ -32,11 +32,11 @@ function ForgotPasswordScreen() {
     handleSubmit,
     formState: { errors }
   } = useForm<ResetPasswordType>({
-    resolver: zodResolver(resetPasswordSchema),
-    defaultValues: {
-      password: "123As@",
-      confirmPassword: "123As@"
-    }
+    resolver: zodResolver(resetPasswordSchema)
+    // defaultValues: {
+    //   password: "123As@",
+    //   confirmPassword: "123As@"
+    // }
   })
 
   const onSubmit = (data: ResetPasswordType) => {

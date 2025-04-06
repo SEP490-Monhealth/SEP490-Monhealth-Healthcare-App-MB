@@ -30,9 +30,9 @@ function ForgotPasswordScreen() {
     formState: { errors }
   } = useForm<PhoneNumberType>({
     resolver: zodResolver(phoneNumberSchema),
-    defaultValues: {
-      phoneNumber: "0792766979"
-    }
+    // defaultValues: {
+    //   phoneNumber: "0792766979"
+    // }
   })
 
   const onSubmit = (data: PhoneNumberType) => {

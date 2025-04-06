@@ -20,37 +20,37 @@ interface SetupStoreState {
 }
 
 export const useSetupStore = create<SetupStoreState>((set) => ({
-  dateOfBirth: "2003-08-27T00:00:00.000Z",
-  gender: GenderEnum.Male,
-  height: 170,
-  weight: 50,
-  activityLevel: 1.375,
-  weightGoal: 66,
-  goalType: GoalTypeEnum.WeightGain,
-  caloriesRatio: 1.2,
+  // dateOfBirth: "2003-08-27T00:00:00.000Z",
+  // gender: GenderEnum.Male,
+  // height: 170,
+  // weight: 50,
+  // activityLevel: 1.375,
+  // weightGoal: 66,
+  // goalType: GoalTypeEnum.WeightGain,
+  // caloriesRatio: 1.2,
 
-  // categories: [
-  //   "Hải sản",
-  //   "Thịt",
-  //   "Rau củ",
-  //   "Món ngọt",
-  //   "Đồ uống",
-  //   "Món lên men",
-  //   "Trái cây"
-  // ],
+  // // categories: [
+  // //   "Hải sản",
+  // //   "Thịt",
+  // //   "Rau củ",
+  // //   "Món ngọt",
+  // //   "Đồ uống",
+  // //   "Món lên men",
+  // //   "Trái cây"
+  // // ],
 
-  allergies: ["Hải sản có vỏ", "Sữa", "Các loại hạt", "Đậu nành", "Hạt vừng"],
+  // allergies: ["Hải sản có vỏ", "Sữa", "Các loại hạt", "Đậu nành", "Hạt vừng"],
 
-  // dateOfBirth: "",
-  // gender: undefined,
-  // height: undefined,
-  // weight: undefined,
-  // activityLevel: 1.2,
-  // weightGoal: undefined,
-  // goalType: undefined,
-  // caloriesRatio: 1,
+  dateOfBirth: "",
+  gender: undefined,
+  height: undefined,
+  weight: undefined,
+  activityLevel: 1.2,
+  weightGoal: undefined,
+  goalType: undefined,
+  caloriesRatio: 1,
   // categories: [],
-  // allergies: [],
+  allergies: [],
 
   updateField: (key, value) =>
     set((state) => ({
