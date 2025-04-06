@@ -21,7 +21,6 @@ export enum DishTypeEnum {
   SideDish,
   Soup,
   Dessert,
-  Snack,
   Drink
 }
 

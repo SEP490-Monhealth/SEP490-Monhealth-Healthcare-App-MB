@@ -9,6 +9,7 @@ import {
 import { Platform } from "react-native"
 import { TouchableOpacity } from "react-native"
 
+import { appConfig } from "@/configs/app"
 import {
   HubConnection,
   HubConnectionBuilder,
@@ -42,9 +43,7 @@ const ChatDetailsScreen = () => {
 
   const createHubConnection = async () => {
     const hubConnection = new HubConnectionBuilder()
-      .withUrl(
-        "https://00e5-2405-4802-801a-f040-2434-b0ca-fdfa-8ceb.ngrok-free.app/chatbox"
-      )
+      .withUrl(`${appConfig.baseUrl}/chatbox`)
       .withAutomaticReconnect()
       .configureLogging(LogLevel.Information)
       .build()

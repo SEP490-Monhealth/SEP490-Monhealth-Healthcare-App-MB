@@ -174,7 +174,8 @@ function SetupConsultantScreen() {
 
   const handleDateSelect = (_: DateTimePickerEvent, date?: Date) => {
     if (date && dateType) {
-      const isoDate = formatUTCDate(date)
+      const finalDate = date || new Date()
+      const isoDate = formatUTCDate(finalDate)
       setSelectedDate(date)
       setValue(dateType, isoDate)
     }
@@ -287,7 +288,7 @@ function SetupConsultantScreen() {
       createConsultant(finalData, {
         onSuccess: () => {
           router.replace("/(setup)/consultant/completed")
-        },
+        }
       })
     } catch (error) {
       console.error("Error during API submission:", error)

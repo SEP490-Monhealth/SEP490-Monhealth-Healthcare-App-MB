@@ -16,10 +16,10 @@ import {
   ListFooter,
   ListHeader
 } from "@/components/global/molecules"
-import { Section } from "@/components/global/organisms"
+import { Header, Section } from "@/components/global/organisms"
 
-import { sampleChatsData } from "@/constants/data/chats"
 import { COLORS } from "@/constants/color"
+import { sampleChatsData } from "@/constants/data/chats"
 
 import { useDebounce } from "@/hooks/useDebounce"
 
@@ -99,19 +99,17 @@ function ChatScreen() {
 
   return (
     <Container>
-      <CustomHeader
-        content={
-          <Input
-            value={searchQuery}
-            placeholder="Tìm kiếm tin nhắn..."
-            onChangeText={(text) => setSearchQuery(text)}
-            startIcon={<SearchNormal1 size={20} color={COLORS.primary} />}
-            canClearText
-          />
-        }
-      />
+      <Header label="Nhắn tin" />
 
-      <Content>
+      <Content className="mt-2">
+        <Input
+          value={searchQuery}
+          placeholder="Tìm kiếm tin nhắn..."
+          onChangeText={(text) => setSearchQuery(text)}
+          startIcon={<SearchNormal1 size={20} color={COLORS.primary} />}
+          canClearText
+        />
+
         <FlatList
           data={chatsData || []}
           keyExtractor={(item, index) => `${item.chatId}-${index}`}

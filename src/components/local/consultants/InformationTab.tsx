@@ -124,7 +124,8 @@ export const InformationTab = ({
           schedule.timeSlots.map((slot) => (
             <TimeSlotSelector
               key={slot.startTime}
-              time={slot.startTime}
+              startTime={slot.startTime}
+              endTime={slot.endTime}
               isSelected={selectedTime === slot.startTime}
               status={slot.status}
               onPress={() => handleScheduleSelect(slot.startTime)}

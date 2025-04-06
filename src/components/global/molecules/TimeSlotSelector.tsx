@@ -7,14 +7,16 @@ import { ScheduleTimeSlotStatusEnum } from "@/constants/enum/Schedule"
 import { cn } from "@/lib/utils"
 
 interface TimeSlotSelectorProps {
-  time: string
+  startTime: string
+  endTime: string
   isSelected?: boolean
   status: ScheduleTimeSlotStatusEnum
   onPress?: () => void
 }
 
 export const TimeSlotSelector = ({
-  time,
+  startTime,
+  endTime,
   isSelected = false,
   status,
   onPress
@@ -46,7 +48,9 @@ export const TimeSlotSelector = ({
               : "text-primary"
         )}
       >
-        {formatTime(time)}
+        {isSelected
+          ? `${formatTime(startTime)} - ${formatTime(endTime)}`
+          : formatTime(startTime)}
       </Text>
     </TouchableOpacity>
   )

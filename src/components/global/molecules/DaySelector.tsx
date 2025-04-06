@@ -15,26 +15,39 @@ interface DateProps {
   initialDate: Date
   onDateSelect: (date: string) => void
   visibleDays?: number
+  disablePastDates?: boolean
+  futureMonths?: number
 }
 
 interface DayProps {
   date: Date
   dayOfWeek: string
   itemWidth: number
+  isDisabled?: boolean
 }
 
 export const DaySelector = ({
   initialDate,
   onDateSelect,
-  visibleDays = 6
+  visibleDays = 6,
+  disablePastDates = true,
+  futureMonths = 3
 }: DateProps) => {
-  const validInitialDate = useMemo(
-    () =>
+  const today = useMemo(() => {
+    const date = new Date()
+    date.setHours(0, 0, 0, 0)
+    return date
+  }, [])
+
+  const validInitialDate = useMemo(() => {
+    const isValidDate =
       initialDate instanceof Date && !isNaN(initialDate.getTime())
-        ? initialDate
-        : new Date(),
-    [initialDate]
-  )
+    if (!isValidDate) return today
+
+    if (disablePastDates && initialDate < today) return today
+
+    return initialDate
+  }, [initialDate, today, disablePastDates])
 
   const [selectedDay, setSelectedDay] = useState<Date>(validInitialDate)
   const FlatListRef = useRef<FlatList<DayProps>>(null)
@@ -47,41 +60,48 @@ export const DaySelector = ({
     )
   }, [validInitialDate])
 
-  const daysInMonth = useMemo(() => {
-    const totalDays = new Date(
-      validInitialDate.getFullYear(),
-      validInitialDate.getMonth() + 1,
-      0
-    ).getDate()
+  const daysInFuturePeriod = useMemo(() => {
+    const endDate = new Date(today)
+    endDate.setMonth(today.getMonth() + futureMonths)
 
-    return Array.from({ length: totalDays }, (_, i) => {
-      const date = new Date(
-        validInitialDate.getFullYear(),
-        validInitialDate.getMonth(),
-        i + 1
-      )
-      return {
-        date,
-        dayOfWeek: date.toLocaleString("vi-VN", { weekday: "narrow" }),
-        itemWidth: visibleDays === 6 ? 51.5 : 43
-      }
-    })
-  }, [validInitialDate, visibleDays])
+    const days: DayProps[] = []
+    const startDate = disablePastDates
+      ? today
+      : new Date(validInitialDate.getFullYear(), validInitialDate.getMonth(), 1)
+    const currentDate = new Date(startDate)
+
+    while (currentDate <= endDate) {
+      const isDisabled = disablePastDates && currentDate < today
+
+      days.push({
+        date: new Date(currentDate),
+        dayOfWeek: currentDate.toLocaleString("vi-VN", { weekday: "narrow" }),
+        itemWidth: visibleDays === 6 ? 51.5 : 43,
+        isDisabled
+      })
+
+      currentDate.setDate(currentDate.getDate() + 1)
+    }
+
+    return days
+  }, [today, validInitialDate, disablePastDates, futureMonths, visibleDays])
 
   const scrollToSelectedDate = useCallback(() => {
-    const index = daysInMonth.findIndex(
+    const index = daysInFuturePeriod.findIndex(
       (day) => day.date.toDateString() === selectedDay.toDateString()
     )
     if (FlatListRef.current && index >= 0) {
       FlatListRef.current.scrollToIndex({ index, animated: true })
     }
-  }, [selectedDay, daysInMonth])
+  }, [selectedDay, daysInFuturePeriod])
 
   useEffect(() => {
-    if (daysInMonth.length > 0) scrollToSelectedDate()
+    if (daysInFuturePeriod.length > 0) scrollToSelectedDate()
   }, [selectedDay, scrollToSelectedDate])
 
-  const handleSelectedDay = (date: Date) => {
+  const handleSelectedDay = (date: Date, isDisabled: boolean | undefined) => {
+    if (isDisabled) return
+
     if (date.toDateString() !== selectedDay.toDateString()) {
       setSelectedDay(date)
       onDateSelect(formatUTCDate(date))
@@ -98,7 +118,7 @@ export const DaySelector = ({
       <FlatList
         horizontal
         ref={FlatListRef}
-        data={daysInMonth}
+        data={daysInFuturePeriod}
         keyExtractor={(item) => item.date.toISOString()}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
@@ -108,6 +128,7 @@ export const DaySelector = ({
             selectedDay={selectedDay}
             onSelect={handleSelectedDay}
             itemWidth={itemWidth}
+            isDisabled={item.isDisabled}
           />
         )}
         ItemSeparatorComponent={() => <View style={{ width: 8 }} />}
@@ -132,22 +153,22 @@ const DayItem = memo(
     dayOfWeek,
     selectedDay,
     onSelect,
-    itemWidth
+    itemWidth,
+    isDisabled
   }: DayProps & {
     selectedDay: Date
-    onSelect: (date: Date) => void
-    itemWidth: number
+    onSelect: (date: Date, isDisabled?: boolean) => void
   }) => {
     const isSelected = date.toDateString() === selectedDay.toDateString()
 
     return (
       <TouchableOpacity
-        activeOpacity={0.8}
+        activeOpacity={isDisabled ? 1 : 0.8}
         className={`h-20 items-center justify-center gap-1 rounded-xl border border-border px-2 py-4 ${
           isSelected ? "bg-primary" : "bg-card"
-        }`}
+        } ${isDisabled ? "opacity-40" : ""}`}
         style={{ width: itemWidth }}
-        onPress={() => onSelect(date)}
+        onPress={() => onSelect(date, isDisabled)}
       >
         <Text
           className={`font-tbold text-base ${

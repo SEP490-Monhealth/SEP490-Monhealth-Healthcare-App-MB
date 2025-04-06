@@ -56,7 +56,7 @@ function SchedulesScreen() {
   }
 
   const handleCreateSchedule = () => {
-    router.push(`/schedules/consultant/${consultantId}`)
+    router.push(`/schedules/consultant/${consultantId}/create`)
   }
 
   if (isSchedulesLoading) {
