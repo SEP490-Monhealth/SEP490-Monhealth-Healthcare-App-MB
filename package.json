@@ -31,7 +31,6 @@
     "date-fns": "^4.1.0",
     "expo": "~52.0.42",
     "expo-constants": "~17.0.8",
-    "expo-dev-client": "^5.0.20",
     "expo-device": "^7.0.3",
     "expo-file-system": "~18.0.12",
     "expo-font": "^13.0.4",

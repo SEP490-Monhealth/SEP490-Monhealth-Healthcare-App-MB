@@ -50,9 +50,13 @@ function SignUpScreen() {
   } = useForm<RegisterType>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      fullName: "Van Huu Toan",
-      phoneNumber: "0123456789",
-      email: "asd@gmail.com",
+      // fullName: "Van Huu Toan",
+      // phoneNumber: "0123456789",
+      // email: "asd@gmail.com",
+      // password: "123As@"
+      fullName: "Nguyen Quoc Dai",
+      phoneNumber: "0112223333",
+      email: "nguyenquocdai@gmail.com",
       password: "123As@"
     }
   })

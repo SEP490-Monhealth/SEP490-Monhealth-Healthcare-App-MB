@@ -53,6 +53,36 @@ export const getAllConsultants = async (
   }
 }
 
+export const getConsultantByUserId = async (
+  userId: string | undefined
+): Promise<ConsultantType> => {
+  try {
+    const response = await monAPI.get(`/consultants/user/${userId}`)
+
+    const { success, message, data } = response.data
+
+    if (success) {
+      return data as ConsultantType
+    } else {
+      throw {
+        isCustomError: true,
+        message: message || "Không thể lấy thông tin tư vấn viên"
+      }
+    }
+  } catch (error: any) {
+    if (axios.isAxiosError(error)) {
+      console.log("Lỗi từ server:", error.response?.data || error.message)
+      throw error
+    } else {
+      console.log("Lỗi không phải Axios:", error)
+      throw {
+        isCustomError: true,
+        message: "Đã xảy ra lỗi không mong muốn"
+      }
+    }
+  }
+}
+
 export const getConsultantById = async (
   consultantId: string | undefined
 ): Promise<ConsultantType> => {
