@@ -89,10 +89,7 @@ function UserInformationScreen() {
   ]
 
   const handleUpdateUser = () => {
-    router.push({
-      pathname: "/settings/user/information/update",
-      params: { userId }
-    })
+    router.push(`/settings/user/${userId}/information/update`)
   }
 
   return (

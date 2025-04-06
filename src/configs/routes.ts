@@ -64,7 +64,7 @@ export const userProfileRoutes: RouteType[] = [
     icon: NotificationStatus
   },
   {
-    route: (userId: string) => `/settings/user/${userId}/privacy`,
+    route: "/settings/privacy",
     label: "Bảo mật và quyền riêng tư",
     icon: Lock1
   }
@@ -101,8 +101,7 @@ export const consultantProfileRoutes: RouteType[] = [
     icon: NotificationStatus
   },
   {
-    route: (consultantId: string) =>
-      `/settings/consultant/${consultantId}/privacy`,
+    route: "/settings/privacy",
     label: "Bảo mật và quyền riêng tư",
     icon: Lock1
   }
