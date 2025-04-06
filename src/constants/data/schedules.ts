@@ -3,7 +3,7 @@ import {
   RecurringDayEnum,
   ScheduleTimeSlotStatusEnum,
   ScheduleTypeEnum
-} from "./enum/Schedule"
+} from "../enum/Schedule"
 
 // POST api/v1/schedules
 const createSchedule1 = {

@@ -48,17 +48,17 @@ function SignUpScreen() {
     handleSubmit,
     formState: { errors }
   } = useForm<RegisterType>({
-    resolver: zodResolver(registerSchema)
-    // defaultValues: {
-    //   // fullName: "Van Huu Toan",
-    //   // phoneNumber: "0123456789",
-    //   // email: "asd@gmail.com",
-    //   // password: "123As@"
-    //   fullName: "Dang Tien Hoang",
-    //   phoneNumber: "0112223333",
-    //   email: "toilavikhuan@gmail.com",
-    //   password: "123As@"
-    // }
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      // fullName: "Van Huu Toan",
+      // phoneNumber: "0123456789",
+      // email: "asd@gmail.com",
+      // password: "123As@"
+      fullName: "Nguyen Quoc Dai",
+      phoneNumber: "0112223333",
+      email: "nguyenquocdai@gmail.com",
+      password: "123As@"
+    }
   })
 
   const handleSignIn = () => router.replace(`/auth/sign-in?userType=${role}`)

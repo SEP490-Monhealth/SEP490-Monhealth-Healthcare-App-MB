@@ -1,5 +1,6 @@
 {
   "expo": {
+    "owner": "vanhuutoan27",
     "name": "monhealth",
     "slug": "monhealth",
     "scheme": "monhealth",
@@ -11,22 +12,38 @@
     "splash": {
       "image": "./public/assets/monhealth-splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#fff"
+      "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.vanhuutoan27.monhealth"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./public/assets/monhealth-splash.png",
-        "backgroundColor": "#fff"
+        "backgroundColor": "#ffffff"
       },
-      "package": "com.monapp.monhealth"
+      "package": "com.vanhuutoan27.monhealth"
     },
     "web": {
       "bundler": "metro",
-      "favicon": "./public/assets/favicon.png"
+      "favicon": "./public/assets/monhealth-splash.png"
     },
-    "plugins": ["expo-router"]
+    "plugins": ["expo-router"],
+    "updates": {
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/d10a089c-848d-4b64-98ac-1097860ed7ce"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "d10a089c-848d-4b64-98ac-1097860ed7ce"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    }
   }
 }

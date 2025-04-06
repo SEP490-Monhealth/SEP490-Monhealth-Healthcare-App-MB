@@ -3,6 +3,8 @@ import React, { useRef, useState } from "react"
 import { SafeAreaView, TouchableWithoutFeedback, View } from "react-native"
 import { Keyboard } from "react-native"
 
+import { useLocalSearchParams } from "expo-router"
+
 import { LoadingScreen } from "@/app/loading"
 import { zodResolver } from "@hookform/resolvers/zod"
 import DateTimePicker, {
@@ -29,8 +31,6 @@ import { TimeSlotSelector } from "@/components/local/setup/TimeSlotSelector"
 import { COLORS } from "@/constants/color"
 import { RecurringDayEnum, ScheduleTypeEnum } from "@/constants/enum/Schedule"
 
-import { useAuth } from "@/contexts/AuthContext"
-
 import {
   useCreateSchedule,
   useGetAllScheduleTimeSlots
@@ -47,8 +47,7 @@ interface SelectedTimeSlots {
 }
 
 function ScheduleCreateScreen() {
-  const { user } = useAuth()
-  const consultantId = user?.consultantId
+  const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
 
   const { mutate: createSchedule } = useCreateSchedule()
 
@@ -56,7 +55,7 @@ function ScheduleCreateScreen() {
     useGetAllScheduleTimeSlots()
 
   const SheetRef = useRef<SheetRefProps>(null)
-  const sheetHeight = 480
+  const sheetHeight = 640
 
   const now = new Date()
   now.setUTCHours(now.getUTCHours() + 7)
@@ -350,7 +349,7 @@ function ScheduleCreateScreen() {
 
         <Sheet ref={SheetRef} dynamicHeight={sheetHeight}>
           <VStack center>
-            {/* <View className="w-full">
+            <View className="w-full">
               <Input
                 value={""}
                 label="Thời lượng"
@@ -359,7 +358,7 @@ function ScheduleCreateScreen() {
                 keyboardType="numeric"
                 canClearText
               />
-            </View> */}
+            </View>
 
             <DateTimePicker
               value={selectedTime}

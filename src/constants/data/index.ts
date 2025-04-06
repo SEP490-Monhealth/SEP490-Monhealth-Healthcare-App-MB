@@ -21,27 +21,14 @@ import {
   TrendingUp
 } from "lucide-react-native"
 
-import { BookingStatusEnum } from "./enum/Booking"
-import { DishTypeEnum, MealTypeEnum } from "./enum/Food"
-import { GenderEnum } from "./enum/Gender"
-import { GoalTypeEnum } from "./enum/Goal"
-import { RecurringDayEnum, ScheduleTimeSlotStatusEnum } from "./enum/Schedule"
-import { DifficultyLevelEnum } from "./enum/Workout"
-
-const { height: SCREEN_HEIGHT } = Dimensions.get("window")
+import { BookingStatusEnum } from "../enum/Booking"
+import { DishTypeEnum, MealTypeEnum } from "../enum/Food"
+import { GenderEnum } from "../enum/Gender"
+import { GoalTypeEnum } from "../enum/Goal"
+import { RecurringDayEnum, ScheduleTimeSlotStatusEnum } from "../enum/Schedule"
+import { DifficultyLevelEnum } from "../enum/Workout"
 
 export const DATA = {
-  SHEET_HEIGHTS: {
-    MIN_HEIGHT: 160,
-    MAX_HEIGHT:
-      (typeof SCREEN_HEIGHT !== "undefined" ? SCREEN_HEIGHT : 800) * 0.8,
-    ITEM_HEIGHT: (length: number) => {
-      if (length === 3) return 80
-      if (length > 4) return 70
-      if (length > 5) return 60
-      return 100
-    }
-  },
   MEALS: [
     {
       label: "Bữa sáng",
