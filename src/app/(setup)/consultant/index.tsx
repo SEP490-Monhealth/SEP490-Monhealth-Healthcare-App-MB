@@ -72,7 +72,7 @@ function SetupConsultantScreen() {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 
   // const [selectedGroup, setSelectedGroup] = useState<string | null>(null)
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date())
   const [dateType, setDateType] = useState<"issueDate" | "expiryDate">()
 
   // const expertiseData =
@@ -168,7 +168,7 @@ function SetupConsultantScreen() {
     if (date && dateType) {
       const finalDate = date || new Date()
       const isoDate = formatUTCDate(finalDate)
-      setSelectedDate(date)
+      setSelectedDate(finalDate)
       setValue(dateType, isoDate)
     }
   }
@@ -213,6 +213,12 @@ function SetupConsultantScreen() {
   // }
   const openDateSheet = (inputType: "issueDate" | "expiryDate") => {
     setDateType(inputType)
+
+    const currentValue = getValues(inputType)
+
+    const initialDate = currentValue ? new Date(currentValue) : new Date()
+    setSelectedDate(initialDate)
+
     DateSheetRef.current?.scrollTo(-dateSheetHeight)
   }
   const openUploadSheet = () =>
@@ -354,15 +360,18 @@ function SetupConsultantScreen() {
         <Sheet ref={DateSheetRef} dynamicHeight={dateSheetHeight}>
           <VStack center>
             <DateTimePicker
-              value={selectedDate || new Date()}
+              value={selectedDate}
               mode="date"
               display="spinner"
               minimumDate={
-                dateType === "expiryDate" &&
-                getValues("issueDate") &&
-                !isNaN(new Date(getValues("issueDate")).getTime())
+                dateType === "expiryDate" && getValues("issueDate")
                   ? new Date(getValues("issueDate"))
-                  : new Date(1904, 0, 1)
+                  : undefined
+              }
+              maximumDate={
+                dateType === "issueDate" && getValues("expiryDate")
+                  ? new Date(getValues("expiryDate"))
+                  : undefined
               }
               onChange={handleDateSelect}
               locale="vi"

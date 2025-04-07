@@ -1,16 +1,18 @@
 import React from "react"
 
+import { get } from "lodash"
 import { Control, FieldValues, useController } from "react-hook-form"
 
-import { Chip, ScrollArea, VStack } from "@/components/global/atoms"
+import { Chip, ErrorText, ScrollArea, VStack } from "@/components/global/atoms"
 
 import { sampleExpertiseData } from "@/constants/data/expertise"
 
 interface SetupExpertiseProps {
   control: Control<FieldValues>
+  errors: any
 }
 
-function SetupExpertise({ control }: SetupExpertiseProps) {
+function SetupExpertise({ control, errors }: SetupExpertiseProps) {
   const expertiseData = sampleExpertiseData
 
   const { field } = useController({
@@ -22,9 +24,13 @@ function SetupExpertise({ control }: SetupExpertiseProps) {
     field.onChange(value)
   }
 
+  const errorMessage = get(errors, "expertise.message", null)
+
   return (
     <ScrollArea>
       <VStack gap={12}>
+        {errorMessage && <ErrorText text={errorMessage} />}
+
         {expertiseData.map((expertise) => (
           <Chip
             key={expertise.expertiseId}

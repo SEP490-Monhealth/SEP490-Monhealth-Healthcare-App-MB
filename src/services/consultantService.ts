@@ -55,7 +55,7 @@ export const getAllConsultants = async (
 
 export const getConsultantByUserId = async (
   userId: string | undefined
-): Promise<ConsultantType> => {
+): Promise<ConsultantType | null> => {
   try {
     const response = await monAPI.get(`/consultants/user/${userId}`)
 
@@ -71,6 +71,10 @@ export const getConsultantByUserId = async (
     }
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
+      if (error.response && error.response.status === 404) {
+        return null
+      }
+
       console.log("Lỗi từ server:", error.response?.data || error.message)
       throw error
     } else {

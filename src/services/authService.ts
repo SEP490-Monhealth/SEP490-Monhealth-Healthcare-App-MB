@@ -148,6 +148,10 @@ export const whoIAm = async (showModal?: (message: string) => void) => {
     return data
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
+      if (error.response && error.response.status === 404) {
+        return null
+      }
+
       if (showModal) showModal("Đã xảy ra lỗi không mong muốn")
 
       console.log(
