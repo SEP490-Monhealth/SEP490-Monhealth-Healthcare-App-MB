@@ -1,11 +1,6 @@
 import React, { useEffect, useRef, useState } from "react"
 
-import {
-  Dimensions,
-  Keyboard,
-  SafeAreaView,
-  TouchableWithoutFeedback
-} from "react-native"
+import { Keyboard, SafeAreaView, TouchableWithoutFeedback } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -30,7 +25,6 @@ import { CustomHeader, StepHeader } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
-import { sampleExpertiseGroupData } from "@/constants/data/expertise"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -53,8 +47,6 @@ import SetupExpertise from "./expertise"
 import SetupImage from "./images"
 import SetupInformation from "./information"
 
-const { height: SCREEN_HEIGHT } = Dimensions.get("window")
-
 interface SetupStepsProps {
   step: number
   title: string
@@ -76,16 +68,16 @@ function SetupConsultantScreen() {
   const DateSheetRef = useRef<SheetRefProps>(null)
   const UploadSheetRef = useRef<SheetRefProps>(null)
 
-  const [expertiseSheetHeight, setExpertiseSheetHeight] = useState<number>(320)
+  // const [expertiseSheetHeight, setExpertiseSheetHeight] = useState<number>(320)
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 
-  const [selectedGroup, setSelectedGroup] = useState<string | null>(null)
+  // const [selectedGroup, setSelectedGroup] = useState<string | null>(null)
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [dateType, setDateType] = useState<"issueDate" | "expiryDate">()
 
-  const expertiseData =
-    sampleExpertiseGroupData.find((group) => group.groupId === selectedGroup)
-      ?.expertise || []
+  // const expertiseData =
+  //   sampleExpertiseGroupData.find((group) => group.groupId === selectedGroup)
+  //     ?.expertise || []
 
   const dateSheetHeight = 300
   const uploadSheetHeight = 200
@@ -190,35 +182,35 @@ function SetupConsultantScreen() {
     }
   }, [imageUrls, setValue])
 
-  const calculateSheetHeight = (expertiseLength: number) => {
-    const minHeight = 160
-    const maxHeight = SCREEN_HEIGHT * 0.8
-    let itemHeight = 100
+  // const calculateSheetHeight = (expertiseLength: number) => {
+  //   const minHeight = 160
+  //   const maxHeight = SCREEN_HEIGHT * 0.8
+  //   let itemHeight = 100
 
-    if (expertiseLength === 3) {
-      itemHeight = 80
-    } else if (expertiseLength >= 4 && expertiseLength <= 5) {
-      itemHeight = 70
-    } else if (expertiseLength > 5) {
-      itemHeight = 60
-    }
+  //   if (expertiseLength === 3) {
+  //     itemHeight = 80
+  //   } else if (expertiseLength >= 4 && expertiseLength <= 5) {
+  //     itemHeight = 70
+  //   } else if (expertiseLength > 5) {
+  //     itemHeight = 60
+  //   }
 
-    return Math.min(
-      Math.max(itemHeight * expertiseLength, minHeight),
-      maxHeight
-    )
-  }
+  //   return Math.min(
+  //     Math.max(itemHeight * expertiseLength, minHeight),
+  //     maxHeight
+  //   )
+  // }
 
-  const openExpertiseSheet = (group: string) => {
-    setSelectedGroup(group)
+  // const openExpertiseSheet = (group: string) => {
+  //   setSelectedGroup(group)
 
-    const expertiseList =
-      sampleExpertiseGroupData.find((g) => g.groupId === group)?.expertise || []
-    const calculatedHeight = calculateSheetHeight(expertiseList.length)
+  //   const expertiseList =
+  //     sampleExpertiseGroupData.find((g) => g.groupId === group)?.expertise || []
+  //   const calculatedHeight = calculateSheetHeight(expertiseList.length)
 
-    setExpertiseSheetHeight(calculatedHeight)
-    ExpertiseSheetRef.current?.scrollTo(-calculatedHeight)
-  }
+  //   setExpertiseSheetHeight(calculatedHeight)
+  //   ExpertiseSheetRef.current?.scrollTo(-calculatedHeight)
+  // }
   const openDateSheet = (inputType: "issueDate" | "expiryDate") => {
     setDateType(inputType)
     DateSheetRef.current?.scrollTo(-dateSheetHeight)
@@ -260,6 +252,12 @@ function SetupConsultantScreen() {
     setIsLoading(true)
 
     try {
+      const formValues = getValues()
+
+      Object.keys(formValues).forEach((key) => {
+        updateField(key, formValues[key])
+      })
+
       const currentImageUrls = imageUrls || []
 
       const processedImageUrls = currentImageUrls
@@ -314,7 +312,7 @@ function SetupConsultantScreen() {
             onBackPress={handleBack}
           />
 
-          <Content className="mt-2">
+          <Content className="mt-2 pb-24">
             <StepHeader
               title={currentStepData.title}
               description={currentStepData.description}
@@ -324,7 +322,7 @@ function SetupConsultantScreen() {
               control={control}
               setValue={setValue}
               errors={errors}
-              openExpertiseSheet={openExpertiseSheet}
+              // openExpertiseSheet={openExpertiseSheet}
               openDateSheet={openDateSheet}
               openUploadSheet={openUploadSheet}
             />
@@ -340,7 +338,7 @@ function SetupConsultantScreen() {
           </Content>
         </Container>
 
-        <Sheet ref={ExpertiseSheetRef} dynamicHeight={expertiseSheetHeight}>
+        {/* <Sheet ref={ExpertiseSheetRef} dynamicHeight={expertiseSheetHeight}>
           {expertiseData.map((item) => (
             <SheetSelect
               key={item.expertiseId}
@@ -351,7 +349,7 @@ function SetupConsultantScreen() {
               }}
             />
           ))}
-        </Sheet>
+        </Sheet> */}
 
         <Sheet ref={DateSheetRef} dynamicHeight={dateSheetHeight}>
           <VStack center>

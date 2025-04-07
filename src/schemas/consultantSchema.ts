@@ -1,6 +1,7 @@
 import { z } from "zod"
 
 import { timestampFields, uuidSchema } from "./baseSchema"
+import { expertiseSchema } from "./expertiseSchema"
 import { userSchema } from "./userSchema"
 
 const consultantSchema = z.object({
@@ -19,10 +20,7 @@ const consultantSchema = z.object({
     .int()
     .min(0, { message: "Kinh nghiệm phải là số nguyên không âm" }),
 
-  expertise: z
-    .string()
-    .nonempty({ message: "Tên chuyên môn không được để trống" })
-    .max(100, { message: "Tên chuyên môn không được dài hơn 100 ký tự" }),
+  expertise: expertiseSchema.shape.name,
 
   bookingCount: z.number().default(0),
   ratingCount: z.number().default(0),

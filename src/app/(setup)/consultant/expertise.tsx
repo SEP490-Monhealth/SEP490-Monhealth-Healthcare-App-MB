@@ -2,51 +2,40 @@ import React from "react"
 
 import { Control, FieldValues, useController } from "react-hook-form"
 
-import { Chip, ErrorText, ScrollArea, VStack } from "@/components/global/atoms"
+import { Chip, ScrollArea, VStack } from "@/components/global/atoms"
 
-import { sampleExpertiseGroupData } from "@/constants/data/expertise"
+import { sampleExpertiseData } from "@/constants/data/expertise"
 
 interface SetupExpertiseProps {
   control: Control<FieldValues>
-  errors: any
-  openExpertiseSheet(group: string): void
 }
 
-function SetupExpertise({
-  control,
-  errors,
-  openExpertiseSheet
-}: SetupExpertiseProps) {
-  const expertiseData = sampleExpertiseGroupData
+function SetupExpertise({ control }: SetupExpertiseProps) {
+  const expertiseData = sampleExpertiseData
 
   const { field } = useController({
     name: "expertise",
     control
   })
 
+  const handleSelectExpertise = (value: string) => {
+    field.onChange(value)
+  }
+
   return (
     <ScrollArea>
-      <VStack gap={12} className="pb-28">
-        {expertiseData.map((group) => {
-          const isSelected = group.expertise.some(
-            (exp) => exp.name === field.value
-          )
-
-          return (
-            <Chip
-              key={group.groupId}
-              size="lg"
-              border
-              borderWidth={2}
-              label={group.name}
-              description={group.description}
-              selected={isSelected}
-              onPress={() => openExpertiseSheet(group.groupId)}
-            />
-          )
-        })}
-
-        {errors.expertise && <ErrorText text={errors.expertise?.message} />}
+      <VStack gap={12}>
+        {expertiseData.map((expertise) => (
+          <Chip
+            key={expertise.expertiseId}
+            size="lg"
+            border
+            borderWidth={2}
+            label={expertise.name}
+            selected={field.value?.includes(expertise.name)}
+            onPress={() => handleSelectExpertise(expertise.name)}
+          />
+        ))}
       </VStack>
     </ScrollArea>
   )

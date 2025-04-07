@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-import { TimeSlot } from "@/components/local/setup/TimeSlotSelector"
+import { TimeSlot } from "@/components/local/schedules/TimeSlotSelector"
 
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"

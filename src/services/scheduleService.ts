@@ -1,6 +1,6 @@
 import axios from "axios"
 
-import { TimeSlot } from "@/components/local/setup/TimeSlotSelector"
+import { TimeSlot } from "@/components/local/schedules/TimeSlotSelector"
 
 import monAPI from "@/lib/monAPI"
 
