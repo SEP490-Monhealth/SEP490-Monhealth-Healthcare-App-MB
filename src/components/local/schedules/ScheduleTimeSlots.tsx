@@ -4,29 +4,21 @@ import { Text, TouchableOpacity, View } from "react-native"
 
 import { HStack, VStack } from "@/components/global/atoms"
 
-import {
-  RecurringDayEnum,
-  ScheduleTimeSlotStatusEnum
-} from "@/constants/enum/Schedule"
+import { RecurringDayEnum } from "@/constants/enum/Schedule"
 
-import { ScheduleType } from "@/schemas/scheduleSchema"
+import { ScheduleType, TimeSlotType } from "@/schemas/scheduleSchema"
 
 import { getDayLabel } from "@/utils/helpers"
 
-export type TimeSlotItem = {
-  startTime: string
-  endTime: string
-  status: ScheduleTimeSlotStatusEnum
-}
-
 interface TimeSlotButtonProps {
-  timeSlot: TimeSlotItem
+  timeSlot: TimeSlotType
 }
 
 const TimeSlotButton = ({ timeSlot }: TimeSlotButtonProps) => {
   const formatTime = (time: string) => {
     const [hour, minute] = time.split(":")
-    return `${hour}h${minute}`
+    const formattedHour = parseInt(hour, 10)
+    return minute === "00" ? `${formattedHour}h` : `${formattedHour}h${minute}`
   }
 
   return (
