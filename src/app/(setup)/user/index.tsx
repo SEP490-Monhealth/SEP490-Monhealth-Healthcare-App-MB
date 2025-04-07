@@ -190,7 +190,7 @@ function SetupUserScreen() {
 
     const { weight } = useSetupStore.getState()
 
-    if (weight !== undefined) {
+    if (weight !== null) {
       if (goalType === GoalTypeEnum.WeightLoss && weightGoal >= weight) {
         setError("weightGoal", {
           type: "manual",
@@ -251,11 +251,11 @@ function SetupUserScreen() {
         const newUserFoodsData = { ...userData, ...allergyData }
         const userAllergiesData = allergyData
 
-        console.log("new metric data", JSON.stringify(newMetricData, null, 2))
-        console.log(
-          "new user foods data",
-          JSON.stringify(newUserFoodsData, null, 2)
-        )
+        // console.log("new metric data", JSON.stringify(newMetricData, null, 2))
+        // console.log(
+        //   "new user foods data",
+        //   JSON.stringify(newUserFoodsData, null, 2)
+        // )
 
         await addAllergies(userAllergiesData.allergies)
 

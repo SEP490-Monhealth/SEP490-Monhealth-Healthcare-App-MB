@@ -7,6 +7,7 @@ import { router, useLocalSearchParams } from "expo-router"
 import { Button, Container, Progress, VStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/color"
+import { clearAllStorage } from "@/stores/localStorageStore"
 
 interface OnboardingType {
   title: string
@@ -63,6 +64,8 @@ function OnboardingScreen() {
   const [currentIndex, setCurrentIndex] = useState(0)
 
   const activeOnboardingData = onboardingData[role ?? "Member"]
+
+  // clearAllStorage()
 
   const handleNext = () => {
     if (currentIndex < activeOnboardingData.length - 1) {

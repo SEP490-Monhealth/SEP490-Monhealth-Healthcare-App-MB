@@ -5,12 +5,12 @@ import { GoalTypeEnum } from "@/constants/enum/Goal"
 
 interface SetupStoreState {
   dateOfBirth: string
-  gender: GenderEnum | undefined
-  height: number | undefined
-  weight: number | undefined
+  gender: GenderEnum | null
+  height: number
+  weight: number
   activityLevel: 1.2 | 1.375 | 1.55 | 1.725 | 1.9
-  weightGoal: number | undefined
-  goalType: GoalTypeEnum | undefined
+  weightGoal: number
+  goalType: GoalTypeEnum | null
   caloriesRatio: number
   // categories: string[]
   allergies: string[]
@@ -42,12 +42,12 @@ export const useSetupStore = create<SetupStoreState>((set) => ({
   // allergies: ["Hải sản có vỏ", "Sữa", "Các loại hạt", "Đậu nành", "Hạt vừng"],
 
   dateOfBirth: "",
-  gender: undefined,
-  height: undefined,
-  weight: undefined,
+  gender: null,
+  height: 0,
+  weight: 0,
   activityLevel: 1.2,
-  weightGoal: undefined,
-  goalType: undefined,
+  weightGoal: 0,
+  goalType: null,
   caloriesRatio: 1,
   // categories: [],
   allergies: [],
@@ -61,12 +61,12 @@ export const useSetupStore = create<SetupStoreState>((set) => ({
   reset: () =>
     set({
       dateOfBirth: "",
-      gender: undefined,
-      height: undefined,
-      weight: undefined,
+      gender: null,
+      height: 0,
+      weight: 0,
       activityLevel: 1.2,
-      weightGoal: undefined,
-      goalType: undefined,
+      weightGoal: 0,
+      goalType: null,
       caloriesRatio: 1,
       // categories: [],
       allergies: []

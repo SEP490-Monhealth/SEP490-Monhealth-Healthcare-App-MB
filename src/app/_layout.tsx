@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 
 import { GestureHandlerRootView } from "react-native-gesture-handler"
 import {
@@ -12,7 +12,7 @@ import * as Notifications from "expo-notifications"
 import { SplashScreen, Stack } from "expo-router"
 import { StatusBar } from "expo-status-bar"
 
-import { registerForPushNotificationsAsync } from "@/configs/notification"
+import { setupNotifications } from "@/configs/notification"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 import { AuthProvider } from "@/providers/AuthProvider"
@@ -25,44 +25,64 @@ import { MonFonts } from "@/styles/typography"
 
 import "../styles/globals.css"
 
+// Ngăn không cho màn hình splash tự động ẩn
 SplashScreen.preventAutoHideAsync()
 
+// Cấu hình logger cho Reanimated
 configureReanimatedLogger({
   strict: false,
   level: ReanimatedLogLevel.warn
 })
 
+// Cấu hình xử lý thông báo
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true, // Hiển thị cảnh báo khi nhận thông báo
+    shouldPlaySound: true, // Phát âm thanh khi nhận thông báo
+    shouldSetBadge: true // Hiển thị badge trên icon ứng dụng
+  })
+})
+
 function AppLayout() {
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: 1, // Thử lại yêu cầu 1 lần nếu thất bại
+        refetchOnWindowFocus: false // Không tải lại dữ liệu khi cửa sổ được focus
+      }
+    }
+  })
 
-  const [fontsLoaded, error] = useFonts(MonFonts)
+  const [expoPushToken, setExpoPushToken] = useState<string>("")
+  const [fontsLoaded, fontError] = useFonts(MonFonts)
 
+  // console.log(expoPushToken)
+
+  // Xử lý việc tải font
   useEffect(() => {
-    if (error) throw error
-
-    if (fontsLoaded) {
+    if (fontError) {
+      console.error("Lỗi khi tải font:", fontError)
+    } else if (fontsLoaded) {
       SplashScreen.hideAsync()
     }
-  }, [fontsLoaded, error])
+  }, [fontsLoaded, fontError])
 
+  // Thiết lập thông báo
   useEffect(() => {
-    registerForPushNotificationsAsync()
+    // Thiết lập thông báo và lưu hàm giải phóng
+    const unsubscribeNotifications = setupNotifications(setExpoPushToken)
 
-    const foregroundSubscription =
-      Notifications.addNotificationReceivedListener((notification) => {
-        console.log("Thông báo nhận được ở foreground:", notification)
-      })
-
+    // Trả về hàm giải phóng cho useEffect
     return () => {
-      foregroundSubscription.remove()
+      // Gọi hàm giải phóng được trả về từ setupNotifications
+      if (unsubscribeNotifications) {
+        unsubscribeNotifications()
+      }
     }
   }, [])
 
+  // Không hiển thị gì khi font đang tải
   if (!fontsLoaded) {
-    return null
-  }
-
-  if (!fontsLoaded && !error) {
     return null
   }
 

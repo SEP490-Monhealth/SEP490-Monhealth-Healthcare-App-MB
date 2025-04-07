@@ -22,7 +22,7 @@ function SetupActivityLevel({ control }: SetupActivityLevelProps) {
   }
 
   return (
-    <VStack gap={12}>
+    <VStack>
       {DATA.ACTIVITY_LEVELS.map((activity) => {
         const Icon = activity.icon
 

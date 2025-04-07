@@ -9,7 +9,7 @@ interface CreateFoodState {
   name: string
   description: string
   portion: PortionType
-  nutrition?: NutritionType
+  nutrition: NutritionType
   isPublic: boolean
 
   updateField: (field: string, value: any) => void

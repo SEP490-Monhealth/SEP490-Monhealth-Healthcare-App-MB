@@ -21,3 +21,8 @@ export const timeSchema = z.object({
       message: "Thời gian phải có định dạng HH:mm"
     })
 })
+
+export const validEnumWithNull = (enumType: any, fieldName: string) =>
+  z.union([enumType, z.null()]).refine((val) => val !== null, {
+    message: `Vui lòng chọn ${fieldName}`
+  })

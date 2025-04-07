@@ -1,9 +1,8 @@
-import React from "react"
+import React, { useEffect } from "react"
 
-import { get } from "lodash"
 import { Control, FieldValues, useController } from "react-hook-form"
 
-import { Chip, ErrorText, VStack } from "@/components/global/atoms"
+import { Chip, VStack } from "@/components/global/atoms"
 
 import { DATA } from "@/constants/data"
 import { GoalTypeEnum } from "@/constants/enum/Goal"
@@ -12,10 +11,9 @@ import { useSetupStore } from "@/stores/setupStore"
 
 interface SetupCaloriesRatioProps {
   control: Control<FieldValues>
-  errors: any
 }
 
-function SetupCaloriesRatio({ control, errors }: SetupCaloriesRatioProps) {
+function SetupCaloriesRatio({ control }: SetupCaloriesRatioProps) {
   const { goalType } = useSetupStore()
 
   const { field } = useController({
@@ -29,11 +27,19 @@ function SetupCaloriesRatio({ control, errors }: SetupCaloriesRatioProps) {
     return false
   })
 
+  useEffect(() => {
+    if (!field.value) {
+      if (goalType === GoalTypeEnum.WeightGain) {
+        field.onChange(1.2)
+      } else if (goalType === GoalTypeEnum.WeightLoss) {
+        field.onChange(0.8)
+      }
+    }
+  }, [goalType, field])
+
   const handleSelectRatio = (value: number) => {
     field.onChange(value)
   }
-
-  const errorMessage = get(errors, "goalType.message", null)
 
   return (
     <VStack gap={12}>
@@ -49,8 +55,6 @@ function SetupCaloriesRatio({ control, errors }: SetupCaloriesRatioProps) {
           onPress={() => handleSelectRatio(ratio.value)}
         />
       ))}
-
-      {errors.goalType && <ErrorText text={errorMessage} />}
     </VStack>
   )
 }

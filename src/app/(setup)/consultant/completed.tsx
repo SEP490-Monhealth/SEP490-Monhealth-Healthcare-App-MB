@@ -10,7 +10,9 @@ import { ErrorDisplay } from "@/components/global/molecules"
 function SetupCompleted() {
   const router = useRouter()
 
-  const handleDone = () => router.replace("/(tabs)/consultant/dashboard")
+  const handleDone = () => {
+    router.replace("/(tabs)/consultant/dashboard")
+  }
 
   return (
     <Container>

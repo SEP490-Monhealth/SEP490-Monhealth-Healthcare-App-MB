@@ -1,11 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react"
 
-import { Text } from "react-native"
-
 import { useLocalSearchParams } from "expo-router"
 
 import { LoadingOverlay, LoadingScreen } from "@/app/loading"
-import { registerForPushNotificationsAsync } from "@/configs/notification"
 
 import {
   Container,
@@ -59,23 +56,11 @@ function HomeScreen() {
 
   // if (loading) return <LoadingScreen />
 
-  const [token, setToken] = useState<string | null>(null)
-
-  useEffect(() => {
-    const getToken = async () => {
-      const expoToken = await registerForPushNotificationsAsync()
-      setToken(expoToken)
-    }
-    getToken()
-  }, [])
-
   return (
     <Container>
       <LoadingOverlay visible={overlayLoading} />
 
       <HomeHeader userId={userId} fullName={fullName} />
-
-      <Text>{token || "Chưa có token"}</Text>
 
       <ScrollArea>
         <Content className="pb-12">

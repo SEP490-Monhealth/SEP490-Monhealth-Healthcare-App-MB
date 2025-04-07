@@ -1,5 +1,7 @@
 import React from "react"
 
+import { View } from "react-native"
+
 import DateTimePicker, {
   DateTimePickerEvent
 } from "@react-native-community/datetimepicker"
@@ -38,21 +40,23 @@ function SetupDateOfBirth({
     }
   }
 
-  const errorMessage = get(errors, "dateOfBirth.message", null)
+  const errorMessage = get(errors, "dateOfBirth.message", "")
 
   return (
-    <VStack center gap={12}>
-      <DateTimePicker
-        value={new Date(field.value || Date.now())}
-        mode="date"
-        display="spinner"
-        onChange={onChange}
-        minimumDate={new Date(1904, 0, 1)}
-        maximumDate={new Date()}
-        locale="vi"
-      />
-
+    <VStack gap={12}>
       {errors.dateOfBirth && <ErrorText text={errorMessage} />}
+
+      <View className="items-center">
+        <DateTimePicker
+          value={new Date(field.value || Date.now())}
+          mode="date"
+          display="spinner"
+          onChange={onChange}
+          minimumDate={new Date(1904, 0, 1)}
+          maximumDate={new Date()}
+          locale="vi"
+        />
+      </View>
     </VStack>
   )
 }

@@ -28,6 +28,8 @@ function SetupGender({ control, errors }: SetupGenderProps) {
 
   return (
     <VStack gap={12}>
+      {errorMessage && <ErrorText text={errorMessage} />}
+
       {DATA.GENDERS.map((gender) => {
         const Icon = gender.icon
 
@@ -51,8 +53,6 @@ function SetupGender({ control, errors }: SetupGenderProps) {
           />
         )
       })}
-
-      {errors.gender && <ErrorText text={errorMessage} />}
     </VStack>
   )
 }

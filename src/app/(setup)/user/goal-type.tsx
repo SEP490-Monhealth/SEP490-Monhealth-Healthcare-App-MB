@@ -1,9 +1,8 @@
 import React, { useEffect } from "react"
 
-import { get } from "lodash"
 import { Control, FieldValues, useController } from "react-hook-form"
 
-import { Chip, ErrorText, VStack } from "@/components/global/atoms"
+import { Chip, VStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
@@ -15,10 +14,9 @@ import { calculateBMI } from "@/utils/calculations"
 
 interface SetupGoalTypeProps {
   control: Control<FieldValues>
-  errors: any
 }
 
-function SetupGoalType({ control, errors }: SetupGoalTypeProps) {
+function SetupGoalType({ control }: SetupGoalTypeProps) {
   const { weight, height } = useSetupStore()
 
   const { field } = useController({
@@ -50,8 +48,6 @@ function SetupGoalType({ control, errors }: SetupGoalTypeProps) {
     field.onChange(value)
   }
 
-  const errorMessage = get(errors, "goalType.message", null)
-
   return (
     <VStack gap={12}>
       {DATA.GOALS.map((goal) => {
@@ -78,8 +74,6 @@ function SetupGoalType({ control, errors }: SetupGoalTypeProps) {
           />
         )
       })}
-
-      {errors.goalType && <ErrorText text={errorMessage} />}
     </VStack>
   )
 }

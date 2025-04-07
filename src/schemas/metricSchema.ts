@@ -2,7 +2,7 @@ import { z } from "zod"
 
 import { GenderSchemaEnum } from "@/constants/enum/Gender"
 
-import { timestampFields, uuidSchema } from "./baseSchema"
+import { timestampFields, uuidSchema, validEnumWithNull } from "./baseSchema"
 import { goalSchema } from "./goalSchema"
 
 const activityLevels = [1.2, 1.375, 1.55, 1.725, 1.9]
@@ -25,19 +25,19 @@ const metricSchema = z.object({
       (date) => {
         const birthDate = new Date(date)
         const age = new Date().getFullYear() - birthDate.getFullYear()
-        return age >= 15 && age <= 120
+        return age >= 12 && age <= 100
       },
-      { message: "Tuổi phải nằm trong khoảng từ 15 đến 120" }
+      { message: "Tuổi phải nằm trong khoảng từ 12 đến 100" }
     ),
-  gender: GenderSchemaEnum,
+  gender: validEnumWithNull(GenderSchemaEnum, "giới tính"),
   height: z
     .number()
-    .min(50, { message: "Chiều cao phải lớn hơn 50 cm" })
-    .max(250, { message: "Chiều cao không được lớn hơn 250 cm" }),
+    .min(100, { message: "Chiều cao phải lớn hơn 100 cm" })
+    .max(220, { message: "Chiều cao không được lớn hơn 220 cm" }),
   weight: z
     .number()
-    .min(10, { message: "Cân nặng phải lớn hơn 10 kg" })
-    .max(500, { message: "Cân nặng không được lớn hơn 500 kg" }),
+    .min(30, { message: "Cân nặng phải lớn hơn 30 kg" })
+    .max(200, { message: "Cân nặng không được lớn hơn 200 kg" }),
   activityLevel: z.number().refine((val) => activityLevels.includes(val), {
     message: `Hệ số hoạt động không hợp lệ. Các giá trị hợp lệ: ${activityLevels.join(", ")}`
   }),
@@ -62,26 +62,32 @@ export const genderSetupSchema = metricSchema.pick({
   gender: true
 })
 
-export const heightWeightSetupSchema = metricSchema
-  .pick({
-    height: true,
-    weight: true
-  })
-  .extend({
-    height: z
-      .union([z.string(), z.number()])
-      .refine((val) => /^\d*\.?\d*$/.test(val.toString()), {
-        message: "Chiều cao phải là số hợp lệ"
-      })
-      .transform((val) => parseFloat(val.toString()) || 0),
-
-    weight: z
-      .union([z.string(), z.number()])
-      .refine((val) => /^\d*\.?\d*$/.test(val.toString()), {
-        message: "Cân nặng phải là số hợp lệ"
-      })
-      .transform((val) => parseFloat(val.toString()) || 0)
-  })
+export const heightWeightSetupSchema = z.object({
+  height: z
+    .union([z.string(), z.number()])
+    .refine(
+      (val) =>
+        val !== null &&
+        /^\d*\.?\d*$/.test(val.toString()) &&
+        parseFloat(val.toString()) > 0,
+      {
+        message: "Chiều cao phải là số dương hợp lệ"
+      }
+    )
+    .transform((val) => (val !== null ? parseFloat(val.toString()) : 0)),
+  weight: z
+    .union([z.string(), z.number()])
+    .refine(
+      (val) =>
+        val !== null &&
+        /^\d*\.?\d*$/.test(val.toString()) &&
+        parseFloat(val.toString()) > 0,
+      {
+        message: "Cân nặng phải là số dương hợp lệ"
+      }
+    )
+    .transform((val) => (val !== null ? parseFloat(val.toString()) : 0))
+})
 
 export const activityLevelSetupSchema = metricSchema.pick({
   activityLevel: true
@@ -94,9 +100,13 @@ export const weightGoalSetupSchema = metricSchema
   .extend({
     weightGoal: z
       .union([z.string(), z.number()])
-      .refine((val) => /^\d*\.?\d*$/.test(val.toString()), {
-        message: "Mục tiêu cân nặng phải là số hợp lệ"
-      })
+      .refine(
+        (val) =>
+          /^\d*\.?\d*$/.test(val.toString()) && parseFloat(val.toString()) > 0,
+        {
+          message: "Mục tiêu cân nặng phải là số dương hợp lệ"
+        }
+      )
       .transform((val) => parseFloat(val.toString()) || 0)
   })
 

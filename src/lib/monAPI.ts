@@ -35,7 +35,7 @@ monAPI.interceptors.response.use(
     return response
   },
   (error) => {
-    console.log("Lỗi khi nhận phản hồi:", error)
+    // console.log("Lỗi khi nhận phản hồi:", error)
     if (error.response?.status === 401) {
       console.log(
         "Không được phép truy cập, chuyển hướng đến trang đăng nhập..."
