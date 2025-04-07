@@ -25,8 +25,7 @@ import {
 } from "@/components/global/atoms"
 import { Header, Section } from "@/components/global/organisms"
 
-import { DaySelector } from "@/components/local/setup/DaySelector"
-import { TimeSlotSelector } from "@/components/local/setup/TimeSlotSelector"
+import { DaySelector, TimeSlotSelector } from "@/components/local/schedules"
 
 import { COLORS } from "@/constants/color"
 import { RecurringDayEnum, ScheduleTypeEnum } from "@/constants/enum/Schedule"
