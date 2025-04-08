@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Text, View } from "react-native"
+import { View } from "react-native"
 
 import { useLocalSearchParams, useRouter } from "expo-router"
 
@@ -20,21 +20,27 @@ const PaymentResult = () => {
   const { user, setUser } = useAuth()
   const userId = user?.userId
 
-  console.log("Params từ PayOS:", params)
+  // console.log("Params từ PayOS:", params)
 
-  const isCancel = params.cancel === "true"
   const isSuccess = params.code === "00" && params.status === "PAID"
 
   const { mutate: completePayment } = useCompletePayment()
 
   const handleDone = async () => {
-    // await completePayment(params.id, {
-    //   onSuccess: async () => {
-    //     const updatedUser = await whoIAm()
-    //     setUser(updatedUser)
-    //     router.replace(`/settings/user/${userId}/information`)
-    //   }
-    // })
+    await completePayment(
+      {
+        orderCode: Array.isArray(params.orderCode)
+          ? params.orderCode[0]
+          : params.orderCode
+      },
+      {
+        onSuccess: async () => {
+          const updatedUser = await whoIAm()
+          setUser(updatedUser)
+          router.replace(`/settings/user/${userId}/information`)
+        }
+      }
+    )
   }
 
   return (

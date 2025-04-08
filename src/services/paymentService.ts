@@ -88,11 +88,11 @@ export const createPayment = async (
 }
 
 export const completePayment = async (
-  paymentId: string,
+  orderCode: string,
   showModal: (message: string) => void
 ): Promise<string> => {
   try {
-    const response = await monAPI.patch(`/payments/${paymentId}/completed`)
+    const response = await monAPI.patch(`/payments/${orderCode}/completed`)
 
     const { success, message } = response.data
 

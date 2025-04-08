@@ -72,10 +72,10 @@ export const useCompletePayment = () => {
   const handleError = useError()
   const { showModal } = useModal()
 
-  return useMutation<string, Error, { paymentId: string }>({
-    mutationFn: async ({ paymentId }) => {
+  return useMutation<string, Error, { orderCode: string }>({
+    mutationFn: async ({ orderCode }) => {
       try {
-        return await completePayment(paymentId, showModal)
+        return await completePayment(orderCode, showModal)
       } catch (error) {
         handleError(error)
         throw error
@@ -83,6 +83,8 @@ export const useCompletePayment = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["payments"] })
+      queryClient.invalidateQueries({ queryKey: ["dailyMeal"] })
+      queryClient.invalidateQueries({ queryKey: ["remaining-booking"] })
     }
   })
 }
