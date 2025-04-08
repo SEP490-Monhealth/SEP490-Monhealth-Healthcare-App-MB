@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react"
 
 import { Linking, Text, View } from "react-native"
 
-import { router } from "expo-router"
-
 import { LoadingScreen } from "@/app/loading"
 import { Award } from "iconsax-react-native"
 
@@ -22,13 +20,8 @@ import { COLORS } from "@/constants/color"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useCompletePayment, useCreatePayment } from "@/hooks/usePayment"
-import {
-  useGetAllSubscriptions,
-  useUpgradeSubscription
-} from "@/hooks/useSubscription"
-
-import { whoIAm } from "@/services/authService"
+import { useCreatePayment } from "@/hooks/usePayment"
+import { useGetAllSubscriptions } from "@/hooks/useSubscription"
 
 import { parseJSON } from "@/utils/helpers"
 
@@ -38,7 +31,6 @@ function SubscriptionScreen() {
   const userSubscription = user?.subscription
 
   const { mutate: createPayment } = useCreatePayment()
-  const { mutate: completePayment } = useCompletePayment()
 
   const { data: subscriptionsData, isLoading } = useGetAllSubscriptions(
     1,
@@ -52,7 +44,6 @@ function SubscriptionScreen() {
   const [selectedSubscriptionId, setSelectedSubscriptionId] = useState<
     string | null
   >(null)
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
   const [warningModalVisible, setWarningModalVisible] = useState<boolean>(false)
   const [downgradeModalVisible, setDowngradeModalVisible] =
     useState<boolean>(false)
@@ -93,21 +84,12 @@ function SubscriptionScreen() {
         amount: 2000
       }
 
-      console.log("Final Data:", JSON.stringify(paymentData, null, 2))
+      // console.log("Final Data:", JSON.stringify(paymentData, null, 2))
 
       createPayment(paymentData, {
         onSuccess: async (response) => {
-          const { paymentUrl, paymentId } = response.data
-          if (paymentUrl) {
-            Linking.openURL(paymentUrl).catch((err) =>
-              console.error("Failed to open URL:", err)
-            )
-          }
-          setTimeout(() => {
-            if (paymentId) {
-              checkPaymentStatus(paymentId)
-            }
-          }, 3000)
+          const { paymentUrl } = response.data
+          Linking.openURL(paymentUrl)
         }
       })
     }

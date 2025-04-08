@@ -72,7 +72,7 @@ export const useCompletePayment = () => {
   const handleError = useError()
   const { showModal } = useModal()
 
-  return useMutation<string, Error, { paymentId: string | undefined }>({
+  return useMutation<string, Error, { paymentId: string }>({
     mutationFn: async ({ paymentId }) => {
       try {
         return await completePayment(paymentId, showModal)

@@ -1,5 +1,7 @@
 import { z } from "zod"
 
+import { VerificationStatusSchemaEnum } from "@/constants/enum/Consultant"
+
 import { timestampFields, uuidSchema } from "./baseSchema"
 import { expertiseSchema } from "./expertiseSchema"
 import { userSchema } from "./userSchema"
@@ -18,7 +20,7 @@ const consultantSchema = z.object({
   experience: z
     .number()
     .int()
-    .min(0, { message: "Kinh nghiệm phải là số nguyên không âm" }),
+    .positive({ message: "Kinh nghiệm phải là số nguyên dương" }),
 
   expertise: expertiseSchema.shape.name,
 
@@ -28,7 +30,7 @@ const consultantSchema = z.object({
 
   views: z.number(),
 
-  isVerified: z.boolean(),
+  verificationStatus: VerificationStatusSchemaEnum,
   status: z.boolean(),
 
   ...timestampFields

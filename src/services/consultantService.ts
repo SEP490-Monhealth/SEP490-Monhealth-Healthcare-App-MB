@@ -36,7 +36,7 @@ export const getAllConsultants = async (
     } else {
       throw {
         isCustomError: true,
-        message: message || "Không thể lấy danh sách tư vấn viên"
+        message: message || "Không thể lấy danh sách chuyên viên"
       }
     }
   } catch (error: any) {
@@ -66,7 +66,7 @@ export const getConsultantByUserId = async (
     } else {
       throw {
         isCustomError: true,
-        message: message || "Không thể lấy thông tin tư vấn viên"
+        message: message || "Không thể lấy thông tin chuyên viên"
       }
     }
   } catch (error: any) {
@@ -127,21 +127,21 @@ export const createConsultant = async (
     const { success, message } = response.data
 
     if (!success) {
-      showModal(message || "Tạo tư vấn viên thất bại")
+      showModal(message || "Tạo chuyên viên thất bại")
 
       throw {
         isCustomError: true,
-        message: message || "Không thể tạo tư vấn viên"
+        message: message || "Không thể tạo chuyên viên"
       }
     }
 
-    showModal(message || "Tạo tư vấn viên thành công")
+    // showModal(message || "Tạo chuyên viên thành công")
 
     console.log(message)
     return message
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
-      showModal("Đã xảy ra lỗi khi tạo tư vấn viên")
+      showModal("Đã xảy ra lỗi khi tạo chuyên viên")
 
       console.log("Lỗi từ server:", error.response?.data || error.message)
       throw error

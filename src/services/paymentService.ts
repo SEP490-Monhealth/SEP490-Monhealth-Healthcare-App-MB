@@ -67,8 +67,6 @@ export const createPayment = async (
       }
     }
 
-    showModal(message || "Tạo thanh toán thành công")
-
     console.log(message)
     return { message, data }
   } catch (error: any) {
@@ -90,11 +88,11 @@ export const createPayment = async (
 }
 
 export const completePayment = async (
-  paymentId: string | undefined,
+  paymentId: string,
   showModal: (message: string) => void
 ): Promise<string> => {
   try {
-    const response = await monAPI.post(`/payments/${paymentId}/completed`)
+    const response = await monAPI.patch(`/payments/${paymentId}/completed`)
 
     const { success, message } = response.data
 

@@ -40,6 +40,7 @@ import { ListItem } from "@/components/local/tabs/settings"
 
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
+import { VerificationStatus } from "@/constants/enum/Consultant"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -71,7 +72,10 @@ function ConsultantInformationScreen() {
     { label: consultantData?.phoneNumber, icon: CallCalling },
     { label: consultantData?.email, icon: Sms },
     {
-      label: consultantData?.isVerified ? "Đã xác thực" : "Chưa được xác thực",
+      label:
+        consultantData?.verificationStatus === VerificationStatus.Verified
+          ? "Đã xác thực"
+          : "Chưa được xác thực",
       icon: Verify
     }
   ]
