@@ -59,10 +59,6 @@ function DashboardScreen() {
     setOverlayLoading(isLoading)
   }, [])
 
-  if (!walletData || isWalletLoading) {
-    return <LoadingScreen />
-  }
-
   return (
     <Container>
       <LoadingOverlay visible={overlayLoading} />
@@ -70,7 +66,7 @@ function DashboardScreen() {
       <DashboardHeader
         consultantId={consultantId}
         fullName={fullName}
-        balance={walletData.balance}
+        balance={walletData?.balance || 0}
       />
 
       <ScrollArea>
