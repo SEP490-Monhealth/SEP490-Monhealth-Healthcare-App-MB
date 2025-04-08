@@ -2,11 +2,14 @@ import React from "react"
 
 import { Image, Text, TouchableOpacity, View } from "react-native"
 
-import { WithdrawalRequestStatusEnum } from "@/constants/enum/WithdrawalRequest"
+import {
+  WithdrawalRequestStatusEnum,
+  getWithdrawalRequestStatusMeta
+} from "@/constants/enum/WithdrawalRequest"
 
 import { formatCurrency, formatDateTime } from "@/utils/formatters"
 
-import { Card } from "../atoms"
+import { Card, VStack } from "../atoms"
 
 interface WithdrawalRequestCardProps {
   description: string
@@ -21,6 +24,9 @@ export const WithdrawalRequestCard = ({
   time,
   status
 }: WithdrawalRequestCardProps) => {
+  const { label: withdrawalRequestStatusLabel } =
+    getWithdrawalRequestStatusMeta(status)
+
   return (
     <Card className="flex-row items-center justify-between">
       <TouchableOpacity
@@ -43,9 +49,15 @@ export const WithdrawalRequestCard = ({
         </Text>
       </View>
 
-      <Text className="font-tmedium text-sm text-primary">
-        {formatCurrency(amount)}
-      </Text>
+      <VStack gap={4}>
+        <Text className="font-tmedium text-sm text-primary">
+          {formatCurrency(amount)}
+        </Text>
+
+        <Text className="font-tregular text-accent">
+          {withdrawalRequestStatusLabel}
+        </Text>
+      </VStack>
     </Card>
   )
 }

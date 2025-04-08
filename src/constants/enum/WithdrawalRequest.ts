@@ -21,20 +21,20 @@ const withdrawalRequestStatusMap: Record<
     color: "#f97316" // orange 500
   },
   [WithdrawalRequestStatusEnum.Approved]: {
+    label: "Đã chấp nhận",
+    color: "#16a34a" // green 600
+  },
+  [WithdrawalRequestStatusEnum.Completed]: {
     label: "Đã thanh toán",
     color: "#3b82f6" // blue 500
   },
-  [WithdrawalRequestStatusEnum.Completed]: {
-    label: "Thất bại",
-    color: "#ef4444" // red 500
-  },
   [WithdrawalRequestStatusEnum.Rejected]: {
-    label: "Hoàn trả",
-    color: "#ca8a04" // yellow 600
+    label: "Đã từ chối",
+    color: "#ef4444" // red 500
   }
 }
 
-export function getPaymentStatusMeta(
+export function getWithdrawalRequestStatusMeta(
   status: WithdrawalRequestStatusEnum
 ): EnumMeta {
   return withdrawalRequestStatusMap[status]
