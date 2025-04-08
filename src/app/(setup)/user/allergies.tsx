@@ -38,6 +38,7 @@ function SetupAllergies({ control }: SetupAllergiesProps) {
             border
             borderWidth={2}
             label={allergy.name}
+            description={allergy.description}
             selected={field.value?.includes(allergy.name)}
             onPress={() => handleSelectAllergies(allergy.name)}
           />

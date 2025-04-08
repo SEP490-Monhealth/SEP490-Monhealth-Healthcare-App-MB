@@ -79,7 +79,7 @@ export const Chip = ({
       activeOpacity={0.8}
       onPress={onPress}
       className={cn(
-        `flex-row bg-card items-center ${
+        `flex-row items-center bg-card ${
           border ? borderStyle.border : variantStyle.container
         } ${sizeStyle.container}`,
         className
