@@ -172,8 +172,7 @@ export const checkAuthentication = async (
     if (!userInfo) {
       setIsAuthenticated(false)
       setUser(null)
-      setRole("Member")
-      router.replace("/auth/sign-in")
+      router.replace("/onboarding/welcome")
       return
     }
 
@@ -188,7 +187,7 @@ export const checkAuthentication = async (
     setUser(null)
 
     await delay(2000)
-    setRole("Member")
-    router.replace("/auth/sign-in")
+    setUser(null)
+    router.replace("/onboarding/welcome")
   }
 }

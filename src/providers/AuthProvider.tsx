@@ -100,7 +100,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       await AsyncStorage.removeItem("refreshToken")
       setIsAuthenticated(false)
       setUser(null)
-      router.replace("/auth/sign-in")
+      router.replace("/onboarding/welcome")
     } catch (error) {
       handleError(error)
       throw error

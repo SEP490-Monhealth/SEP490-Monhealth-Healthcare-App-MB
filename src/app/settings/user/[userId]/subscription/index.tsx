@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 
-import { Text, View } from "react-native"
+import { Linking, Text, View } from "react-native"
 
 import { router } from "expo-router"
 
@@ -33,14 +33,12 @@ import { whoIAm } from "@/services/authService"
 import { parseJSON } from "@/utils/helpers"
 
 function SubscriptionScreen() {
-  const { user, setUser } = useAuth()
+  const { user } = useAuth()
   const userId = user?.userId
   const userSubscription = user?.subscription
 
   const { mutate: createPayment } = useCreatePayment()
   const { mutate: completePayment } = useCompletePayment()
-
-  const { mutate: upgradeSubscription } = useUpgradeSubscription()
 
   const { data: subscriptionsData, isLoading } = useGetAllSubscriptions(
     1,
@@ -85,26 +83,33 @@ function SubscriptionScreen() {
     setSelectedSubscriptionId(subscriptionId)
   }
 
-  const handleUpgrade = () => {
+  const handlePayment = () => {
     if (userId && selectedSubscriptionId) {
-      const upgradeData = {
+      const paymentData = {
         userId: userId,
-        subscriptionId: selectedSubscriptionId
+        subscriptionId: selectedSubscriptionId,
+        description: `Thanh toán nâng cấp gói ${selectedPlan?.name}`,
+        // amount: selectedPlan?.price
+        amount: 2000
       }
 
-      console.log("Final Data:", JSON.stringify(upgradeData, null, 2))
+      console.log("Final Data:", JSON.stringify(paymentData, null, 2))
 
-      // upgradeSubscription(upgradeData, {
-      //   onSuccess: async () => {
-      //     try {
-      //       const updatedUser = await whoIAm()
-      //       setUser(updatedUser)
-      //       router.replace(`/settings/user/${userId}/information`)
-      //     } catch (error) {
-      //       console.error("Lỗi cập nhật user sau upgrade:", error)
-      //     }
-      //   }
-      // })
+      createPayment(paymentData, {
+        onSuccess: async (response) => {
+          const { paymentUrl, paymentId } = response.data
+          if (paymentUrl) {
+            Linking.openURL(paymentUrl).catch((err) =>
+              console.error("Failed to open URL:", err)
+            )
+          }
+          setTimeout(() => {
+            if (paymentId) {
+              checkPaymentStatus(paymentId)
+            }
+          }, 3000)
+        }
+      })
     }
   }
 
@@ -123,9 +128,13 @@ function SubscriptionScreen() {
     if (selectedPlanIndex < currentPlanIndex) {
       setDowngradeModalVisible(true)
     } else if (selectedPlanIndex > currentPlanIndex) {
-      setWarningModalVisible(true)
+      if (userSubscription === subscriptionsData.subscriptions[0].name) {
+        handlePayment()
+      } else {
+        setWarningModalVisible(true)
+      }
     } else {
-      setIsModalVisible(true)
+      handlePayment()
     }
   }
 
@@ -195,26 +204,23 @@ function SubscriptionScreen() {
         </Button>
       </Container>
 
-      <Modal
+      {/* <Modal
         isVisible={isModalVisible}
         title="Nâng cấp"
         description="Bạn có chắc chắn muốn nâng cấp gói không?"
         confirmText="Đồng ý"
         cancelText="Hủy"
-        onConfirm={handleUpgrade}
+        onConfirm={handlePayment}
         onClose={() => setIsModalVisible(false)}
-      />
+      /> */}
 
       <Modal
         isVisible={warningModalVisible}
-        title="Cảnh báo nâng cấp"
-        description="Bạn đang nâng cấp lên gói cao hơn. Bạn có chắc chắn muốn tiếp tục?"
+        title="Nâng cấp"
+        description="Bạn có chắc chắn muốn nâng cấp gói không?"
         confirmText="Đồng ý"
         cancelText="Hủy"
-        onConfirm={() => {
-          setWarningModalVisible(false)
-          setIsModalVisible(true)
-        }}
+        onConfirm={handlePayment}
         onClose={() => setWarningModalVisible(false)}
       />
 

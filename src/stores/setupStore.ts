@@ -20,12 +20,12 @@ interface SetupStoreState {
 }
 
 export const useSetupStore = create<SetupStoreState>((set) => ({
-  // dateOfBirth: "2003-08-27T00:00:00.000Z",
-  // gender: GenderEnum.Male,
-  // height: 170,
-  // weight: 50,
-  // activityLevel: 1.375,
-  // weightGoal: 66,
+  dateOfBirth: "2003-08-27T00:00:00.000Z",
+  gender: GenderEnum.Male,
+  height: 170,
+  weight: 50,
+  activityLevel: 1.375,
+  weightGoal: 66,
   // goalType: GoalTypeEnum.WeightGain,
   // caloriesRatio: 1.2,
 
@@ -41,14 +41,14 @@ export const useSetupStore = create<SetupStoreState>((set) => ({
 
   // allergies: ["Hải sản có vỏ", "Sữa", "Các loại hạt", "Đậu nành", "Hạt vừng"],
 
-  dateOfBirth: "",
-  gender: null,
-  height: 0,
-  weight: 0,
-  activityLevel: 1.2,
-  weightGoal: 0,
+  // dateOfBirth: "",
+  // gender: null,
+  // height: 0,
+  // weight: 0,
+  // activityLevel: 1.2,
+  // weightGoal: 0,
   goalType: null,
-  caloriesRatio: 1,
+  caloriesRatio: 0,
   // categories: [],
   allergies: [],
 
@@ -67,7 +67,7 @@ export const useSetupStore = create<SetupStoreState>((set) => ({
       activityLevel: 1.2,
       weightGoal: 0,
       goalType: null,
-      caloriesRatio: 1,
+      caloriesRatio: 0,
       // categories: [],
       allergies: []
     })
