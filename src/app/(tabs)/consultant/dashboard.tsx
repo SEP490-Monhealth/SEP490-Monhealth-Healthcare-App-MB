@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useState } from "react"
 
 import { useLocalSearchParams } from "expo-router"
 
+import { LoadingOverlay, LoadingScreen } from "@/app/loading"
+
 import {
   Container,
   Content,
@@ -21,6 +23,8 @@ import { DashboardHeader } from "@/components/local/tabs/home/DashboardHeader"
 
 import { useAuth } from "@/contexts/AuthContext"
 
+import { useGetWalletByConsultantId } from "@/hooks/useWallet"
+
 function DashboardScreen() {
   const { tab } = useLocalSearchParams<{ tab: string }>()
 
@@ -33,6 +37,9 @@ function DashboardScreen() {
   const [activeTab, setActiveTab] = useState(tab || "spending")
   const [loading, setLoading] = useState(false)
   const [overlayLoading, setOverlayLoading] = useState(false)
+
+  const { data: walletData, isLoading: isWalletLoading } =
+    useGetWalletByConsultantId(consultantId)
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab)
@@ -52,12 +59,18 @@ function DashboardScreen() {
     setOverlayLoading(isLoading)
   }, [])
 
+  if (!walletData || isWalletLoading) {
+    return <LoadingScreen />
+  }
+
   return (
     <Container>
+      <LoadingOverlay visible={overlayLoading} />
+
       <DashboardHeader
         consultantId={consultantId}
         fullName={fullName}
-        balance={100000}
+        balance={walletData.balance}
       />
 
       <ScrollArea>
