@@ -1,6 +1,11 @@
 import React, { useRef, useState } from "react"
 
-import { SafeAreaView, TouchableWithoutFeedback, View } from "react-native"
+import {
+  SafeAreaView,
+  Text,
+  TouchableWithoutFeedback,
+  View
+} from "react-native"
 import { Keyboard } from "react-native"
 
 import { useLocalSearchParams } from "expo-router"
@@ -30,45 +35,60 @@ import { COLORS } from "@/constants/color"
 import { ScheduleTypeEnum } from "@/constants/enum/Schedule"
 
 import { useGetSchedulesByConsultantId } from "@/hooks/useSchedule"
+import { useCreateTimeSlot } from "@/hooks/useTimeSlot"
 
 function SchedulesScreen() {
   const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
 
-  const { data: schedulesData, isLoading } =
-    useGetSchedulesByConsultantId(consultantId)
-
   const SheetRef = useRef<SheetRefProps>(null)
-  const sheetHeight = 640
+  const sheetHeight = 460
+
+  const getDefaultTime = (): Date => {
+    const now = new Date()
+    now.setHours(18, 0, 0, 0)
+    return now
+  }
 
   const [scheduleType, setScheduleType] = useState<ScheduleTypeEnum>(
     ScheduleTypeEnum.OneTime
   )
-  const [selectedTime, setSelectedTime] = useState<Date>(new Date())
+  const [selectedTime, setSelectedTime] = useState<Date>(getDefaultTime)
+  const [duration, setDuration] = useState<number>(0)
+  const [errorMessage, setErrorMessage] = useState<string>("")
+  const [currentScheduleId, setCurrentScheduleId] = useState<string>("")
+
+  const { mutate: createTimeSlot } = useCreateTimeSlot()
+
+  const { data: schedulesData, isLoading } = useGetSchedulesByConsultantId(
+    consultantId,
+    scheduleType
+  )
+
+  // console.log(JSON.stringify(schedulesData, null, 2))
 
   const handleScheduleTypeChange = (value: boolean) => {
     const newType = value
       ? ScheduleTypeEnum.Recurring
       : ScheduleTypeEnum.OneTime
-
     setScheduleType(newType)
   }
 
   const handleTimeChange = (
     _event: DateTimePickerEvent,
-    selectedTime?: Date
+    selectedTimeValue?: Date
   ) => {
-    if (selectedTime) {
-      const hours = selectedTime.getHours()
-      const minutes = selectedTime.getMinutes()
+    if (selectedTimeValue) {
+      const hours = selectedTimeValue.getHours()
+      const minutes = selectedTimeValue.getMinutes()
 
       if (hours < 8 || hours > 18 || (hours === 18 && minutes > 0)) {
-        const validTime = new Date(selectedTime)
+        const validTime = new Date(selectedTimeValue)
         if (hours < 8) validTime.setHours(8, 0)
         if (hours > 18 || (hours === 18 && minutes > 0))
           validTime.setHours(18, 0)
         setSelectedTime(validTime)
       } else {
-        setSelectedTime(selectedTime)
+        setSelectedTime(selectedTimeValue)
       }
     }
   }
@@ -84,8 +104,45 @@ function SchedulesScreen() {
     return newDate
   }
 
-  const handleConfirmTime = () => {
-    SheetRef.current?.scrollTo(0)
+  const formatTime = (date: Date): string => {
+    const hours = date.getHours().toString().padStart(2, "0")
+    const minutes = date.getMinutes().toString().padStart(2, "0")
+    return `${hours}:${minutes}:00`
+  }
+
+  const handleOpenTimeSheet = (scheduleId: string | null, day: number) => {
+    setCurrentScheduleId(scheduleId || "")
+    SheetRef.current?.scrollTo(-sheetHeight)
+  }
+
+  const handleConfirmTime = async () => {
+    setErrorMessage("")
+    if (duration <= 0) {
+      setErrorMessage(
+        "Thời lượng không hợp lệ, vui lòng nhập số phút lớn hơn 0!"
+      )
+      return
+    }
+
+    const startTime = selectedTime
+    const endTime = new Date(selectedTime.getTime() + duration * 60 * 1000)
+
+    const finalData = {
+      scheduleId: currentScheduleId,
+      startTime: formatTime(startTime),
+      endTime: formatTime(endTime)
+    }
+
+    // console.log(JSON.stringify(finalData, null, 2))
+
+    await createTimeSlot(finalData, {
+      onSuccess: () => {
+        setSelectedTime(getDefaultTime())
+        setDuration(0)
+        setCurrentScheduleId("")
+        SheetRef.current?.scrollTo(0)
+      }
+    })
   }
 
   if (!schedulesData || isLoading) {
@@ -123,11 +180,12 @@ function SchedulesScreen() {
 
                 <Section label="Chọn khung giờ" margin={false} />
 
+                {/* 
+                    Giả sử ScheduleTimeSlots sẽ gọi: onOpenTimeSheet(scheduleId)
+                */}
                 <ScheduleTimeSlots
                   data={schedulesData}
-                  onOpenTimeSheet={() =>
-                    SheetRef.current?.scrollTo(-sheetHeight)
-                  }
+                  onOpenTimeSheet={handleOpenTimeSheet}
                 />
               </VStack>
             </ScrollArea>
@@ -138,12 +196,18 @@ function SchedulesScreen() {
           <VStack center>
             <View className="w-full">
               <Input
-                value={""}
+                value={duration ? duration.toString() : ""}
                 label="Thời lượng"
                 placeholder="VD: 45"
-                onChangeText={() => {}}
+                onChangeText={(text) => setDuration(parseFloat(text) || 0)}
                 keyboardType="numeric"
+                endIcon={
+                  <Text className="font-tregular text-sm text-accent">
+                    phút
+                  </Text>
+                }
                 canClearText
+                errorMessage={errorMessage}
               />
             </View>
 

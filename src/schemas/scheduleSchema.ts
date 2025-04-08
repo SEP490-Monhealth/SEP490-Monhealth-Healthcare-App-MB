@@ -14,6 +14,12 @@ const timeSlotSchema = z.object({
   status: ScheduleTimeSlotStatusSchemaEnum
 })
 
+export const createTimeSlotSchema = z.object({
+  scheduleId: uuidSchema,
+  startTime: timeSchema.shape.time,
+  endTime: timeSchema.shape.time
+})
+
 const scheduleSchema = z.object({
   scheduleId: uuidSchema,
   consultantId: uuidSchema,
@@ -44,6 +50,7 @@ export const createScheduleSchema = z.object({
 })
 
 export type TimeSlotType = z.infer<typeof timeSlotSchema>
+export type CreateTimeSlotType = z.infer<typeof createTimeSlotSchema>
 
 export type ScheduleType = z.infer<typeof scheduleSchema>
 export type CreateScheduleType = z.infer<typeof createScheduleSchema>

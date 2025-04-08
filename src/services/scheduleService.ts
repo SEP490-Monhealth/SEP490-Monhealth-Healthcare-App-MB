@@ -2,6 +2,8 @@ import axios from "axios"
 
 import { TimeSlot } from "@/components/local/schedules/TimeSlotSelector"
 
+import { ScheduleTypeEnum } from "@/constants/enum/Schedule"
+
 import monAPI from "@/lib/monAPI"
 
 import { CreateScheduleType, ScheduleType } from "@/schemas/scheduleSchema"
@@ -36,11 +38,12 @@ export const getAllScheduleTimeSlots = async (): Promise<TimeSlot[]> => {
 
 export const getSchedulesByConsultantId = async (
   consultantId: string | undefined,
+  type?: ScheduleTypeEnum,
   date?: string
 ): Promise<ScheduleType[]> => {
   try {
     const response = await monAPI.get(`/schedules/consultant/${consultantId}`, {
-      params: { date }
+      params: { type, date }
     })
 
     const { success, message, data } = response.data

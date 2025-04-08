@@ -53,7 +53,7 @@ interface DayTimeSlotsProps {
   scheduleData: ScheduleType[]
   day: number
   isLastDay: boolean
-  onAddTimeSlot: (day: number) => void
+  onAddTimeSlot: (scheduleId: string | null, day: number) => void
 }
 
 const DayTimeSlots = ({
@@ -96,7 +96,14 @@ const DayTimeSlots = ({
           />
         ))}
 
-        <AddTimeButton onPress={() => onAddTimeSlot(day)} />
+        <AddTimeButton
+          onPress={() =>
+            onAddTimeSlot(
+              scheduleForDay ? scheduleForDay.scheduleId : null,
+              day
+            )
+          }
+        />
       </View>
     </HStack>
   )
@@ -106,7 +113,7 @@ const MemoizedDayTimeSlots = memo(DayTimeSlots)
 
 interface ScheduleTimeSlotsProps {
   data: ScheduleType[]
-  onOpenTimeSheet: () => void
+  onOpenTimeSheet: (scheduleId: string | null, day: number) => void
 }
 
 export const ScheduleTimeSlots = ({
@@ -123,7 +130,7 @@ export const ScheduleTimeSlots = ({
           scheduleData={data}
           day={day}
           isLastDay={index === allDays.length - 1}
-          onAddTimeSlot={() => onOpenTimeSheet()}
+          onAddTimeSlot={(scheduleId, day) => onOpenTimeSheet(scheduleId, day)}
         />
       ))}
     </VStack>

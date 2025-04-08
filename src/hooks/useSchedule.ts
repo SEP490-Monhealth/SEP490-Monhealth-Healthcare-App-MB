@@ -2,6 +2,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { TimeSlot } from "@/components/local/schedules/TimeSlotSelector"
 
+import { ScheduleTypeEnum } from "@/constants/enum/Schedule"
+
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
 
@@ -32,15 +34,16 @@ export const useGetAllScheduleTimeSlots = () => {
 
 export const useGetSchedulesByConsultantId = (
   consultantId: string | undefined,
+  type?: ScheduleTypeEnum,
   date?: string
 ) => {
   const handleError = useError()
 
   return useQuery<ScheduleType[], Error>({
-    queryKey: ["schedules", consultantId, date],
+    queryKey: ["schedules", consultantId, type, date],
     queryFn: async () => {
       try {
-        return await getSchedulesByConsultantId(consultantId, date)
+        return await getSchedulesByConsultantId(consultantId, type, date)
       } catch (error) {
         handleError(error)
         throw error
