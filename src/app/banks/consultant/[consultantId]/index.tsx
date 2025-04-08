@@ -159,7 +159,7 @@ const BanksScreen = () => {
       <ListHeader>
         <Section
           label="Lịch sử rút tiền"
-          actionText={withdrawalRequestsData.length > 0 ? "Xem tất cả" : ""}
+          actionText="Xem tất cả"
           onPress={handleViewWithdrawalRequests}
         />
       </ListHeader>
