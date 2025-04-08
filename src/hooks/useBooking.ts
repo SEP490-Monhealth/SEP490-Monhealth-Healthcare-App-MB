@@ -94,7 +94,6 @@ export const useCreateBooking = () => {
 }
 
 export const useUpdateBookingStatus = () => {
-  const router = useRouter()
   const queryClient = useQueryClient()
   const handleError = useError()
   const { showModal } = useModal()
@@ -110,10 +109,8 @@ export const useUpdateBookingStatus = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["bookings"] })
-      router.replace({
-        pathname: "/bookings",
-        params: { tab: "confirmed" }
-      })
+      queryClient.invalidateQueries({ queryKey: ["bookings-consultant"] })
+      queryClient.invalidateQueries({ queryKey: ["bookings-user"] })
     }
   })
 }
@@ -138,6 +135,8 @@ export const useCancelBooking = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["bookings"] })
+      queryClient.invalidateQueries({ queryKey: ["bookings-consultant"] })
+      queryClient.invalidateQueries({ queryKey: ["bookings-user"] })
     }
   })
 }

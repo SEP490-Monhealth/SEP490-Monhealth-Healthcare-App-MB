@@ -75,26 +75,16 @@ function BookingsUserScreen() {
       setIsModalVisible(false)
 
       if (modalType === "cancel") {
-        router.push(`/bookings/cancel/${selectedBooking}`)
+        router.push(`/bookings/${selectedBooking}/cancel`)
       } else if (modalType === "complete") {
-        updateBookingStatus(
-          { bookingId: selectedBooking },
-          {
-            onSuccess: () => {
-              router.replace({
-                pathname: `/bookings/user/${userId}`,
-                params: { tab: "history" }
-              })
-            }
-          }
-        )
+        updateBookingStatus({ bookingId: selectedBooking })
       }
     }
     setSelectedBooking(null)
   }
 
   const handleReview = (bookingId: string) => {
-    router.push(`/bookings/review/${bookingId}`)
+    router.push(`/bookings/${bookingId}/review`)
   }
 
   if (!bookingsData || isLoading) {
@@ -104,7 +94,7 @@ function BookingsUserScreen() {
   return (
     <>
       <Container>
-        <Header back label="Lịch hẹn" />
+        <Header back label="Lịch hẹn đã tạo" />
 
         <Content className="mt-2">
           <ScrollArea className="flex-1">
@@ -145,7 +135,7 @@ function BookingsUserScreen() {
                   </VStack>
                 ) : (
                   <ErrorDisplay
-                    imageSource={require("../../../../../public/images/monhealth-no-data-image.png")}
+                    imageSource={require("../../../../../../public/images/monhealth-no-data-image.png")}
                     title="Không có lịch hẹn"
                     description="Không tìm thấy có lịch hẹn nào ở đây!"
                     marginTop={24}

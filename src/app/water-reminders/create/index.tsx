@@ -80,7 +80,7 @@ function WaterReminderCreateScreen() {
 
     addWaterReminder(finalData, {
       onSuccess: () => {
-        router.replace("/water-reminders")
+        router.back()
       }
     })
   }

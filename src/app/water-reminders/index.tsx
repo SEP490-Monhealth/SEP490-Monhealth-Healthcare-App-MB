@@ -109,10 +109,6 @@ function WaterRemindersScreen() {
     router.push(`/water-reminders/${waterReminderId}`)
   }
 
-  const handleBack = () => {
-    router.replace({ pathname: "/(tabs)/user/home", params: { tab: "water" } })
-  }
-
   if (!remindersData || isLoading) return <LoadingScreen />
 
   return (
@@ -120,7 +116,6 @@ function WaterRemindersScreen() {
       <View className="flex-1 px-6">
         <Header
           back
-          onBackPress={handleBack}
           label="Nhắc nhở uống nước"
           action={{
             icon: <Add size={24} color={COLORS.primary} />,

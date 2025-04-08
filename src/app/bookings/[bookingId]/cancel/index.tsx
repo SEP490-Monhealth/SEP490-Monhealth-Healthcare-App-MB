@@ -19,8 +19,6 @@ import {
 } from "@/components/global/atoms"
 import { Header, Section } from "@/components/global/organisms"
 
-import { useAuth } from "@/contexts/AuthContext"
-
 import { useCancelBooking } from "@/hooks/useBooking"
 
 import { CancelBookingType, cancelBookingSchema } from "@/schemas/bookingSchema"
@@ -38,10 +36,6 @@ const cancellationReasons = [
 function BookingCancelScreen() {
   const router = useRouter()
   const { bookingId } = useLocalSearchParams<{ bookingId: string }>()
-
-  const { user } = useAuth()
-  const userId = user?.userId
-  const userRole = user?.role
 
   const scrollViewRef = useRef<ScrollView>(null)
 
@@ -85,17 +79,7 @@ function BookingCancelScreen() {
       { bookingId, cancellationReason: cancel },
       {
         onSuccess: () => {
-          if (userRole === "Subscription Member") {
-            router.replace({
-              pathname: `/bookings/user/${userId}`,
-              params: { tab: "history" }
-            })
-          } else if (userRole === "Consultant") {
-            router.replace({
-              pathname: "/(tabs)/consultant/booking",
-              params: { tab: "cancelled" }
-            })
-          }
+          router.back()
         },
         onError: (error) => {
           alert("Đã xảy ra lỗi khi hủy lịch hẹn. Vui lòng thử lại.")

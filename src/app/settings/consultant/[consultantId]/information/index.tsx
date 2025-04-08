@@ -7,7 +7,7 @@ import {
   View
 } from "react-native"
 
-import { useRouter } from "expo-router"
+import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
 import {
@@ -42,8 +42,6 @@ import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
 import { VerificationStatus } from "@/constants/enum/Consultant"
 
-import { useAuth } from "@/contexts/AuthContext"
-
 import { useGetConsultantById } from "@/hooks/useConsultant"
 
 import { formatDate } from "@/utils/formatters"
@@ -51,8 +49,7 @@ import { formatDate } from "@/utils/formatters"
 function ConsultantInformationScreen() {
   const router = useRouter()
 
-  const { user } = useAuth()
-  const consultantId = user?.consultantId
+  const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
 
   const { data: consultantData, isLoading } = useGetConsultantById(consultantId)
 

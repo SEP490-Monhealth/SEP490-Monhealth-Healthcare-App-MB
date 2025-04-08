@@ -51,8 +51,6 @@ function ReviewCreateScreen() {
   const router = useRouter()
   const { bookingId } = useLocalSearchParams<{ bookingId: string }>()
 
-  // console.log(bookingId)
-
   const { user } = useAuth()
   const userId = user?.userId
 
@@ -111,14 +109,9 @@ function ReviewCreateScreen() {
     const comment = `${selectedReviews.join(" - ")}. ${reviewData.comment}`
     const finalData = { ...reviewData, comment: comment }
 
-    console.log("Final Data:", JSON.stringify(finalData, null, 2))
-
     await createReview(finalData, {
       onSuccess: () => {
-        router.replace({
-          pathname: `/bookings/user/${userId}`,
-          params: { tab: "history" }
-        })
+        router.back()
       }
     })
   }

@@ -3,6 +3,7 @@ import { DATA } from "@/constants/data"
 import { TipsData } from "@/constants/data/tips"
 import { BookingStatusEnum } from "@/constants/enum/Booking"
 import { MealTypeEnum } from "@/constants/enum/Food"
+import { PaymentStatusEnum } from "@/constants/enum/Payment"
 import { RecurringDayEnum } from "@/constants/enum/Schedule"
 import { DifficultyLevelEnum } from "@/constants/enum/Workout"
 
@@ -341,4 +342,22 @@ export const getMeasurementUnitLabel = (value: string): string => {
 
 export const getSubscriptionColor = (value: string): string => {
   return DATA.SUBSCRIPTIONS.find((item) => item.value === value)?.color || ""
+}
+
+/**
+ *
+ * @param status
+ * @returns
+ */
+export const getPaymentLabel = (status: PaymentStatusEnum): string => {
+  return DATA.PAYMENTS.find((item) => item.value === status)?.label || ""
+}
+
+/**
+ *
+ * @param status
+ * @returns
+ */
+export const getPaymentColor = (status: PaymentStatusEnum): string => {
+  return DATA.PAYMENTS.find((item) => item.value === status)?.color || ""
 }

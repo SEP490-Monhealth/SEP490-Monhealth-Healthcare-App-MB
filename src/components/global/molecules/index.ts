@@ -18,6 +18,7 @@ import { ListHeader } from "./ListHeader"
 import { MealCard } from "./MealCard"
 import { NotificationCard } from "./NotificationCard"
 import { NutritionCard } from "./NutritionCard"
+import { PaymentCard } from "./PaymentCard"
 import { NutritionItem } from "./NutritionItem"
 import { RatingStars } from "./RatingStars"
 import { ReviewCard } from "./ReviewCard"
@@ -51,6 +52,7 @@ export {
   MealCard,
   NotificationCard,
   NutritionCard,
+  PaymentCard,
   NutritionItem,
   RatingStars,
   ReviewCard,
