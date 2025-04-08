@@ -122,7 +122,7 @@ function PaymentScreen() {
             <ErrorDisplay
               imageSource={require("../../../../../../public/images/monhealth-no-data-image.png")}
               title="Không có dữ liệu"
-              description="Không tìm thấy lịch sử thanh toán nào ở đây!"
+              description="Không tìm thấy có thanh toán nào ở đây!"
               marginTop={24}
             />
           }

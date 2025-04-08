@@ -109,6 +109,8 @@ function ReviewCreateScreen() {
     const comment = `${selectedReviews.join(" - ")}. ${reviewData.comment}`
     const finalData = { ...reviewData, comment: comment }
 
+    // console.log("Final Data:", JSON.stringify(finalData, null, 2))
+
     await createReview(finalData, {
       onSuccess: () => {
         router.back()

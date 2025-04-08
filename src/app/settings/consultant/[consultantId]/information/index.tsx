@@ -42,6 +42,8 @@ import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
 import { VerificationStatus } from "@/constants/enum/Consultant"
 
+import { useAuth } from "@/contexts/AuthContext"
+
 import { useGetConsultantById } from "@/hooks/useConsultant"
 
 import { formatDate } from "@/utils/formatters"
@@ -49,7 +51,8 @@ import { formatDate } from "@/utils/formatters"
 function ConsultantInformationScreen() {
   const router = useRouter()
 
-  const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
+  const { user } = useAuth()
+  const consultantId = user?.consultantId
 
   const { data: consultantData, isLoading } = useGetConsultantById(consultantId)
 

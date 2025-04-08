@@ -59,7 +59,6 @@ export const userProfileRoutes: RouteType[] = [
     label: "Lịch sử thanh toán",
     icon: Wallet1
   },
-
   {
     route: (userId: string) => `/settings/user/${userId}/bookings`,
     label: "Lịch hẹn đã tạo",

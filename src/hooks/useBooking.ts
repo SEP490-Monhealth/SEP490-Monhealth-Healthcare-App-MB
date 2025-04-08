@@ -134,7 +134,6 @@ export const useCancelBooking = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["bookings"] })
       queryClient.invalidateQueries({ queryKey: ["bookings-consultant"] })
       queryClient.invalidateQueries({ queryKey: ["bookings-user"] })
     }

@@ -94,7 +94,7 @@ function BookingsUserScreen() {
   return (
     <>
       <Container>
-        <Header back label="Lịch hẹn đã tạo" />
+        <Header back label="Lịch hẹn" />
 
         <Content className="mt-2">
           <ScrollArea className="flex-1">
