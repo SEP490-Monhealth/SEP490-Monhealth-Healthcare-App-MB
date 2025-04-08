@@ -55,7 +55,7 @@ export const BookingCard = ({
           </HStack>
 
           <Text
-            className="font-tmedium text-sm text-accent"
+            className="mt-1 font-tmedium text-sm text-accent"
             numberOfLines={2}
             ellipsizeMode="tail"
           >

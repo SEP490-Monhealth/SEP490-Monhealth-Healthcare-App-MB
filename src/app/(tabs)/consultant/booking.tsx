@@ -76,17 +76,9 @@ function BookingsScreen() {
       setIsModalVisible(false)
 
       if (modalType === "cancel") {
-        router.push(`/bookings/cancel/${selectedBooking}`)
+        router.push(`/bookings/${selectedBooking}/cancel`)
       } else if (modalType === "confirm") {
-        updateBookingStatus(
-          { bookingId: selectedBooking },
-          {
-            onSuccess: () => {
-              console.log("Mutation succeeded")
-              handleTabChange("confirmed")
-            }
-          }
-        )
+        updateBookingStatus({ bookingId: selectedBooking })
       }
     }
     setSelectedBooking(null)

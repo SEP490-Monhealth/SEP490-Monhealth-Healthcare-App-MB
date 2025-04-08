@@ -23,6 +23,7 @@ import { BookingStatusEnum } from "../enum/Booking"
 import { DishTypeEnum, MealTypeEnum } from "../enum/Food"
 import { GenderEnum } from "../enum/Gender"
 import { GoalTypeEnum } from "../enum/Goal"
+import { PaymentStatusEnum } from "../enum/Payment"
 import { RecurringDayEnum, ScheduleTimeSlotStatusEnum } from "../enum/Schedule"
 import { DifficultyLevelEnum } from "../enum/Workout"
 
@@ -197,5 +198,27 @@ export const DATA = {
     { label: "Gói Cơ Bản", value: "Member", color: "#22c55e" },
     { label: "Gói Nâng Cao", value: "Subscription Member", color: "#eab308" },
     { label: "Gói Cao Cấp", value: "Subscription Member", color: "#ef4444" }
+  ],
+  PAYMENTS: [
+    {
+      label: "Chờ xác nhận",
+      value: PaymentStatusEnum.Pending,
+      color: "#ca8a04"
+    },
+    {
+      label: "Thành công",
+      value: PaymentStatusEnum.Completed,
+      color: "#3b82f6"
+    },
+    {
+      label: "Thất bại",
+      value: PaymentStatusEnum.Failed,
+      color: "#ef4444"
+    },
+    {
+      label: "Đã hoàn tiền",
+      value: PaymentStatusEnum.Refunded,
+      color: "#3b82f6"
+    }
   ]
 }

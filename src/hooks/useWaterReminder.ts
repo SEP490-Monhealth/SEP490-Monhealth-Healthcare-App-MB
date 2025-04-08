@@ -101,7 +101,7 @@ export const useUpdateWaterReminder = () => {
     },
     onSuccess: (_data, { waterReminderId }) => {
       queryClient.invalidateQueries({
-        queryKey: ["waterReminder", waterReminderId]
+        queryKey: ["water-reminder", waterReminderId]
       })
       queryClient.invalidateQueries({ queryKey: ["water-reminders"] })
     }

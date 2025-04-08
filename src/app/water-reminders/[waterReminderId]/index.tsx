@@ -15,7 +15,9 @@ import {
   Button,
   Container,
   Content,
+  HStack,
   Input,
+  Toggle,
   VStack
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
@@ -58,6 +60,7 @@ function WaterReminderDetailsScreen() {
       setValue("name", waterReminderData.name)
       setValue("time", waterReminderData.time)
       setValue("volume", waterReminderData.volume)
+      setValue("isRecurring", waterReminderData.isRecurring)
       setTime(convertDate(waterReminderData.time))
     }
   }, [waterReminderData, setValue])
@@ -80,7 +83,7 @@ function WaterReminderDetailsScreen() {
 
   const onSubmit = (data: UpdateWaterReminderType) => {
     updateWaterReminder(
-      { waterReminderId, waterReminderData: data },
+      { waterReminderId, updatedData: data },
       {
         onSuccess: () => {
           router.back()
@@ -142,6 +145,20 @@ function WaterReminderDetailsScreen() {
                 />
               )}
             />
+
+            <HStack center className="px-1">
+              <Text className="flex-1 font-tregular text-lg text-secondary">
+                Lặp lại mỗi ngày
+              </Text>
+
+              <Controller
+                name="isRecurring"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Toggle value={value} onValueChange={onChange} />
+                )}
+              />
+            </HStack>
           </VStack>
 
           <Button size="lg" onPress={handleSubmit(onSubmit)}>

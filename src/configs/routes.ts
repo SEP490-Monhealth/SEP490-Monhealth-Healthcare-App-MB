@@ -1,5 +1,4 @@
 import {
-  Activity,
   Award,
   Calendar2,
   Command,
@@ -13,7 +12,9 @@ import {
   NotificationStatus,
   Profile,
   Ram,
-  Setting
+  Setting,
+  Stickynote,
+  Wallet1
 } from "iconsax-react-native"
 import { IconProps } from "iconsax-react-native"
 
@@ -54,9 +55,15 @@ export const userProfileRoutes: RouteType[] = [
     icon: Command
   },
   {
-    route: (userId: string) => `/settings/user/${userId}/activity`,
-    label: "Hoạt động thể chất",
-    icon: Activity
+    route: (userId: string) => `/settings/user/${userId}/payments`,
+    label: "Lịch sử thanh toán",
+    icon: Wallet1
+  },
+
+  {
+    route: (userId: string) => `/settings/user/${userId}/bookings`,
+    label: "Lịch hẹn đã tạo",
+    icon: Stickynote
   },
   {
     route: "/settings/reminder",

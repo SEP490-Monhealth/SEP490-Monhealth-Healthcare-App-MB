@@ -11,6 +11,7 @@ const paymentSchema = z.object({
   amount: z
     .number({ message: "Số tiền thanh toán phải là một số" })
     .positive({ message: "Số tiền thanh toán phải lớn hơn 0" }),
+  description: z.string().nonempty({ message: "Mô tả không được bỏ trống" }),
 
   status: PaymentStatusSchemaEnum,
 
