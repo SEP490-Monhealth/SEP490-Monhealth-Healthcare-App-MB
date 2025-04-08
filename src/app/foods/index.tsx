@@ -156,8 +156,18 @@ function FoodsScreen() {
         ]
       }
 
-      const totalCalories = dailyMealData?.nutrition.calories || 0
-      const goalCalories = nutritionGoalData?.caloriesGoal || 0
+      const totalCalories =
+        dailyMealData &&
+        dailyMealData.nutrition &&
+        dailyMealData.nutrition.calories
+          ? dailyMealData.nutrition.calories
+          : 0
+
+      const goalCalories =
+        nutritionGoalData && nutritionGoalData.caloriesGoal
+          ? nutritionGoalData.caloriesGoal
+          : 0
+
       const foodCalories = food.nutrition.calories
 
       const hasAllergyWarning = food?.allergies?.some((allergy) =>
