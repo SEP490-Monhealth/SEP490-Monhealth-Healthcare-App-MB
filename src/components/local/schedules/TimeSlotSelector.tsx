@@ -1,4 +1,4 @@
-import { memo } from "react"
+import React, { memo } from "react"
 
 import { Text, TouchableOpacity, View } from "react-native"
 
@@ -12,75 +12,64 @@ export type TimeSlot = {
 }
 
 interface TimeSlotButtonProps {
-  time: string
+  timeRange: string
   isSelected: boolean
   onPress: () => void
 }
 
-const TimeSlotButton = ({ time, isSelected, onPress }: TimeSlotButtonProps) => {
-  return (
-    <TouchableOpacity
-      activeOpacity={0.8}
-      onPress={onPress}
-      className={`items-center justify-center rounded-xl border ${
-        isSelected ? "border-none bg-primary" : "border-border bg-card"
-      } px-3 py-1.5`}
+const TimeSlotButton = ({
+  timeRange,
+  isSelected,
+  onPress
+}: TimeSlotButtonProps) => (
+  <TouchableOpacity
+    activeOpacity={0.8}
+    onPress={onPress}
+    className={`items-center justify-center rounded-xl ${
+      isSelected ? "bg-primary" : "border border-border bg-card"
+    } px-3 py-1.5`}
+  >
+    <Text
+      className={`font-tmedium text-base ${isSelected ? "text-white" : "text-primary"}`}
     >
-      <Text
-        className={`font-tmedium text-base ${isSelected ? "text-white" : "text-primary"}`}
-      >
-        {time.slice(0, 5)}
-      </Text>
-    </TouchableOpacity>
-  )
-}
+      {timeRange}
+    </Text>
+  </TouchableOpacity>
+)
 
 interface AddTimeButtonProps {
   onPress: () => void
 }
 
-const AddTimeButton = ({ onPress }: AddTimeButtonProps) => {
-  return (
-    <TouchableOpacity
-      activeOpacity={0.8}
-      onPress={onPress}
-      className="items-center justify-center rounded-xl border border-none bg-primary px-3 py-1.5"
-    >
-      <Text className="font-tmedium text-base text-white">Thêm</Text>
-    </TouchableOpacity>
-  )
-}
-
-interface SelectedTimeSlots {
-  dayOfWeek: number
-  timeSlots: string[]
-}
+const AddTimeButton = ({ onPress }: AddTimeButtonProps) => (
+  <TouchableOpacity
+    activeOpacity={0.8}
+    onPress={onPress}
+    className="items-center justify-center rounded-xl bg-primary px-3 py-1.5"
+  >
+    <Text className="font-tmedium text-base text-white">Thêm</Text>
+  </TouchableOpacity>
+)
 
 interface DayTimeSlotsProps {
-  data: TimeSlot[]
   day: number
-  selectedTimeSlots: SelectedTimeSlots[]
-  toggleTimeSlot: (day: number, time: string) => void
+  availableTimeSlots: string[]
+  selectedTimeSlots: string[]
+  toggleTimeSlot: (timeRange: string) => void
   isLastDay: boolean
-  onAddTimeSlot: (day: number) => void
+  onAddTimeSlot: () => void
 }
 
 const DayTimeSlots = ({
-  data,
   day,
+  availableTimeSlots,
   selectedTimeSlots,
   toggleTimeSlot,
   isLastDay,
   onAddTimeSlot
 }: DayTimeSlotsProps) => {
-  const selectedSlot = selectedTimeSlots.find((slot) => slot.dayOfWeek === day)
-  const timeSlotsForDay = selectedSlot?.timeSlots || []
-
-  const availableSlot = data.find((slot) => slot.dayOfWeek === day)
-  const availableTimeSlotsForDay = availableSlot?.timeSlots || []
-
   const allTimeSlots = Array.from(
-    new Set([...availableTimeSlotsForDay, ...timeSlotsForDay])
+    new Set([...availableTimeSlots, ...selectedTimeSlots])
   ).sort()
 
   return (
@@ -98,21 +87,20 @@ const DayTimeSlots = ({
           {getDayLabel(day)}
         </Text>
         <Text className="text-tregular text-sm text-secondary">
-          {timeSlotsForDay.length || 0} đã chọn
+          {selectedTimeSlots.length} đã chọn
         </Text>
       </View>
 
       <View className="flex-1 flex-row flex-wrap gap-2">
-        {allTimeSlots.map((time) => (
+        {allTimeSlots.map((timeRange) => (
           <TimeSlotButton
-            key={time}
-            time={time}
-            isSelected={timeSlotsForDay.includes(time)}
-            onPress={() => toggleTimeSlot(day, time)}
+            key={timeRange}
+            timeRange={timeRange}
+            isSelected={selectedTimeSlots.includes(timeRange)}
+            onPress={() => toggleTimeSlot(timeRange)}
           />
         ))}
-
-        <AddTimeButton onPress={() => onAddTimeSlot(day)} />
+        <AddTimeButton onPress={onAddTimeSlot} />
       </View>
     </HStack>
   )
@@ -123,8 +111,8 @@ const MemoizedDayTimeSlots = memo(DayTimeSlots)
 interface TimeSlotSelectorProps {
   data: TimeSlot[]
   selectedDays: number[]
-  selectedTimeSlots: SelectedTimeSlots[]
-  toggleTimeSlot: (day: number, time: string) => void
+  selectedTimeSlots: { dayOfWeek: number; timeSlots: string[] }[]
+  toggleTimeSlot: (day: number, timeRange: string) => void
   onOpenTimeSheet: (day: number) => void
 }
 
@@ -139,17 +127,26 @@ export const TimeSlotSelector = ({
 
   return (
     <VStack gap={8}>
-      {selectedDays.map((day, index) => (
-        <MemoizedDayTimeSlots
-          key={day}
-          data={data}
-          day={day}
-          selectedTimeSlots={selectedTimeSlots}
-          toggleTimeSlot={toggleTimeSlot}
-          isLastDay={index === selectedDays.length - 1}
-          onAddTimeSlot={onOpenTimeSheet}
-        />
-      ))}
+      {selectedDays.map((day, index) => {
+        const dayTimeSlots =
+          selectedTimeSlots.find((slot) => slot.dayOfWeek === day)?.timeSlots ||
+          []
+
+        const availableSlot = data.find((slot) => slot.dayOfWeek === day)
+        const availableTimeSlots = availableSlot?.timeSlots || []
+
+        return (
+          <MemoizedDayTimeSlots
+            key={day}
+            day={day}
+            availableTimeSlots={availableTimeSlots}
+            selectedTimeSlots={dayTimeSlots}
+            toggleTimeSlot={(timeRange) => toggleTimeSlot(day, timeRange)}
+            isLastDay={index === selectedDays.length - 1}
+            onAddTimeSlot={() => onOpenTimeSheet(day)}
+          />
+        )
+      })}
     </VStack>
   )
 }

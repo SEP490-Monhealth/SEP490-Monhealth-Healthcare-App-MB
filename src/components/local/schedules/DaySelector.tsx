@@ -24,7 +24,7 @@ const DayButton = ({
 
   const currentDay = today.getDay()
 
-  const diff = day.value - currentDay
+  const diff = (day.value - currentDay + 7) % 7
   const targetDate = new Date(today)
 
   targetDate.setDate(today.getDate() + diff)

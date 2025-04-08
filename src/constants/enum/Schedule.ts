@@ -6,13 +6,13 @@ export enum ScheduleTypeEnum {
 }
 
 export enum RecurringDayEnum {
+  Sun,
   Mon,
   Tue,
   Wed,
   Thu,
   Fri,
-  Sat,
-  Sun
+  Sat
 }
 
 export enum ScheduleTimeSlotStatusEnum {

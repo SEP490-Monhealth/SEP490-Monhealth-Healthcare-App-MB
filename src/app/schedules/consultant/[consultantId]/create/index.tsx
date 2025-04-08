@@ -1,6 +1,11 @@
 import React, { useRef, useState } from "react"
 
-import { SafeAreaView, TouchableWithoutFeedback, View } from "react-native"
+import {
+  SafeAreaView,
+  Text,
+  TouchableWithoutFeedback,
+  View
+} from "react-native"
 import { Keyboard } from "react-native"
 
 import { useLocalSearchParams } from "expo-router"
@@ -53,14 +58,17 @@ function ScheduleCreateScreen() {
   const { data: scheduleTimeSlotsData, isLoading: isScheduleTimeSlotsLoading } =
     useGetAllScheduleTimeSlots()
 
+  // console.log(JSON.stringify(scheduleTimeSlotsData, null, 2))
+
   const SheetRef = useRef<SheetRefProps>(null)
-  const sheetHeight = 640
+  const sheetHeight = 460
 
   const now = new Date()
   now.setUTCHours(now.getUTCHours() + 7)
 
-  const today = now.getDay()
-  const mappedDay = today === 0 ? 6 : today - 1
+  const today = new Date()
+  const weekdayNumber = today.getDay()
+  const mappedDay = weekdayNumber
 
   const [scheduleType, setScheduleType] = useState<ScheduleTypeEnum>(
     ScheduleTypeEnum.OneTime
@@ -74,6 +82,8 @@ function ScheduleCreateScreen() {
 
   const [selectedDay, setSelectedDay] = useState<RecurringDayEnum | null>(null)
   const [selectedTime, setSelectedTime] = useState<Date>(new Date())
+  const [duration, setDuration] = useState<number>(0)
+  const [errorMessage, setErrorMessage] = useState<string>("")
 
   const [previousData, setPreviousData] = useState({
     [ScheduleTypeEnum.OneTime]: {
@@ -157,30 +167,15 @@ function ScheduleCreateScreen() {
         ])
       }
 
-      const schedules = updatedDays.map((day) => {
-        const dayTimeSlot = selectedTimeSlots.find(
-          (slot) => slot.dayOfWeek === day
-        )
-        return {
-          recurringDay:
-            scheduleType === ScheduleTypeEnum.Recurring ? day : null,
-          specificDate:
-            scheduleType === ScheduleTypeEnum.OneTime
-              ? new Date().toISOString().split("T")[0]
-              : null,
-          timeSlots: dayTimeSlot?.timeSlots || []
-        }
-      })
-
-      setValue("schedules", schedules)
+      updateSchedulesFormValue(updatedDays, selectedTimeSlots)
       return updatedDays
     })
   }
 
   const toggleTimeSlot = (day: RecurringDayEnum, time: string) => {
     setSelectedTimeSlots((prevSlots) => {
-      const dayIndex = prevSlots.findIndex((slot) => slot.dayOfWeek === day)
       const updatedSlots = [...prevSlots]
+      const dayIndex = updatedSlots.findIndex((slot) => slot.dayOfWeek === day)
 
       if (dayIndex === -1) {
         updatedSlots.push({ dayOfWeek: day, timeSlots: [time] })
@@ -200,22 +195,38 @@ function ScheduleCreateScreen() {
         }
       }
 
-      const schedules = selectedDays.map((day) => {
-        const dayTimeSlot = updatedSlots.find((slot) => slot.dayOfWeek === day)
-        return {
-          recurringDay:
-            scheduleType === ScheduleTypeEnum.Recurring ? day : null,
-          specificDate:
-            scheduleType === ScheduleTypeEnum.OneTime
-              ? new Date().toISOString().split("T")[0]
-              : null,
-          timeSlots: dayTimeSlot?.timeSlots || []
-        }
-      })
+      updateSchedulesFormValue(selectedDays, updatedSlots)
 
-      setValue("schedules", schedules)
       return updatedSlots
     })
+  }
+
+  const updateSchedulesFormValue = (
+    days: RecurringDayEnum[],
+    timeSlots: SelectedTimeSlots[]
+  ) => {
+    const schedules = days.map((day) => {
+      const dayTimeSlot = timeSlots.find((slot) => slot.dayOfWeek === day)
+
+      // Calculate specificDate based on the selected day
+      let specificDate = null
+      if (scheduleType === ScheduleTypeEnum.OneTime) {
+        const today = new Date()
+        const currentDay = today.getDay() // Get current day of the week (0 = Sunday, 6 = Saturday)
+        const daysUntilSelectedDay = (day - currentDay + 7) % 7 // Calculate days until the selected day
+        const selectedDate = new Date(today)
+        selectedDate.setDate(today.getDate() + daysUntilSelectedDay) // Add the days to the current date
+        specificDate = selectedDate.toISOString().split("T")[0] // Format as "YYYY-MM-DD"
+      }
+
+      return {
+        recurringDay: scheduleType === ScheduleTypeEnum.Recurring ? day : null,
+        specificDate: specificDate,
+        timeSlots: dayTimeSlot?.timeSlots || []
+      }
+    })
+
+    setValue("schedules", schedules)
   }
 
   const handleOpenTimeSheet = (day: RecurringDayEnum) => {
@@ -256,20 +267,59 @@ function ScheduleCreateScreen() {
 
   const handleConfirmTime = () => {
     if (selectedDay !== null) {
+      if (!duration || duration <= 0) {
+        setErrorMessage("Vui lòng nhập thời lượng hợp lệ")
+        return
+      }
+
+      setErrorMessage("")
+
       const hours = selectedTime.getHours().toString().padStart(2, "0")
       const minutes = selectedTime.getMinutes().toString().padStart(2, "0")
 
-      const timeString = `${hours}:${minutes}:00`
+      const endTime = new Date(selectedTime)
+      endTime.setMinutes(endTime.getMinutes() + duration)
 
-      // console.log(`Selected time for day ${selectedDay}: ${timeString}`)
+      if (
+        endTime.getHours() > 18 ||
+        (endTime.getHours() === 18 && endTime.getMinutes() > 0)
+      ) {
+        setErrorMessage("Thời gian kết thúc không được vượt quá 18:00")
+        return
+      }
+
+      const endHours = endTime.getHours().toString().padStart(2, "0")
+      const endMinutes = endTime.getMinutes().toString().padStart(2, "0")
+
+      const timeRange = `${hours}:${minutes} - ${endHours}:${endMinutes}`
 
       const daySlot = selectedTimeSlots.find(
         (slot) => slot.dayOfWeek === selectedDay
       )
-      if (!daySlot?.timeSlots.includes(timeString)) {
-        toggleTimeSlot(selectedDay, timeString)
+
+      const hasOverlap = daySlot?.timeSlots.some((existingSlot) => {
+        const [existingStart, existingEnd] = existingSlot.split(" - ")
+        const [newStart, newEnd] = timeRange.split(" - ")
+
+        return (
+          (newStart >= existingStart && newStart < existingEnd) ||
+          (newEnd > existingStart && newEnd <= existingEnd) ||
+          (newStart <= existingStart && newEnd >= existingEnd)
+        )
+      })
+
+      if (hasOverlap) {
+        setErrorMessage("Khung giờ này đã bị trùng lặp với khung giờ khác")
+        return
       }
 
+      if (!daySlot?.timeSlots.includes(timeRange)) {
+        toggleTimeSlot(selectedDay, timeRange)
+      }
+
+      setErrorMessage("")
+      setDuration(0)
+      setSelectedTime(new Date())
       SheetRef.current?.scrollTo(0)
     }
   }
@@ -278,15 +328,40 @@ function ScheduleCreateScreen() {
     setIsLoading(true)
 
     try {
-      // console.log("Final Data:", JSON.stringify(data, null, 2))
+      const formattedData = {
+        ...data,
+        schedules: data.schedules.map((schedule) => ({
+          ...schedule,
+          timeSlots: schedule.timeSlots.map((timeSlot) => {
+            if (timeSlot.includes(" - ")) {
+              const [startTime, endTime] = timeSlot.split(" - ")
+              return `${startTime}:00 - ${endTime}:00`
+            }
+            if (timeSlot.length === 5) {
+              return timeSlot + ":00"
+            }
+            return timeSlot
+          })
+        }))
+      }
 
-      await createSchedule(data)
+      console.log("Formatted Data:", JSON.stringify(formattedData, null, 2))
+
+      await createSchedule(formattedData, {
+        onSuccess: () => {
+          console.log("Schedule created successfully")
+        }
+      })
     } catch (error) {
       console.log(error)
     } finally {
       setIsLoading(false)
     }
   }
+
+  const hasSelectedTimeSlots = selectedTimeSlots.some(
+    (slot) => slot.timeSlots.length > 0
+  )
 
   // console.log(errors)
 
@@ -350,12 +425,18 @@ function ScheduleCreateScreen() {
           <VStack center>
             <View className="w-full">
               <Input
-                value={""}
+                value={duration ? duration.toString() : ""}
                 label="Thời lượng"
                 placeholder="VD: 45"
-                onChangeText={() => {}}
+                onChangeText={(text) => setDuration(parseFloat(text) || 0)}
                 keyboardType="numeric"
+                endIcon={
+                  <Text className="font-tregular text-sm text-accent">
+                    phút
+                  </Text>
+                }
                 canClearText
+                errorMessage={errorMessage}
               />
             </View>
 
@@ -369,7 +450,12 @@ function ScheduleCreateScreen() {
               maximumDate={setHoursAndMinutes(new Date(), 18, 0)}
             />
 
-            <Button size="lg" onPress={handleConfirmTime} className="w-full">
+            <Button
+              disabled={!hasSelectedTimeSlots}
+              size="lg"
+              onPress={handleConfirmTime}
+              className="w-full"
+            >
               Xác nhận
             </Button>
           </VStack>

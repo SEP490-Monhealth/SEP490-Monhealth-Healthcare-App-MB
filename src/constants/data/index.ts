@@ -176,13 +176,13 @@ export const DATA = {
     }
   ],
   DAY_OF_WEEK: [
+    { label: "Chủ Nhật", shortLabel: "CN", value: RecurringDayEnum.Sun },
     { label: "Thứ 2", shortLabel: "T2", value: RecurringDayEnum.Mon },
     { label: "Thứ 3", shortLabel: "T3", value: RecurringDayEnum.Tue },
     { label: "Thứ 4", shortLabel: "T4", value: RecurringDayEnum.Wed },
     { label: "Thứ 5", shortLabel: "T5", value: RecurringDayEnum.Thu },
     { label: "Thứ 6", shortLabel: "T6", value: RecurringDayEnum.Fri },
-    { label: "Thứ 7", shortLabel: "T7", value: RecurringDayEnum.Sat },
-    { label: "Chủ Nhật", shortLabel: "CN", value: RecurringDayEnum.Sun }
+    { label: "Thứ 7", shortLabel: "T7", value: RecurringDayEnum.Sat }
   ],
   EXERCISE_TYPES: [
     { label: "Thời gian", value: "duration" },
