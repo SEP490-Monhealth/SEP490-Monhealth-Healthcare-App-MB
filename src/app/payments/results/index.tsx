@@ -22,6 +22,9 @@ const PaymentResult = () => {
 
   console.log("Params từ PayOS:", params)
 
+  const isCancel = params.cancel === "true"
+  const isSuccess = params.code === "00" && params.status === "PAID"
+
   const { mutate: completePayment } = useCompletePayment()
 
   const handleDone = async () => {
@@ -36,12 +39,20 @@ const PaymentResult = () => {
 
   return (
     <Container>
-      <View className="flex-1 justify-center">
-        <ErrorDisplay
-          imageSource={require("../../../../public/images/monhealth-congratulations-image.png")}
-          title="Thanh toán thành công"
-          description="Bạn đã thanh toán thành công cho gói đăng ký của mình!"
-        />
+      <View className="flex-1 items-center justify-center">
+        {isSuccess ? (
+          <ErrorDisplay
+            imageSource={require("../../../../public/images/monhealth-congratulations-image.png")}
+            title="Thanh toán thành công"
+            description="Bạn đã thanh toán thành công cho gói đăng ký của mình!"
+          />
+        ) : (
+          <ErrorDisplay
+            imageSource={require("../../../../public/images/monhealth-internal-server-error-image.png")}
+            title="Thanh toán thất bại"
+            description="Thanh toán của bạn không thành công, vui lòng thử lại."
+          />
+        )}
       </View>
 
       <Button size="lg" onPress={handleDone} className="mb-4">
