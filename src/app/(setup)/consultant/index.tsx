@@ -215,7 +215,6 @@ function SetupConsultantScreen() {
     setDateType(inputType)
 
     const currentValue = getValues(inputType)
-
     const initialDate = currentValue ? new Date(currentValue) : new Date()
     setSelectedDate(initialDate)
 

@@ -40,7 +40,7 @@ export const useConsultantStore = create<ConsultantStoreState>((set) => ({
   expertise: "",
   // number: "",
   // certificate: "",
-  issueDate: "",
+  issueDate: new Date().toISOString().split("T")[0],
   expiryDate: "",
   // issuedBy: "",
   imageUrls: [],

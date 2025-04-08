@@ -90,8 +90,7 @@ export const userAboutRoutes: RouteType[] = [
 
 export const consultantProfileRoutes: RouteType[] = [
   {
-    route: (consultantId: string) =>
-      `/settings/consultant/${consultantId}/information`,
+    route: "/settings/consultant/[consultantId]/information",
     label: "Thông tin cá nhân",
     icon: Profile
   },
