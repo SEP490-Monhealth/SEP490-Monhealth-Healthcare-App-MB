@@ -127,7 +127,7 @@ function ReviewCreateScreen() {
     })
   }
 
-  console.log(errors)
+  // console.log(errors)
 
   const scrollToInput = () => {
     setTimeout(() => {

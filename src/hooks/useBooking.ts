@@ -111,6 +111,8 @@ export const useUpdateBookingStatus = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["bookings-consultant"] })
       queryClient.invalidateQueries({ queryKey: ["bookings-user"] })
+      queryClient.invalidateQueries({ queryKey: ["consultants"] })
+      queryClient.invalidateQueries({ queryKey: ["consultant"] })
     }
   })
 }

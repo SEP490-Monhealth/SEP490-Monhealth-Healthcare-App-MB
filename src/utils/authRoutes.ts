@@ -6,8 +6,6 @@ import { whoIAm } from "@/services/authService"
 import { getConsultantByUserId } from "@/services/consultantService"
 import { getMetricsByUserId } from "@/services/metricService"
 
-import { delay } from "@/utils/helpers"
-
 interface UserPayload {
   userId: string
   consultantId?: string
@@ -122,7 +120,10 @@ export const handleMemberRouting = async (
   if (metricData && metricData.length > 0) {
     router.replace("/(tabs)/user/home")
   } else {
-    router.replace("/onboarding/welcome")
+    router.replace({
+      pathname: "/onboarding",
+      params: { role: "Member" }
+    })
   }
 }
 
@@ -158,7 +159,6 @@ export const checkAuthentication = async (
     setIsAuthenticated(!!token)
 
     if (!token) {
-      await delay(2000)
       router.replace("/onboarding/welcome")
       return
     }
@@ -175,7 +175,6 @@ export const checkAuthentication = async (
     setUser(userInfo)
     setRole(userInfo.role)
 
-    await delay(2000)
     await routeUserByRole(userInfo, userInfo.role, dependencies)
   } catch (error: any) {
     handleError(error)

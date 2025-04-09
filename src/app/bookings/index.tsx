@@ -29,6 +29,7 @@ import { CreateBookingType, createBookingSchema } from "@/schemas/bookingSchema"
 
 import { useBookingStore } from "@/stores/bookingStore"
 
+import { formatDate } from "@/utils/formatters"
 import { getInitials } from "@/utils/helpers"
 
 import { LoadingScreen } from "../loading"
@@ -151,7 +152,7 @@ function BookingsScreen() {
 
               <Section
                 label="Thời gian"
-                actionText={`${storedDate}, ${formatTime(startTime)} - ${formatTime(endTime)}`}
+                actionText={`${formatDate(storedDate)}, ${formatTime(startTime)} - ${formatTime(endTime)}`}
               />
 
               <Controller
