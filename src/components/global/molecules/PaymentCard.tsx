@@ -2,12 +2,14 @@ import React from "react"
 
 import { Image, Text, TouchableOpacity, View } from "react-native"
 
-import { PaymentStatusEnum } from "@/constants/enum/Payment"
+import {
+  PaymentStatusEnum,
+  getPaymentStatusMeta
+} from "@/constants/enum/Payment"
 
 import { formatCurrency, formatDateTime } from "@/utils/formatters"
-import { getPaymentColor, getPaymentLabel } from "@/utils/helpers"
 
-import { Badge, Card } from "../atoms"
+import { Card, VStack } from "../atoms"
 
 interface WithdrawalRequestCardProps {
   description: string
@@ -22,6 +24,8 @@ export const PaymentCard = ({
   status,
   createdAt
 }: WithdrawalRequestCardProps) => {
+  const { label: paymentStatusLabel } = getPaymentStatusMeta(status)
+
   return (
     <Card className="flex-row items-center justify-between">
       <TouchableOpacity
@@ -44,17 +48,15 @@ export const PaymentCard = ({
         </Text>
       </View>
 
-      <View className="flex-col">
-        <Badge
-          label={getPaymentLabel(status)}
-          background={getPaymentColor(status)}
-          color="#fff"
-          rounded
-        />
+      <VStack center gap={4}>
         <Text className="font-tmedium text-sm text-primary">
           {formatCurrency(amount)}
         </Text>
-      </View>
+
+        <Text className="font-tregular text-sm text-accent">
+          {paymentStatusLabel}
+        </Text>
+      </VStack>
     </Card>
   )
 }
