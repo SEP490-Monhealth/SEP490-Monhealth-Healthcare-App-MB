@@ -29,10 +29,15 @@ import {
   ReviewTab
 } from "@/components/local/consultants"
 
+import { UserSubscriptionStatus } from "@/constants/enum/UserSubscription"
+
 import { useAuth } from "@/contexts/AuthContext"
 
 import { useGetConsultantById } from "@/hooks/useConsultant"
-import { useGetRemainingBookingByUserId } from "@/hooks/useUserSubscription"
+import {
+  useGetRemainingBookingByUserId,
+  useGetUserSubscriptionByUserId
+} from "@/hooks/useUserSubscription"
 
 import { useBookingStore } from "@/stores/bookingStore"
 
@@ -51,13 +56,21 @@ function ConsultantDetailsScreen() {
 
   const { data: consultantData, isLoading: isConsultantLoading } =
     useGetConsultantById(consultantId)
-  const { data: userSubscriptionData } = useGetRemainingBookingByUserId(userId)
+  const { data: userSubscriptionData } = useGetUserSubscriptionByUserId(userId)
+
+  const currentSubscription = userSubscriptionData?.find(
+    (subscription) => subscription.status === UserSubscriptionStatus.Active
+  )
 
   const [activeTab, setActiveTab] = useState<string>(tab || "info")
   const [loading, setLoading] = useState<boolean>(false)
   const [overlayLoading, setOverlayLoading] = useState<boolean>(false)
   const [isTimeModalVisible, setIsTimeModalVisible] = useState<boolean>(false)
   const [isSubscriptionModalVisible, setIsSubscriptionModalVisible] =
+    useState<boolean>(false)
+  const [isNoBookingsLeftModalVisible, setIsNoBookingsLeftModalVisible] =
+    useState<boolean>(false)
+  const [isPackageUpgradeModalVisible, setIsPackageUpgradeModalVisible] =
     useState<boolean>(false)
 
   const handleTabChange = (tab: string) => {
@@ -74,15 +87,31 @@ function ConsultantDetailsScreen() {
 
   const handleViewSubscriptions = () => {
     setIsSubscriptionModalVisible(false)
+    setIsNoBookingsLeftModalVisible(false)
+    setIsPackageUpgradeModalVisible(false)
     router.push("/settings/user/[userId]/subscriptions")
   }
 
   const handleBooking = () => {
-    if (!userSubscriptionData) {
+    // Kiểm tra có gói đăng ký hay không
+    if (!currentSubscription) {
       setIsSubscriptionModalVisible(true)
       return
     }
 
+    // Kiểm tra có phải là gói Cao Cấp hay không
+    if (currentSubscription.subscription !== "Gói Cao Cấp") {
+      setIsPackageUpgradeModalVisible(true)
+      return
+    }
+
+    // Kiểm tra số lượng lịch hẹn còn lại
+    if (currentSubscription.remainingBookings <= 0) {
+      setIsNoBookingsLeftModalVisible(true)
+      return
+    }
+
+    // Kiểm tra thời gian đặt lịch
     if (!startTime || !endTime) {
       setIsTimeModalVisible(true)
       return
@@ -193,6 +222,7 @@ function ConsultantDetailsScreen() {
         </Content>
       </Container>
 
+      {/* Modal thông báo chưa chọn thời gian */}
       <Modal
         isVisible={isTimeModalVisible}
         title="Cảnh báo"
@@ -205,10 +235,28 @@ function ConsultantDetailsScreen() {
       <Modal
         isVisible={isSubscriptionModalVisible}
         title="Thông báo"
-        description="Bạn cần đăng ký Gói Cao Cấp để được đặt lịch hẹn"
+        description="Bạn cần nâng cấp Gói Cao Cấp để được đặt lịch hẹn"
         cancelText="Hủy"
         confirmText="Đồng ý"
         onClose={() => setIsSubscriptionModalVisible(false)}
+        onConfirm={handleViewSubscriptions}
+      />
+
+      <Modal
+        isVisible={isNoBookingsLeftModalVisible}
+        title="Thông báo"
+        description="Bạn đã sử dụng hết lượt đặt lịch hẹn trong gói."
+        confirmText="Đồng ý"
+        onClose={() => setIsNoBookingsLeftModalVisible(false)}
+        onConfirm={() => setIsNoBookingsLeftModalVisible(false)}
+      />
+
+      <Modal
+        isVisible={isPackageUpgradeModalVisible}
+        title="Thông báo"
+        description="Chức năng đặt lịch hẹn chỉ có sẵn trong Gói Cao Cấp."
+        confirmText="Đồng ý"
+        onClose={() => setIsPackageUpgradeModalVisible(false)}
         onConfirm={handleViewSubscriptions}
       />
     </>

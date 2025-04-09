@@ -6,27 +6,6 @@ import { auditFields, timestampFields, uuidSchema } from "./baseSchema"
 
 const subscriptionNames = ["Gói Cơ Bản", "Gói Nâng Cao", "Gói Cao Cấp"]
 
-export const userSubscriptionSchema = z.object({
-  userSubscriptionId: uuidSchema,
-  userId: uuidSchema,
-  subscriptionId: uuidSchema,
-
-  startedAt: z
-    .string()
-    .datetime({ message: "Định dạng thời gian bắt đầu không hợp lệ" }),
-  expiresAt: z
-    .string()
-    .datetime({ message: "Định dạng thời gian kết thúc không hợp lệ" }),
-
-  remainingBooking: z
-    .number()
-    .int({ message: "Số lượng đặt lịch phải là số nguyên" }),
-
-  status: UserSubscriptionSchemaEnum,
-
-  ...timestampFields
-})
-
 const subscriptionSchema = z.object({
   subscriptionId: uuidSchema,
 
@@ -64,11 +43,28 @@ const subscriptionSchema = z.object({
   ...auditFields
 })
 
-export const upgradeSubscriptionSchema = userSubscriptionSchema.pick({
-  userId: true,
-  subscriptionId: true
+export const userSubscriptionSchema = z.object({
+  userSubscriptionId: uuidSchema,
+  userId: uuidSchema,
+  subscriptionId: uuidSchema,
+
+  subscription: subscriptionSchema.shape.name,
+
+  startedAt: z
+    .string()
+    .datetime({ message: "Định dạng thời gian bắt đầu không hợp lệ" }),
+  expiresAt: z
+    .string()
+    .datetime({ message: "Định dạng thời gian kết thúc không hợp lệ" }),
+
+  remainingBookings: z
+    .number()
+    .int({ message: "Số lượng đặt lịch phải là số nguyên" }),
+
+  status: UserSubscriptionSchemaEnum,
+
+  ...timestampFields
 })
 
-export type UserSubscriptionType = z.infer<typeof userSubscriptionSchema>
 export type SubscriptionType = z.infer<typeof subscriptionSchema>
-export type UpgradeSubscriptionType = z.infer<typeof upgradeSubscriptionSchema>
+export type UserSubscriptionType = z.infer<typeof userSubscriptionSchema>
