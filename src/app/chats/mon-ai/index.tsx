@@ -9,7 +9,7 @@ import {
 import { Platform } from "react-native"
 
 import { appConfig } from "@/configs/app"
-import { ChatUserType, MessageType } from "@/types/chat"
+import { ChatUserType, MessageType } from "@/types/mon-ai"
 import {
   HubConnection,
   HubConnectionBuilder,
@@ -71,8 +71,8 @@ const ChatMonAIScreen = () => {
         try {
           if (
             message &&
-            (message.content?.GeneralAdvice ||
-              message.content?.SummaryConversation)
+            (message.content?.generalAdvice ||
+              message.content?.summaryConversation)
           ) {
             const validatedMessage = {
               messageId: message.messageId || Date.now().toString(),

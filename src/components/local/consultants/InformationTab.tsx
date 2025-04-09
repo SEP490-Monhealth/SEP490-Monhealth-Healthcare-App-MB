@@ -17,6 +17,18 @@ import { useBookingStore } from "@/stores/bookingStore"
 
 import { ConsultantBio } from "./ConsultantBio"
 
+const getTodayInISOFormat = () => {
+  const now = new Date()
+
+  now.setHours(now.getHours() + 7)
+
+  const year = now.getFullYear()
+  const month = String(now.getMonth() + 1).padStart(2, "0")
+  const day = String(now.getDate()).padStart(2, "0")
+
+  return `${year}-${month}-${day}`
+}
+
 interface InformationTabProps {
   onLoading: (isLoading: boolean) => void
   onOverlayLoading: (isLoading: boolean) => void
@@ -30,7 +42,9 @@ export const InformationTab = ({
   const { consultantId, selectedDate: newSelectedDate } =
     useLocalSearchParams() as { consultantId: string; selectedDate?: string }
 
-  const today = new Date().toISOString().split("T")[0]
+  const today = getTodayInISOFormat()
+
+  // console.log(today)
 
   const { date: storedDate, updateField } = useBookingStore()
 
@@ -40,7 +54,11 @@ export const InformationTab = ({
   const { data: consultantData, isLoading: isConsultantLoading } =
     useGetConsultantById(consultantId)
   const { data: schedulesData, isLoading: isSchedulesLoading } =
-    useGetSchedulesByConsultantId(consultantId, selectedDate || today)
+    useGetSchedulesByConsultantId(
+      consultantId,
+      undefined,
+      selectedDate || today
+    )
 
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()
@@ -72,29 +90,25 @@ export const InformationTab = ({
   }, [isFetching, isMutating, onOverlayLoading])
 
   const handleDateSelect = (date: string) => {
-    console.log(date)
-
     const formattedDate = new Date(date).toISOString().split("T")[0]
     setSelectedDate(formattedDate)
+
+    updateField("date", formattedDate)
   }
 
-  const handleScheduleSelect = (time: string) => {
-    setSelectedTime(time)
+  const handleScheduleSelect = (startTime: string, endTime: string) => {
+    setSelectedTime(startTime)
 
-    const timezoneOffset = new Date().getTimezoneOffset() * 60000
-    const bookingDate = new Date(
-      new Date(`${selectedDate}T${time}`).getTime() - timezoneOffset
-    ).toISOString()
-
-    updateField("date", bookingDate)
+    updateField("startTime", startTime)
+    updateField("endTime", endTime)
   }
 
   useEffect(() => {
     if (storedDate) {
-      const formattedDate = storedDate.split("T")[0]
-      setSelectedDate(formattedDate)
+      setSelectedDate(storedDate)
     } else {
       setSelectedDate(today)
+      updateField("date", today)
     }
   }, [storedDate, today])
 
@@ -128,7 +142,7 @@ export const InformationTab = ({
               endTime={slot.endTime}
               isSelected={selectedTime === slot.startTime}
               status={slot.status}
-              onPress={() => handleScheduleSelect(slot.startTime)}
+              onPress={() => handleScheduleSelect(slot.startTime, slot.endTime)}
             />
           ))
         )}

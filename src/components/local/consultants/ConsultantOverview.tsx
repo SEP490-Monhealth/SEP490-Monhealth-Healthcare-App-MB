@@ -4,6 +4,8 @@ import { Text } from "react-native"
 
 import { HStack, VStack } from "@/components/global/atoms"
 
+import { toFixed } from "@/utils/formatters"
+
 interface ConsultantOverviewProps {
   experience: number
   patients?: number
@@ -31,7 +33,7 @@ export const ConsultantOverview = ({
 
       <VStack center gap={0}>
         <Text className="font-tbold text-xl text-primary">
-          {rating.toFixed(1)}
+          {toFixed(rating, 1)}
         </Text>
         <Text className="font-tmedium text-base text-accent">Đánh giá</Text>
       </VStack>

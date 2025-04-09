@@ -48,7 +48,7 @@ export const SubscriptionCard = ({
 
           {bookingAllowance !== 0 && (
             <Text className="font-tregular text-base text-accent">
-              {bookingAllowance} lần tư vấn
+              {bookingAllowance} lần đặt lịch
             </Text>
           )}
         </VStack>

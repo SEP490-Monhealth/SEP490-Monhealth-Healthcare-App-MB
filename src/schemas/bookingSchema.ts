@@ -2,7 +2,7 @@ import { z } from "zod"
 
 import { BookingStatusSchemaEnum } from "@/constants/enum/Booking"
 
-import { auditFields, uuidSchema } from "./baseSchema"
+import { auditFields, timeSchema, uuidSchema } from "./baseSchema"
 import { userSchema } from "./userSchema"
 
 const bookingSchema = z.object({
@@ -25,6 +25,12 @@ const bookingSchema = z.object({
   }),
 
   date: z.string().nonempty({ message: "Ngày không được để trống" }),
+  startTime: z
+    .string()
+    .nonempty({ message: "Thời gian bắt đầu không được để trống" }),
+  endTime: z
+    .string()
+    .nonempty({ message: "Thời gian kết thúc không được để trống" }),
 
   notes: z
     .string()
@@ -45,6 +51,8 @@ export const createBookingSchema = bookingSchema.pick({
   userId: true,
   consultantId: true,
   date: true,
+  startTime: true,
+  endTime: true,
   notes: true
 })
 

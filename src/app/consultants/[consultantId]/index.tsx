@@ -32,6 +32,7 @@ import {
 import { useAuth } from "@/contexts/AuthContext"
 
 import { useGetConsultantById } from "@/hooks/useConsultant"
+import { useGetRemainingBookingByUserId } from "@/hooks/useUserSubscription"
 
 import { useBookingStore } from "@/stores/bookingStore"
 
@@ -44,12 +45,11 @@ function ConsultantDetailsScreen() {
   const { tab } = useLocalSearchParams<{ tab: string }>()
   const { consultantId } = useLocalSearchParams() as { consultantId: string }
 
-  const { date } = useBookingStore()
+  const { date: storedDate, startTime, endTime } = useBookingStore()
 
   const { data: consultantData, isLoading: isConsultantLoading } =
     useGetConsultantById(consultantId)
-  // const { data: userSubscriptionData, isLoading: isUserSubscriptionLoading } =
-  //   useGetUserSubscriptionByUserId(userId)
+  const { data: userSubscriptionData } = useGetRemainingBookingByUserId(userId)
 
   const [activeTab, setActiveTab] = useState<string>(tab || "info")
   const [loading, setLoading] = useState<boolean>(false)
@@ -68,21 +68,19 @@ function ConsultantDetailsScreen() {
     setOverlayLoading(isLoading)
   }, [])
 
+  const handleViewSubscriptions = () => {
+    router.push("/settings/user/[userId]/subscriptions")
+  }
+
   const handleBooking = () => {
-    console.log(date)
-
-    const dateTime =
-      (date && /^\d{4}-\d{2}-\d{2}$/.test(date)) ||
-      new Date(date).toTimeString().split(" ")[0] === "00:00:00"
-
-    if (dateTime) {
+    if (!startTime || !endTime) {
       setIsModalVisible(true)
       return
     }
 
     router.push({
       pathname: "/bookings",
-      params: { consultantId, bookingDate: date }
+      params: { consultantId, bookingDate: storedDate }
     })
   }
 
@@ -131,9 +129,15 @@ function ConsultantDetailsScreen() {
                 />
               </VStack>
 
-              <Button onPress={handleBooking} className="mt-4">
-                Đặt lịch hẹn
-              </Button>
+              {userSubscriptionData ? (
+                <Button onPress={handleBooking} className="mt-4">
+                  Đặt lịch hẹn
+                </Button>
+              ) : (
+                <Button onPress={handleViewSubscriptions} className="mt-4">
+                  Đăng ký gói
+                </Button>
+              )}
 
               <Tabs
                 defaultValue={activeTab}
