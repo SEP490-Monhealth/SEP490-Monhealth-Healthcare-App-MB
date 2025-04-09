@@ -34,10 +34,7 @@ import { UserSubscriptionStatus } from "@/constants/enum/UserSubscription"
 import { useAuth } from "@/contexts/AuthContext"
 
 import { useGetConsultantById } from "@/hooks/useConsultant"
-import {
-  useGetRemainingBookingByUserId,
-  useGetUserSubscriptionByUserId
-} from "@/hooks/useUserSubscription"
+import { useGetUserSubscriptionByUserId } from "@/hooks/useUserSubscription"
 
 import { useBookingStore } from "@/stores/bookingStore"
 
@@ -222,7 +219,6 @@ function ConsultantDetailsScreen() {
         </Content>
       </Container>
 
-      {/* Modal thông báo chưa chọn thời gian */}
       <Modal
         isVisible={isTimeModalVisible}
         title="Cảnh báo"

@@ -57,7 +57,6 @@ export const handleAdminRejection = async ({
   router.replace("/auth/sign-in")
 }
 
-// Route consultant users
 export const handleConsultantRouting = async (
   userInfo: UserPayload,
   { router }: RoutingDependencies
@@ -123,10 +122,7 @@ export const handleMemberRouting = async (
   if (metricData && metricData.length > 0) {
     router.replace("/(tabs)/user/home")
   } else {
-    router.replace({
-      pathname: "/onboarding",
-      params: { role: "Member" }
-    })
+    router.replace("/onboarding/welcome")
   }
 }
 
@@ -184,9 +180,6 @@ export const checkAuthentication = async (
   } catch (error: any) {
     handleError(error)
     setIsAuthenticated(false)
-    setUser(null)
-
-    await delay(2000)
     setUser(null)
     router.replace("/onboarding/welcome")
   }

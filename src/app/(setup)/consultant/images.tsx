@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 
 import {
   ActivityIndicator,
@@ -17,15 +17,24 @@ import { COLORS } from "@/constants/color"
 
 import { useConsultantStore } from "@/stores/consultantStore"
 
-import { handleDeleteImage } from "@/utils/images"
+import { handleDeleteImageAndUpdateStore } from "@/utils/images"
 
 interface SetupImageProps {
+  setValue: any
   errors: any
   openUploadSheet: () => void
 }
 
-function SetupImage({ errors, openUploadSheet }: SetupImageProps) {
+function SetupImage({ setValue, errors, openUploadSheet }: SetupImageProps) {
   const { imageUrls } = useConsultantStore()
+
+  useEffect(() => {
+    const imageUriArray = imageUrls
+      .filter((img) => !img.deleting && !img.uploading)
+      .map((img) => (typeof img === "string" ? img : img.uri))
+
+    setValue("imageUrls", imageUriArray)
+  }, [imageUrls, setValue])
 
   return (
     <VStack gap={12}>
@@ -74,7 +83,9 @@ function SetupImage({ errors, openUploadSheet }: SetupImageProps) {
               {!item.uploading && !item.deleting && (
                 <TouchableOpacity
                   activeOpacity={0.8}
-                  onPress={() => handleDeleteImage(item.fileName)}
+                  onPress={() =>
+                    handleDeleteImageAndUpdateStore(item.fileName, setValue)
+                  }
                   className="absolute right-2 top-2 rounded-full bg-border p-1"
                 >
                   <X size={14} color={COLORS.primary} />

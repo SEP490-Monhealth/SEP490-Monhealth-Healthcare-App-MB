@@ -5,9 +5,6 @@ import { Keyboard, SafeAreaView, TouchableWithoutFeedback } from "react-native"
 import { useRouter } from "expo-router"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import DateTimePicker, {
-  DateTimePickerEvent
-} from "@react-native-community/datetimepicker"
 import { useForm } from "react-hook-form"
 
 import {
@@ -18,10 +15,11 @@ import {
   Progress,
   Sheet,
   SheetRefProps,
-  SheetSelect,
-  VStack
+  SheetSelect
 } from "@/components/global/atoms"
 import { CustomHeader, StepHeader } from "@/components/global/molecules"
+
+import { DatePickerSheet } from "@/components/local/setup"
 
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
@@ -39,7 +37,6 @@ import { expertiseSetupSchema } from "@/schemas/expertiseSchema"
 
 import { useConsultantStore } from "@/stores/consultantStore"
 
-import { formatUTCDate } from "@/utils/formatters"
 import { handleSelectImage, handleUploadImage } from "@/utils/images"
 
 import SetupCertificate from "./certificate"
@@ -65,19 +62,17 @@ function SetupConsultantScreen() {
   const { mutate: createConsultant } = useCreateConsultant()
 
   const ExpertiseSheetRef = useRef<SheetRefProps>(null)
-  const DateSheetRef = useRef<SheetRefProps>(null)
+  const IssueDateSheetRef = useRef<SheetRefProps>(null)
+  const ExpiryDateSheetRef = useRef<SheetRefProps>(null)
   const UploadSheetRef = useRef<SheetRefProps>(null)
 
-  // const [expertiseSheetHeight, setExpertiseSheetHeight] = useState<number>(320)
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
-
-  // const [selectedGroup, setSelectedGroup] = useState<string | null>(null)
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
-  const [dateType, setDateType] = useState<"issueDate" | "expiryDate">()
-
-  // const expertiseData =
-  //   sampleExpertiseGroupData.find((group) => group.groupId === selectedGroup)
-  //     ?.expertise || []
+  const [dateType, setDateType] = useState<"issueDate" | "expiryDate">(
+    "issueDate"
+  )
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [currentStep, setCurrentStep] = useState<number>(1)
 
   const dateSheetHeight = 300
   const uploadSheetHeight = 200
@@ -95,9 +90,6 @@ function SetupConsultantScreen() {
     updateField
   } = useConsultantStore()
 
-  const [currentStep, setCurrentStep] = useState<number>(1)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-
   const formData: Record<string, any> = {
     userId,
     bio,
@@ -108,7 +100,9 @@ function SetupConsultantScreen() {
     issueDate,
     expiryDate,
     issuedBy,
-    imageUrls: (imageUrls || []).filter((img) => img?.uri).map((img) => img.uri)
+    imageUrls: (imageUrls || [])
+      .filter((img) => !img.deleting && !img.uploading)
+      .map((img) => (typeof img === "string" ? img : img.uri))
   }
 
   const setupSteps: SetupStepsProps[] = [
@@ -157,6 +151,7 @@ function SetupConsultantScreen() {
     control,
     setValue,
     getValues,
+    reset,
     handleSubmit,
     formState: { errors }
   } = useForm({
@@ -164,70 +159,79 @@ function SetupConsultantScreen() {
     defaultValues: formData
   })
 
-  const handleDateSelect = (_: DateTimePickerEvent, date?: Date) => {
-    if (date && dateType) {
-      const finalDate = date || new Date()
-      const isoDate = formatUTCDate(finalDate)
-      setSelectedDate(finalDate)
-      setValue(dateType, isoDate)
+  const handleDateChange = (type: "issueDate" | "expiryDate", date: string) => {
+    try {
+      if (date && date.trim() !== "") {
+        const parsedDate = new Date(date)
+        if (!isNaN(parsedDate.getTime())) {
+          setValue(type, date)
+
+          if (type === "issueDate") {
+            const expiryDateValue = getValues("expiryDate")
+            if (expiryDateValue && new Date(date) > new Date(expiryDateValue)) {
+              setValue("expiryDate", "")
+            }
+          }
+        } else {
+          console.warn(`Invalid date format received: ${date}`)
+        }
+      }
+    } catch (error) {
+      console.error(`Error processing ${type} date:`, error)
     }
+
+    closeSheet()
   }
 
-  useEffect(() => {
-    if (imageUrls && imageUrls.length > 0) {
-      setValue(
-        "imageUrls",
-        imageUrls.map((img) => img.uri || img)
-      )
+  const openDateSheet = (type: "issueDate" | "expiryDate") => {
+    setDateType(type)
+
+    const currentValue = getValues(type)
+    let initialDate = new Date()
+
+    if (
+      currentValue &&
+      typeof currentValue === "string" &&
+      currentValue.trim() !== ""
+    ) {
+      try {
+        const parsedDate = new Date(currentValue)
+        if (!isNaN(parsedDate.getTime())) {
+          initialDate = parsedDate
+        }
+      } catch (error) {
+        console.warn(`Error parsing ${type} date:`, error)
+      }
     }
-  }, [imageUrls, setValue])
 
-  // const calculateSheetHeight = (expertiseLength: number) => {
-  //   const minHeight = 160
-  //   const maxHeight = SCREEN_HEIGHT * 0.8
-  //   let itemHeight = 100
-
-  //   if (expertiseLength === 3) {
-  //     itemHeight = 80
-  //   } else if (expertiseLength >= 4 && expertiseLength <= 5) {
-  //     itemHeight = 70
-  //   } else if (expertiseLength > 5) {
-  //     itemHeight = 60
-  //   }
-
-  //   return Math.min(
-  //     Math.max(itemHeight * expertiseLength, minHeight),
-  //     maxHeight
-  //   )
-  // }
-
-  // const openExpertiseSheet = (group: string) => {
-  //   setSelectedGroup(group)
-
-  //   const expertiseList =
-  //     sampleExpertiseGroupData.find((g) => g.groupId === group)?.expertise || []
-  //   const calculatedHeight = calculateSheetHeight(expertiseList.length)
-
-  //   setExpertiseSheetHeight(calculatedHeight)
-  //   ExpertiseSheetRef.current?.scrollTo(-calculatedHeight)
-  // }
-  const openDateSheet = (inputType: "issueDate" | "expiryDate") => {
-    setDateType(inputType)
-
-    const currentValue = getValues(inputType)
-    const initialDate = currentValue ? new Date(currentValue) : new Date()
     setSelectedDate(initialDate)
 
-    DateSheetRef.current?.scrollTo(-dateSheetHeight)
+    if (type === "issueDate") {
+      IssueDateSheetRef.current?.scrollTo(-dateSheetHeight)
+    } else {
+      ExpiryDateSheetRef.current?.scrollTo(-dateSheetHeight)
+    }
   }
+
   const openUploadSheet = () =>
     UploadSheetRef.current?.scrollTo(-uploadSheetHeight)
 
   const closeSheet = () => {
     ExpertiseSheetRef.current?.scrollTo(0)
-    DateSheetRef.current?.scrollTo(0)
+    IssueDateSheetRef.current?.scrollTo(0)
+    ExpiryDateSheetRef.current?.scrollTo(0)
     UploadSheetRef.current?.scrollTo(0)
   }
+
+  useEffect(() => {
+    if (currentStep === 4 && imageUrls) {
+      const imageUris = imageUrls
+        .filter((img) => !img.deleting && !img.uploading)
+        .map((img) => (typeof img === "string" ? img : img.uri))
+
+      setValue("imageUrls", imageUris)
+    }
+  }, [currentStep, imageUrls, setValue])
 
   const handleNextStep = (data: Record<string, any>) => {
     currentStepData.fields.forEach((field) => {
@@ -257,20 +261,36 @@ function SetupConsultantScreen() {
     setIsLoading(true)
 
     try {
-      const formValues = getValues()
+      const finalImageUrls = useConsultantStore
+        .getState()
+        .imageUrls.filter((img) => !img.deleting && !img.uploading)
 
-      Object.keys(formValues).forEach((key) => {
-        updateField(key, formValues[key])
+      let imageUris: string[] = []
+      finalImageUrls.forEach((img) => {
+        if (typeof img === "string") {
+          imageUris.push(img)
+        } else if (
+          img &&
+          typeof img === "object" &&
+          "uri" in img &&
+          typeof img.uri === "string"
+        ) {
+          imageUris.push(img.uri)
+        } else {
+          console.warn("Unexpected image value:", img)
+        }
       })
 
-      const currentImageUrls = imageUrls || []
-
-      const processedImageUrls = currentImageUrls
-        .filter((img) => img && (img.uri || typeof img === "string"))
-        .map((img) => {
-          if (typeof img === "string") return img
-          return img.uri
-        })
+      const {
+        bio,
+        experience,
+        expertise,
+        number,
+        certificate,
+        issueDate,
+        expiryDate,
+        issuedBy
+      } = useConsultantStore.getState()
 
       const finalData = {
         userId,
@@ -282,10 +302,8 @@ function SetupConsultantScreen() {
         issueDate,
         expiryDate,
         issuedBy,
-        imageUrls: processedImageUrls
+        imageUrls: imageUris
       }
-
-      // console.log("Submitting data to API:", JSON.stringify(finalData, null, 2))
 
       // @ts-ignore
       createConsultant(finalData, {
@@ -330,7 +348,6 @@ function SetupConsultantScreen() {
               control={control}
               setValue={setValue}
               errors={errors}
-              // openExpertiseSheet={openExpertiseSheet}
               openDateSheet={openDateSheet}
               openUploadSheet={openUploadSheet}
             />
@@ -346,39 +363,25 @@ function SetupConsultantScreen() {
           </Content>
         </Container>
 
-        {/* <Sheet ref={ExpertiseSheetRef} dynamicHeight={expertiseSheetHeight}>
-          {expertiseData.map((item) => (
-            <SheetSelect
-              key={item.expertiseId}
-              label={item.name}
-              onPress={() => {
-                setValue("expertise", item.name)
-                closeSheet()
-              }}
-            />
-          ))}
-        </Sheet> */}
+        <Sheet ref={IssueDateSheetRef} dynamicHeight={dateSheetHeight}>
+          <DatePickerSheet
+            selectedDate={selectedDate}
+            dateType="issueDate"
+            onDateChange={handleDateChange}
+          />
+        </Sheet>
 
-        <Sheet ref={DateSheetRef} dynamicHeight={dateSheetHeight}>
-          <VStack center>
-            <DateTimePicker
-              value={selectedDate}
-              mode="date"
-              display="spinner"
-              minimumDate={
-                dateType === "expiryDate" && getValues("issueDate")
-                  ? new Date(getValues("issueDate"))
-                  : undefined
-              }
-              maximumDate={
-                dateType === "issueDate" && getValues("expiryDate")
-                  ? new Date(getValues("expiryDate"))
-                  : undefined
-              }
-              onChange={handleDateSelect}
-              locale="vi"
-            />
-          </VStack>
+        <Sheet ref={ExpiryDateSheetRef} dynamicHeight={dateSheetHeight}>
+          <DatePickerSheet
+            selectedDate={selectedDate}
+            dateType="expiryDate"
+            minDate={
+              getValues("issueDate")
+                ? new Date(getValues("issueDate"))
+                : undefined
+            }
+            onDateChange={handleDateChange}
+          />
         </Sheet>
 
         <Sheet ref={UploadSheetRef} dynamicHeight={uploadSheetHeight}>
@@ -406,7 +409,7 @@ function SetupConsultantScreen() {
 
         <Modal
           isVisible={isModalVisible}
-          title="Hoàn tất đăng ký"
+          title="Hoàn tất"
           description="Thông tin của bạn đang được xác nhận. Vui lòng chờ thông báo từ hệ thống"
           cancelText="Hủy"
           confirmText="Đồng ý"

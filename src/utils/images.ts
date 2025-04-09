@@ -46,93 +46,143 @@ export const handleSelectImage = async (
   }
 }
 
-export const handleUploadImage = async (uri: string) => {
-  if (!uri || typeof uri !== "string") {
-    console.error("Invalid image URI")
-    return
-  }
+export const handleUploadImage = async (imageUri: string) => {
+  try {
+    console.log(`Starting to upload image: ${imageUri}`)
 
-  const uuid = generateUUID()
-  const extension = uri.split(".").pop()
-  const fileName = `${uuid}.${extension}`
-  const storageRef = ref(storage, `Monhealth/certificates/${fileName}`)
+    const uuid = generateUUID()
+    const fileName = `Monhealth/certificates/${uuid}`
 
-  const newImage = { uri, fileName, uploading: true, progress: 0 }
-  useConsultantStore.getState().updateField("imageUrls", [newImage], true)
+    const storageRef = ref(storage, fileName)
 
-  const response = await fetch(uri)
-  const blob = await response.blob()
+    const currentImages = useConsultantStore.getState().imageUrls || []
 
-  const uploadTask = uploadBytesResumable(storageRef, blob)
-
-  uploadTask.on(
-    "state_changed",
-    (snapshot) => {
-      const uploadProgress = Math.round(
-        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-      )
-
-      useConsultantStore.getState().updateField(
-        "imageUrls",
-        useConsultantStore
-          .getState()
-          .imageUrls.map((img) =>
-            img.fileName === fileName
-              ? { ...img, progress: uploadProgress }
-              : img
-          )
-      )
-    },
-    (error) => {
-      console.error("Upload failed:", error)
-
-      useConsultantStore.getState().updateField(
-        "imageUrls",
-        useConsultantStore
-          .getState()
-          .imageUrls.map((img) =>
-            img.fileName === fileName ? { ...img, uploading: false } : img
-          )
-      )
-    },
-    async () => {
-      const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
-
-      useConsultantStore.getState().updateField(
-        "imageUrls",
-        useConsultantStore
-          .getState()
-          .imageUrls.map((img) =>
-            img.fileName === fileName
-              ? { ...img, uri: downloadURL, uploading: false, progress: 100 }
-              : img
-          )
-      )
+    const newImage = {
+      uri: imageUri,
+      fileName,
+      uploading: true,
+      progress: 0
     }
-  )
+
+    useConsultantStore
+      .getState()
+      .updateField("imageUrls", [...currentImages, newImage])
+
+    const response = await fetch(imageUri)
+    const blob = await response.blob()
+
+    const uploadTask = uploadBytesResumable(storageRef, blob)
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        )
+
+        useConsultantStore.getState().updateField(
+          "imageUrls",
+          useConsultantStore
+            .getState()
+            .imageUrls.map((img) =>
+              img.fileName === fileName ? { ...img, progress } : img
+            )
+        )
+      },
+      (error) => {
+        console.error("Error during upload:", error)
+
+        useConsultantStore.getState().updateField(
+          "imageUrls",
+          useConsultantStore
+            .getState()
+            .imageUrls.filter((img) => img.fileName !== fileName)
+        )
+
+        alert("Tải lên không thành công. Vui lòng thử lại.")
+      }
+    )
+
+    await uploadTask
+
+    const downloadURL = await getDownloadURL(storageRef)
+    console.log(`Upload completed for ${fileName}, final URL: ${downloadURL}`)
+
+    useConsultantStore.getState().updateField(
+      "imageUrls",
+      useConsultantStore.getState().imageUrls.map((img) =>
+        img.fileName === fileName
+          ? {
+              uri: downloadURL,
+              fileName,
+              uploading: false,
+              progress: 100
+            }
+          : img
+      )
+    )
+
+    return downloadURL
+  } catch (error) {
+    console.error("Error uploading image:", error)
+    return null
+  }
 }
 
 export const handleDeleteImage = async (fileName: string) => {
-  const { imageUrls, updateField } = useConsultantStore.getState()
-
-  updateField(
-    "imageUrls",
-    imageUrls.map((img) =>
-      img.fileName === fileName ? { ...img, deleting: true } : img
-    )
-  )
-
-  const storageRef = ref(storage, `Monhealth/certificates/${fileName}`)
-
   try {
-    await deleteObject(storageRef)
-    console.log("File deleted successfully:", fileName)
+    console.log(`Starting to delete image with fileName: ${fileName}`)
 
-    updateField(
+    useConsultantStore.getState().updateField(
       "imageUrls",
-      imageUrls.filter((img) => img.fileName !== fileName)
+      useConsultantStore
+        .getState()
+        .imageUrls.map((img) =>
+          img.fileName === fileName
+            ? { ...img, deleting: true, progress: 0 }
+            : img
+        )
     )
+    const storageRef = ref(storage, fileName)
+
+    await deleteObject(storageRef)
+    console.log(`File deleted successfully: ${fileName}`)
+
+    return true
   } catch (error) {
-    console.error("Failed to delete file:", error)
+    console.error("Error deleting image:", error)
+
+    useConsultantStore.getState().updateField(
+      "imageUrls",
+      useConsultantStore
+        .getState()
+        .imageUrls.map((img) =>
+          img.fileName === fileName ? { ...img, deleting: false } : img
+        )
+    )
+
+    return false
+  }
+}
+
+export const handleDeleteImageAndUpdateStore = async (
+  fileName: string,
+  setValue?: any
+) => {
+  const success = await handleDeleteImage(fileName)
+
+  if (success) {
+    const updatedImageUrls = useConsultantStore
+      .getState()
+      .imageUrls.filter((img) => img.fileName !== fileName)
+
+    useConsultantStore.getState().updateField("imageUrls", updatedImageUrls)
+
+    if (setValue) {
+      const imageUris = updatedImageUrls.map((img) =>
+        typeof img === "string" ? img : img.uri
+      )
+      setValue("imageUrls", imageUris)
+    }
   }
 }
