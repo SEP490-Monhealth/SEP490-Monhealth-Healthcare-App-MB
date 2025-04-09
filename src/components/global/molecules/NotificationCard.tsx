@@ -13,7 +13,7 @@ interface NotificationCardProps {
   content: string
   timestamp: string
   actionUrl?: string
-  isRead: boolean
+  isRead?: boolean
   onPress?: () => void
   onReadChange?: (value: boolean) => void
 }

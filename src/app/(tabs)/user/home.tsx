@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react"
 
 import { useLocalSearchParams } from "expo-router"
 
-import { LoadingOverlay, LoadingScreen } from "@/app/loading"
+import { LoadingOverlay } from "@/app/loading"
 
 import {
   Container,

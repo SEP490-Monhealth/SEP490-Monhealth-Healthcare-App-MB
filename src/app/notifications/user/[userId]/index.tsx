@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react"
 
-import { ActivityIndicator, Keyboard, View } from "react-native"
-import { FlatList } from "react-native"
+import { ActivityIndicator, FlatList, Keyboard, View } from "react-native"
+
+import { useLocalSearchParams } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
 
@@ -16,9 +17,13 @@ import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
 
+import { useGetNotificationsByUserId } from "@/hooks/useNotification"
+
 import { NotificationType } from "@/schemas/notificationSchema"
 
-function NotificationsScreen() {
+function NotificationsUserScreen() {
+  const { userId } = useLocalSearchParams<{ userId: string }>()
+
   const [notificationsData, setNotificationsData] = useState<
     NotificationType[]
   >([])
@@ -61,20 +66,11 @@ function NotificationsScreen() {
     Keyboard.dismiss()
     setPage(1)
   }
-
-  const handleMarkAllAsRead = () => {
-    console.log("Mark all as read")
-  }
-
   const FlatListHeader = useMemo(() => {
     return (
-      <ListHeader className="pt-4">
+      <ListHeader>
         {notificationsData.length > 0 && (
-          <Section
-            label="Tất cả thông báo"
-            actionText="Đánh dấu đã đọc"
-            onPress={handleMarkAllAsRead}
-          />
+          <Section label="Tất cả thông báo" margin={false} className="pt-2" />
         )}
       </ListHeader>
     )
@@ -104,11 +100,10 @@ function NotificationsScreen() {
           ListHeaderComponent={FlatListHeader}
           renderItem={({ item }) => (
             <NotificationCard
-              title="Thông báo mới"
-              content="Nội dung thông báo"
-              timestamp="2023-10-01T12:00:00Z"
-              actionUrl="/foods/A41A3BC6-0F34-409F-9045-0807FBB4469B"
-              isRead={false}
+              title={item.title}
+              content={item.content}
+              timestamp={item.createdAt}
+              actionUrl={item.actionUrl}
             />
           )}
           ListFooterComponent={
@@ -135,4 +130,4 @@ function NotificationsScreen() {
   )
 }
 
-export default NotificationsScreen
+export default NotificationsUserScreen
