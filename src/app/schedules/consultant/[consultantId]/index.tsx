@@ -64,7 +64,7 @@ function SchedulesScreen() {
     scheduleType
   )
 
-  // console.log(JSON.stringify(schedulesData, null, 2))
+  console.log(JSON.stringify(schedulesData, null, 2))
 
   const handleScheduleTypeChange = (value: boolean) => {
     const newType = value
@@ -180,11 +180,9 @@ function SchedulesScreen() {
 
                 <Section label="Chọn khung giờ" margin={false} />
 
-                {/* 
-                    Giả sử ScheduleTimeSlots sẽ gọi: onOpenTimeSheet(scheduleId)
-                */}
                 <ScheduleTimeSlots
                   data={schedulesData}
+                  scheduleType={scheduleType}
                   onOpenTimeSheet={handleOpenTimeSheet}
                 />
               </VStack>

@@ -29,9 +29,9 @@ export interface ChatMonAIType {
         }
       ]
     }[]
-    GeneralAdvice?: string
-    SummaryConversation?: string
-    health_or_fitness?: boolean
+    generalAdvice?: string
+    summaryConversation?: string
+    isHealthOrFitness?: boolean
   }
 }
 

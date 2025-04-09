@@ -1,6 +1,6 @@
 import { Image, Text, View } from "react-native"
 
-import { MessageType, isAIMessage } from "@/types/chat"
+import { MessageType, isAIMessage } from "@/types/mon-ai"
 
 import { cn } from "@/lib/utils"
 

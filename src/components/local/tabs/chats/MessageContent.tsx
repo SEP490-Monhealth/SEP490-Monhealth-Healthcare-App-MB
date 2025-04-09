@@ -1,6 +1,6 @@
 import { Text, View } from "react-native"
 
-import { ChatMonAIType } from "@/types/chat"
+import { ChatMonAIType } from "@/types/mon-ai"
 
 import { VStack } from "@/components/global/atoms"
 
@@ -9,12 +9,12 @@ interface MessageContentProps {
 }
 
 export const MessageContent = ({ content }: MessageContentProps) => {
-  if (content.health_or_fitness === false) {
+  if (content.isHealthOrFitness === false) {
     return (
       <VStack gap={8}>
-        {content.GeneralAdvice && (
+        {content.generalAdvice && (
           <Text className="font-tregular text-base text-primary">
-            {content.GeneralAdvice}
+            {content.generalAdvice}
           </Text>
         )}
       </VStack>
@@ -24,9 +24,9 @@ export const MessageContent = ({ content }: MessageContentProps) => {
   return (
     <VStack gap={8}>
       {/* Summary */}
-      {content.SummaryConversation && (
+      {content.summaryConversation && (
         <Text className="font-tregular text-base text-primary">
-          {content.SummaryConversation}
+          {content.summaryConversation}
         </Text>
       )}
 
@@ -142,13 +142,13 @@ export const MessageContent = ({ content }: MessageContentProps) => {
       )}
 
       {/* General Advice */}
-      {content.GeneralAdvice && (
+      {content.generalAdvice && (
         <View className="mt-2">
           <Text className="font-tmedium text-base text-primary">
             Lời khuyên:
           </Text>
           <Text className="font-tregular text-base text-primary">
-            {content.GeneralAdvice}
+            {content.generalAdvice}
           </Text>
         </View>
       )}

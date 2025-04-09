@@ -121,6 +121,8 @@ function BookingsUserScreen() {
                         key={booking.bookingId}
                         name={booking.consultant.fullName}
                         date={booking.date}
+                        startTime={booking.startTime}
+                        endTime={booking.endTime}
                         notes={booking.notes}
                         reviewed={booking.isReviewed}
                         status={booking.status}
