@@ -7,7 +7,11 @@ import { useLocalSearchParams } from "expo-router"
 import { LoadingScreen } from "@/app/loading"
 
 import { VStack } from "@/components/global/atoms"
-import { ListFooter, ReviewCard } from "@/components/global/molecules"
+import {
+  ErrorDisplay,
+  ListFooter,
+  ReviewCard
+} from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
@@ -98,18 +102,27 @@ export const ReviewTab = () => {
       >
         <Section label="Tất cả đánh giá" />
 
-        <VStack gap={12}>
-          {reviewsData.map((review, index) => (
-            <ReviewCard
-              key={index}
-              name={review.member.fullName}
-              avatarUrl={review.member.avatarUrl || ""}
-              rating={review.rating}
-              comment={review.comment}
-              time={review.updatedAt}
-            />
-          ))}
-        </VStack>
+        {reviewsData && reviewsData.length > 0 ? (
+          <VStack gap={12}>
+            {reviewsData.map((review, index) => (
+              <ReviewCard
+                key={index}
+                name={review.member.fullName}
+                avatarUrl={review.member.avatarUrl || ""}
+                rating={review.rating}
+                comment={review.comment}
+                time={review.updatedAt}
+              />
+            ))}
+          </VStack>
+        ) : (
+          <ErrorDisplay
+            imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
+            title="Không có đánh giá"
+            description="Không tìm thấy có đánh giá nào ở đây!"
+            marginTop={12}
+          />
+        )}
 
         {isLoadingMore && (
           <ListFooter>
