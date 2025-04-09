@@ -90,16 +90,6 @@ function SchedulesScreen() {
     return <LoadingScreen />
   }
 
-  const sortedBookings = bookingsData.slice().sort((a, b) => {
-    const timeA =
-      parseInt(a.date.split("T")[1].slice(0, 2)) * 60 +
-      parseInt(a.date.split("T")[1].slice(3, 5))
-    const timeB =
-      parseInt(b.date.split("T")[1].slice(0, 2)) * 60 +
-      parseInt(b.date.split("T")[1].slice(3, 5))
-    return timeA - timeB
-  })
-
   return (
     <Container>
       <Header label="Lịch trình" />
@@ -115,12 +105,14 @@ function SchedulesScreen() {
             <Section
               label="Danh sách lịch trình"
               actionText="Xem thời gian biểu"
-              onPress={handleViewSchedules}
+              onPress={
+                schedulesData ? handleViewSchedules : handleCreateSchedule
+              }
             />
 
             <VStack gap={0}>
-              {sortedBookings.length > 0 ? (
-                sortedBookings.map((schedule) => (
+              {bookingsData.length > 0 ? (
+                bookingsData.map((schedule) => (
                   <ScheduleCard
                     key={schedule.bookingId}
                     member={schedule.member.fullName}
