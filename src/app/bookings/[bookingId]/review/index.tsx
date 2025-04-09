@@ -109,8 +109,14 @@ function ReviewCreateScreen() {
   }, [bookingId, bookingData, userId, reset])
 
   const onSubmit = async (reviewData: CreateReviewType) => {
-    const comment = `${selectedReviews.join(" - ")}. ${reviewData.comment}`
-    const finalData = { ...reviewData, comment: comment }
+    const comment =
+      selectedReviews.length > 0
+        ? `${selectedReviews.join(" - ")}. ${reviewData.comment}`
+        : reviewData.comment
+
+    const finalData = reviewData.comment
+      ? { ...reviewData, comment: comment }
+      : { ...reviewData }
 
     // console.log("Final Data:", JSON.stringify(finalData, null, 2))
 
