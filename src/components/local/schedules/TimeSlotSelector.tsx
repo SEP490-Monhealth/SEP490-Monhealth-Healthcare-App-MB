@@ -25,8 +25,8 @@ const TimeSlotButton = ({
   <TouchableOpacity
     activeOpacity={0.8}
     onPress={onPress}
-    className={`items-center justify-center rounded-xl ${
-      isSelected ? "bg-primary" : "border border-border bg-card"
+    className={`items-center justify-center rounded-xl border ${
+      isSelected ? "bg-primary" : "border-border bg-card"
     } px-3 py-1.5`}
   >
     <Text

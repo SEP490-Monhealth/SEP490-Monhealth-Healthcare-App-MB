@@ -56,7 +56,9 @@ function ConsultantDetailsScreen() {
   const [activeTab, setActiveTab] = useState<string>(tab || "info")
   const [loading, setLoading] = useState<boolean>(false)
   const [overlayLoading, setOverlayLoading] = useState<boolean>(false)
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+  const [isTimeModalVisible, setIsTimeModalVisible] = useState<boolean>(false)
+  const [isSubscriptionModalVisible, setIsSubscriptionModalVisible] =
+    useState<boolean>(false)
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab)
@@ -71,12 +73,18 @@ function ConsultantDetailsScreen() {
   }, [])
 
   const handleViewSubscriptions = () => {
+    setIsSubscriptionModalVisible(false)
     router.push("/settings/user/[userId]/subscriptions")
   }
 
   const handleBooking = () => {
+    if (!userSubscriptionData) {
+      setIsSubscriptionModalVisible(true)
+      return
+    }
+
     if (!startTime || !endTime) {
-      setIsModalVisible(true)
+      setIsTimeModalVisible(true)
       return
     }
 
@@ -139,15 +147,9 @@ function ConsultantDetailsScreen() {
                 />
               </VStack>
 
-              {userSubscriptionData ? (
-                <Button onPress={handleBooking} className="mt-4">
-                  Đặt lịch hẹn
-                </Button>
-              ) : (
-                <Button onPress={handleViewSubscriptions} className="mt-4">
-                  Đăng ký gói
-                </Button>
-              )}
+              <Button onPress={handleBooking} className="mt-4">
+                Đặt lịch hẹn
+              </Button>
 
               <Tabs
                 defaultValue={activeTab}
@@ -192,11 +194,22 @@ function ConsultantDetailsScreen() {
       </Container>
 
       <Modal
-        isVisible={isModalVisible}
+        isVisible={isTimeModalVisible}
         title="Cảnh báo"
         description="Vui lòng chọn thời gian để đặt lịch hẹn"
         confirmText="Đồng ý"
-        onClose={() => setIsModalVisible(false)}
+        onClose={() => setIsTimeModalVisible(false)}
+        onConfirm={() => setIsTimeModalVisible(false)}
+      />
+
+      <Modal
+        isVisible={isSubscriptionModalVisible}
+        title="Thông báo"
+        description="Bạn cần đăng ký Gói Cao Cấp để được đặt lịch hẹn"
+        cancelText="Hủy"
+        confirmText="Đồng ý"
+        onClose={() => setIsSubscriptionModalVisible(false)}
+        onConfirm={handleViewSubscriptions}
       />
     </>
   )

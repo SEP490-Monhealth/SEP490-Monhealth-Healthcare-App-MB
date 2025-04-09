@@ -64,11 +64,11 @@ export const userProfileRoutes: RouteType[] = [
     label: "Lịch hẹn đã tạo",
     icon: Stickynote
   },
-  {
-    route: "/settings/reminder",
-    label: "Nhắc nhở và thông báo",
-    icon: NotificationStatus
-  },
+  // {
+  //   route: "/settings/reminder",
+  //   label: "Nhắc nhở và thông báo",
+  //   icon: NotificationStatus
+  // },
   {
     route: "/settings/privacy",
     label: "Bảo mật và quyền riêng tư",

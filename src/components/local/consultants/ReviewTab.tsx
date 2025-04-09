@@ -31,29 +31,27 @@ export const ReviewTab = () => {
   }))
 
   return (
-    <VStack gap={12} className="mt-2">
+    <View className="mt-2">
       <ReviewOverview
         totalReviews={totalReviews}
         averageRating={averageRating}
         ratingData={ratingData}
       />
 
-      <View>
-        <Section label="Tất cả đánh giá" margin={false} />
+      <Section label="Tất cả đánh giá" />
 
-        <VStack gap={12}>
-          {reviewsData.map((review, index) => (
-            <ReviewCard
-              key={index}
-              name={review.name}
-              avatarUrl={review.avatarUrl || ""}
-              rating={review.rating}
-              comment={review.comment}
-              time={review.updatedAt}
-            />
-          ))}
-        </VStack>
-      </View>
-    </VStack>
+      <VStack gap={12}>
+        {reviewsData.map((review, index) => (
+          <ReviewCard
+            key={index}
+            name={review.name}
+            avatarUrl={review.avatarUrl || ""}
+            rating={review.rating}
+            comment={review.comment}
+            time={review.updatedAt}
+          />
+        ))}
+      </VStack>
+    </View>
   )
 }

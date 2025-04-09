@@ -27,6 +27,7 @@ import {
   Toggle,
   VStack
 } from "@/components/global/atoms"
+import { ErrorDisplay } from "@/components/global/molecules"
 import { Header, Section } from "@/components/global/organisms"
 
 import { ScheduleTimeSlots } from "@/components/local/schedules"
@@ -180,11 +181,20 @@ function SchedulesScreen() {
 
                 <Section label="Chọn khung giờ" margin={false} />
 
-                <ScheduleTimeSlots
-                  data={schedulesData}
-                  scheduleType={scheduleType}
-                  onOpenTimeSheet={handleOpenTimeSheet}
-                />
+                {schedulesData && schedulesData.length > 0 ? (
+                  <ScheduleTimeSlots
+                    data={schedulesData}
+                    scheduleType={scheduleType}
+                    onOpenTimeSheet={handleOpenTimeSheet}
+                  />
+                ) : (
+                  <ErrorDisplay
+                    imageSource={require("../../../../../public/images/monhealth-no-data-image.png")}
+                    title="Không có lịch trình"
+                    description="Không tìm thấy có lịch trình nào ở đây!"
+                    marginTop={24}
+                  />
+                )}
               </VStack>
             </ScrollArea>
           </Content>
