@@ -2,20 +2,29 @@ import React from "react"
 
 import { Text, View } from "react-native"
 
-import { CalendarCircle, TimerStart } from "iconsax-react-native"
+import { Calendar2, Timer1 } from "iconsax-react-native"
 
 import { COLORS } from "@/constants/color"
 import { BookingStatusEnum } from "@/constants/enum/Booking"
 
-import { formatDate, formatTime } from "@/utils/formatters"
+import { formatDate } from "@/utils/formatters"
 import { getBookingColor, getBookingLabel } from "@/utils/helpers"
 
 import { Badge, Button, Card, CardHeader, HStack, VStack } from "../atoms"
+
+const formatTime = (time: string): string => {
+  if (!time) return ""
+
+  const [hours, minutes] = time.split(":")
+  return `${parseInt(hours, 10)}h${minutes}`
+}
 
 interface BookingCardProps {
   variant?: "default" | "consultant"
   name: string
   date: string
+  startTime: string
+  endTime: string
   notes?: string
   reviewed?: boolean
   status: BookingStatusEnum
@@ -30,6 +39,8 @@ export const BookingCard = ({
   variant = "default",
   name,
   date,
+  startTime,
+  endTime,
   notes,
   reviewed,
   status,
@@ -69,16 +80,16 @@ export const BookingCard = ({
 
         <HStack center className="justify-between">
           <HStack center gap={6}>
-            <CalendarCircle variant="Bold" size={20} color={COLORS.secondary} />
+            <Calendar2 variant="Bold" size={20} color={COLORS.accent} />
             <Text className="font-tmedium text-sm text-accent">
               {formatDate(date)}
             </Text>
           </HStack>
 
           <HStack center gap={6}>
-            <TimerStart variant="Bold" size={20} color={COLORS.secondary} />
+            <Timer1 variant="Bold" size={20} color={COLORS.accent} />
             <Text className="font-tmedium text-sm text-accent">
-              {formatTime(date)}
+              {formatTime(startTime)} - {formatTime(endTime)}
             </Text>
           </HStack>
         </HStack>

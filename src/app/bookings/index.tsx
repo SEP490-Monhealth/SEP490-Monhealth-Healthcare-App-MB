@@ -27,18 +27,22 @@ import { useGetConsultantById } from "@/hooks/useConsultant"
 
 import { CreateBookingType, createBookingSchema } from "@/schemas/bookingSchema"
 
-import { formatDateTime } from "../../utils/formatters"
+import { useBookingStore } from "@/stores/bookingStore"
+
 import { LoadingScreen } from "../loading"
 
 function BookingsScreen() {
   const router = useRouter()
-  const { consultantId, bookingDate } = useLocalSearchParams() as {
+  const { consultantId } = useLocalSearchParams() as {
     consultantId: string
-    bookingDate: string
   }
+
+  const { date: storedDate, startTime, endTime } = useBookingStore()
 
   const { user } = useAuth()
   const userId = user?.userId
+
+  // console.log(storedDate)
 
   const { data: consultantData, isLoading: isConsultantLoading } =
     useGetConsultantById(consultantId)
@@ -57,21 +61,28 @@ function BookingsScreen() {
     defaultValues: {
       userId: userId,
       consultantId: consultantId,
-      date: bookingDate,
+      date: storedDate ?? "",
+      startTime: startTime || "",
+      endTime: endTime || "",
       notes: ""
     }
   })
+
+  const formatTime = (time: string) => {
+    const [hour, minute] = time.split(":")
+    return `${hour}h${minute}`
+  }
 
   const onSubmit = async (data: CreateBookingType) => {
     setIsLoading(true)
 
     try {
-      console.log("Final Data:", JSON.stringify(data, null, 2))
+      // console.log("Final Data:", JSON.stringify(data, null, 2))
 
       await createBooking(data, {
         onSuccess: () => {
           router.replace({
-            pathname: `/bookings/user/${userId}`,
+            pathname: `/settings/user/${userId}/bookings`,
             params: { tab: "pending" }
           })
         }
@@ -130,7 +141,7 @@ function BookingsScreen() {
 
               <Section
                 label="Thời gian"
-                actionText={formatDateTime(bookingDate)}
+                actionText={`${storedDate}, ${formatTime(startTime)} - ${formatTime(endTime)}`}
               />
 
               <Controller
@@ -145,13 +156,10 @@ function BookingsScreen() {
                     isMultiline
                     numberOfLines={6}
                     canClearText
+                    errorMessage={errors.notes?.message}
                   />
                 )}
               />
-
-              {errors.notes && (
-                <Text className="text-red-500">{errors.notes.message}</Text>
-              )}
 
               <Text className="ml-1 mt-4 font-tregular text-sm text-accent">
                 Thông tin thêm giúp tư vấn viên chuẩn bị tốt hơn cho buổi tư vấn

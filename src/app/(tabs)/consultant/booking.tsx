@@ -123,6 +123,8 @@ function BookingsScreen() {
                         variant="consultant"
                         name={booking.consultant.fullName}
                         date={booking.date}
+                        startTime={booking.startTime}
+                        endTime={booking.endTime}
                         notes={booking.notes}
                         status={booking.status}
                         cancellationReason={booking.cancellationReason}

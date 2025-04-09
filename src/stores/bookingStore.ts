@@ -3,6 +3,8 @@ import { create } from "zustand"
 interface BookingStore {
   consultantId: string
   date: string
+  startTime: string
+  endTime: string
   notes: string
 
   updateField: (field: string, value: any) => void
@@ -12,6 +14,8 @@ interface BookingStore {
 export const useBookingStore = create<BookingStore>((set) => ({
   consultantId: "",
   date: "",
+  startTime: "",
+  endTime: "",
   notes: "",
 
   updateField: (field, value) =>
@@ -24,6 +28,8 @@ export const useBookingStore = create<BookingStore>((set) => ({
     set(() => ({
       consultantId: "",
       date: "",
+      startTime: "",
+      endTime: "",
       notes: ""
     }))
 }))

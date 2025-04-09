@@ -52,6 +52,7 @@ export const formatDate = (
   date: Date | string,
   formatStr: string = "dd/MM/yyyy"
 ): string => {
+  if (!date) return ""
   return format(new Date(date), formatStr)
 }
 

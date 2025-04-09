@@ -83,7 +83,7 @@ export const userAboutRoutes: RouteType[] = [
     icon: I3Dcube
   },
   {
-    route: (userId: string) => `/settings/user/${userId}/subscription`,
+    route: (userId: string) => `/settings/user/${userId}/subscriptions`,
     label: "Gói đăng ký",
     icon: Award
   },
