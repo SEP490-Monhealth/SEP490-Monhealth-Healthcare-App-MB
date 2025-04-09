@@ -124,10 +124,8 @@ function SchedulesScreen() {
                   <ScheduleCard
                     key={schedule.bookingId}
                     member={schedule.member.fullName}
-                    startTime={schedule.date
-                      .split("T")[1]
-                      .slice(0, 5)
-                      .replace(":", "h")}
+                    startTime={schedule.startTime}
+                    endTime={schedule.endTime}
                     notes={schedule.notes}
                     status={schedule.status}
                     onPress={() => handleSelectSchedule(schedule.bookingId)}

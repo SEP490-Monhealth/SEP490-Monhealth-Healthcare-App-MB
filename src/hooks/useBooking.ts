@@ -88,7 +88,8 @@ export const useCreateBooking = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["bookings"] })
+      queryClient.invalidateQueries({ queryKey: ["bookings-consultant"] })
+      queryClient.invalidateQueries({ queryKey: ["bookings-user"] })
     }
   })
 }
@@ -108,7 +109,6 @@ export const useUpdateBookingStatus = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["bookings"] })
       queryClient.invalidateQueries({ queryKey: ["bookings-consultant"] })
       queryClient.invalidateQueries({ queryKey: ["bookings-user"] })
     }

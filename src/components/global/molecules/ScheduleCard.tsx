@@ -14,9 +14,17 @@ import {
 import { Badge, Card, CardHeader, HStack, VStack } from "../atoms"
 import { IconButton } from "./IconButton"
 
+const formatTime = (time: string): string => {
+  if (!time) return ""
+
+  const [hours, minutes] = time.split(":")
+  return `${parseInt(hours, 10)}h${minutes}`
+}
+
 interface ScheduleCardProps {
   member: string
   startTime: string
+  endTime: string
   notes?: string
   status: BookingStatusEnum
   onPress?: () => void
@@ -25,6 +33,7 @@ interface ScheduleCardProps {
 export const ScheduleCard = ({
   member,
   startTime,
+  endTime,
   notes,
   status,
   onPress
@@ -48,7 +57,7 @@ export const ScheduleCard = ({
       <View className="flex-1 flex-col gap-2">
         <HStack center className="mr-1 justify-between">
           <Text className="ml-2 font-tmedium text-base text-primary">
-            {startTime}
+            {formatTime(startTime)} - {formatTime(endTime)}
           </Text>
 
           <Badge
