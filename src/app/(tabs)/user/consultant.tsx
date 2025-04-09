@@ -18,7 +18,8 @@ import {
   Container,
   Content,
   HStack,
-  Input
+  Input,
+  Modal
 } from "@/components/global/atoms"
 import {
   ConsultantCard,
@@ -48,6 +49,7 @@ function ConsultantScreen() {
 
   const { user } = useAuth()
   const userId = user?.userId
+  const userSubscription = user?.subscription
 
   const {
     searchConsultantHistory,
@@ -61,6 +63,8 @@ function ConsultantScreen() {
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
   const [selectedExpertise, setSelectedExpertise] = useState<string>("Tất cả")
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+  const [hasShownModal, setHasShownModal] = useState<boolean>(false)
 
   const limit = 10
 
@@ -119,6 +123,13 @@ function ConsultantScreen() {
     setIsRefreshing(false)
   }
 
+  useEffect(() => {
+    if (userSubscription === "Gói Cơ Bản" && !hasShownModal) {
+      setIsModalVisible(true)
+      setHasShownModal(true)
+    }
+  }, [userSubscription])
+
   const handleViewConsultant = (consultantId: string, fullName: string) => {
     addSearchConsultantHistory({ consultantId, fullName })
     router.push(`/consultants/${consultantId}`)
@@ -171,70 +182,81 @@ function ConsultantScreen() {
     return <LoadingScreen />
 
   return (
-    <Container>
-      <CustomHeader
-        content={
-          <Input
-            value={searchQuery}
-            placeholder="Tìm kiếm chuyên viên..."
-            onChangeText={(text) => setSearchQuery(text)}
-            startIcon={<SearchNormal1 size={20} color={COLORS.primary} />}
-            canClearText
-          />
-        }
-      />
-
-      <Content>
-        <FlatList
-          data={consultantsData || []}
-          keyExtractor={(item, index) => `${item.consultantId}-${index}`}
-          onRefresh={onRefresh}
-          refreshing={isRefreshing}
-          showsVerticalScrollIndicator={false}
-          stickyHeaderIndices={[0]}
-          initialNumToRender={10}
-          maxToRenderPerBatch={10}
-          windowSize={21}
-          removeClippedSubviews
-          updateCellsBatchingPeriod={50}
-          onEndReached={onEndReached}
-          onEndReachedThreshold={0.5}
-          ListHeaderComponent={FlatListHeader}
-          renderItem={({ item }) => (
-            <ConsultantCard
-              key={item.consultantId}
-              name={item.fullName}
-              avatarUrl={item.avatarUrl}
-              expertise={item.expertise}
-              experience={item.experience}
-              ratingCount={item.ratingCount}
-              averageRating={item.averageRating}
-              onPress={() =>
-                handleViewConsultant(item.consultantId, item.fullName)
-              }
-            />
-          )}
-          ListFooterComponent={
-            hasMore ? (
-              <ListFooter>
-                <ActivityIndicator color={COLORS.primary} />
-              </ListFooter>
-            ) : (
-              <ListFooter />
-            )
-          }
-          ListEmptyComponent={
-            <ErrorDisplay
-              imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
-              title="Không có dữ liệu"
-              description="Không tìm thấy có chuyên viên nào ở đây!"
-              marginTop={12}
+    <>
+      <Container>
+        <CustomHeader
+          content={
+            <Input
+              value={searchQuery}
+              placeholder="Tìm kiếm chuyên viên..."
+              onChangeText={(text) => setSearchQuery(text)}
+              startIcon={<SearchNormal1 size={20} color={COLORS.primary} />}
+              canClearText
             />
           }
-          ItemSeparatorComponent={() => <View className="h-3" />}
         />
-      </Content>
-    </Container>
+
+        <Content>
+          <FlatList
+            data={consultantsData || []}
+            keyExtractor={(item, index) => `${item.consultantId}-${index}`}
+            onRefresh={onRefresh}
+            refreshing={isRefreshing}
+            showsVerticalScrollIndicator={false}
+            stickyHeaderIndices={[0]}
+            initialNumToRender={10}
+            maxToRenderPerBatch={10}
+            windowSize={21}
+            removeClippedSubviews
+            updateCellsBatchingPeriod={50}
+            onEndReached={onEndReached}
+            onEndReachedThreshold={0.5}
+            ListHeaderComponent={FlatListHeader}
+            renderItem={({ item }) => (
+              <ConsultantCard
+                key={item.consultantId}
+                name={item.fullName}
+                avatarUrl={item.avatarUrl}
+                expertise={item.expertise}
+                experience={item.experience}
+                ratingCount={item.ratingCount}
+                averageRating={item.averageRating}
+                onPress={() =>
+                  handleViewConsultant(item.consultantId, item.fullName)
+                }
+              />
+            )}
+            ListFooterComponent={
+              hasMore ? (
+                <ListFooter>
+                  <ActivityIndicator color={COLORS.primary} />
+                </ListFooter>
+              ) : (
+                <ListFooter />
+              )
+            }
+            ListEmptyComponent={
+              <ErrorDisplay
+                imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
+                title="Không có dữ liệu"
+                description="Không tìm thấy có chuyên viên nào ở đây!"
+                marginTop={12}
+              />
+            }
+            ItemSeparatorComponent={() => <View className="h-3" />}
+          />
+        </Content>
+      </Container>
+
+      <Modal
+        isVisible={isModalVisible}
+        title="Thông báo"
+        description="Bạn đang sử dụng Gói Cơ Bản. Một số tính năng có thể bị giới hạn."
+        confirmText="Đồng ý"
+        onClose={() => setIsModalVisible(false)}
+        onConfirm={() => setIsModalVisible(false)}
+      />
+    </>
   )
 }
 export default ConsultantScreen
