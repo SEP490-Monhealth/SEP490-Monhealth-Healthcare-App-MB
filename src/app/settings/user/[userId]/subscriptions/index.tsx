@@ -36,14 +36,9 @@ const getRemainingDays = (expiresAt: string | undefined) => {
 
 const getRemainingDaysText = (expiresAt: string | undefined) => {
   const days = getRemainingDays(expiresAt)
-  if (days <= 0) return "Đã hết hạn"
+  if (days <= 0) return ""
   if (days === 1) return "Còn 1 ngày"
   return `Còn ${days} ngày`
-}
-
-const isExpiringSoon = (expiresAt: string | undefined) => {
-  const days = getRemainingDays(expiresAt)
-  return days > 0 && days <= 3
 }
 
 function SubscriptionsScreen() {
@@ -105,7 +100,7 @@ function SubscriptionsScreen() {
       const paymentData = {
         userId: userId,
         subscriptionId: selectedSubscriptionId,
-        description: `Thanh toán nâng cấp gói ${selectedPlan?.name}`,
+        description: `Thanh toán ${selectedPlan?.name}`,
         // amount: selectedPlan?.price
         amount: 2000
       }

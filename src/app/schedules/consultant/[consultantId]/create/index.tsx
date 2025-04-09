@@ -307,10 +307,10 @@ function ScheduleCreateScreen() {
         )
       })
 
-      if (hasOverlap) {
-        setErrorMessage("Khung giờ này đã bị trùng lặp với khung giờ khác")
-        return
-      }
+      // if (hasOverlap) {
+      //   setErrorMessage("Khung giờ này đã bị trùng lặp với khung giờ khác")
+      //   return
+      // }
 
       if (!daySlot?.timeSlots.includes(timeRange)) {
         toggleTimeSlot(selectedDay, timeRange)
