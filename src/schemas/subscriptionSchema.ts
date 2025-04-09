@@ -4,12 +4,12 @@ import { UserSubscriptionSchemaEnum } from "@/constants/enum/UserSubscription"
 
 import { auditFields, timestampFields, uuidSchema } from "./baseSchema"
 
-const subscriptionNames = ["Gói Cơ Bản", "Gói Nâng Cao", "Gói Cao Cấp"] as const
+const subscriptionNames = ["Gói Cơ Bản", "Gói Nâng Cao", "Gói Cao Cấp"]
 
 export const userSubscriptionSchema = z.object({
   userSubscriptionId: uuidSchema,
-  subscriptionId: uuidSchema,
   userId: uuidSchema,
+  subscriptionId: uuidSchema,
 
   startedAt: z
     .string()

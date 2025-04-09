@@ -22,10 +22,31 @@ import { useAuth } from "@/contexts/AuthContext"
 
 import { useCreatePayment } from "@/hooks/usePayment"
 import { useGetAllSubscriptions } from "@/hooks/useSubscription"
+import { useGetUserSubscriptionByUserId } from "@/hooks/useUserSubscription"
 
 import { parseJSON } from "@/utils/helpers"
 
-function SubscriptionScreen() {
+const getRemainingDays = (expiresAt: string | undefined) => {
+  if (!expiresAt) return 0
+  const today = new Date()
+  const expiryDate = new Date(expiresAt)
+  const diffTime = expiryDate.getTime() - today.getTime()
+  return Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+}
+
+const getRemainingDaysText = (expiresAt: string | undefined) => {
+  const days = getRemainingDays(expiresAt)
+  if (days <= 0) return "Đã hết hạn"
+  if (days === 1) return "Còn 1 ngày"
+  return `Còn ${days} ngày`
+}
+
+const isExpiringSoon = (expiresAt: string | undefined) => {
+  const days = getRemainingDays(expiresAt)
+  return days > 0 && days <= 3
+}
+
+function SubscriptionsScreen() {
   const { user } = useAuth()
   const userId = user?.userId
   const userSubscription = user?.subscription
@@ -39,6 +60,11 @@ function SubscriptionScreen() {
     true,
     true
   )
+  const { data: userSubscriptionData } = useGetUserSubscriptionByUserId(userId)
+
+  const currentSubscription = Array.isArray(userSubscriptionData)
+    ? userSubscriptionData[0]
+    : null
 
   const [selectedSubscription, setSelectedSubscription] = useState<string>("")
   const [selectedSubscriptionId, setSelectedSubscriptionId] = useState<
@@ -159,6 +185,14 @@ function SubscriptionScreen() {
             )}
 
             <VStack gap={12}>
+              {userSubscription === selectedSubscription && (
+                <View className="items-end">
+                  <Text className="mr-2 font-tmedium text-base text-primary">
+                    {getRemainingDaysText(currentSubscription?.expiresAt)}
+                  </Text>
+                </View>
+              )}
+
               {subscriptionsData.subscriptions.map((item, index) => (
                 <SubscriptionCard
                   key={index}
@@ -218,4 +252,4 @@ function SubscriptionScreen() {
   )
 }
 
-export default SubscriptionScreen
+export default SubscriptionsScreen

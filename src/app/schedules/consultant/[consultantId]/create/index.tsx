@@ -8,7 +8,7 @@ import {
 } from "react-native"
 import { Keyboard } from "react-native"
 
-import { useLocalSearchParams } from "expo-router"
+import { router, useLocalSearchParams } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -208,15 +208,14 @@ function ScheduleCreateScreen() {
     const schedules = days.map((day) => {
       const dayTimeSlot = timeSlots.find((slot) => slot.dayOfWeek === day)
 
-      // Calculate specificDate based on the selected day
       let specificDate = null
       if (scheduleType === ScheduleTypeEnum.OneTime) {
         const today = new Date()
-        const currentDay = today.getDay() // Get current day of the week (0 = Sunday, 6 = Saturday)
-        const daysUntilSelectedDay = (day - currentDay + 7) % 7 // Calculate days until the selected day
+        const currentDay = today.getDay()
+        const daysUntilSelectedDay = (day - currentDay + 7) % 7
         const selectedDate = new Date(today)
-        selectedDate.setDate(today.getDate() + daysUntilSelectedDay) // Add the days to the current date
-        specificDate = selectedDate.toISOString().split("T")[0] // Format as "YYYY-MM-DD"
+        selectedDate.setDate(today.getDate() + daysUntilSelectedDay)
+        specificDate = selectedDate.toISOString().split("T")[0]
       }
 
       return {
@@ -345,11 +344,11 @@ function ScheduleCreateScreen() {
         }))
       }
 
-      console.log("Formatted Data:", JSON.stringify(formattedData, null, 2))
+      // console.log("Formatted Data:", JSON.stringify(formattedData, null, 2))
 
       await createSchedule(formattedData, {
         onSuccess: () => {
-          console.log("Schedule created successfully")
+          router.replace(`/schedules/consultant/${consultantId}`)
         }
       })
     } catch (error) {

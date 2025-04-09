@@ -4,7 +4,7 @@ import { Text, TouchableOpacity, View } from "react-native"
 
 import { HStack, VStack } from "@/components/global/atoms"
 
-import { RecurringDayEnum } from "@/constants/enum/Schedule"
+import { RecurringDayEnum, ScheduleTypeEnum } from "@/constants/enum/Schedule"
 
 import { ScheduleType, TimeSlotType } from "@/schemas/scheduleSchema"
 
@@ -113,25 +113,69 @@ const MemoizedDayTimeSlots = memo(DayTimeSlots)
 
 interface ScheduleTimeSlotsProps {
   data: ScheduleType[]
+  scheduleType: ScheduleTypeEnum
   onOpenTimeSheet: (scheduleId: string | null, day: number) => void
 }
 
 export const ScheduleTimeSlots = ({
   data,
-  onOpenTimeSheet
+  onOpenTimeSheet,
+  scheduleType
 }: ScheduleTimeSlotsProps) => {
-  const allDays = [0, 1, 2, 3, 4, 5, 6]
+  if (scheduleType === ScheduleTypeEnum.Recurring) {
+    const allDays = [0, 1, 2, 3, 4, 5, 6]
+    return (
+      <VStack gap={8}>
+        {allDays.map((day, index) => (
+          <MemoizedDayTimeSlots
+            key={`recurring-${day}`}
+            scheduleData={data}
+            day={day}
+            isLastDay={index === allDays.length - 1}
+            onAddTimeSlot={(scheduleId, day) =>
+              onOpenTimeSheet(scheduleId, day)
+            }
+          />
+        ))}
+      </VStack>
+    )
+  }
 
   return (
     <VStack gap={8}>
-      {allDays.map((day, index) => (
-        <MemoizedDayTimeSlots
-          key={day}
-          scheduleData={data}
-          day={day}
-          isLastDay={index === allDays.length - 1}
-          onAddTimeSlot={(scheduleId, day) => onOpenTimeSheet(scheduleId, day)}
-        />
+      {data.map((schedule) => (
+        <HStack
+          key={schedule.scheduleId}
+          center
+          gap={20}
+          className="border-b border-border pb-2"
+        >
+          <View className="items-center" style={{ width: 64 }}>
+            <Text className="font-tmedium text-sm text-primary">
+              {new Date(schedule.specificDate!).toLocaleDateString("vi-VN", {
+                weekday: "narrow",
+                day: "2-digit",
+                month: "2-digit"
+              })}
+            </Text>
+            <Text className="text-tregular text-center text-sm text-secondary">
+              {schedule.timeSlots.length} khung giờ
+            </Text>
+          </View>
+
+          <View className="flex-1 flex-row flex-wrap gap-2">
+            {schedule.timeSlots.map((timeSlot) => (
+              <TimeSlotButton
+                key={`${timeSlot.startTime}-${timeSlot.endTime}`}
+                timeSlot={timeSlot}
+              />
+            ))}
+
+            <AddTimeButton
+              onPress={() => onOpenTimeSheet(schedule.scheduleId, -1)}
+            />
+          </View>
+        </HStack>
       ))}
     </VStack>
   )
