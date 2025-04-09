@@ -6,7 +6,8 @@ import {
   Platform,
   ScrollView,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  View
 } from "react-native"
 
 import { useLocalSearchParams, useRouter } from "expo-router"
@@ -36,6 +37,8 @@ import { useGetBookingById } from "@/hooks/useBooking"
 import { useCreateReview } from "@/hooks/useReview"
 
 import { CreateReviewType, createReviewSchema } from "@/schemas/reviewSchema"
+
+import { getInitials } from "@/utils/helpers"
 
 const quickReviewsData = [
   "Chuyên nghiệp",
@@ -154,10 +157,18 @@ function ReviewCreateScreen() {
 
                 <VStack center gap={12}>
                   <VStack center gap={8}>
-                    <Image
-                      source={{ uri: bookingData?.consultant.avatarUrl }}
-                      className="h-32 w-32 rounded-2xl border border-border"
-                    />
+                    {bookingData.consultant.avatarUrl ? (
+                      <Image
+                        source={{ uri: bookingData.consultant.avatarUrl }}
+                        className="h-32 w-32 rounded-2xl border border-border"
+                      />
+                    ) : (
+                      <View className="flex h-32 w-32 items-center justify-center rounded-xl border border-muted bg-border">
+                        <Text className="font-tbold text-lg text-primary">
+                          {getInitials(bookingData.consultant.fullName)}
+                        </Text>
+                      </View>
+                    )}
 
                     <Text className="font-tbold text-xl text-primary">
                       {bookingData?.consultant.fullName}

@@ -207,7 +207,7 @@ function ConsultantScreen() {
               avatarUrl={item.avatarUrl}
               expertise={item.expertise}
               experience={item.experience}
-              ratingCount={0}
+              ratingCount={item.ratingCount}
               averageRating={item.averageRating}
               onPress={() =>
                 handleViewConsultant(item.consultantId, item.fullName)

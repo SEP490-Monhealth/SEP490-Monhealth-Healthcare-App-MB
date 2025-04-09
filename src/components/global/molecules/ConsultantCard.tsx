@@ -1,12 +1,14 @@
 import React from "react"
 
-import { Image, Text, TouchableOpacity } from "react-native"
+import { Image, Text, TouchableOpacity, View } from "react-native"
 
 import { ChevronRight } from "lucide-react-native"
 
 import { Card, CardHeader, HStack, VStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/color"
+
+import { getInitials } from "@/utils/helpers"
 
 import { RatingStars } from "./RatingStars"
 
@@ -37,10 +39,18 @@ export const ConsultantCard = ({
     >
       <HStack center gap={16}>
         <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
-          <Image
-            source={{ uri: avatarUrl }}
-            className="h-20 w-20 rounded-2xl border border-border"
-          />
+          {avatarUrl ? (
+            <Image
+              source={{ uri: avatarUrl }}
+              className="h-20 w-20 rounded-2xl border border-border"
+            />
+          ) : (
+            <View className="flex h-20 w-20 items-center justify-center rounded-xl border border-muted bg-border">
+              <Text className="font-tbold text-lg text-primary">
+                {getInitials(name)}
+              </Text>
+            </View>
+          )}
         </TouchableOpacity>
 
         <VStack>

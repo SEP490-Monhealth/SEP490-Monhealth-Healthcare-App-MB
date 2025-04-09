@@ -29,6 +29,8 @@ import { CreateBookingType, createBookingSchema } from "@/schemas/bookingSchema"
 
 import { useBookingStore } from "@/stores/bookingStore"
 
+import { getInitials } from "@/utils/helpers"
+
 import { LoadingScreen } from "../loading"
 
 function BookingsScreen() {
@@ -114,10 +116,18 @@ function BookingsScreen() {
           <ScrollArea className="flex-1">
             <View className="pb-12">
               <HStack center gap={20}>
-                <Image
-                  source={{ uri: consultantData.avatarUrl }}
-                  className="h-24 w-24 rounded-2xl border border-border"
-                />
+                {consultantData.avatarUrl ? (
+                  <Image
+                    source={{ uri: consultantData.avatarUrl }}
+                    className="h-24 w-24 rounded-2xl border border-border"
+                  />
+                ) : (
+                  <View className="flex h-24 w-24 items-center justify-center rounded-xl border border-muted bg-border">
+                    <Text className="font-tbold text-lg text-primary">
+                      {getInitials(consultantData.fullName)}
+                    </Text>
+                  </View>
+                )}
 
                 <VStack gap={8}>
                   <VStack gap={0}>

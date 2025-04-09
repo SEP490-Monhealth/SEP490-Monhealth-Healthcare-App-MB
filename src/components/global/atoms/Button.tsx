@@ -55,7 +55,7 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <TouchableOpacity
-      activeOpacity={0.9}
+      activeOpacity={0.8}
       disabled={disabled || loading}
       onPress={onPress}
       className={cn(

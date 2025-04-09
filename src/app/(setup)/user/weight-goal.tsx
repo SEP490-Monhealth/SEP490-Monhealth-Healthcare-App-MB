@@ -50,6 +50,7 @@ function SetupWeightGoal({ control, setValue, errors }: SetupWeightGoalProps) {
         control={control}
         render={({ field: { onChange, value } }) => (
           <Input
+            disabled
             value={value ? value.toString() : ""}
             label="Cân nặng mục tiêu"
             placeholder="VD: 66"

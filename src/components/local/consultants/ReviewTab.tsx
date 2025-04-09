@@ -46,7 +46,7 @@ export const ReviewTab = () => {
             <ReviewCard
               key={index}
               name={review.name}
-              avatarUrl={review.avatarUrl}
+              avatarUrl={review.avatarUrl || ""}
               rating={review.rating}
               comment={review.comment}
               time={review.updatedAt}
