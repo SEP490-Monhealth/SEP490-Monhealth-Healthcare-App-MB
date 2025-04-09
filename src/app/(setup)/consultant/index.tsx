@@ -290,7 +290,10 @@ function SetupConsultantScreen() {
       // @ts-ignore
       createConsultant(finalData, {
         onSuccess: () => {
-          router.replace("/(setup)/consultant/completed")
+          router.replace({
+            pathname: "/(setup)/completed",
+            params: { type: "consultant" }
+          })
         }
       })
     } catch (error) {

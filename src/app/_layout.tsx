@@ -25,21 +25,18 @@ import { MonFonts } from "@/styles/typography"
 
 import "../styles/globals.css"
 
-// Ngăn không cho màn hình splash tự động ẩn
 SplashScreen.preventAutoHideAsync()
 
-// Cấu hình logger cho Reanimated
 configureReanimatedLogger({
   strict: false,
   level: ReanimatedLogLevel.warn
 })
 
-// Cấu hình xử lý thông báo
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
-    shouldShowAlert: true, // Hiển thị cảnh báo khi nhận thông báo
-    shouldPlaySound: true, // Phát âm thanh khi nhận thông báo
-    shouldSetBadge: true // Hiển thị badge trên icon ứng dụng
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true
   })
 })
 
@@ -47,8 +44,8 @@ function AppLayout() {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        retry: 1, // Thử lại yêu cầu 1 lần nếu thất bại
-        refetchOnWindowFocus: false // Không tải lại dữ liệu khi cửa sổ được focus
+        retry: 1,
+        refetchOnWindowFocus: false
       }
     }
   })
@@ -58,7 +55,6 @@ function AppLayout() {
 
   // console.log(expoPushToken)
 
-  // Xử lý việc tải font
   useEffect(() => {
     if (fontError) {
       console.error("Lỗi khi tải font:", fontError)
@@ -67,21 +63,16 @@ function AppLayout() {
     }
   }, [fontsLoaded, fontError])
 
-  // Thiết lập thông báo
   useEffect(() => {
-    // Thiết lập thông báo và lưu hàm giải phóng
     const unsubscribeNotifications = setupNotifications(setExpoPushToken)
 
-    // Trả về hàm giải phóng cho useEffect
     return () => {
-      // Gọi hàm giải phóng được trả về từ setupNotifications
       if (unsubscribeNotifications) {
         unsubscribeNotifications()
       }
     }
   }, [])
 
-  // Không hiển thị gì khi font đang tải
   if (!fontsLoaded) {
     return null
   }

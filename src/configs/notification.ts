@@ -24,7 +24,7 @@ export function setupNotifications(
   // Xử lý thông báo nhận được khi ứng dụng đang ở foreground
   const foregroundSubscription = Notifications.addNotificationReceivedListener(
     (notification) => {
-      console.log("Thông báo nhận được khi ứng dụng đang mở:", notification)
+      // console.log("Thông báo nhận được khi ứng dụng đang mở:", notification)
       // Tại đây bạn có thể xử lý thông báo, ví dụ: hiển thị một cảnh báo trong ứng dụng
     }
   )
@@ -87,7 +87,7 @@ export async function registerForPushNotificationsAsync(): Promise<
     })
     token = pushTokenData.data
 
-    console.log("Token thông báo đẩy Expo:", token)
+    // console.log("Token thông báo đẩy Expo:", token)
 
     // Thiết lập kênh thông báo Android
     if (Platform.OS === "android") {
