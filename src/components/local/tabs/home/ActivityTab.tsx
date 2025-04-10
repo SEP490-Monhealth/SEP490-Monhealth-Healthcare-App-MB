@@ -6,9 +6,12 @@ import { useRouter } from "expo-router"
 
 import { useIsFetching, useIsMutating } from "@tanstack/react-query"
 
-import { HStack, Progress, VStack } from "@/components/global/atoms"
+import { Badge, HStack, Progress, VStack } from "@/components/global/atoms"
 import { ActivityCard } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
+
+import { COLORS } from "@/constants/color"
+import { GoalTypeEnum, getGoalTypeMeta } from "@/constants/enum/Goal"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -70,6 +73,12 @@ export const ActivityTab = ({
   }, [isFetching, isMutating, onOverlayLoading])
 
   const activitiesData = dailyActivityData?.items || []
+
+  // const { label: goalTypeLabel } = getGoalTypeMeta(
+  //   dailyActivityData?.goalType ?? GoalTypeEnum.Maintenance
+  // )
+
+  const { label: goalTypeLabel } = getGoalTypeMeta(2)
 
   const defaultActivitiesData = [
     {
@@ -145,11 +154,32 @@ export const ActivityTab = ({
         <WorkoutSummary workoutsData={workoutsData} />
       </HStack>
 
-      <Progress
+      {/* <Progress
         height={8}
         progress={dailyCaloriesBurnedGoal}
         labelStart="Mục tiêu hằng ngày"
         labelEnd={`${toFixed(dailyCaloriesBurnedGoal, 0)}%`}
+        className="mt-8"
+      /> */}
+
+      <Section
+        label="Mục tiêu hiện tại"
+        description={
+          goalTypeLabel === "Giảm cân"
+            ? "Giảm calo để kiểm soát cân nặng"
+            : goalTypeLabel === "Tăng cân"
+              ? "Tăng cường dưỡng chất và calo"
+              : "Duy trì năng lượng ổn định"
+        }
+        action={
+          <HStack className="items-center justify-between">
+            <Badge
+              label={goalTypeLabel}
+              background={COLORS.primary}
+              color="#fff"
+            />
+          </HStack>
+        }
         className="mt-8"
       />
 

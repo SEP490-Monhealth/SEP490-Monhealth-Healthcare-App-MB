@@ -6,7 +6,7 @@ import { useRouter } from "expo-router"
 
 import { useIsFetching, useIsMutating } from "@tanstack/react-query"
 
-import { HStack, Progress, VStack } from "@/components/global/atoms"
+import { Badge, HStack, VStack } from "@/components/global/atoms"
 import { TipText } from "@/components/global/atoms/Typography"
 import { MealCard } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
@@ -16,7 +16,9 @@ import {
   NutritionSummary
 } from "@/components/local/tabs/home"
 
+import { COLORS } from "@/constants/color"
 import { MealTypeEnum } from "@/constants/enum/Food"
+import { GoalTypeEnum, getGoalTypeMeta } from "@/constants/enum/Goal"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -86,6 +88,12 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
   }, [isFetching, isMutating, onOverlayLoading])
 
   const mealsData = dailyMealData?.items || []
+
+  // const { label: goalTypeLabel } = getGoalTypeMeta(
+  //   dailyMealData?.goalType ?? GoalTypeEnum.Maintenance
+  // )
+
+  const { label: goalTypeLabel } = getGoalTypeMeta(2)
 
   const defaultMealsData = [
     {
@@ -185,11 +193,32 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
         <NutritionSummary nutritionData={nutritionData} />
       </HStack>
 
-      <Progress
+      {/* <Progress
         height={8}
         progress={dailyCaloriesIntakeProgress}
         labelStart="Mục tiêu hằng ngày"
         labelEnd={`${toFixed(dailyCaloriesIntakeProgress, 0)}%`}
+        className="mt-8"
+      /> */}
+
+      <Section
+        label="Mục tiêu hiện tại"
+        description={
+          goalTypeLabel === "Giảm cân"
+            ? "Giảm calo để kiểm soát cân nặng"
+            : goalTypeLabel === "Tăng cân"
+              ? "Tăng cường dưỡng chất và calo"
+              : "Duy trì năng lượng ổn định"
+        }
+        action={
+          <HStack className="items-center justify-between">
+            <Badge
+              label={goalTypeLabel}
+              background={COLORS.primary}
+              color="#fff"
+            />
+          </HStack>
+        }
         className="mt-8"
       />
 

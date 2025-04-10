@@ -101,8 +101,8 @@ function HomeScreen() {
 
       <HomeHeader userId={userId} fullName={fullName} />
 
-      <ScrollArea>
-        <Content className="pb-12">
+      <Content className="pb-12">
+        <ScrollArea>
           <Tabs defaultValue={activeTab} contentMarginTop={8}>
             <TabsList center gap={32}>
               <TabsTrigger value="meal" onChange={handleTabChange}>
@@ -139,8 +139,8 @@ function HomeScreen() {
               />
             </TabsContent>
           </Tabs>
-        </Content>
-      </ScrollArea>
+        </ScrollArea>
+      </Content>
     </Container>
   )
 }
