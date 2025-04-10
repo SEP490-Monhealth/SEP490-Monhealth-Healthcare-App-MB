@@ -261,7 +261,7 @@ function MealDetailsScreen() {
             }}
           />
 
-          <Content className="mt-2">
+          <Content className="mt-4">
             <FlatList
               data={mealFoodsData || []}
               keyExtractor={(item, index) => `${item.foodId}-${index}`}

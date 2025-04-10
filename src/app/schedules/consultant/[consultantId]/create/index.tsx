@@ -37,7 +37,8 @@ import { RecurringDayEnum, ScheduleTypeEnum } from "@/constants/enum/Schedule"
 
 import {
   useCreateSchedule,
-  useGetAllScheduleTimeSlots
+  useGetAllScheduleTimeSlots,
+  useGetSchedulesByConsultantId
 } from "@/hooks/useSchedule"
 
 import {
@@ -52,13 +53,6 @@ interface SelectedTimeSlots {
 
 function ScheduleCreateScreen() {
   const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
-
-  const { mutate: createSchedule } = useCreateSchedule()
-
-  const { data: scheduleTimeSlotsData, isLoading: isScheduleTimeSlotsLoading } =
-    useGetAllScheduleTimeSlots()
-
-  // console.log(JSON.stringify(scheduleTimeSlotsData, null, 2))
 
   const SheetRef = useRef<SheetRefProps>(null)
   const sheetHeight = 460
@@ -97,6 +91,16 @@ function ScheduleCreateScreen() {
   })
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const { mutate: createSchedule } = useCreateSchedule()
+
+  const { data: scheduleTimeSlotsData, isLoading: isScheduleTimeSlotsLoading } =
+    useGetAllScheduleTimeSlots()
+
+  const { data: schedulesData, isLoading: isSchedulesLoading } =
+    useGetSchedulesByConsultantId(consultantId, scheduleType)
+
+  // console.log(JSON.stringify(schedulesData, null, 2))
 
   const {
     setValue,
@@ -362,10 +366,16 @@ function ScheduleCreateScreen() {
     (slot) => slot.timeSlots.length > 0
   )
 
-  // console.log(errors)
+  console.log(errors)
 
-  if (!scheduleTimeSlotsData || isScheduleTimeSlotsLoading)
+  if (
+    !scheduleTimeSlotsData ||
+    isScheduleTimeSlotsLoading ||
+    !schedulesData ||
+    isSchedulesLoading
+  ) {
     return <LoadingScreen />
+  }
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -395,6 +405,8 @@ function ScheduleCreateScreen() {
                   selectedDays={selectedDays}
                   toggleDay={toggleDay}
                   scheduleType={scheduleType}
+                  existingSchedules={schedulesData}
+                  setSelectedDays={setSelectedDays}
                 />
 
                 <Section label="Chọn khung giờ" />
@@ -405,6 +417,7 @@ function ScheduleCreateScreen() {
                   selectedTimeSlots={selectedTimeSlots}
                   toggleTimeSlot={toggleTimeSlot}
                   onOpenTimeSheet={handleOpenTimeSheet}
+                  existingSchedules={schedulesData}
                 />
               </VStack>
             </ScrollArea>
