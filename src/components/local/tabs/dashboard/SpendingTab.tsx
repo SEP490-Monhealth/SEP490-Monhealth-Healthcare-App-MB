@@ -76,7 +76,7 @@ export const SpendingTab = ({ onOverlayLoading }: SpendingTabProps) => {
       <IncomeExpenseChart data={spendingData} labels={labels} />
 
       <Section
-        label="Chi tiết chi tiêu"
+        label="Danh sách chi tiêu"
         actionText="Xem tất cả"
         onPress={handleViewTransactions}
       />

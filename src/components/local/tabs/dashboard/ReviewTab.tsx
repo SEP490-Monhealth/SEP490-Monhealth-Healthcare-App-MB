@@ -153,7 +153,7 @@ export const ReviewTab = ({
         </VStack>
 
         <Section
-          label="Tất cả đánh giá"
+          label="Danh sách đánh giá"
           actionText="Xem tất cả"
           onPress={handleViewReviews}
         />
