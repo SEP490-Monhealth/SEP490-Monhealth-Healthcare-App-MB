@@ -122,7 +122,7 @@ function ReviewsScreen() {
             <ErrorDisplay
               imageSource={require("../../../../../public/images/monhealth-no-data-image.png")}
               title="Không có dữ liệu"
-              description="Không tìm thấy có phản hồi nào ở đây!"
+              description="Không tìm thấy có đánh giá nào ở đây!"
               marginTop={24}
             />
           }
