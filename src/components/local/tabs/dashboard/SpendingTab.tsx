@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Text } from "react-native"
+import { ScrollView, Text } from "react-native"
 import { View } from "react-native"
 
 import { useRouter } from "expo-router"
@@ -44,14 +44,10 @@ const spendingData = {
 }
 
 interface SpendingTabProps {
-  onLoading: (isLoading: boolean) => void
   onOverlayLoading: (isLoading: boolean) => void
 }
 
-export const SpendingTab = ({
-  onLoading,
-  onOverlayLoading
-}: SpendingTabProps) => {
+export const SpendingTab = ({ onOverlayLoading }: SpendingTabProps) => {
   const router = useRouter()
 
   const handleViewTransactions = () => {
@@ -59,7 +55,10 @@ export const SpendingTab = ({
   }
 
   return (
-    <View>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ paddingBottom: 48 }}
+    >
       <VStack className="px-2">
         <Text className="font-tbold text-xl text-secondary">Tổng quan</Text>
 
@@ -108,6 +107,6 @@ export const SpendingTab = ({
       <View className="mt-8">
         <TipText text={getRandomTip()} />
       </View>
-    </View>
+    </ScrollView>
   )
 }

@@ -148,15 +148,15 @@ function ConsultantDetailsScreen() {
                   )}
 
                   <VStack gap={8}>
-                    <VStack gap={0}>
+                    <View>
                       <Text className="font-tbold text-2xl text-primary">
                         {consultantData.fullName}
                       </Text>
 
                       <Text className="font-tmedium text-base text-accent">
-                        {consultantData.expertise}
+                        Chuyên môn: {consultantData.expertise}
                       </Text>
-                    </VStack>
+                    </View>
 
                     <RatingStars
                       rating={consultantData.averageRating}

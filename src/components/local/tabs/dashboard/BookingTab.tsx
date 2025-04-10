@@ -1,8 +1,8 @@
 import React from "react"
 
-import { Text, View } from "react-native"
+import { ScrollView, Text, View } from "react-native"
 
-import { HStack, VStack } from "@/components/global/atoms"
+import { HStack, ScrollArea, VStack } from "@/components/global/atoms"
 import { MealCard } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
 
@@ -23,18 +23,17 @@ const bookingData = [
 ]
 
 interface BookingTabProps {
-  onLoading: (isLoading: boolean) => void
   onOverlayLoading: (isLoading: boolean) => void
 }
 
-export const BookingTab = ({
-  onLoading,
-  onOverlayLoading
-}: BookingTabProps) => {
+export const BookingTab = ({ onOverlayLoading }: BookingTabProps) => {
   const today = "2025-03-29"
 
   return (
-    <View>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ paddingBottom: 48 }}
+    >
       <VStack className="px-2">
         <Text className="font-tbold text-xl text-secondary">Tổng quan</Text>
 
@@ -83,6 +82,6 @@ export const BookingTab = ({
           progress={65}
         />
       </VStack>
-    </View>
+    </ScrollView>
   )
 }

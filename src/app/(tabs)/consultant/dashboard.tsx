@@ -7,7 +7,6 @@ import { LoadingOverlay, LoadingScreen } from "@/app/loading"
 import {
   Container,
   Content,
-  ScrollArea,
   Tabs,
   TabsContent,
   TabsList,
@@ -32,32 +31,30 @@ function DashboardScreen() {
   const consultantId = user?.consultantId
   const fullName = user?.fullName
 
-  const today = "2025-03-29"
-
   const [activeTab, setActiveTab] = useState(tab || "spending")
-  const [loading, setLoading] = useState(false)
+  const [initialLoading, setInitialLoading] = useState(true)
   const [overlayLoading, setOverlayLoading] = useState(false)
 
   const { data: walletData, isLoading: isWalletLoading } =
     useGetWalletByConsultantId(consultantId)
 
+  useEffect(() => {
+    if (!isWalletLoading) {
+      setInitialLoading(false)
+    }
+  }, [isWalletLoading])
+
   const handleTabChange = (tab: string) => {
     setActiveTab(tab)
   }
 
-  useEffect(() => {
-    if (tab) {
-      setActiveTab(tab)
-    }
-  }, [tab])
-
-  const handleLoading = useCallback((isLoading: boolean) => {
-    setLoading(isLoading)
-  }, [])
-
   const handleOverlayLoading = useCallback((isLoading: boolean) => {
     setOverlayLoading(isLoading)
   }, [])
+
+  if (initialLoading) {
+    return <LoadingScreen />
+  }
 
   return (
     <Container>
@@ -69,47 +66,38 @@ function DashboardScreen() {
         balance={walletData?.balance || 0}
       />
 
-      <ScrollArea>
-        <Content className="pb-12">
-          <Tabs defaultValue={activeTab} contentMarginTop={8}>
-            <TabsList center gap={32}>
-              <TabsTrigger value="spending" onChange={handleTabChange}>
-                Chi tiêu
-              </TabsTrigger>
+      <Content className="pb-12">
+        <Tabs defaultValue={activeTab} contentMarginTop={8}>
+          <TabsList center gap={32}>
+            <TabsTrigger value="spending" onChange={handleTabChange}>
+              Chi tiêu
+            </TabsTrigger>
 
-              <TabsTrigger value="bookings" onChange={handleTabChange}>
-                Lịch hẹn
-              </TabsTrigger>
+            <TabsTrigger value="bookings" onChange={handleTabChange}>
+              Lịch hẹn
+            </TabsTrigger>
 
-              <TabsTrigger value="reviews" onChange={handleTabChange}>
-                Đánh giá
-              </TabsTrigger>
-            </TabsList>
+            <TabsTrigger value="reviews" onChange={handleTabChange}>
+              Đánh giá
+            </TabsTrigger>
+          </TabsList>
 
-            <TabsContent value="spending">
-              <SpendingTab
-                onLoading={handleLoading}
-                onOverlayLoading={handleOverlayLoading}
-              />
-            </TabsContent>
+          <TabsContent value="spending">
+            <SpendingTab onOverlayLoading={handleOverlayLoading} />
+          </TabsContent>
 
-            <TabsContent value="bookings">
-              <BookingTab
-                onLoading={handleLoading}
-                onOverlayLoading={handleOverlayLoading}
-              />
-            </TabsContent>
+          <TabsContent value="bookings">
+            <BookingTab onOverlayLoading={handleOverlayLoading} />
+          </TabsContent>
 
-            <TabsContent value="reviews">
-              <ReviewTab
-                consultantId={consultantId}
-                onLoading={handleLoading}
-                onOverlayLoading={handleOverlayLoading}
-              />
-            </TabsContent>
-          </Tabs>
-        </Content>
-      </ScrollArea>
+          <TabsContent value="reviews">
+            <ReviewTab
+              consultantId={consultantId}
+              onOverlayLoading={handleOverlayLoading}
+            />
+          </TabsContent>
+        </Tabs>
+      </Content>
     </Container>
   )
 }
