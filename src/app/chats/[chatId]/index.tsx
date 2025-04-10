@@ -113,7 +113,7 @@ const ChatDetailsScreen = () => {
           data={messages}
           renderItem={renderMessageItem}
           keyExtractor={(item) => item.messageId}
-          inverted={false} // Set to true if you want newest messages at bottom
+          inverted={false}
         />
 
         <HStack center gap={16} className="border-t border-border py-4">
@@ -123,7 +123,6 @@ const ChatDetailsScreen = () => {
               value={newMessage}
               onChangeText={setNewMessage}
               onSubmitEditing={handleSendMessage}
-              canClearText
             />
           </View>
 

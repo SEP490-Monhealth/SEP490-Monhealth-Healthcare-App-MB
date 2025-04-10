@@ -87,7 +87,7 @@ function PaymentScreen() {
     <Container>
       <Header back label="Lịch sử thanh toán" />
 
-      <Content>
+      <Content className="mt-2">
         <FlatList
           data={paymentsData || []}
           keyExtractor={(item, index) => `${item.paymentId}-${index}`}

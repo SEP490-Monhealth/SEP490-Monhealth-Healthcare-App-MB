@@ -58,7 +58,7 @@ export const ConsultantCard = ({
             <CardHeader label={name} />
 
             <Text className="font-tmedium text-sm text-accent">
-              {expertise} • {experience} năm
+              {expertise} • KN {experience} năm
             </Text>
           </VStack>
 

@@ -13,17 +13,16 @@ import Svg, { Line, Rect, Text as SvgText } from "react-native-svg"
 import { COLORS } from "@/constants/color"
 
 const screenWidth = Dimensions.get("window").width
-
 const AnimatedRect = Animated.createAnimatedComponent(Rect)
 
 interface BarChartProps {
-  date: string
+  month: string
   labels: string[]
-  data: { date: string; calories: number }[]
+  data: { month: string; bookings: number }[]
 }
 
-export const BarChart = ({ date, data, labels }: BarChartProps) => {
-  const [selectedDate, setSelectedDate] = useState<string | null>(date)
+export const BarChart = ({ month, data, labels }: BarChartProps) => {
+  const [selectedMonth, setSelectedMonth] = useState<string | null>(month)
   const [tooltip, setTooltip] = useState<{
     x: number
     y: number
@@ -31,18 +30,18 @@ export const BarChart = ({ date, data, labels }: BarChartProps) => {
   } | null>(null)
 
   const barWidth = 28
-  const spacing = 14
+  const spacing = 18
   const maxBarHeight = 160
   const paddingTop = 40
   const paddingBottom = 20
   const chartHeight = maxBarHeight + paddingBottom + paddingTop
 
-  const maxDataValue = Math.max(...data.map((item) => item.calories), 1)
+  const maxDataValue = Math.max(...data.map((item) => item.bookings), 1)
 
-  let step = 100
-
-  if (maxDataValue >= 600) step = 200
-  if (maxDataValue >= 2000) step = 500
+  let step = 10
+  if (maxDataValue >= 100) step = 25
+  if (maxDataValue >= 200) step = 50
+  if (maxDataValue >= 500) step = 100
 
   const roundedMaxValue = Math.ceil(maxDataValue / step) * step
 
@@ -58,39 +57,38 @@ export const BarChart = ({ date, data, labels }: BarChartProps) => {
   }
 
   const dynamicPadding = screenWidth * 0.16
-
   const animatedHeights = data.map(() => useSharedValue(0))
 
   useEffect(() => {
     data.forEach((value, index) => {
       animatedHeights[index].value = withTiming(
-        value.calories * (maxBarHeight / roundedMaxValue),
+        value.bookings * (maxBarHeight / roundedMaxValue),
         {
           duration: 500,
           easing: Easing.out(Easing.ease)
         },
         (isFinished) => {
-          if (isFinished && value.date === date) {
+          if (isFinished && value.month === month) {
             const x = index * (barWidth + spacing) + dynamicPadding
             const y =
               maxBarHeight -
-              (value.calories / roundedMaxValue) * maxBarHeight +
+              (value.bookings / roundedMaxValue) * maxBarHeight +
               paddingTop
 
-            runOnJS(setTooltip)({ x, y, value: value.calories })
+            runOnJS(setTooltip)({ x, y, value: value.bookings })
           }
         }
       )
     })
-  }, [data, date])
+  }, [data, month])
 
   const handleBarPress = (index: number) => {
-    const selected = data[index].date
+    const selected = data[index].month
     const x = index * (barWidth + spacing) + dynamicPadding
     const y = maxBarHeight - animatedHeights[index].value + paddingTop
 
-    setSelectedDate(selected)
-    setTooltip({ x, y, value: data[index].calories })
+    setSelectedMonth(selected)
+    setTooltip({ x, y, value: data[index].bookings })
   }
 
   return (
@@ -125,8 +123,8 @@ export const BarChart = ({ date, data, labels }: BarChartProps) => {
 
       {data.map((item, index) => {
         const x = index * (barWidth + spacing) + dynamicPadding
-        const isToday = item.date === selectedDate
-        const barColor = isToday ? COLORS.primary : COLORS.border
+        const isSelected = item.month === selectedMonth
+        const barColor = isSelected ? COLORS.primary : COLORS.border
 
         const animatedProps = useAnimatedProps(() => ({
           height: animatedHeights[index].value,
@@ -146,7 +144,7 @@ export const BarChart = ({ date, data, labels }: BarChartProps) => {
         )
       })}
 
-      {data.map((_, index) => {
+      {labels.map((label, index) => {
         const x = index * (barWidth + spacing) + dynamicPadding
 
         return (
@@ -160,7 +158,7 @@ export const BarChart = ({ date, data, labels }: BarChartProps) => {
             fill={COLORS.primary}
             textAnchor="middle"
           >
-            {labels[index]}
+            {label}
           </SvgText>
         )
       })}
@@ -184,7 +182,7 @@ export const BarChart = ({ date, data, labels }: BarChartProps) => {
             fill={COLORS.primary}
             textAnchor="middle"
           >
-            {tooltip.value} kcal
+            {tooltip.value} {" "} lượt
           </SvgText>
         </React.Fragment>
       )}

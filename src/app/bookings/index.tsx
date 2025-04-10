@@ -137,8 +137,8 @@ function BookingsScreen() {
                     </Text>
 
                     <Text className="font-tmedium text-base text-accent">
-                      {consultantData.expertise} • {consultantData.experience}{" "}
-                      năm
+                      {consultantData.expertise} • KN{" "}
+                      {consultantData.experience} năm
                     </Text>
                   </VStack>
 

@@ -1,25 +1,30 @@
 import React from "react"
 
-import { ScrollView, Text, View } from "react-native"
+import { ScrollView, Text } from "react-native"
 
-import { HStack, ScrollArea, VStack } from "@/components/global/atoms"
-import { MealCard } from "@/components/global/molecules"
+import { LoadingScreen } from "@/app/loading"
+
+import { HStack, VStack } from "@/components/global/atoms"
+import { BookingCard } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
 
-import { MealTypeEnum } from "@/constants/enum/Food"
+import { useAuth } from "@/contexts/AuthContext"
+
+import { useGetBookingsByConsultantId } from "@/hooks/useBooking"
+
+import { getMonthRange } from "@/utils/helpers"
 
 import { BarChart } from "./BarChart"
 
-const labels = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"]
+const labels = ["T1", "T2", "T3", "T4", "T5", "T6"]
 
 const bookingData = [
-  { date: "2025-03-24", calories: 500 },
-  { date: "2025-03-25", calories: 1500 },
-  { date: "2025-03-26", calories: 2500 },
-  { date: "2025-03-27", calories: 1000 },
-  { date: "2025-03-28", calories: 700 },
-  { date: "2025-03-29", calories: 800 },
-  { date: "2025-03-30", calories: 2000 }
+  { month: "2025-01", bookings: 45 },
+  { month: "2025-02", bookings: 78 },
+  { month: "2025-03", bookings: 120 },
+  { month: "2025-04", bookings: 95 },
+  { month: "2025-05", bookings: 60 },
+  { month: "2025-06", bookings: 110 }
 ]
 
 interface BookingTabProps {
@@ -27,7 +32,30 @@ interface BookingTabProps {
 }
 
 export const BookingTab = ({ onOverlayLoading }: BookingTabProps) => {
-  const today = "2025-03-29"
+  const { user } = useAuth()
+  const consultantId = user?.consultantId
+
+  const currentMonth = "2025-04"
+
+  const currentDate = new Date(currentMonth)
+  const currentMonthNum = currentDate.getMonth()
+  const currentYear = currentDate.getFullYear()
+
+  const startMonthDate = new Date(currentYear, currentMonthNum - 5, 1)
+  const startMonth = `${startMonthDate.getFullYear()}-${String(startMonthDate.getMonth() + 1).padStart(2, "0")}`
+
+  const monthRange = getMonthRange(startMonth, currentMonth)
+
+  const { data: bookingsData } = useGetBookingsByConsultantId(consultantId)
+
+  const totalBookings = bookingData.reduce(
+    (sum, item) => sum + item.bookings,
+    0
+  )
+
+  if (!bookingsData) {
+    return <LoadingScreen />
+  }
 
   return (
     <ScrollView
@@ -39,48 +67,37 @@ export const BookingTab = ({ onOverlayLoading }: BookingTabProps) => {
 
         <HStack className="-mb-2 items-center justify-between">
           <HStack className="items-end">
-            <Text className="font-tbold text-3xl text-primary">3000</Text>
+            <Text className="font-tbold text-3xl text-primary">
+              {totalBookings}
+            </Text>
             <Text className="mb-1 font-tmedium text-base text-secondary">
-              kcal
+              lượt đặt lịch
             </Text>
           </HStack>
 
-          <Text className="font-tmedium text-primary">3 - 9 Tháng 2 2025</Text>
+          <Text className="font-tmedium text-primary">{monthRange}</Text>
         </HStack>
       </VStack>
 
-      <BarChart date={today} labels={labels} data={bookingData} />
+      <BarChart month={currentMonth} labels={labels} data={bookingData} />
 
-      <Section label="Chi tiết bữa ăn" />
+      <Section label="Danh sách lịch hẹn" />
 
       <VStack gap={12}>
-        <MealCard
-          type={MealTypeEnum.Breakfast}
-          totalFoods={3}
-          totalCalories={800}
-          progress={75}
-        />
-
-        <MealCard
-          type={MealTypeEnum.Lunch}
-          totalFoods={3}
-          totalCalories={800}
-          progress={70}
-        />
-
-        <MealCard
-          type={MealTypeEnum.Dinner}
-          totalFoods={3}
-          totalCalories={1000}
-          progress={100}
-        />
-
-        <MealCard
-          type={MealTypeEnum.Snack}
-          totalFoods={1}
-          totalCalories={300}
-          progress={65}
-        />
+        {bookingsData?.length > 0 &&
+          bookingsData.map((booking) => (
+            <BookingCard
+              key={booking.bookingId}
+              variant="default"
+              name={booking.consultant.fullName}
+              date={booking.date}
+              startTime={booking.startTime}
+              endTime={booking.endTime}
+              notes={booking.notes}
+              status={booking.status}
+              cancellationReason={booking.cancellationReason}
+            />
+          ))}
       </VStack>
     </ScrollView>
   )

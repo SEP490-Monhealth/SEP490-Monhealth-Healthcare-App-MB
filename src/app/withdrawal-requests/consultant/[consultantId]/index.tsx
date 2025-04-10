@@ -99,7 +99,7 @@ function WithdrawalRequestsScreen() {
         }}
       />
 
-      <Content>
+      <Content className="mt-2">
         <FlatList
           data={withdrawalRequestsData || []}
           keyExtractor={(item, index) => `${item.withdrawalRequestId}-${index}`}

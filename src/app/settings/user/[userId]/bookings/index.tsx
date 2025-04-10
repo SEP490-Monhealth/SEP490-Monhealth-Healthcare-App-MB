@@ -119,6 +119,7 @@ function BookingsUserScreen() {
                     {filteredBookingsData?.map((booking) => (
                       <BookingCard
                         key={booking.bookingId}
+                        variant="member"
                         name={booking.consultant.fullName}
                         date={booking.date}
                         startTime={booking.startTime}

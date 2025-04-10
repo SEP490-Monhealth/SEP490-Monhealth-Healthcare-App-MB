@@ -89,11 +89,9 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
 
   const mealsData = dailyMealData?.items || []
 
-  // const { label: goalTypeLabel } = getGoalTypeMeta(
-  //   dailyMealData?.goalType ?? GoalTypeEnum.Maintenance
-  // )
-
-  const { label: goalTypeLabel } = getGoalTypeMeta(2)
+  const { label: goalTypeLabel } = getGoalTypeMeta(
+    dailyMealData?.goalType ?? GoalTypeEnum.Maintenance
+  )
 
   const defaultMealsData = [
     {

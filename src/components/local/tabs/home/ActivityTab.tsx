@@ -74,11 +74,11 @@ export const ActivityTab = ({
 
   const activitiesData = dailyActivityData?.items || []
 
-  // const { label: goalTypeLabel } = getGoalTypeMeta(
-  //   dailyActivityData?.goalType ?? GoalTypeEnum.Maintenance
-  // )
+  const { label: goalTypeLabel } = getGoalTypeMeta(
+    dailyActivityData?.goalType ?? GoalTypeEnum.Maintenance
+  )
 
-  const { label: goalTypeLabel } = getGoalTypeMeta(2)
+  // const { label: goalTypeLabel } = getGoalTypeMeta(2)
 
   const defaultActivitiesData = [
     {

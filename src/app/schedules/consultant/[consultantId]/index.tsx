@@ -179,7 +179,9 @@ function SchedulesScreen() {
                   }
                 />
 
-                <Section label="Chọn khung giờ" margin={false} />
+                {schedulesData && schedulesData.length > 0 && (
+                  <Section label="Chọn khung giờ" margin={false} />
+                )}
 
                 {schedulesData && schedulesData.length > 0 ? (
                   <ScheduleTimeSlots

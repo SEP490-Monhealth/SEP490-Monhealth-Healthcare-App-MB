@@ -95,7 +95,7 @@ function TransactionsScreen() {
     <Container>
       <Header back label="Giao dịch" />
 
-      <Content>
+      <Content className="mt-2">
         <FlatList
           data={transactionsData || []}
           keyExtractor={(item, index) => `${item.transactionId}-${index}`}

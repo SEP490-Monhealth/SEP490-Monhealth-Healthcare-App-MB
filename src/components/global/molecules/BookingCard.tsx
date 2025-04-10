@@ -20,7 +20,7 @@ const formatTime = (time: string): string => {
 }
 
 interface BookingCardProps {
-  variant?: "default" | "consultant"
+  variant?: "default" | "member" | "consultant"
   name: string
   date: string
   startTime: string
@@ -94,7 +94,7 @@ export const BookingCard = ({
           </HStack>
         </HStack>
 
-        {variant === "default" && status === BookingStatusEnum.Pending && (
+        {variant === "member" && status === BookingStatusEnum.Pending && (
           <Button
             variant="danger"
             size="sm"
@@ -105,7 +105,7 @@ export const BookingCard = ({
           </Button>
         )}
 
-        {variant === "default" && status === BookingStatusEnum.Confirmed && (
+        {variant === "member" && status === BookingStatusEnum.Confirmed && (
           <Button
             variant="primary"
             size="sm"
@@ -116,7 +116,7 @@ export const BookingCard = ({
           </Button>
         )}
 
-        {variant === "default" &&
+        {variant === "member" &&
           status === BookingStatusEnum.Completed &&
           !reviewed && (
             <Button

@@ -86,7 +86,7 @@ function ReviewsScreen() {
     <Container>
       <Header back label="Đánh giá" />
 
-      <Content>
+      <Content className="mt-2">
         <FlatList
           data={reviewsData || []}
           keyExtractor={(item, index) => `${item.reviewId}-${index}`}
