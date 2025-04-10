@@ -1,3 +1,6 @@
+import { format } from "date-fns"
+import { vi } from "date-fns/locale"
+
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
 import { TipsData } from "@/constants/data/tips"
@@ -360,4 +363,42 @@ export const getPaymentLabel = (status: PaymentStatusEnum): string => {
  */
 export const getPaymentColor = (status: PaymentStatusEnum): string => {
   return DATA.PAYMENTS.find((item) => item.value === status)?.color || ""
+}
+
+export const getWeekRange = (dateString: string) => {
+  const date = new Date(dateString)
+
+  const day = date.getDay() || 7
+  const monday = new Date(date)
+  monday.setDate(date.getDate() - day + 1)
+
+  const sunday = new Date(monday)
+  sunday.setDate(monday.getDate() + 6)
+
+  const start = monday.getDate()
+  const end = sunday.getDate()
+  const month = format(sunday, "MMMM", { locale: vi })
+  const capitalizedMonth = month.charAt(0).toUpperCase() + month.slice(1)
+  const year = sunday.getFullYear()
+
+  return `${start} - ${end} ${capitalizedMonth} ${year}`
+}
+
+export const getMonthRange = (startMonthStr: string, endMonthStr?: string) => {
+  const startDate = new Date(startMonthStr)
+  const startMonth = startDate.getMonth() + 1
+  const year = startDate.getFullYear()
+
+  if (!endMonthStr) {
+    return `Tháng ${startMonth} ${year}`
+  }
+
+  const endDate = new Date(endMonthStr)
+  const endMonth = endDate.getMonth() + 1
+
+  if (startDate.getFullYear() === endDate.getFullYear()) {
+    return `Tháng ${startMonth} - ${endMonth} ${year}`
+  } else {
+    return `T${startMonth} ${startDate.getFullYear()} - T${endMonth} ${endDate.getFullYear()}`
+  }
 }

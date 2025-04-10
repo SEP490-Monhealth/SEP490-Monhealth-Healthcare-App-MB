@@ -10,12 +10,12 @@ export const sampleChatsData = {
       member: {
         fullName: "Van Huu Toan 1",
         avatarUrl:
-          "https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-3.jpg"
+          "https://brocanvas.com/wp-content/uploads/2022/01/hinh-anh-chu-cho-tai-cut.jpg"
       },
       consultant: {
         fullName: "Van Huu Toan Con 1",
         avatarUrl:
-          "https://brocanvas.com/wp-content/uploads/2022/01/hinh-anh-chu-cho-tai-cut.jpg"
+          "https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-3.jpg"
       },
 
       lastMessage: "Hello! How can I help you today?",

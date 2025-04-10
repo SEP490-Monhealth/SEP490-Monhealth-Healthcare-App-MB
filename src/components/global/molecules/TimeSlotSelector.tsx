@@ -2,6 +2,7 @@ import React from "react"
 
 import { Text, TouchableOpacity } from "react-native"
 
+import { COLORS } from "@/constants/color"
 import { ScheduleTimeSlotStatusEnum } from "@/constants/enum/Schedule"
 
 import { cn } from "@/lib/utils"
@@ -21,7 +22,8 @@ export const TimeSlotSelector = ({
   status,
   onPress
 }: TimeSlotSelectorProps) => {
-  const isDisabled = status !== ScheduleTimeSlotStatusEnum.Available
+  const isBooked = status === ScheduleTimeSlotStatusEnum.Booked
+  const isDisabled = status === ScheduleTimeSlotStatusEnum.Unavailable
 
   const formatTime = (time: string) => {
     const [hour, minute] = time.split(":")
@@ -30,13 +32,22 @@ export const TimeSlotSelector = ({
 
   return (
     <TouchableOpacity
-      disabled={isDisabled}
+      disabled={isBooked || isDisabled}
       activeOpacity={0.8}
       onPress={onPress}
       className={cn(
         "items-center rounded-xl border border-border px-5 py-3",
-        isSelected ? "bg-primary" : "bg-card"
+        isSelected || isDisabled ? "" : "bg-card"
       )}
+      style={
+        isSelected
+          ? { backgroundColor: COLORS.primary }
+          : isBooked
+            ? { backgroundColor: "#facc15" }
+            : isDisabled
+              ? { backgroundColor: COLORS.muted }
+              : {}
+      }
     >
       <Text
         className={cn(
@@ -44,7 +55,7 @@ export const TimeSlotSelector = ({
           isSelected
             ? "text-white"
             : isDisabled
-              ? "text-gray-200"
+              ? "text-accent"
               : "text-primary"
         )}
       >

@@ -29,8 +29,8 @@ export const MealCard = ({
   totalFoods = 0,
   totalCalories,
   progress,
-  labelStart = "0 trên 500 kcal",
-  labelEnd = "50%",
+  labelStart,
+  labelEnd,
   onPress
 }: MealCardProps) => {
   const gapClass = progress ? "gap-0" : "gap-1"
@@ -53,11 +53,7 @@ export const MealCard = ({
           {getMealTypeName("vi", type)}
         </Text>
 
-        {!progress ? (
-          <Text className="font-tmedium text-sm text-accent">
-            {totalFoods} món ăn • {toFixed(totalCalories, 0)} kcal
-          </Text>
-        ) : (
+        {progress && (
           <Progress
             progress={progress}
             height={7}
@@ -67,6 +63,10 @@ export const MealCard = ({
             className="mt-2"
           />
         )}
+
+        <Text className="font-tmedium text-sm text-accent">
+          {totalFoods} món ăn • {toFixed(totalCalories, 0)} kcal
+        </Text>
       </View>
 
       {!progress && <ChevronRight size={20} color={COLORS.primary} />}

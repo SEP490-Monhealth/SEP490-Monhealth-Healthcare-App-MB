@@ -71,6 +71,7 @@ export const useCreateSchedule = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["schedules-time-slots"] })
       queryClient.invalidateQueries({ queryKey: ["schedules"] })
+      queryClient.invalidateQueries({ queryKey: ["consultants"] })
     }
   })
 }
