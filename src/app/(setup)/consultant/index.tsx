@@ -35,6 +35,8 @@ import {
 import { informationSetupSchema } from "@/schemas/consultantSchema"
 import { expertiseSetupSchema } from "@/schemas/expertiseSchema"
 
+import { whoIAm } from "@/services/authService"
+
 import { useConsultantStore } from "@/stores/consultantStore"
 
 import { handleSelectImage, handleUploadImage } from "@/utils/images"
@@ -56,7 +58,7 @@ interface SetupStepsProps {
 function SetupConsultantScreen() {
   const router = useRouter()
 
-  const { user } = useAuth()
+  const { user, setUser } = useAuth()
   const userId = user?.userId
 
   const { mutate: createConsultant } = useCreateConsultant()
@@ -307,7 +309,9 @@ function SetupConsultantScreen() {
 
       // @ts-ignore
       createConsultant(finalData, {
-        onSuccess: () => {
+        onSuccess: async () => {
+          const updatedUser = await whoIAm()
+          setUser(updatedUser)
           router.replace({
             pathname: "/(setup)/completed",
             params: { type: "consultant" }
