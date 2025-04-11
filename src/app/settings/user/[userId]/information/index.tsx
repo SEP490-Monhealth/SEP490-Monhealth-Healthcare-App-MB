@@ -22,6 +22,7 @@ import {
   Man,
   ProfileCircle,
   Sms,
+  Vibe,
   Weight
 } from "iconsax-react-native"
 
@@ -107,7 +108,7 @@ function UserInformationScreen() {
     { label: `${metricData[0].height} cm`, icon: AlignVertically },
     { label: `${metricData[0].weight} kg`, icon: Weight },
     { label: `${goalLabel.label}`, icon: LinkCircle },
-    { label: `${goalStatus.label}`, icon: Bezier },
+    { label: `${goalStatus.label}`, icon: Vibe },
   ]
 
   const handleUpdateUser = () => {
