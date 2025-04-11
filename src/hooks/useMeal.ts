@@ -13,6 +13,7 @@ import {
   updateMealFoodQuantity,
   updateMealFoodStatus
 } from "@/services/mealService"
+import { MonQueryKey } from "@/constants/query"
 
 export const useGetMealsByUserId = (userId: string | undefined) => {
   const handleError = useError()
@@ -162,6 +163,8 @@ export const useUpdateMealFoodStatus = () => {
       queryClient.invalidateQueries({ queryKey: ["meal", mealId] })
       queryClient.invalidateQueries({ queryKey: ["mealFoods", mealId] })
       queryClient.invalidateQueries({ queryKey: ["dailyMeal", userId, today] })
+
+      queryClient.invalidateQueries({ queryKey: [MonQueryKey.Report.WeeklyMeal] })
     }
   })
 }

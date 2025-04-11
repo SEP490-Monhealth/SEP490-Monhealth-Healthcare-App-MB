@@ -1,9 +1,10 @@
-import React from "react"
+import React, { useState } from "react"
 
 import { Text } from "react-native"
 
 import { useRouter } from "expo-router"
 
+import { LoadingScreen } from "@/app/loading"
 import { Profile } from "iconsax-react-native"
 
 import {
@@ -25,20 +26,12 @@ import { useAuth } from "@/contexts/AuthContext"
 
 import { useGetDailyMealByUserId } from "@/hooks/useDailyMeal"
 import { useGetNutritionGoal } from "@/hooks/useGoal"
+import { useGetWeeklyMealByUserId } from "@/hooks/useReport"
 
+import { toFixed } from "@/utils/formatters"
 import { getWeekRange } from "@/utils/helpers"
 
 const labels = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"]
-
-const data = [
-  { date: "2025-04-07", calories: 500 },
-  { date: "2025-04-08", calories: 1500 },
-  { date: "2025-04-09", calories: 2500 },
-  { date: "2025-04-10", calories: 1000 },
-  { date: "2025-04-11", calories: 700 },
-  { date: "2025-04-12", calories: 800 },
-  { date: "2025-04-13", calories: 2000 }
-]
 
 function ReportScreen() {
   const router = useRouter()
@@ -48,12 +41,17 @@ function ReportScreen() {
 
   const today = new Date().toISOString().split("T")[0]
 
-  console.log(today)
+  const [selectedDate, setSelectedDate] = useState<string>(today)
+
+  const { data: weeklyMealData, isLoading: isWeeklyMealLoading } =
+    useGetWeeklyMealByUserId(userId, today)
 
   const { data: dailyMealData, isLoading: isDailyMealLoading } =
-    useGetDailyMealByUserId(userId, today)
+    useGetDailyMealByUserId(userId, selectedDate)
   const { data: nutritionGoalData, isLoading: isNutritionGoalLoading } =
     useGetNutritionGoal(userId)
+
+  // console.log(JSON.stringify(weeklyMealData, null, 2))
 
   // console.log(JSON.stringify(dailyMealData, null, 2))
 
@@ -63,7 +61,11 @@ function ReportScreen() {
 
   // console.log(JSON.stringify(mealsData, null, 2))
 
-  const caloriesData = data.map((item) => item.calories)
+  if (!weeklyMealData || isWeeklyMealLoading) {
+    return <LoadingScreen />
+  }
+
+  const caloriesData = weeklyMealData.map((item) => item.calories)
   const totalCalories = caloriesData.reduce((a, b) => a + b, 0)
 
   const defaultMealsData = [
@@ -130,7 +132,7 @@ function ReportScreen() {
             <HStack className="-mb-2 items-center justify-between">
               <HStack className="items-end">
                 <Text className="font-tbold text-3xl text-primary">
-                  {totalCalories}
+                  {toFixed(totalCalories, 0)}
                 </Text>
                 <Text className="mb-1 font-tmedium text-base text-secondary">
                   tổng kcal
@@ -141,7 +143,12 @@ function ReportScreen() {
             </HStack>
           </VStack>
 
-          <BarChart date={today} labels={labels} data={data} />
+          <BarChart
+            date={today}
+            labels={labels}
+            data={weeklyMealData}
+            onSelectDate={setSelectedDate}
+          />
 
           <Section label="Danh sách bữa ăn" />
 
@@ -153,7 +160,9 @@ function ReportScreen() {
                 totalFoods={item.foods}
                 totalCalories={item.calories}
                 progress={75}
-                onPress={() => handleViewMeal(item.mealId)}
+                onPress={
+                  item.isDefault ? () => {} : () => handleViewMeal(item.mealId)
+                }
               />
             ))}
           </VStack>
