@@ -25,7 +25,7 @@ import { useAuth } from "@/contexts/AuthContext"
 import { useGetDailyMealByUserId } from "@/hooks/useDailyMeal"
 import { useGetNutritionGoal } from "@/hooks/useGoal"
 
-import { formatDateY, toFixed } from "@/utils/formatters"
+import { formatDateY } from "@/utils/formatters"
 import { getRandomTip } from "@/utils/helpers"
 
 interface MealTabProps {
@@ -176,8 +176,15 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
     router.push(`/meals/${mealId}`)
   }
 
-  const handleViewFoods = () => {
-    router.push("/foods")
+  const handleViewFoods = (mealType?: MealTypeEnum) => {
+    if (mealType !== undefined) {
+      router.push({
+        pathname: "/foods",
+        params: { mealType: mealType.toString() }
+      })
+    } else {
+      router.push("/foods")
+    }
   }
 
   return (
@@ -236,7 +243,9 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
             totalFoods={item.foods}
             totalCalories={item.calories}
             onPress={() =>
-              item.isDefault ? handleViewFoods() : handleViewMeal(item.mealId)
+              item.isDefault
+                ? handleViewFoods(item.type)
+                : handleViewMeal(item.mealId)
             }
           />
         ))}

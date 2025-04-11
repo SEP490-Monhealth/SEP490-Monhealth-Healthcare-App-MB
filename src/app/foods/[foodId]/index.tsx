@@ -227,7 +227,7 @@ function FoodDetailsScreen() {
   }
 
   const confirmAddMeal = (mealData: CreateMealType) => {
-    console.log(JSON.stringify(mealData, null, 2))
+    // console.log(JSON.stringify(mealData, null, 2))
 
     addMeal(mealData)
     setWarningModal(null)

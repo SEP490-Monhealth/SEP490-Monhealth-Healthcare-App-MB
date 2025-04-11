@@ -4,7 +4,7 @@ import { ActivityIndicator, TouchableOpacity, View } from "react-native"
 import { FlatList } from "react-native"
 import { Keyboard } from "react-native"
 
-import { useRouter } from "expo-router"
+import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { SearchNormal1 } from "iconsax-react-native"
 
@@ -29,6 +29,7 @@ import { FoodCategories } from "@/components/local/foods"
 
 import { COLORS } from "@/constants/color"
 import { CategoryTypeEnum } from "@/constants/enum/Category"
+import { MealTypeEnum } from "@/constants/enum/Food"
 
 import { useAuth } from "@/contexts/AuthContext"
 import { useSearch } from "@/contexts/SearchContext"
@@ -51,6 +52,12 @@ import { LoadingScreen } from "../loading"
 
 function FoodsScreen() {
   const router = useRouter()
+  const { mealType } = useLocalSearchParams<{ mealType?: string }>()
+
+  const mealTypeParsed: MealTypeEnum =
+    !isNaN(Number(mealType)) && Number(mealType) in MealTypeEnum
+      ? (Number(mealType) as MealTypeEnum)
+      : getMealTypeByTime()
 
   const { user } = useAuth()
   const userId = user?.userId
@@ -144,7 +151,7 @@ function FoodsScreen() {
     (food: FoodType) => {
       const mealData = {
         userId: userId || "",
-        type: getMealTypeByTime(),
+        type: mealTypeParsed,
         items: [
           {
             foodId: food.foodId,
@@ -203,7 +210,7 @@ function FoodsScreen() {
   )
 
   const confirmAddMeal = (mealData: CreateMealType) => {
-    console.log(JSON.stringify(mealData, null, 2))
+    // console.log(JSON.stringify(mealData, null, 2))
 
     addMeal(mealData, {
       onSuccess: () =>
