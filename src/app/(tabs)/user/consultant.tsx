@@ -49,7 +49,7 @@ function ConsultantScreen() {
 
   const { user } = useAuth()
   const userId = user?.userId
-  const userSubscription = user?.subscription
+  // const userSubscription = user?.subscription
 
   const {
     searchConsultantHistory,
@@ -63,8 +63,8 @@ function ConsultantScreen() {
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
   const [selectedExpertise, setSelectedExpertise] = useState<string>("Tất cả")
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
-  const [hasShownModal, setHasShownModal] = useState<boolean>(false)
+  // const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+  // const [hasShownModal, setHasShownModal] = useState<boolean>(false)
 
   const limit = 10
 
@@ -123,12 +123,12 @@ function ConsultantScreen() {
     setIsRefreshing(false)
   }
 
-  useEffect(() => {
-    if (userSubscription === "Gói Cơ Bản" && !hasShownModal) {
-      setIsModalVisible(true)
-      setHasShownModal(true)
-    }
-  }, [userSubscription])
+  // useEffect(() => {
+  //   if (userSubscription === "Gói Cơ Bản" && !hasShownModal) {
+  //     setIsModalVisible(true)
+  //     setHasShownModal(true)
+  //   }
+  // }, [userSubscription])
 
   const handleViewConsultant = (consultantId: string, fullName: string) => {
     addSearchConsultantHistory({ consultantId, fullName })
@@ -248,14 +248,14 @@ function ConsultantScreen() {
         </Content>
       </Container>
 
-      <Modal
+      {/* <Modal
         isVisible={isModalVisible}
         title="Thông báo"
         description="Bạn đang sử dụng Gói Cơ Bản. Một số tính năng có thể bị giới hạn."
         confirmText="Đồng ý"
         onClose={() => setIsModalVisible(false)}
         onConfirm={() => setIsModalVisible(false)}
-      />
+      /> */}
     </>
   )
 }

@@ -199,26 +199,28 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
         className="mt-8"
       /> */}
 
-      <Section
-        label="Mục tiêu hiện tại"
-        description={
-          goalTypeLabel === "Giảm cân"
-            ? "Giảm calo để kiểm soát cân nặng"
-            : goalTypeLabel === "Tăng cân"
-              ? "Tăng cường dưỡng chất và calo"
-              : "Duy trì năng lượng ổn định"
-        }
-        action={
-          <HStack className="items-center justify-between">
-            <Badge
-              label={goalTypeLabel}
-              background={COLORS.primary}
-              color="#fff"
-            />
-          </HStack>
-        }
-        className="mt-8"
-      />
+      {!isDailyMealLoading && dailyMealData && (
+        <Section
+          label="Mục tiêu hiện tại"
+          description={
+            goalTypeLabel === "Giảm cân"
+              ? "Giảm calo để kiểm soát cân nặng"
+              : goalTypeLabel === "Tăng cân"
+                ? "Tăng cường dưỡng chất và calo"
+                : "Duy trì năng lượng ổn định"
+          }
+          action={
+            <HStack className="items-center justify-between">
+              <Badge
+                label={goalTypeLabel}
+                background={COLORS.primary}
+                color="#fff"
+              />
+            </HStack>
+          }
+          className="mt-8"
+        />
+      )}
 
       <Section
         label="Bữa ăn hôm nay"

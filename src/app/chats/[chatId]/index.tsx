@@ -43,15 +43,12 @@ const ChatDetailsScreen = () => {
 
   const [chatHubConnection, setChatHubConnection] = useState<HubConnection>()
   const [connectionStatus, setConnectionStatus] = useState<boolean>(false)
+  const [messages, setMessages] = useState<MessageType[]>([])
   const [newMessage, setNewMessage] = useState<string>("")
   const [selectedMessageId, setSelectedMessageId] = useState<string | null>(
     null
   )
   const { mutate: sendMessage } = useCreateMessage()
-
-  const { data: messagesData, isLoading } = useGetMessagesByChatId(chatId)
-
-  // console.log(JSON.stringify(messagesData, null, 2))
 
   useEffect(() => {
     createHubConnection()
@@ -105,9 +102,9 @@ const ChatDetailsScreen = () => {
       }
 
       try {
-        console.log("Sending message:", JSON.stringify(newData, null, 2))
+        // console.log("Sending message:", JSON.stringify(newData, null, 2))
 
-        await sendMessage(newData)
+        // await sendMessage(newData)
 
         setNewMessage("")
       } catch (error) {
@@ -120,21 +117,29 @@ const ChatDetailsScreen = () => {
     setSelectedMessageId(selectedMessageId)
   }
 
-  const renderMessageItem = ({ item }: { item: MessageType }) => (
-    <MessageCard
-      key={item.messageId}
-      messageId={item.messageId}
-      sender={item.senderId === senderId}
-      message={item.content}
-      timestamp={item.createdAt}
-      avatarUrl={item.avatarUrl}
-      isSelected={selectedMessageId === item.messageId}
-      onPress={() => handlePressMessage(item.messageId)}
-    />
-  )
+  const renderMessageItem = ({
+    item,
+    index
+  }: {
+    item: MessageType
+    index: number
+  }) => {
+    const currentSender = item.senderId
+    const nextMessage = messages?.[index - 1]
+    const showAvatar = !nextMessage || nextMessage.senderId !== currentSender
 
-  if (isLoading) {
-    return <LoadingScreen />
+    return (
+      <MessageCard
+        key={item.messageId}
+        messageId={item.messageId}
+        sender={currentSender === senderId}
+        message={item.content}
+        timestamp={item.createdAt}
+        avatarUrl={showAvatar ? item.avatarUrl : undefined}
+        isSelected={selectedMessageId === item.messageId}
+        onPress={() => handlePressMessage(item.messageId)}
+      />
+    )
   }
 
   return (
@@ -148,7 +153,7 @@ const ChatDetailsScreen = () => {
         className="flex-1 px-6"
       >
         <FlatList
-          data={messagesData}
+          data={messages}
           renderItem={renderMessageItem}
           keyExtractor={(item) => item.messageId}
           inverted

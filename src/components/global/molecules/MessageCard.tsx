@@ -30,15 +30,18 @@ export const MessageCard = ({
       activeOpacity={1}
       onPress={onPress}
       className={cn(
-        "mb-3 flex-row items-end gap-2",
+        "mb-2 flex-row items-end gap-2",
         sender ? "justify-end" : "justify-start"
       )}
     >
-      {!sender && avatarUrl && (
-        <Image
-          source={{ uri: avatarUrl }}
-          className="mr-2 h-10 w-10 rounded-full"
-        />
+      {!sender && (
+        <View className="mr-2 h-10 w-10 overflow-hidden rounded-full">
+          {avatarUrl ? (
+            <Image source={{ uri: avatarUrl }} className="h-full w-full" />
+          ) : (
+            <View className="h-full w-full" style={{ opacity: 0 }} />
+          )}
+        </View>
       )}
 
       {sender && isSelected && (
