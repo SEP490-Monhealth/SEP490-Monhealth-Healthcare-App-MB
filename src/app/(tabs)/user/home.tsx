@@ -6,7 +6,7 @@ import Constants from "expo-constants"
 import * as Device from "expo-device"
 import { useLocalSearchParams } from "expo-router"
 
-import { LoadingOverlay, LoadingScreen } from "@/app/loading"
+import { LoadingOverlay } from "@/app/loading"
 import { setupNotifications } from "@/configs/notification"
 
 import {
