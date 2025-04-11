@@ -18,9 +18,7 @@ export const getNotificationsByConsultantId = async (
   try {
     const response = await monAPI.get(
       `/notifications/consultant/${consultantId}`,
-      {
-        params: { page, limit }
-      }
+      { params: { page, limit } }
     )
 
     const { success, message, data } = response.data

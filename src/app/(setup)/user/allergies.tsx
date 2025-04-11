@@ -30,7 +30,7 @@ function SetupAllergies({ control }: SetupAllergiesProps) {
 
   return (
     <ScrollArea>
-      <VStack gap={12} className="pb-24">
+      <VStack gap={12} className="pb-28">
         {allergiesData.map((allergy) => (
           <Chip
             key={allergy.allergyId}

@@ -2,7 +2,7 @@ import React from "react"
 
 import { Control, FieldValues, useController } from "react-hook-form"
 
-import { Chip, VStack } from "@/components/global/atoms"
+import { Chip, ScrollArea, VStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
@@ -22,33 +22,36 @@ function SetupActivityLevel({ control }: SetupActivityLevelProps) {
   }
 
   return (
-    <VStack>
-      {DATA.ACTIVITY_LEVELS.map((activity) => {
-        const Icon = activity.icon
+    <ScrollArea>
+      <VStack gap={12} className="pb-28">
+        {DATA.ACTIVITY_LEVELS.map((activity) => {
+          const Icon = activity.icon
 
-        return (
-          <Chip
-            key={activity.label}
-            size="lg"
-            border
-            borderWidth={2}
-            label={activity.label}
-            icon={
-              <Icon
-                size={28}
-                color={
-                  field.value === activity.value
-                    ? COLORS.primary
-                    : COLORS.accent
-                }
-              />
-            }
-            selected={field.value === activity.value}
-            onPress={() => handleSelectActivity(activity.value)}
-          />
-        )
-      })}
-    </VStack>
+          return (
+            <Chip
+              key={activity.label}
+              size="lg"
+              border
+              borderWidth={2}
+              label={activity.label}
+              description={activity.description}
+              icon={
+                <Icon
+                  size={28}
+                  color={
+                    field.value === activity.value
+                      ? COLORS.primary
+                      : COLORS.accent
+                  }
+                />
+              }
+              selected={field.value === activity.value}
+              onPress={() => handleSelectActivity(activity.value)}
+            />
+          )
+        })}
+      </VStack>
+    </ScrollArea>
   )
 }
 

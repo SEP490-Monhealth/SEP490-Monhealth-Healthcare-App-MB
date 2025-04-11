@@ -74,11 +74,38 @@ export const DATA = {
     { label: "Nữ", value: GenderEnum.Female, icon: Woman }
   ],
   ACTIVITY_LEVELS: [
-    { label: "0 buổi / tuần", value: 1.2, icon: Calendar2 },
-    { label: "1 - 3 buổi / tuần", value: 1.375, icon: CalendarSearch },
-    { label: "3 - 5 buổi / tuần", value: 1.55, icon: Calendar },
-    { label: "6 - 7 buổi / tuần", value: 1.725, icon: Calendar1 },
-    { label: "Hơn 7 buổi / tuần", value: 1.9, icon: CalendarCircle }
+    {
+      label: "Ít vận động",
+      description:
+        "Hầu như không tập thể dục, công việc văn phòng chủ yếu ngồi",
+      value: 1.2,
+      icon: Calendar2
+    },
+    {
+      label: "Nhẹ",
+      description: "Đi bộ nhẹ 1-3 lần/tuần, công việc ít đi lại",
+      value: 1.375,
+      icon: CalendarSearch
+    },
+    {
+      label: "Vừa phải",
+      description:
+        "Tập thể dục vừa phải 3-5 lần/tuần (đi bộ nhanh, chạy bộ nhẹ)",
+      value: 1.55,
+      icon: Calendar
+    },
+    {
+      label: "Năng động",
+      description: "Tập luyện tích cực 5-7 lần/tuần (chạy bộ, đạp xe, bơi lội)",
+      value: 1.725,
+      icon: Calendar1
+    },
+    {
+      label: "Rất năng động",
+      description: "Vận động viên hoặc tập luyện cường độ cao hàng ngày",
+      value: 1.9,
+      icon: CalendarCircle
+    }
   ],
   GOALS: [
     {
@@ -113,7 +140,7 @@ export const DATA = {
     { label: "Duy trì cân nặng", description: "Không thay đổi", value: 1 },
     { label: "Tăng cân chậm", description: "0.25kg / tuần", value: 1.1 },
     { label: "Tăng cân trung bình", description: "0.5kg / tuần", value: 1.2 },
-    { label: "Giảm cân nhanh", description: "0.75kg / tuần", value: 1.3 }
+    { label: "Tăng cân nhanh", description: "0.75kg / tuần", value: 1.3 }
   ],
   WORKOUTS: [
     { label: "Đã nạp", unit: "kcal", color: "#16a34a" },

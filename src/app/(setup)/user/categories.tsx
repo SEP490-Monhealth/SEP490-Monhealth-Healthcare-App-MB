@@ -40,7 +40,7 @@
 
 //   return (
 //     <ScrollArea>
-//       <VStack gap={12} className="pb-24">
+//       <VStack gap={12} className="pb-28">
 //         {filteredCategoriesData.map((category) => (
 //           <Chip
 //             key={category.categoryId}

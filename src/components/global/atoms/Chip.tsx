@@ -4,6 +4,8 @@ import { Text, TouchableOpacity, View } from "react-native"
 
 import { cn } from "@/lib/utils"
 
+import { VStack } from "./Stack"
+
 interface ChipProps {
   label: string
   description?: string
@@ -88,24 +90,26 @@ export const Chip = ({
     >
       {icon && <View className="mr-4">{icon}</View>}
 
-      <View className="flex-col justify-start">
-        <Text
-          className={`font-tmedium ${
-            border ? borderStyle.text : variantStyle.text
-          } ${sizeStyle.text}`}
-        >
-          {label}
-        </Text>
-
-        {description && (
+      <View className="flex-1">
+        <VStack gap={0} className="justify-start">
           <Text
-            className={`font-tmedium text-sm text-accent ${
+            className={`font-tmedium ${
               border ? borderStyle.text : variantStyle.text
-            } `}
+            } ${sizeStyle.text}`}
           >
-            {description}
+            {label}
           </Text>
-        )}
+
+          {description && (
+            <Text
+              className={`font-tmedium text-sm text-accent ${
+                border ? borderStyle.text : variantStyle.text
+              } `}
+            >
+              {description}
+            </Text>
+          )}
+        </VStack>
       </View>
     </TouchableOpacity>
   )

@@ -110,28 +110,31 @@ function SetupUserScreen() {
     },
     {
       title: "Số đo",
-      description: "Nhập chiều cao và cân nặng hiện tại của bạn",
+      description:
+        "Nhập chiều cao và cân nặng hiện tại để tính chỉ số BMI và nhu cầu dinh dưỡng của bạn",
       component: SetupHeightWeight,
       fields: ["height", "weight"],
       schema: heightWeightSetupSchema
     },
     {
       title: "Hoạt động",
-      description: "Chọn mức độ vận động hàng ngày của bạn",
+      description:
+        "Chọn mức độ vận động hàng ngày để chúng tôi có thể tính toán nhu cầu calo phù hợp cho bạn",
       component: SetupActivityLevel,
       fields: ["activityLevel"],
       schema: activityLevelSetupSchema
     },
     {
-      title: "Cân nặng",
-      description: "Nhập cân nặng mục tiêu mà bạn mong muốn",
+      title: "Cân nặng mục tiêu",
+      description: "Nhập cân nặng mục tiêu bạn muốn đạt được trong tương lai",
       component: SetupWeightGoal,
       fields: ["weightGoal"],
       schema: weightGoalSetupSchema
     },
     {
       title: "Mục tiêu",
-      description: "Xác định mục tiêu sức khỏe chính của bạn",
+      description:
+        "Bạn muốn giảm cân, duy trì cân nặng hiện tại, hay tăng cân?",
       component: SetupGoalType,
       fields: ["goalType"],
       schema: goalTypeSetupSchema
@@ -142,7 +145,10 @@ function SetupUserScreen() {
 
   if (goalType !== GoalTypeEnum.Maintenance) {
     stepsWithGoalType.push({
-      title: goalType === GoalTypeEnum.WeightLoss ? "Giảm cân" : "Tăng cân",
+      title:
+        goalType === GoalTypeEnum.WeightLoss
+          ? "Tốc độ giảm cân"
+          : "Tốc độ tăng cân",
       description:
         goalType === GoalTypeEnum.WeightLoss
           ? "Chọn tốc độ giảm cân phù hợp với cơ thể của bạn"
@@ -155,7 +161,8 @@ function SetupUserScreen() {
 
   stepsWithGoalType.push({
     title: "Dị ứng",
-    description: "Cho chúng tôi biết những thực phẩm bạn bị dị ứng",
+    description:
+      "Chọn các thực phẩm bạn bị dị ứng để chúng tôi loại bỏ khỏi chế độ ăn của bạn",
     component: SetupAllergies,
     fields: ["allergies"],
     schema: allergySetupSchema
