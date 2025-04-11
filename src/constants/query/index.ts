@@ -5,6 +5,16 @@ export const MonQueryKey = {
     Logout: "Logout"
   },
 
+  Chat: {
+    UserChat: "chats-user",
+    ConsultantChat: "chats-consultant",
+    Chat: "chat"
+  },
+
+  Message: {
+    Messages: "messages"
+  },
+
   Report: {
     WeeklyMeal: "WeeklyMeal"
   }

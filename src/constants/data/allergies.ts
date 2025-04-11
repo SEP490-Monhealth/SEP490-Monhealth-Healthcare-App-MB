@@ -4,8 +4,7 @@ export const sampleAllergiesData: AllergyType[] = [
   {
     allergyId: "99b9eae6-f5e8-4b41-9394-6a8f2ca1062b",
     name: "Đậu phộng",
-    description:
-      "Bánh kẹo chứa đậu phộng, nước sốt satay, đậu phộng rang, snack",
+    description: "Bánh kẹo chứa đậu phộng, nước sốt satay, đậu phộng rang",
     createdAt: "2025-01-06T00:00:00Z",
     updatedAt: "2025-01-06T00:00:00Z"
   },
