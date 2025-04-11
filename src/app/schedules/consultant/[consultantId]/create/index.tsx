@@ -366,7 +366,7 @@ function ScheduleCreateScreen() {
     (slot) => slot.timeSlots.length > 0
   )
 
-  console.log(errors)
+  // console.log(errors)
 
   if (
     !scheduleTimeSlotsData ||

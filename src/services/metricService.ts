@@ -35,7 +35,8 @@ export const getMetricsByUserId = async (
 }
 
 export const createMetric = async (
-  newData: CreateUpdateMetricType
+  newData: CreateUpdateMetricType,
+  showModal?: (message: string) => void
 ): Promise<string> => {
   try {
     const response = await monAPI.post(`/metrics`, newData)
@@ -43,19 +44,28 @@ export const createMetric = async (
     const { success, message } = response.data
 
     if (!success) {
+      if (showModal)
+        showModal(message || "Không thể tạo thông tin sức khỏe mới")
+
       throw {
         isCustomError: true,
         message: message || "Không thể tạo thông tin sức khỏe mới"
       }
     }
 
+    if (showModal) showModal("Cập nhật thông tin sức khỏe thành công")
+
     console.log(message)
     return message
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
+      if (showModal) showModal("Đã xảy ra lỗi khi tạo thông tin sức khỏe")
+
       console.log("Lỗi từ server:", error.response?.data || error.message)
       throw error
     } else {
+      if (showModal) showModal("Đã xảy ra lỗi không mong muốn")
+
       console.log("Lỗi không phải Axios:", error)
       throw {
         isCustomError: true,

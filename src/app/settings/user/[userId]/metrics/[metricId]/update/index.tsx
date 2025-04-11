@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 
 import {
   Keyboard,
@@ -55,8 +55,62 @@ const MetricUpdateScreen = () => {
 
   const { mutate: updateMetric } = useUpdateMetric(userId)
 
-  if (!metricsData || isMetricsLoading || !goalsData || isGoalsLoading)
+  const DateOfBirthRef = useRef<SheetRefProps>(null)
+  const GenderRef = useRef<SheetRefProps>(null)
+  const ActivityLevelRef = useRef<SheetRefProps>(null)
+  const GoalTypeRef = useRef<SheetRefProps>(null)
+  const CaloriesRatioRef = useRef<SheetRefProps>(null)
+
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors }
+  } = useForm<CreateUpdateMetricType>({
+    resolver: zodResolver(createUpdateMetricSchema),
+    defaultValues: {
+      userId: userId,
+      dateOfBirth: "",
+      gender: 0,
+      height: 0,
+      weight: 0,
+      activityLevel: 0,
+      goalType: 0,
+      weightGoal: 0,
+      caloriesRatio: 10
+    }
+  })
+
+  useEffect(() => {
+    if (metricsData && goalsData) {
+      const metricData = metricsData[0]
+      const goalData = goalsData[0]
+
+      reset({
+        userId: userId,
+        dateOfBirth: metricData.dateOfBirth,
+        gender: metricData.gender,
+        height: metricData.height,
+        weight: metricData.weight,
+        activityLevel: metricData.activityLevel,
+        goalType: goalData.type,
+        weightGoal: goalData.weightGoal,
+        caloriesRatio: goalData.caloriesRatio
+      })
+
+      // cập nhật các state tương ứng nếu muốn
+      setDob(metricData.dateOfBirth)
+      setGender(metricData.gender)
+      setActivityLevel(metricData.activityLevel)
+      setGoalType(goalData.type)
+      setCaloriesRatio(goalData.caloriesRatio)
+    }
+  }, [metricsData, goalsData])
+
+  if (!metricsData || isMetricsLoading || !goalsData || isGoalsLoading) {
     return <LoadingScreen />
+  }
 
   const metricData = metricsData[0]
   const goalData = goalsData[0]
@@ -71,12 +125,6 @@ const MetricUpdateScreen = () => {
     number | undefined
   >(goalData.caloriesRatio)
 
-  const DateOfBirthRef = useRef<SheetRefProps>(null)
-  const GenderRef = useRef<SheetRefProps>(null)
-  const ActivityLevelRef = useRef<SheetRefProps>(null)
-  const GoalTypeRef = useRef<SheetRefProps>(null)
-  const CaloriesRatioRef = useRef<SheetRefProps>(null)
-
   const filteredCaloriesRatio =
     selectedGoalType === GoalTypeEnum.WeightLoss
       ? DATA.CALORIES_RATIO.slice(0, 3)
@@ -86,18 +134,10 @@ const MetricUpdateScreen = () => {
           ? DATA.CALORIES_RATIO.slice(4, 7)
           : []
 
-  const openSheetDateOfBirth = () => {
-    DateOfBirthRef.current?.scrollTo(-320)
-  }
-  const openSheetGender = () => {
-    GenderRef.current?.scrollTo(-180)
-  }
-  const openSheetActivity = () => {
-    ActivityLevelRef.current?.scrollTo(-320)
-  }
-  const openSheetGoalType = () => {
-    GoalTypeRef.current?.scrollTo(-200)
-  }
+  const openSheetDateOfBirth = () => DateOfBirthRef.current?.scrollTo(-320)
+  const openSheetGender = () => GenderRef.current?.scrollTo(-180)
+  const openSheetActivity = () => ActivityLevelRef.current?.scrollTo(-320)
+  const openSheetGoalType = () => GoalTypeRef.current?.scrollTo(-200)
   const openSheetCaloriesRatio = () => {
     if (filteredCaloriesRatio.length === 3) {
       CaloriesRatioRef.current?.scrollTo(-240)
@@ -114,33 +154,9 @@ const MetricUpdateScreen = () => {
     CaloriesRatioRef.current?.scrollTo(0)
   }
 
-  const {
-    control,
-    handleSubmit,
-    setValue,
-    formState: { errors }
-  } = useForm<CreateUpdateMetricType>({
-    resolver: zodResolver(createUpdateMetricSchema),
-    defaultValues: {
-      userId: userId,
-      dateOfBirth: metricData.dateOfBirth,
-      gender: metricData.gender,
-      height: metricData.height,
-      weight: metricData.weight,
-      activityLevel: metricData.activityLevel,
-      goalType: goalData.type,
-      weightGoal: goalData.weightGoal,
-      caloriesRatio: goalData.caloriesRatio
-    }
-  })
-
   const onSubmit = async (updatedData: CreateUpdateMetricType) => {
-    // console.log(JSON.stringify(data, null, 2))
-
     updateMetric(updatedData, {
-      onSuccess: () => {
-        router.back()
-      }
+      onSuccess: () => router.back()
     })
   }
 
@@ -151,16 +167,19 @@ const MetricUpdateScreen = () => {
       setDob(selectedDate)
     }
   }
+
   const onGenderSelect = (gender: number) => {
     setValue("gender", gender)
     setGender(gender)
     closeSheet()
   }
+
   const onActivityLevelSelect = (activityLevel: number) => {
     setValue("activityLevel", activityLevel)
     setActivityLevel(activityLevel)
     closeSheet()
   }
+
   const onGoalTypeSelect = (goalType: number) => {
     setValue("goalType", goalType)
     setGoalType(goalType)
@@ -168,6 +187,7 @@ const MetricUpdateScreen = () => {
     setValue("caloriesRatio", 10)
     closeSheet()
   }
+
   const onCaloriesRatioSelect = (caloriesRatio: number) => {
     setValue("caloriesRatio", caloriesRatio)
     setCaloriesRatio(caloriesRatio)
@@ -184,18 +204,14 @@ const MetricUpdateScreen = () => {
     DATA.GOALS.find((goalType) => goalType.value === selectedGoalType)?.label ||
     ""
   const caloriesRatioLabel =
-    DATA.CALORIES_RATIO.find(
-      (caloriesRatio) => caloriesRatio.value === selectedCaloriesRatio
-    )?.label || ""
-
-  // console.log(errors)
+    DATA.CALORIES_RATIO.find((item) => item.value === selectedCaloriesRatio)
+      ?.label || ""
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView className="h-full flex-1 bg-background">
         <Container>
           <Header back label="Cập nhật sức khỏe" />
-
           <Content className="mt-2">
             <ScrollArea>
               <VStack gap={12} className="pb-20">
@@ -206,20 +222,18 @@ const MetricUpdateScreen = () => {
                   onPress={openSheetDateOfBirth}
                   errorMessage={errors.dateOfBirth?.message}
                 />
-
                 <Select
                   label="Giới tính"
                   defaultValue="Chọn giới tính"
                   value={genderLabel}
                   onPress={openSheetGender}
                 />
-
                 <Controller
                   name="height"
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <Input
-                      value={value ? value.toString() : ""}
+                      value={value?.toString() || ""}
                       label="Chiều cao"
                       placeholder="VD: 170"
                       onChangeText={(text) => onChange(parseFloat(text) || 0)}
@@ -235,13 +249,12 @@ const MetricUpdateScreen = () => {
                     />
                   )}
                 />
-
                 <Controller
                   name="weight"
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <Input
-                      value={value ? value.toString() : ""}
+                      value={value?.toString() || ""}
                       label="Cân nặng"
                       placeholder="VD: 60"
                       onChangeText={(text) => onChange(parseFloat(text) || 0)}
@@ -257,21 +270,19 @@ const MetricUpdateScreen = () => {
                     />
                   )}
                 />
-
                 <Select
                   label="Mục tiêu"
                   defaultValue="Chọn mục tiêu"
                   value={goalTypeLabel}
                   onPress={openSheetGoalType}
                 />
-
                 <Controller
                   name="weightGoal"
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <Input
                       disabled
-                      value={value ? value.toString() : ""}
+                      value={value?.toString() || ""}
                       label="Cân nặng mục tiêu"
                       placeholder="VD: 60"
                       onChangeText={(text) => onChange(parseFloat(text) || 0)}
@@ -287,14 +298,12 @@ const MetricUpdateScreen = () => {
                     />
                   )}
                 />
-
                 <Select
                   label="Mức độ hoạt động"
                   defaultValue="Chọn mức độ hoạt động"
                   value={activityLevelLabel}
                   onPress={openSheetActivity}
                 />
-
                 <VStack>
                   <Select
                     label="Tốc độ tăng cân"
@@ -316,6 +325,7 @@ const MetricUpdateScreen = () => {
           </Button>
         </Container>
 
+        {/* Sheets */}
         <Sheet ref={GenderRef} dynamicHeight={180}>
           {DATA.GENDERS.map((gender) => (
             <SheetItem
@@ -326,7 +336,6 @@ const MetricUpdateScreen = () => {
             />
           ))}
         </Sheet>
-
         <Sheet ref={DateOfBirthRef} dynamicHeight={300}>
           <View className="items-center">
             <DateTimePicker
@@ -340,7 +349,6 @@ const MetricUpdateScreen = () => {
             />
           </View>
         </Sheet>
-
         <Sheet ref={ActivityLevelRef} dynamicHeight={300}>
           {DATA.ACTIVITY_LEVELS.map((activity) => (
             <SheetItem
@@ -351,7 +359,6 @@ const MetricUpdateScreen = () => {
             />
           ))}
         </Sheet>
-
         <Sheet ref={GoalTypeRef} dynamicHeight={400}>
           {DATA.GOALS.map((goalType) => (
             <SheetItem
@@ -362,7 +369,6 @@ const MetricUpdateScreen = () => {
             />
           ))}
         </Sheet>
-
         <Sheet ref={CaloriesRatioRef} dynamicHeight={400}>
           {filteredCaloriesRatio.map((caloriesRatio) => (
             <SheetItem

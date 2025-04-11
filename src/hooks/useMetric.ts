@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { useError } from "@/contexts/ErrorContext"
+import { useModal } from "@/contexts/ModalContext"
 
 import { CreateUpdateMetricType, MetricType } from "@/schemas/metricSchema"
 
@@ -42,11 +43,12 @@ export const useCreateMetric = () => {
 export const useUpdateMetric = (userId: string | undefined) => {
   const queryClient = useQueryClient()
   const handleError = useError()
+  const { showModal } = useModal()
 
   return useMutation<string, Error, CreateUpdateMetricType>({
     mutationFn: async (newData) => {
       try {
-        return await createMetric(newData)
+        return await createMetric(newData, showModal)
       } catch (error) {
         handleError(error)
         throw error
