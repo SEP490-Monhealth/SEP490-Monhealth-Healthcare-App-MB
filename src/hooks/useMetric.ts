@@ -33,7 +33,7 @@ export const useGetMetricsByUserId = (userId: string | undefined) => {
   })
 }
 
-export const useCreateMetric = () => {
+export const useCreateMetric = (userId: string | undefined) => {
   const queryClient = useQueryClient()
   const handleError = useError()
 
@@ -48,6 +48,10 @@ export const useCreateMetric = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["metrics"] })
+      if (userId) {
+        queryClient.invalidateQueries({ queryKey: ["metrics", userId] })
+        queryClient.invalidateQueries({ queryKey: ["goals", userId] })
+      }
     }
   })
 }

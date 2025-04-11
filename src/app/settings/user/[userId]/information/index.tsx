@@ -12,13 +12,11 @@ import { useLocalSearchParams, useRouter } from "expo-router"
 import { LoadingScreen } from "@/app/loading"
 import {
   AlignVertically,
+  Autobrightness,
   Award,
-  Bezier,
   Calendar,
   CalendarCircle,
   CallCalling,
-  Framer,
-  LinkCircle,
   Man,
   ProfileCircle,
   Sms,
@@ -59,8 +57,6 @@ function UserInformationScreen() {
   const router = useRouter()
   const { userId } = useLocalSearchParams<{ userId: string }>()
 
-  console.log(userId)
-
   const { user } = useAuth()
   const userSubscription = user?.subscription
 
@@ -69,7 +65,6 @@ function UserInformationScreen() {
   const { data: userData, isLoading: isUserLoading } = useGetUserById(userId)
   const { data: metricData, isLoading: isMetricLoading } =
     useGetMetricsByUserId(userId)
-
   const { data: goalData, isLoading: isGoalLoading } =
     useGetGoalsByUserId(userId)
 
@@ -107,12 +102,16 @@ function UserInformationScreen() {
     { label: formatDate(metricData[0].dateOfBirth), icon: Calendar },
     { label: `${metricData[0].height} cm`, icon: AlignVertically },
     { label: `${metricData[0].weight} kg`, icon: Weight },
-    { label: `${goalLabel.label}`, icon: LinkCircle },
-    { label: `${goalStatus.label}`, icon: Vibe },
+    { label: `${goalLabel.label}`, icon: Autobrightness },
+    { label: `${goalStatus.label}`, icon: Vibe }
   ]
 
-  const handleUpdateUser = () => {
-    router.push(`/settings/user/${userId}/information/update`)
+  const handleUpdateInformation = () => {
+    router.push(`/settings/user/${userId}/information/update-information`)
+  }
+
+  const handleUpdateMetric = () => {
+    router.push(`/settings/user/${userId}/information/update-metric`)
   }
 
   return (
@@ -150,7 +149,7 @@ function UserInformationScreen() {
                     label="Tài khoản"
                     actionText="Cập nhật"
                     margin={false}
-                    onPress={handleUpdateUser}
+                    onPress={handleUpdateInformation}
                   />
 
                   <Card>
@@ -177,7 +176,12 @@ function UserInformationScreen() {
                 </View>
 
                 <View>
-                  <Section label="Sức khỏe" margin={false} />
+                  <Section
+                    label="Sức khỏe"
+                    actionText="Cập nhật"
+                    margin={false}
+                    onPress={handleUpdateMetric}
+                  />
 
                   <Card>
                     {userMetricList.map((item, index) => {
