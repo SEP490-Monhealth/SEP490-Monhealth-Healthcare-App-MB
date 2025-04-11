@@ -6,24 +6,14 @@ import { CreateMessageType, MessageType } from "@/schemas/messageSchema"
 
 import { createMessage, getMessagesByChatId } from "@/services/messageService"
 
-interface MessageResponse {
-  messages: MessageType[]
-  totalPages: number
-  totalItems: number
-}
-
-export const useGetMessagesByChatId = (
-  chatId: string | undefined,
-  page: number,
-  limit?: number
-) => {
+export const useGetMessagesByChatId = (chatId: string | undefined) => {
   const handleError = useError()
 
-  return useQuery<MessageResponse, Error>({
-    queryKey: ["messages", chatId, page, limit],
+  return useQuery<MessageType[], Error>({
+    queryKey: ["messages", chatId],
     queryFn: async () => {
       try {
-        return await getMessagesByChatId(chatId, page, limit)
+        return await getMessagesByChatId(chatId)
       } catch (error) {
         handleError(error)
         throw error

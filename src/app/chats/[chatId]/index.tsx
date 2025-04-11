@@ -9,6 +9,9 @@ import {
 import { Platform } from "react-native"
 import { TouchableOpacity } from "react-native"
 
+import { useLocalSearchParams } from "expo-router"
+
+import { LoadingScreen } from "@/app/loading"
 import { appConfig } from "@/configs/app"
 import {
   HubConnection,
@@ -21,15 +24,34 @@ import { HStack, Input } from "@/components/global/atoms"
 import { MessageCard } from "@/components/global/molecules/MessageCard"
 import { Header } from "@/components/global/organisms"
 
+import { useAuth } from "@/contexts/AuthContext"
+
+import { useCreateMessage, useGetMessagesByChatId } from "@/hooks/useMessage"
+
 import { CreateMessageType, MessageType } from "@/schemas/messageSchema"
 
 const ChatDetailsScreen = () => {
+  const { chatId } = useLocalSearchParams<{ chatId: string }>()
+
+  // console.log(chatId);
+
+  const { user } = useAuth()
+  const userId = user?.userId
+  const consultantId = user?.consultantId
+
+  const senderId = (consultantId ?? userId)!
+
   const [chatHubConnection, setChatHubConnection] = useState<HubConnection>()
   const [connectionStatus, setConnectionStatus] = useState<boolean>(false)
-  const [messages, setMessages] = useState<MessageType[]>([])
-  const [newMessage, setNewMessage] = useState<string>("Halo")
+  const [newMessage, setNewMessage] = useState<string>("")
+  const [selectedMessageId, setSelectedMessageId] = useState<string | null>(
+    null
+  )
+  const { mutate: sendMessage } = useCreateMessage()
 
-  const senderId = "122DC7DF-16DE-49A3-AB83-5299686F6203"
+  const { data: messagesData, isLoading } = useGetMessagesByChatId(chatId)
+
+  // console.log(JSON.stringify(messagesData, null, 2))
 
   useEffect(() => {
     createHubConnection()
@@ -53,20 +75,20 @@ const ChatDetailsScreen = () => {
       console.log("Connection started")
       setConnectionStatus(true)
 
-      hubConnection.on("ReceiveMessage", (message: MessageType) => {
-        console.log("Received message:", message)
-        if (message) {
-          setMessages((prevMessages) => [...prevMessages, message])
-        }
-      })
+      // hubConnection.on("ReceiveMessage", (message: MessageType) => {
+      //   console.log("Received message:", message)
+      //   if (message) {
+      //     setMessages((prevMessages) => [...prevMessages, message])
+      //   }
+      // })
 
-      hubConnection.on(
-        "LoadMessageHistory",
-        (messageHistory: MessageType[]) => {
-          console.log("Received message history:", messageHistory)
-          setMessages(messageHistory || [])
-        }
-      )
+      // hubConnection.on(
+      //   "LoadMessageHistory",
+      //   (messageHistory: MessageType[]) => {
+      //     console.log("Received message history:", messageHistory)
+      //     setMessages(messageHistory || [])
+      //   }
+      // )
     } catch (error) {
       console.error("Error starting connection:", error)
       setConnectionStatus(false)
@@ -77,13 +99,16 @@ const ChatDetailsScreen = () => {
   const handleSendMessage = async () => {
     if (chatHubConnection && newMessage) {
       const newData: CreateMessageType = {
-        chatId: "556679e7-c406-404d-bcf0-d99bbd1a6c49",
-        senderId: senderId,
+        chatId: chatId,
+        senderId,
         content: newMessage
       }
 
       try {
-        await chatHubConnection.invoke("SendMessage", newData)
+        console.log("Sending message:", JSON.stringify(newData, null, 2))
+
+        await sendMessage(newData)
+
         setNewMessage("")
       } catch (error) {
         console.error("Error sending message:", error)
@@ -91,13 +116,26 @@ const ChatDetailsScreen = () => {
     }
   }
 
+  const handlePressMessage = async (selectedMessageId: string) => {
+    setSelectedMessageId(selectedMessageId)
+  }
+
   const renderMessageItem = ({ item }: { item: MessageType }) => (
     <MessageCard
       key={item.messageId}
+      messageId={item.messageId}
+      sender={item.senderId === senderId}
       message={item.content}
       timestamp={item.createdAt}
+      avatarUrl={item.avatarUrl}
+      isSelected={selectedMessageId === item.messageId}
+      onPress={() => handlePressMessage(item.messageId)}
     />
   )
+
+  if (isLoading) {
+    return <LoadingScreen />
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-background">
@@ -110,16 +148,17 @@ const ChatDetailsScreen = () => {
         className="flex-1 px-6"
       >
         <FlatList
-          data={messages}
+          data={messagesData}
           renderItem={renderMessageItem}
           keyExtractor={(item) => item.messageId}
-          inverted={false}
+          inverted
+          showsVerticalScrollIndicator={false}
         />
 
         <HStack center gap={16} className="border-t border-border py-4">
           <View className="flex-1">
             <Input
-              placeholder="Type a message..."
+              placeholder="Nhập tin nhắn..."
               value={newMessage}
               onChangeText={setNewMessage}
               onSubmitEditing={handleSendMessage}

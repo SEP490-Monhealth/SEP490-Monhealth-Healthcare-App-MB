@@ -11,7 +11,6 @@ import { SearchNormal1 } from "iconsax-react-native"
 import { Container, Content, Input } from "@/components/global/atoms"
 import {
   ChatCard,
-  CustomHeader,
   ErrorDisplay,
   ListFooter,
   ListHeader
@@ -19,14 +18,19 @@ import {
 import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
-import { sampleChatsData } from "@/constants/data/chats"
 
+import { useAuth } from "@/contexts/AuthContext"
+
+import { useGetChatsByConsultantId } from "@/hooks/useChat"
 import { useDebounce } from "@/hooks/useDebounce"
 
 import { ChatType } from "@/schemas/chatSchema"
 
 function ChatScreen() {
   const router = useRouter()
+
+  const { user } = useAuth()
+  const consultantId = user?.consultantId
 
   const [chatsData, setChatsData] = useState<ChatType[]>([])
   const [page, setPage] = useState<number>(1)
@@ -38,14 +42,11 @@ function ChatScreen() {
 
   const debouncedSearch = useDebounce(searchQuery)
 
-  // const { data, isLoading } = useGetAllChats(
-  //   page,
-  //   limit,
-  //   debouncedSearch,
-  // )
-
-  const data = sampleChatsData
-  const isLoading = false
+  const { data, isLoading } = useGetChatsByConsultantId(
+    consultantId,
+    page,
+    limit
+  )
 
   useEffect(() => {
     if (data?.chats) {

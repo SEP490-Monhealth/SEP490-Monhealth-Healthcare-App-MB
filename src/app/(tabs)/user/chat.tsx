@@ -18,11 +18,11 @@ import {
 import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
-import { sampleChatsData } from "@/constants/data/chats"
 import { sampleSubscriptionsData } from "@/constants/data/subscriptions"
 
 import { useAuth } from "@/contexts/AuthContext"
 
+import { useGetChatsByUserId } from "@/hooks/useChat"
 import { useDebounce } from "@/hooks/useDebounce"
 
 import { ChatType } from "@/schemas/chatSchema"
@@ -31,6 +31,7 @@ function ChatScreen() {
   const router = useRouter()
 
   const { user } = useAuth()
+  const userId = user?.userId
   const userSubscription = user?.subscription
 
   const checkSubscription = userSubscription !== sampleSubscriptionsData[0].name
@@ -45,14 +46,7 @@ function ChatScreen() {
 
   const debouncedSearch = useDebounce(searchQuery)
 
-  // const { data, isLoading } = useGetAllChats(
-  //   page,
-  //   limit,
-  //   debouncedSearch,
-  // )
-
-  const data = sampleChatsData
-  const isLoading = false
+  const { data, isLoading } = useGetChatsByUserId(userId, page, limit)
 
   useEffect(() => {
     if (data?.chats) {
@@ -148,8 +142,8 @@ function ChatScreen() {
           renderItem={({ item }) => (
             <ChatCard
               key={item.chatId}
-              fullName={item.member.fullName}
-              avatarUrl={item.member.avatarUrl}
+              fullName={item.consultant.fullName}
+              avatarUrl={item.consultant.avatarUrl}
               lastMessage={item.lastMessage}
               lastMessageAt={item.updatedAt}
               onPress={() => handleViewChat(item.chatId)}

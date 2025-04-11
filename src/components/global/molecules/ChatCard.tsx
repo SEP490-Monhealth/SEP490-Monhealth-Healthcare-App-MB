@@ -45,7 +45,7 @@ export const ChatCard = ({
             numberOfLines={1}
             ellipsizeMode="tail"
           >
-            {lastMessage}
+            {lastMessage || "Chưa có tin nhắn nào"}
           </Text>
         </View>
       </HStack>

@@ -94,7 +94,8 @@ export const formatUTCDate = (date: Date): string => {
  */
 export const formatTimeAgo = (date: string | Date): string => {
   // Lấy thời gian hiện tại theo múi giờ UTC+7
-  const nowUTC = new Date().getTime() + 7 * 60 * 60 * 1000
+  // const nowUTC = new Date().getTime() + 7 * 60 * 60 * 1000
+  const nowUTC = new Date().getTime()
   // Lấy thời gian của đối tượng ngày theo UTC
   const inputDateUTC = new Date(date).getTime()
   // Tính hiệu số thời gian (ms)
