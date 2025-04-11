@@ -12,17 +12,28 @@ import {
   createChat,
   createChatMonAI,
   getChatById,
+  getChatsByConsultantId,
   getChatsByUserId
 } from "@/services/chatService"
 
-export const useGetChatsByUserId = (userId: string | undefined) => {
+interface ChatResponse {
+  chats: ChatType[]
+  totalPages: number
+  totalItems: number
+}
+
+export const useGetChatsByUserId = (
+  userId: string | undefined,
+  page: number,
+  limit?: number
+) => {
   const handleError = useError()
 
-  return useQuery<ChatType[], Error>({
+  return useQuery<ChatResponse, Error>({
     queryKey: ["chats-user", userId],
     queryFn: async () => {
       try {
-        return await getChatsByUserId(userId)
+        return await getChatsByUserId(userId, page, limit)
       } catch (error) {
         handleError(error)
         throw error
@@ -33,14 +44,18 @@ export const useGetChatsByUserId = (userId: string | undefined) => {
   })
 }
 
-export const useGetChatsByConsultantId = (consultantId: string | undefined) => {
+export const useGetChatsByConsultantId = (
+  consultantId: string | undefined,
+  page: number,
+  limit?: number
+) => {
   const handleError = useError()
 
-  return useQuery<ChatType[], Error>({
+  return useQuery<ChatResponse, Error>({
     queryKey: ["chats-consultant", consultantId],
     queryFn: async () => {
       try {
-        return await getChatsByUserId(consultantId)
+        return await getChatsByConsultantId(consultantId, page, limit)
       } catch (error) {
         handleError(error)
         throw error
@@ -73,7 +88,11 @@ export const useCreateChat = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
 
-  return useMutation<string, Error, CreateChatType>({
+  return useMutation<
+    { message: string; data: { chatId: string } },
+    Error,
+    CreateChatType
+  >({
     mutationFn: async (newData) => {
       try {
         return await createChat(newData)

@@ -5,6 +5,7 @@ import { Image, Text, View } from "react-native"
 import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingOverlay, LoadingScreen } from "@/app/loading"
+import { Message } from "iconsax-react-native"
 
 import {
   Button,
@@ -29,10 +30,12 @@ import {
   ReviewTab
 } from "@/components/local/consultants"
 
+import { COLORS } from "@/constants/color"
 import { UserSubscriptionStatus } from "@/constants/enum/UserSubscription"
 
 import { useAuth } from "@/contexts/AuthContext"
 
+import { useCreateChat } from "@/hooks/useChat"
 import { useGetConsultantById } from "@/hooks/useConsultant"
 import { useGetUserSubscriptionByUserId } from "@/hooks/useUserSubscription"
 
@@ -50,6 +53,8 @@ function ConsultantDetailsScreen() {
   const { consultantId } = useLocalSearchParams() as { consultantId: string }
 
   const { date: storedDate, startTime, endTime } = useBookingStore()
+
+  const { mutate: createChat } = useCreateChat()
 
   const { data: consultantData, isLoading: isConsultantLoading } =
     useGetConsultantById(consultantId)
@@ -89,6 +94,17 @@ function ConsultantDetailsScreen() {
     router.push("/settings/user/[userId]/subscriptions")
   }
 
+  const handleChat = async () => {
+    const data = { userId, consultantId }
+
+    // @ts-ignore
+    await createChat(data, {
+      onSuccess: (response) => {
+        router.replace(`/chats/${response.data.chatId}`)
+      }
+    })
+  }
+
   const handleBooking = () => {
     // Kiểm tra có gói đăng ký hay không
     if (!currentSubscription) {
@@ -120,14 +136,23 @@ function ConsultantDetailsScreen() {
     })
   }
 
-  if (!consultantData || isConsultantLoading) return <LoadingScreen />
+  if (!consultantData || isConsultantLoading) {
+    return <LoadingScreen />
+  }
 
   return (
     <>
       <Container>
         <LoadingOverlay visible={overlayLoading} />
 
-        <Header back label={consultantData.fullName} />
+        <Header
+          back
+          label={consultantData.fullName}
+          action={{
+            icon: <Message variant="Bold" size={20} color={COLORS.primary} />
+          }}
+          onActionPress={handleChat}
+        />
 
         <Content className="mt-2">
           <ScrollArea className="flex-1">

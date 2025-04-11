@@ -8,20 +8,33 @@ import {
   CreateChatType
 } from "@/schemas/chatSchema"
 
-export const getChatsByUserId = async (userId: string | undefined) => {
+interface ChatResponse {
+  chats: ChatType[]
+  totalPages: number
+  totalItems: number
+}
+
+export const getChatsByUserId = async (
+  userId: string | undefined,
+  page: number,
+  limit?: number
+): Promise<ChatResponse> => {
   try {
-    const response = await monAPI.get(`/chats/user/${userId}`)
+    const response = await monAPI.get(`/chats/user/${userId}`, {
+      params: { page, limit }
+    })
 
     const { success, message, data } = response.data
 
-    if (success) {
-      return data as ChatType[]
-    } else {
+    if (!success) {
       throw {
         isCustomError: true,
-        message: message || "Không thể lấy danh sách lịch hẹn của người dùng"
+        message: message || "Không thể lấy danh sách cuộc trò chuyện"
       }
     }
+
+    const { totalPages, totalItems, items: chats } = data
+    return { chats, totalPages, totalItems }
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
       console.log("Lỗi từ server:", error.response?.data || error.message)
@@ -37,21 +50,26 @@ export const getChatsByUserId = async (userId: string | undefined) => {
 }
 
 export const getChatsByConsultantId = async (
-  consultantId: string | undefined
-) => {
+  consultantId: string | undefined,
+  page: number,
+  limit?: number
+): Promise<ChatResponse> => {
   try {
-    const response = await monAPI.get(`/chats/consultant/${consultantId}`)
+    const response = await monAPI.get(`/chats/consultant/${consultantId}`, {
+      params: { page, limit }
+    })
 
     const { success, message, data } = response.data
 
-    if (success) {
-      return data as ChatType[]
-    } else {
+    if (!success) {
       throw {
         isCustomError: true,
-        message: message || "Không thể lấy danh sách lịch hẹn của chuyên viên"
+        message: message || "Không thể lấy danh sách cuộc trò chuyện"
       }
     }
+
+    const { totalPages, totalItems, items: chats } = data
+    return { chats, totalPages, totalItems }
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
       console.log("Lỗi từ server:", error.response?.data || error.message)
@@ -94,11 +112,13 @@ export const getChatById = async (chatId: string | undefined) => {
   }
 }
 
-export const createChat = async (newData: CreateChatType): Promise<string> => {
+export const createChat = async (
+  newData: CreateChatType
+): Promise<{ message: string; data: { chatId: string } }> => {
   try {
     const response = await monAPI.post(`/chats`, newData)
 
-    const { success, message } = response.data
+    const { success, message, data } = response.data
 
     if (!success) {
       throw {
@@ -108,7 +128,7 @@ export const createChat = async (newData: CreateChatType): Promise<string> => {
     }
 
     console.log(message)
-    return message
+    return { message, data }
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
       console.log("Lỗi từ server:", error.response?.data || error.message)
