@@ -16,12 +16,9 @@ import {
   CalendarCircle,
   CallCalling,
   CommandSquare,
-  FlashCircle,
-  Man,
   ProfileCircle,
   Ruler,
-  Sms,
-  TrendUp
+  Sms
 } from "iconsax-react-native"
 
 import {
@@ -42,6 +39,7 @@ import { ListItem } from "@/components/local/tabs/settings"
 
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
+import { getGenderMeta } from "@/constants/enum/Gender"
 import { getGoalStatusMeta, getGoalTypeMeta } from "@/constants/enum/Goal"
 
 import { useAuth } from "@/contexts/AuthContext"
@@ -82,9 +80,9 @@ function UserInformationScreen() {
   )
     return <LoadingScreen />
 
-  const goalTypeLabel = getGoalTypeMeta(goalData[0].type)
-  const goalTypeIcon = getGoalTypeMeta(goalData[0].type).icon
-  const goalStatusLabel = getGoalStatusMeta(goalData[0].status)
+  const genderUser = getGenderMeta(metricData[0].gender)
+  const goalType = getGoalTypeMeta(goalData[0].type)
+  const goalStatus = getGoalStatusMeta(goalData[0].status)
 
   const userInfoList = [
     { label: formatDate(userData?.createdAt), icon: CalendarCircle },
@@ -96,15 +94,14 @@ function UserInformationScreen() {
 
   const userMetricList = [
     {
-      label: DATA.GENDERS.find((g) => g.value === metricData[0]?.gender)?.label,
-      icon:
-        DATA.GENDERS.find((g) => g.value === metricData[0]?.gender)?.icon || Man
+      label: genderUser.label,
+      icon: genderUser.icon
     },
     { label: formatDate(metricData[0].dateOfBirth), icon: Calendar },
     { label: `${metricData[0].height} cm`, icon: Ruler },
     { label: `${metricData[0].weight} kg`, icon: CommandSquare },
-    { label: `${goalTypeLabel.label}`, icon: TrendUp },
-    { label: `${goalStatusLabel.label}`, icon: FlashCircle }
+    { label: `${goalType.label}`, icon: goalType.icon },
+    { label: `${goalStatus.label}`, icon: goalStatus.icon }
   ]
 
   const handleUpdateInformation = () => {
@@ -195,11 +192,15 @@ function UserInformationScreen() {
                           key={index}
                           label={item.label}
                           startIcon={
-                            <Icon
-                              variant="Bold"
-                              size={24}
-                              color={COLORS.accent}
-                            />
+                            Icon ? (
+                              <Icon
+                                variant="Bold"
+                                size={24}
+                                color={COLORS.accent}
+                              />
+                            ) : (
+                              <></>
+                            )
                           }
                           endIcon={<View></View>}
                           isBorder={false}
