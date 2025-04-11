@@ -13,9 +13,12 @@ import { LoadingScreen } from "@/app/loading"
 import {
   AlignVertically,
   Award,
+  Bezier,
   Calendar,
   CalendarCircle,
   CallCalling,
+  Framer,
+  LinkCircle,
   Man,
   ProfileCircle,
   Sms,
@@ -40,9 +43,11 @@ import { ListItem } from "@/components/local/tabs/settings"
 
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
+import { getGoalStatusMeta, getGoalTypeMeta } from "@/constants/enum/Goal"
 
 import { useAuth } from "@/contexts/AuthContext"
 
+import { useGetGoalsByUserId } from "@/hooks/useGoal"
 import { useGetMetricsByUserId } from "@/hooks/useMetric"
 import { useGetUserById } from "@/hooks/useUser"
 
@@ -53,6 +58,8 @@ function UserInformationScreen() {
   const router = useRouter()
   const { userId } = useLocalSearchParams<{ userId: string }>()
 
+  console.log(userId)
+
   const { user } = useAuth()
   const userSubscription = user?.subscription
 
@@ -62,11 +69,21 @@ function UserInformationScreen() {
   const { data: metricData, isLoading: isMetricLoading } =
     useGetMetricsByUserId(userId)
 
+  const { data: goalData, isLoading: isGoalLoading } =
+    useGetGoalsByUserId(userId)
+
   const sheetHeight = 180
 
   const openSheet = () => SheetRef.current?.scrollTo(-sheetHeight)
 
-  if (!userData || isUserLoading || !metricData || isMetricLoading)
+  if (
+    !userData ||
+    isUserLoading ||
+    !metricData ||
+    isMetricLoading ||
+    !goalData ||
+    isGoalLoading
+  )
     return <LoadingScreen />
 
   const userInfoList = [
@@ -77,6 +94,9 @@ function UserInformationScreen() {
     { label: userSubscription, icon: Award }
   ]
 
+  const goalLabel = getGoalTypeMeta(goalData[0].type)
+  const goalStatus = getGoalStatusMeta(goalData[0].status)
+
   const userMetricList = [
     {
       label: DATA.GENDERS.find((g) => g.value === metricData[0]?.gender)?.label,
@@ -85,7 +105,9 @@ function UserInformationScreen() {
     },
     { label: formatDate(metricData[0].dateOfBirth), icon: Calendar },
     { label: `${metricData[0].height} cm`, icon: AlignVertically },
-    { label: `${metricData[0].weight} kg`, icon: Weight }
+    { label: `${metricData[0].weight} kg`, icon: Weight },
+    { label: `${goalLabel.label}`, icon: LinkCircle },
+    { label: `${goalStatus.label}`, icon: Bezier },
   ]
 
   const handleUpdateUser = () => {
