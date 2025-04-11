@@ -1,4 +1,9 @@
 import { EnumMeta } from "@/configs/enum"
+import {
+  ClipboardExport,
+  ClipboardImport,
+  ClipboardTick
+} from "iconsax-react-native"
 import { z } from "zod"
 
 export enum GoalTypeEnum {
@@ -19,13 +24,16 @@ export const GoalStatusSchemaEnum = z.nativeEnum(GoalStatusEnum)
 
 const goalTypeMap: Record<GoalTypeEnum, EnumMeta> = {
   [GoalTypeEnum.WeightLoss]: {
-    label: "Giảm cân"
+    label: "Giảm cân",
+    icon: ClipboardImport
   },
   [GoalTypeEnum.Maintenance]: {
-    label: "Duy trì cân nặng"
+    label: "Duy trì cân nặng",
+    icon: ClipboardTick
   },
   [GoalTypeEnum.WeightGain]: {
-    label: "Tăng cân"
+    label: "Tăng cân",
+    icon: ClipboardExport
   }
   // [GoalTypeEnum.MuscleGain]: {
   //   label: "Tăng cơ"

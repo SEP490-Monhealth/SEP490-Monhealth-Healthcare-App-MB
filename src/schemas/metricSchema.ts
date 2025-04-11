@@ -110,7 +110,7 @@ export const weightGoalSetupSchema = metricSchema
       .transform((val) => parseFloat(val.toString()) || 0)
   })
 
-export const createMetricSchema = metricSchema.pick({
+export const createUpdateMetricSchema = metricSchema.pick({
   userId: true,
   dateOfBirth: true,
   gender: true,
@@ -122,14 +122,5 @@ export const createMetricSchema = metricSchema.pick({
   caloriesRatio: true
 })
 
-export const updateMetricSchema = metricSchema.pick({
-  dateOfBirth: true,
-  gender: true,
-  height: true,
-  weight: true,
-  activityLevel: true
-})
-
 export type MetricType = z.infer<typeof metricSchema>
-export type CreateMetricType = z.infer<typeof createMetricSchema>
-export type UpdateMetricType = z.infer<typeof updateMetricSchema>
+export type CreateUpdateMetricType = z.infer<typeof createUpdateMetricSchema>

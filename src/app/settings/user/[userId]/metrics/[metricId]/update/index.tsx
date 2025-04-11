@@ -16,7 +16,6 @@ import DateTimePicker, {
   DateTimePickerEvent
 } from "@react-native-community/datetimepicker"
 import { Controller, useForm } from "react-hook-form"
-import { nullable } from "zod"
 
 import {
   Button,
@@ -36,13 +35,16 @@ import { DATA } from "@/constants/data"
 import { GoalTypeEnum } from "@/constants/enum/Goal"
 
 import { useGetGoalsByUserId } from "@/hooks/useGoal"
-import { useCreateMetric, useGetMetricsByUserId } from "@/hooks/useMetric"
+import { useGetMetricsByUserId, useUpdateMetric } from "@/hooks/useMetric"
 
-import { CreateMetricType, createMetricSchema } from "@/schemas/metricSchema"
+import {
+  CreateUpdateMetricType,
+  createUpdateMetricSchema
+} from "@/schemas/metricSchema"
 
 import { formatDate, formatUTCDate } from "@/utils/formatters"
 
-const UserMetricUpdateScreen = () => {
+const MetricUpdateScreen = () => {
   const router = useRouter()
   const { userId } = useLocalSearchParams<{ userId: string }>()
 
@@ -51,7 +53,7 @@ const UserMetricUpdateScreen = () => {
   const { data: goalsData, isLoading: isGoalsLoading } =
     useGetGoalsByUserId(userId)
 
-  const { mutate: createMetric } = useCreateMetric(userId)
+  const { mutate: updateMetric } = useUpdateMetric(userId)
 
   if (!metricsData || isMetricsLoading || !goalsData || isGoalsLoading)
     return <LoadingScreen />
@@ -69,7 +71,7 @@ const UserMetricUpdateScreen = () => {
     number | undefined
   >(goalData.caloriesRatio)
 
-  const DobRef = useRef<SheetRefProps>(null)
+  const DateOfBirthRef = useRef<SheetRefProps>(null)
   const GenderRef = useRef<SheetRefProps>(null)
   const ActivityLevelRef = useRef<SheetRefProps>(null)
   const GoalTypeRef = useRef<SheetRefProps>(null)
@@ -84,27 +86,28 @@ const UserMetricUpdateScreen = () => {
           ? DATA.CALORIES_RATIO.slice(4, 7)
           : []
 
-  const openSheetDob = () => {
-    DobRef.current?.scrollTo(-300)
+  const openSheetDateOfBirth = () => {
+    DateOfBirthRef.current?.scrollTo(-320)
   }
   const openSheetGender = () => {
     GenderRef.current?.scrollTo(-180)
   }
   const openSheetActivity = () => {
-    ActivityLevelRef.current?.scrollTo(-290)
+    ActivityLevelRef.current?.scrollTo(-320)
   }
-  const openGoalType = () => {
+  const openSheetGoalType = () => {
     GoalTypeRef.current?.scrollTo(-200)
   }
-  const openCaloriesRatio = () => {
+  const openSheetCaloriesRatio = () => {
     if (filteredCaloriesRatio.length === 3) {
-      CaloriesRatioRef.current?.scrollTo(-220)
+      CaloriesRatioRef.current?.scrollTo(-240)
     } else {
       CaloriesRatioRef.current?.scrollTo(-120)
     }
   }
 
   const closeSheet = () => {
+    DateOfBirthRef.current?.scrollTo(0)
     GenderRef.current?.scrollTo(0)
     ActivityLevelRef.current?.scrollTo(0)
     GoalTypeRef.current?.scrollTo(0)
@@ -115,10 +118,9 @@ const UserMetricUpdateScreen = () => {
     control,
     handleSubmit,
     setValue,
-    reset,
     formState: { errors }
-  } = useForm<CreateMetricType>({
-    resolver: zodResolver(createMetricSchema),
+  } = useForm<CreateUpdateMetricType>({
+    resolver: zodResolver(createUpdateMetricSchema),
     defaultValues: {
       userId: userId,
       dateOfBirth: metricData.dateOfBirth,
@@ -132,10 +134,10 @@ const UserMetricUpdateScreen = () => {
     }
   })
 
-  const onSubmit = async (data: CreateMetricType) => {
+  const onSubmit = async (updatedData: CreateUpdateMetricType) => {
     // console.log(JSON.stringify(data, null, 2))
 
-    createMetric(data, {
+    updateMetric(updatedData, {
       onSuccess: () => {
         router.back()
       }
@@ -186,7 +188,7 @@ const UserMetricUpdateScreen = () => {
       (caloriesRatio) => caloriesRatio.value === selectedCaloriesRatio
     )?.label || ""
 
-  console.log(errors)
+  // console.log(errors)
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -201,7 +203,7 @@ const UserMetricUpdateScreen = () => {
                   label="Ngày sinh"
                   defaultValue="Chọn ngày sinh"
                   value={dobLabel}
-                  onPress={openSheetDob}
+                  onPress={openSheetDateOfBirth}
                   errorMessage={errors.dateOfBirth?.message}
                 />
 
@@ -260,7 +262,7 @@ const UserMetricUpdateScreen = () => {
                   label="Mục tiêu"
                   defaultValue="Chọn mục tiêu"
                   value={goalTypeLabel}
-                  onPress={openGoalType}
+                  onPress={openSheetGoalType}
                 />
 
                 <Controller
@@ -268,6 +270,7 @@ const UserMetricUpdateScreen = () => {
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <Input
+                      disabled
                       value={value ? value.toString() : ""}
                       label="Cân nặng mục tiêu"
                       placeholder="VD: 60"
@@ -294,14 +297,14 @@ const UserMetricUpdateScreen = () => {
 
                 <VStack>
                   <Select
-                    label="Tốc độ hoàn thành mục tiêu"
+                    label="Tốc độ tăng cân"
                     defaultValue="Chọn tốc độ"
                     value={caloriesRatioLabel}
-                    onPress={openCaloriesRatio}
+                    onPress={openSheetCaloriesRatio}
                   />
                   {errors.caloriesRatio?.message && (
                     <Text className="ml-1 font-tregular text-sm text-destructive">
-                      Tốc độ hoàn thành mục tiêu không được bỏ trống
+                      Tốc độ tăng cân không được bỏ trống
                     </Text>
                   )}
                 </VStack>
@@ -324,7 +327,7 @@ const UserMetricUpdateScreen = () => {
           ))}
         </Sheet>
 
-        <Sheet ref={DobRef} dynamicHeight={300}>
+        <Sheet ref={DateOfBirthRef} dynamicHeight={300}>
           <View className="items-center">
             <DateTimePicker
               value={new Date(selectedDob)}
@@ -375,4 +378,4 @@ const UserMetricUpdateScreen = () => {
   )
 }
 
-export default UserMetricUpdateScreen
+export default MetricUpdateScreen

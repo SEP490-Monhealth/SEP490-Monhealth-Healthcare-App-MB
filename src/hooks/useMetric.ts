@@ -1,19 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { useError } from "@/contexts/ErrorContext"
-import { useModal } from "@/contexts/ModalContext"
 
-import {
-  CreateMetricType,
-  MetricType,
-  UpdateMetricType
-} from "@/schemas/metricSchema"
+import { CreateUpdateMetricType, MetricType } from "@/schemas/metricSchema"
 
-import {
-  createMetric,
-  getMetricsByUserId,
-  updateMetric
-} from "@/services/metricService"
+import { createMetric, getMetricsByUserId } from "@/services/metricService"
 
 export const useGetMetricsByUserId = (userId: string | undefined) => {
   const handleError = useError()
@@ -33,11 +24,26 @@ export const useGetMetricsByUserId = (userId: string | undefined) => {
   })
 }
 
-export const useCreateMetric = (userId: string | undefined) => {
+export const useCreateMetric = () => {
+  const handleError = useError()
+
+  return useMutation<string, Error, CreateUpdateMetricType>({
+    mutationFn: async (newData) => {
+      try {
+        return await createMetric(newData)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    }
+  })
+}
+
+export const useUpdateMetric = (userId: string | undefined) => {
   const queryClient = useQueryClient()
   const handleError = useError()
 
-  return useMutation<string, Error, CreateMetricType>({
+  return useMutation<string, Error, CreateUpdateMetricType>({
     mutationFn: async (newData) => {
       try {
         return await createMetric(newData)
@@ -52,30 +58,6 @@ export const useCreateMetric = (userId: string | undefined) => {
         queryClient.invalidateQueries({ queryKey: ["metrics", userId] })
         queryClient.invalidateQueries({ queryKey: ["goals", userId] })
       }
-    }
-  })
-}
-
-export const useUpdateMetric = () => {
-  const queryClient = useQueryClient()
-  const handleError = useError()
-  const { showModal } = useModal()
-
-  return useMutation<
-    string,
-    Error,
-    { metricId: string; updateData: UpdateMetricType; userId: string }
-  >({
-    mutationFn: async ({ metricId, updateData }) => {
-      try {
-        return await updateMetric(metricId, updateData, showModal)
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
-    },
-    onSuccess: (_data, { userId }) => {
-      queryClient.invalidateQueries({ queryKey: ["metrics", userId] })
     }
   })
 }

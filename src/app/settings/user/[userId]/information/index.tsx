@@ -11,17 +11,17 @@ import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
 import {
-  AlignVertically,
-  Autobrightness,
   Award,
   Calendar,
   CalendarCircle,
   CallCalling,
+  CommandSquare,
+  FlashCircle,
   Man,
   ProfileCircle,
+  Ruler,
   Sms,
-  Vibe,
-  Weight
+  TrendUp
 } from "iconsax-react-native"
 
 import {
@@ -82,6 +82,10 @@ function UserInformationScreen() {
   )
     return <LoadingScreen />
 
+  const goalTypeLabel = getGoalTypeMeta(goalData[0].type)
+  const goalTypeIcon = getGoalTypeMeta(goalData[0].type).icon
+  const goalStatusLabel = getGoalStatusMeta(goalData[0].status)
+
   const userInfoList = [
     { label: formatDate(userData?.createdAt), icon: CalendarCircle },
     { label: userData?.fullName, icon: ProfileCircle },
@@ -90,9 +94,6 @@ function UserInformationScreen() {
     { label: userSubscription, icon: Award }
   ]
 
-  const goalLabel = getGoalTypeMeta(goalData[0].type)
-  const goalStatus = getGoalStatusMeta(goalData[0].status)
-
   const userMetricList = [
     {
       label: DATA.GENDERS.find((g) => g.value === metricData[0]?.gender)?.label,
@@ -100,18 +101,20 @@ function UserInformationScreen() {
         DATA.GENDERS.find((g) => g.value === metricData[0]?.gender)?.icon || Man
     },
     { label: formatDate(metricData[0].dateOfBirth), icon: Calendar },
-    { label: `${metricData[0].height} cm`, icon: AlignVertically },
-    { label: `${metricData[0].weight} kg`, icon: Weight },
-    { label: `${goalLabel.label}`, icon: Autobrightness },
-    { label: `${goalStatus.label}`, icon: Vibe }
+    { label: `${metricData[0].height} cm`, icon: Ruler },
+    { label: `${metricData[0].weight} kg`, icon: CommandSquare },
+    { label: `${goalTypeLabel.label}`, icon: TrendUp },
+    { label: `${goalStatusLabel.label}`, icon: FlashCircle }
   ]
 
   const handleUpdateInformation = () => {
-    router.push(`/settings/user/${userId}/information/update-information`)
+    router.push(`/settings/user/${userId}/information/update`)
   }
 
   const handleUpdateMetric = () => {
-    router.push(`/settings/user/${userId}/information/update-metric`)
+    router.push(
+      `/settings/user/${userId}/metrics/${metricData[0]?.metricId}/update`
+    )
   }
 
   return (

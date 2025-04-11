@@ -19,7 +19,7 @@ import { useGetUserById, useUpdateUser } from "@/hooks/useUser"
 
 import { UpdateUserType, updateUserSchema } from "@/schemas/userSchema"
 
-function UserInformationUpdateScreen() {
+function UserUpdateScreen() {
   const router = useRouter()
   const { userId } = useLocalSearchParams<{ userId: string }>()
 
@@ -113,4 +113,4 @@ function UserInformationUpdateScreen() {
   )
 }
 
-export default UserInformationUpdateScreen
+export default UserUpdateScreen

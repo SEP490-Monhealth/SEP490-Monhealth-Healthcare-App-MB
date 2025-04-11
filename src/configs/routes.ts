@@ -9,7 +9,6 @@ import {
   Lock1,
   Logout,
   Message,
-  NotificationStatus,
   Profile,
   Ram,
   Setting,
@@ -46,11 +45,11 @@ export const consultantRoutes: RouteType[] = [
 export const userProfileRoutes: RouteType[] = [
   {
     route: (userId: string) => `/settings/user/${userId}/information`,
-    label: "Thông tin cá nhân",
+    label: "Hồ sơ cá nhân",
     icon: Profile
   },
   {
-    route: (userId: string) => `/settings/user/${userId}/health`,
+    route: (userId: string) => `/settings/user/${userId}/metrics`,
     label: "Chỉ số sức khỏe",
     icon: Command
   },
@@ -61,7 +60,7 @@ export const userProfileRoutes: RouteType[] = [
   },
   {
     route: (userId: string) => `/settings/user/${userId}/bookings`,
-    label: "Lịch hẹn đã tạo",
+    label: "Lịch hẹn của tôi",
     icon: Stickynote
   },
   // {
@@ -71,7 +70,7 @@ export const userProfileRoutes: RouteType[] = [
   // },
   {
     route: "/settings/privacy",
-    label: "Bảo mật và quyền riêng tư",
+    label: "Bảo mật & quyền riêng tư",
     icon: Lock1
   }
 ]
@@ -79,7 +78,7 @@ export const userProfileRoutes: RouteType[] = [
 export const userAboutRoutes: RouteType[] = [
   {
     route: "/settings/app-about",
-    label: "Thông tin ứng dụng",
+    label: "Giới thiệu ứng dụng",
     icon: I3Dcube
   },
   {
@@ -98,17 +97,17 @@ export const consultantProfileRoutes: RouteType[] = [
   {
     route: (consultantId: string) =>
       `/settings/consultant/${consultantId}/information`,
-    label: "Thông tin cá nhân",
+    label: "Hồ sơ cá nhân",
     icon: Profile
   },
-  {
-    route: "/settings/reminder",
-    label: "Nhắc nhở và thông báo",
-    icon: NotificationStatus
-  },
+  // {
+  //   route: "/settings/reminder",
+  //   label: "Nhắc nhở và thông báo",
+  //   icon: NotificationStatus
+  // },
   {
     route: "/settings/privacy",
-    label: "Bảo mật và quyền riêng tư",
+    label: "Bảo mật & quyền riêng tư",
     icon: Lock1
   }
 ]
@@ -116,7 +115,7 @@ export const consultantProfileRoutes: RouteType[] = [
 export const consultantAboutRoutes: RouteType[] = [
   {
     route: "/settings/app-about",
-    label: "Thông tin ứng dụng",
+    label: "Giới thiệu ứng dụng",
     icon: I3Dcube
   },
   {
