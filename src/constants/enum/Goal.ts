@@ -2,7 +2,10 @@ import { EnumMeta } from "@/configs/enum"
 import {
   ClipboardExport,
   ClipboardImport,
-  ClipboardTick
+  ClipboardTick,
+  Convert,
+  Danger,
+  FlashCircle
 } from "iconsax-react-native"
 import { z } from "zod"
 
@@ -42,13 +45,16 @@ const goalTypeMap: Record<GoalTypeEnum, EnumMeta> = {
 
 const goalStatusMap: Record<GoalStatusEnum, EnumMeta> = {
   [GoalStatusEnum.Abandoned]: {
-    label: "Đã từ bỏ"
+    label: "Đã từ bỏ",
+    icon: Danger
   },
   [GoalStatusEnum.Active]: {
-    label: "Đang thực hiện"
+    label: "Đang thực hiện",
+    icon: FlashCircle
   },
   [GoalStatusEnum.Completed]: {
-    label: "Đã hoàn thành"
+    label: "Đã hoàn thành",
+    icon: Convert
   }
 }
 
