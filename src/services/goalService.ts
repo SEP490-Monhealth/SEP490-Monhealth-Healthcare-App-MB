@@ -9,7 +9,7 @@ import {
   WeightGoalType
 } from "@/schemas/goalSchema"
 
-export const getGoalByUserId = async (
+export const getGoalsByUserId = async (
   userId: string | undefined
 ): Promise<GoalType[]> => {
   try {

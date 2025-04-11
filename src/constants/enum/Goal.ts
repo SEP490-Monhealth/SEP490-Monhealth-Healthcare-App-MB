@@ -4,8 +4,8 @@ import { z } from "zod"
 export enum GoalTypeEnum {
   WeightLoss,
   Maintenance,
-  WeightGain,
-  MuscleGain
+  WeightGain
+  // MuscleGain
 }
 
 export enum GoalStatusEnum {
@@ -26,12 +26,28 @@ const goalTypeMap: Record<GoalTypeEnum, EnumMeta> = {
   },
   [GoalTypeEnum.WeightGain]: {
     label: "Tăng cân"
+  }
+  // [GoalTypeEnum.MuscleGain]: {
+  //   label: "Tăng cơ"
+  // }
+}
+
+const goalStatusMap: Record<GoalStatusEnum, EnumMeta> = {
+  [GoalStatusEnum.Abandoned]: {
+    label: "Đã từ bỏ"
   },
-  [GoalTypeEnum.MuscleGain]: {
-    label: "Tăng cơ"
+  [GoalStatusEnum.Active]: {
+    label: "Đang thực hiện"
+  },
+  [GoalStatusEnum.Completed]: {
+    label: "Đã hoàn thành"
   }
 }
 
 export function getGoalTypeMeta(type: GoalTypeEnum): EnumMeta {
   return goalTypeMap[type]
+}
+
+export function getGoalStatusMeta(status: GoalStatusEnum): EnumMeta {
+  return goalStatusMap[status]
 }

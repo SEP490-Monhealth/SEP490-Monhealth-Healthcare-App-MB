@@ -11,21 +11,21 @@ import {
 
 import {
   getGoalById,
-  getGoalByUserId,
+  getGoalsByUserId,
   getNutritionGoalByUserId,
   getWaterIntakeGoalByUserId,
   getWeightGoalByUserId,
   getWorkoutGoalByUserId
 } from "@/services/goalService"
 
-export const useGetGoalByUserId = (userId: string | undefined) => {
+export const useGetGoalsByUserId = (userId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<GoalType[], Error>({
     queryKey: ["goals", userId],
     queryFn: async () => {
       try {
-        return await getGoalByUserId(userId)
+        return await getGoalsByUserId(userId)
       } catch (error) {
         handleError(error)
         throw error
