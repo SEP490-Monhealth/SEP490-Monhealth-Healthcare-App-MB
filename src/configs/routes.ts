@@ -104,7 +104,7 @@ export const consultantProfileRoutes: RouteType[] = [
   },
   {
     route: (consultantId: string) =>
-      `/settings/consultant/${consultantId}/expertises`,
+      `/settings/consultant/${consultantId}/expertise`,
     label: "Chứng chỉ & Chuyên môn",
     icon: ClipboardTick
   },

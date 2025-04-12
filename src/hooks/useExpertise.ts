@@ -36,7 +36,7 @@ export const useGetAllExpertise = (page: number, limit?: number) => {
   })
 }
 
-export const useUpdateConsultantBank = () => {
+export const useUpdateExpertiseConsultant = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
   const { showModal } = useModal()
@@ -65,6 +65,7 @@ export const useUpdateConsultantBank = () => {
     onSuccess: (_, { consultantId }) => {
       if (consultantId) {
         queryClient.invalidateQueries({ queryKey: ["expertise"] })
+        queryClient.invalidateQueries({ queryKey: ["certificates"] })
       }
     }
   })

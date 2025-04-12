@@ -12,12 +12,7 @@ import {
   Man,
   Woman
 } from "iconsax-react-native"
-import {
-  BicepsFlexed,
-  Scale,
-  TrendingDown,
-  TrendingUp
-} from "lucide-react-native"
+import { Scale, TrendingDown, TrendingUp } from "lucide-react-native"
 
 import { BookingStatusEnum } from "../enum/Booking"
 import { DishTypeEnum, MealTypeEnum } from "../enum/Food"
