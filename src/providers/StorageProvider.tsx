@@ -70,17 +70,8 @@ export const StorageProvider = ({ children }: { children: ReactNode }) => {
 
   const addAllergies = async (allergies: string[]) => {
     try {
-      const newAllergies = allergies.filter(
-        (allergy) => !userAllergies.includes(allergy)
-      )
-      if (newAllergies.length > 0) {
-        const updatedAllergies = [...userAllergies, ...newAllergies]
-        await AsyncStorage.setItem(
-          "userAllergies",
-          JSON.stringify(updatedAllergies)
-        )
-        setUserAllergies(updatedAllergies)
-      }
+      await AsyncStorage.setItem("userAllergies", JSON.stringify(allergies))
+      setUserAllergies(allergies)
     } catch (error) {
       console.error("Failed to add user allergies:", error)
     }

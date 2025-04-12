@@ -19,6 +19,7 @@ import {
   FlashCircle,
   ProfileCircle,
   Ruler,
+  Slash,
   Sms
 } from "iconsax-react-native"
 
@@ -44,6 +45,7 @@ import { getGenderMeta } from "@/constants/enum/Gender"
 import { getGoalStatusMeta, getGoalTypeMeta } from "@/constants/enum/Goal"
 
 import { useAuth } from "@/contexts/AuthContext"
+import { useStorage } from "@/contexts/StorageContext"
 
 import { useGetGoalsByUserId } from "@/hooks/useGoal"
 import { useGetMetricsByUserId } from "@/hooks/useMetric"
@@ -60,6 +62,10 @@ function UserInformationScreen() {
   const userSubscription = user?.subscription
 
   const SheetRef = useRef<SheetRefProps>(null)
+
+  const { userAllergies } = useStorage()
+
+  console.log("userAllergies", userAllergies)
 
   const { data: userData, isLoading: isUserLoading } = useGetUserById(userId)
   const { data: metricData, isLoading: isMetricLoading } =
@@ -112,11 +118,15 @@ function UserInformationScreen() {
     )
   }
 
+  const handleUpdateAllergies = () => {
+    router.push(`/settings/user/${userId}/allergies/update`)
+  }
+
   return (
     <TouchableWithoutFeedback>
       <SafeAreaView className="flex-1 bg-background">
         <Container>
-          <Header back label="Thông tin cá nhân" />
+          <Header back label="Hồ sơ" />
 
           <Content className="mt-2">
             <ScrollArea>
@@ -205,6 +215,30 @@ function UserInformationScreen() {
                         />
                       )
                     })}
+                  </Card>
+                </View>
+
+                <View>
+                  <Section
+                    label="Dị ứng"
+                    actionText="Cập nhật"
+                    margin={false}
+                    onPress={handleUpdateAllergies}
+                  />
+
+                  <Card>
+                    <ListItem
+                      label={
+                        userAllergies?.length > 0
+                          ? userAllergies.join(", ")
+                          : "Không có"
+                      }
+                      startIcon={
+                        <Slash variant="Bold" size={24} color={COLORS.accent} />
+                      }
+                      endIcon={<View></View>}
+                      isBorder={false}
+                    />
                   </Card>
                 </View>
               </VStack>

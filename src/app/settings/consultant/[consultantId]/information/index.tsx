@@ -80,28 +80,8 @@ function ConsultantInformationScreen() {
     }
   ]
 
-  const userMetricList = [
-    {
-      label: consultantData?.expertise,
-      icon: HeartTick
-    },
-    { label: `${consultantData?.experience} năm`, icon: Crown },
-    {
-      label: `${consultantData?.bookingCount} lịch hẹn`,
-      icon: Profile2User
-    },
-    {
-      label: `${consultantData?.ratingCount} lượt đánh giá`,
-      icon: MedalStar
-    },
-    {
-      label: `${consultantData?.averageRating} đánh giá trung bình`,
-      icon: Star1
-    }
-  ]
-
   const handleUpdateConsultant = () => {
-    router.push(`/consultant/${consultantId}`)
+    router.push(`/settings/consultant/${consultantId}/information`)
   }
 
   if (!consultantData || isLoading) return <LoadingScreen />
@@ -110,7 +90,7 @@ function ConsultantInformationScreen() {
     <TouchableWithoutFeedback>
       <SafeAreaView className="flex-1 bg-background">
         <Container>
-          <Header back label="Thông tin cá nhân" />
+          <Header back label="Hồ sơ" />
 
           <Content className="mt-2">
             <ScrollArea>
@@ -156,42 +136,6 @@ function ConsultantInformationScreen() {
                         />
                       )
                     })}
-                  </Card>
-                </View>
-
-                <View>
-                  <Section label="Tổng quát" margin={false} />
-
-                  <Card>
-                    {userMetricList.map((item, index) => {
-                      const Icon = item.icon
-
-                      return (
-                        <ListItem
-                          key={index}
-                          label={item.label}
-                          startIcon={
-                            <Icon
-                              variant="Bold"
-                              size={24}
-                              color={COLORS.accent}
-                            />
-                          }
-                          endIcon={<View></View>}
-                          isBorder={false}
-                        />
-                      )
-                    })}
-                  </Card>
-                </View>
-
-                <View>
-                  <Section label="Mô tả" margin={false} />
-
-                  <Card>
-                    <Text className="text-justify font-tregular text-base text-secondary">
-                      {consultantData.bio}
-                    </Text>
                   </Card>
                 </View>
               </VStack>

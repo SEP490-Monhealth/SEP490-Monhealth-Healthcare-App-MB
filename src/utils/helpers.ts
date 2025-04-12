@@ -377,11 +377,10 @@ export const getWeekRange = (dateString: string) => {
 
   const start = monday.getDate()
   const end = sunday.getDate()
-  const month = format(sunday, "MMMM", { locale: vi })
-  const capitalizedMonth = month.charAt(0).toUpperCase() + month.slice(1)
+  const monthNumber = sunday.getMonth() + 1
   const year = sunday.getFullYear()
 
-  return `${start} - ${end} ${capitalizedMonth} ${year}`
+  return `${start} - ${end} Tháng ${monthNumber} ${year}`
 }
 
 export const getMonthRange = (startMonthStr: string, endMonthStr?: string) => {
