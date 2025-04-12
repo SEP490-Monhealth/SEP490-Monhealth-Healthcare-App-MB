@@ -44,7 +44,7 @@ export const ActivityTab = ({
   const { data: workoutGoalData, isLoading: isGoalLoading } =
     useGetWorkoutGoal(userId)
 
-  console.log(dailyActivityData)
+  // console.log(dailyActivityData)
 
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()

@@ -48,6 +48,8 @@ function ChatScreen() {
 
   const { data, isLoading } = useGetChatsByUserId(userId, page, limit)
 
+  // console.log(JSON.stringify(chatsData, null, 2))
+
   useEffect(() => {
     if (data?.chats) {
       setChatsData((prev) =>

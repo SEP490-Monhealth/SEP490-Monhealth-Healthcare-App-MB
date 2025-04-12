@@ -26,14 +26,12 @@ import { Header } from "@/components/global/organisms"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useCreateMessage, useGetMessagesByChatId } from "@/hooks/useMessage"
+import { useCreateMessage } from "@/hooks/useMessage"
 
 import { CreateMessageType, MessageType } from "@/schemas/messageSchema"
 
 const ChatDetailsScreen = () => {
   const { chatId } = useLocalSearchParams<{ chatId: string }>()
-
-  // console.log(chatId);
 
   const { user } = useAuth()
   const userId = user?.userId
@@ -48,6 +46,7 @@ const ChatDetailsScreen = () => {
   const [selectedMessageId, setSelectedMessageId] = useState<string | null>(
     null
   )
+
   const { mutate: sendMessage } = useCreateMessage()
 
   useEffect(() => {
@@ -167,7 +166,7 @@ const ChatDetailsScreen = () => {
         <FlatList
           data={messages}
           renderItem={renderMessageItem}
-          keyExtractor={(item) => item.messageId}
+          keyExtractor={(item, index) => item.messageId || `message-${index}`}
           inverted
           showsVerticalScrollIndicator={false}
         />

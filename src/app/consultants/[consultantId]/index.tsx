@@ -100,7 +100,7 @@ function ConsultantDetailsScreen() {
     // @ts-ignore
     await createChat(data, {
       onSuccess: (response) => {
-        router.replace(`/chats/${response.data.chatId}`)
+        router.push(`/chats/${response.data.chatId}`)
       }
     })
   }
