@@ -4,7 +4,7 @@ import { activitySchema } from "./activitySchema"
 import { timestampFields, uuidSchema } from "./baseSchema"
 import { goalSchema } from "./goalSchema"
 
-const dailyActivitySchema = z.object({
+export const dailyActivitySchema = z.object({
   dailyActivityId: uuidSchema,
   userId: uuidSchema,
   goalId: uuidSchema,

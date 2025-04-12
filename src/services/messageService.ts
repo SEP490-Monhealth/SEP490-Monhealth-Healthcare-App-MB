@@ -40,7 +40,7 @@ export const createMessage = async (
   try {
     const response = await monAPI.post(`/messages`, newData)
 
-    const { success, message, data } = response.data
+    const { success, message } = response.data
 
     if (!success) {
       throw {

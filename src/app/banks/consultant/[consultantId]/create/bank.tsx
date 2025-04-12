@@ -28,10 +28,7 @@ interface BankSelectionProps {
   setIsLoading?: (isLoading: boolean) => void
 }
 
-export const BankSelection = ({
-  setValue,
-  setIsLoading
-}: BankSelectionProps) => {
+function BankSelection({ setValue, setIsLoading }: BankSelectionProps) {
   const { updateField } = useBankStore()
 
   const [banksData, setBanksData] = useState<BankType[]>([])
@@ -169,3 +166,5 @@ export const BankSelection = ({
     </View>
   )
 }
+
+export default BankSelection

@@ -25,12 +25,12 @@ interface BankSelectionProps {
   setIsLoading?: (isLoading: boolean) => void
 }
 
-export const BankInformation = ({
+function BankInformation({
   control,
   errors,
   setValue,
   setIsLoading
-}: BankSelectionProps) => {
+}: BankSelectionProps) {
   const { bankId, isDefault, updateField } = useBankStore()
 
   const { data: bankData, isLoading } = useGetBankById(bankId)
@@ -121,3 +121,5 @@ export const BankInformation = ({
     </VStack>
   )
 }
+
+export default BankInformation

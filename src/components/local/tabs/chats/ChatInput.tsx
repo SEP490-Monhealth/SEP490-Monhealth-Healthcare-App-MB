@@ -34,7 +34,7 @@ export const ChatInput = ({
         activeOpacity={0.8}
         disabled={isDisabled}
         onPress={onSubmit}
-        className="flex h-12 w-12 items-center justify-center rounded-full bg-primary"
+        className={`flex h-12 w-12 items-center justify-center rounded-full ${isAITyping ? "bg-destructive" : "bg-primary"}`}
       >
         {isAITyping ? (
           <Pause variant="Bold" size="20" color="white" />

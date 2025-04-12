@@ -7,7 +7,7 @@ import {
 
 import { auditFields, uuidSchema } from "./baseSchema"
 
-const transactionSchema = z.object({
+export const transactionSchema = z.object({
   transactionId: uuidSchema,
   consultantId: uuidSchema,
   walletId: uuidSchema,

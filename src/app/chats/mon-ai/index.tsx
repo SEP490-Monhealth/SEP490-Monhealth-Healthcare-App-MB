@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 
 import {
   FlatList,
@@ -18,7 +18,11 @@ import {
 
 import { Header } from "@/components/global/organisms"
 
-import { ChatInput, MessageItem, Welcome } from "@/components/local/tabs/chats"
+import {
+  ChatInput,
+  ChatWelcome,
+  MessageItem
+} from "@/components/local/tabs/chats"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -28,29 +32,54 @@ const ChatMonAIScreen = () => {
   const { user } = useAuth()
   const userId = user?.userId
 
-  const { mutate: chatMonAI } = useCreateChatMonAI()
-
   const flatListRef = useRef<FlatList>(null)
 
-  const [chatHubConnection, setChatHubConnection] = useState<HubConnection>()
+  const [chatHubConnection, setChatHubConnection] =
+    useState<HubConnection | null>(null)
   const [connectionStatus, setConnectionStatus] = useState<boolean>(false)
   const [messages, setMessages] = useState<MessageType[]>([])
   const [isAITyping, setIsAITyping] = useState<boolean>(false)
+  const [hasStarted, setHasStarted] = useState<boolean>(false)
   const [newMessage, setNewMessage] = useState<string>(
     "Tôi muốn tăng cân nhanh chóng, bạn có thể giúp tôi không?"
   )
 
-  useEffect(() => {
-    createHubConnection()
+  const { mutate: chatMonAI } = useCreateChatMonAI()
 
-    return () => {
-      if (chatHubConnection) {
-        chatHubConnection.stop()
+  const handleReceiveMessage = useCallback((message: any) => {
+    setIsAITyping(false)
+
+    try {
+      if (
+        message &&
+        (message.content?.generalAdvice || message.content?.summaryConversation)
+      ) {
+        const validatedMessage = {
+          messageId: message.messageId || Date.now().toString(),
+          sender: message.sender || "MonAI",
+          content: message.content
+        }
+
+        setMessages((prevMessages) => {
+          const isDuplicate = prevMessages.some(
+            (msg) => msg.messageId === validatedMessage.messageId
+          )
+          if (isDuplicate) {
+            return prevMessages
+          }
+          return [...prevMessages, validatedMessage]
+        })
       }
+    } catch (error) {
+      console.error("Error processing received message:", error)
     }
   }, [])
 
-  const createHubConnection = async () => {
+  const createHubConnection = useCallback(async () => {
+    if (chatHubConnection) {
+      return
+    }
+
     const hubConnection = new HubConnectionBuilder()
       .withUrl(`${appConfig.baseUrl}/chat/mon-ai`)
       .withAutomaticReconnect()
@@ -58,76 +87,29 @@ const ChatMonAIScreen = () => {
       .build()
 
     try {
+      hubConnection.on("ReceiveMessage", handleReceiveMessage)
+
       await hubConnection.start()
       console.log("Connection started")
+
       setConnectionStatus(true)
-
-      hubConnection.on("ReceiveMessage", (message: any) => {
-        console.log("=== Raw Message Structure ===")
-        console.log(JSON.stringify(message, null, 2))
-
-        setIsAITyping(false)
-
-        try {
-          if (
-            message &&
-            (message.content?.generalAdvice ||
-              message.content?.summaryConversation)
-          ) {
-            const validatedMessage = {
-              messageId: message.messageId || Date.now().toString(),
-              sender: message.sender || "MonAI",
-              content: message.content
-            }
-
-            setMessages((prevMessages) => {
-              const isDuplicate = prevMessages.some(
-                (msg) => msg.messageId === validatedMessage.messageId
-              )
-              if (isDuplicate) {
-                return prevMessages
-              }
-              return [...prevMessages, validatedMessage]
-            })
-          }
-        } catch (error) {
-          console.error("Error processing received message:", error)
-        }
-      })
+      setHasStarted(true)
+      setChatHubConnection(hubConnection)
     } catch (error) {
       console.error("Error starting connection:", error)
       setConnectionStatus(false)
+      setHasStarted(false)
     }
-    setChatHubConnection(hubConnection)
-  }
+  }, [chatHubConnection, handleReceiveMessage])
 
-  const handleSendMessage = async () => {
-    if (chatHubConnection && newMessage) {
-      const newData = {
-        userId: userId || "",
-        query: newMessage
-      }
-
-      try {
-        const userMessage: ChatUserType = {
-          messageId: Date.now().toString(),
-          sender: userId || "",
-          content: newMessage
-        }
-        setMessages((prevMessages) => [...prevMessages, userMessage])
-        setIsAITyping(true)
-
-        // console.log(JSON.stringify(newData, null, 2))
-        await chatMonAI(newData)
-
-        // await chatHubConnection.invoke("SendMessageToClient", newData)
-        setNewMessage("")
-      } catch (error) {
-        console.error("Error sending message:", error)
-        setIsAITyping(false)
+  useEffect(() => {
+    return () => {
+      if (chatHubConnection) {
+        console.log("Stopping SignalR connection")
+        chatHubConnection.stop()
       }
     }
-  }
+  }, [chatHubConnection])
 
   useEffect(() => {
     if (messages.length > 0) {
@@ -136,6 +118,38 @@ const ChatMonAIScreen = () => {
       }, 100)
     }
   }, [messages])
+
+  const handleStartConnection = () => {
+    createHubConnection()
+  }
+
+  const handleSendMessage = async () => {
+    if (!chatHubConnection || !newMessage.trim() || !connectionStatus) {
+      return
+    }
+
+    const userMessage: ChatUserType = {
+      messageId: Date.now().toString(),
+      sender: userId || "",
+      content: newMessage
+    }
+
+    try {
+      setMessages((prevMessages) => [...prevMessages, userMessage])
+
+      setIsAITyping(true)
+
+      await chatMonAI({
+        userId: userId || "",
+        query: newMessage
+      })
+
+      setNewMessage("")
+    } catch (error) {
+      console.error("Error sending message:", error)
+      setIsAITyping(false)
+    }
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-background">
@@ -147,8 +161,8 @@ const ChatMonAIScreen = () => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         className="flex-1 px-6 pt-2"
       >
-        {messages.length === 0 ? (
-          <Welcome />
+        {!hasStarted ? (
+          <ChatWelcome onStartConnection={handleStartConnection} />
         ) : (
           <FlatList
             ref={flatListRef}
@@ -180,13 +194,15 @@ const ChatMonAIScreen = () => {
           />
         )}
 
-        <ChatInput
-          value={newMessage}
-          onChangeText={setNewMessage}
-          onSubmit={handleSendMessage}
-          isDisabled={!newMessage.trim() || !connectionStatus}
-          isAITyping={isAITyping}
-        />
+        {hasStarted && (
+          <ChatInput
+            value={newMessage}
+            onChangeText={setNewMessage}
+            onSubmit={handleSendMessage}
+            isDisabled={!newMessage.trim() || !connectionStatus}
+            isAITyping={isAITyping}
+          />
+        )}
       </KeyboardAvoidingView>
     </SafeAreaView>
   )

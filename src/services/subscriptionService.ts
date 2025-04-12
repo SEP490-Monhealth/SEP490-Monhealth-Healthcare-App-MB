@@ -2,10 +2,7 @@ import axios from "axios"
 
 import monAPI from "@/lib/monAPI"
 
-import {
-  SubscriptionType,
-  UpgradeSubscriptionType
-} from "@/schemas/subscriptionSchema"
+import { SubscriptionType } from "@/schemas/subscriptionSchema"
 
 interface SubscriptionsResponse {
   totalPages: number

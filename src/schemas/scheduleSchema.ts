@@ -21,7 +21,7 @@ export const createTimeSlotSchema = z.object({
   endTime: timeSchema.shape.time
 })
 
-const scheduleSchema = z.object({
+export const scheduleSchema = z.object({
   scheduleId: uuidSchema,
   consultantId: uuidSchema,
 

@@ -1,12 +1,16 @@
 import { Image, Text, View } from "react-native"
 
-import { VStack } from "@/components/global/atoms"
+import { Button, VStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/color"
 
-export const Welcome = () => {
+interface ChatWelcomeProps {
+  onStartConnection: () => void
+}
+
+export const ChatWelcome = ({ onStartConnection }: ChatWelcomeProps) => {
   return (
-    <View className="flex-1 items-center justify-center px-6 pb-40">
+    <View className="flex flex-1 flex-col items-center justify-center gap-8 px-6 pb-40">
       <View
         style={{
           shadowColor: COLORS.PRIMARY.lemon,
@@ -22,8 +26,9 @@ export const Welcome = () => {
           style={{ height: 128, width: 128 }}
         />
       </View>
+
       <VStack center gap={8}>
-        <Text className="mt-8 font-tbold text-xl text-primary">
+        <Text className="font-tbold text-xl text-primary">
           Chào mừng bạn đến với Mon AI
         </Text>
         <Text className="text-center font-tregular text-base text-accent">
@@ -31,6 +36,10 @@ export const Welcome = () => {
           được lời khuyên phù hợp nhất cho bạn!
         </Text>
       </VStack>
+
+      <Button onPress={onStartConnection} className="w-full">
+        Bắt đầu
+      </Button>
     </View>
   )
 }

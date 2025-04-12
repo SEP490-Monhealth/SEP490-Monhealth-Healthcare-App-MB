@@ -2,7 +2,7 @@ import { z } from "zod"
 
 import { BookingStatusSchemaEnum } from "@/constants/enum/Booking"
 
-import { auditFields, timeSchema, uuidSchema } from "./baseSchema"
+import { auditFields, uuidSchema } from "./baseSchema"
 import { userSchema } from "./userSchema"
 
 const bookingSchema = z.object({
