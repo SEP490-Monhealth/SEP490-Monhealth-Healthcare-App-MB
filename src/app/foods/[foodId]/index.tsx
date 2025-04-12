@@ -87,15 +87,11 @@ function FoodDetailsScreen() {
 
   const { data: dailyMealData, isLoading: isDailyMealLoading } =
     useGetDailyMealByUserId(userId, today)
-
   const { data: nutritionGoalData, isLoading: isGoalLoading } =
     useGetNutritionGoal(userId)
-
   const { data: foodData, isLoading: isFoodLoading } = useGetFoodById(foodId)
-
   const { data: nutritionData, isLoading: isNutritionLoading } =
     useGetNutritionByFoodId(foodId)
-
   const { data: portionData, isLoading: isPortionLoading } =
     useGetPortionByFoodId(foodId, 1)
 

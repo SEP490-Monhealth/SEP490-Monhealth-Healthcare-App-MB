@@ -126,7 +126,8 @@ function SetupUserScreen() {
     },
     {
       title: "Cân nặng mục tiêu",
-      description: "Nhập cân nặng mục tiêu bạn muốn đạt được trong tương lai",
+      description:
+        "Dựa trên chiều cao và giới tính của bạn, hệ thống gợi ý cân nặng phù hợp",
       component: SetupWeightGoal,
       fields: ["weightGoal"],
       schema: weightGoalSetupSchema

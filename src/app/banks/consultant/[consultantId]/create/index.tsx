@@ -25,8 +25,8 @@ import { createConsultantBankSchema } from "@/schemas/consultantBankSchema"
 
 import { useBankStore } from "@/stores/bankStore"
 
-import { BankSelection } from "./bank"
-import { BankInformation } from "./information"
+import BankSelection from "./bank"
+import BankInformation from "./information"
 
 function BankCreateScreen() {
   const router = useRouter()

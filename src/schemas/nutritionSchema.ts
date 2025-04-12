@@ -62,3 +62,4 @@ export const nutritionFoodSchema = nutritionSchema.pick({
 })
 
 export type NutritionType = z.infer<typeof nutritionSchema>
+export type NutritionFactType = z.infer<typeof baseNutritionSchema>

@@ -45,7 +45,7 @@ function SetupWeightGoal({ control, setValue, errors }: SetupWeightGoalProps) {
 
   return (
     <VStack gap={12}>
-      <Controller
+      {/* <Controller
         name="weightGoal"
         control={control}
         render={({ field: { onChange, value } }) => (
@@ -69,7 +69,13 @@ function SetupWeightGoal({ control, setValue, errors }: SetupWeightGoalProps) {
             errorMessage={errorMessage}
           />
         )}
-      />
+      /> */}
+
+      {idealWeight !== null && (
+        <Text className="text-center font-tbold text-5xl text-primary">
+          {toFixed(idealWeight, 1)} kg
+        </Text>
+      )}
 
       {idealWeight !== null && (
         <TouchableOpacity
@@ -79,7 +85,7 @@ function SetupWeightGoal({ control, setValue, errors }: SetupWeightGoalProps) {
           }}
         >
           <Text className="ml-1 mt-1 font-tregular text-sm text-accent">
-            Gợi ý cân nặng phù hợp:{" "}
+            Gợi ý cân nặng phù hợp dựa trên chiều cao và giới tính của bạn:{" "}
             <Text className="font-tregular text-primary">
               {toFixed(idealWeight, 1)} kg
             </Text>

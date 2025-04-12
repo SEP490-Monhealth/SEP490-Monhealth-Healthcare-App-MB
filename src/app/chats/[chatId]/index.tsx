@@ -11,13 +11,13 @@ import { TouchableOpacity } from "react-native"
 
 import { useLocalSearchParams } from "expo-router"
 
-import { LoadingScreen } from "@/app/loading"
 import { appConfig } from "@/configs/app"
 import {
   HubConnection,
   HubConnectionBuilder,
   LogLevel
 } from "@microsoft/signalr"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 import { Send2 } from "iconsax-react-native"
 
 import { HStack, Input } from "@/components/global/atoms"
@@ -62,34 +62,44 @@ const ChatDetailsScreen = () => {
 
   const createHubConnection = async () => {
     const hubConnection = new HubConnectionBuilder()
-      .withUrl(`${appConfig.baseUrl}/chatbox`)
+      .withUrl(`${appConfig.baseUrl}/chatbox`, {
+        accessTokenFactory: async () => {
+          const token = await AsyncStorage.getItem("accessToken")
+          return token || ""
+        }
+      })
       .withAutomaticReconnect()
       .configureLogging(LogLevel.Information)
       .build()
 
     try {
       await hubConnection.start()
-      console.log("Connection started")
+      console.log("✅ Connection started")
       setConnectionStatus(true)
 
-      // hubConnection.on("ReceiveMessage", (message: MessageType) => {
-      //   console.log("Received message:", message)
-      //   if (message) {
-      //     setMessages((prevMessages) => [...prevMessages, message])
-      //   }
-      // })
+      hubConnection.on(
+        "LoadMessageHistory",
+        (messageHistory: MessageType[]) => {
+          // console.log("🔄 Message history received:", messageHistory)
+          setMessages(messageHistory)
+        }
+      )
 
-      // hubConnection.on(
-      //   "LoadMessageHistory",
-      //   (messageHistory: MessageType[]) => {
-      //     console.log("Received message history:", messageHistory)
-      //     setMessages(messageHistory || [])
-      //   }
-      // )
+      hubConnection.on("ReceiveMessage", (message: MessageType) => {
+        // console.log("📥 Received new message:", message)
+        setMessages((prev) => [message, ...prev])
+      })
+
+      hubConnection.on("ErrorOccurred", (errorMessage: string) => {
+        console.error("🚨 Error from server:", errorMessage)
+      })
+
+      await hubConnection.invoke("JoinChat", chatId)
     } catch (error) {
-      console.error("Error starting connection:", error)
+      console.error("❌ Error starting connection:", error)
       setConnectionStatus(false)
     }
+
     setChatHubConnection(hubConnection)
   }
 
@@ -105,6 +115,8 @@ const ChatDetailsScreen = () => {
         // console.log("Sending message:", JSON.stringify(newData, null, 2))
 
         // await sendMessage(newData)
+
+        await chatHubConnection.invoke("SendMessage", newData)
 
         setNewMessage("")
       } catch (error) {

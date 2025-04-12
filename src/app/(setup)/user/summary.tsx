@@ -107,6 +107,11 @@ function SetupSummary() {
                 </Text>
               </View>
 
+              <Text className="text-center font-tmedium text-base text-accent">
+                Đây là lượng calo bạn nên nạp mỗi ngày để đạt được mục tiêu đã
+                chọn
+              </Text>
+
               {/* {isEditing ? (
               <TextInput
                 maxLength={4}

@@ -4,9 +4,9 @@ import { z } from "zod"
 export enum TransactionTypeEnum {
   Earning,
   Withdrawal,
-  Refund,
   Fee,
-  Bonus
+  Bonus,
+  Refund
 }
 
 export enum TransactionStatusEnum {
@@ -27,16 +27,16 @@ export const transactionTypeMap: Record<TransactionTypeEnum, EnumMeta> = {
     label: "Rút tiền",
     icon: require("../../../public/icons/transactions/expense.png")
   },
-  [TransactionTypeEnum.Refund]: {
-    label: "Hoàn tiền",
-    icon: require("../../../public/icons/transactions/income.png")
-  },
   [TransactionTypeEnum.Fee]: {
     label: "Phí",
     icon: require("../../../public/icons/transactions/expense.png")
   },
   [TransactionTypeEnum.Bonus]: {
     label: "Thưởng",
+    icon: require("../../../public/icons/transactions/income.png")
+  },
+  [TransactionTypeEnum.Refund]: {
+    label: "Hoàn tiền",
     icon: require("../../../public/icons/transactions/income.png")
   }
 }

@@ -2,7 +2,7 @@ import React from "react"
 
 import { VStack } from "@/components/global/atoms"
 
-import { NutritionType } from "@/schemas/nutritionSchema"
+import { NutritionFactType } from "@/schemas/nutritionSchema"
 
 import { toFixed } from "@/utils/formatters"
 
@@ -12,7 +12,7 @@ import {
 } from "../../global/molecules/NutritionItem"
 
 interface NutritionFactsProps {
-  nutritionData: NutritionType
+  nutritionData: NutritionFactType
   weightRatio: number
 }
 
