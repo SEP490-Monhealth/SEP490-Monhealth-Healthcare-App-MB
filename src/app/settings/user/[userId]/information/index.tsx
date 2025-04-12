@@ -16,6 +16,7 @@ import {
   CalendarCircle,
   CallCalling,
   CommandSquare,
+  FlashCircle,
   ProfileCircle,
   Ruler,
   Sms
@@ -80,7 +81,7 @@ function UserInformationScreen() {
   )
     return <LoadingScreen />
 
-  const genderUser = getGenderMeta(metricData[0].gender)
+  const gender = getGenderMeta(metricData[0].gender)
   const goalType = getGoalTypeMeta(goalData[0].type)
   const goalStatus = getGoalStatusMeta(goalData[0].status)
 
@@ -93,15 +94,12 @@ function UserInformationScreen() {
   ]
 
   const userMetricList = [
-    {
-      label: genderUser.label,
-      icon: genderUser.icon
-    },
+    { label: gender.label, icon: gender.icon },
     { label: formatDate(metricData[0].dateOfBirth), icon: Calendar },
     { label: `${metricData[0].height} cm`, icon: Ruler },
     { label: `${metricData[0].weight} kg`, icon: CommandSquare },
     { label: `${goalType.label}`, icon: goalType.icon },
-    { label: `${goalStatus.label}`, icon: goalStatus.icon }
+    { label: `${goalStatus.label}`, icon: FlashCircle }
   ]
 
   const handleUpdateInformation = () => {
@@ -161,11 +159,13 @@ function UserInformationScreen() {
                           key={index}
                           label={item.label}
                           startIcon={
-                            <Icon
-                              variant="Bold"
-                              size={24}
-                              color={COLORS.accent}
-                            />
+                            Icon ? (
+                              <Icon
+                                variant="Bold"
+                                size={24}
+                                color={COLORS.accent}
+                              />
+                            ) : null
                           }
                           endIcon={<View></View>}
                           isBorder={false}
@@ -198,9 +198,7 @@ function UserInformationScreen() {
                                 size={24}
                                 color={COLORS.accent}
                               />
-                            ) : (
-                              <></>
-                            )
+                            ) : null
                           }
                           endIcon={<View></View>}
                           isBorder={false}
