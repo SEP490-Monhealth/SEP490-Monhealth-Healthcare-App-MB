@@ -16,6 +16,8 @@ import { IconButton } from "./IconButton"
 import { ListFooter } from "./ListFooter"
 import { ListHeader } from "./ListHeader"
 import { MealCard } from "./MealCard"
+import { MetricCard } from "./MetricCard"
+import { MetricItem } from "./MetricItem"
 import { NotificationCard } from "./NotificationCard"
 import { NutritionCard } from "./NutritionCard"
 import { NutritionItem } from "./NutritionItem"
@@ -50,6 +52,8 @@ export {
   ListFooter,
   ListHeader,
   MealCard,
+  MetricCard,
+  MetricItem,
   NotificationCard,
   NutritionCard,
   PaymentCard,

@@ -11,7 +11,7 @@ import { formatCurrency, formatDateTime } from "@/utils/formatters"
 
 import { Card, VStack } from "../atoms"
 
-interface WithdrawalRequestCardProps {
+interface PaymentCardProps {
   description: string
   amount: number
   status: PaymentStatusEnum
@@ -23,7 +23,7 @@ export const PaymentCard = ({
   amount,
   status,
   createdAt
-}: WithdrawalRequestCardProps) => {
+}: PaymentCardProps) => {
   const { label: paymentStatusLabel } = getPaymentStatusMeta(status)
 
   return (
