@@ -64,7 +64,7 @@ export const useGetMonthlyBookingByConsultantId = (
 ) => {
   const handleError = useError()
 
-  return useQuery<MonthlyBookingType, Error>({
+  return useQuery<MonthlyBookingType[], Error>({
     queryKey: [MonQueryKey.Report.MonthlyBooking, userId, date],
     queryFn: async () => {
       try {

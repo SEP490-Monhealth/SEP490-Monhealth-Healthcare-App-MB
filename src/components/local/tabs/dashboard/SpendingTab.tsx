@@ -58,8 +58,10 @@ export const SpendingTab = ({
 
   const limit = 5
 
-  const { data: monthlyTransactionData, isLoading: isSpendingLoading } =
-    useGetMonthlyTransactionByConsultantId(consultantId, date)
+  const {
+    data: monthlyTransactionData,
+    isLoading: isMonthlyTransactionLoading
+  } = useGetMonthlyTransactionByConsultantId(consultantId, date)
   const { data, isLoading } = useGetTransactionsByConsultantId(
     consultantId,
     page,
@@ -70,8 +72,10 @@ export const SpendingTab = ({
   const isMutating = useIsMutating()
 
   useEffect(() => {
-    onOverlayLoading(isFetching > 0 || isMutating > 0 || isSpendingLoading)
-  }, [isFetching, isMutating, isSpendingLoading, onOverlayLoading])
+    onOverlayLoading(
+      isFetching > 0 || isMutating > 0 || isMonthlyTransactionLoading
+    )
+  }, [isFetching, isMutating, isMonthlyTransactionLoading, onOverlayLoading])
 
   useEffect(() => {
     if (data?.transactions) {
@@ -216,7 +220,7 @@ export const SpendingTab = ({
           imageSource={require("../../../../../public/images/monhealth-no-data-image.png")}
           title="Không có dữ liệu"
           description="Không tìm thấy có giao dịch nào ở đây!"
-          marginTop={24}
+          marginTop={12}
         />
       }
       ItemSeparatorComponent={() => <View className="h-3" />}

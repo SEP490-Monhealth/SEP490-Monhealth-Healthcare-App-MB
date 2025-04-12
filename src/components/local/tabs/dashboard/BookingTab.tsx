@@ -1,31 +1,22 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 
 import { ScrollView, Text } from "react-native"
 
 import { LoadingScreen } from "@/app/loading"
+import { useIsFetching, useIsMutating } from "@tanstack/react-query"
 
 import { HStack, VStack } from "@/components/global/atoms"
-import { BookingCard } from "@/components/global/molecules"
+import { BookingCard, ErrorDisplay } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
 
-import { useAuth } from "@/contexts/AuthContext"
-
 import { useGetBookingsByConsultantId } from "@/hooks/useBooking"
+import { useGetMonthlyBookingByConsultantId } from "@/hooks/useReport"
 
 import { getMonthRange } from "@/utils/helpers"
 
 import { BarChart } from "./BarChart"
 
 const labels = ["T1", "T2", "T3", "T4", "T5", "T6"]
-
-const bookingData = [
-  { month: "2025-01", bookings: 45 },
-  { month: "2025-02", bookings: 78 },
-  { month: "2025-03", bookings: 120 },
-  { month: "2025-04", bookings: 95 },
-  { month: "2025-05", bookings: 60 },
-  { month: "2025-06", bookings: 110 }
-]
 
 interface BookingTabProps {
   consultantId?: string
@@ -38,23 +29,36 @@ export const BookingTab = ({
   date,
   onOverlayLoading
 }: BookingTabProps) => {
-  const currentMonth = "2025-04"
+  const [selectedMonth, setSelectedMonth] = useState<string>(date)
 
-  const currentDate = new Date(currentMonth)
+  const { data: monthlyBookingData, isLoading: isMonthlyBookingLoading } =
+    useGetMonthlyBookingByConsultantId(consultantId, selectedMonth)
+  const { data: bookingsData } = useGetBookingsByConsultantId(consultantId)
+
+  const isFetching = useIsFetching()
+  const isMutating = useIsMutating()
+
+  useEffect(() => {
+    onOverlayLoading(
+      isFetching > 0 || isMutating > 0 || isMonthlyBookingLoading
+    )
+  }, [isFetching, isMutating, isMonthlyBookingLoading, onOverlayLoading])
+
+  const currentDate = new Date(date)
   const currentMonthNum = currentDate.getMonth()
   const currentYear = currentDate.getFullYear()
 
   const startMonthDate = new Date(currentYear, currentMonthNum - 5, 1)
   const startMonth = `${startMonthDate.getFullYear()}-${String(startMonthDate.getMonth() + 1).padStart(2, "0")}`
 
-  const monthRange = getMonthRange(startMonth, currentMonth)
+  const monthRange = getMonthRange(startMonth, date)
 
-  const { data: bookingsData } = useGetBookingsByConsultantId(consultantId)
-
-  const totalBookings = bookingData.reduce(
-    (sum, item) => sum + item.bookings,
+  const totalBookings = monthlyBookingData?.reduce(
+    (acc, item) => acc + item.bookings,
     0
   )
+
+  const barChartData = monthlyBookingData || []
 
   if (!bookingsData) {
     return <LoadingScreen />
@@ -82,13 +86,18 @@ export const BookingTab = ({
         </HStack>
       </VStack>
 
-      <BarChart month={currentMonth} labels={labels} data={bookingData} />
+      <BarChart
+        date={date}
+        labels={labels}
+        data={barChartData}
+        onSelectMonth={setSelectedMonth}
+      />
 
       <Section label="Danh sách lịch hẹn" />
 
-      <VStack gap={12}>
-        {bookingsData?.length > 0 &&
-          bookingsData.map((booking) => (
+      {bookingsData && bookingsData.length > 0 ? (
+        <VStack gap={12}>
+          {bookingsData.map((booking) => (
             <BookingCard
               key={booking.bookingId}
               variant="default"
@@ -101,7 +110,15 @@ export const BookingTab = ({
               cancellationReason={booking.cancellationReason}
             />
           ))}
-      </VStack>
+        </VStack>
+      ) : (
+        <ErrorDisplay
+          imageSource={require("../../../../../public/images/monhealth-no-data-image.png")}
+          title="Không có dữ liệu"
+          description="Không tìm thấy có lịch hẹn nào ở đây!"
+          marginTop={12}
+        />
+      )}
     </ScrollView>
   )
 }

@@ -199,7 +199,7 @@ export const ReviewTab = ({
           imageSource={require("../../../../../public/images/monhealth-no-data-image.png")}
           title="Không có dữ liệu"
           description="Không tìm thấy có đánh giá nào ở đây!"
-          marginTop={24}
+          marginTop={12}
         />
       }
       ItemSeparatorComponent={() => <View className="h-3" />}
