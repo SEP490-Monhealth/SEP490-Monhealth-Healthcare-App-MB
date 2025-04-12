@@ -28,13 +28,16 @@ const bookingData = [
 ]
 
 interface BookingTabProps {
+  consultantId?: string
+  date: string
   onOverlayLoading: (isLoading: boolean) => void
 }
 
-export const BookingTab = ({ onOverlayLoading }: BookingTabProps) => {
-  const { user } = useAuth()
-  const consultantId = user?.consultantId
-
+export const BookingTab = ({
+  consultantId,
+  date,
+  onOverlayLoading
+}: BookingTabProps) => {
   const currentMonth = "2025-04"
 
   const currentDate = new Date(currentMonth)

@@ -5,6 +5,8 @@ import Svg, { Line, Polyline, Text as SvgText } from "react-native-svg"
 
 import { COLORS } from "@/constants/color"
 
+import { MonthlyTransactionType } from "@/schemas/reportSchema"
+
 const formatCurrency = (value: number): string => {
   if (value === 0) return "0"
   if (value >= 1000000) {
@@ -21,11 +23,8 @@ const formatCurrency = (value: number): string => {
 const screenWidth = Dimensions.get("window").width
 
 interface IncomeExpenseChartProps {
-  data: {
-    income: { date: string; amount: number }[]
-    expense: { date: string; amount: number }[]
-  }
-  labels: string[] // Nhận labels từ DashboardScreen
+  data: MonthlyTransactionType
+  labels: string[]
 }
 
 export const IncomeExpenseChart = ({
@@ -71,7 +70,7 @@ export const IncomeExpenseChart = ({
 
   const dynamicPadding = screenWidth * 0.16
 
-  const getPoints = (data: { date: string; amount: number }[]) =>
+  const getPoints = (data: { month: string; amount: number }[]) =>
     data
       .map((item, index) => {
         const x =

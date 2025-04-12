@@ -1,112 +1,225 @@
-import React from "react"
+import React, { useEffect, useMemo, useState } from "react"
 
-import { ScrollView, Text } from "react-native"
+import {
+  ActivityIndicator,
+  FlatList,
+  Keyboard,
+  ScrollView,
+  Text
+} from "react-native"
 import { View } from "react-native"
 
 import { useRouter } from "expo-router"
 
+import { LoadingScreen } from "@/app/loading"
+import { useIsFetching, useIsMutating } from "@tanstack/react-query"
+
 import { HStack, VStack } from "@/components/global/atoms"
 import { TipText } from "@/components/global/atoms/Typography"
+import {
+  ErrorDisplay,
+  ListFooter,
+  ListHeader
+} from "@/components/global/molecules"
 import { TransactionCard } from "@/components/global/molecules/TransactionCard"
 import { Section } from "@/components/global/organisms"
 
-import {
-  TransactionStatusEnum,
-  TransactionTypeEnum
-} from "@/constants/enum/Transaction"
+import { COLORS } from "@/constants/color"
+
+import { useGetMonthlyTransactionByConsultantId } from "@/hooks/useReport"
+import { useGetTransactionsByConsultantId } from "@/hooks/useTransaction"
+
+import { TransactionType } from "@/schemas/transactionSchema"
 
 import { formatCurrency } from "@/utils/formatters"
-import { getRandomTip } from "@/utils/helpers"
+import { getMonthRange, getRandomTip } from "@/utils/helpers"
 
 import { IncomeExpenseChart } from "./IncomeExpenseChart"
 
-const labels = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"]
-
-const spendingData = {
-  income: [
-    { date: "2025-03-24", amount: 100000 },
-    { date: "2025-03-25", amount: 150000 },
-    { date: "2025-03-26", amount: 1000000 },
-    { date: "2025-03-27", amount: 500000 },
-    { date: "2025-03-28", amount: 700000 },
-    { date: "2025-03-29", amount: 2000000 },
-    { date: "2025-03-30", amount: 300000 }
-  ],
-  expense: [
-    { date: "2025-03-24", amount: 50000 },
-    { date: "2025-03-25", amount: 100000 },
-    { date: "2025-03-26", amount: 800000 },
-    { date: "2025-03-27", amount: 400000 },
-    { date: "2025-03-28", amount: 600000 },
-    { date: "2025-03-29", amount: 1500000 },
-    { date: "2025-03-30", amount: 200000 }
-  ]
-}
-
 interface SpendingTabProps {
+  consultantId?: string
+  date: string
   onOverlayLoading: (isLoading: boolean) => void
 }
 
-export const SpendingTab = ({ onOverlayLoading }: SpendingTabProps) => {
+export const SpendingTab = ({
+  consultantId,
+  date,
+  onOverlayLoading
+}: SpendingTabProps) => {
   const router = useRouter()
+
+  const [transactionsData, setTransactionsData] = useState<TransactionType[]>(
+    []
+  )
+  const [page, setPage] = useState<number>(1)
+  const [hasMore, setHasMore] = useState<boolean>(true)
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
+
+  const limit = 5
+
+  const { data: monthlyTransactionData, isLoading: isSpendingLoading } =
+    useGetMonthlyTransactionByConsultantId(consultantId, date)
+  const { data, isLoading } = useGetTransactionsByConsultantId(
+    consultantId,
+    page,
+    limit
+  )
+
+  const isFetching = useIsFetching()
+  const isMutating = useIsMutating()
+
+  useEffect(() => {
+    onOverlayLoading(isFetching > 0 || isMutating > 0 || isSpendingLoading)
+  }, [isFetching, isMutating, isSpendingLoading, onOverlayLoading])
+
+  useEffect(() => {
+    if (data?.transactions) {
+      setTransactionsData((prev) =>
+        page === 1 ? data.transactions : [...prev, ...data.transactions]
+      )
+      setHasMore(page * limit < data.totalItems)
+    }
+  }, [data, page])
+
+  useEffect(() => {
+    if (!isLoading && isRefreshing) {
+      setIsRefreshing(false)
+    }
+  }, [isLoading, isRefreshing])
+
+  const loadMoreData = () => {
+    if (!hasMore || isLoading) return
+    setPage((prev) => prev + 1)
+  }
+
+  const onEndReached = () => {
+    if (isLoading || !hasMore) return
+    Keyboard.dismiss()
+    loadMoreData()
+  }
+
+  const onRefresh = () => {
+    setIsRefreshing(true)
+    Keyboard.dismiss()
+    setPage(1)
+  }
+
+  const currentDate = new Date(date)
+  const currentMonthNum = currentDate.getMonth()
+  const currentYear = currentDate.getFullYear()
+
+  const startMonthDate = new Date(currentYear, currentMonthNum - 5, 1)
+  const startMonth = `${startMonthDate.getFullYear()}-${String(startMonthDate.getMonth() + 1).padStart(2, "0")}`
+
+  const monthRange = getMonthRange(startMonth, date)
+
+  const totalIncome =
+    monthlyTransactionData?.income?.reduce(
+      (sum, item) => sum + item.amount,
+      0
+    ) || 0
+
+  const totalExpense =
+    monthlyTransactionData?.expense?.reduce(
+      (sum, item) => sum + item.amount,
+      0
+    ) || 0
+
+  const totalBalance = totalIncome - totalExpense
+
+  const labels = Array.from({ length: 6 }, (_, index) => {
+    const month = new Date(currentYear, currentMonthNum - 5 + index, 1)
+    const monthNumber = month.getMonth() + 1
+    return `T${monthNumber}`
+  })
 
   const handleViewTransactions = () => {
     router.push("/transactions")
   }
 
+  const incomeData = monthlyTransactionData?.income || []
+  const expenseData = monthlyTransactionData?.expense || []
+
+  const FlatListHeader = useMemo(() => {
+    return (
+      <ListHeader>
+        <VStack className="px-2">
+          <Text className="font-tbold text-xl text-secondary">Tổng quan</Text>
+
+          <HStack className="-mb-2 items-center justify-between">
+            <Text className="font-tbold text-2xl text-primary">
+              {formatCurrency(totalBalance)}
+            </Text>
+
+            <Text className="font-tmedium text-primary">{monthRange}</Text>
+          </HStack>
+        </VStack>
+
+        <IncomeExpenseChart
+          data={{ income: incomeData, expense: expenseData }}
+          labels={labels}
+        />
+
+        {transactionsData.length > 0 && (
+          <Section
+            label="Danh sách chi tiêu"
+            margin={false}
+            actionText="Xem tất cả"
+            onPress={handleViewTransactions}
+            className="mt-2"
+          />
+        )}
+      </ListHeader>
+    )
+  }, [transactionsData.length])
+
+  if (transactionsData.length === 0 && isLoading) {
+    return <LoadingScreen />
+  }
+
   return (
-    <ScrollView
+    <FlatList
+      data={transactionsData || []}
+      keyExtractor={(item, index) => `${item.transactionId}-${index}`}
+      onRefresh={onRefresh}
+      refreshing={isRefreshing}
       showsVerticalScrollIndicator={false}
-      contentContainerStyle={{ paddingBottom: 48 }}
-    >
-      <VStack className="px-2">
-        <Text className="font-tbold text-xl text-secondary">Tổng quan</Text>
-
-        <HStack className="-mb-2 items-center justify-between">
-          <Text className="font-tbold text-2xl text-primary">
-            {formatCurrency(5000000)}
-          </Text>
-
-          <Text className="font-tmedium text-primary">
-            24 - 30 Tháng 3 2025
-          </Text>
-        </HStack>
-      </VStack>
-
-      <IncomeExpenseChart data={spendingData} labels={labels} />
-
-      <Section
-        label="Danh sách chi tiêu"
-        actionText="Xem tất cả"
-        onPress={handleViewTransactions}
-      />
-
-      <VStack gap={12}>
+      initialNumToRender={10}
+      maxToRenderPerBatch={5}
+      windowSize={5}
+      onEndReached={onEndReached}
+      onEndReachedThreshold={0.5}
+      ListHeaderComponent={FlatListHeader}
+      renderItem={({ item }) => (
         <TransactionCard
-          type={TransactionTypeEnum.Withdrawal}
-          datetime="2025-03-26T10:00:00Z"
-          amount={300000}
-          status={TransactionStatusEnum.Completed}
+          type={item.type}
+          datetime={item.createdAt}
+          amount={item.amount}
+          showStatus
+          status={item.status}
         />
-
-        <TransactionCard
-          type={TransactionTypeEnum.Bonus}
-          datetime="2025-03-27T12:00:00Z"
-          amount={10000}
-          status={TransactionStatusEnum.Failed}
+      )}
+      ListFooterComponent={
+        hasMore ? (
+          <ListFooter>
+            <ActivityIndicator color={COLORS.primary} />
+          </ListFooter>
+        ) : (
+          <ListFooter className="pb-12">
+            <TipText text={getRandomTip()} />
+          </ListFooter>
+        )
+      }
+      ListEmptyComponent={
+        <ErrorDisplay
+          imageSource={require("../../../../../public/images/monhealth-no-data-image.png")}
+          title="Không có dữ liệu"
+          description="Không tìm thấy có giao dịch nào ở đây!"
+          marginTop={24}
         />
-
-        <TransactionCard
-          type={TransactionTypeEnum.Earning}
-          datetime="2025-03-28T22:00:00Z"
-          amount={5000000}
-          status={TransactionStatusEnum.Pending}
-        />
-      </VStack>
-
-      <View className="mt-8">
-        <TipText text={getRandomTip()} />
-      </View>
-    </ScrollView>
+      }
+      ItemSeparatorComponent={() => <View className="h-3" />}
+    />
   )
 }

@@ -29,11 +29,11 @@ import { useAuth } from "@/contexts/AuthContext"
 import { useCreateDevice } from "@/hooks/useDevice"
 
 function HomeScreen() {
+  const { tab } = useLocalSearchParams<{ tab: string }>()
+
   const { user } = useAuth()
   const userId = user?.userId
   const fullName = user?.fullName
-
-  const { tab } = useLocalSearchParams<{ tab: string }>()
 
   const [activeTab, setActiveTab] = useState(tab || "meal")
   const [loading, setLoading] = useState(false)

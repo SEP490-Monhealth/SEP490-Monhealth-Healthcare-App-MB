@@ -31,6 +31,8 @@ function DashboardScreen() {
   const consultantId = user?.consultantId
   const fullName = user?.fullName
 
+  const today = new Date().toISOString().split("T")[0]
+
   const [activeTab, setActiveTab] = useState(tab || "spending")
   const [initialLoading, setInitialLoading] = useState(true)
   const [overlayLoading, setOverlayLoading] = useState(false)
@@ -83,11 +85,19 @@ function DashboardScreen() {
           </TabsList>
 
           <TabsContent value="spending">
-            <SpendingTab onOverlayLoading={handleOverlayLoading} />
+            <SpendingTab
+              consultantId={consultantId}
+              date={today}
+              onOverlayLoading={handleOverlayLoading}
+            />
           </TabsContent>
 
           <TabsContent value="bookings">
-            <BookingTab onOverlayLoading={handleOverlayLoading} />
+            <BookingTab
+              consultantId={consultantId}
+              date={today}
+              onOverlayLoading={handleOverlayLoading}
+            />
           </TabsContent>
 
           <TabsContent value="reviews">
