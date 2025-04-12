@@ -7,6 +7,9 @@ import { auditFields, uuidSchema } from "./baseSchema"
 const withdrawalRequestSchema = z.object({
   withdrawalRequestId: uuidSchema,
   consultantId: uuidSchema,
+  consultantBankId: z.string().nonempty({
+    message: "Ngân hàng không được để trống"
+  }),
 
   description: z
     .string()
@@ -23,6 +26,7 @@ const withdrawalRequestSchema = z.object({
 
 export const createWithdrawalRequestSchema = withdrawalRequestSchema.pick({
   consultantId: true,
+  consultantBankId: true,
   description: true,
   amount: true
 })

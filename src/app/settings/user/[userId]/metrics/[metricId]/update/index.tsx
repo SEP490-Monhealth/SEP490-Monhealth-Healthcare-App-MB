@@ -222,12 +222,14 @@ const MetricUpdateScreen = () => {
                   onPress={openSheetDateOfBirth}
                   errorMessage={errors.dateOfBirth?.message}
                 />
+
                 <Select
                   label="Giới tính"
                   defaultValue="Chọn giới tính"
                   value={genderLabel}
                   onPress={openSheetGender}
                 />
+
                 <Controller
                   name="height"
                   control={control}
@@ -249,6 +251,7 @@ const MetricUpdateScreen = () => {
                     />
                   )}
                 />
+
                 <Controller
                   name="weight"
                   control={control}
@@ -270,12 +273,14 @@ const MetricUpdateScreen = () => {
                     />
                   )}
                 />
+
                 <Select
                   label="Mục tiêu"
                   defaultValue="Chọn mục tiêu"
                   value={goalTypeLabel}
                   onPress={openSheetGoalType}
                 />
+
                 <Controller
                   name="weightGoal"
                   control={control}
@@ -298,12 +303,14 @@ const MetricUpdateScreen = () => {
                     />
                   )}
                 />
+
                 <Select
                   label="Mức độ hoạt động"
                   defaultValue="Chọn mức độ hoạt động"
                   value={activityLevelLabel}
                   onPress={openSheetActivity}
                 />
+
                 <VStack>
                   <Select
                     label="Tốc độ tăng cân"
@@ -311,6 +318,7 @@ const MetricUpdateScreen = () => {
                     value={caloriesRatioLabel}
                     onPress={openSheetCaloriesRatio}
                   />
+
                   {errors.caloriesRatio?.message && (
                     <Text className="ml-1 font-tregular text-sm text-destructive">
                       Tốc độ tăng cân không được bỏ trống
