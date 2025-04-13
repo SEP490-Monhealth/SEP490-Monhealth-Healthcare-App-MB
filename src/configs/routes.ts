@@ -1,6 +1,7 @@
 import {
   Award,
   Calendar2,
+  ClipboardTick,
   Command,
   DirectNormal,
   FavoriteChart,
@@ -9,6 +10,7 @@ import {
   Lock1,
   Logout,
   Message,
+  MobileProgramming,
   Profile,
   Ram,
   Setting,
@@ -99,6 +101,12 @@ export const consultantProfileRoutes: RouteType[] = [
       `/settings/consultant/${consultantId}/information`,
     label: "Hồ sơ cá nhân",
     icon: Profile
+  },
+  {
+    route: (consultantId: string) =>
+      `/settings/consultant/${consultantId}/expertise`,
+    label: "Chứng chỉ & Chuyên môn",
+    icon: ClipboardTick
   },
   // {
   //   route: "/settings/reminder",

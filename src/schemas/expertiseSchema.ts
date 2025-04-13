@@ -1,6 +1,7 @@
 import { z } from "zod"
 
 import { auditFields, uuidSchema } from "./baseSchema"
+import { certificateSchema } from "./certificateSchema"
 
 export const expertiseSchema = z.object({
   expertiseId: uuidSchema,
@@ -23,4 +24,17 @@ export const expertiseSetupSchema = z.object({
   expertise: expertiseSchema.shape.name
 })
 
+export const updateExpertiseConsultantSchema = z.object({
+  expertise: expertiseSchema.shape.name,
+  number: certificateSchema.shape.number,
+  certificate: certificateSchema.shape.name,
+  issueDate: certificateSchema.shape.issueDate,
+  expiryDate: certificateSchema.shape.expiryDate,
+  issuedBy: certificateSchema.shape.issuedBy,
+  imageUrls: certificateSchema.shape.imageUrls
+})
+
 export type ExpertiseType = z.infer<typeof expertiseSchema>
+export type UpdateExpertiseConsultantType = z.infer<
+  typeof updateExpertiseConsultantSchema
+>

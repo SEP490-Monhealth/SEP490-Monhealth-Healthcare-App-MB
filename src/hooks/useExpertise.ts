@@ -1,10 +1,17 @@
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { useError } from "@/contexts/ErrorContext"
+import { useModal } from "@/contexts/ModalContext"
 
-import { ExpertiseType } from "@/schemas/expertiseSchema"
+import {
+  ExpertiseType,
+  UpdateExpertiseConsultantType
+} from "@/schemas/expertiseSchema"
 
-import { getAllExpertise } from "@/services/expertiseService"
+import {
+  getAllExpertise,
+  updateExpertiseByConsultantId
+} from "@/services/expertiseService"
 
 interface ExpertiseResponse {
   expertise: ExpertiseType[]
@@ -26,5 +33,40 @@ export const useGetAllExpertise = (page: number, limit?: number) => {
       }
     },
     staleTime: 1000 * 60 * 5
+  })
+}
+
+export const useUpdateExpertiseConsultant = () => {
+  const queryClient = useQueryClient()
+  const handleError = useError()
+  const { showModal } = useModal()
+
+  return useMutation<
+    string,
+    Error,
+    {
+      consultantId: string | undefined
+      updatedData: UpdateExpertiseConsultantType
+    }
+  >({
+    mutationFn: async ({ consultantId, updatedData }) => {
+      try {
+        return await updateExpertiseByConsultantId(
+          consultantId,
+          updatedData,
+          showModal
+        )
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+
+    onSuccess: (_, { consultantId }) => {
+      if (consultantId) {
+        queryClient.invalidateQueries({ queryKey: ["expertise"] })
+        queryClient.invalidateQueries({ queryKey: ["certificates"] })
+      }
+    }
   })
 }
