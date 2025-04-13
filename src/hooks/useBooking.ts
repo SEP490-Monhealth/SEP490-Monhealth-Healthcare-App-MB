@@ -1,5 +1,3 @@
-import { useRouter } from "expo-router"
-
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { useError } from "@/contexts/ErrorContext"

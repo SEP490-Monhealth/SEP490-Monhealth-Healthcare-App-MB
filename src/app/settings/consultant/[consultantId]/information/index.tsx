@@ -7,19 +7,14 @@ import {
   View
 } from "react-native"
 
-import { useLocalSearchParams, useRouter } from "expo-router"
+import { useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
 import {
   CalendarCircle,
   CallCalling,
-  Crown,
-  HeartTick,
-  MedalStar,
-  Profile2User,
   ProfileCircle,
   Sms,
-  Star1,
   Verify
 } from "iconsax-react-native"
 

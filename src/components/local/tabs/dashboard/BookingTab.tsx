@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react"
 
 import { ScrollView, Text } from "react-native"
 
-import { LoadingScreen } from "@/app/loading"
 import { useIsFetching, useIsMutating } from "@tanstack/react-query"
 
 import { HStack, VStack } from "@/components/global/atoms"
@@ -59,10 +58,6 @@ export const BookingTab = ({
   )
 
   const barChartData = monthlyBookingData || []
-
-  if (!bookingsData) {
-    return <LoadingScreen />
-  }
 
   return (
     <ScrollView

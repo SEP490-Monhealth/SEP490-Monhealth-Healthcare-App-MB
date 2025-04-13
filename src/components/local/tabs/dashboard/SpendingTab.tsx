@@ -168,10 +168,8 @@ export const SpendingTab = ({
         {transactionsData.length > 0 && (
           <Section
             label="Danh sách chi tiêu"
-            margin={false}
             actionText="Xem tất cả"
             onPress={handleViewTransactions}
-            className="mt-2"
           />
         )}
       </ListHeader>

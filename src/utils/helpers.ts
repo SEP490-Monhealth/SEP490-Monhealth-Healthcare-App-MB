@@ -1,6 +1,3 @@
-import { format } from "date-fns"
-import { vi } from "date-fns/locale"
-
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
 import { TipsData } from "@/constants/data/tips"

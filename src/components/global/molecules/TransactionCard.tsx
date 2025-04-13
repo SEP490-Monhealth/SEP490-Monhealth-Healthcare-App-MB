@@ -48,8 +48,7 @@ export const TransactionCard = ({
 }: TransactionCardProps) => {
   const { label: transactionTypeLabel, icon: transactionTypeIcon } =
     getTransactionTypeMeta(type)
-  const { label: transactionStatusLabel, color: transactionStatusColor } =
-    getTransactionStatusMeta(status)
+  const { label: transactionStatusLabel } = getTransactionStatusMeta(status)
 
   const { date, time } = formatDateTime(datetime)
 

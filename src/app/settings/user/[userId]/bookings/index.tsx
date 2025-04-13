@@ -1,5 +1,7 @@
 import React, { useState } from "react"
 
+import { RefreshControl, ScrollView } from "react-native"
+
 import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
@@ -8,7 +10,6 @@ import {
   Container,
   Content,
   Modal,
-  ScrollArea,
   Tabs,
   TabsContent,
   TabsList,
@@ -34,12 +35,17 @@ function BookingsUserScreen() {
 
   const { mutate: updateBookingStatus } = useUpdateBookingStatus()
 
-  const { data: bookingsData, isLoading } = useGetBookingsByUserId(userId)
+  const {
+    data: bookingsData,
+    isLoading,
+    refetch
+  } = useGetBookingsByUserId(userId)
 
   const [activeTab, setActiveTab] = useState(tab || "pending")
   const [modalType, setModalType] = useState<"cancel" | "complete">("cancel")
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
   const [selectedBooking, setSelectedBooking] = useState<string | null>(null)
+  const [refreshing, setRefreshing] = useState<boolean>(false)
 
   const filteredBookingsData = bookingsData?.filter((booking) => {
     if (activeTab === "pending") {
@@ -83,6 +89,12 @@ function BookingsUserScreen() {
     setSelectedBooking(null)
   }
 
+  const onRefresh = async () => {
+    setRefreshing(true)
+    await refetch()
+    setRefreshing(false)
+  }
+
   const handleReview = (bookingId: string) => {
     router.push(`/bookings/${bookingId}/review`)
   }
@@ -97,7 +109,13 @@ function BookingsUserScreen() {
         <Header back label="Lịch hẹn" />
 
         <Content className="mt-2">
-          <ScrollArea className="flex-1">
+          <ScrollView
+            className="flex-1"
+            showsHorizontalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          >
             <Tabs defaultValue={activeTab} contentMarginTop={12}>
               <TabsList center>
                 <TabsTrigger value="pending" onChange={handleTabChange}>
@@ -146,7 +164,7 @@ function BookingsUserScreen() {
                 )}
               </TabsContent>
             </Tabs>
-          </ScrollArea>
+          </ScrollView>
         </Content>
       </Container>
 

@@ -2,7 +2,7 @@ import React, { useState } from "react"
 
 import { Text, TouchableOpacity, View } from "react-native"
 
-import { ArrowDown2, ArrowUp2, HeartTick } from "iconsax-react-native"
+import { HeartTick } from "iconsax-react-native"
 
 import { COLORS } from "@/constants/color"
 import { getGenderMeta } from "@/constants/enum/Gender"

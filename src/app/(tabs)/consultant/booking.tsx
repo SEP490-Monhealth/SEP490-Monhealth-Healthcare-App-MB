@@ -1,5 +1,7 @@
 import React, { useState } from "react"
 
+import { RefreshControl, ScrollView } from "react-native"
+
 import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
@@ -8,7 +10,6 @@ import {
   Container,
   Content,
   Modal,
-  ScrollArea,
   Tabs,
   TabsContent,
   TabsList,
@@ -36,13 +37,17 @@ function BookingsScreen() {
 
   const { mutate: updateBookingStatus } = useUpdateBookingStatus()
 
-  const { data: bookingsData, isLoading } =
-    useGetBookingsByConsultantId(consultantId)
+  const {
+    data: bookingsData,
+    isLoading,
+    refetch
+  } = useGetBookingsByConsultantId(consultantId)
 
   const [activeTab, setActiveTab] = useState(tab || "pending")
   const [modalType, setModalType] = useState<"cancel" | "confirm">("cancel")
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
   const [selectedBooking, setSelectedBooking] = useState<string | null>(null)
+  const [refreshing, setRefreshing] = useState<boolean>(false)
 
   const tabStatusMap: Record<string, BookingStatusEnum> = {
     pending: BookingStatusEnum.Pending,
@@ -84,6 +89,12 @@ function BookingsScreen() {
     setSelectedBooking(null)
   }
 
+  const onRefresh = async () => {
+    setRefreshing(true)
+    await refetch()
+    setRefreshing(false)
+  }
+
   if (!bookingsData || isLoading) {
     return <LoadingScreen />
   }
@@ -94,7 +105,13 @@ function BookingsScreen() {
         <Header back label="Lịch hẹn" />
 
         <Content className="mt-2">
-          <ScrollArea className="flex-1">
+          <ScrollView
+            className="flex-1"
+            showsHorizontalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          >
             <Tabs defaultValue={activeTab} contentMarginTop={12}>
               <TabsList scrollable>
                 <TabsTrigger value="pending" onChange={handleTabChange}>
@@ -143,7 +160,7 @@ function BookingsScreen() {
                 )}
               </TabsContent>
             </Tabs>
-          </ScrollArea>
+          </ScrollView>
         </Content>
       </Container>
 

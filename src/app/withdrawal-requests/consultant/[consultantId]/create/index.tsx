@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect } from "react"
 
 import {
   Keyboard,
@@ -18,7 +18,6 @@ import {
   Content,
   Input,
   Select,
-  SheetRefProps,
   VStack
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"

@@ -5,7 +5,7 @@ export const weeklyMealSchema = z.object({
   calories: z.number()
 })
 
-const monthlyTransactionSchema = z.object({
+export const monthlyTransactionSchema = z.object({
   income: z.array(
     z.object({
       month: z.string(),

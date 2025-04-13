@@ -6,7 +6,7 @@ import { useRouter } from "expo-router"
 
 import { useIsFetching, useIsMutating } from "@tanstack/react-query"
 
-import { Badge, HStack, Progress, VStack } from "@/components/global/atoms"
+import { Badge, HStack, VStack } from "@/components/global/atoms"
 import { ActivityCard } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
 

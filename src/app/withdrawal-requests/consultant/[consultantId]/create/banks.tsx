@@ -1,7 +1,5 @@
 import React from "react"
 
-import { ActivityIndicator, Text, View } from "react-native"
-
 import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
