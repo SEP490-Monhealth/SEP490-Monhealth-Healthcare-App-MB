@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-import { timestampFields, uuidSchema } from "./baseSchema"
+import { auditFields, uuidSchema } from "./baseSchema"
 
 export const allergySchema = z.object({
   allergyId: uuidSchema,
@@ -16,7 +16,7 @@ export const allergySchema = z.object({
     })
     .optional(),
 
-  ...timestampFields
+  ...auditFields
 })
 
 export const allergySetupSchema = z.object({
@@ -28,5 +28,10 @@ const createUserAllergySchema = z.object({
   allergyId: z.array(z.string())
 })
 
+export const updateUserAllergySchema = z.object({
+  allergies: z.array(z.string())
+})
+
 export type AllergyType = z.infer<typeof allergySchema>
 export type CreateUserAllergyType = z.infer<typeof createUserAllergySchema>
+export type UpdateUserAllergyType = z.infer<typeof updateUserAllergySchema>

@@ -5,6 +5,7 @@ import {
   Command,
   DirectNormal,
   FavoriteChart,
+  HeartSlash,
   Home2,
   I3Dcube,
   Lock1,
@@ -63,6 +64,11 @@ export const userProfileRoutes: RouteType[] = [
     route: (userId: string) => `/settings/user/${userId}/bookings`,
     label: "Lịch hẹn của tôi",
     icon: Stickynote
+  },
+  {
+    route: (userId: string) => `/settings/user/${userId}/allergies`,
+    label: "Danh sách dị ứng",
+    icon: HeartSlash
   },
   // {
   //   route: "/settings/reminder",

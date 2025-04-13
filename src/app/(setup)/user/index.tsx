@@ -59,6 +59,8 @@ function SetupUserScreen() {
 
   const { addAllergies } = useStorage()
 
+  const [isStepLoading, setIsStepLoading] = useState(false)
+
   const { mutate: createMetric } = useCreateMetric()
   const { mutate: createUserAllergies } = useCreateUserAllergy()
 
@@ -325,7 +327,12 @@ function SetupUserScreen() {
           description={currentStepData.description}
         />
 
-        <StepComponent control={control} setValue={setValue} errors={errors} />
+        <StepComponent
+          control={control}
+          setValue={setValue}
+          errors={errors}
+          setIsLoading={setIsStepLoading}
+        />
       </Content>
 
       <Button

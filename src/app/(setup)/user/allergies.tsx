@@ -1,17 +1,29 @@
-import React from "react"
+import React, { useEffect } from "react"
 
 import { Control, FieldValues, useController } from "react-hook-form"
 
 import { Chip, ScrollArea, VStack } from "@/components/global/atoms"
 
-import { sampleAllergiesData } from "@/constants/data/allergies"
+import { useGetAllAllergies } from "@/hooks/useUserAllergy"
 
 interface SetupAllergiesProps {
   control: Control<FieldValues>
+  setIsLoading?: (isLoading: boolean) => void
 }
 
-function SetupAllergies({ control }: SetupAllergiesProps) {
-  const allergiesData = sampleAllergiesData
+function SetupAllergies({ control, setIsLoading }: SetupAllergiesProps) {
+  const { data: allergiesData, isLoading: isAllergiesLoading } =
+    useGetAllAllergies(1, 100, undefined)
+
+  useEffect(() => {
+    if (setIsLoading) {
+      setIsLoading(isAllergiesLoading && allergiesData === 0)
+    }
+  }, [isAllergiesLoading, allergiesData?.allergies, setIsLoading])
+
+  if (allergiesData?.allergies.length === 0 && isAllergiesLoading) {
+    return null
+  }
 
   const { field } = useController({
     name: "allergies",
@@ -31,7 +43,7 @@ function SetupAllergies({ control }: SetupAllergiesProps) {
   return (
     <ScrollArea>
       <VStack gap={12} className="pb-28">
-        {allergiesData.map((allergy) => (
+        {allergiesData?.allergies?.map((allergy) => (
           <Chip
             key={allergy.allergyId}
             size="lg"

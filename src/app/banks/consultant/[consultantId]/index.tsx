@@ -44,7 +44,7 @@ import { useGetWithdrawalRequestsByConsultantId } from "@/hooks/useWithdrawalReq
 import { ConsultantBankType } from "@/schemas/consultantBankSchema"
 import { WithdrawalRequestType } from "@/schemas/withdrawalRequestSchema"
 
-const BanksScreen = () => {
+function BanksScreen() {
   const router = useRouter()
   const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
 
