@@ -89,7 +89,6 @@ function UserInformationScreen() {
 
   const gender = getGenderMeta(metricData[0].gender)
   const goalType = getGoalTypeMeta(goalData[0].type)
-  const goalStatus = getGoalStatusMeta(goalData[0].status)
 
   const userInfoList = [
     { label: formatDate(userData?.createdAt), icon: CalendarCircle },
@@ -104,8 +103,7 @@ function UserInformationScreen() {
     { label: formatDate(metricData[0].dateOfBirth), icon: Calendar },
     { label: `${metricData[0].height} cm`, icon: Ruler },
     { label: `${metricData[0].weight} kg`, icon: CommandSquare },
-    { label: `${goalType.label}`, icon: goalType.icon },
-    { label: `${goalStatus.label}`, icon: FlashCircle }
+    { label: `${goalType.label}`, icon: goalType.icon }
   ]
 
   const handleUpdateInformation = () => {

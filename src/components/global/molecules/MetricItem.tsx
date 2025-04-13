@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Text, View } from "react-native"
+import { Text } from "react-native"
 
 import { HStack } from "@/components/global/atoms"
 
@@ -11,13 +11,10 @@ interface MetricItemProps {
 }
 
 export const MetricItem = ({ label, value, unit }: MetricItemProps) => (
-  <View className="border-b border-border py-2">
-    <HStack center className="items-center justify-between">
-      <Text className="font-tmedium text-sm text-accent">{label}</Text>
-
-      <Text className="font-tmedium text-sm text-primary">
-        {value} {unit}
-      </Text>
-    </HStack>
-  </View>
+  <HStack center className="justify-between border-b border-border py-2">
+    <Text className="font-tmedium text-sm text-accent">{label}</Text>
+    <Text className="font-tmedium text-sm text-primary">
+      {value} {unit}
+    </Text>
+  </HStack>
 )

@@ -43,15 +43,15 @@ const goalTypeMap: Record<GoalTypeEnum, EnumMeta> = {
 const goalStatusMap: Record<GoalStatusEnum, EnumMeta> = {
   [GoalStatusEnum.Abandoned]: {
     label: "Đã từ bỏ",
-    color: "#EF4444"
+    color: "#ef4444" // red 500
   },
   [GoalStatusEnum.Active]: {
     label: "Đang thực hiện",
-    color: "#3B82F6"
+    color: "#16a34a" // green 600
   },
   [GoalStatusEnum.Completed]: {
     label: "Đã hoàn thành",
-    color: "#10B981"
+    color: "#3b82f6" // blue 500
   }
 }
 

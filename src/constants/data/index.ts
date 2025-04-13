@@ -13,6 +13,7 @@ import {
   Woman
 } from "iconsax-react-native"
 import {
+  BicepsFlexed,
   Scale,
   TrendingDown,
   TrendingUp
