@@ -10,7 +10,6 @@ import {
   Lock1,
   Logout,
   Message,
-  MobileProgramming,
   Profile,
   Ram,
   Setting,
@@ -67,7 +66,7 @@ export const userProfileRoutes: RouteType[] = [
   },
   // {
   //   route: "/settings/reminder",
-  //   label: "Nhắc nhở và thông báo",
+  //   label: "Nhắc nhở & thông báo",
   //   icon: NotificationStatus
   // },
   {
@@ -105,12 +104,12 @@ export const consultantProfileRoutes: RouteType[] = [
   {
     route: (consultantId: string) =>
       `/settings/consultant/${consultantId}/expertise`,
-    label: "Chứng chỉ & Chuyên môn",
+    label: "Chuyên môn & chứng chỉ",
     icon: ClipboardTick
   },
   // {
   //   route: "/settings/reminder",
-  //   label: "Nhắc nhở và thông báo",
+  //   label: "Nhắc nhở & thông báo",
   //   icon: NotificationStatus
   // },
   {

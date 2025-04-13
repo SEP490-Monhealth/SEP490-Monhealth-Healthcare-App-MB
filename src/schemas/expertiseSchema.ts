@@ -24,7 +24,7 @@ export const expertiseSetupSchema = z.object({
   expertise: expertiseSchema.shape.name
 })
 
-export const updateExpertiseConsultantSchema = z.object({
+export const expertiseUpdateSchema = z.object({
   expertise: expertiseSchema.shape.name,
   number: certificateSchema.shape.number,
   certificate: certificateSchema.shape.name,
@@ -35,6 +35,4 @@ export const updateExpertiseConsultantSchema = z.object({
 })
 
 export type ExpertiseType = z.infer<typeof expertiseSchema>
-export type UpdateExpertiseConsultantType = z.infer<
-  typeof updateExpertiseConsultantSchema
->
+export type ExpertiseUpdateType = z.infer<typeof expertiseUpdateSchema>

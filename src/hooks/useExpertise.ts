@@ -3,15 +3,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
 
-import {
-  ExpertiseType,
-  UpdateExpertiseConsultantType
-} from "@/schemas/expertiseSchema"
+import { ExpertiseType, ExpertiseUpdateType } from "@/schemas/expertiseSchema"
 
-import {
-  getAllExpertise,
-  updateExpertiseByConsultantId
-} from "@/services/expertiseService"
+import { getAllExpertise, updateExpertise } from "@/services/expertiseService"
 
 interface ExpertiseResponse {
   expertise: ExpertiseType[]
@@ -36,7 +30,7 @@ export const useGetAllExpertise = (page: number, limit?: number) => {
   })
 }
 
-export const useUpdateExpertiseConsultant = () => {
+export const useUpdateExpertise = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
   const { showModal } = useModal()
@@ -46,16 +40,12 @@ export const useUpdateExpertiseConsultant = () => {
     Error,
     {
       consultantId: string | undefined
-      updatedData: UpdateExpertiseConsultantType
+      updatedData: ExpertiseUpdateType
     }
   >({
     mutationFn: async ({ consultantId, updatedData }) => {
       try {
-        return await updateExpertiseByConsultantId(
-          consultantId,
-          updatedData,
-          showModal
-        )
+        return await updateExpertise(consultantId, updatedData, showModal)
       } catch (error) {
         handleError(error)
         throw error

@@ -1,11 +1,17 @@
 import React from "react"
 
-import { Image, Text, View } from "react-native"
+import { Text, View } from "react-native"
 
 import { useLocalSearchParams } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
-import { Setting } from "iconsax-react-native"
+import {
+  Building,
+  Calendar,
+  DocumentText,
+  Edit2,
+  Medal
+} from "iconsax-react-native"
 
 import {
   Badge,
@@ -18,7 +24,10 @@ import {
 } from "@/components/global/atoms"
 import { Header, Section } from "@/components/global/organisms"
 
-import { ListCertificate } from "@/components/local/tabs/settings"
+import {
+  CertificateImage,
+  CertificateItem
+} from "@/components/local/tabs/settings/consultant"
 
 import { COLORS } from "@/constants/color"
 
@@ -26,10 +35,8 @@ import { useGetCertificatesByConsultantId } from "@/hooks/useCertificate"
 
 import { formatDate } from "@/utils/formatters"
 
-function ExpertiseConsultantScreen() {
-  const { consultantId } = useLocalSearchParams() as {
-    consultantId: string
-  }
+function ExpertiseScreen() {
+  const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
 
   const { data: certificatesData, isLoading: isCertificatesLoading } =
     useGetCertificatesByConsultantId(consultantId)
@@ -38,57 +45,69 @@ function ExpertiseConsultantScreen() {
 
   const certificateData = certificatesData[0]
 
-  const expertiseDescription =
-    "Tư vấn cải thiện chất lượng giấc ngủ và khắc phục các rối loạn giấc ngủ nhẹ."
-
-  const certificateList = [
+  const certificateItems = [
     {
-      label: "Số hiệu:",
+      icon: <DocumentText variant="Bold" size="24" color={COLORS.primary} />,
+      label: "Số chứng chỉ",
       value: certificateData.number
     },
     {
-      label: "Tên:",
+      icon: <Medal variant="Bold" size="24" color={COLORS.primary} />,
+      label: "Tên chứng chỉ",
       value: certificateData.name
     },
     {
-      label: "Ngày cấp:",
+      icon: <Calendar variant="Bold" size="24" color={COLORS.primary} />,
+      label: "Ngày cấp",
       value: formatDate(certificateData.issueDate)
     },
     {
-      label: "Ngày hết hạn:",
-      value: formatDate(certificateData.expiryDate || "Vĩnh viễn")
+      icon: <Calendar variant="Bold" size="24" color={COLORS.primary} />,
+      label: "Ngày hết hạn",
+      value: certificateData.expiryDate
+        ? formatDate(certificateData.expiryDate)
+        : "Không giới hạn"
     },
     {
-      label: "Nơi cấp:",
+      icon: <Building variant="Bold" size="24" color={COLORS.primary} />,
+      label: "Nơi cấp",
       value: certificateData.issuedBy
     }
   ]
+
+  const handleViewImage = (imageUrl: string) => {
+    console.log("View image:", imageUrl)
+  }
 
   return (
     <Container>
       <Header
         back
-        label="Năng lực chuyên môn"
+        label="Chuyên môn"
         action={{
-          icon: <Setting variant="Bold" size={24} color={COLORS.primary} />,
+          icon: <Edit2 variant="Bold" size="20" color={COLORS.primary} />,
           href: `/settings/consultant/${consultantId}/expertise/update`
         }}
       />
 
       <Content className="mt-2">
         <ScrollArea>
-          <VStack gap={20} className="pb-20">
-            <VStack>
-              <Section label="Chuyên môn bản thân" margin={false} />
-              <Card>
-                <VStack gap={10}>
+          <VStack gap={20} className="pb-12">
+            <View>
+              <Section label="Chuyên môn" margin={false} />
+
+              <Card className="p-4">
+                <VStack gap={12}>
                   <HStack center className="justify-between">
                     <Text className="font-tbold text-xl text-primary">
                       {certificateData.expertiseName}
                     </Text>
+
                     <Badge
                       label={
-                        certificateData.isVerified ? "Xác thực" : "Chưa duyệt"
+                        certificateData.isVerified
+                          ? "Đã xác thực"
+                          : "Chưa xác thực"
                       }
                       background={
                         certificateData.isVerified
@@ -100,47 +119,39 @@ function ExpertiseConsultantScreen() {
                     />
                   </HStack>
 
-                  <Text className="text-justify font-tmedium text-sm text-accent">
-                    {expertiseDescription}
+                  <Text className="font-tregular text-base text-secondary">
+                    {certificateData.expertiseDescription}
                   </Text>
                 </VStack>
               </Card>
-            </VStack>
+            </View>
 
-            <VStack>
-              <Section label="Chứng chỉ bản thân" margin={false} />
+            <View>
+              <Section label="Thông tin chứng chỉ" margin={false} />
 
               <Card>
-                {certificateList.map((item, index) => {
-                  return (
-                    <ListCertificate
-                      key={index}
-                      label={item.label}
-                      value={item.value}
-                    />
-                  )
-                })}
+                {certificateItems.map((item, index) => (
+                  <CertificateItem
+                    key={index}
+                    icon={item.icon}
+                    label={item.label}
+                    value={item.value}
+                  />
+                ))}
               </Card>
-            </VStack>
+            </View>
 
-            <VStack>
+            <VStack gap={8}>
               <Section label="Hình ảnh chứng chỉ" margin={false} />
 
-              <View className="-mt-2 flex-row flex-wrap">
-                {certificateData.imageUrls.map((item, index) => {
-                  return (
-                    <View
-                      key={index}
-                      className="rounded-xl border border-border"
-                      style={{ width: "30%", aspectRatio: 1, margin: "1.5%" }}
-                    >
-                      <Image
-                        source={{ uri: item }}
-                        className="h-full w-full rounded-xl object-cover"
-                      />
-                    </View>
-                  )
-                })}
+              <View className="flex-row flex-wrap gap-2">
+                {certificateData.imageUrls?.map((imageUrl, index) => (
+                  <CertificateImage
+                    key={index}
+                    imageUrl={imageUrl}
+                    onPress={() => handleViewImage(imageUrl)}
+                  />
+                ))}
               </View>
             </VStack>
           </VStack>
@@ -150,4 +161,4 @@ function ExpertiseConsultantScreen() {
   )
 }
 
-export default ExpertiseConsultantScreen
+export default ExpertiseScreen

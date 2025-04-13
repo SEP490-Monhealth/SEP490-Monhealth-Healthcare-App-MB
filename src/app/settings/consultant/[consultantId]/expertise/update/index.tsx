@@ -45,12 +45,12 @@ import { DATA } from "@/constants/data"
 import { useGetCertificatesByConsultantId } from "@/hooks/useCertificate"
 import {
   useGetAllExpertise,
-  useUpdateExpertiseConsultant
+  useUpdateExpertise
 } from "@/hooks/useExpertise"
 
 import {
-  UpdateExpertiseConsultantType,
-  updateExpertiseConsultantSchema
+  ExpertiseUpdateType,
+  expertiseUpdateSchema
 } from "@/schemas/expertiseSchema"
 
 import { useCertificateStore } from "@/stores/certificateStore"
@@ -59,7 +59,7 @@ import { handleDeleteImageAndUpdateStore } from "@/utils/certificate"
 import { handleSelectImage, handleUploadImage } from "@/utils/certificate"
 import { formatDate, formatUTCDate } from "@/utils/formatters"
 
-const UpdateExpertiseConsultantScreen = () => {
+function ExpertiseUpdateScreen() {
   const router = useRouter()
 
   const { consultantId } = useLocalSearchParams() as {
@@ -72,7 +72,7 @@ const UpdateExpertiseConsultantScreen = () => {
   const { data: certificatesData, isLoading: isCertificatesLoading } =
     useGetCertificatesByConsultantId(consultantId)
 
-  const { mutate: updateExpertise } = useUpdateExpertiseConsultant()
+  const { mutate: updateExpertise } = useUpdateExpertise()
 
   const ExpertiseRef = useRef<SheetRefProps>(null)
   const IssueDateRef = useRef<SheetRefProps>(null)
@@ -99,8 +99,8 @@ const UpdateExpertiseConsultantScreen = () => {
     handleSubmit,
     setValue,
     formState: { errors }
-  } = useForm<UpdateExpertiseConsultantType>({
-    resolver: zodResolver(updateExpertiseConsultantSchema),
+  } = useForm<ExpertiseUpdateType>({
+    resolver: zodResolver(expertiseUpdateSchema),
     defaultValues: {
       expertise: certificateData?.expertiseName,
       number: certificateData?.number,
@@ -158,9 +158,7 @@ const UpdateExpertiseConsultantScreen = () => {
     UploadSheetRef.current?.scrollTo(0)
   }
 
-  console.log(consultantId)
-
-  const onSubmit = async (data: UpdateExpertiseConsultantType) => {
+  const onSubmit = async (data: ExpertiseUpdateType) => {
     console.log(JSON.stringify(data, null, 2))
 
     updateExpertise(
@@ -273,10 +271,12 @@ const UpdateExpertiseConsultantScreen = () => {
                     />
                   )}
                 />
+
                 <VStack>
                   <Text className="font-tregular text-base text-primary">
                     Hình ảnh chứng chỉ
                   </Text>
+
                   <Card className="py-6" onPress={openSheetUpload}>
                     <VStack center gap={10}>
                       <GalleryAdd
@@ -289,6 +289,7 @@ const UpdateExpertiseConsultantScreen = () => {
                       </Text>
                     </VStack>
                   </Card>
+
                   {errors.imageUrls?.message && imageUrls.length === 0 && (
                     <ErrorText text={errors.imageUrls?.message} />
                   )}
@@ -342,6 +343,7 @@ const UpdateExpertiseConsultantScreen = () => {
               </VStack>
             </ScrollArea>
           </Content>
+
           <Button size="lg" onPress={handleSubmit(onSubmit)} className="mb-4">
             Cập nhật
           </Button>
@@ -415,4 +417,4 @@ const UpdateExpertiseConsultantScreen = () => {
   )
 }
 
-export default UpdateExpertiseConsultantScreen
+export default ExpertiseUpdateScreen

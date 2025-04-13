@@ -5,6 +5,7 @@ import { timestampFields, uuidSchema } from "./baseSchema"
 export const certificateSchema = z.object({
   certificateId: uuidSchema,
   consultantId: uuidSchema,
+  expertiseId: uuidSchema,
 
   expertiseName: z
     .string()
@@ -12,6 +13,7 @@ export const certificateSchema = z.object({
   expertiseDescription: z
     .string()
     .nonempty({ message: "Mô tả chuyên môn không được để trống" }),
+
   number: z.string().nonempty({ message: "Số chứng chỉ không được để trống" }),
   name: z
     .string()

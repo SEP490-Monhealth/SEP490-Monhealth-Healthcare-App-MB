@@ -48,7 +48,7 @@ export const PaymentCard = ({
         </Text>
       </View>
 
-      <VStack center gap={4}>
+      <VStack gap={4} className="items-end">
         <Text className="font-tmedium text-sm text-primary">
           {formatCurrency(amount)}
         </Text>

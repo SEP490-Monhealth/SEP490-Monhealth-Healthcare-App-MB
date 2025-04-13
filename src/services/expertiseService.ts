@@ -2,10 +2,7 @@ import axios from "axios"
 
 import monAPI from "@/lib/monAPI"
 
-import {
-  ExpertiseType,
-  UpdateExpertiseConsultantType
-} from "@/schemas/expertiseSchema"
+import { ExpertiseType, ExpertiseUpdateType } from "@/schemas/expertiseSchema"
 
 interface ExpertiseResponse {
   expertise: ExpertiseType[]
@@ -47,9 +44,9 @@ export const getAllExpertise = async (
   }
 }
 
-export const updateExpertiseByConsultantId = async (
+export const updateExpertise = async (
   consultantId: string | undefined,
-  certificateData: UpdateExpertiseConsultantType,
+  certificateData: ExpertiseUpdateType,
   showModal: (message: string) => void
 ): Promise<string> => {
   try {
