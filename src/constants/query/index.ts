@@ -5,9 +5,13 @@ export const MonQueryKey = {
     Logout: "Logout"
   },
 
+  Allergy: {
+    UserAllergies: "allergies-user"
+  },
+
   Food: {
     Foods: "foods",
-    UserFoods: "user-foods",
+    UserFoods: "foods-user",
     Food: "food"
   },
 

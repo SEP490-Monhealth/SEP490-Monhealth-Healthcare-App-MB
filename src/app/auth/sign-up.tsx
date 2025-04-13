@@ -2,7 +2,7 @@ import React, { useState } from "react"
 
 import { Keyboard, Text, TouchableOpacity, View } from "react-native"
 
-import { useLocalSearchParams, useRouter } from "expo-router"
+import { useRouter } from "expo-router"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Call, Eye, EyeSlash, Lock1, Profile, Sms } from "iconsax-react-native"

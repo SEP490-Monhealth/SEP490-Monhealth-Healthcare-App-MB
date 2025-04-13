@@ -14,8 +14,8 @@ import { GoalTypeEnum } from "@/constants/enum/Goal"
 import { useAuth } from "@/contexts/AuthContext"
 import { useStorage } from "@/contexts/StorageContext"
 
+import { useCreateUserAllergy } from "@/hooks/useAllergy"
 import { useCreateMetric } from "@/hooks/useMetric"
-import { useCreateUserAllergy } from "@/hooks/useUserAllergy"
 
 import { allergySetupSchema } from "@/schemas/allergySchema"
 import {
@@ -58,8 +58,6 @@ function SetupUserScreen() {
   const userId = user?.userId
 
   const { addAllergies } = useStorage()
-
-  const [isStepLoading, setIsStepLoading] = useState(false)
 
   const { mutate: createMetric } = useCreateMetric()
   const { mutate: createUserAllergies } = useCreateUserAllergy()
@@ -327,12 +325,7 @@ function SetupUserScreen() {
           description={currentStepData.description}
         />
 
-        <StepComponent
-          control={control}
-          setValue={setValue}
-          errors={errors}
-          setIsLoading={setIsStepLoading}
-        />
+        <StepComponent control={control} setValue={setValue} errors={errors} />
       </Content>
 
       <Button

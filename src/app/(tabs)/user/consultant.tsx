@@ -18,8 +18,7 @@ import {
   Container,
   Content,
   HStack,
-  Input,
-  Modal
+  Input
 } from "@/components/global/atoms"
 import {
   ConsultantCard,

@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
+import { MonQueryKey } from "@/constants/query"
+
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
 
@@ -11,43 +13,15 @@ import {
 
 import {
   createUserAllergy,
-  getAllAllergies,
   getAllergiesByUserId,
   updateUserAllergy
-} from "@/services/userAllergyService"
-
-interface AllergyResponse {
-  allergies: AllergyType[]
-  totalPages: number
-  totalItems: number
-}
-
-export const useGetAllAllergies = (
-  page: number,
-  limit?: number,
-  search?: string
-) => {
-  const handleError = useError()
-
-  return useQuery<AllergyResponse, Error>({
-    queryKey: ["allergies", page, limit, search],
-    queryFn: async () => {
-      try {
-        return await getAllAllergies(page, limit, search)
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
-    },
-    staleTime: 1000 * 60 * 5
-  })
-}
+} from "@/services/allergyService"
 
 export const useGetAllergiesByUserId = (userId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<AllergyType[], Error>({
-    queryKey: ["allergies-user", userId],
+    queryKey: [MonQueryKey.Allergy.UserAllergies, userId],
     queryFn: async () => {
       try {
         return await getAllergiesByUserId(userId)
@@ -58,6 +32,21 @@ export const useGetAllergiesByUserId = (userId: string | undefined) => {
     },
     enabled: !!userId,
     staleTime: 1000 * 60 * 5
+  })
+}
+
+export const useCreateUserAllergy = () => {
+  const handleError = useError()
+
+  return useMutation<string, Error, CreateUserAllergyType>({
+    mutationFn: async (newData) => {
+      try {
+        return await createUserAllergy(newData)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    }
   })
 }
 
@@ -80,22 +69,9 @@ export const useUpdateUserAllergy = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["allergies-user"] })
-    }
-  })
-}
-
-export const useCreateUserAllergy = () => {
-  const handleError = useError()
-
-  return useMutation<string, Error, CreateUserAllergyType>({
-    mutationFn: async (newData) => {
-      try {
-        return await createUserAllergy(newData)
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Allergy.UserAllergies]
+      })
     }
   })
 }

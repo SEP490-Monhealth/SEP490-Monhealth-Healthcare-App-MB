@@ -13,7 +13,7 @@ import {
   ListHeader,
   NotificationCard
 } from "@/components/global/molecules"
-import { Header, Section } from "@/components/global/organisms"
+import { Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
 

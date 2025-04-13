@@ -25,11 +25,11 @@ export const allergySetupSchema = z.object({
 
 const createUserAllergySchema = z.object({
   userId: uuidSchema,
-  allergyId: z.array(z.string())
+  allergies: z.array(allergySchema.shape.name)
 })
 
 export const updateUserAllergySchema = z.object({
-  allergies: z.array(z.string())
+  allergies: z.array(allergySchema.shape.name)
 })
 
 export type AllergyType = z.infer<typeof allergySchema>

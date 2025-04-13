@@ -70,9 +70,7 @@ function SetupConsultantScreen() {
 
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
-  const [dateType, setDateType] = useState<"issueDate" | "expiryDate">(
-    "issueDate"
-  )
+  const [, setDateType] = useState<"issueDate" | "expiryDate">("issueDate")
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [currentStep, setCurrentStep] = useState<number>(1)
 
@@ -153,7 +151,6 @@ function SetupConsultantScreen() {
     control,
     setValue,
     getValues,
-    reset,
     handleSubmit,
     formState: { errors }
   } = useForm({

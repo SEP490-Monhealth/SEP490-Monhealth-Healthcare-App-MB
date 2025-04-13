@@ -16,11 +16,12 @@ import {
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
+import { sampleAllergiesData } from "@/constants/data/allergies"
+
 import {
-  useGetAllAllergies,
   useGetAllergiesByUserId,
   useUpdateUserAllergy
-} from "@/hooks/useUserAllergy"
+} from "@/hooks/useAllergy"
 
 import {
   UpdateUserAllergyType,
@@ -31,8 +32,7 @@ function UpdateUserAllergyScreen() {
   const router = useRouter()
   const { userId } = useLocalSearchParams<{ userId: string }>()
 
-  const { data: allergiesData, isLoading: isAllergiesLoading } =
-    useGetAllAllergies(1, 100, undefined)
+  const allergiesData = sampleAllergiesData
 
   const { data: userAllergiesData, isLoading: isUserAllergiesLoading } =
     useGetAllergiesByUserId(userId)
@@ -41,9 +41,9 @@ function UpdateUserAllergyScreen() {
 
   const {
     control,
-    handleSubmit,
     setValue,
     watch,
+    handleSubmit,
     formState: { errors }
   } = useForm<UpdateUserAllergyType>({
     resolver: zodResolver(updateUserAllergySchema),
@@ -75,32 +75,28 @@ function UpdateUserAllergyScreen() {
   const onSubmit = async (data: UpdateUserAllergyType) => {
     console.log(JSON.stringify(data, null, 2))
 
-    updateAllergy(
-      { userId, updatedData: data },
-      {
-        onSuccess: () => {
-          router.back()
-        }
-      }
-    )
+    // updateAllergy(
+    //   { userId, updatedData: data },
+    //   {
+    //     onSuccess: () => {
+    //       router.back()
+    //     }
+    //   }
+    // )
   }
 
-  if (
-    !allergiesData ||
-    isAllergiesLoading ||
-    !userAllergiesData ||
-    isUserAllergiesLoading
-  ) {
+  if (!userAllergiesData || isUserAllergiesLoading) {
     return <LoadingScreen />
   }
 
   return (
     <Container>
       <Header back label="Cập nhật dị ứng" />
+
       <Content className="mt-2">
         <ScrollArea>
           <VStack gap={12} className="pb-20">
-            {allergiesData?.allergies?.map((allergy) => (
+            {allergiesData?.map((allergy) => (
               <Chip
                 key={allergy.allergyId}
                 size="lg"

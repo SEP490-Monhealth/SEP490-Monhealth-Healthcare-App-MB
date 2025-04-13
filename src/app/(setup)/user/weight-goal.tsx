@@ -1,16 +1,8 @@
 import React, { useEffect, useState } from "react"
 
-import { Text, TouchableOpacity } from "react-native"
+import { Text } from "react-native"
 
-import { get } from "lodash"
-import {
-  Control,
-  Controller,
-  FieldValues,
-  UseFormSetValue
-} from "react-hook-form"
-
-import { Input, VStack } from "@/components/global/atoms"
+import { VStack } from "@/components/global/atoms"
 
 import { GenderEnum } from "@/constants/enum/Gender"
 
@@ -19,13 +11,7 @@ import { useSetupStore } from "@/stores/setupStore"
 import { calculateIBW } from "@/utils/calculations"
 import { toFixed } from "@/utils/formatters"
 
-interface SetupWeightGoalProps {
-  control: Control<FieldValues>
-  setValue: UseFormSetValue<FieldValues>
-  errors: any
-}
-
-function SetupWeightGoal({ control, setValue, errors }: SetupWeightGoalProps) {
+function SetupWeightGoal() {
   const { height, gender } = useSetupStore() as {
     height: number
     gender: GenderEnum
@@ -37,11 +23,8 @@ function SetupWeightGoal({ control, setValue, errors }: SetupWeightGoalProps) {
     if (height && (GenderEnum.Male || GenderEnum.Female)) {
       const ibw = calculateIBW(height, gender)
       setIdealWeight(ibw)
-      setValue("weightGoal", Number(ibw.toFixed(1)))
     }
-  }, [height, gender, setValue])
-
-  const errorMessage = get(errors, "weightGoal.message", null)
+  }, [height, gender])
 
   return (
     <VStack gap={12}>
@@ -78,19 +61,12 @@ function SetupWeightGoal({ control, setValue, errors }: SetupWeightGoalProps) {
       )}
 
       {idealWeight !== null && (
-        <TouchableOpacity
-          activeOpacity={1}
-          onPress={() => {
-            setValue("weightGoal", Number(toFixed(idealWeight, 1)))
-          }}
-        >
-          <Text className="ml-1 mt-1 font-tregular text-sm text-accent">
-            Gợi ý cân nặng phù hợp dựa trên chiều cao và giới tính của bạn:{" "}
-            <Text className="font-tregular text-primary">
-              {toFixed(idealWeight, 1)} kg
-            </Text>
+        <Text className="ml-1 mt-1 font-tregular text-sm text-accent">
+          Gợi ý cân nặng phù hợp dựa trên chiều cao và giới tính của bạn:{" "}
+          <Text className="font-tregular text-primary">
+            {toFixed(idealWeight, 1)} kg
           </Text>
-        </TouchableOpacity>
+        </Text>
       )}
     </VStack>
   )

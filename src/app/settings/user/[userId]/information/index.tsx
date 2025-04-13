@@ -16,7 +16,6 @@ import {
   CalendarCircle,
   CallCalling,
   CommandSquare,
-  FlashCircle,
   ProfileCircle,
   Ruler,
   Slash,
@@ -42,7 +41,7 @@ import { ListItem } from "@/components/local/tabs/settings"
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
 import { getGenderMeta } from "@/constants/enum/Gender"
-import { getGoalStatusMeta, getGoalTypeMeta } from "@/constants/enum/Goal"
+import { getGoalTypeMeta } from "@/constants/enum/Goal"
 
 import { useAuth } from "@/contexts/AuthContext"
 import { useStorage } from "@/contexts/StorageContext"
