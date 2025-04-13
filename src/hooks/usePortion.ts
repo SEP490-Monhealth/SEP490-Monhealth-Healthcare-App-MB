@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
+import { MonQueryKey } from "@/constants/query"
+
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
 
@@ -24,7 +26,15 @@ export const useGetPortionByFoodId = (
   const handleError = useError()
 
   return useQuery<PortionsResponse, Error>({
-    queryKey: ["portions", foodId, page, limit, search, sort, order],
+    queryKey: [
+      MonQueryKey.Portion.Portions,
+      foodId,
+      page,
+      limit,
+      search,
+      sort,
+      order
+    ],
     queryFn: async () => {
       try {
         return await getPortionByFoodId(
@@ -60,8 +70,10 @@ export const useCreatePortion = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["foods"] })
-      queryClient.invalidateQueries({ queryKey: ["portions"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Portion.Portions]
+      })
+      queryClient.invalidateQueries({ queryKey: [MonQueryKey.Food.Foods] })
     }
   })
 }

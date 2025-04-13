@@ -24,6 +24,9 @@ import { Header, Section } from "@/components/global/organisms"
 import { COLORS } from "@/constants/color"
 import { WorkoutTypeEnum } from "@/constants/enum/Workout"
 
+import { useAuth } from "@/contexts/AuthContext"
+
+import { useCreateActivity } from "@/hooks/useActivity"
 import {
   useGetExerciseById,
   useGetExercisesByWorkoutId
@@ -33,14 +36,19 @@ import { useGetWorkoutById } from "@/hooks/useWorkout"
 import { toFixed } from "@/utils/formatters"
 
 function WorkoutDetailsScreen() {
-  const SheetRef = useRef<SheetRefProps>(null)
+  const { user } = useAuth()
+  const userId = user?.userId
 
   const { workoutId } = useLocalSearchParams() as { workoutId: string }
+
+  const SheetRef = useRef<SheetRefProps>(null)
 
   const [isWarmup, setIsWarmup] = useState<boolean>(true)
   const [selectedExercise, setSelectedExercise] = useState<string | undefined>(
     ""
   )
+
+  const { mutate: addActivity } = useCreateActivity()
 
   const { data: workoutData, isLoading: isWorkoutLoading } =
     useGetWorkoutById(workoutId)
@@ -61,6 +69,16 @@ function WorkoutDetailsScreen() {
     openSheet()
   }
 
+  const handleAddWorkout = async () => {
+    if (!userId) {
+      return
+    }
+
+    const newData = { userId, workoutId }
+
+    await addActivity(newData)
+  }
+
   if (!workoutData || isWorkoutLoading || !exercisesData || isExercisesLoading)
     return <LoadingScreen />
 
@@ -79,7 +97,9 @@ function WorkoutDetailsScreen() {
                   {workoutData?.description}
                 </Text>
 
-                <Button className="mt-4">Thêm vào hoạt động</Button>
+                <Button onPress={handleAddWorkout} className="mt-4">
+                  Thêm vào hoạt động
+                </Button>
 
                 {workoutData.type === WorkoutTypeEnum.Workout && (
                   <Section

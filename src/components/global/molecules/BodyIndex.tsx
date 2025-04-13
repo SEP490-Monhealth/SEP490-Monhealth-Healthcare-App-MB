@@ -19,17 +19,17 @@ export const BodyIndex = ({ height, weight, gender }: BodyIndexProps) => {
 
       <HStack className="justify-between">
         <View className="items-center">
-          <Text className="font-tmedium text-xs text-accent">Chiều cao</Text>
+          <Text className="font-tmedium text-sm text-accent">Chiều cao</Text>
           <Text className="font-tbold text-lg text-primary">{height} cm</Text>
         </View>
 
         <View className="items-center">
-          <Text className="font-tmedium text-xs text-accent">Cân nặng</Text>
+          <Text className="font-tmedium text-sm text-accent">Cân nặng</Text>
           <Text className="font-tbold text-lg text-primary">{weight} kg</Text>
         </View>
 
         <View className="items-center">
-          <Text className="font-tmedium text-xs text-accent">Giới tính</Text>
+          <Text className="font-tmedium text-sm text-accent">Giới tính</Text>
           <Text className="font-tbold text-lg text-primary">{gender}</Text>
         </View>
       </HStack>

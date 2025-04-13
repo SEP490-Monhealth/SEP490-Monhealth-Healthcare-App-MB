@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 
 import { Dimensions } from "react-native"
 import Animated, {
   Easing,
-  runOnJS,
+  cancelAnimation,
   useAnimatedProps,
   useSharedValue,
   withTiming
@@ -12,92 +12,150 @@ import Svg, { Line, Rect, Text as SvgText } from "react-native-svg"
 
 import { COLORS } from "@/constants/color"
 
+import { MonthlyBookingType } from "@/schemas/reportSchema"
+
 const screenWidth = Dimensions.get("window").width
 const AnimatedRect = Animated.createAnimatedComponent(Rect)
 
 interface BarChartProps {
-  month: string
+  date: string
   labels: string[]
-  data: { month: string; bookings: number }[]
+  data: MonthlyBookingType[]
+  onSelectMonth?: (selectedDate: string) => void
 }
 
-export const BarChart = ({ month, data, labels }: BarChartProps) => {
-  const [selectedMonth, setSelectedMonth] = useState<string | null>(month)
-  const [tooltip, setTooltip] = useState<{
-    x: number
-    y: number
-    value: number | null
-  } | null>(null)
+const AnimatedBar = ({
+  x,
+  barWidth,
+  maxBarHeight,
+  paddingTop,
+  value,
+  maxValue,
+  isSelected,
+  onPress,
+  minBarHeight,
+  monthString
+}: {
+  x: number
+  barWidth: number
+  maxBarHeight: number
+  paddingTop: number
+  value: number
+  maxValue: number
+  isSelected: boolean
+  onPress: (monthString: string) => void
+  minBarHeight: number
+  monthString: string
+}) => {
+  const animatedHeight = useSharedValue(0)
+
+  useEffect(() => {
+    const targetHeight =
+      value === 0 ? minBarHeight : value * (maxBarHeight / maxValue)
+
+    animatedHeight.value = withTiming(targetHeight, {
+      duration: 500,
+      easing: Easing.out(Easing.ease)
+    })
+
+    return () => {
+      cancelAnimation(animatedHeight)
+    }
+  }, [value, maxValue, maxBarHeight, animatedHeight, minBarHeight])
+
+  const animatedProps = useAnimatedProps(() => ({
+    height: animatedHeight.value,
+    y: maxBarHeight - animatedHeight.value + paddingTop
+  }))
+
+  const barColor = isSelected ? COLORS.primary : COLORS.border
+  const touchableHeight = 48
+  const touchableY = maxBarHeight - touchableHeight + paddingTop
+
+  const handlePress = useCallback(() => {
+    onPress(monthString) // Changed to monthString
+  }, [onPress, monthString])
+
+  return (
+    <React.Fragment>
+      {value === 0 && (
+        <Rect
+          x={x}
+          y={touchableY}
+          width={barWidth}
+          height={touchableHeight}
+          fill="transparent"
+          onPress={handlePress}
+        />
+      )}
+      <AnimatedRect
+        x={x}
+        width={barWidth}
+        fill={barColor}
+        rx={8}
+        animatedProps={animatedProps}
+        onPress={value > 0 ? handlePress : undefined}
+      />
+    </React.Fragment>
+  )
+}
+
+export const BarChart = ({
+  date,
+  data,
+  labels,
+  onSelectMonth
+}: BarChartProps) => {
+  const [selectedDate, setSelectedMonth] = useState<string>(date)
 
   const barWidth = 28
-  const spacing = 18
+  const spacing = 14
   const maxBarHeight = 160
   const paddingTop = 40
   const paddingBottom = 20
   const chartHeight = maxBarHeight + paddingBottom + paddingTop
+  const minBarHeight = 2
+  const dynamicPadding = screenWidth * 0.16
 
   const maxDataValue = Math.max(...data.map((item) => item.bookings), 1)
-
-  let step = 10
-  if (maxDataValue >= 100) step = 25
-  if (maxDataValue >= 200) step = 50
-  if (maxDataValue >= 500) step = 100
-
+  let step = 100
+  if (maxDataValue >= 600) step = 200
+  if (maxDataValue >= 2000) step = 500
   const roundedMaxValue = Math.ceil(maxDataValue / step) * step
 
-  const yAxisValues = Array.from(
-    { length: Math.min(6, Math.ceil(roundedMaxValue / step) + 1) },
-    (_, i) => i * step
+  const yAxisValues = []
+  for (let i = 0; i <= Math.min(5, Math.ceil(roundedMaxValue / step)); i++) {
+    yAxisValues.push(i * step)
+  }
+  if (!yAxisValues.includes(roundedMaxValue)) {
+    yAxisValues.push(roundedMaxValue)
+  }
+
+  const getYAxisPosition = useCallback(
+    (value: number) => {
+      return (
+        maxBarHeight - (value / roundedMaxValue) * maxBarHeight + paddingTop
+      )
+    },
+    [roundedMaxValue]
   )
 
-  if (!yAxisValues.includes(roundedMaxValue)) yAxisValues.push(roundedMaxValue)
-
-  const getYAxisPosition = (value: number) => {
-    return maxBarHeight - (value / roundedMaxValue) * maxBarHeight + paddingTop
-  }
-
-  const dynamicPadding = screenWidth * 0.16
-  const animatedHeights = data.map(() => useSharedValue(0))
-
-  useEffect(() => {
-    data.forEach((value, index) => {
-      animatedHeights[index].value = withTiming(
-        value.bookings * (maxBarHeight / roundedMaxValue),
-        {
-          duration: 500,
-          easing: Easing.out(Easing.ease)
-        },
-        (isFinished) => {
-          if (isFinished && value.month === month) {
-            const x = index * (barWidth + spacing) + dynamicPadding
-            const y =
-              maxBarHeight -
-              (value.bookings / roundedMaxValue) * maxBarHeight +
-              paddingTop
-
-            runOnJS(setTooltip)({ x, y, value: value.bookings })
-          }
-        }
-      )
-    })
-  }, [data, month])
-
-  const handleBarPress = (index: number) => {
-    const selected = data[index].month
-    const x = index * (barWidth + spacing) + dynamicPadding
-    const y = maxBarHeight - animatedHeights[index].value + paddingTop
-
-    setSelectedMonth(selected)
-    setTooltip({ x, y, value: data[index].bookings })
-  }
+  const handleBarPress = useCallback(
+    (monthString: string) => {
+      setSelectedMonth(monthString)
+      if (onSelectMonth) {
+        onSelectMonth(monthString)
+      }
+    },
+    [onSelectMonth]
+  )
 
   return (
     <Svg width={screenWidth} height={chartHeight}>
       {yAxisValues.map((value, index) => {
         const y = getYAxisPosition(value)
-
         return (
-          <React.Fragment key={index}>
+          <React.Fragment key={`axis-${index}`}>
             <Line
               x1={8}
               y1={y}
@@ -123,30 +181,30 @@ export const BarChart = ({ month, data, labels }: BarChartProps) => {
 
       {data.map((item, index) => {
         const x = index * (barWidth + spacing) + dynamicPadding
-        const isSelected = item.month === selectedMonth
-        const barColor = isSelected ? COLORS.primary : COLORS.border
-
-        const animatedProps = useAnimatedProps(() => ({
-          height: animatedHeights[index].value,
-          y: maxBarHeight - animatedHeights[index].value + paddingTop
-        }))
+        const monthString = item.month
+        const isSelected = monthString === selectedDate
 
         return (
-          <AnimatedRect
-            key={index}
+          <AnimatedBar
+            key={`bar-${index}-${monthString}`}
             x={x}
-            width={barWidth}
-            fill={barColor}
-            rx={8}
-            animatedProps={animatedProps}
-            onPress={() => handleBarPress(index)}
+            barWidth={barWidth}
+            maxBarHeight={maxBarHeight}
+            paddingTop={paddingTop}
+            value={item.bookings}
+            maxValue={roundedMaxValue}
+            isSelected={isSelected}
+            onPress={handleBarPress}
+            minBarHeight={minBarHeight}
+            monthString={monthString}
           />
         )
       })}
 
       {labels.map((label, index) => {
-        const x = index * (barWidth + spacing) + dynamicPadding
+        if (index >= data.length) return null
 
+        const x = index * (barWidth + spacing) + dynamicPadding
         return (
           <SvgText
             key={`label-${index}`}
@@ -162,30 +220,6 @@ export const BarChart = ({ month, data, labels }: BarChartProps) => {
           </SvgText>
         )
       })}
-
-      {tooltip && tooltip.value !== null && (
-        <React.Fragment>
-          <Rect
-            x={tooltip.x - 65}
-            y={tooltip.y - 20}
-            width={80}
-            height={30}
-            fill="#fff"
-            rx={5}
-          />
-          <SvgText
-            x={tooltip.x - 40}
-            y={tooltip.y + 0}
-            fontFamily="TikTokText-Medium"
-            fontSize="12"
-            fontWeight="500"
-            fill={COLORS.primary}
-            textAnchor="middle"
-          >
-            {tooltip.value} {" "} lượt
-          </SvgText>
-        </React.Fragment>
-      )}
     </Svg>
   )
 }
