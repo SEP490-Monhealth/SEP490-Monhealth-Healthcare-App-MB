@@ -18,6 +18,8 @@ import { Header } from "@/components/global/organisms"
 
 import { sampleAllergiesData } from "@/constants/data/allergies"
 
+import { useStorage } from "@/contexts/StorageContext"
+
 import {
   useGetAllergiesByUserId,
   useUpdateUserAllergy
@@ -32,15 +34,18 @@ function UpdateUserAllergyScreen() {
   const router = useRouter()
   const { userId } = useLocalSearchParams<{ userId: string }>()
 
+  const { addAllergies } = useStorage()
+
   const allergiesData = sampleAllergiesData
 
   const { data: userAllergiesData, isLoading: isUserAllergiesLoading } =
     useGetAllergiesByUserId(userId)
 
-  const { mutate: updateAllergy } = useUpdateUserAllergy()
+  // console.log(userAllergiesData)
+
+  const { mutate: updateUserAllergy } = useUpdateUserAllergy()
 
   const {
-    control,
     setValue,
     watch,
     handleSubmit,
@@ -73,16 +78,17 @@ function UpdateUserAllergyScreen() {
   }
 
   const onSubmit = async (data: UpdateUserAllergyType) => {
-    console.log(JSON.stringify(data, null, 2))
+    // console.log(JSON.stringify(data, null, 2))
 
-    // updateAllergy(
-    //   { userId, updatedData: data },
-    //   {
-    //     onSuccess: () => {
-    //       router.back()
-    //     }
-    //   }
-    // )
+    updateUserAllergy(
+      { userId, updatedData: data },
+      {
+        onSuccess: () => {
+          addAllergies(data.allergies)
+          router.back()
+        }
+      }
+    )
   }
 
   if (!userAllergiesData || isUserAllergiesLoading) {
@@ -95,7 +101,7 @@ function UpdateUserAllergyScreen() {
 
       <Content className="mt-2">
         <ScrollArea>
-          <VStack gap={12} className="pb-20">
+          <VStack gap={12} className="pb-12">
             {allergiesData?.map((allergy) => (
               <Chip
                 key={allergy.allergyId}

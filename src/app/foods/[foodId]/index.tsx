@@ -101,8 +101,8 @@ function FoodDetailsScreen() {
       "ml",
       ...(portionData?.portions.map((portion) =>
         portion.size && portion.size.trim() !== ""
-          ? `${portion.size} (${toFixed(portion.weight, 1)} ${portion.unit})`
-          : `${toFixed(portion.weight, 1)} ${portion.unit}`
+          ? `${portion.size} (${toFixed(portion.weight)} ${portion.unit})`
+          : `${toFixed(portion.weight)} ${portion.unit}`
       ) || [])
     ].map((portion) => portion.toLowerCase())
   }, [portionData])

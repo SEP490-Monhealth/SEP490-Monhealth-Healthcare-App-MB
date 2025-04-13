@@ -256,7 +256,7 @@ function BanksScreen() {
           )}
 
           <SheetSelect
-            label="Chỉnh sửa"
+            label="Cập nhật"
             icon={<Edit2 variant="Bold" size="20" color={COLORS.primary} />}
             onPress={handleUpdateConsultantBank}
           />

@@ -35,11 +35,11 @@ export const ExerciseCard = ({
 
           <Text className="font-tmedium text-sm text-accent">
             {/* {type === TypeExerciseEnum.Time
-              ? `${formatDuration(duration ?? 0)} • ${toFixed(totalCalories, 1)} kcal`
-              : `${reps} lần • ${toFixed(totalCalories, 1)} kcal`} */}
+              ? `${formatDuration(duration ?? 0)} • ${toFixed(totalCalories)} kcal`
+              : `${reps} lần • ${toFixed(totalCalories)} kcal`} */}
             {reps && reps > 0
-              ? `${reps} lần • ${toFixed(calories, 1)} kcal`
-              : `${formatDuration(duration ?? 0)} • ${toFixed(calories, 1)} kcal`}
+              ? `${reps} lần • ${toFixed(calories)} kcal`
+              : `${formatDuration(duration ?? 0)} • ${toFixed(calories)} kcal`}
           </Text>
         </View>
 

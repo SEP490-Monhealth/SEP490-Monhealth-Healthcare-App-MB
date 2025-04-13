@@ -102,7 +102,7 @@ function BookingsScreen() {
   return (
     <>
       <Container>
-        <Header back label="Lịch hẹn" />
+        <Header label="Lịch hẹn" />
 
         <Content className="mt-2">
           <ScrollView

@@ -36,7 +36,7 @@ export const ActivityCard = ({
         <Text className="font-tmedium text-base text-primary">{name}</Text>
 
         <Text className="font-tmedium text-sm text-accent">
-          {toFixed(caloriesBurned, 1)} kcal • {durationMinutes ?? 0} phút
+          {toFixed(caloriesBurned)} kcal • {durationMinutes ?? 0} phút
         </Text>
       </View>
     </Card>

@@ -23,6 +23,7 @@ import {
   Card,
   Container,
   Content,
+  HStack,
   ScrollArea,
   Sheet,
   SheetRefProps,
@@ -41,7 +42,7 @@ import { useAuth } from "@/contexts/AuthContext"
 
 import { useGetConsultantById } from "@/hooks/useConsultant"
 
-import { formatDate } from "@/utils/formatters"
+import { formatDate, toFixed } from "@/utils/formatters"
 
 function ConsultantInformationScreen() {
   const router = useRouter()
@@ -56,11 +57,11 @@ function ConsultantInformationScreen() {
 
   const openSheet = () => SheetRef.current?.scrollTo(-sheetHeight)
 
+  if (!consultantData || isLoading) return <LoadingScreen />
+
   const userInfoList = [
     {
-      label: consultantData?.createdAt
-        ? formatDate(consultantData.createdAt)
-        : "Không có ngày tạo",
+      label: formatDate(consultantData.createdAt),
       icon: CalendarCircle
     },
     { label: consultantData?.fullName, icon: ProfileCircle },
@@ -70,7 +71,7 @@ function ConsultantInformationScreen() {
       label:
         consultantData?.verificationStatus === VerificationStatus.Verified
           ? "Đã xác thực"
-          : "Chưa được xác thực",
+          : "Chưa xác thực",
       icon: Verify
     }
   ]
@@ -78,8 +79,6 @@ function ConsultantInformationScreen() {
   const handleUpdateConsultant = () => {
     router.push(`/settings/consultant/${consultantId}/information`)
   }
-
-  if (!consultantData || isLoading) return <LoadingScreen />
 
   return (
     <TouchableWithoutFeedback>
@@ -102,6 +101,41 @@ function ConsultantInformationScreen() {
                     {consultantData.fullName}
                   </Text>
                 </VStack>
+
+                <View>
+                  <Section label="Thông tin" margin={false} />
+
+                  <Card>
+                    <HStack className="justify-between">
+                      <VStack center gap={8}>
+                        <Text className="font-tmedium text-base text-accent">
+                          Lịch hẹn
+                        </Text>
+                        <Text className="font-tbold text-lg text-primary">
+                          {consultantData.bookingCount}
+                        </Text>
+                      </VStack>
+
+                      <VStack center gap={8}>
+                        <Text className="font-tmedium text-base text-accent">
+                          Đánh giá
+                        </Text>
+                        <Text className="font-tbold text-lg text-primary">
+                          {consultantData.ratingCount}
+                        </Text>
+                      </VStack>
+
+                      <VStack center gap={8}>
+                        <Text className="font-tmedium text-base text-accent">
+                          Trung bình
+                        </Text>
+                        <Text className="font-tbold text-lg text-primary">
+                          {toFixed(consultantData.averageRating)}
+                        </Text>
+                      </VStack>
+                    </HStack>
+                  </Card>
+                </View>
 
                 <View>
                   <Section

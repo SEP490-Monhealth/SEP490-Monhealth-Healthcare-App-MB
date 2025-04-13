@@ -24,7 +24,7 @@ export const NutritionSummary = ({ nutritionData }: NutritionSummaryProps) => {
         <NutritionCard
           key={index}
           label={nutrient.label}
-          value={toFixed(nutrient.value, 1)}
+          value={toFixed(nutrient.value)}
           targetValue={toFixed(nutrient.targetValue)}
           color={getNutritionColor(nutrient.label)}
         />

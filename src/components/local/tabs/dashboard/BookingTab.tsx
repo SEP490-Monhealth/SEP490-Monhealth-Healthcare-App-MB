@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react"
 
 import { ScrollView, Text } from "react-native"
 
+import { useRouter } from "expo-router"
+
 import { useIsFetching, useIsMutating } from "@tanstack/react-query"
 
 import { HStack, VStack } from "@/components/global/atoms"
@@ -28,6 +30,8 @@ export const BookingTab = ({
   date,
   onOverlayLoading
 }: BookingTabProps) => {
+  const router = useRouter()
+
   const [selectedMonth, setSelectedMonth] = useState<string>(date)
 
   const { data: monthlyBookingData, isLoading: isMonthlyBookingLoading } =
@@ -58,6 +62,10 @@ export const BookingTab = ({
   )
 
   const barChartData = monthlyBookingData || []
+
+  const handleViewBookings = () => {
+    router.replace("/(tabs)/consultant/booking")
+  }
 
   return (
     <ScrollView
@@ -100,9 +108,8 @@ export const BookingTab = ({
               date={booking.date}
               startTime={booking.startTime}
               endTime={booking.endTime}
-              notes={booking.notes}
               status={booking.status}
-              cancellationReason={booking.cancellationReason}
+              onPress={handleViewBookings}
             />
           ))}
         </VStack>

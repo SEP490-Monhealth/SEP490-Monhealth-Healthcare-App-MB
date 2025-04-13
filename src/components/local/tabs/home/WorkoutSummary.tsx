@@ -24,7 +24,7 @@ export const WorkoutSummary = ({ workoutsData }: WorkoutSummaryProps) => {
         <WorkoutCard
           key={index}
           label={exercise.label}
-          value={toFixed(exercise.value, 1)}
+          value={toFixed(exercise.value)}
           targetValue={toFixed(exercise.targetValue)}
           color={getWorkoutColor(exercise.label)}
         />

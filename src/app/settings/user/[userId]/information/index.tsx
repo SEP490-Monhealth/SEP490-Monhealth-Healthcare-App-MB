@@ -64,7 +64,7 @@ function UserInformationScreen() {
 
   const { userAllergies } = useStorage()
 
-  console.log("userAllergies", userAllergies)
+  // console.log("userAllergies", userAllergies)
 
   const { data: userData, isLoading: isUserLoading } = useGetUserById(userId)
   const { data: metricData, isLoading: isMetricLoading } =

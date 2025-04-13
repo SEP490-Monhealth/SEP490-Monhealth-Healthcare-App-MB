@@ -56,7 +56,7 @@ function SetupWeightGoal() {
 
       {idealWeight !== null && (
         <Text className="text-center font-tbold text-5xl text-primary">
-          {toFixed(idealWeight, 1)} kg
+          {toFixed(idealWeight)} kg
         </Text>
       )}
 
@@ -64,7 +64,7 @@ function SetupWeightGoal() {
         <Text className="ml-1 mt-1 font-tregular text-sm text-accent">
           Gợi ý cân nặng phù hợp dựa trên chiều cao và giới tính của bạn:{" "}
           <Text className="font-tregular text-primary">
-            {toFixed(idealWeight, 1)} kg
+            {toFixed(idealWeight)} kg
           </Text>
         </Text>
       )}

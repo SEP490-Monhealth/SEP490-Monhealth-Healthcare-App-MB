@@ -104,7 +104,7 @@ function WorkoutDetailsScreen() {
                 {workoutData.type === WorkoutTypeEnum.Workout && (
                   <Section
                     label="Khởi động"
-                    description={`${toFixed(exercisesData.warmupDuration, 1)} phút / ${warmupRounds} vòng`}
+                    description={`${toFixed(exercisesData.warmupDuration)} phút / ${warmupRounds} vòng`}
                     action={
                       <Toggle
                         value={isWarmup}
@@ -136,7 +136,7 @@ function WorkoutDetailsScreen() {
                   <Section
                     label="Bài tập"
                     margin={workoutData.type === WorkoutTypeEnum.Warmup}
-                    description={`${toFixed(exercisesData.workoutDuration, 1)} phút / ${workoutRounds} vòng`}
+                    description={`${toFixed(exercisesData.workoutDuration)} phút / ${workoutRounds} vòng`}
                   />
 
                   {exercisesData?.workout.map((exercise, index) => (
