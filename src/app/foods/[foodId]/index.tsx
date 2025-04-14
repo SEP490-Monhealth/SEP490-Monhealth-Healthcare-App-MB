@@ -3,8 +3,10 @@ import React, { useEffect, useMemo, useRef, useState } from "react"
 import {
   Dimensions,
   Keyboard,
+  Linking,
   SafeAreaView,
   Text,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   View
 } from "react-native"
@@ -203,7 +205,7 @@ function FoodDetailsScreen() {
       setWarningModal({
         title: "Cảnh báo dị ứng",
         description:
-          "Món ăn này có thể chứa thành phần gây dị ứng. Bạn có chắc chắn muốn thêm không?",
+          "Thức ăn này có thể chứa thành phần gây dị ứng. Bạn có chắc chắn muốn thêm không?",
         type: "allergy"
       })
       return
@@ -213,7 +215,7 @@ function FoodDetailsScreen() {
       setWarningModal({
         title: "Cảnh báo lượng calories",
         description:
-          "Lượng calories nạp vào sẽ vượt quá mục tiêu của bạn đáng kể. Bạn có chắc chắn muốn thêm món ăn này không?",
+          "Lượng calories nạp vào sẽ vượt quá mục tiêu của bạn đáng kể. Bạn có chắc chắn muốn thêm thức ăn này không?",
         type: "calorie"
       })
       return
@@ -261,6 +263,18 @@ function FoodDetailsScreen() {
           calories: nutritionData.calories
         }
       })
+    }
+  }
+
+  const handleLinkPress = () => {
+    const url = foodData.referenceUrl
+
+    if (url) {
+      Linking.openURL(url).catch((err) =>
+        console.error("Failed to open URL:", err)
+      )
+    } else {
+      console.error("URL is undefined or empty")
     }
   }
 
@@ -350,9 +364,23 @@ function FoodDetailsScreen() {
                   </VStack>
                 </VStack>
 
-                {/* <VStack gap={8}>
-                  <Section label="Hoạt động" />
-                </VStack> */}
+                {foodData.referenceUrl && (
+                  <VStack gap={8}>
+                    <Section label="Tham khảo" />
+
+                    <TouchableOpacity
+                      activeOpacity={0.8}
+                      onPress={handleLinkPress}
+                    >
+                      <Text className="text-primary">
+                        Nguồn:{" "}
+                        <Text className="font-tmedium text-secondary underline">
+                          {foodData.referenceUrl}
+                        </Text>
+                      </Text>
+                    </TouchableOpacity>
+                  </VStack>
+                )}
               </View>
             </ScrollArea>
           </Content>

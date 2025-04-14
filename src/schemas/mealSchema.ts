@@ -12,10 +12,10 @@ export const mealFoodSchema = z.object({
 
   name: z
     .string()
-    .nonempty({ message: "Tên món ăn không được để trống" })
-    .max(50, { message: "Tên món ăn không được dài hơn 50 ký tự" })
+    .nonempty({ message: "Tên thức ăn không được để trống" })
+    .max(50, { message: "Tên thức ăn không được dài hơn 50 ký tự" })
     .regex(/^[a-zA-Z0-9\s\u00C0-\u024F\u1E00-\u1EFF]*$/, {
-      message: "Tên món ăn chỉ được chứa chữ cái, số và khoảng trắng"
+      message: "Tên thức ăn chỉ được chứa chữ cái, số và khoảng trắng"
     }),
 
   quantity: z.number().min(1, { message: "Số lượng phải lớn hơn hoặc bằng 1" }),

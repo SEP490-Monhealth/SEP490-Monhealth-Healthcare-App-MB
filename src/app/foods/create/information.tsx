@@ -50,7 +50,7 @@ function FoodInformation({
           render={({ field: { onChange, value } }) => (
             <Input
               value={value}
-              label="Tên món ăn"
+              label="Tên thức ăn"
               placeholder="VD: Cơm tấm sườn"
               onChangeText={onChange}
               canClearText
@@ -66,7 +66,7 @@ function FoodInformation({
             <Input
               value={value}
               label="Mô tả"
-              placeholder="VD: Món ăn ngon, dễ làm, phù hợp cho cả gia đình"
+              placeholder="VD: Thức ăn ngon, dễ làm, phù hợp cho cả gia đình"
               onChangeText={onChange}
               isMultiline
               numberOfLines={4}
@@ -83,7 +83,7 @@ function FoodInformation({
         />
 
         <Select
-          defaultValue="Loại món ăn"
+          defaultValue="Loại thức ăn"
           value={getLabelsFromValues(dishType, DATA.DISHES).join(", ")}
           onPress={openDishSheet}
         /> */}
@@ -92,10 +92,10 @@ function FoodInformation({
       <Card activeOpacity={1}>
         <VStack gap={12}>
           <VStack>
-            <CardHeader label="Bạn muốn lưu món ăn này như thế nào?" />
+            <CardHeader label="Bạn muốn lưu thức ăn này như thế nào?" />
 
             <Text className="font-tregular text-sm text-accent">
-              Chọn "Công khai" để chia sẻ món ăn với cộng đồng hoặc "Cá nhân" để
+              Chọn "Công khai" để chia sẻ thức ăn với cộng đồng hoặc "Cá nhân" để
               lưu trữ riêng tư cho bạn.
             </Text>
           </VStack>

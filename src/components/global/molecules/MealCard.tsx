@@ -65,7 +65,7 @@ export const MealCard = ({
         )}
 
         <Text className="font-tmedium text-sm text-accent">
-          {totalFoods} món ăn • {toFixed(totalCalories, 0)} kcal
+          {totalFoods} thức ăn • {toFixed(totalCalories, 0)} kcal
         </Text>
       </View>
 

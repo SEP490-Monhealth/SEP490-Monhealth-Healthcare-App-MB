@@ -41,7 +41,7 @@ function FoodSavedScreen() {
   return (
     <>
       <Container>
-        <Header back label="Món ăn đã lưu" />
+        <Header back label="Thức ăn đã lưu" />
 
         <Content className="mt-2">
           <FlatList
@@ -66,7 +66,7 @@ function FoodSavedScreen() {
               <ErrorDisplay
                 imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
                 title="Không có dữ liệu"
-                description="Không tìm thấy có món ăn nào ở đây!"
+                description="Không tìm thấy có thức ăn nào ở đây!"
                 marginTop={24}
               />
             )}
@@ -90,8 +90,8 @@ function FoodSavedScreen() {
       <Modal
         isVisible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
-        title="Xóa món ăn đã lưu"
-        description="Bạn có chắc chắn muốn xóa tất cả món ăn đã lưu không?"
+        title="Xóa thức ăn đã lưu"
+        description="Bạn có chắc chắn muốn xóa tất cả thức ăn đã lưu không?"
         confirmText="Xóa"
         cancelText="Hủy"
         onConfirm={clearSavedFoods}

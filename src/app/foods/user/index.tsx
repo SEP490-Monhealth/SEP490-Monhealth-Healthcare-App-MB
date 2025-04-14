@@ -82,7 +82,7 @@ function FoodUserScreen() {
     return (
       <ListHeader>
         {foodsData.length > 0 && (
-          <Section label="Danh sách món ăn" margin={false} className="mt-2" />
+          <Section label="Danh sách thức ăn" margin={false} className="mt-2" />
         )}
       </ListHeader>
     )
@@ -98,7 +98,7 @@ function FoodUserScreen() {
     <Container>
       <Header
         back
-        label="Món ăn của tôi"
+        label="Thức ăn của tôi"
         action={{
           icon: <Add size={24} color={COLORS.primary} />,
           href: "/foods/create"
@@ -145,7 +145,7 @@ function FoodUserScreen() {
             <ErrorDisplay
               imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
               title="Không có dữ liệu"
-              description="Không tìm thấy có món ăn nào ở đây!"
+              description="Không tìm thấy có thức ăn nào ở đây!"
               marginTop={24}
             />
           }

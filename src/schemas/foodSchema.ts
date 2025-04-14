@@ -28,13 +28,13 @@ const foodSchema = z.object({
 
   name: z
     .string()
-    .nonempty({ message: "Tên món ăn không được để trống" })
-    .min(3, { message: "Tên món ăn phải có ít nhất 3 ký tự" })
-    .max(255, { message: "Tên món ăn không được quá 255 ký tự" }),
+    .nonempty({ message: "Tên thức ăn không được để trống" })
+    .min(3, { message: "Tên thức ăn phải có ít nhất 3 ký tự" })
+    .max(255, { message: "Tên thức ăn không được quá 255 ký tự" }),
   description: z
     .string()
-    .nonempty({ message: "Mô tả món ăn không được để trống" })
-    .min(10, { message: "Mô tả món ăn phải có ít nhất 10 ký tự" }),
+    .nonempty({ message: "Mô tả thức ăn không được để trống" })
+    .min(10, { message: "Mô tả thức ăn phải có ít nhất 10 ký tự" }),
 
   portion: portionSchema,
 
@@ -42,10 +42,11 @@ const foodSchema = z.object({
 
   allergies: z.array(allergySchema.shape.name),
 
+  referenceUrl: z.string().optional(),
+
   views: z.number(),
 
   isPublic: z.boolean(),
-
   status: z.boolean(),
 
   ...auditFields

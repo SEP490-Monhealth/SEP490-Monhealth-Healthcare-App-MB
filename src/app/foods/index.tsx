@@ -188,7 +188,7 @@ function FoodsScreen() {
         setWarningModal({
           title: "Cảnh báo dị ứng",
           description:
-            "Món ăn này có thể chứa thành phần gây dị ứng. Bạn có chắc chắn muốn thêm không?",
+            "Thức ăn này có thể chứa thành phần gây dị ứng. Bạn có chắc chắn muốn thêm không?",
           type: "allergy"
         })
         return
@@ -198,7 +198,7 @@ function FoodsScreen() {
         setWarningModal({
           title: "Cảnh báo lượng calories",
           description:
-            "Lượng calories nạp vào sẽ vượt quá mục tiêu của bạn đáng kể. Bạn có chắc chắn muốn thêm món ăn này không?",
+            "Lượng calories nạp vào sẽ vượt quá mục tiêu của bạn đáng kể. Bạn có chắc chắn muốn thêm thức ăn này không?",
           type: "calorie"
         })
         return
@@ -256,8 +256,8 @@ function FoodsScreen() {
         </HStack>
 
         <Section
-          label="Danh sách món ăn"
-          actionText="Món ăn của tôi"
+          label="Danh sách thức ăn"
+          actionText="Thức ăn của tôi"
           onPress={handleViewUserFoods}
         />
       </ListHeader>
@@ -280,7 +280,7 @@ function FoodsScreen() {
           content={
             <Input
               value={searchQuery}
-              placeholder="Tìm kiếm món ăn..."
+              placeholder="Tìm kiếm thức ăn..."
               onChangeText={(text) => setSearchQuery(text)}
               startIcon={<SearchNormal1 size={20} color={COLORS.primary} />}
               canClearText
@@ -330,7 +330,7 @@ function FoodsScreen() {
               <ErrorDisplay
                 imageSource={require("../../../public/images/monhealth-no-data-image.png")}
                 title="Không có dữ liệu"
-                description="Không tìm thấy có món ăn nào ở đây!"
+                description="Không tìm thấy có thức ăn nào ở đây!"
                 marginTop={12}
               />
             }
