@@ -14,7 +14,7 @@ import {
   Ram,
   Setting,
   Stickynote,
-  Wallet1
+  Wallet2
 } from "iconsax-react-native"
 import { IconProps } from "iconsax-react-native"
 
@@ -57,7 +57,7 @@ export const userProfileRoutes: RouteType[] = [
   {
     route: (userId: string) => `/settings/user/${userId}/transactions`,
     label: "Lịch sử thanh toán",
-    icon: Wallet1
+    icon: Wallet2
   },
   {
     route: (userId: string) => `/settings/user/${userId}/bookings`,

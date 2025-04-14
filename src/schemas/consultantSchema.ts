@@ -3,6 +3,7 @@ import { z } from "zod"
 import { VerificationStatusSchemaEnum } from "@/constants/enum/Consultant"
 
 import { timestampFields, uuidSchema } from "./baseSchema"
+import { certificateSchema } from "./certificateSchema"
 import { expertiseSchema } from "./expertiseSchema"
 import { userSchema } from "./userSchema"
 
@@ -16,13 +17,15 @@ const consultantSchema = z.object({
   phoneNumber: userSchema.shape.phoneNumber,
   avatarUrl: userSchema.shape.avatarUrl,
 
+  expertise: expertiseSchema.shape.name,
+
   bio: z.string().min(10, { message: "Tiểu sử phải có ít nhất 10 ký tự" }),
   experience: z
     .number()
     .int()
     .positive({ message: "Kinh nghiệm phải là số nguyên dương" }),
 
-  expertise: expertiseSchema.shape.name,
+  meetUrl: z.string().url({ message: "Đường dẫn không hợp lệ" }),
 
   bookingCount: z.number().default(0),
   ratingCount: z.number().default(0),
@@ -53,6 +56,26 @@ export const updateConsultantSchema = consultantSchema.pick({
 export const informationSetupSchema = consultantSchema.pick({
   bio: true,
   experience: true
+})
+
+export const expertiseSetupSchema = z.object({
+  expertise: expertiseSchema.shape.name
+})
+
+export const certificateSetupSchema = z.object({
+  number: certificateSchema.shape.number,
+  certificate: certificateSchema.shape.name,
+  issueDate: certificateSchema.shape.issueDate,
+  expiryDate: certificateSchema.shape.expiryDate,
+  issuedBy: certificateSchema.shape.issuedBy
+})
+
+export const imageSetupSchema = z.object({
+  imageUrls: certificateSchema.shape.imageUrls
+})
+
+export const meetingSetupSchema = consultantSchema.pick({
+  meetUrl: true
 })
 
 export type ConsultantType = z.infer<typeof consultantSchema>

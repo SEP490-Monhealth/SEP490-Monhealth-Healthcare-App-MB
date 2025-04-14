@@ -29,11 +29,12 @@ import { useAuth } from "@/contexts/AuthContext"
 import { useCreateConsultant } from "@/hooks/useConsultant"
 
 import {
-  certificateImageSetupSchema,
-  certificateSetupSchema
-} from "@/schemas/certificateSchema"
-import { informationSetupSchema } from "@/schemas/consultantSchema"
-import { expertiseSetupSchema } from "@/schemas/expertiseSchema"
+  certificateSetupSchema,
+  expertiseSetupSchema,
+  imageSetupSchema,
+  informationSetupSchema,
+  meetingSetupSchema
+} from "@/schemas/consultantSchema"
 
 import { whoIAm } from "@/services/authService"
 
@@ -45,6 +46,7 @@ import SetupCertificate from "./certificate"
 import SetupExpertise from "./expertise"
 import SetupImage from "./images"
 import SetupInformation from "./information"
+import SetupMeeting from "./meeting"
 
 interface SetupStepsProps {
   step: number
@@ -136,7 +138,15 @@ function SetupConsultantScreen() {
       description: "Tải lên hình ảnh chứng chỉ của bạn để hoàn tất hồ sơ",
       component: SetupImage,
       fields: ["imageUrls"],
-      schema: certificateImageSetupSchema
+      schema: imageSetupSchema
+    },
+    {
+      step: 5,
+      title: "Cuộc họp",
+      description: "Thêm đường dẫn cuộc họp của bạn để tư vấn trực tuyến",
+      component: SetupMeeting,
+      fields: ["meetUrl"],
+      schema: meetingSetupSchema
     }
   ]
 

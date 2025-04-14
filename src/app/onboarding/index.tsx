@@ -7,7 +7,6 @@ import { router, useLocalSearchParams } from "expo-router"
 import { Button, Container, Progress, VStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/color"
-import { clearAllStorage } from "@/stores/localStorageStore"
 
 interface OnboardingType {
   title: string
@@ -73,7 +72,7 @@ function OnboardingScreen() {
     } else if (role === "Member") {
       router.replace("/(setup)/user")
     } else {
-      router.replace("/(setup)/consultant")
+      router.replace("/(setup)/consultant/policy")
     }
   }
 

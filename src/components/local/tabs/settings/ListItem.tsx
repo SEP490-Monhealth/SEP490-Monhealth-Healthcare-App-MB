@@ -45,10 +45,10 @@ export const ListItem = ({
       className={`flex-row items-center justify-between py-4 ${isBorder ? "border-b border-border" : ""}`}
       onPress={handlePress}
     >
-      <View className="flex-row items-center">
-        {startIcon && <View className="mr-4">{startIcon}</View>}
+      <View className="flex-1">
+        <View className="flex-row items-center">
+          {startIcon && <View className="mr-4">{startIcon}</View>}
 
-        <View className="flex-1">
           <Text className="font-tmedium text-base text-primary">{label}</Text>
         </View>
       </View>

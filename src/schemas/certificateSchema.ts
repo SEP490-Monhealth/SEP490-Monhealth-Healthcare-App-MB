@@ -33,28 +33,4 @@ export const certificateSchema = z.object({
   ...timestampFields
 })
 
-export const certificateSetupSchema = z.object({
-  number: certificateSchema.shape.number,
-  certificate: certificateSchema.shape.name,
-
-  issueDate: certificateSchema.shape.issueDate,
-  expiryDate: certificateSchema.shape.expiryDate,
-  issuedBy: certificateSchema.shape.issuedBy
-})
-
-export const certificateNumberSchema = z.object({
-  number: certificateSchema.shape.number,
-  certificate: certificateSchema.shape.name
-})
-
-export const certificateIssueSchema = z.object({
-  issueDate: certificateSchema.shape.issueDate,
-  expiryDate: certificateSchema.shape.expiryDate,
-  issuedBy: certificateSchema.shape.issuedBy
-})
-
-export const certificateImageSetupSchema = z.object({
-  imageUrls: certificateSchema.shape.imageUrls
-})
-
 export type CertificateType = z.infer<typeof certificateSchema>

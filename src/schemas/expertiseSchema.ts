@@ -20,10 +20,6 @@ export const expertiseSchema = z.object({
   ...auditFields
 })
 
-export const expertiseSetupSchema = z.object({
-  expertise: expertiseSchema.shape.name
-})
-
 export const expertiseUpdateSchema = z.object({
   expertise: expertiseSchema.shape.name,
   number: certificateSchema.shape.number,

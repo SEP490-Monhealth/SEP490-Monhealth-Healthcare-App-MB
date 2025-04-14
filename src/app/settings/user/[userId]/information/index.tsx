@@ -44,7 +44,6 @@ import { getGenderMeta } from "@/constants/enum/Gender"
 import { getGoalTypeMeta } from "@/constants/enum/Goal"
 
 import { useAuth } from "@/contexts/AuthContext"
-import { useStorage } from "@/contexts/StorageContext"
 
 import { useGetAllergiesByUserId } from "@/hooks/useAllergy"
 import { useGetGoalsByUserId } from "@/hooks/useGoal"

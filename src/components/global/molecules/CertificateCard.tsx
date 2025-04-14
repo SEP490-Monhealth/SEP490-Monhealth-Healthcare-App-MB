@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Image, Text, View } from "react-native"
+import { Text, View } from "react-native"
 
 import { DocumentText, Eye } from "iconsax-react-native"
 
