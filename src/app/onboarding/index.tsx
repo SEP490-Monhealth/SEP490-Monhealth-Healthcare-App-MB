@@ -7,6 +7,7 @@ import { router, useLocalSearchParams } from "expo-router"
 import { Button, Container, Progress, VStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/color"
+
 import { clearAllStorage } from "@/stores/localStorageStore"
 
 interface OnboardingType {

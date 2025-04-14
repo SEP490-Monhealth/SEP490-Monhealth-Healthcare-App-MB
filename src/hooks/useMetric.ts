@@ -5,7 +5,11 @@ import { useModal } from "@/contexts/ModalContext"
 
 import { CreateUpdateMetricType, MetricType } from "@/schemas/metricSchema"
 
-import { createMetric, getMetricsByUserId } from "@/services/metricService"
+import {
+  createMetric,
+  getMetricsByUserId,
+  updateMetric
+} from "@/services/metricService"
 
 export const useGetMetricsByUserId = (userId: string | undefined) => {
   const handleError = useError()
@@ -48,7 +52,7 @@ export const useUpdateMetric = (userId: string | undefined) => {
   return useMutation<string, Error, CreateUpdateMetricType>({
     mutationFn: async (newData) => {
       try {
-        return await createMetric(newData, showModal)
+        return await updateMetric(newData, showModal)
       } catch (error) {
         handleError(error)
         throw error
