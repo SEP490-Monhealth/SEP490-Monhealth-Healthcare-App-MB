@@ -1,7 +1,5 @@
 import React from "react"
 
-import { View } from "react-native"
-
 import { Control, Controller, FieldValues } from "react-hook-form"
 
 import { Input, VStack } from "@/components/global/atoms"
