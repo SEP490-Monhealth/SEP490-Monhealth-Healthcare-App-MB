@@ -24,6 +24,7 @@ interface MetricCardProps {
 
 export const MetricCard = ({ metric, goal }: MetricCardProps) => {
   const [expanded, setExpanded] = useState(false)
+
   const toggleExpanded = () => setExpanded(!expanded)
 
   const { label: goalStatusLabel, color: goalStatusColor } = getGoalStatusMeta(
@@ -100,54 +101,61 @@ export const MetricCard = ({ metric, goal }: MetricCardProps) => {
           gender={genderLabel}
         />
 
-        <VStack className="gap-2">
-          <Text className="font-tmedium text-base text-primary">
-            Chỉ số sinh lý
-          </Text>
+        <View>
+          <VStack className="gap-2">
+            <Text className="font-tmedium text-base text-primary">
+              Chỉ số sinh lý
+            </Text>
 
-          {basicMetrics.map((item, index) => (
-            <MetricItem key={index} label={item.label} value={item.value} />
-          ))}
-        </VStack>
+            {basicMetrics.map((item, index) => (
+              <MetricItem key={index} label={item.label} value={item.value} />
+            ))}
+          </VStack>
 
-        {expanded && (
-          <>
-            <VStack className="gap-2">
-              {advancedMetrics.map((item, index) => (
-                <MetricItem key={index} label={item.label} value={item.value} />
-              ))}
-            </VStack>
+          {expanded && (
+            <>
+              <VStack className="mt-2 gap-2">
+                {advancedMetrics.map((item, index) => (
+                  <MetricItem
+                    key={index}
+                    label={item.label}
+                    value={item.value}
+                  />
+                ))}
+              </VStack>
 
-            <VStack className="mt-2 gap-2">
-              <Text className="font-tmedium text-base text-primary">
-                Dinh dưỡng hằng ngày
-              </Text>
-              {nutritionMetrics.map((item, index) => (
-                <MetricItem
-                  key={index}
-                  label={item.label}
-                  value={item.value}
-                  unit={item.unit}
-                />
-              ))}
-            </VStack>
+              <VStack className="mt-5 gap-2">
+                <Text className="font-tmedium text-base text-primary">
+                  Dinh dưỡng hằng ngày
+                </Text>
 
-            <VStack className="mt-2 gap-2">
-              <Text className="font-tmedium text-base text-primary">
-                Hoạt động hằng ngày
-              </Text>
+                {nutritionMetrics.map((item, index) => (
+                  <MetricItem
+                    key={index}
+                    label={item.label}
+                    value={item.value}
+                    unit={item.unit}
+                  />
+                ))}
+              </VStack>
 
-              {activityMetrics.map((item, index) => (
-                <MetricItem
-                  key={index}
-                  label={item.label}
-                  value={item.value}
-                  unit={item.unit}
-                />
-              ))}
-            </VStack>
-          </>
-        )}
+              <VStack className="mt-5 gap-2">
+                <Text className="font-tmedium text-base text-primary">
+                  Hoạt động hằng ngày
+                </Text>
+
+                {activityMetrics.map((item, index) => (
+                  <MetricItem
+                    key={index}
+                    label={item.label}
+                    value={item.value}
+                    unit={item.unit}
+                  />
+                ))}
+              </VStack>
+            </>
+          )}
+        </View>
 
         <TouchableOpacity
           onPress={toggleExpanded}

@@ -55,7 +55,7 @@ export const userProfileRoutes: RouteType[] = [
     icon: Command
   },
   {
-    route: (userId: string) => `/settings/user/${userId}/payments`,
+    route: (userId: string) => `/settings/user/${userId}/transactions`,
     label: "Lịch sử thanh toán",
     icon: Wallet1
   },

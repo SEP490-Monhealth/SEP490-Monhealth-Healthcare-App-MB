@@ -20,8 +20,8 @@ import { COLORS } from "@/constants/color"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useCreatePayment } from "@/hooks/usePayment"
 import { useGetAllSubscriptions } from "@/hooks/useSubscription"
+import { useCreateSubscriptionTransaction } from "@/hooks/useTransaction"
 import { useGetUserSubscriptionByUserId } from "@/hooks/useUserSubscription"
 
 import { parseJSON } from "@/utils/helpers"
@@ -46,7 +46,8 @@ function SubscriptionsScreen() {
   const userId = user?.userId
   const userSubscription = user?.subscription
 
-  const { mutate: createPayment } = useCreatePayment()
+  const { mutate: createSubscriptionTransaction } =
+    useCreateSubscriptionTransaction()
 
   const { data: subscriptionsData, isLoading } = useGetAllSubscriptions(
     1,
@@ -96,24 +97,22 @@ function SubscriptionsScreen() {
   }
 
   const handlePayment = () => {
-    if (userId && selectedSubscriptionId) {
-      const paymentData = {
-        userId: userId,
-        subscriptionId: selectedSubscriptionId,
-        description: `Thanh toán ${selectedPlan?.name}`,
-        // amount: selectedPlan?.price
-        amount: 2000
-      }
-
-      // console.log("Final Data:", JSON.stringify(paymentData, null, 2))
-
-      createPayment(paymentData, {
-        onSuccess: async (response) => {
-          const { paymentUrl } = response.data
-          Linking.openURL(paymentUrl)
-        }
-      })
+    const transactionData = {
+      userId: userId || "",
+      subscriptionId: selectedSubscriptionId || "",
+      description: `Thanh toán ${selectedPlan?.name}`,
+      // amount: selectedPlan?.price
+      amount: 2000
     }
+
+    // console.log("Final Data:", JSON.stringify(transactionData, null, 2))
+
+    createSubscriptionTransaction(transactionData, {
+      onSuccess: async (response) => {
+        const { paymentUrl } = response.data
+        Linking.openURL(paymentUrl)
+      }
+    })
   }
 
   if (!subscriptionsData || isLoading) {
@@ -180,13 +179,14 @@ function SubscriptionsScreen() {
             )}
 
             <VStack gap={12}>
-              {userSubscription === selectedSubscription && (
-                <View className="items-end">
-                  <Text className="mr-2 font-tmedium text-base text-primary">
-                    {getRemainingDaysText(currentSubscription?.expiresAt)}
-                  </Text>
-                </View>
-              )}
+              {userSubscription !== "Gói Cơ Bản" &&
+                userSubscription === selectedSubscription && (
+                  <View className="items-end">
+                    <Text className="mr-2 font-tmedium text-base text-primary">
+                      {getRemainingDaysText(currentSubscription?.expiresAt)}
+                    </Text>
+                  </View>
+                )}
 
               {subscriptionsData.subscriptions.map((item, index) => (
                 <SubscriptionCard

@@ -46,6 +46,7 @@ import { getGoalTypeMeta } from "@/constants/enum/Goal"
 import { useAuth } from "@/contexts/AuthContext"
 import { useStorage } from "@/contexts/StorageContext"
 
+import { useGetAllergiesByUserId } from "@/hooks/useAllergy"
 import { useGetGoalsByUserId } from "@/hooks/useGoal"
 import { useGetMetricsByUserId } from "@/hooks/useMetric"
 import { useGetUserById } from "@/hooks/useUser"
@@ -62,29 +63,18 @@ function UserInformationScreen() {
 
   const SheetRef = useRef<SheetRefProps>(null)
 
-  const { userAllergies } = useStorage()
-
-  // console.log("userAllergies", userAllergies)
-
-  const { data: userData, isLoading: isUserLoading } = useGetUserById(userId)
-  const { data: metricData, isLoading: isMetricLoading } =
-    useGetMetricsByUserId(userId)
-  const { data: goalData, isLoading: isGoalLoading } =
-    useGetGoalsByUserId(userId)
+  const { data: userData } = useGetUserById(userId)
+  const { data: metricData } = useGetMetricsByUserId(userId)
+  const { data: goalData } = useGetGoalsByUserId(userId)
+  const { data: allergiesData } = useGetAllergiesByUserId(userId)
 
   const sheetHeight = 180
 
   const openSheet = () => SheetRef.current?.scrollTo(-sheetHeight)
 
-  if (
-    !userData ||
-    isUserLoading ||
-    !metricData ||
-    isMetricLoading ||
-    !goalData ||
-    isGoalLoading
-  )
+  if (!userData || !metricData || !goalData || !allergiesData) {
     return <LoadingScreen />
+  }
 
   const gender = getGenderMeta(metricData[0].gender)
   const goalType = getGoalTypeMeta(goalData[0].type)
@@ -104,6 +94,9 @@ function UserInformationScreen() {
     { label: `${metricData[0].weight} kg`, icon: CommandSquare },
     { label: `${goalType.label}`, icon: goalType.icon }
   ]
+
+  const allergiesNames =
+    allergiesData?.map((item) => item.name).join(", ") || "Không có"
 
   const handleUpdateInformation = () => {
     router.push(`/settings/user/${userId}/information/update`)
@@ -225,11 +218,7 @@ function UserInformationScreen() {
 
                   <Card>
                     <ListItem
-                      label={
-                        userAllergies?.length > 0
-                          ? userAllergies.join(", ")
-                          : "Không có"
-                      }
+                      label={allergiesNames}
                       startIcon={
                         <Slash variant="Bold" size={24} color={COLORS.accent} />
                       }

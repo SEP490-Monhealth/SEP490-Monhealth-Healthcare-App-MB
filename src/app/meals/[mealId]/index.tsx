@@ -68,7 +68,7 @@ const MealFoodOptions = React.memo(
         disabled: quantity <= 1
       },
       {
-        label: "Xóa món ăn",
+        label: "Xóa thức ăn",
         icon: <Trash variant="Bold" size={24} color={COLORS.destructive} />,
         onPress: onDelete,
         disabled: false
@@ -349,8 +349,8 @@ function MealDetailsScreen() {
         <Modal
           isVisible={isModalVisible}
           onClose={() => setIsModalVisible(false)}
-          title="Xóa món ăn"
-          description="Bạn có chắc chắn muốn xóa món ăn này không?"
+          title="Xóa thức ăn"
+          description="Bạn có chắc chắn muốn xóa thức ăn này không?"
           confirmText="Xóa"
           cancelText="Hủy"
           onConfirm={handleDeleteMealFood}
