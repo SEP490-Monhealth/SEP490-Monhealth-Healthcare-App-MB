@@ -102,7 +102,7 @@ export const useCreateConsultant = () => {
   })
 }
 
-export const useUpdateBioConsultant = () => {
+export const useUpdateAboutConsultant = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
   const { showModal } = useModal()
@@ -122,6 +122,7 @@ export const useUpdateBioConsultant = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["consultants"] })
+      queryClient.invalidateQueries({ queryKey: ["consultant"] })
     }
   })
 }

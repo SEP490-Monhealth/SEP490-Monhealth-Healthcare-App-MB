@@ -44,7 +44,7 @@ export const getMonthlyTransactionByUserId = async (
 ): Promise<MonthlyTransactionType> => {
   try {
     const response = await monAPI.get(
-      `/reports/monthly-transactions/${userId}`,
+      `/reports/yearly-transactions/${userId}`,
       { params: { date } }
     )
 
@@ -74,7 +74,7 @@ export const getMonthlyBookingByUserId = async (
   date: string
 ): Promise<MonthlyBookingType[]> => {
   try {
-    const response = await monAPI.get(`/reports/monthly-bookings/${userId}`, {
+    const response = await monAPI.get(`/reports/yearly-bookings/${userId}`, {
       params: { date }
     })
 

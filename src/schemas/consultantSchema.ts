@@ -47,10 +47,8 @@ export const createConsultantSchema = consultantSchema.pick({
 })
 
 export const updateConsultantSchema = consultantSchema.pick({
-  consultantId: true,
   bio: true,
-  experience: true,
-  expertise: true
+  experience: true
 })
 
 export const informationSetupSchema = consultantSchema.pick({
