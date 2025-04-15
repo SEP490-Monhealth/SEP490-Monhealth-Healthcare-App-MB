@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 
 import { Linking, View } from "react-native"
 
-import { useLocalSearchParams } from "expo-router"
+import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { useIsFetching, useIsMutating } from "@tanstack/react-query"
 
@@ -21,6 +21,7 @@ export const CertificateTab = ({
   onLoading,
   onOverlayLoading
 }: CertificateTabProps) => {
+  const router = useRouter()
   const { consultantId } = useLocalSearchParams() as { consultantId: string }
 
   const { data: certificatesData, isLoading } =
@@ -29,8 +30,8 @@ export const CertificateTab = ({
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()
 
-  const handleDownload = (certificateLink: string) => {
-    Linking.openURL(certificateLink)
+  const handleViewCertificate = () => {
+    router.push(`/certificate/${consultantId}`)
   }
 
   useEffect(() => {
@@ -54,8 +55,7 @@ export const CertificateTab = ({
             issueDate={certificate.issueDate}
             expiryDate={certificate.expiryDate}
             issuedBy={certificate.issuedBy}
-            imageUrls={certificate.imageUrls}
-            onPress={() => handleDownload(certificate.imageUrls[0])}
+            onPress={() => handleViewCertificate()}
           />
         ))}
       </VStack>

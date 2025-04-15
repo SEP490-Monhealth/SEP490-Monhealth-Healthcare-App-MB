@@ -17,21 +17,17 @@ interface CertificateCardProps {
   issueDate: string
   expiryDate?: string
   issuedBy: string
-  imageUrls: string[]
   onPress?: () => void
 }
 
 export const CertificateCard = ({
   number,
   name,
-  imageUrls,
   issueDate,
   expiryDate,
   issuedBy,
   onPress
 }: CertificateCardProps) => {
-  const hasImages = Array.isArray(imageUrls) && imageUrls.length > 0
-
   return (
     <Card>
       <HStack center gap={12} className="justify-between">
