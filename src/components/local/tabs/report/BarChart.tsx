@@ -200,8 +200,6 @@ export const BarChart = ({
       })}
 
       {labels.map((label, index) => {
-        if (index >= data.length) return null
-
         const x = index * (barWidth + spacing) + dynamicPadding
         return (
           <SvgText

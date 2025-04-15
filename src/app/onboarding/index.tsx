@@ -7,6 +7,7 @@ import { router, useLocalSearchParams } from "expo-router"
 import { Button, Container, Progress, VStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/color"
+
 import { clearAllStorage } from "@/stores/localStorageStore"
 
 interface OnboardingType {
@@ -41,19 +42,19 @@ const onboardingData: Record<string, OnboardingType[]> = {
       title: "Theo dõi sức khỏe của người dùng",
       description:
         "Theo dõi sức khỏe của người dùng và gợi ý bài tập, chế độ ăn uống phù hợp",
-      image: require("../../../public/images/monhealth-onboarding-1.png")
+      image: require("../../../public/images/monhealth-onboarding-4.png")
     },
     {
       title: "Nhận thông báo khi người dùng cần hỗ trợ",
       description:
         "Nhận thông báo khi người dùng cần hỗ trợ hoặc theo dõi sức khỏe",
-      image: require("../../../public/images/monhealth-onboarding-2.png")
+      image: require("../../../public/images/monhealth-onboarding-5.png")
     },
     {
-      title: "Tạo lịch hẹn và tư vấn trực tuyến",
+      title: "Nhận lịch hẹn và tư vấn trực tuyến",
       description:
-        "Tạo lịch hẹn và tư vấn trực tuyến với người dùng mọi lúc mọi nơi",
-      image: require("../../../public/images/monhealth-onboarding-3.png")
+        "Nhận lịch hẹn và tư vấn trực tuyến với người dùng mọi lúc mọi nơi",
+      image: require("../../../public/images/monhealth-onboarding-6.png")
     }
   ]
 }
