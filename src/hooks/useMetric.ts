@@ -1,17 +1,21 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
+import { MonQueryKey } from "@/constants/query"
+
+import { useAuth } from "@/contexts/AuthContext"
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
 
 import { CreateUpdateMetricType, MetricType } from "@/schemas/metricSchema"
 
+import { whoIAm } from "@/services/authService"
 import { createMetric, getMetricsByUserId } from "@/services/metricService"
 
 export const useGetMetricsByUserId = (userId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<MetricType[], Error>({
-    queryKey: ["metrics", userId],
+    queryKey: [MonQueryKey.Metric.Metrics, userId],
     queryFn: async () => {
       try {
         return await getMetricsByUserId(userId)
@@ -26,6 +30,7 @@ export const useGetMetricsByUserId = (userId: string | undefined) => {
 }
 
 export const useCreateMetric = () => {
+  const { setUser } = useAuth()
   const handleError = useError()
 
   return useMutation<string, Error, CreateUpdateMetricType>({
@@ -36,6 +41,10 @@ export const useCreateMetric = () => {
         handleError(error)
         throw error
       }
+    },
+    onSuccess: async () => {
+      const updatedUser = await whoIAm()
+      setUser(updatedUser)
     }
   })
 }
@@ -55,9 +64,11 @@ export const useUpdateMetric = (userId: string | undefined) => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["metrics"] })
+      queryClient.invalidateQueries({ queryKey: [MonQueryKey.Metric.Metrics] })
       if (userId) {
-        queryClient.invalidateQueries({ queryKey: ["metrics", userId] })
+        queryClient.invalidateQueries({
+          queryKey: [MonQueryKey.Metric.Metrics, userId]
+        })
         queryClient.invalidateQueries({ queryKey: ["goals", userId] })
       }
     }

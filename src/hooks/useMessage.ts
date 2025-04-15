@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
+import { MonQueryKey } from "@/constants/query"
+
 import { useError } from "@/contexts/ErrorContext"
 
 import { CreateMessageType, MessageType } from "@/schemas/messageSchema"
@@ -10,7 +12,7 @@ export const useGetMessagesByChatId = (chatId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<MessageType[], Error>({
-    queryKey: ["messages", chatId],
+    queryKey: [MonQueryKey.Message.Messages, chatId],
     queryFn: async () => {
       try {
         return await getMessagesByChatId(chatId)
@@ -38,7 +40,9 @@ export const useCreateMessage = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["messages"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Message.Messages]
+      })
     }
   })
 }

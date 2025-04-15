@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
+import { MonQueryKey } from "@/constants/query"
+
 import { useError } from "@/contexts/ErrorContext"
 
 import {
@@ -30,7 +32,7 @@ export const useGetChatsByUserId = (
   const handleError = useError()
 
   return useQuery<ChatResponse, Error>({
-    queryKey: ["chats-user", userId],
+    queryKey: [MonQueryKey.Chat.UserChats, userId],
     queryFn: async () => {
       try {
         return await getChatsByUserId(userId, page, limit)
@@ -52,7 +54,7 @@ export const useGetChatsByConsultantId = (
   const handleError = useError()
 
   return useQuery<ChatResponse, Error>({
-    queryKey: ["chats-consultant", consultantId],
+    queryKey: [MonQueryKey.Chat.ConsultantChats, consultantId],
     queryFn: async () => {
       try {
         return await getChatsByConsultantId(consultantId, page, limit)
@@ -70,7 +72,7 @@ export const useGetChatById = (chatId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<ChatType, Error>({
-    queryKey: ["chat", chatId],
+    queryKey: [MonQueryKey.Chat.Chat, chatId],
     queryFn: async () => {
       try {
         return await getChatById(chatId)
@@ -102,13 +104,12 @@ export const useCreateChat = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["chats-user"] })
+      queryClient.invalidateQueries({ queryKey: [MonQueryKey.Chat.UserChats] })
     }
   })
 }
 
 export const useCreateChatMonAI = () => {
-  const queryClient = useQueryClient()
   const handleError = useError()
 
   return useMutation<string, Error, CreateChatMonAIType>({
@@ -119,9 +120,6 @@ export const useCreateChatMonAI = () => {
         handleError(error)
         throw error
       }
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["chats-user"] })
     }
   })
 }

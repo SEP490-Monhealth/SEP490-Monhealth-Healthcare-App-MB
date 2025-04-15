@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 
+import { MonQueryKey } from "@/constants/query"
+
 import { useError } from "@/contexts/ErrorContext"
 
 import { DailyActivityType } from "@/schemas/dailyActivitySchema"
@@ -13,7 +15,7 @@ export const useGetDailyActivityByUserId = (
   const handleError = useError()
 
   return useQuery<DailyActivityType, Error>({
-    queryKey: ["daily-activity", userId, date],
+    queryKey: [MonQueryKey.Activity.DailyActivity, userId, date],
     queryFn: async () => {
       try {
         return await getDailyActivityByUserId(userId, date)
