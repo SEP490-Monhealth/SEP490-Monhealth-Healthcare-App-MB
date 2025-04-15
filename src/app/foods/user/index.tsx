@@ -40,7 +40,7 @@ function FoodUserScreen() {
 
   const limit = 10
 
-  const { data, isLoading } = useGetFoodsByUserId(userId, page, limit)
+  const { data, isLoading, refetch } = useGetFoodsByUserId(userId, page, limit)
 
   useEffect(() => {
     if (data?.foods) {
@@ -76,6 +76,8 @@ function FoodUserScreen() {
     setIsRefreshing(true)
     Keyboard.dismiss()
     setPage(1)
+    refetch()
+    setIsRefreshing(false)
   }
 
   const FlatListHeader = useMemo(() => {

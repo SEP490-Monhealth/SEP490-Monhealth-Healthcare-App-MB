@@ -44,7 +44,7 @@ export const ReviewTab = ({
 
   const { data: consultantData, isLoading: isConsultantLoading } =
     useGetConsultantById(consultantId)
-  const { data, isLoading } = useGetReviewsByConsultantId(
+  const { data, isLoading, refetch } = useGetReviewsByConsultantId(
     consultantId,
     page,
     limit
@@ -76,6 +76,8 @@ export const ReviewTab = ({
     setIsRefreshing(true)
     Keyboard.dismiss()
     setPage(1)
+    refetch()
+    setIsRefreshing(false)
   }
 
   const loadMoreData = () => {

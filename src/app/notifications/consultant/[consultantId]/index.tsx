@@ -33,7 +33,7 @@ function NotificationsConsultantScreen() {
 
   const limit = 10
 
-  const { data, isLoading } = useGetNotificationsByConsultantId(
+  const { data, isLoading, refetch } = useGetNotificationsByConsultantId(
     consultantId,
     page,
     limit
@@ -69,6 +69,8 @@ function NotificationsConsultantScreen() {
     setIsRefreshing(true)
     Keyboard.dismiss()
     setPage(1)
+    refetch()
+    setIsRefreshing(false)
   }
   const FlatListHeader = useMemo(() => {
     return (

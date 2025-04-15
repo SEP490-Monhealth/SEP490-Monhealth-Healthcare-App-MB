@@ -35,7 +35,7 @@ function TransactionsScreen() {
 
   const limit = 10
 
-  const { data, isLoading } = useGetTransactionsByConsultantId(
+  const { data, isLoading, refetch } = useGetTransactionsByConsultantId(
     consultantId,
     page,
     limit
@@ -71,6 +71,8 @@ function TransactionsScreen() {
     setIsRefreshing(true)
     Keyboard.dismiss()
     setPage(1)
+    refetch()
+    setIsRefreshing(false)
   }
 
   const FlatListHeader = useMemo(() => {

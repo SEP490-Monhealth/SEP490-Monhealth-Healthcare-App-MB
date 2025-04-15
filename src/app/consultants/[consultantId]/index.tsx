@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react"
 
-import { Image, Text, View } from "react-native"
+import { Image, Linking, Text, View } from "react-native"
 
 import { useLocalSearchParams, useRouter } from "expo-router"
 
@@ -37,6 +37,7 @@ import { useAuth } from "@/contexts/AuthContext"
 
 import { useCreateChat } from "@/hooks/useChat"
 import { useGetConsultantById } from "@/hooks/useConsultant"
+import { useCreateBookingTransaction } from "@/hooks/useTransaction"
 import { useGetUserSubscriptionByUserId } from "@/hooks/useUserSubscription"
 
 import { useBookingStore } from "@/stores/bookingStore"
@@ -55,9 +56,9 @@ function ConsultantDetailsScreen() {
   const { date: storedDate, startTime, endTime } = useBookingStore()
 
   const { mutate: createChat } = useCreateChat()
+  const { mutate: createBookingTransaction } = useCreateBookingTransaction()
 
-  const { data: consultantData, isLoading: isConsultantLoading } =
-    useGetConsultantById(consultantId)
+  const { data: consultantData } = useGetConsultantById(consultantId)
   const { data: userSubscriptionData } = useGetUserSubscriptionByUserId(userId)
 
   const currentSubscription = userSubscriptionData?.find(
@@ -68,11 +69,7 @@ function ConsultantDetailsScreen() {
   const [loading, setLoading] = useState<boolean>(false)
   const [overlayLoading, setOverlayLoading] = useState<boolean>(false)
   const [isTimeModalVisible, setIsTimeModalVisible] = useState<boolean>(false)
-  const [isSubscriptionModalVisible, setIsSubscriptionModalVisible] =
-    useState<boolean>(false)
   const [isNoBookingsLeftModalVisible, setIsNoBookingsLeftModalVisible] =
-    useState<boolean>(false)
-  const [isPackageUpgradeModalVisible, setIsPackageUpgradeModalVisible] =
     useState<boolean>(false)
 
   const handleTabChange = (tab: string) => {
@@ -87,11 +84,22 @@ function ConsultantDetailsScreen() {
     setOverlayLoading(isLoading)
   }, [])
 
-  const handleViewSubscriptions = () => {
-    setIsSubscriptionModalVisible(false)
+  const handlePayment = () => {
     setIsNoBookingsLeftModalVisible(false)
-    setIsPackageUpgradeModalVisible(false)
-    router.push("/settings/user/[userId]/subscriptions")
+
+    const transactionData = {
+      userId: userId || "",
+      description: "Thanh toán mua thêm lượt",
+      // amount: 200000,
+      amount: 2000
+    }
+
+    // createBookingTransaction(transactionData, {
+    //   onSuccess: async (response) => {
+    //     const { paymentUrl } = response.data
+    //     Linking.openURL(paymentUrl)
+    //   }
+    // })
   }
 
   const handleChat = async () => {
@@ -106,25 +114,11 @@ function ConsultantDetailsScreen() {
   }
 
   const handleBooking = () => {
-    // Kiểm tra có gói đăng ký hay không
-    if (!currentSubscription) {
-      setIsSubscriptionModalVisible(true)
-      return
-    }
-
-    // Kiểm tra có phải là gói Cao Cấp hay không
-    if (currentSubscription.subscription !== "Gói Cao Cấp") {
-      setIsPackageUpgradeModalVisible(true)
-      return
-    }
-
-    // Kiểm tra số lượng lịch hẹn còn lại
-    if (currentSubscription.remainingBookings <= 0) {
+    if (currentSubscription && currentSubscription.remainingBookings <= 0) {
       setIsNoBookingsLeftModalVisible(true)
       return
     }
 
-    // Kiểm tra thời gian đặt lịch
     if (!startTime || !endTime) {
       setIsTimeModalVisible(true)
       return
@@ -136,7 +130,7 @@ function ConsultantDetailsScreen() {
     })
   }
 
-  if (!consultantData || isConsultantLoading) {
+  if (!consultantData || !userSubscriptionData) {
     return <LoadingScreen />
   }
 
@@ -247,38 +241,20 @@ function ConsultantDetailsScreen() {
       <Modal
         isVisible={isTimeModalVisible}
         title="Cảnh báo"
-        description="Vui lòng chọn thời gian để đặt lịch hẹn"
+        description="Vui lòng chọn thời gian để đặt lịch hẹn trước!"
         confirmText="Đồng ý"
         onClose={() => setIsTimeModalVisible(false)}
         onConfirm={() => setIsTimeModalVisible(false)}
       />
 
       <Modal
-        isVisible={isSubscriptionModalVisible}
-        title="Thông báo"
-        description="Bạn cần nâng cấp Gói Cao Cấp để được đặt lịch hẹn"
-        cancelText="Hủy"
-        confirmText="Đồng ý"
-        onClose={() => setIsSubscriptionModalVisible(false)}
-        onConfirm={handleViewSubscriptions}
-      />
-
-      <Modal
         isVisible={isNoBookingsLeftModalVisible}
         title="Thông báo"
-        description="Bạn đã sử dụng hết lượt đặt lịch hẹn trong gói."
+        description="Bạn không có lượt đặt lịch hẹn nào. Bạn có muốn mua thêm không?"
+        cancelText="Hủy"
         confirmText="Đồng ý"
         onClose={() => setIsNoBookingsLeftModalVisible(false)}
-        onConfirm={() => setIsNoBookingsLeftModalVisible(false)}
-      />
-
-      <Modal
-        isVisible={isPackageUpgradeModalVisible}
-        title="Thông báo"
-        description="Chức năng đặt lịch hẹn chỉ có sẵn trong Gói Cao Cấp."
-        confirmText="Đồng ý"
-        onClose={() => setIsPackageUpgradeModalVisible(false)}
-        onConfirm={handleViewSubscriptions}
+        onConfirm={handlePayment}
       />
     </>
   )

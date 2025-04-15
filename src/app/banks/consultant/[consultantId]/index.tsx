@@ -73,7 +73,7 @@ function BanksScreen() {
   const defaultBankSheetHeight = 180
   const normalBankSheetHeight = 240
 
-  const { data, isLoading } = useGetWithdrawalRequestsByConsultantId(
+  const { data, isLoading, refetch } = useGetWithdrawalRequestsByConsultantId(
     consultantId,
     page,
     limit
@@ -123,6 +123,8 @@ function BanksScreen() {
     setIsRefreshing(true)
     Keyboard.dismiss()
     setPage(1)
+    refetch()
+    setIsRefreshing(false)
   }
 
   const handleDefaultConsultantBank = async () => {

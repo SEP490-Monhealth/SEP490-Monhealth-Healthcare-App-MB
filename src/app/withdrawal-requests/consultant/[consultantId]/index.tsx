@@ -34,7 +34,7 @@ function WithdrawalRequestsScreen() {
 
   const limit = 10
 
-  const { data, isLoading } = useGetWithdrawalRequestsByConsultantId(
+  const { data, isLoading, refetch } = useGetWithdrawalRequestsByConsultantId(
     consultantId,
     page,
     limit
@@ -72,6 +72,8 @@ function WithdrawalRequestsScreen() {
     setIsRefreshing(true)
     Keyboard.dismiss()
     setPage(1)
+    refetch()
+    setIsRefreshing(false)
   }
 
   const FlatListHeader = useMemo(() => {

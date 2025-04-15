@@ -31,7 +31,7 @@ function ReviewsScreen() {
 
   const limit = 10
 
-  const { data, isLoading } = useGetReviewsByConsultantId(
+  const { data, isLoading, refetch } = useGetReviewsByConsultantId(
     consultantId,
     page,
     limit
@@ -67,6 +67,8 @@ function ReviewsScreen() {
     setIsRefreshing(true)
     Keyboard.dismiss()
     setPage(1)
+    refetch()
+    setIsRefreshing(false)
   }
   const FlatListHeader = useMemo(() => {
     return (

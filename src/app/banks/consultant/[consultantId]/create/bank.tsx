@@ -42,7 +42,12 @@ function BankSelection({ setValue, setIsLoading }: BankSelectionProps) {
 
   const debouncedSearch = useDebounce(searchQuery)
 
-  const { data, isLoading } = useGetAllBanks(page, limit, debouncedSearch, true)
+  const { data, isLoading, refetch } = useGetAllBanks(
+    page,
+    limit,
+    debouncedSearch,
+    true
+  )
 
   useEffect(() => {
     if (setIsLoading) {
@@ -84,6 +89,7 @@ function BankSelection({ setValue, setIsLoading }: BankSelectionProps) {
     setIsRefreshing(true)
     Keyboard.dismiss()
     setPage(1)
+    refetch()
     setIsRefreshing(false)
   }
 

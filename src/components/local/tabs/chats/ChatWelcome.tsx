@@ -37,7 +37,7 @@ export const ChatWelcome = ({ onStartConnection }: ChatWelcomeProps) => {
         </Text>
       </VStack>
 
-      <Button onPress={onStartConnection} className="w-full">
+      <Button onPress={onStartConnection} className="mt-4 w-full">
         Bắt đầu
       </Button>
     </View>

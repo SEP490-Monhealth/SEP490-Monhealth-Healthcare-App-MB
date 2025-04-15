@@ -32,6 +32,7 @@ import { Section } from "@/components/global/organisms"
 import ConsultantExpertise from "@/components/local/tabs/consultant/ConsultantExpertise"
 
 import { COLORS } from "@/constants/color"
+import { UserSubscriptionStatus } from "@/constants/enum/UserSubscription"
 
 import { useAuth } from "@/contexts/AuthContext"
 import { useSearch } from "@/contexts/SearchContext"
@@ -39,7 +40,10 @@ import { useSearch } from "@/contexts/SearchContext"
 import { useGetAllConsultants } from "@/hooks/useConsultant"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useGetAllExpertise } from "@/hooks/useExpertise"
-import { useGetRemainingBookingByUserId } from "@/hooks/useUserSubscription"
+import {
+  useGetRemainingBookingByUserId,
+  useGetUserSubscriptionByUserId
+} from "@/hooks/useUserSubscription"
 
 import { ConsultantType } from "@/schemas/consultantSchema"
 
@@ -70,12 +74,15 @@ function ConsultantScreen() {
   const debouncedSearch = useDebounce(searchQuery)
   const debouncedFilter = useDebounce(selectedExpertise, 0)
 
-  const { data: userSubscriptionData } = useGetRemainingBookingByUserId(userId)
-
+  const { data: userSubscriptionData } = useGetUserSubscriptionByUserId(userId)
   const { data: expertiseData, isLoading: isExpertiseLoading } =
     useGetAllExpertise(1, 100)
 
-  const { data, isLoading } = useGetAllConsultants(
+  const currentSubscription = userSubscriptionData?.find(
+    (subscription) => subscription.status === UserSubscriptionStatus.Active
+  )
+
+  const { data, isLoading, refetch } = useGetAllConsultants(
     page,
     limit,
     debouncedFilter === "Tất cả" ? "" : debouncedFilter,
@@ -119,6 +126,7 @@ function ConsultantScreen() {
     setIsRefreshing(true)
     Keyboard.dismiss()
     setPage(1)
+    refetch()
     setIsRefreshing(false)
   }
 
@@ -167,7 +175,7 @@ function ConsultantScreen() {
 
         <Section
           label="Danh sách chuyên viên"
-          actionText={`Số lần đặt lịch: ${userSubscriptionData || 0}`}
+          actionText={`Số lần đặt lịch: ${currentSubscription?.remainingBookings || 0}`}
         />
       </ListHeader>
     )

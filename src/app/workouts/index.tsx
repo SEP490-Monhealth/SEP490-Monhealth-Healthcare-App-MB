@@ -49,7 +49,7 @@ function WorkoutsScreen() {
     CategoryTypeEnum.Workout
   )
 
-  const { data, isLoading } = useGetAllWorkouts(
+  const { data, isLoading, refetch } = useGetAllWorkouts(
     page,
     limit,
     debouncedFilter === "Tất cả" ? "" : debouncedFilter,
@@ -93,6 +93,8 @@ function WorkoutsScreen() {
     setIsRefreshing(true)
     Keyboard.dismiss()
     setPage(1)
+    refetch()
+    setIsRefreshing(false)
   }
 
   const handleViewWorkout = (workoutId: string) => {

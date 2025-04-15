@@ -33,7 +33,11 @@ function NotificationsUserScreen() {
 
   const limit = 10
 
-  const { data, isLoading } = useGetNotificationsByUserId(userId, page, limit)
+  const { data, isLoading, refetch } = useGetNotificationsByUserId(
+    userId,
+    page,
+    limit
+  )
 
   useEffect(() => {
     if (data?.notifications) {
@@ -65,6 +69,8 @@ function NotificationsUserScreen() {
     setIsRefreshing(true)
     Keyboard.dismiss()
     setPage(1)
+    refetch()
+    setIsRefreshing(false)
   }
   const FlatListHeader = useMemo(() => {
     return (

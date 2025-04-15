@@ -5,7 +5,7 @@ import Svg, { Line, Polyline, Text as SvgText } from "react-native-svg"
 
 import { COLORS } from "@/constants/color"
 
-import { MonthlyTransactionType } from "@/schemas/reportSchema"
+import { YearlyTransactionType } from "@/schemas/reportSchema"
 
 const formatCurrency = (value: number): string => {
   if (value === 0) return "0"
@@ -23,7 +23,7 @@ const formatCurrency = (value: number): string => {
 const screenWidth = Dimensions.get("window").width
 
 interface IncomeExpenseChartProps {
-  data: MonthlyTransactionType
+  data: YearlyTransactionType
   labels: string[]
 }
 
