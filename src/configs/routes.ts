@@ -2,14 +2,17 @@ import {
   Award,
   Calendar2,
   ClipboardTick,
+  Code1,
   Command,
   DirectNormal,
+  DocumentLike,
   FavoriteChart,
   Home2,
   I3Dcube,
   Lock1,
   Logout,
   Message,
+  Personalcard,
   Profile,
   Ram,
   Setting,
@@ -106,6 +109,12 @@ export const consultantProfileRoutes: RouteType[] = [
       `/settings/consultant/${consultantId}/expertise`,
     label: "Chuyên môn & chứng chỉ",
     icon: ClipboardTick
+  },
+  {
+    route: (consultantId: string) =>
+      `/settings/consultant/${consultantId}/about`,
+    label: "Mô tả bản thân",
+    icon: Personalcard
   },
   // {
   //   route: "/settings/reminder",
