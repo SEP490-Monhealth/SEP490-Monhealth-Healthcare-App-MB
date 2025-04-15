@@ -20,7 +20,7 @@ import {
   LogLevel
 } from "@microsoft/signalr"
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { AttachCircle, Information, Profile, Send2 } from "iconsax-react-native"
+import { Information, Send2 } from "iconsax-react-native"
 import LottieView from "lottie-react-native"
 
 import { HStack, Input, VStack } from "@/components/global/atoms"
@@ -202,7 +202,7 @@ const ChatDetailsScreen = () => {
         className="flex-1 px-6"
       >
         {isLoadingMessages ? (
-          <View className="flex flex-1 flex-col items-center justify-center gap-8 px-6">
+          <View className="flex-1 items-center justify-center">
             <LottieView
               source={require("../../../../public/videos/monhealth-loading.json")}
               autoPlay
