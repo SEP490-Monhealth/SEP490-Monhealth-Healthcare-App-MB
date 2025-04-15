@@ -2,6 +2,7 @@ import {
   Award,
   Calendar2,
   ClipboardTick,
+  CloseCircle,
   Command,
   DirectNormal,
   FavoriteChart,
@@ -15,6 +16,7 @@ import {
   Ram,
   Setting,
   Stickynote,
+  VideoRemove,
   Wallet2
 } from "iconsax-react-native"
 import { IconProps } from "iconsax-react-native"
@@ -113,6 +115,12 @@ export const consultantProfileRoutes: RouteType[] = [
       `/settings/consultant/${consultantId}/expertise`,
     label: "Chuyên môn & chứng chỉ",
     icon: ClipboardTick
+  },
+  {
+    route: (consultantId: string) =>
+      `/settings/consultant/${consultantId}/schedule-exception`,
+    label: "Lịch bận của tôi",
+    icon: VideoRemove
   },
   // {
   //   route: "/settings/reminder",
