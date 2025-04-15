@@ -36,16 +36,14 @@ export const WaterTab = ({ onLoading, onOverlayLoading }: WaterTabProps) => {
 
   const today = formatDateY(new Date())
 
-  const { data: dailyWaterIntakeData, isLoading: isDailyWaterIntakeLoading } =
-    useGetDailyWaterIntakeByUserId(userId, today)
-
-  const { data: waterRemindersData, isLoading: isWaterReminderLoading } =
-    useGetWaterReminderByUserId(userId)
-
-  const { data: waterIntakeGoalData, isLoading: isGoalLoading } =
-    useGetWaterIntakeGoal(userId)
-
   const { mutate: updateWaterReminderDrunk } = useUpdateWaterReminderDrunk()
+
+  const { data: dailyWaterIntakeData } = useGetDailyWaterIntakeByUserId(
+    userId,
+    today
+  )
+  const { data: waterRemindersData } = useGetWaterReminderByUserId(userId)
+  const { data: waterIntakeGoalData } = useGetWaterIntakeGoal(userId)
 
   const waterIntakesValue = dailyWaterIntakeData?.totalVolume || 0
   const waterIntakesGoal = waterIntakeGoalData?.waterIntakesGoal || 0
@@ -58,23 +56,10 @@ export const WaterTab = ({ onLoading, onOverlayLoading }: WaterTabProps) => {
   useEffect(() => {
     if (onLoading) {
       onLoading(
-        !dailyWaterIntakeData ||
-          isDailyWaterIntakeLoading ||
-          !waterRemindersData ||
-          isWaterReminderLoading ||
-          !waterIntakeGoalData ||
-          isGoalLoading
+        !dailyWaterIntakeData || !waterRemindersData || !waterIntakeGoalData
       )
     }
-  }, [
-    dailyWaterIntakeData,
-    isDailyWaterIntakeLoading,
-    waterRemindersData,
-    isWaterReminderLoading,
-    waterIntakeGoalData,
-    isGoalLoading,
-    onLoading
-  ])
+  }, [dailyWaterIntakeData, waterRemindersData, waterIntakeGoalData, onLoading])
 
   useEffect(() => {
     if (onOverlayLoading) {

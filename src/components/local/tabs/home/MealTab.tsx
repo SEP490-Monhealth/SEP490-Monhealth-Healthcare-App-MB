@@ -41,10 +41,8 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
 
   const today = formatDateY(new Date())
 
-  const { data: dailyMealData, isLoading: isDailyMealLoading } =
-    useGetDailyMealByUserId(userId, today)
-  const { data: nutritionGoalData, isLoading: isGoalLoading } =
-    useGetNutritionGoal(userId)
+  const { data: dailyMealData } = useGetDailyMealByUserId(userId, today)
+  const { data: nutritionGoalData } = useGetNutritionGoal(userId)
 
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()
@@ -66,20 +64,9 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
 
   useEffect(() => {
     if (onLoading) {
-      onLoading(
-        !dailyMealData ||
-          isDailyMealLoading ||
-          !nutritionGoalData ||
-          isGoalLoading
-      )
+      onLoading(!dailyMealData || !nutritionGoalData)
     }
-  }, [
-    dailyMealData,
-    isDailyMealLoading,
-    nutritionGoalData,
-    isGoalLoading,
-    onLoading
-  ])
+  }, [dailyMealData, nutritionGoalData, onLoading])
 
   useEffect(() => {
     if (onOverlayLoading) {
@@ -169,8 +156,8 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
     }
   ]
 
-  const dailyCaloriesIntakeProgress =
-    caloriesGoal > 0 ? (caloriesValue / caloriesGoal) * 100 : 0
+  // const dailyCaloriesIntakeProgress =
+  //   caloriesGoal > 0 ? (caloriesValue / caloriesGoal) * 100 : 0
 
   const handleViewMeal = (mealId: string) => {
     router.push(`/meals/${mealId}`)
@@ -206,7 +193,7 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
         className="mt-8"
       /> */}
 
-      {!isDailyMealLoading && dailyMealData && (
+      {dailyMealData && (
         <Section
           label="Mục tiêu hiện tại"
           description={
@@ -219,7 +206,7 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
           action={
             <HStack className="items-center justify-between">
               <Badge
-                label={goalTypeLabel}
+                label={goalTypeLabel || ""}
                 background={COLORS.primary}
                 color="#fff"
               />
@@ -231,7 +218,7 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
 
       <Section
         label="Bữa ăn hôm nay"
-        actionText="Thêm món ăn"
+        actionText="Thêm thức ăn"
         onPress={handleViewFoods}
       />
 

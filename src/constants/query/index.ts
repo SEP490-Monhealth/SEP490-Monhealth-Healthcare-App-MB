@@ -5,8 +5,30 @@ export const MonQueryKey = {
     Logout: "Logout"
   },
 
+  Activity: {
+    Activity: "activity",
+    DailyActivity: "daily-activity"
+  },
+
   Allergy: {
     UserAllergies: "allergies-user"
+  },
+
+  Bank: {
+    Banks: "banks",
+    Bank: "bank"
+  },
+
+  Booking: {
+    UserBookings: "bookings-user",
+    ConsultantBookings: "bookings-consultant",
+    UserConsultantBookings: "bookings-user-consultant",
+    Booking: "booking"
+  },
+
+  Consultant: {
+    Consultants: "consultants",
+    Consultant: "consultant"
   },
 
   Food: {
@@ -15,12 +37,21 @@ export const MonQueryKey = {
     Food: "food"
   },
 
+  Metric: {
+    Metrics: "metrics"
+  },
+
   Nutrition: {
     Nutrition: "nutrition"
   },
 
   Portion: {
     Portions: "portions"
+  },
+
+  Transaction: {
+    UserTransactions: "transactions-user",
+    ConsultantTransactions: "transactions-consultant"
   },
 
   Chat: {

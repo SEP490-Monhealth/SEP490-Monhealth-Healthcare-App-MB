@@ -1,12 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react"
 
-import {
-  ActivityIndicator,
-  FlatList,
-  Keyboard,
-  ScrollView,
-  Text
-} from "react-native"
+import { ActivityIndicator, FlatList, Keyboard, Text } from "react-native"
 import { View } from "react-native"
 
 import { useRouter } from "expo-router"
@@ -26,7 +20,7 @@ import { Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
 
-import { useGetMonthlyTransactionByConsultantId } from "@/hooks/useReport"
+import { useGetYearlyTransactionByConsultantId } from "@/hooks/useReport"
 import { useGetTransactionsByConsultantId } from "@/hooks/useTransaction"
 
 import { TransactionType } from "@/schemas/transactionSchema"
@@ -61,8 +55,8 @@ export const SpendingTab = ({
   const {
     data: monthlyTransactionData,
     isLoading: isMonthlyTransactionLoading
-  } = useGetMonthlyTransactionByConsultantId(consultantId, date)
-  const { data, isLoading } = useGetTransactionsByConsultantId(
+  } = useGetYearlyTransactionByConsultantId(consultantId, date)
+  const { data, isLoading, refetch } = useGetTransactionsByConsultantId(
     consultantId,
     page,
     limit
@@ -107,6 +101,8 @@ export const SpendingTab = ({
     setIsRefreshing(true)
     Keyboard.dismiss()
     setPage(1)
+    refetch()
+    setIsRefreshing(false)
   }
 
   const currentDate = new Date(date)
@@ -165,13 +161,11 @@ export const SpendingTab = ({
           labels={labels}
         />
 
-        {transactionsData.length > 0 && (
-          <Section
-            label="Danh sách chi tiêu"
-            actionText="Xem tất cả"
-            onPress={handleViewTransactions}
-          />
-        )}
+        <Section
+          label="Danh sách chi tiêu"
+          actionText="Xem tất cả"
+          onPress={handleViewTransactions}
+        />
       </ListHeader>
     )
   }, [transactionsData.length])

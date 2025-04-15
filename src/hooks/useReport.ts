@@ -5,15 +5,15 @@ import { MonQueryKey } from "@/constants/query"
 import { useError } from "@/contexts/ErrorContext"
 
 import {
-  MonthlyBookingType,
-  MonthlyTransactionType,
-  WeeklyMealType
+  WeeklyMealType,
+  YearlyBookingType,
+  YearlyTransactionType
 } from "@/schemas/reportSchema"
 
 import {
-  getMonthlyBookingByUserId,
-  getMonthlyTransactionByUserId,
-  getWeeklyMealByUserId
+  getYearlyBookingByUserId,
+  getWeeklyMealByUserId,
+  getYearlyTransactionByUserId
 } from "@/services/reportService"
 
 export const useGetWeeklyMealByUserId = (
@@ -37,17 +37,17 @@ export const useGetWeeklyMealByUserId = (
   })
 }
 
-export const useGetMonthlyTransactionByConsultantId = (
+export const useGetYearlyTransactionByConsultantId = (
   userId: string | undefined,
   date: string
 ) => {
   const handleError = useError()
 
-  return useQuery<MonthlyTransactionType, Error>({
+  return useQuery<YearlyTransactionType, Error>({
     queryKey: [MonQueryKey.Report.MonthlyTransaction, userId, date],
     queryFn: async () => {
       try {
-        return await getMonthlyTransactionByUserId(userId, date)
+        return await getYearlyTransactionByUserId(userId, date)
       } catch (error) {
         handleError(error)
         throw error
@@ -58,17 +58,17 @@ export const useGetMonthlyTransactionByConsultantId = (
   })
 }
 
-export const useGetMonthlyBookingByConsultantId = (
+export const useGetYearlyBookingByConsultantId = (
   userId: string | undefined,
   date: string
 ) => {
   const handleError = useError()
 
-  return useQuery<MonthlyBookingType[], Error>({
+  return useQuery<YearlyBookingType[], Error>({
     queryKey: [MonQueryKey.Report.MonthlyBooking, userId, date],
     queryFn: async () => {
       try {
-        return await getMonthlyBookingByUserId(userId, date)
+        return await getYearlyBookingByUserId(userId, date)
       } catch (error) {
         handleError(error)
         throw error

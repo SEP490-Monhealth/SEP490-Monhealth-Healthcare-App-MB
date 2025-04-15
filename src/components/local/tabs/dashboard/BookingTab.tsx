@@ -11,7 +11,7 @@ import { BookingCard, ErrorDisplay } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
 
 import { useGetBookingsByConsultantId } from "@/hooks/useBooking"
-import { useGetMonthlyBookingByConsultantId } from "@/hooks/useReport"
+import { useGetYearlyBookingByConsultantId } from "@/hooks/useReport"
 
 import { getMonthRange } from "@/utils/helpers"
 
@@ -35,7 +35,7 @@ export const BookingTab = ({
   const [selectedMonth, setSelectedMonth] = useState<string>(date)
 
   const { data: monthlyBookingData, isLoading: isMonthlyBookingLoading } =
-    useGetMonthlyBookingByConsultantId(consultantId, selectedMonth)
+    useGetYearlyBookingByConsultantId(consultantId, selectedMonth)
   const { data: bookingsData } = useGetBookingsByConsultantId(consultantId)
 
   const isFetching = useIsFetching()

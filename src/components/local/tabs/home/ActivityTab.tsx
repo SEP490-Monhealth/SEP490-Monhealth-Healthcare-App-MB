@@ -39,10 +39,8 @@ export const ActivityTab = ({
 
   const today = formatDateY(new Date())
 
-  const { data: dailyActivityData, isLoading: isDailyActivityLoading } =
-    useGetDailyActivityByUserId(userId, today)
-  const { data: workoutGoalData, isLoading: isGoalLoading } =
-    useGetWorkoutGoal(userId)
+  const { data: dailyActivityData } = useGetDailyActivityByUserId(userId, today)
+  const { data: workoutGoalData } = useGetWorkoutGoal(userId)
 
   // console.log(dailyActivityData)
 
@@ -51,20 +49,9 @@ export const ActivityTab = ({
 
   useEffect(() => {
     if (onLoading) {
-      onLoading(
-        !dailyActivityData ||
-          isDailyActivityLoading ||
-          !isDailyActivityLoading ||
-          isGoalLoading
-      )
+      onLoading(!dailyActivityData || !workoutGoalData)
     }
-  }, [
-    dailyActivityData,
-    isDailyActivityLoading,
-    isDailyActivityLoading,
-    isGoalLoading,
-    onLoading
-  ])
+  }, [dailyActivityData, workoutGoalData, onLoading])
 
   useEffect(() => {
     if (onOverlayLoading) {
@@ -130,10 +117,10 @@ export const ActivityTab = ({
     }
   ]
 
-  const dailyCaloriesBurnedGoal =
-    caloriesBurnedGoal > 0
-      ? (caloriesBurnedValue / caloriesBurnedGoal) * 100
-      : 0
+  // const dailyCaloriesBurnedGoal =
+  //   caloriesBurnedGoal > 0
+  //     ? (caloriesBurnedValue / caloriesBurnedGoal) * 100
+  //     : 0
 
   const handleViewWorkouts = () => {
     router.push("/workouts")
@@ -162,7 +149,7 @@ export const ActivityTab = ({
         className="mt-8"
       /> */}
 
-      {!isDailyActivityLoading && dailyActivityData && (
+      {dailyActivityData && (
         <Section
           label="Mục tiêu hiện tại"
           description={
@@ -175,7 +162,7 @@ export const ActivityTab = ({
           action={
             <HStack className="items-center justify-between">
               <Badge
-                label={goalTypeLabel}
+                label={goalTypeLabel || ""}
                 background={COLORS.primary}
                 color="#fff"
               />

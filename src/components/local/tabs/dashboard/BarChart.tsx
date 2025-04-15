@@ -12,7 +12,7 @@ import Svg, { Line, Rect, Text as SvgText } from "react-native-svg"
 
 import { COLORS } from "@/constants/color"
 
-import { MonthlyBookingType } from "@/schemas/reportSchema"
+import { YearlyBookingType } from "@/schemas/reportSchema"
 
 const screenWidth = Dimensions.get("window").width
 const AnimatedRect = Animated.createAnimatedComponent(Rect)
@@ -20,7 +20,7 @@ const AnimatedRect = Animated.createAnimatedComponent(Rect)
 interface BarChartProps {
   date: string
   labels: string[]
-  data: MonthlyBookingType[]
+  data: YearlyBookingType[]
   onSelectMonth?: (selectedDate: string) => void
 }
 
