@@ -7,9 +7,27 @@ import {
   getWithdrawalRequestStatusMeta
 } from "@/constants/enum/WithdrawalRequest"
 
-import { formatCurrency, formatDateTime } from "@/utils/formatters"
+import { formatCurrency } from "@/utils/formatters"
 
 import { Card, VStack } from "../atoms"
+
+const formatDateTime = (isoString: string) => {
+  if (!isoString) return { date: "", time: "" }
+
+  const dateObj = new Date(isoString)
+
+  const localDateObj = new Date(dateObj.getTime() + 7 * 60 * 60 * 1000)
+
+  const utcDate = localDateObj.toISOString().split("T")[0]
+  const utcTime = localDateObj.toISOString().split("T")[1].slice(0, 5)
+
+  const [year, month, day] = utcDate.split("-")
+  const formattedDate = `${day}/${month}/${year}`
+
+  const formattedTime = utcTime.replace(":", "h")
+
+  return { date: formattedDate, time: formattedTime }
+}
 
 interface WithdrawalRequestCardProps {
   description: string
@@ -26,6 +44,8 @@ export const WithdrawalRequestCard = ({
 }: WithdrawalRequestCardProps) => {
   const { label: withdrawalRequestStatusLabel } =
     getWithdrawalRequestStatusMeta(status)
+
+  const { date, time: timestamp } = formatDateTime(time)
 
   return (
     <Card className="flex-row items-center justify-between">
@@ -45,7 +65,7 @@ export const WithdrawalRequestCard = ({
         </Text>
 
         <Text className="font-tmedium text-sm text-accent">
-          {formatDateTime(time)}
+          {date} • {timestamp}
         </Text>
       </View>
 

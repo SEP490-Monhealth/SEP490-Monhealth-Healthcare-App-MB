@@ -83,7 +83,7 @@ export const TransactionCard = ({
         </Text>
 
         <Text className="font-tmedium text-sm text-accent">
-          {time} • {date}
+          {date} • {time}
         </Text>
       </View>
 

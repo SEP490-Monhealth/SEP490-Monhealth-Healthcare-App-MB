@@ -54,13 +54,14 @@ export const SpendingTab = ({
 
   const {
     data: monthlyTransactionData,
-    isLoading: isMonthlyTransactionLoading
+    isLoading: isMonthlyTransactionLoading,
+    refetch: refetchMonthlyTransaction
   } = useGetYearlyTransactionByConsultantId(consultantId, date)
-  const { data, isLoading, refetch } = useGetTransactionsByConsultantId(
-    consultantId,
-    page,
-    limit
-  )
+  const {
+    data,
+    isLoading,
+    refetch: refetchTransactions
+  } = useGetTransactionsByConsultantId(consultantId, page, limit)
 
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()
@@ -101,7 +102,8 @@ export const SpendingTab = ({
     setIsRefreshing(true)
     Keyboard.dismiss()
     setPage(1)
-    refetch()
+    refetchMonthlyTransaction()
+    refetchTransactions()
     setIsRefreshing(false)
   }
 

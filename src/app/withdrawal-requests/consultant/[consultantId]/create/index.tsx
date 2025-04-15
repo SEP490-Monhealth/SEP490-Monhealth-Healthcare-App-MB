@@ -50,8 +50,8 @@ function WithdrawalRequestCreateScreen() {
     defaultValues: {
       consultantId: consultantId || "",
       consultantBankId: "",
-      description: "hahahahahahahaha",
-      amount: 50000
+      description: "",
+      amount: 0
     }
   })
 
