@@ -13,7 +13,7 @@ import {
   ListHeader,
   NotificationCard
 } from "@/components/global/molecules"
-import { Section } from "@/components/global/organisms"
+import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
 
@@ -88,7 +88,9 @@ function NotificationsUserScreen() {
 
   return (
     <Container>
-      <Content>
+      <Header back label="Thông báo" />
+
+      <Content className="mt-2">
         <FlatList
           data={notificationsData || []}
           keyExtractor={(item, index) => `${item.notificationId}-${index}`}

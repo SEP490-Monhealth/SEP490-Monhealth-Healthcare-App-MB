@@ -22,6 +22,8 @@ import {
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
+import { COLORS } from "@/constants/color"
+
 import {
   useGetWaterReminderById,
   useUpdateWaterReminder

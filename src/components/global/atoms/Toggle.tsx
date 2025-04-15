@@ -2,6 +2,8 @@ import React from "react"
 
 import { Switch } from "react-native"
 
+import { COLORS } from "@/constants/color"
+
 interface ToggleProps {
   value: boolean
   onValueChange: (value: boolean) => void
@@ -16,9 +18,9 @@ interface ToggleProps {
 export const Toggle = ({
   value,
   onValueChange,
-  trackColor = { false: "#38bdf8", true: "#0ea5e9" },
-  thumbColorFalse = "#f1f5f9",
-  thumbColorTrue = "#f8fafc"
+  trackColor = { false: COLORS.border, true: COLORS.border },
+  thumbColorFalse = "#fff",
+  thumbColorTrue = COLORS.primary
 }: ToggleProps) => {
   return (
     <Switch

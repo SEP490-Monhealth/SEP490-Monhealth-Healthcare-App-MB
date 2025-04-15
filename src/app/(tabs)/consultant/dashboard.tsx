@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useState } from "react"
 
 import { useLocalSearchParams } from "expo-router"
 
-import { LoadingOverlay, LoadingScreen } from "@/app/loading"
+import { LoadingOverlay } from "@/app/loading"
 
 import {
   Container,
@@ -34,17 +34,9 @@ function DashboardScreen() {
   const today = new Date().toISOString().split("T")[0]
 
   const [activeTab, setActiveTab] = useState(tab || "spending")
-  const [initialLoading, setInitialLoading] = useState(true)
   const [overlayLoading, setOverlayLoading] = useState(false)
 
-  const { data: walletData, isLoading: isWalletLoading } =
-    useGetWalletByConsultantId(consultantId)
-
-  useEffect(() => {
-    if (!isWalletLoading) {
-      setInitialLoading(false)
-    }
-  }, [isWalletLoading])
+  const { data: walletData } = useGetWalletByConsultantId(consultantId)
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab)
@@ -53,10 +45,6 @@ function DashboardScreen() {
   const handleOverlayLoading = useCallback((isLoading: boolean) => {
     setOverlayLoading(isLoading)
   }, [])
-
-  if (initialLoading) {
-    return <LoadingScreen />
-  }
 
   return (
     <Container>

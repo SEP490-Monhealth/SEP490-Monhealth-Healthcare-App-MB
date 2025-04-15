@@ -29,11 +29,10 @@ import { formatDateY } from "@/utils/formatters"
 import { getRandomTip } from "@/utils/helpers"
 
 interface MealTabProps {
-  onLoading: (isLoading: boolean) => void
   onOverlayLoading: (isLoading: boolean) => void
 }
 
-export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
+export const MealTab = ({ onOverlayLoading }: MealTabProps) => {
   const router = useRouter()
 
   const { user } = useAuth()
@@ -63,15 +62,7 @@ export const MealTab = ({ onLoading, onOverlayLoading }: MealTabProps) => {
   // ])
 
   useEffect(() => {
-    if (onLoading) {
-      onLoading(!dailyMealData || !nutritionGoalData)
-    }
-  }, [dailyMealData, nutritionGoalData, onLoading])
-
-  useEffect(() => {
-    if (onOverlayLoading) {
-      onOverlayLoading(isFetching > 0 || isMutating > 0)
-    }
+    onOverlayLoading(isFetching > 0 || isMutating > 0)
   }, [isFetching, isMutating, onOverlayLoading])
 
   const mealsData = dailyMealData?.items || []

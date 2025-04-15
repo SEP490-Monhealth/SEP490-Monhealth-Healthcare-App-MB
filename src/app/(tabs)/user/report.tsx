@@ -120,7 +120,7 @@ function ReportScreen() {
         label="Báo cáo"
         action={{
           icon: <Profile variant="Bold" size={20} color={COLORS.primary} />,
-          href: "/settings/user-information"
+          href: `/settings/user/${userId}/information`
         }}
       />
 

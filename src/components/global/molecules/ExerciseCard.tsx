@@ -3,14 +3,13 @@ import React from "react"
 import { Text } from "react-native"
 import { View } from "react-native"
 
-import { ArrowSwapHorizontal } from "iconsax-react-native"
+import { ChevronRight } from "lucide-react-native"
 
 import { COLORS } from "@/constants/color"
 
 import { formatDuration, toFixed } from "@/utils/formatters"
 
 import { Card, CardHeader, HStack } from "../atoms"
-import { IconButton } from "./IconButton"
 
 interface ExerciseCardProps {
   name: string
@@ -43,10 +42,7 @@ export const ExerciseCard = ({
           </Text>
         </View>
 
-        <IconButton
-          size="sm"
-          icon={<ArrowSwapHorizontal size={16} color={COLORS.primary} />}
-        />
+        <ChevronRight size={20} color={COLORS.primary} />
       </HStack>
     </Card>
   )

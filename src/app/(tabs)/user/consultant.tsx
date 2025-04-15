@@ -192,6 +192,7 @@ function ConsultantScreen() {
     <>
       <Container>
         <CustomHeader
+          back={false}
           content={
             <Input
               value={searchQuery}

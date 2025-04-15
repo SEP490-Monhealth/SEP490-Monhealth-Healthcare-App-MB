@@ -90,7 +90,7 @@ function NotificationsConsultantScreen() {
     <Container>
       <Header back label="Thông báo" />
 
-      <Content>
+      <Content className="mt-2">
         <FlatList
           data={notificationsData || []}
           keyExtractor={(item, index) => `${item.notificationId}-${index}`}

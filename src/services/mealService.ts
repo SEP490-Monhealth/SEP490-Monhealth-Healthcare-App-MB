@@ -1,10 +1,13 @@
+import axios from "axios"
+
 import monAPI from "@/lib/monAPI"
 
 import { CreateMealType, MealFoodType, MealType } from "@/schemas/mealSchema"
 
 export const getMealsByUserId = async (
-  userId: string | undefined
-): Promise<MealType[]> => {
+  userId: string | undefined,
+  router: any
+): Promise<MealType[] | null> => {
   try {
     const response = await monAPI.get(`/meals/user/${userId}`)
 
@@ -16,16 +19,26 @@ export const getMealsByUserId = async (
 
     return data as MealType[]
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
+    if (axios.isAxiosError(error)) {
+      if (error.response && error.response.status === 500) {
+        router.replace("/(tabs)/user/home")
+        return null
+      }
+
+      throw error
+    } else {
+      throw {
+        isCustomError: true,
+        message: error.message || "Đã xảy ra lỗi không mong muốn"
+      }
     }
   }
 }
 
 export const getMealById = async (
-  mealId: string | undefined
-): Promise<MealType> => {
+  mealId: string | undefined,
+  router: any
+): Promise<MealType | null> => {
   try {
     const response = await monAPI.get(`/meals/${mealId}`)
 
@@ -37,9 +50,18 @@ export const getMealById = async (
 
     return data as MealType
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
+    if (axios.isAxiosError(error)) {
+      if (error.response && error.response.status === 500) {
+        router.replace("/(tabs)/user/home")
+        return null
+      }
+
+      throw error
+    } else {
+      throw {
+        isCustomError: true,
+        message: error.message || "Đã xảy ra lỗi không mong muốn"
+      }
     }
   }
 }
@@ -70,8 +92,9 @@ export const createMeal = async (
 }
 
 export const getMealFoodsByMealId = async (
-  mealId: string | undefined
-): Promise<MealFoodType[]> => {
+  mealId: string | undefined,
+  router: any
+): Promise<MealFoodType[] | null> => {
   try {
     const response = await monAPI.get(`/meal/${mealId}/foods`)
 
@@ -83,9 +106,18 @@ export const getMealFoodsByMealId = async (
 
     return data as MealFoodType[]
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
+    if (axios.isAxiosError(error)) {
+      if (error.response && error.response.status === 500) {
+        router.replace("/(tabs)/user/home")
+        return null
+      }
+
+      throw error
+    } else {
+      throw {
+        isCustomError: true,
+        message: error.message || "Đã xảy ra lỗi không mong muốn"
+      }
     }
   }
 }

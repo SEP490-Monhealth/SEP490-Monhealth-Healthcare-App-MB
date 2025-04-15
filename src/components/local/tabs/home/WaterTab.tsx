@@ -24,11 +24,10 @@ import { formatDateY } from "@/utils/formatters"
 import { WaterIntakeProgress } from "./WaterIntakeProgress"
 
 interface WaterTabProps {
-  onLoading: (isLoading: boolean) => void
   onOverlayLoading: (isLoading: boolean) => void
 }
 
-export const WaterTab = ({ onLoading, onOverlayLoading }: WaterTabProps) => {
+export const WaterTab = ({ onOverlayLoading }: WaterTabProps) => {
   const router = useRouter()
 
   const { user } = useAuth()
@@ -54,17 +53,7 @@ export const WaterTab = ({ onLoading, onOverlayLoading }: WaterTabProps) => {
   // const prefillReady = isFetching === 0 && isMutating === 0
 
   useEffect(() => {
-    if (onLoading) {
-      onLoading(
-        !dailyWaterIntakeData || !waterRemindersData || !waterIntakeGoalData
-      )
-    }
-  }, [dailyWaterIntakeData, waterRemindersData, waterIntakeGoalData, onLoading])
-
-  useEffect(() => {
-    if (onOverlayLoading) {
-      onOverlayLoading(isFetching > 0 || isMutating > 0)
-    }
+    onOverlayLoading(isFetching > 0 || isMutating > 0)
   }, [isFetching, isMutating, onOverlayLoading])
 
   // const dailyWaterIntakeProgress =

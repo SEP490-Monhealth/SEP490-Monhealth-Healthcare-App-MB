@@ -52,11 +52,8 @@ export const SpendingTab = ({
 
   const limit = 5
 
-  const {
-    data: monthlyTransactionData,
-    isLoading: isMonthlyTransactionLoading,
-    refetch: refetchMonthlyTransaction
-  } = useGetYearlyTransactionByConsultantId(consultantId, date)
+  const { data: monthlyTransactionData, refetch: refetchMonthlyTransaction } =
+    useGetYearlyTransactionByConsultantId(consultantId, date)
   const {
     data,
     isLoading,
@@ -67,10 +64,8 @@ export const SpendingTab = ({
   const isMutating = useIsMutating()
 
   useEffect(() => {
-    onOverlayLoading(
-      isFetching > 0 || isMutating > 0 || isMonthlyTransactionLoading
-    )
-  }, [isFetching, isMutating, isMonthlyTransactionLoading, onOverlayLoading])
+    onOverlayLoading(isFetching > 0 || isMutating > 0)
+  }, [isFetching, isMutating, onOverlayLoading])
 
   useEffect(() => {
     if (data?.transactions) {

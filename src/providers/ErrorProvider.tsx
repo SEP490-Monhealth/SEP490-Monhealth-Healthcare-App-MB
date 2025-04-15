@@ -18,15 +18,15 @@ export const ErrorProvider: React.FC<{ children: React.ReactNode }> = ({
 
     console.log("Trạng thái lỗi:", statusCode)
 
-    if (
-      statusCode === 500 &&
-      (errorMessage === "Bữa ăn không tồn tại" ||
-        errorMessage ===
-          "Bữa ăn không tồn tại hoặc không có món ăn nào trong bữa")
-    ) {
-      router.replace("/(tabs)/user/home")
-      return
-    }
+    // if (
+    //   statusCode === 500 &&
+    //   (errorMessage === "Bữa ăn không tồn tại" ||
+    //     errorMessage ===
+    //       "Bữa ăn không tồn tại hoặc không có món ăn nào trong bữa")
+    // ) {
+    //   router.replace("/(tabs)/user/home")
+    //   return
+    // }
 
     switch (statusCode) {
       case 400:

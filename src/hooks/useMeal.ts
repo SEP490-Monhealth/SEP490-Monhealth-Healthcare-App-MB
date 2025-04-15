@@ -1,3 +1,5 @@
+import { useRouter } from "expo-router"
+
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { MonQueryKey } from "@/constants/query"
@@ -17,13 +19,14 @@ import {
 } from "@/services/mealService"
 
 export const useGetMealsByUserId = (userId: string | undefined) => {
+  const router = useRouter()
   const handleError = useError()
 
   return useQuery<MealType[], Error>({
     queryKey: [MonQueryKey.Meal.Meals, userId],
     queryFn: async () => {
       try {
-        return await getMealsByUserId(userId)
+        return await getMealsByUserId(userId, router)
       } catch (error) {
         handleError(error)
         throw error
@@ -35,13 +38,14 @@ export const useGetMealsByUserId = (userId: string | undefined) => {
 }
 
 export const useGetMealById = (mealId: string | undefined) => {
+  const router = useRouter()
   const handleError = useError()
 
   return useQuery<MealType, Error>({
     queryKey: [MonQueryKey.Meal.Meal, mealId],
     queryFn: async () => {
       try {
-        return await getMealById(mealId)
+        return await getMealById(mealId, router)
       } catch (error) {
         handleError(error)
         throw error
@@ -85,13 +89,14 @@ export const useCreateMeal = () => {
 }
 
 export const useGetMealFoodsByMealId = (mealId: string | undefined) => {
+  const router = useRouter()
   const handleError = useError()
 
   return useQuery<MealFoodType[], Error>({
     queryKey: [MonQueryKey.Meal.MealFoods, mealId],
     queryFn: async () => {
       try {
-        return await getMealFoodsByMealId(mealId)
+        return await getMealFoodsByMealId(mealId, router)
       } catch (error) {
         handleError(error)
         throw error

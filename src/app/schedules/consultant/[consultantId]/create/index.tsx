@@ -393,8 +393,6 @@ function ScheduleCreateScreen() {
                     <Toggle
                       value={scheduleType === ScheduleTypeEnum.Recurring}
                       onValueChange={handleScheduleTypeChange}
-                      trackColor={{ false: COLORS.border, true: COLORS.border }}
-                      thumbColorTrue={COLORS.primary}
                     />
                   }
                 />

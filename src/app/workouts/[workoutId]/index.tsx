@@ -106,16 +106,7 @@ function WorkoutDetailsScreen() {
                     label="Khởi động"
                     description={`${toFixed(exercisesData.warmupDuration)} phút / ${warmupRounds} vòng`}
                     action={
-                      <Toggle
-                        value={isWarmup}
-                        onValueChange={setIsWarmup}
-                        trackColor={{
-                          false: COLORS.border,
-                          true: COLORS.border
-                        }}
-                        thumbColorFalse="#fff"
-                        thumbColorTrue={COLORS.primary}
-                      />
+                      <Toggle value={isWarmup} onValueChange={setIsWarmup} />
                     }
                   />
                 )}

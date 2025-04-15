@@ -170,7 +170,7 @@ function PrivacyScreen() {
           onPress={handleSubmit(onSubmit)}
           className="mt-8"
         >
-          {!isLoading && "Đổi mật khẩu"}
+          {!isLoading && "Cập nhật"}
         </Button>
       </Content>
     </Container>

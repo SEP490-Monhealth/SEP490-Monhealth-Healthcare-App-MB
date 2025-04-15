@@ -1,3 +1,5 @@
+import axios from "axios"
+
 import monAPI from "@/lib/monAPI"
 
 import {
@@ -56,9 +58,17 @@ export const getConsultantByUserId = async (
 
     return data as ConsultantType
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
+    if (axios.isAxiosError(error)) {
+      if (error.response && error.response.status === 404) {
+        return null
+      }
+
+      throw error
+    } else {
+      throw {
+        isCustomError: true,
+        message: error.message || "Đã xảy ra lỗi không mong muốn"
+      }
     }
   }
 }

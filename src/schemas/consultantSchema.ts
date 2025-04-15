@@ -27,11 +27,11 @@ const consultantSchema = z.object({
 
   meetUrl: z
     .string()
-    .url({ message: "Đường dẫn không hợp lệ" })
     .refine(
       (url) => {
         try {
-          const domain = new URL(url).hostname
+          const normalizedUrl = url.startsWith("http") ? url : `https://${url}`
+          const domain = new URL(normalizedUrl).hostname
           return domain === "meet.google.com"
         } catch {
           return false
@@ -41,7 +41,9 @@ const consultantSchema = z.object({
     )
     .refine(
       (url) => {
-        return /^https:\/\/meet\.google\.com\/[a-z0-9\-]+$/.test(url)
+        return /^(https:\/\/)?meet\.google\.com\/([a-z0-9]{3}-[a-z0-9]{4}-[a-z0-9]{3}|[a-z0-9]{10,})$/.test(
+          url
+        )
       },
       { message: "Định dạng URL Google Meet không đúng" }
     ),

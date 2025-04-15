@@ -24,14 +24,10 @@ import { WorkoutProgress } from "./WorkoutProgress"
 import { WorkoutSummary } from "./WorkoutSummary"
 
 interface ActivityTabProps {
-  onLoading: (isLoading: boolean) => void
   onOverlayLoading: (isLoading: boolean) => void
 }
 
-export const ActivityTab = ({
-  onLoading,
-  onOverlayLoading
-}: ActivityTabProps) => {
+export const ActivityTab = ({ onOverlayLoading }: ActivityTabProps) => {
   const router = useRouter()
 
   const { user } = useAuth()
@@ -48,15 +44,7 @@ export const ActivityTab = ({
   const isMutating = useIsMutating()
 
   useEffect(() => {
-    if (onLoading) {
-      onLoading(!dailyActivityData || !workoutGoalData)
-    }
-  }, [dailyActivityData, workoutGoalData, onLoading])
-
-  useEffect(() => {
-    if (onOverlayLoading) {
-      onOverlayLoading(isFetching > 0 || isMutating > 0)
-    }
+    onOverlayLoading(isFetching > 0 || isMutating > 0)
   }, [isFetching, isMutating, onOverlayLoading])
 
   const activitiesData = dailyActivityData?.items || []

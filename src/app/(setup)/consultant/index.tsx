@@ -89,6 +89,7 @@ function SetupConsultantScreen() {
     expiryDate,
     issuedBy,
     imageUrls,
+    meetUrl,
     updateField
   } = useConsultantStore()
 
@@ -104,7 +105,8 @@ function SetupConsultantScreen() {
     issuedBy,
     imageUrls: (imageUrls || [])
       .filter((img) => !img.deleting && !img.uploading)
-      .map((img) => (typeof img === "string" ? img : img.uri))
+      .map((img) => (typeof img === "string" ? img : img.uri)),
+    meetUrl
   }
 
   const setupSteps: SetupStepsProps[] = [
@@ -298,7 +300,8 @@ function SetupConsultantScreen() {
         certificate,
         issueDate,
         expiryDate,
-        issuedBy
+        issuedBy,
+        meetUrl
       } = useConsultantStore.getState()
 
       const finalData = {
@@ -311,10 +314,13 @@ function SetupConsultantScreen() {
         issueDate,
         expiryDate,
         issuedBy,
-        imageUrls: imageUris
+        imageUrls: imageUris,
+        meetUrl
       }
 
-      // @ts-ignore
+      console.log(JSON.stringify(finalData, null, 2))
+
+      /// @ts-ignore
       createConsultant(finalData, {
         onSuccess: async () => {
           const updatedUser = await whoIAm()

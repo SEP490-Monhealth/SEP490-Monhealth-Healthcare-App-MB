@@ -18,15 +18,16 @@ interface ConsultantStoreState {
   expiryDate: string | null
   issuedBy: string
   imageUrls: ImageType[]
+  meetUrl: string
 
   updateField: (field: string, value: any, append?: boolean) => void
   reset: () => void
 }
 
 export const useConsultantStore = create<ConsultantStoreState>((set) => ({
-  // bio: "Với kinh nghiệm hơn 2 năm trong lĩnh vực tư vấn tâm lý, tôi chuyên hỗ trợ những người gặp phải các triệu chứng trầm cảm, lo âu và căng thẳng kéo dài",
-  bio: "Tôi là vi khuẩn tôi có kinh nghiệm quen 8 người cùng 1 lúc nhưng tất cả chỉ là hẹn hò thôi vì tôi với bọn họ vẫn chưa chính thức yêu nhau",
-  experience: 2,
+  bio: "Với kinh nghiệm hơn 2 năm trong lĩnh vực tư vấn tâm lý, tôi chuyên hỗ trợ những người gặp phải các triệu chứng trầm cảm, lo âu và căng thẳng kéo dài",
+  // bio: "Tôi là vi khuẩn tôi có kinh nghiệm quen 8 người cùng 1 lúc nhưng tất cả chỉ là hẹn hò thôi vì tôi với bọn họ vẫn chưa chính thức yêu nhau",
+  experience: 5,
   expertise: "Dinh dưỡng",
   number: "CERT-2025-002",
   certificate: "Chứng chỉ chuyên môn về Dinh dưỡng",
@@ -34,6 +35,7 @@ export const useConsultantStore = create<ConsultantStoreState>((set) => ({
   expiryDate: "2024-01-01",
   issuedBy: "Trường Đại học Y Dược TP.HCM",
   imageUrls: [],
+  meetUrl: "https://meet.google.com/abc-defg-hij",
 
   // bio: "",
   // experience: 0,
@@ -70,6 +72,7 @@ export const useConsultantStore = create<ConsultantStoreState>((set) => ({
       issueDate: "",
       expiryDate: "",
       issuedBy: "",
-      imageUrls: []
+      imageUrls: [],
+      meetUrl: ""
     })
 }))

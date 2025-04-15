@@ -36,7 +36,6 @@ function HomeScreen() {
   const fullName = user?.fullName
 
   const [activeTab, setActiveTab] = useState(tab || "meal")
-  const [loading, setLoading] = useState(false)
   const [overlayLoading, setOverlayLoading] = useState(false)
 
   const [expoPushToken, setExpoPushToken] = useState<string>("")
@@ -46,16 +45,6 @@ function HomeScreen() {
   const handleTabChange = (tab: string) => {
     setActiveTab(tab)
   }
-
-  useEffect(() => {
-    if (tab) {
-      setActiveTab(tab)
-    }
-  }, [tab])
-
-  const handleLoading = useCallback((isLoading: boolean) => {
-    setLoading(isLoading)
-  }, [])
 
   const handleOverlayLoading = useCallback((isLoading: boolean) => {
     setOverlayLoading(isLoading)
@@ -119,24 +108,15 @@ function HomeScreen() {
             </TabsList>
 
             <TabsContent value="meal">
-              <MealTab
-                onLoading={handleLoading}
-                onOverlayLoading={handleOverlayLoading}
-              />
+              <MealTab onOverlayLoading={handleOverlayLoading} />
             </TabsContent>
 
             <TabsContent value="water">
-              <WaterTab
-                onLoading={handleLoading}
-                onOverlayLoading={handleOverlayLoading}
-              />
+              <WaterTab onOverlayLoading={handleOverlayLoading} />
             </TabsContent>
 
             <TabsContent value="workout">
-              <ActivityTab
-                onLoading={handleLoading}
-                onOverlayLoading={handleOverlayLoading}
-              />
+              <ActivityTab onOverlayLoading={handleOverlayLoading} />
             </TabsContent>
           </Tabs>
         </Content>
