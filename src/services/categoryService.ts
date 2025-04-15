@@ -1,5 +1,3 @@
-import axios from "axios"
-
 import { CategoryTypeEnum } from "@/constants/enum/Category"
 
 import monAPI from "@/lib/monAPI"
@@ -14,24 +12,15 @@ export const getCategoriesByTypes = async (
 
     const { success, message, data: categories } = response.data
 
-    if (success) {
-      return categories as CategoryType[]
-    } else {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy danh sách danh mục"
-      }
+    if (!success) {
+      throw { isCustomError: true, message: message }
     }
+
+    return categories as CategoryType[]
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }

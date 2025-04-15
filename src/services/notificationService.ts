@@ -1,5 +1,3 @@
-import axios from "axios"
-
 import monAPI from "@/lib/monAPI"
 
 import { NotificationType } from "@/schemas/notificationSchema"
@@ -23,25 +21,16 @@ export const getNotificationsByConsultantId = async (
 
     const { success, message, data } = response.data
 
-    if (success) {
-      const { totalPages, totalItems, items: notifications } = data
-      return { notifications, totalPages, totalItems }
-    } else {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy danh sách thông báo"
-      }
+    if (!success) {
+      throw { isCustomError: true, message: message }
     }
+
+    const { totalPages, totalItems, items: notifications } = data
+    return { notifications, totalPages, totalItems }
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -58,25 +47,16 @@ export const getNotificationsByUserId = async (
 
     const { success, message, data } = response.data
 
-    if (success) {
-      const { totalPages, totalItems, items: notifications } = data
-      return { notifications, totalPages, totalItems }
-    } else {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy danh sách thông báo"
-      }
+    if (!success) {
+      throw { isCustomError: true, message: message }
     }
+
+    const { totalPages, totalItems, items: notifications } = data
+    return { notifications, totalPages, totalItems }
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }

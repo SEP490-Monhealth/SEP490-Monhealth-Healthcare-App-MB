@@ -1,5 +1,3 @@
-import axios from "axios"
-
 import monAPI from "@/lib/monAPI"
 
 import { CreateTimeSlotType } from "@/schemas/scheduleSchema"
@@ -13,24 +11,15 @@ export const createTimeSlot = async (
     const { success, message } = response.data
 
     if (!success) {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể thêm khung giờ"
-      }
+      throw { isCustomError: true, message: message }
     }
 
     console.log(message)
     return message
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -42,24 +31,15 @@ export const deleteTimeSlot = async (timeSlotId: string): Promise<string> => {
     const { success, message } = response.data
 
     if (!success) {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể xóa khung giờ"
-      }
+      throw { isCustomError: true, message: message }
     }
 
     console.log(message)
     return message
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }

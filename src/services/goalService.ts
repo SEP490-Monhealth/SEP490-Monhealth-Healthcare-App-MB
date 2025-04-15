@@ -1,5 +1,3 @@
-import axios from "axios"
-
 import monAPI from "@/lib/monAPI"
 
 import {
@@ -17,24 +15,15 @@ export const getGoalsByUserId = async (
 
     const { success, message, data } = response.data
 
-    if (success) {
-      return data as GoalType[]
-    } else {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy thông tin mục tiêu"
-      }
+    if (!success) {
+      throw { isCustomError: true, message: message }
     }
+
+    return data as GoalType[]
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -47,24 +36,15 @@ export const getGoalById = async (
 
     const { success, message, data } = response.data
 
-    if (success) {
-      return data as GoalType
-    } else {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy thông tin mục tiêu"
-      }
+    if (!success) {
+      throw { isCustomError: true, message: message }
     }
+
+    return data as GoalType
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -77,24 +57,15 @@ export const getWeightGoalByUserId = async (
 
     const { success, message, data } = response.data
 
-    if (success) {
-      return data as WeightGoalType
-    } else {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy thông tin mục tiêu cân nặng"
-      }
+    if (!success) {
+      throw { isCustomError: true, message: message }
     }
+
+    return data as WeightGoalType
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -107,24 +78,15 @@ export const getNutritionGoalByUserId = async (
 
     const { success, message, data } = response.data
 
-    if (success) {
-      return data as NutritionGoalType
-    } else {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy thông tin mục tiêu dinh dưỡng"
-      }
+    if (!success) {
+      throw { isCustomError: true, message: message }
     }
+
+    return data as NutritionGoalType
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -137,24 +99,15 @@ export const getWaterIntakeGoalByUserId = async (
 
     const { success, message, data } = response.data
 
-    if (success) {
-      return data as WaterIntakeGoalType
-    } else {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy thông tin mục tiêu nước uống"
-      }
+    if (!success) {
+      throw { isCustomError: true, message: message }
     }
+
+    return data as WaterIntakeGoalType
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -167,24 +120,15 @@ export const getWorkoutGoalByUserId = async (
 
     const { success, message, data } = response.data
 
-    if (success) {
-      return data as GoalType
-    } else {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy thông tin mục tiêu tập luyện"
-      }
+    if (!success) {
+      throw { isCustomError: true, message: message }
     }
+
+    return data as GoalType
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }

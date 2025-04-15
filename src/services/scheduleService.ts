@@ -1,5 +1,3 @@
-import axios from "axios"
-
 import { TimeSlot } from "@/components/local/schedules/TimeSlotSelector"
 
 import { ScheduleTypeEnum } from "@/constants/enum/Schedule"
@@ -14,24 +12,15 @@ export const getAllScheduleTimeSlots = async (): Promise<TimeSlot[]> => {
 
     const { success, message, data } = response.data
 
-    if (success) {
-      return data as TimeSlot[]
-    } else {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy danh sách thời gian hẹn"
-      }
+    if (!success) {
+      throw { isCustomError: true, message: message }
     }
+
+    return data as TimeSlot[]
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -48,24 +37,18 @@ export const getSchedulesByConsultantId = async (
 
     const { success, message, data } = response.data
 
-    if (success) {
-      return data as ScheduleType[]
-    } else {
+    if (!success) {
       throw {
         isCustomError: true,
-        message: message || "Không thể lấy danh sách lịch hẹn"
+        message: message
       }
     }
+
+    return data as ScheduleType[]
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -80,32 +63,18 @@ export const createSchedule = async (
     const { success, message } = response.data
 
     if (!success) {
-      showModal(message || "Không thể tạo lịch hẹn mới")
-
-      throw {
-        isCustomError: true,
-        message: message || "Không thể tạo lịch hẹn mới"
-      }
+      showModal(message)
+      throw { isCustomError: true, message: message }
     }
 
-    showModal(message || "Tạo lịch hẹn mới thành công")
-
+    showModal(message)
     console.log(message)
     return message
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      showModal("Đã xảy ra lỗi khi tạo lịch hẹn")
-
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      showModal("Đã xảy ra lỗi không mong muốn")
-
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    showModal(error.message)
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -124,32 +93,18 @@ export const updateSchedule = async (
     const { success, message } = response.data
 
     if (!success) {
-      showModal(message || "Không thể cập nhật lịch hẹn")
-
-      throw {
-        isCustomError: true,
-        message: message || "Không thể cập nhật lịch hẹn"
-      }
+      showModal(message)
+      throw { isCustomError: true, message: message }
     }
 
-    showModal(message || "Cập nhật lịch hẹn thành công")
-
+    showModal(message)
     console.log(message)
     return message
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      showModal("Đã xảy ra lỗi khi cập nhật lịch hẹn")
-
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      showModal("Đã xảy ra lỗi không mong muốn")
-
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    showModal(error.message)
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -164,32 +119,18 @@ export const deleteSchedule = async (
     const { success, message } = response.data
 
     if (!success) {
-      showModal(message || "Không thể xóa lịch hẹn")
-
-      throw {
-        isCustomError: true,
-        message: message || "Không thể xóa lịch hẹn"
-      }
+      showModal(message)
+      throw { isCustomError: true, message: message }
     }
 
-    showModal(message || "Xóa lịch hẹn thành công")
-
+    showModal(message)
     console.log(message)
     return message
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      showModal("Đã xảy ra lỗi khi xóa lịch hẹn")
-
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      showModal("Đã xảy ra lỗi không mong muốn")
-
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    showModal(error.message)
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -204,32 +145,18 @@ export const updateScheduleStatus = async (
     const { success, message } = response.data
 
     if (!success) {
-      showModal(message || "Cập nhật trạng thái lịch hẹn thất bại")
-
-      throw {
-        isCustomError: true,
-        message: message || "Không thể cập nhật trạng thái lịch hẹn"
-      }
+      showModal(message)
+      throw { isCustomError: true, message: message }
     }
 
-    showModal(message || "Cập nhật trạng thái lịch hẹn thành công")
-
+    showModal(message)
     console.log(message)
     return message
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      showModal("Đã xảy ra lỗi khi cập nhật trạng thái lịch hẹn")
-
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      showModal("Đã xảy ra lỗi không mong muốn")
-
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    showModal(error.message)
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }

@@ -1,9 +1,8 @@
-import axios from "axios"
-
 import monAPI from "@/lib/monAPI"
 
 import {
   CreateWithdrawalRequestType,
+  UpdateWithdrawalRequestType,
   WithdrawalRequestType
 } from "@/schemas/withdrawalRequestSchema"
 
@@ -21,32 +20,21 @@ export const getWithdrawalRequestsByConsultantId = async (
   try {
     const response = await monAPI.get(
       `/withdrawal-requests/consultant/${consultantId}`,
-      {
-        params: { page, limit }
-      }
+      { params: { page, limit } }
     )
 
     const { success, message, data } = response.data
 
-    if (success) {
-      const { totalPages, totalItems, items: withdrawalRequests } = data
-      return { withdrawalRequests, totalPages, totalItems }
-    } else {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy danh sách yêu cầu rút tiền"
-      }
+    if (!success) {
+      throw { isCustomError: true, message: message }
     }
+
+    const { totalPages, totalItems, items: withdrawalRequests } = data
+    return { withdrawalRequests, totalPages, totalItems }
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -61,32 +49,48 @@ export const createWithdrawalRequest = async (
     const { success, message } = response.data
 
     if (!success) {
-      showModal(message || "Không thể tạo yêu cầu rút tiền mới")
-
-      throw {
-        isCustomError: true,
-        message: message || "Không thể tạo yêu cầu rút tiền mới"
-      }
+      showModal(message)
+      throw { isCustomError: true, message: message }
     }
 
-    showModal(message || "Tạo yêu cầu rút tiền mới thành công")
-
+    showModal(message)
     console.log(message)
     return message
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      showModal("Đã xảy ra lỗi khi tạo yêu cầu rút tiền")
+    showModal(error.message)
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
+    }
+  }
+}
 
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      showModal("Đã xảy ra lỗi không mong muốn")
+export const updateWithdrawalRequest = async (
+  withdrawalRequestId: string | undefined,
+  updatedData: UpdateWithdrawalRequestType,
+  showModal: (message: string) => void
+): Promise<string> => {
+  try {
+    const response = await monAPI.put(
+      `/withdrawal-requests/${withdrawalRequestId}`,
+      updatedData
+    )
 
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    const { success, message } = response.data
+
+    if (!success) {
+      showModal(message)
+      throw { isCustomError: true, message: message }
+    }
+
+    showModal(message)
+    console.log(message)
+    return message
+  } catch (error: any) {
+    showModal(error.message)
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }

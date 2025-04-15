@@ -1,5 +1,3 @@
-import axios from "axios"
-
 import monAPI from "@/lib/monAPI"
 
 interface LoginResponse {
@@ -19,12 +17,8 @@ export const login = async (
     const { success, message, data } = response.data
 
     if (!success) {
-      showModal(message || "Đăng nhập thất bại")
-
-      throw {
-        isCustomError: true,
-        message: "Không nhận được phản hồi từ máy chủ"
-      }
+      showModal(message)
+      throw { isCustomError: true, message: message }
     }
 
     return {
@@ -33,20 +27,10 @@ export const login = async (
       expiredAt: data.expiredAt
     }
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log(
-        "Lỗi từ server (login):",
-        error.response?.data || error.message
-      )
-      throw error
-    } else {
-      showModal("Đã xảy ra lỗi không mong muốn")
-
-      console.log("Lỗi không phải Axios (login):", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    showModal(error.message)
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -69,28 +53,14 @@ export const register = async (
     const { success, message } = response.data
 
     if (!success) {
-      showModal(message || "Đăng ký thất bại")
-
-      throw {
-        isCustomError: true,
-        message: response?.data?.message || "Đăng ký tài khoản thất bại"
-      }
+      showModal(message)
+      throw { isCustomError: true, message: message }
     }
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log(
-        "Lỗi từ server (register):",
-        error.response?.data || error.message
-      )
-      throw error
-    } else {
-      showModal("Đã xảy ra lỗi không mong muốn")
-
-      console.log("Lỗi không phải Axios (register):", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    showModal(error.message)
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -104,28 +74,14 @@ export const logout = async (
     const { success, message } = response.data
 
     if (!success) {
-      showModal(message || "Đăng xuất thất bại")
-
-      throw {
-        isCustomError: true,
-        message: response?.data?.message || "Đăng xuất thất bại"
-      }
+      showModal(message)
+      throw { isCustomError: true, message: message }
     }
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log(
-        "Lỗi từ server (logout):",
-        error.response?.data || error.message
-      )
-      throw error
-    } else {
-      showModal("Đã xảy ra lỗi không mong muốn")
-
-      console.log("Lỗi không phải Axios (logout):", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    showModal(error.message)
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -137,34 +93,16 @@ export const whoIAm = async (showModal?: (message: string) => void) => {
     const { success, message, data } = response.data
 
     if (!success) {
-      if (showModal) showModal(message || "Không thể lấy thông tin người dùng")
-
-      throw {
-        isCustomError: true,
-        message: "Không nhận được phản hồi từ máy chủ"
-      }
+      if (showModal) showModal(message)
+      throw { isCustomError: true, message: message }
     }
 
     return data
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      if (error.response && error.response.status === 404) {
-        return null
-      }
-
-      if (showModal) showModal("Đã xảy ra lỗi không mong muốn")
-
-      console.log(
-        "Lỗi từ server (whoIAm):",
-        error.response?.data || error.message
-      )
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios (whoIAm):", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    if (showModal) showModal(error.message)
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }

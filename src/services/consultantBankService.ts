@@ -1,5 +1,3 @@
-import axios from "axios"
-
 import monAPI from "@/lib/monAPI"
 
 import {
@@ -10,7 +8,7 @@ import {
 
 export const getConsultantBanksByConsultantId = async (
   consultantId: string | undefined
-): Promise<any[]> => {
+): Promise<ConsultantBankType[]> => {
   try {
     const response = await monAPI.get(
       `/consultant-banks/consultant/${consultantId}`
@@ -18,24 +16,15 @@ export const getConsultantBanksByConsultantId = async (
 
     const { success, message, data } = response.data
 
-    if (success) {
-      return data as any[]
-    } else {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy danh sách ngân hàng của chuyên viên"
-      }
+    if (!success) {
+      throw { isCustomError: true, message: message }
     }
+
+    return data as ConsultantBankType[]
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -48,24 +37,15 @@ export const getConsultantBankById = async (
 
     const { success, message, data } = response.data
 
-    if (success) {
-      return data as ConsultantBankType
-    } else {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy thông tin chi tiết ngân hàng"
-      }
+    if (!success) {
+      throw { isCustomError: true, message: message }
     }
+
+    return data as ConsultantBankType
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -80,34 +60,17 @@ export const createConsultantBank = async (
     const { success, message } = response.data
 
     if (!success) {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể tạo ngân hàng mới"
-      }
+      throw { isCustomError: true, message: message }
     }
 
-    showModal(message || "Tạo ngân hàng thành công")
-
+    showModal(message)
     console.log(message)
     return message
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      const serverError = error.response?.data || {
-        message: "Đã xảy ra lỗi khi tạo ngân hàng"
-      }
-
-      showModal(serverError.message || "Đã xảy ra lỗi khi tạo ngân hàng")
-
-      console.log("Lỗi từ server:", serverError)
-      throw error
-    } else {
-      showModal("Đã xảy ra lỗi không mong muốn")
-
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    showModal(error.message)
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -126,30 +89,17 @@ export const updateConsultantBank = async (
     const { success, message } = response.data
 
     if (!success) {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể cập nhật ngân hàng"
-      }
+      throw { isCustomError: true, message: message }
     }
 
-    showModal(message || "Cập nhật ngân hàng thành công")
-
+    showModal(message)
     console.log(message)
     return message
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      showModal("Đã xảy ra lỗi khi cập nhật ngân hàng")
-
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      showModal("Đã xảy ra lỗi không mong muốn")
-
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    showModal(error.message)
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -165,24 +115,15 @@ export const deleteConsultantBank = async (
     const { success, message } = response.data
 
     if (!success) {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể xóa ngân hàng"
-      }
+      throw { isCustomError: true, message: message }
     }
 
     console.log(message)
     return message
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -198,24 +139,15 @@ export const updateConsultantBankDefault = async (
     const { success, message } = response.data
 
     if (!success) {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể cập nhật trạng thái"
-      }
+      throw { isCustomError: true, message: message }
     }
 
     console.log(message)
     return message
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }

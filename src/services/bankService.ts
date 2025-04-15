@@ -1,5 +1,3 @@
-import axios from "axios"
-
 import monAPI from "@/lib/monAPI"
 
 import { BankType } from "@/schemas/bankSchema"
@@ -24,24 +22,15 @@ export const getAllBanks = async (
     const { success, message, data } = response.data
 
     if (!success) {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy danh sách ngân hàng"
-      }
+      throw { isCustomError: true, message: message }
     }
 
     const { totalPages, totalItems, items: banks } = data
     return { banks, totalPages, totalItems }
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -55,23 +44,14 @@ export const getBankById = async (
     const { success, message, data } = response.data
 
     if (!success) {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy thông tin ngân hàng"
-      }
+      throw { isCustomError: true, message: message }
     }
 
     return data as BankType
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }

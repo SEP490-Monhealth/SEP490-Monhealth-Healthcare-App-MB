@@ -1,5 +1,3 @@
-import axios from "axios"
-
 import { DifficultyLevelEnum } from "@/constants/enum/Workout"
 
 import monAPI from "@/lib/monAPI"
@@ -36,25 +34,16 @@ export const getAllWorkouts = async (
 
     const { success, message, data } = response.data
 
-    if (success) {
-      const { totalPages, totalItems, items: workouts } = data
-      return { workouts, totalPages, totalItems }
-    } else {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy danh sách bài tập"
-      }
+    if (!success) {
+      throw { isCustomError: true, message: message }
     }
+
+    const { totalPages, totalItems, items: workouts } = data
+    return { workouts, totalPages, totalItems }
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -71,25 +60,16 @@ export const getWorkoutsByUserId = async (
 
     const { success, message, data } = response.data
 
-    if (success) {
-      const { totalPages, totalItems, items: workouts } = data
-      return { workouts, totalPages, totalItems }
-    } else {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy danh sách bài tập của người dùng"
-      }
+    if (!success) {
+      throw { isCustomError: true, message: message }
     }
+
+    const { totalPages, totalItems, items: workouts } = data
+    return { workouts, totalPages, totalItems }
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -102,24 +82,15 @@ export const getWorkoutById = async (
 
     const { success, message, data } = response.data
 
-    if (success) {
-      return data as WorkoutType
-    } else {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy thông tin chi tiết bài tập"
-      }
+    if (!success) {
+      throw { isCustomError: true, message: message }
     }
+
+    return data as WorkoutType
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }

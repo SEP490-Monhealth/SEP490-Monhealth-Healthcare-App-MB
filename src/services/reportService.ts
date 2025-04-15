@@ -1,11 +1,9 @@
-import axios from "axios"
-
 import monAPI from "@/lib/monAPI"
 
 import {
-  MonthlyBookingType,
-  MonthlyTransactionType,
-  WeeklyMealType
+  WeeklyMealType,
+  YearlyBookingType,
+  YearlyTransactionType
 } from "@/schemas/reportSchema"
 
 export const getWeeklyMealByUserId = async (
@@ -19,82 +17,64 @@ export const getWeeklyMealByUserId = async (
 
     const { success, message, data } = response.data
 
-    if (success) {
-      return data as WeeklyMealType[]
-    } else {
+    if (!success) {
       throw { isCustomError: true, message: message }
     }
+
+    return data as WeeklyMealType[]
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
 
-export const getMonthlyTransactionByUserId = async (
+export const getYearlyTransactionByUserId = async (
   userId: string | undefined,
   date: string
-): Promise<MonthlyTransactionType> => {
+): Promise<YearlyTransactionType> => {
   try {
     const response = await monAPI.get(
-      `/reports/monthly-transactions/${userId}`,
+      `/reports/yearly-transactions/${userId}`,
       { params: { date } }
     )
 
     const { success, message, data } = response.data
 
-    if (success) {
-      return data as MonthlyTransactionType
-    } else {
+    if (!success) {
       throw { isCustomError: true, message: message }
     }
+
+    return data as YearlyTransactionType
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
 
-export const getMonthlyBookingByUserId = async (
+export const getYearlyBookingByUserId = async (
   userId: string | undefined,
   date: string
-): Promise<MonthlyBookingType[]> => {
+): Promise<YearlyBookingType[]> => {
   try {
-    const response = await monAPI.get(`/reports/monthly-bookings/${userId}`, {
+    const response = await monAPI.get(`/reports/yearly-bookings/${userId}`, {
       params: { date }
     })
 
     const { success, message, data } = response.data
 
-    if (success) {
-      return data as MonthlyBookingType[]
-    } else {
+    if (!success) {
       throw { isCustomError: true, message: message }
     }
+
+    return data as YearlyBookingType[]
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }

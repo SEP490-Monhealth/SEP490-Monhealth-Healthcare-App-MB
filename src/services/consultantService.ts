@@ -1,5 +1,3 @@
-import axios from "axios"
-
 import monAPI from "@/lib/monAPI"
 
 import {
@@ -30,25 +28,16 @@ export const getAllConsultants = async (
 
     const { success, message, data } = response.data
 
-    if (success) {
-      const { totalPages, totalItems, items: consultants } = data
-      return { consultants, totalPages, totalItems }
-    } else {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy danh sách chuyên viên"
-      }
+    if (!success) {
+      throw { isCustomError: true, message: message }
     }
+
+    const { totalPages, totalItems, items: consultants } = data
+    return { consultants, totalPages, totalItems }
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -61,28 +50,15 @@ export const getConsultantByUserId = async (
 
     const { success, message, data } = response.data
 
-    if (success) {
-      return data as ConsultantType
-    } else {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy thông tin chuyên viên"
-      }
+    if (!success) {
+      throw { isCustomError: true, message: message }
     }
-  } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      if (error.response && error.response.status === 404) {
-        return null
-      }
 
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    return data as ConsultantType
+  } catch (error: any) {
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -95,24 +71,15 @@ export const getConsultantById = async (
 
     const { success, message, data } = response.data
 
-    if (success) {
-      return data as ConsultantType
-    } else {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy thông tin chi tiết chuyên viên"
-      }
+    if (!success) {
+      throw { isCustomError: true, message: message }
     }
+
+    return data as ConsultantType
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -127,32 +94,17 @@ export const createConsultant = async (
     const { success, message } = response.data
 
     if (!success) {
-      showModal(message || "Tạo chuyên viên thất bại")
-
-      throw {
-        isCustomError: true,
-        message: message || "Không thể tạo chuyên viên"
-      }
+      showModal(message)
+      throw { isCustomError: true, message: message }
     }
-
-    // showModal(message || "Tạo chuyên viên thành công")
 
     console.log(message)
     return message
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      showModal("Đã xảy ra lỗi khi tạo chuyên viên")
-
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      showModal("Đã xảy ra lỗi không mong muốn")
-
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    showModal(error.message)
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -171,31 +123,18 @@ export const updateConsultant = async (
     const { success, message } = response.data
 
     if (!success) {
-      showModal(message || "Cập nhật thông tin chuyên viên thất bại")
-      throw {
-        isCustomError: true,
-        message: message || "Không thể cập nhật thông tin chuyên viên"
-      }
+      showModal(message)
+      throw { isCustomError: true, message: message }
     }
 
-    showModal(message || "Cập nhật thông tin chuyên viên thành công")
-
+    showModal(message)
     console.log(message)
     return message
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      showModal("Đã xảy ra lỗi khi cập nhật mô tả")
-
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      showModal("Đã xảy ra lỗi không mong muốn")
-
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    showModal(error.message)
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }

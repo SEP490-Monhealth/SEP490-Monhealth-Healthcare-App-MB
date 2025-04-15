@@ -1,5 +1,3 @@
-import axios from "axios"
-
 import monAPI from "@/lib/monAPI"
 
 import {
@@ -16,24 +14,15 @@ export const getWaterRemindersByUserId = async (
 
     const { success, message, data } = response.data
 
-    if (success) {
-      return data as WaterReminderType[]
-    } else {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy danh sách nhắc nhở"
-      }
+    if (!success) {
+      throw { isCustomError: true, message: message }
     }
+
+    return data as WaterReminderType[]
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -46,24 +35,15 @@ export const getWaterReminderById = async (
 
     const { success, message, data } = response.data
 
-    if (success) {
-      return data as WaterReminderType
-    } else {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy thông tin chi tiết nhắc nhở"
-      }
+    if (!success) {
+      throw { isCustomError: true, message: message }
     }
+
+    return data as WaterReminderType
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -78,32 +58,18 @@ export const createWaterReminder = async (
     const { success, message } = response.data
 
     if (!success) {
-      showModal(message || "Tạo nhắc nhở mới thất bại")
-
-      throw {
-        isCustomError: true,
-        message: message || "Không thể tạo nhắc nhở mới"
-      }
+      showModal(message)
+      throw { isCustomError: true, message: message }
     }
 
-    showModal(message || "Tạo nhắc nhở thành công")
-
+    showModal(message)
     console.log(message)
     return message
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      showModal("Đã xảy ra lỗi khi tạo nhắc nhở")
-
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      showModal("Đã xảy ra lỗi không mong muốn")
-
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    showModal(error.message)
+    throw {
+      isCustomError: true,
+      message: "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -122,32 +88,18 @@ export const updateWaterReminder = async (
     const { success, message } = response.data
 
     if (!success) {
-      showModal(message || "Cập nhật nhắc nhở thất bại")
-
-      throw {
-        isCustomError: true,
-        message: message || "Không thể cập nhật nhắc nhở"
-      }
+      showModal(message)
+      throw { isCustomError: true, message: message }
     }
 
-    showModal(message || "Cập nhật nhắc nhở thành công")
-
+    showModal(message)
     console.log(message)
     return message
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      showModal("Đã xảy ra lỗi khi cập nhật nhắc nhở")
-
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      showModal("Đã xảy ra lỗi không mong muốn")
-
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    showModal(error.message)
+    throw {
+      isCustomError: true,
+      message: "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -161,24 +113,15 @@ export const deleteWaterReminder = async (
     const { success, message } = response.data
 
     if (!success) {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể xóa nhắc nhở"
-      }
+      throw { isCustomError: true, message: message }
     }
 
     console.log(message)
     return message
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -194,24 +137,15 @@ export const updateWaterReminderStatus = async (
     const { success, message } = response.data
 
     if (!success) {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể cập nhật trạng thái"
-      }
+      throw { isCustomError: true, message: message }
     }
 
     console.log(message)
     return message
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -227,24 +161,15 @@ export const updateWaterReminderDrunk = async (
     const { success, message } = response.data
 
     if (!success) {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể cập nhật trạng thái đã uống"
-      }
+      throw { isCustomError: true, message: message }
     }
 
     console.log(message)
     return message
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: "Đã xảy ra lỗi không mong muốn"
     }
   }
 }

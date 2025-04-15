@@ -1,5 +1,3 @@
-import axios from "axios"
-
 import monAPI from "@/lib/monAPI"
 
 import { ExpertiseType, ExpertiseUpdateType } from "@/schemas/expertiseSchema"
@@ -21,25 +19,16 @@ export const getAllExpertise = async (
 
     const { success, message, data } = response.data
 
-    if (success) {
-      const { totalPages, totalItems, items: expertise } = data
-      return { expertise, totalPages, totalItems }
-    } else {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy danh sách chuyên môn"
-      }
+    if (!success) {
+      throw { isCustomError: true, message: message }
     }
+
+    const { totalPages, totalItems, items: expertise } = data
+    return { expertise, totalPages, totalItems }
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
@@ -58,30 +47,17 @@ export const updateExpertise = async (
     const { success, message } = response.data
 
     if (!success) {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể cập nhật chứng chỉ"
-      }
+      throw { isCustomError: true, message: message }
     }
 
-    showModal(message || "Cập nhật chứng chỉ thành công")
-
+    showModal(message)
     console.log(message)
     return message
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      showModal("Đã xảy ra lỗi khi cập nhật chứng chỉ")
-
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      showModal("Đã xảy ra lỗi không mong muốn")
-
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    showModal(error.message)
+    throw {
+      isCustomError: true,
+      message: error.message || "Đã xảy ra lỗi không mong muốn"
     }
   }
 }
