@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react"
 
 import {
   FlatList,
+  Image,
   KeyboardAvoidingView,
   SafeAreaView,
+  Text,
   View
 } from "react-native"
 import { Platform } from "react-native"
@@ -18,15 +20,19 @@ import {
   LogLevel
 } from "@microsoft/signalr"
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { Send2 } from "iconsax-react-native"
+import { AttachCircle, Information, Profile, Send2 } from "iconsax-react-native"
+import LottieView from "lottie-react-native"
 
-import { HStack, Input } from "@/components/global/atoms"
+import { HStack, Input, VStack } from "@/components/global/atoms"
 import { MessageCard } from "@/components/global/molecules/MessageCard"
 import { Header } from "@/components/global/organisms"
 
+import { COLORS } from "@/constants/color"
+
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useCreateMessage } from "@/hooks/useMessage"
+import { useGetBookingsByUserIdAndConsultantId } from "@/hooks/useBooking"
+import { useGetChatById } from "@/hooks/useChat"
 
 import { CreateMessageType, MessageType } from "@/schemas/messageSchema"
 
@@ -39,68 +45,87 @@ const ChatDetailsScreen = () => {
 
   const senderId = (consultantId ?? userId)!
 
+  // console.log(userId, consultantId, senderId)
+
   const [chatHubConnection, setChatHubConnection] = useState<HubConnection>()
   const [connectionStatus, setConnectionStatus] = useState<boolean>(false)
   const [messages, setMessages] = useState<MessageType[]>([])
   const [newMessage, setNewMessage] = useState<string>("")
-  const [selectedMessageId, setSelectedMessageId] = useState<string | null>(
-    null
+  const [isLoadingMessages, setIsLoadingMessages] = useState(true)
+  const [selectedMessage, setSelectedMessage] = useState<string | null>(null)
+
+  const { data: chatData } = useGetChatById(chatId)
+
+  const { data: bookingsData } = useGetBookingsByUserIdAndConsultantId(
+    chatData?.userId,
+    chatData?.consultantId
   )
 
-  const { mutate: sendMessage } = useCreateMessage()
+  // console.log(JSON.stringify(bookingsData, null, 2))
 
   useEffect(() => {
-    createHubConnection()
+    let connection: HubConnection | null = null
 
-    return () => {
-      if (chatHubConnection) {
-        chatHubConnection.stop()
+    const setupConnection = async () => {
+      if (connection) {
+        await connection.stop()
       }
-    }
-  }, [])
 
-  const createHubConnection = async () => {
-    const hubConnection = new HubConnectionBuilder()
-      .withUrl(`${appConfig.baseUrl}/chatbox`, {
-        accessTokenFactory: async () => {
-          const token = await AsyncStorage.getItem("accessToken")
-          return token || ""
-        }
+      connection = new HubConnectionBuilder()
+        .withUrl(`${appConfig.baseUrl}/chatbox`, {
+          accessTokenFactory: async () => {
+            const token = await AsyncStorage.getItem("accessToken")
+            return token || ""
+          }
+        })
+        .withAutomaticReconnect()
+        .configureLogging(LogLevel.Information)
+        .build()
+
+      connection.on("LoadMessageHistory", (messageHistory: MessageType[]) => {
+        // console.log("🔄 Message history received:", messageHistory)
+        setMessages(messageHistory)
+        setTimeout(() => setIsLoadingMessages(false), 0)
       })
-      .withAutomaticReconnect()
-      .configureLogging(LogLevel.Information)
-      .build()
 
-    try {
-      await hubConnection.start()
-      console.log("✅ Connection started")
-      setConnectionStatus(true)
-
-      hubConnection.on(
-        "LoadMessageHistory",
-        (messageHistory: MessageType[]) => {
-          // console.log("🔄 Message history received:", messageHistory)
-          setMessages(messageHistory)
-        }
-      )
-
-      hubConnection.on("ReceiveMessage", (message: MessageType) => {
+      connection.on("ReceiveMessage", (message: MessageType) => {
         // console.log("📥 Received new message:", message)
-        setMessages((prev) => [message, ...prev])
+        setMessages((prev) => {
+          if (!prev.some((m) => m.messageId === message.messageId)) {
+            return [message, ...prev]
+          }
+          return prev
+        })
       })
 
-      hubConnection.on("ErrorOccurred", (errorMessage: string) => {
+      connection.on("ErrorOccurred", (errorMessage: string) => {
         console.error("🚨 Error from server:", errorMessage)
       })
 
-      await hubConnection.invoke("JoinChat", chatId)
-    } catch (error) {
-      console.error("❌ Error starting connection:", error)
-      setConnectionStatus(false)
+      try {
+        await connection.start()
+        console.log("✅ Connection started")
+        setConnectionStatus(true)
+        await connection.invoke("JoinChat", chatId)
+        setChatHubConnection(connection)
+      } catch (error) {
+        console.error("❌ Error starting connection:", error)
+        setConnectionStatus(false)
+        setIsLoadingMessages(false)
+      }
     }
 
-    setChatHubConnection(hubConnection)
-  }
+    setupConnection()
+
+    return () => {
+      if (connection) {
+        connection.off("LoadMessageHistory")
+        connection.off("ReceiveMessage")
+        connection.off("ErrorOccurred")
+        connection.stop()
+      }
+    }
+  }, [chatId])
 
   const handleSendMessage = async () => {
     if (chatHubConnection && newMessage) {
@@ -124,8 +149,8 @@ const ChatDetailsScreen = () => {
     }
   }
 
-  const handlePressMessage = async (selectedMessageId: string) => {
-    setSelectedMessageId(selectedMessageId)
+  const handlePressMessage = async (selectedMessage: string) => {
+    setSelectedMessage(selectedMessage)
   }
 
   const renderMessageItem = ({
@@ -147,7 +172,7 @@ const ChatDetailsScreen = () => {
         message={item.content}
         timestamp={item.createdAt}
         avatarUrl={showAvatar ? item.avatarUrl : undefined}
-        isSelected={selectedMessageId === item.messageId}
+        isSelected={selectedMessage === item.messageId}
         onPress={() => handlePressMessage(item.messageId)}
       />
     )
@@ -156,20 +181,71 @@ const ChatDetailsScreen = () => {
   return (
     <SafeAreaView className="flex-1 bg-background">
       <View className="px-6">
-        <Header back label="Van Huu Toan Con" />
+        <Header
+          back
+          label={
+            consultantId
+              ? chatData?.member.fullName
+              : chatData?.consultant.fullName
+          }
+          action={{
+            icon: (
+              <Information variant="Bold" size={20} color={COLORS.primary} />
+            ),
+            href: `/chats/${chatId}/information`
+          }}
+        />
       </View>
 
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         className="flex-1 px-6"
       >
-        <FlatList
-          data={messages}
-          renderItem={renderMessageItem}
-          keyExtractor={(item, index) => item.messageId || `message-${index}`}
-          inverted
-          showsVerticalScrollIndicator={false}
-        />
+        {isLoadingMessages ? (
+          <View className="flex flex-1 flex-col items-center justify-center gap-8 px-6">
+            <LottieView
+              source={require("../../../../public/videos/monhealth-loading.json")}
+              autoPlay
+              loop
+              style={{ width: 120, height: 120 }}
+            />
+          </View>
+        ) : messages.length > 0 ? (
+          <FlatList
+            data={messages}
+            renderItem={renderMessageItem}
+            keyExtractor={(item, index) =>
+              `${item.messageId ?? "msg"}-${index}`
+            }
+            inverted
+            showsVerticalScrollIndicator={false}
+          />
+        ) : (
+          <View className="flex flex-1 flex-col items-center justify-center gap-8 px-6 pb-24">
+            <Image
+              source={{
+                uri: consultantId
+                  ? chatData?.member.avatarUrl
+                  : chatData?.consultant.avatarUrl
+              }}
+              className="rounded-full"
+              style={{ height: 128, width: 128 }}
+            />
+
+            <VStack center gap={8}>
+              <Text className="text-center font-tbold text-xl text-primary">
+                {consultantId
+                  ? "Hãy bắt đầu cuộc trò chuyện với người dùng!"
+                  : "Hãy gửi câu hỏi cho chuyên viên!"}
+              </Text>
+              <Text className="text-center font-tregular text-base text-accent">
+                {consultantId
+                  ? "Khi người dùng gửi tin nhắn, bạn có thể phản hồi trực tiếp tại đây."
+                  : "Bạn có thể đặt câu hỏi về sức khỏe, chuyên môn, hoặc bất kỳ điều gì bạn cần hỗ trợ."}
+              </Text>
+            </VStack>
+          </View>
+        )}
 
         <HStack center gap={16} className="border-t border-border py-4">
           <View className="flex-1">

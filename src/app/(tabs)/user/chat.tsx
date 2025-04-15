@@ -46,7 +46,7 @@ function ChatScreen() {
 
   const debouncedSearch = useDebounce(searchQuery)
 
-  const { data, isLoading } = useGetChatsByUserId(userId, page, limit)
+  const { data, isLoading, refetch } = useGetChatsByUserId(userId, page, limit)
 
   // console.log(JSON.stringify(chatsData, null, 2))
 
@@ -84,6 +84,8 @@ function ChatScreen() {
     setIsRefreshing(true)
     Keyboard.dismiss()
     setPage(1)
+    refetch()
+    setIsRefreshing(false)
   }
 
   const handleChatMonAI = () => {

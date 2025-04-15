@@ -5,7 +5,7 @@ export const weeklyMealSchema = z.object({
   calories: z.number()
 })
 
-export const monthlyTransactionSchema = z.object({
+export const yearlyTransactionSchema = z.object({
   income: z.array(
     z.object({
       month: z.string(),
@@ -20,11 +20,11 @@ export const monthlyTransactionSchema = z.object({
   )
 })
 
-export const monthlyBookingSchema = z.object({
+export const yearlyBookingSchema = z.object({
   month: z.string(),
   bookings: z.number()
 })
 
 export type WeeklyMealType = z.infer<typeof weeklyMealSchema>
-export type MonthlyTransactionType = z.infer<typeof monthlyTransactionSchema>
-export type MonthlyBookingType = z.infer<typeof monthlyBookingSchema>
+export type YearlyTransactionType = z.infer<typeof yearlyTransactionSchema>
+export type YearlyBookingType = z.infer<typeof yearlyBookingSchema>

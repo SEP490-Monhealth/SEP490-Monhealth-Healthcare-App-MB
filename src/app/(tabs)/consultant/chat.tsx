@@ -42,7 +42,7 @@ function ChatScreen() {
 
   const debouncedSearch = useDebounce(searchQuery)
 
-  const { data, isLoading } = useGetChatsByConsultantId(
+  const { data, isLoading, refetch } = useGetChatsByConsultantId(
     consultantId,
     page,
     limit
@@ -84,6 +84,8 @@ function ChatScreen() {
     setIsRefreshing(true)
     Keyboard.dismiss()
     setPage(1)
+    refetch()
+    setIsRefreshing(false)
   }
 
   const handleViewChat = (chatId: string) => {

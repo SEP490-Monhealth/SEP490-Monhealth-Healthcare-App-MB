@@ -88,7 +88,7 @@ export const Chip = ({
     >
       {icon && <View className="mr-4">{icon}</View>}
 
-      <View className="flex-col justify-start">
+      <View className={`flex-col justify-start ${icon ? "flex-1" : ""}`}>
         <Text
           className={`font-tmedium ${
             border ? borderStyle.text : variantStyle.text
