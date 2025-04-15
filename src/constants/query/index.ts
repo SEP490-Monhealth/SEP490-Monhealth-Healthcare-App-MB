@@ -6,7 +6,7 @@ export const MonQueryKey = {
   },
 
   Activity: {
-    Activity: "activity",
+    Activities: "activities",
     DailyActivity: "daily-activity"
   },
 
@@ -26,6 +26,20 @@ export const MonQueryKey = {
     Booking: "booking"
   },
 
+  Category: {
+    Categories: "categories"
+  },
+
+  Certificate: {
+    Certificates: "certificates"
+  },
+
+  Chat: {
+    UserChats: "chats-user",
+    ConsultantChats: "chats-consultant",
+    Chat: "chat"
+  },
+
   Consultant: {
     Consultants: "consultants",
     Consultant: "consultant"
@@ -35,6 +49,13 @@ export const MonQueryKey = {
     Foods: "foods",
     UserFoods: "foods-user",
     Food: "food"
+  },
+
+  Meal: {
+    Meals: "meals",
+    Meal: "meal",
+    MealFoods: "meal-foods",
+    DailyMeal: "daily-meal"
   },
 
   Metric: {
@@ -52,12 +73,6 @@ export const MonQueryKey = {
   Transaction: {
     UserTransactions: "transactions-user",
     ConsultantTransactions: "transactions-consultant"
-  },
-
-  Chat: {
-    UserChats: "chats-user",
-    ConsultantChats: "chats-consultant",
-    Chat: "chat"
   },
 
   Message: {

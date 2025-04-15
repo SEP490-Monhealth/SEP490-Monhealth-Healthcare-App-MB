@@ -192,7 +192,7 @@ function ConsultantDetailsScreen() {
                 />
               </VStack>
 
-              <Button onPress={handleBooking} className="mt-4">
+              <Button onPress={handleBooking} className="mt-6">
                 Đặt lịch hẹn
               </Button>
 

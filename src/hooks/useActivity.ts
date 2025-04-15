@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
+import { MonQueryKey } from "@/constants/query"
+
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
 
@@ -11,7 +13,7 @@ export const useGetActivityById = (activityId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<ActivityType, Error>({
-    queryKey: ["activity", activityId],
+    queryKey: [MonQueryKey.Activity.Activities, activityId],
     queryFn: async () => {
       try {
         return await getActivityById(activityId)
@@ -40,8 +42,12 @@ export const useCreateActivity = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["activities"] })
-      queryClient.invalidateQueries({ queryKey: ["daily-activity"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Activity.Activities]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Activity.DailyActivity]
+      })
     }
   })
 }

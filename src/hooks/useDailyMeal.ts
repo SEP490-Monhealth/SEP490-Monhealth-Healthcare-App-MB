@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 
+import { MonQueryKey } from "@/constants/query"
+
 import { useError } from "@/contexts/ErrorContext"
 
 import { DailyMealType } from "@/schemas/dailyMealSchema"
@@ -13,7 +15,7 @@ export const useGetDailyMealByUserId = (
   const handleError = useError()
 
   return useQuery<DailyMealType, Error>({
-    queryKey: ["dailyMeal", userId, date],
+    queryKey: [MonQueryKey.Meal.DailyMeal, userId, date],
     queryFn: async () => {
       try {
         return await getDailyMealByUserId(userId, date)

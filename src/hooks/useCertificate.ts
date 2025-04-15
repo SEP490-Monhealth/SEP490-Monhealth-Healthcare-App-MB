@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 
+import { MonQueryKey } from "@/constants/query"
+
 import { useError } from "@/contexts/ErrorContext"
 
 import { CertificateType } from "@/schemas/certificateSchema"
@@ -12,7 +14,7 @@ export const useGetCertificatesByConsultantId = (
   const handleError = useError()
 
   return useQuery<CertificateType[], Error>({
-    queryKey: ["certificates", consultantId],
+    queryKey: [MonQueryKey.Certificate.Certificates, consultantId],
     queryFn: async () => {
       try {
         return await getCertificatesByConsultantId(consultantId)

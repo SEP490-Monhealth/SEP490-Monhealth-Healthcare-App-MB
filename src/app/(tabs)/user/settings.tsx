@@ -86,7 +86,7 @@ function SettingsScreen() {
               )
             })}
 
-            <Text className="mt-4 text-center font-dregular text-base text-accent">
+            <Text className="mt-6 text-center font-dregular text-base text-accent">
               Monhealth - Version {APP.version}
             </Text>
           </Card>

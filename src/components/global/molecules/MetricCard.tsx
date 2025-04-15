@@ -96,9 +96,9 @@ export const MetricCard = ({ metric, goal }: MetricCardProps) => {
         </HStack>
 
         <BodyIndex
+          gender={genderLabel}
           height={metric.height}
           weight={metric.weight}
-          gender={genderLabel}
         />
 
         <View>

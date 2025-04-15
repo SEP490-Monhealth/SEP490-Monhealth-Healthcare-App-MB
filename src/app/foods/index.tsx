@@ -100,7 +100,7 @@ function FoodsScreen() {
   const { data: categoriesData, isLoading: isCategoriesLoading } =
     useGetCategoriesByType(CategoryTypeEnum.Food)
 
-  const { data, isLoading, refetch } = useGetAllFoods(
+  const { data, isLoading } = useGetAllFoods(
     page,
     limit,
     debouncedFilter === "Tất cả" ? "" : debouncedFilter,

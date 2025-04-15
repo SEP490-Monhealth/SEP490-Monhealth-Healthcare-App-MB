@@ -97,7 +97,7 @@ function WorkoutDetailsScreen() {
                   {workoutData?.description}
                 </Text>
 
-                <Button onPress={handleAddWorkout} className="mt-4">
+                <Button onPress={handleAddWorkout} className="mt-6">
                   Thêm vào hoạt động
                 </Button>
 

@@ -4,7 +4,12 @@ import { useLocalSearchParams } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
 
-import { Container, Content, ScrollArea } from "@/components/global/atoms"
+import {
+  Container,
+  Content,
+  ScrollArea,
+  VStack
+} from "@/components/global/atoms"
 import { MetricCard } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
@@ -26,16 +31,18 @@ function MetricsScreen() {
     <Container>
       <Header back label="Chỉ số sức khỏe" />
 
-      <Content className="mt-4">
-        <ScrollArea className="pb-4">
-          {metricsData.map((metric, index) => {
-            const goal = goalsData[index]
-            if (!goal) return null
+      <Content className="mt-2">
+        <ScrollArea>
+          <VStack gap={12} className="pb-12">
+            {metricsData.map((metric, index) => {
+              const goal = goalsData[index]
+              if (!goal) return null
 
-            return (
-              <MetricCard key={metric.metricId} metric={metric} goal={goal} />
-            )
-          })}
+              return (
+                <MetricCard key={metric.metricId} metric={metric} goal={goal} />
+              )
+            })}
+          </VStack>
         </ScrollArea>
       </Content>
     </Container>

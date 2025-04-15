@@ -31,7 +31,7 @@ export const CertificateTab = ({
   const isMutating = useIsMutating()
 
   const handleViewCertificate = () => {
-    router.push(`/certificate/${consultantId}`)
+    router.push(`/consultants/${consultantId}/certificates`)
   }
 
   useEffect(() => {

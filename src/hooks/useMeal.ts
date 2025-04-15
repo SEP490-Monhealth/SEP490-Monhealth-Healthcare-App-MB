@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
+import { MonQueryKey } from "@/constants/query"
+
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
 
@@ -13,13 +15,12 @@ import {
   updateMealFoodQuantity,
   updateMealFoodStatus
 } from "@/services/mealService"
-import { MonQueryKey } from "@/constants/query"
 
 export const useGetMealsByUserId = (userId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<MealType[], Error>({
-    queryKey: ["meals", userId],
+    queryKey: [MonQueryKey.Meal.Meals, userId],
     queryFn: async () => {
       try {
         return await getMealsByUserId(userId)
@@ -37,7 +38,7 @@ export const useGetMealById = (mealId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<MealType, Error>({
-    queryKey: ["meal", mealId],
+    queryKey: [MonQueryKey.Meal.Meal, mealId],
     queryFn: async () => {
       try {
         return await getMealById(mealId)
@@ -71,12 +72,14 @@ export const useCreateMeal = () => {
     },
     onSuccess: (response) => {
       const { mealId } = response
-
-      queryClient.invalidateQueries({ queryKey: ["meals"] })
-      // queryClient.invalidateQueries({ queryKey: ["meals", variables.userId] })
-      queryClient.invalidateQueries({ queryKey: ["mealFoods", mealId] })
-      queryClient.invalidateQueries({ queryKey: ["meal", mealId] })
-      queryClient.invalidateQueries({ queryKey: ["dailyMeal"] })
+      queryClient.invalidateQueries({ queryKey: [MonQueryKey.Meal.Meals] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Meal.MealFoods, mealId]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Meal.Meal, mealId]
+      })
+      queryClient.invalidateQueries({ queryKey: [MonQueryKey.Meal.DailyMeal] })
     }
   })
 }
@@ -85,7 +88,7 @@ export const useGetMealFoodsByMealId = (mealId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<MealFoodType[], Error>({
-    queryKey: ["mealFoods", mealId],
+    queryKey: [MonQueryKey.Meal.MealFoods, mealId],
     queryFn: async () => {
       try {
         return await getMealFoodsByMealId(mealId)
@@ -123,18 +126,18 @@ export const useUpdateMealFoodQuantity = () => {
       }
     },
     onSuccess: (_, variables) => {
-      //   queryClient.invalidateQueries({
-      //     queryKey: ["mealFoods", variables.mealFoodId]
-      //   })
-      //   queryClient.invalidateQueries({ queryKey: ["meals"] })
-      // }
-
       const { mealId, userId, today } = variables
 
-      queryClient.invalidateQueries({ queryKey: ["meals"] })
-      queryClient.invalidateQueries({ queryKey: ["meal", mealId] })
-      queryClient.invalidateQueries({ queryKey: ["mealFoods", mealId] })
-      queryClient.invalidateQueries({ queryKey: ["dailyMeal", userId, today] })
+      queryClient.invalidateQueries({ queryKey: [MonQueryKey.Meal.Meals] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Meal.Meal, mealId]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Meal.MealFoods, mealId]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Meal.DailyMeal, userId, today]
+      })
     }
   })
 }
@@ -159,12 +162,19 @@ export const useUpdateMealFoodStatus = () => {
     onSuccess: (_, variables) => {
       const { mealId, userId, today } = variables
 
-      queryClient.invalidateQueries({ queryKey: ["meals"] })
-      queryClient.invalidateQueries({ queryKey: ["meal", mealId] })
-      queryClient.invalidateQueries({ queryKey: ["mealFoods", mealId] })
-      queryClient.invalidateQueries({ queryKey: ["dailyMeal", userId, today] })
-
-      queryClient.invalidateQueries({ queryKey: [MonQueryKey.Report.WeeklyMeal] })
+      queryClient.invalidateQueries({ queryKey: [MonQueryKey.Meal.Meals] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Meal.Meal, mealId]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Meal.MealFoods, mealId]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Meal.DailyMeal, userId, today]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Report.WeeklyMeal]
+      })
     }
   })
 }

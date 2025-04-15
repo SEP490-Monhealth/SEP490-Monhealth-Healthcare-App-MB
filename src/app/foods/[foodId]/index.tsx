@@ -340,7 +340,7 @@ function FoodDetailsScreen() {
                     </HStack>
                   </VStack>
 
-                  <Button onPress={handleAddFood} className="mt-4">
+                  <Button onPress={handleAddFood} className="mt-6">
                     Thêm vào bữa ăn
                   </Button>
                 </VStack>

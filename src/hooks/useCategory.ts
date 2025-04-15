@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 
 import { CategoryTypeEnum } from "@/constants/enum/Category"
+import { MonQueryKey } from "@/constants/query"
 
 import { useError } from "@/contexts/ErrorContext"
 
@@ -12,7 +13,7 @@ export const useGetCategoriesByType = (type: CategoryTypeEnum) => {
   const handleError = useError()
 
   return useQuery<CategoryType[], Error>({
-    queryKey: ["categories", type],
+    queryKey: [MonQueryKey.Category.Categories, type],
     queryFn: async () => {
       try {
         return await getCategoriesByTypes(type)
