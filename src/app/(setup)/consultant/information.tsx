@@ -19,10 +19,10 @@ function SetupInformation({ control, errors }: SetupInformationProps) {
         control={control}
         render={({ field: { onChange, value } }) => (
           <Input
-            value={value ? value.toString() : ""}
+            value={value}
             label="Mô tả ngắn"
             placeholder="VD: Tôi là chuyên gia dinh dưỡng với hơn 5 năm kinh nghiệm."
-            onChangeText={(text) => onChange(text)}
+            onChangeText={onChange}
             isMultiline
             numberOfLines={6}
             canClearText

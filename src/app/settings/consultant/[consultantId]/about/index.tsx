@@ -22,26 +22,26 @@ import { useAuth } from "@/contexts/AuthContext"
 
 import { useGetConsultantById } from "@/hooks/useConsultant"
 
-function AboutConsultantScreen() {
+function ConsultantAboutScreen() {
   const { user } = useAuth()
   const consultantId = user?.consultantId
 
-  const { data: consultantData, isLoading } = useGetConsultantById(consultantId)
+  const { data: consultantData } = useGetConsultantById(consultantId)
 
-  if (!consultantData || isLoading) return <LoadingScreen />
+  if (!consultantData) return <LoadingScreen />
 
-  const linkMeet = "https://meet.google.com/phm-iunw-nij"
+  const meetUrl = "https://meet.google.com/phm-iunw-nij"
 
   const aboutItems = [
     {
-      icon: <Crown1 variant="Bold" size="24" color={COLORS.primary} />,
+      icon: <Crown1 variant="Bold" size="22" color={COLORS.primary} />,
       label: "Kinh nghiệm",
       value: `${consultantData.experience} năm`
     },
     {
       icon: <Zoom variant="Bold" size="24" color={COLORS.primary} />,
-      label: "Link gặp mặt",
-      value: linkMeet
+      label: "Link phòng họp",
+      value: meetUrl
     }
   ]
 
@@ -65,14 +65,17 @@ function AboutConsultantScreen() {
           <VStack gap={20} className="pb-20">
             <View>
               <Section label="Giới thiệu" margin={false} />
+
               <Card>
                 <Text className="font-tregular text-base text-secondary">
                   {consultantData.bio}
                 </Text>
               </Card>
             </View>
+
             <View>
               <Section label="Kinh nghiệm" margin={false} />
+
               <Card>
                 {aboutItems.map((item, index) => (
                   <CertificateItem
@@ -92,4 +95,4 @@ function AboutConsultantScreen() {
   )
 }
 
-export default AboutConsultantScreen
+export default ConsultantAboutScreen

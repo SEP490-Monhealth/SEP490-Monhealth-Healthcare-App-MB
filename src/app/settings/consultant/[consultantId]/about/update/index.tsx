@@ -13,13 +13,14 @@ import {
   Container,
   Content,
   Input,
+  ScrollArea,
   VStack
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
 import {
   useGetConsultantById,
-  useUpdateAboutConsultant
+  useUpdateConsultant
 } from "@/hooks/useConsultant"
 
 import {
@@ -27,15 +28,15 @@ import {
   updateConsultantSchema
 } from "@/schemas/consultantSchema"
 
-function UpdateAboutConsultantScreen() {
+function ConsultantAboutUpdateScreen() {
   const router = useRouter()
   const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
 
-  const { data: consultantData, isLoading } = useGetConsultantById(consultantId)
+  const { mutate: updateConsultant } = useUpdateConsultant()
 
-  const { mutate: updateConsultant } = useUpdateAboutConsultant()
+  const { data: consultantData } = useGetConsultantById(consultantId)
 
-  if (!consultantData || isLoading) return <LoadingScreen />
+  if (!consultantData) return <LoadingScreen />
 
   const {
     control,
@@ -45,7 +46,8 @@ function UpdateAboutConsultantScreen() {
     resolver: zodResolver(updateConsultantSchema),
     defaultValues: {
       bio: consultantData.bio,
-      experience: consultantData.experience
+      experience: consultantData.experience,
+      meetUrl: consultantData.meetUrl
     }
   })
 
@@ -65,45 +67,66 @@ function UpdateAboutConsultantScreen() {
   return (
     <Container dismissKeyboard>
       <Header back label="Cập nhật" />
-      <Content className="mt-2">
-        <VStack gap={12}>
-          <Controller
-            name="bio"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                value={value}
-                label="Họ và tên"
-                onChangeText={onChange}
-                isMultiline
-                numberOfLines={12}
-                canClearText
-                errorMessage={errors.bio?.message}
-              />
-            )}
-          />
 
-          <Controller
-            name="experience"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                value={value ? value.toString() : ""}
-                label="Kinh nghiệm"
-                placeholder="VD: 5"
-                onChangeText={(text) => onChange(parseFloat(text) || 0)}
-                keyboardType="numeric"
-                endIcon={
-                  <Text className="font-tregular text-sm text-accent">năm</Text>
-                }
-                alwaysShowEndIcon
-                canClearText
-                errorMessage={errors.experience?.message}
-              />
-            )}
-          />
-        </VStack>
+      <Content className="mt-2">
+        <ScrollArea>
+          <VStack gap={12} className="pb-20">
+            <Controller
+              name="bio"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  value={value}
+                  label="Mô tả ngắn"
+                  onChangeText={onChange}
+                  isMultiline
+                  numberOfLines={12}
+                  errorMessage={errors.bio?.message}
+                />
+              )}
+            />
+
+            <Controller
+              name="experience"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  value={value ? value.toString() : ""}
+                  label="Kinh nghiệm"
+                  placeholder="VD: 5"
+                  onChangeText={(text) => onChange(parseFloat(text) || 0)}
+                  keyboardType="numeric"
+                  endIcon={
+                    <Text className="font-tregular text-sm text-accent">
+                      năm
+                    </Text>
+                  }
+                  alwaysShowEndIcon
+                  canClearText
+                  errorMessage={errors.experience?.message}
+                />
+              )}
+            />
+
+            <Controller
+              name="meetUrl"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  value={value}
+                  label="Link phòng họp"
+                  placeholder="VD: https://meet.google.com/abc-defg-hij"
+                  onChangeText={onChange}
+                  keyboardType="default"
+                  canClearText
+                  errorMessage={errors.meetUrl?.message}
+                />
+              )}
+            />
+          </VStack>
+        </ScrollArea>
       </Content>
+
       <Button size="lg" onPress={handleSubmit(onSubmit)} className="mb-4">
         Cập nhật
       </Button>
@@ -111,4 +134,4 @@ function UpdateAboutConsultantScreen() {
   )
 }
 
-export default UpdateAboutConsultantScreen
+export default ConsultantAboutUpdateScreen

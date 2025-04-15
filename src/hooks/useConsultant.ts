@@ -102,7 +102,7 @@ export const useCreateConsultant = () => {
   })
 }
 
-export const useUpdateAboutConsultant = () => {
+export const useUpdateConsultant = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
   const { showModal } = useModal()

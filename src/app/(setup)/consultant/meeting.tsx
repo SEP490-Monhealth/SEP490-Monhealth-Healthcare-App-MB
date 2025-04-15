@@ -19,7 +19,7 @@ function SetupMeeting({ control, errors }: SetupMeetingProps) {
         control={control}
         render={({ field: { onChange, value } }) => (
           <Input
-            value={value ? value.toString() : ""}
+            value={value}
             label="Link phòng họp"
             placeholder="VD: https://meet.google.com/abc-defg-hij"
             onChangeText={onChange}

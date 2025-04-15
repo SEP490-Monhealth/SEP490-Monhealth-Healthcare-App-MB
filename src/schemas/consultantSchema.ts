@@ -25,7 +25,26 @@ const consultantSchema = z.object({
     .int()
     .positive({ message: "Kinh nghiệm phải là số nguyên dương" }),
 
-  meetUrl: z.string().url({ message: "Đường dẫn không hợp lệ" }),
+  meetUrl: z
+    .string()
+    .url({ message: "Đường dẫn không hợp lệ" })
+    .refine(
+      (url) => {
+        try {
+          const domain = new URL(url).hostname
+          return domain === "meet.google.com"
+        } catch {
+          return false
+        }
+      },
+      { message: "URL phải là đường dẫn Google Meet" }
+    )
+    .refine(
+      (url) => {
+        return /^https:\/\/meet\.google\.com\/[a-z0-9\-]+$/.test(url)
+      },
+      { message: "Định dạng URL Google Meet không đúng" }
+    ),
 
   bookingCount: z.number().default(0),
   ratingCount: z.number().default(0),
@@ -43,12 +62,14 @@ export const createConsultantSchema = consultantSchema.pick({
   userId: true,
   bio: true,
   experience: true,
+  meetUrl: true,
   expertise: true
 })
 
 export const updateConsultantSchema = consultantSchema.pick({
   bio: true,
-  experience: true
+  experience: true,
+  meetUrl: true
 })
 
 export const informationSetupSchema = consultantSchema.pick({
