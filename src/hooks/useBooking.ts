@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
+import { MonQueryKey } from "@/constants/query"
+
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
 
@@ -11,6 +13,7 @@ import {
   getBookingById,
   getBookingsByConsultantId,
   getBookingsByUserId,
+  getBookingsByUserIdAndConsultantId,
   updateBookingStatus
 } from "@/services/bookingService"
 
@@ -18,7 +21,7 @@ export const useGetBookingsByUserId = (userId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<BookingType[], Error>({
-    queryKey: ["bookings-user", userId],
+    queryKey: [MonQueryKey.Booking.UserBookings, userId],
     queryFn: async () => {
       try {
         return await getBookingsByUserId(userId)
@@ -39,7 +42,7 @@ export const useGetBookingsByConsultantId = (
   const handleError = useError()
 
   return useQuery<BookingType[], Error>({
-    queryKey: ["bookings-consultant", consultantId, date],
+    queryKey: [MonQueryKey.Booking.ConsultantBookings, consultantId, date],
     queryFn: async () => {
       try {
         return await getBookingsByConsultantId(consultantId, date)
@@ -53,11 +56,36 @@ export const useGetBookingsByConsultantId = (
   })
 }
 
+export const useGetBookingsByUserIdAndConsultantId = (
+  userId: string | undefined,
+  consultantId: string | undefined
+) => {
+  const handleError = useError()
+
+  return useQuery<BookingType[], Error>({
+    queryKey: [
+      MonQueryKey.Booking.UserConsultantBookings,
+      userId,
+      consultantId
+    ],
+    queryFn: async () => {
+      try {
+        return await getBookingsByUserIdAndConsultantId(userId, consultantId)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    enabled: !!userId && !!consultantId,
+    staleTime: 1000 * 60 * 5
+  })
+}
+
 export const useGetBookingById = (bookingId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<BookingType, Error>({
-    queryKey: ["booking", bookingId],
+    queryKey: [MonQueryKey.Booking.Booking, bookingId],
     queryFn: async () => {
       try {
         return await getBookingById(bookingId)
@@ -86,10 +114,12 @@ export const useCreateBooking = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["bookings-consultant"] })
-      queryClient.invalidateQueries({ queryKey: ["bookings-user"] })
-      queryClient.invalidateQueries({ queryKey: ["consultants"] })
-      queryClient.invalidateQueries({ queryKey: ["consultant"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Booking.UserBookings]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Booking.ConsultantBookings]
+      })
     }
   })
 }
@@ -109,10 +139,12 @@ export const useUpdateBookingStatus = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["bookings-consultant"] })
-      queryClient.invalidateQueries({ queryKey: ["bookings-user"] })
-      queryClient.invalidateQueries({ queryKey: ["consultants"] })
-      queryClient.invalidateQueries({ queryKey: ["consultant"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Booking.UserBookings]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Booking.ConsultantBookings]
+      })
     }
   })
 }
@@ -136,8 +168,12 @@ export const useCancelBooking = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["bookings-consultant"] })
-      queryClient.invalidateQueries({ queryKey: ["bookings-user"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Booking.UserBookings]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Booking.ConsultantBookings]
+      })
     }
   })
 }

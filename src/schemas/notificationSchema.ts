@@ -2,7 +2,7 @@ import { z } from "zod"
 
 import { timestampFields, uuidSchema } from "./baseSchema"
 
-const notificationSchema = z.object({
+export const notificationSchema = z.object({
   notificationId: uuidSchema,
   referenceId: uuidSchema,
 

@@ -34,6 +34,7 @@ const formatDateTime = (isoString: string) => {
 interface TransactionCardProps {
   type: TransactionTypeEnum
   datetime: string
+  description?: string
   amount: number
   showStatus?: boolean
   status: TransactionStatusEnum
@@ -42,6 +43,7 @@ interface TransactionCardProps {
 export const TransactionCard = ({
   type,
   datetime,
+  description,
   amount,
   showStatus = false,
   status
@@ -77,7 +79,7 @@ export const TransactionCard = ({
 
       <View className="flex-1">
         <Text className="font-tmedium text-base text-primary">
-          {transactionTypeLabel}
+          {description ? description : transactionTypeLabel}
         </Text>
 
         <Text className="font-tmedium text-sm text-accent">

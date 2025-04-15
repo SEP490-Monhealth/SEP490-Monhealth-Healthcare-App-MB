@@ -10,33 +10,40 @@ import { Container, Content } from "@/components/global/atoms"
 import {
   ErrorDisplay,
   ListFooter,
-  ListHeader,
-  PaymentCard
+  ListHeader
 } from "@/components/global/molecules"
+import { TransactionCard } from "@/components/global/molecules/TransactionCard"
 import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
+import { TransactionTypeEnum } from "@/constants/enum/Transaction"
 
-import { useGetPaymentsByUserId } from "@/hooks/usePayment"
+import { useGetTransactionsByUserId } from "@/hooks/useTransaction"
 
-import { PaymentType } from "@/schemas/paymentSchema"
+import { TransactionType } from "@/schemas/transactionSchema"
 
-function PaymentScreen() {
+function UserTransactionsScreen() {
   const { userId } = useLocalSearchParams<{ userId: string }>()
 
-  const [paymentsData, setPaymentsData] = useState<PaymentType[]>([])
+  const [transactionsData, setTransactionsData] = useState<TransactionType[]>(
+    []
+  )
   const [page, setPage] = useState<number>(1)
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
 
   const limit = 10
 
-  const { data, isLoading } = useGetPaymentsByUserId(userId, page, limit)
+  const { data, isLoading, refetch } = useGetTransactionsByUserId(
+    userId,
+    page,
+    limit
+  )
 
   useEffect(() => {
-    if (data?.payments) {
-      setPaymentsData((prev) =>
-        page === 1 ? data.payments : [...prev, ...data.payments]
+    if (data?.transactions) {
+      setTransactionsData((prev) =>
+        page === 1 ? data.transactions : [...prev, ...data.transactions]
       )
       setHasMore(page * limit < data.totalItems)
     }
@@ -63,12 +70,14 @@ function PaymentScreen() {
     setIsRefreshing(true)
     Keyboard.dismiss()
     setPage(1)
+    refetch()
+    setIsRefreshing(false)
   }
 
   const FlatListHeader = useMemo(() => {
     return (
       <ListHeader>
-        {paymentsData.length > 0 && (
+        {transactionsData.length > 0 && (
           <Section
             label="Danh sách thanh toán"
             margin={false}
@@ -77,9 +86,9 @@ function PaymentScreen() {
         )}
       </ListHeader>
     )
-  }, [paymentsData.length])
+  }, [transactionsData.length])
 
-  if (paymentsData.length === 0 && isLoading) {
+  if (transactionsData.length === 0 && isLoading) {
     return <LoadingScreen />
   }
 
@@ -89,8 +98,8 @@ function PaymentScreen() {
 
       <Content className="mt-2">
         <FlatList
-          data={paymentsData || []}
-          keyExtractor={(item, index) => `${item.paymentId}-${index}`}
+          data={transactionsData || []}
+          keyExtractor={(item, index) => `${item.transactionId}-${index}`}
           onRefresh={onRefresh}
           refreshing={isRefreshing}
           showsVerticalScrollIndicator={false}
@@ -102,10 +111,12 @@ function PaymentScreen() {
           onEndReachedThreshold={0.5}
           ListHeaderComponent={FlatListHeader}
           renderItem={({ item }) => (
-            <PaymentCard
+            <TransactionCard
+              type={TransactionTypeEnum.Fee}
+              datetime={item.createdAt}
               description={item.description}
               amount={item.amount}
-              createdAt={item.createdAt}
+              showStatus
               status={item.status}
             />
           )}
@@ -133,4 +144,4 @@ function PaymentScreen() {
   )
 }
 
-export default PaymentScreen
+export default UserTransactionsScreen

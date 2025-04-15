@@ -31,7 +31,16 @@ export const createWithdrawalRequestSchema = withdrawalRequestSchema.pick({
   amount: true
 })
 
+export const updateWithdrawalRequestSchema = withdrawalRequestSchema.pick({
+  consultantBankId: true,
+  description: true,
+  amount: true
+})
+
 export type WithdrawalRequestType = z.infer<typeof withdrawalRequestSchema>
 export type CreateWithdrawalRequestType = z.infer<
   typeof createWithdrawalRequestSchema
+>
+export type UpdateWithdrawalRequestType = z.infer<
+  typeof updateWithdrawalRequestSchema
 >

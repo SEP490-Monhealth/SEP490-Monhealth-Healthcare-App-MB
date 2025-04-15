@@ -23,7 +23,7 @@ export const allergySetupSchema = z.object({
   allergies: z.array(allergySchema.shape.name)
 })
 
-const createUserAllergySchema = z.object({
+export const createUserAllergySchema = z.object({
   userId: uuidSchema,
   allergies: z.array(allergySchema.shape.name)
 })

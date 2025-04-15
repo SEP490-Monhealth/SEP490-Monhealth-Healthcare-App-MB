@@ -9,11 +9,11 @@ import { ErrorDisplay } from "@/components/global/molecules"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useCompletePayment } from "@/hooks/usePayment"
+import { useCompleteTransaction } from "@/hooks/useTransaction"
 
 import { whoIAm } from "@/services/authService"
 
-const PaymentResult = () => {
+function ResultScreen() {
   const router = useRouter()
   const params = useLocalSearchParams()
 
@@ -24,10 +24,10 @@ const PaymentResult = () => {
 
   const isSuccess = params.code === "00" && params.status === "PAID"
 
-  const { mutate: completePayment } = useCompletePayment()
+  const { mutate: completeTransaction } = useCompleteTransaction()
 
   const handleDone = async () => {
-    await completePayment(
+    await completeTransaction(
       {
         orderCode: Array.isArray(params.orderCode)
           ? params.orderCode[0]
@@ -68,4 +68,4 @@ const PaymentResult = () => {
   )
 }
 
-export default PaymentResult
+export default ResultScreen
