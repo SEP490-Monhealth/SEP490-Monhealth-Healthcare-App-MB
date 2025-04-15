@@ -22,7 +22,7 @@ export const useGetMealsByUserId = (userId: string | undefined) => {
   const router = useRouter()
   const handleError = useError()
 
-  return useQuery<MealType[], Error>({
+  return useQuery<MealType[] | null, Error>({
     queryKey: [MonQueryKey.Meal.Meals, userId],
     queryFn: async () => {
       try {
@@ -41,7 +41,7 @@ export const useGetMealById = (mealId: string | undefined) => {
   const router = useRouter()
   const handleError = useError()
 
-  return useQuery<MealType, Error>({
+  return useQuery<MealType | null, Error>({
     queryKey: [MonQueryKey.Meal.Meal, mealId],
     queryFn: async () => {
       try {
@@ -92,7 +92,7 @@ export const useGetMealFoodsByMealId = (mealId: string | undefined) => {
   const router = useRouter()
   const handleError = useError()
 
-  return useQuery<MealFoodType[], Error>({
+  return useQuery<MealFoodType[] | null, Error>({
     queryKey: [MonQueryKey.Meal.MealFoods, mealId],
     queryFn: async () => {
       try {

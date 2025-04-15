@@ -33,7 +33,8 @@ export const MealCard = ({
   labelEnd,
   onPress
 }: MealCardProps) => {
-  const gapClass = progress ? "gap-0" : "gap-1"
+  const showProgress = progress !== undefined && progress !== null
+  const gapClass = showProgress ? "gap-0" : "gap-1"
 
   return (
     <Card onPress={onPress} className="flex-row items-center justify-between">
@@ -53,7 +54,7 @@ export const MealCard = ({
           {getMealTypeName("vi", type)}
         </Text>
 
-        {progress && (
+        {showProgress && (
           <Progress
             progress={progress}
             height={7}
@@ -69,7 +70,7 @@ export const MealCard = ({
         </Text>
       </View>
 
-      {!progress && <ChevronRight size={20} color={COLORS.primary} />}
+      {!showProgress && <ChevronRight size={20} color={COLORS.primary} />}
     </Card>
   )
 }

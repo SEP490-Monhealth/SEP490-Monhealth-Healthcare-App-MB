@@ -33,6 +33,13 @@ import { getWeekRange } from "@/utils/helpers"
 
 const labels = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"]
 
+const MEAL_TYPE_DISTRIBUTION = {
+  [MealTypeEnum.Breakfast]: 0.3,
+  [MealTypeEnum.Lunch]: 0.35,
+  [MealTypeEnum.Dinner]: 0.25,
+  [MealTypeEnum.Snack]: 0.1
+}
+
 function ReportScreen() {
   const router = useRouter()
 
@@ -43,30 +50,59 @@ function ReportScreen() {
 
   const [selectedDate, setSelectedDate] = useState<string>(today)
 
-  const { data: weeklyMealData, isLoading: isWeeklyMealLoading } =
-    useGetWeeklyMealByUserId(userId, today)
+  const { data: weeklyMealData } = useGetWeeklyMealByUserId(userId, today)
+  const { data: dailyMealData } = useGetDailyMealByUserId(userId, selectedDate)
 
-  const { data: dailyMealData, isLoading: isDailyMealLoading } =
-    useGetDailyMealByUserId(userId, selectedDate)
-  const { data: nutritionGoalData, isLoading: isNutritionGoalLoading } =
-    useGetNutritionGoal(userId)
-
-  // console.log(JSON.stringify(weeklyMealData, null, 2))
-
-  // console.log(JSON.stringify(dailyMealData, null, 2))
+  const { data: nutritionGoalData } = useGetNutritionGoal(userId)
 
   const reportDate = getWeekRange(today)
-
   const mealsData = dailyMealData?.items || []
 
-  // console.log(JSON.stringify(mealsData, null, 2))
-
-  if (!weeklyMealData || isWeeklyMealLoading) {
+  if (!weeklyMealData || !dailyMealData || !nutritionGoalData) {
     return <LoadingScreen />
   }
 
   const caloriesData = weeklyMealData.map((item) => item.calories)
   const totalCalories = caloriesData.reduce((a, b) => a + b, 0)
+
+  const dailyCaloriesGoal = nutritionGoalData?.caloriesGoal
+
+  const breakfastCaloriesGoal =
+    dailyCaloriesGoal * MEAL_TYPE_DISTRIBUTION[MealTypeEnum.Breakfast]
+  const lunchCaloriesGoal =
+    dailyCaloriesGoal * MEAL_TYPE_DISTRIBUTION[MealTypeEnum.Lunch]
+  const dinnerCaloriesGoal =
+    dailyCaloriesGoal * MEAL_TYPE_DISTRIBUTION[MealTypeEnum.Dinner]
+  const snackCaloriesGoal =
+    dailyCaloriesGoal * MEAL_TYPE_DISTRIBUTION[MealTypeEnum.Snack]
+
+  const calculateProgress = (mealType: MealTypeEnum, calories: number) => {
+    let caloriesGoal = 0
+
+    switch (mealType) {
+      case MealTypeEnum.Breakfast:
+        caloriesGoal = breakfastCaloriesGoal
+        break
+      case MealTypeEnum.Lunch:
+        caloriesGoal = lunchCaloriesGoal
+        break
+      case MealTypeEnum.Dinner:
+        caloriesGoal = dinnerCaloriesGoal
+        break
+      case MealTypeEnum.Snack:
+        caloriesGoal = snackCaloriesGoal
+        break
+      default:
+        caloriesGoal = 0
+    }
+
+    const progress =
+      caloriesGoal > 0
+        ? Math.min(Math.round((calories / caloriesGoal) * 100), 100)
+        : 0
+
+    return progress
+  }
 
   const defaultMealsData = [
     {
@@ -106,9 +142,6 @@ function ReportScreen() {
 
     return (existingMeal || defaultMeal) as typeof defaultMeal
   })
-
-  const caloriesValue = dailyMealData?.nutrition?.calories || 0
-  const caloriesGoal = nutritionGoalData?.caloriesGoal || 0
 
   const handleViewMeal = (mealId: string) => {
     router.push(`/meals/${mealId}`)
@@ -153,18 +186,24 @@ function ReportScreen() {
           <Section label="Danh sách bữa ăn" />
 
           <VStack gap={12}>
-            {mergedMealsData.map((item) => (
-              <MealCard
-                key={item.mealId}
-                type={item.type}
-                totalFoods={item.foods}
-                totalCalories={item.calories}
-                progress={75}
-                onPress={
-                  item.isDefault ? () => {} : () => handleViewMeal(item.mealId)
-                }
-              />
-            ))}
+            {mergedMealsData.map((item) => {
+              const progress = calculateProgress(item.type, item.calories)
+
+              return (
+                <MealCard
+                  key={item.mealId}
+                  type={item.type}
+                  totalFoods={item.foods}
+                  totalCalories={item.calories}
+                  progress={progress}
+                  onPress={
+                    item.isDefault
+                      ? () => {}
+                      : () => handleViewMeal(item.mealId)
+                  }
+                />
+              )
+            })}
           </VStack>
         </Content>
       </ScrollArea>
