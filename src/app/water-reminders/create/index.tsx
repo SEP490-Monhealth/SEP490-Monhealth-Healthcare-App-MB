@@ -152,9 +152,7 @@ function WaterReminderCreateScreen() {
             </HStack>
           </VStack>
 
-          <Button size="lg" onPress={handleSubmit(onSubmit)}>
-            Tạo nhắc nhở
-          </Button>
+          <Button onPress={handleSubmit(onSubmit)}>Tạo nhắc nhở</Button>
         </VStack>
       </Content>
     </Container>

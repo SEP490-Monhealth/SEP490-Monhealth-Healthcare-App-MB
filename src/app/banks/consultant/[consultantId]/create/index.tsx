@@ -154,7 +154,6 @@ function BankCreateScreen() {
         </Content>
 
         <Button
-          size="lg"
           onPress={handleSubmit(onSubmitStep)}
           className="absolute bottom-12 left-6 right-6"
         >

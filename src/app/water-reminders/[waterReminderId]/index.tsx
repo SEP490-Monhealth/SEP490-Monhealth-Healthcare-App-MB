@@ -22,8 +22,6 @@ import {
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import { COLORS } from "@/constants/color"
-
 import {
   useGetWaterReminderById,
   useUpdateWaterReminder
@@ -163,9 +161,7 @@ function WaterReminderDetailsScreen() {
             </HStack>
           </VStack>
 
-          <Button size="lg" onPress={handleSubmit(onSubmit)}>
-            Cập nhật
-          </Button>
+          <Button onPress={handleSubmit(onSubmit)}>Cập nhật</Button>
         </VStack>
       </Content>
     </Container>

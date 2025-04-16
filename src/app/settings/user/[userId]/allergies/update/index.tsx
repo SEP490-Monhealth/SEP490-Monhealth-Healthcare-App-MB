@@ -117,7 +117,7 @@ function UpdateUserAllergyScreen() {
           </VStack>
         </ScrollArea>
 
-        <Button size="lg" onPress={handleSubmit(onSubmit)} className="mb-4">
+        <Button onPress={handleSubmit(onSubmit)} className="mb-4">
           Cập nhật
         </Button>
       </Content>

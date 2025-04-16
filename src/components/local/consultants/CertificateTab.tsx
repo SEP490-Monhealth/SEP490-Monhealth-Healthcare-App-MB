@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 
-import { Linking, View } from "react-native"
+import { View } from "react-native"
 
 import { useLocalSearchParams, useRouter } from "expo-router"
 

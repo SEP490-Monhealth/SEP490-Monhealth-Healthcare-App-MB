@@ -53,7 +53,7 @@ function UpdateScheduleExceptionScreen() {
   const [selectedDate, setSelectedDate] = useState<string | Date>(
     scheduleExceptionData?.date || ""
   )
-  const DateRef = useRef<SheetRefProps>(null)
+  const SheetRef = useRef<SheetRefProps>(null)
 
   const {
     control,
@@ -64,8 +64,8 @@ function UpdateScheduleExceptionScreen() {
   } = useForm<UpdateScheduleExceptionType>({
     resolver: zodResolver(updateScheduleExceptionSchema),
     defaultValues: {
-      date: scheduleExceptionData?.date,
-      reason: scheduleExceptionData?.reason
+      date: "",
+      reason: ""
     }
   })
 
@@ -75,12 +75,11 @@ function UpdateScheduleExceptionScreen() {
         date: scheduleExceptionData.date,
         reason: scheduleExceptionData.reason
       })
-
       setSelectedDate(scheduleExceptionData.date)
     }
-  }, [scheduleExceptionData])
+  }, [scheduleExceptionData, reset])
 
-  const openSheetDate = () => DateRef.current?.scrollTo(-320)
+  const openSheetDate = () => SheetRef.current?.scrollTo(-320)
 
   const onChange = (_event: DateTimePickerEvent, selectedDate?: Date) => {
     if (selectedDate) {
@@ -121,8 +120,8 @@ function UpdateScheduleExceptionScreen() {
             <ScrollArea>
               <VStack gap={12} className="pb-20">
                 <Select
-                  label="Ngày bận"
-                  defaultValue="Chọn ngày bận"
+                  label="Ngày nghỉ"
+                  defaultValue="Chọn ngày nghỉ"
                   value={dateLabel}
                   onPress={openSheetDate}
                   errorMessage={errors.date?.message}
@@ -134,8 +133,8 @@ function UpdateScheduleExceptionScreen() {
                   render={({ field: { onChange, value } }) => (
                     <Input
                       value={value}
-                      label="Lý do bận"
-                      placeholder="VD: Hôm đó tôi có lịch bận đột xuất"
+                      label="Lý do nghỉ"
+                      placeholder="VD: Hôm đó tôi có lịch nghỉ đột xuất"
                       onChangeText={onChange}
                       isMultiline
                       numberOfLines={4}
@@ -147,12 +146,12 @@ function UpdateScheduleExceptionScreen() {
               </VStack>
             </ScrollArea>
           </Content>
-          <Button size="lg" onPress={handleSubmit(onSubmit)} className="mb-4">
-            Tạo lịch bận
+          <Button onPress={handleSubmit(onSubmit)} className="mb-4">
+            Tạo lịch nghỉ
           </Button>
         </Container>
 
-        <Sheet ref={DateRef} dynamicHeight={300}>
+        <Sheet ref={SheetRef} dynamicHeight={300}>
           <View className="items-center">
             <DateTimePicker
               value={new Date(selectedDate)}

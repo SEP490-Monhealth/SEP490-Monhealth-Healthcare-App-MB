@@ -161,7 +161,7 @@ export const ReviewTab = ({
         />
       </ListHeader>
     )
-  }, [consultantData, ratingData])
+  }, [consultantData, totalReviews, averageRating, ratingData])
 
   const renderItem = ({ item }: { item: ReviewType }) => (
     <ReviewCard

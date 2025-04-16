@@ -2,7 +2,6 @@ import {
   Award,
   Calendar2,
   ClipboardTick,
-  CloseCircle,
   Command,
   DirectNormal,
   FavoriteChart,

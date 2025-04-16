@@ -43,10 +43,7 @@ import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
 
 import { useGetCertificatesByConsultantId } from "@/hooks/useCertificate"
-import {
-  useGetAllExpertise,
-  useUpdateExpertise
-} from "@/hooks/useExpertise"
+import { useGetAllExpertise, useUpdateExpertise } from "@/hooks/useExpertise"
 
 import {
   ExpertiseUpdateType,
@@ -344,7 +341,7 @@ function ExpertiseUpdateScreen() {
             </ScrollArea>
           </Content>
 
-          <Button size="lg" onPress={handleSubmit(onSubmit)} className="mb-4">
+          <Button onPress={handleSubmit(onSubmit)} className="mb-4">
             Cập nhật
           </Button>
         </Container>

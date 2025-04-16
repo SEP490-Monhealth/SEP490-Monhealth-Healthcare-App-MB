@@ -32,7 +32,6 @@ import { Header, Section } from "@/components/global/organisms"
 
 import { DaySelector, TimeSlotSelector } from "@/components/local/schedules"
 
-import { COLORS } from "@/constants/color"
 import { RecurringDayEnum, ScheduleTypeEnum } from "@/constants/enum/Schedule"
 
 import {
@@ -423,7 +422,6 @@ function ScheduleCreateScreen() {
             <Button
               loading={isLoading}
               onPress={handleSubmit(onSubmit)}
-              size="lg"
               className="absolute bottom-4 w-full"
             >
               Hoàn thành
@@ -462,7 +460,6 @@ function ScheduleCreateScreen() {
 
             <Button
               disabled={!hasSelectedTimeSlots}
-              size="lg"
               onPress={handleConfirmTime}
               className="w-full"
             >

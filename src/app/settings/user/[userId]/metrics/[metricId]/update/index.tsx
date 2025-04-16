@@ -214,7 +214,7 @@ const MetricUpdateScreen = () => {
           <Header back label="Cập nhật sức khỏe" />
           <Content className="mt-2">
             <ScrollArea>
-              <VStack gap={12} className="pb-20">
+              <VStack gap={12} className="pb-12">
                 <Select
                   label="Ngày sinh"
                   defaultValue="Chọn ngày sinh"
@@ -328,7 +328,8 @@ const MetricUpdateScreen = () => {
               </VStack>
             </ScrollArea>
           </Content>
-          <Button size="lg" onPress={handleSubmit(onSubmit)} className="mb-4">
+
+          <Button onPress={handleSubmit(onSubmit)} className="mb-4">
             Cập nhật
           </Button>
         </Container>

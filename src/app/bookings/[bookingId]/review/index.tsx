@@ -251,7 +251,6 @@ function ReviewCreateScreen() {
           </ScrollView>
 
           <Button
-            size="lg"
             onPress={handleSubmit(onSubmit)}
             className="absolute bottom-4 w-full"
           >

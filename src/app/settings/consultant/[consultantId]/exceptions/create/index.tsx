@@ -33,18 +33,27 @@ import {
 
 import { formatDate, formatUTCDate } from "@/utils/formatters"
 
+const getTomorrow = () => {
+  const tomorrow = new Date()
+  tomorrow.setDate(tomorrow.getDate() + 1)
+  tomorrow.setHours(0, 0, 0, 0)
+  return tomorrow
+}
+
 function CreateScheduleExceptionScreen() {
   const router = useRouter()
 
   const { user } = useAuth()
   const consultantId = user?.consultantId
 
-  const [selectedDate, setSelectedDate] = useState<string | Date>(new Date())
+  const [selectedDate, setSelectedDate] = useState<string | Date>(getTomorrow())
 
   const { mutate: createScheduleException } =
     useCreateScheduleException(consultantId)
 
   const SheetRef = useRef<SheetRefProps>(null)
+
+  const dateLabel = formatDate(selectedDate)
 
   const {
     control,
@@ -61,8 +70,6 @@ function CreateScheduleExceptionScreen() {
     }
   })
 
-  const openSheetDate = () => SheetRef.current?.scrollTo(-320)
-
   useEffect(() => {
     reset({
       consultantId: consultantId,
@@ -70,19 +77,18 @@ function CreateScheduleExceptionScreen() {
     })
   }, [reset])
 
+  const openSheetDate = () => SheetRef.current?.scrollTo(-320)
+
   const onChange = (_event: DateTimePickerEvent, selectedDate?: Date) => {
     if (selectedDate) {
-      const currentDate = new Date()
-      currentDate.setHours(0, 0, 0, 0)
+      const tomorrow = getTomorrow()
 
-      if (selectedDate >= currentDate) {
+      if (selectedDate >= tomorrow) {
         setValue("date", selectedDate.toISOString())
         setSelectedDate(selectedDate)
       }
     }
   }
-
-  const dateLabel = formatDate(selectedDate)
 
   const onSubmit = async (data: CreateScheduleExceptionType) => {
     // console.log("Final Data:", JSON.stringify(data, null, 2))
@@ -141,7 +147,7 @@ function CreateScheduleExceptionScreen() {
               mode="date"
               display="spinner"
               onChange={onChange}
-              minimumDate={new Date()}
+              minimumDate={getTomorrow()}
               locale="vi"
             />
           </View>

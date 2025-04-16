@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Text, View } from "react-native"
+import { Text } from "react-native"
 
 import { Card, HStack, VStack } from "../atoms"
 

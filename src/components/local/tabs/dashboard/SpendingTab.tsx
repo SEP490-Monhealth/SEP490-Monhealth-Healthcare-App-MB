@@ -165,7 +165,13 @@ export const SpendingTab = ({
         />
       </ListHeader>
     )
-  }, [transactionsData.length])
+  }, [
+    totalBalance,
+    monthRange,
+    incomeData,
+    expenseData,
+    transactionsData.length
+  ])
 
   if (transactionsData.length === 0 && isLoading) {
     return <LoadingScreen />

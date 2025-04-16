@@ -78,7 +78,6 @@ function FoodSavedScreen() {
         {savedFoods.length > 0 && (
           <Button
             variant="danger"
-            size="lg"
             onPress={handleClear}
             className="absolute bottom-4 left-6 right-6 w-full"
           >
