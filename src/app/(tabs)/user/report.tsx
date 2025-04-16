@@ -55,6 +55,8 @@ function ReportScreen() {
 
   const { data: nutritionGoalData } = useGetNutritionGoal(userId)
 
+  console.log(JSON.stringify(weeklyMealData, null, 2));
+
   const reportDate = getWeekRange(today)
   const mealsData = dailyMealData?.items || []
 
@@ -147,6 +149,17 @@ function ReportScreen() {
     router.push(`/meals/${mealId}`)
   }
 
+  const handleViewFoods = (mealType?: MealTypeEnum) => {
+    if (mealType !== undefined) {
+      router.push({
+        pathname: "/foods",
+        params: { mealType: mealType.toString(), date: selectedDate }
+      })
+    } else {
+      router.push("/foods")
+    }
+  }
+
   return (
     <Container>
       <Header
@@ -158,7 +171,7 @@ function ReportScreen() {
       />
 
       <ScrollArea>
-        <Content className="mt-2">
+        <Content className="mt-2 pb-12">
           <VStack className="px-2">
             <Text className="font-tbold text-xl text-secondary">Tổng quan</Text>
 
@@ -196,10 +209,10 @@ function ReportScreen() {
                   totalFoods={item.foods}
                   totalCalories={item.calories}
                   progress={progress}
-                  onPress={
+                  onPress={() =>
                     item.isDefault
-                      ? () => {}
-                      : () => handleViewMeal(item.mealId)
+                      ? handleViewFoods(item.type)
+                      : handleViewMeal(item.mealId)
                   }
                 />
               )

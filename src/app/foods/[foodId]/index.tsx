@@ -57,7 +57,12 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window")
 
 function FoodDetailsScreen() {
   const router = useRouter()
-  const { foodId } = useLocalSearchParams() as { foodId: string }
+  const { foodId, date: selectedDate } = useLocalSearchParams() as {
+    foodId: string
+    date: string
+  }
+
+  // console.log("food detail screen", selectedDate)
 
   const { user } = useAuth()
   const userId = user?.userId
@@ -179,6 +184,7 @@ function FoodDetailsScreen() {
     const mealData = {
       userId: userId || "",
       type: selectedMealValue?.value || MealTypeEnum.Breakfast,
+      date: selectedDate || today,
       items: [
         {
           foodId: foodId,

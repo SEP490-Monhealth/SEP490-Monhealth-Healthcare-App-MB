@@ -1,4 +1,4 @@
-import { z } from "zod"
+import { date, z } from "zod"
 
 import { MealTypeSchemaEnum } from "@/constants/enum/Food"
 
@@ -52,6 +52,7 @@ export const mealSchema = z.object({
   userId: uuidSchema,
 
   type: MealTypeSchemaEnum,
+  date: z.string().nonempty({ message: "Ngày không được để trống" }),
 
   nutrition: nutritionSchema,
 
@@ -62,6 +63,7 @@ export const createMealSchema = z.object({
   userId: uuidSchema,
 
   type: MealTypeSchemaEnum,
+  date: z.string().nonempty({ message: "Ngày không được để trống" }),
 
   items: z.array(createMealFoodSchema)
 })

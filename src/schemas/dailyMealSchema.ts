@@ -32,6 +32,7 @@ export const dailyMealSchema = z.object({
   goalId: uuidSchema,
 
   goalType: goalSchema.shape.type,
+  date: z.string().nonempty({ message: "Ngày không được để trống" }),
 
   nutrition: nutritionSchema,
 

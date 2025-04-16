@@ -52,7 +52,12 @@ import { LoadingScreen } from "../loading"
 
 function FoodsScreen() {
   const router = useRouter()
-  const { mealType } = useLocalSearchParams<{ mealType?: string }>()
+  const { mealType, date: selectedDate } = useLocalSearchParams<{
+    mealType?: string
+    date: string
+  }>()
+
+  // console.log("foods screen", mealType, selectedDate)
 
   const mealTypeParsed: MealTypeEnum =
     !isNaN(Number(mealType)) && Number(mealType) in MealTypeEnum
@@ -153,6 +158,7 @@ function FoodsScreen() {
       const mealData = {
         userId: userId || "",
         type: mealTypeParsed,
+        date: selectedDate || today,
         items: [
           {
             foodId: food.foodId,
@@ -211,18 +217,21 @@ function FoodsScreen() {
   )
 
   const confirmAddMeal = (mealData: CreateMealType) => {
-    // console.log(JSON.stringify(mealData, null, 2))
+    console.log(JSON.stringify(mealData, null, 2))
 
-    addMeal(mealData, {
-      onSuccess: () =>
-        setAddedFoods((prev) => new Set(prev).add(mealData.items[0].foodId))
-    })
+    // addMeal(mealData, {
+    //   onSuccess: () =>
+    //     setAddedFoods((prev) => new Set(prev).add(mealData.items[0].foodId))
+    // })
     setWarningModal(null)
   }
 
   const handleViewFood = (foodId: string, foodName: string) => {
     addSearchFoodHistory({ foodId, name: foodName })
-    router.push(`/foods/${foodId}`)
+    router.push({
+      pathname: `/foods/${foodId}`,
+      params: { mealType: mealTypeParsed.toString(), date: selectedDate }
+    })
   }
 
   const handleViewUserFoods = () => router.push("/foods/user")
