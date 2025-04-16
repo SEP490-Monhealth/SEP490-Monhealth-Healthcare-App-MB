@@ -1,13 +1,8 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useState } from "react"
 
-import { Platform } from "react-native"
-
-import Constants from "expo-constants"
-import * as Device from "expo-device"
 import { useLocalSearchParams } from "expo-router"
 
 import { LoadingOverlay } from "@/app/loading"
-import { setupNotifications } from "@/configs/notification"
 
 import {
   Container,
@@ -26,8 +21,6 @@ import { WaterTab } from "@/components/local/tabs/home/WaterTab"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useCreateDevice } from "@/hooks/useDevice"
-
 function HomeScreen() {
   const { tab } = useLocalSearchParams<{ tab: string }>()
 
@@ -38,10 +31,6 @@ function HomeScreen() {
   const [activeTab, setActiveTab] = useState(tab || "meal")
   const [overlayLoading, setOverlayLoading] = useState(false)
 
-  const [expoPushToken, setExpoPushToken] = useState<string>("")
-
-  const { mutate: createDevice } = useCreateDevice()
-
   const handleTabChange = (tab: string) => {
     setActiveTab(tab)
   }
@@ -49,40 +38,6 @@ function HomeScreen() {
   const handleOverlayLoading = useCallback((isLoading: boolean) => {
     setOverlayLoading(isLoading)
   }, [])
-
-  useEffect(() => {
-    if (!userId) return
-
-    const cleanup = setupNotifications(setExpoPushToken)
-    return cleanup
-  }, [userId])
-
-  useEffect(() => {
-    if (expoPushToken && userId) {
-      const osMapping: Record<
-        string,
-        "iOS" | "Android" | "Windows" | "macOS" | "Linux"
-      > = {
-        ios: "iOS",
-        android: "Android"
-      }
-
-      const finalData = {
-        userId: userId,
-        expoPushToken: expoPushToken,
-        deviceModel: Device.modelName || "Unknown Device",
-        os: osMapping[Platform.OS] || "iOS",
-        osVersion: Platform.Version.toString(),
-        appVersion: Constants.expoConfig?.version || "1.0.0"
-      }
-
-      // console.log(JSON.stringify(finalData, null, 2))
-
-      createDevice(finalData)
-    }
-  }, [expoPushToken, userId, createDevice])
-
-  // if (loading) return <LoadingScreen />
 
   return (
     <Container>

@@ -15,7 +15,7 @@ export const createDevice = async (newData: CreateDeviceType) => {
       }
     }
 
-    // console.log(message)
+    console.log(message)
     return message
   } catch (error: any) {
     throw {

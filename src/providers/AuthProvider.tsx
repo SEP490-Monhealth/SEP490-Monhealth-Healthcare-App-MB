@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react"
 
+import { Platform } from "react-native"
+
+import Constants from "expo-constants"
+import * as Device from "expo-device"
 import { useRouter } from "expo-router"
 
+import { setupNotifications } from "@/configs/notification"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
 import { Modal } from "@/components/global/atoms"
@@ -11,6 +16,7 @@ import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
 
 import { login, logout, register, whoIAm } from "@/services/authService"
+import { createDevice } from "@/services/deviceService"
 
 import { checkAuthentication, routeUserByRole } from "@/utils/authRoutes"
 
@@ -33,6 +39,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserPayload | null>(null)
   const [role, setRole] = useState<string | null>("Member")
   const [loading, setLoading] = useState<boolean>(true)
+  const [expoPushToken, setExpoPushToken] = useState<string>("")
 
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [modalContent, setModalContent] = useState({
@@ -60,6 +67,46 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     initAuth()
   }, [])
+
+  useEffect(() => {
+    if (!user?.userId) return
+
+    const cleanup = setupNotifications(setExpoPushToken)
+    return cleanup
+  }, [user?.userId])
+
+  useEffect(() => {
+    if (expoPushToken && user?.userId) {
+      registerDevice(user.userId, expoPushToken)
+    }
+  }, [expoPushToken, user?.userId])
+
+  const registerDevice = async (userId: string, expoPushToken: string) => {
+    try {
+      const osMapping: Record<
+        string,
+        "iOS" | "Android" | "Windows" | "macOS" | "Linux"
+      > = {
+        ios: "iOS",
+        android: "Android"
+      }
+
+      const deviceData = {
+        userId: userId,
+        expoPushToken: expoPushToken,
+        deviceModel: Device.modelName || "Unknown Device",
+        os: osMapping[Platform.OS] || "iOS",
+        osVersion: Platform.Version.toString(),
+        appVersion: Constants.expoConfig?.version || "1.0.0"
+      }
+
+      // console.log(JSON.stringify(finalData, null, 2))
+
+      await createDevice(deviceData)
+    } catch (error) {
+      handleError(error)
+    }
+  }
 
   const handleLogin = async (phoneNumber: string, password: string) => {
     try {
@@ -100,6 +147,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       await AsyncStorage.removeItem("refreshToken")
       setIsAuthenticated(false)
       setUser(null)
+      setExpoPushToken("")
       router.replace("/onboarding/welcome")
     } catch (error) {
       handleError(error)
