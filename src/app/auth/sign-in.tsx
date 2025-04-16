@@ -64,6 +64,8 @@ function SignInScreen() {
     }
   })
 
+  const handleBack = () => router.replace("/onboarding/welcome")
+
   const handleSignUp = () => router.push(`/auth/sign-up?userType=${role}`)
 
   const handleForgotPassword = () => router.push("/auth/forgot-password")
@@ -87,7 +89,7 @@ function SignInScreen() {
     <Container dismissKeyboard>
       <Content className="mt-2">
         <VStack gap={40}>
-          <Header back />
+          <Header back onBackPress={handleBack} />
 
           <View>
             <Text className="mb-2 font-tbold text-4xl text-primary">

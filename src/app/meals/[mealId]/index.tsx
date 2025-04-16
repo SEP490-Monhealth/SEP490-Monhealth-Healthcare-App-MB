@@ -255,10 +255,14 @@ function MealDetailsScreen() {
           <Header
             back
             label={getMealTypeName("vi", mealType)}
-            action={{
-              icon: <Add size={24} color={COLORS.primary} />,
-              href: `/foods?mealType=${mealType}`
-            }}
+            action={
+              today
+                ? undefined
+                : {
+                    icon: <Add size={24} color={COLORS.primary} />,
+                    href: `/foods?mealType=${mealType}`
+                  }
+            }
           />
 
           <Content className="mt-4">

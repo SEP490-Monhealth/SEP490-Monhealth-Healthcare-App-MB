@@ -162,7 +162,7 @@ function WaterRemindersScreen() {
           label={selectedReminderStatus ? "Tắt nhắc nhở" : "Bật nhắc nhở"}
           icon={
             <Notification
-              variant={selectedReminderStatus ? "Bold" : "Linear"}
+              variant={selectedReminderStatus ? "Linear" : "Bold"}
               size={24}
               color={COLORS.primary}
             />

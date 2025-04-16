@@ -49,7 +49,9 @@ export const ListItem = ({
         <View className="flex-row items-center">
           {startIcon && <View className="mr-4">{startIcon}</View>}
 
-          <Text className="font-tmedium text-base text-primary">{label}</Text>
+          <View className="flex-1">
+            <Text className="font-tmedium text-base text-primary">{label}</Text>
+          </View>
         </View>
       </View>
 

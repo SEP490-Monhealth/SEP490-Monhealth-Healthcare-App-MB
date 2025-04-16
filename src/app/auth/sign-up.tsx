@@ -61,6 +61,8 @@ function SignUpScreen() {
     }
   })
 
+  const handleBack = () => router.replace("/onboarding/welcome")
+
   const handleSignIn = () => router.replace(`/auth/sign-in?userType=${role}`)
 
   const onSubmit = async (registerData: RegisterType) => {
@@ -91,7 +93,7 @@ function SignUpScreen() {
     <Container dismissKeyboard>
       <Content className="mt-2">
         <VStack gap={40}>
-          <Header back />
+          <Header back onBackPress={handleBack} />
 
           <View>
             <Text className="mb-2 font-tbold text-4xl text-primary">

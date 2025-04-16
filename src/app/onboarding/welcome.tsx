@@ -14,12 +14,12 @@ function WelcomeScreen() {
 
   const handleSelectUser = () => {
     setRole("Member")
-    router.push("/auth/sign-in")
+    router.replace("/auth/sign-in")
   }
 
   const handleSelectConsultant = () => {
     setRole("Consultant")
-    router.push("/auth/sign-in")
+    router.replace("/auth/sign-in")
   }
 
   return (
