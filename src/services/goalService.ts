@@ -28,27 +28,6 @@ export const getGoalsByUserId = async (
   }
 }
 
-export const getGoalById = async (
-  goalId: string | undefined
-): Promise<GoalType> => {
-  try {
-    const response = await monAPI.get(`/goals/${goalId}`)
-
-    const { success, message, data } = response.data
-
-    if (!success) {
-      throw { isCustomError: true, message: message }
-    }
-
-    return data as GoalType
-  } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
-  }
-}
-
 export const getWeightGoalByUserId = async (
   userId: string | undefined
 ): Promise<WeightGoalType> => {

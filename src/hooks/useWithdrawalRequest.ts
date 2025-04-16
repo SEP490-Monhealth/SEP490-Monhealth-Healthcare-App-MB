@@ -111,11 +111,9 @@ export const useUpdateWithdrawalRequest = () => {
         throw error
       }
     },
-    onSuccess: (_data, { withdrawalRequestId }) => {
-      queryClient.invalidateQueries({
-        queryKey: ["water-reminder", withdrawalRequestId]
-      })
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["withdrawal-requests"] })
+      queryClient.invalidateQueries({ queryKey: ["withdrawal-request"] })
     }
   })
 }

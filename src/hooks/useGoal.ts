@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 
+import { MonQueryKey } from "@/constants/query"
+
 import { useError } from "@/contexts/ErrorContext"
 
 import {
@@ -10,7 +12,6 @@ import {
 } from "@/schemas/goalSchema"
 
 import {
-  getGoalById,
   getGoalsByUserId,
   getNutritionGoalByUserId,
   getWaterIntakeGoalByUserId,
@@ -22,7 +23,7 @@ export const useGetGoalsByUserId = (userId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<GoalType[], Error>({
-    queryKey: ["goals", userId],
+    queryKey: [MonQueryKey.Goal.Goals, userId],
     queryFn: async () => {
       try {
         return await getGoalsByUserId(userId)
@@ -36,29 +37,11 @@ export const useGetGoalsByUserId = (userId: string | undefined) => {
   })
 }
 
-export const useGetGoalById = (goalId: string | undefined) => {
-  const handleError = useError()
-
-  return useQuery<GoalType, Error>({
-    queryKey: ["goal", goalId],
-    queryFn: async () => {
-      try {
-        return await getGoalById(goalId)
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
-    },
-    enabled: !!goalId,
-    staleTime: 1000 * 60 * 5
-  })
-}
-
 export const useGetWeightGoal = (userId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<WeightGoalType, Error>({
-    queryKey: ["weight-goal", userId],
+    queryKey: [MonQueryKey.Goal.WeightGoal, userId],
     queryFn: async () => {
       try {
         return await getWeightGoalByUserId(userId)
@@ -76,7 +59,7 @@ export const useGetNutritionGoal = (userId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<NutritionGoalType, Error>({
-    queryKey: ["nutrition-goal", userId],
+    queryKey: [MonQueryKey.Goal.NutritionGoal, userId],
     queryFn: async () => {
       try {
         return await getNutritionGoalByUserId(userId)
@@ -94,7 +77,7 @@ export const useGetWaterIntakeGoal = (userId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<WaterIntakeGoalType, Error>({
-    queryKey: ["water-goal", userId],
+    queryKey: [MonQueryKey.Goal.WaterGoal, userId],
     queryFn: async () => {
       try {
         return await getWaterIntakeGoalByUserId(userId)
@@ -112,7 +95,7 @@ export const useGetWorkoutGoal = (userId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<GoalType, Error>({
-    queryKey: ["workout-goal", userId],
+    queryKey: [MonQueryKey.Goal.WorkoutGoal, userId],
     queryFn: async () => {
       try {
         return await getWorkoutGoalByUserId(userId)

@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
+import { MonQueryKey } from "@/constants/query"
+
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
 
@@ -54,7 +56,9 @@ export const useCreateReview = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["reviews"] })
-      queryClient.invalidateQueries({ queryKey: ["bookings-user"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Booking.UserBookings]
+      })
     }
   })
 }

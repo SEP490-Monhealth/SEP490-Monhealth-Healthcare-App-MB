@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { TimeSlot } from "@/components/local/schedules/TimeSlotSelector"
 
 import { ScheduleTypeEnum } from "@/constants/enum/Schedule"
+import { MonQueryKey } from "@/constants/query"
 
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
@@ -71,7 +72,9 @@ export const useCreateSchedule = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["schedules-time-slots"] })
       queryClient.invalidateQueries({ queryKey: ["schedules"] })
-      queryClient.invalidateQueries({ queryKey: ["consultants"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Consultant.Consultants]
+      })
     }
   })
 }

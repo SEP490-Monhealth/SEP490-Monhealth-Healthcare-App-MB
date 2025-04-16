@@ -1,3 +1,5 @@
+import axios from "axios"
+
 import monAPI from "@/lib/monAPI"
 
 import { CreateUpdateMetricType, MetricType } from "@/schemas/metricSchema"
@@ -59,33 +61,18 @@ export const updateMetric = async (
     const { success, message } = response.data
 
     if (!success) {
-      if (showModal)
-        showModal(message || "Không thể cập nhật thông tin sức khỏe mới")
-
-      throw {
-        isCustomError: true,
-        message: message || "Không thể cập nhật thông tin sức khỏe mới"
-      }
+      if (showModal) showModal(message)
+      throw { isCustomError: true, message: message }
     }
 
-    if (showModal) showModal("Cập nhật thông tin sức khỏe thành công")
-
+    if (showModal) showModal(message)
     console.log(message)
     return message
   } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      if (showModal) showModal("Đã xảy ra lỗi khi cập nhật thông tin sức khỏe")
-
-      console.log("Lỗi từ server:", error.response?.data || error.message)
-      throw error
-    } else {
-      if (showModal) showModal("Đã xảy ra lỗi không mong muốn")
-
-      console.log("Lỗi không phải Axios:", error)
-      throw {
-        isCustomError: true,
-        message: "Đã xảy ra lỗi không mong muốn"
-      }
+    if (showModal) showModal(error.message)
+    throw {
+      isCustomError: true,
+      message: "Đã xảy ra lỗi không mong muốn"
     }
   }
 }

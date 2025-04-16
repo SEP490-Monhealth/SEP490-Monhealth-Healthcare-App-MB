@@ -85,11 +85,7 @@ export const useCreateScheduleException = (
       }
     },
     onSuccess: () => {
-      if (consultantId) {
-        queryClient.invalidateQueries({
-          queryKey: ["schedule-exceptions", consultantId]
-        })
-      }
+      queryClient.invalidateQueries({ queryKey: ["schedule-exceptions"] })
     }
   })
 }

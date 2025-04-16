@@ -53,7 +53,7 @@ export const useCreateMetric = () => {
   })
 }
 
-export const useUpdateMetric = (userId: string | undefined) => {
+export const useUpdateMetric = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
   const { showModal } = useModal()
@@ -69,12 +69,15 @@ export const useUpdateMetric = (userId: string | undefined) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [MonQueryKey.Metric.Metrics] })
-      if (userId) {
-        queryClient.invalidateQueries({
-          queryKey: [MonQueryKey.Metric.Metrics, userId]
-        })
-        queryClient.invalidateQueries({ queryKey: ["goals", userId] })
-      }
+      queryClient.invalidateQueries({ queryKey: [MonQueryKey.Goal.Goals] })
+      queryClient.invalidateQueries({ queryKey: [MonQueryKey.Goal.WeightGoal] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Goal.NutritionGoal]
+      })
+      queryClient.invalidateQueries({ queryKey: [MonQueryKey.Goal.WaterGoal] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Goal.WorkoutGoal]
+      })
     }
   })
 }

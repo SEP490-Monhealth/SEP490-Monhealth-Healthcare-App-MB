@@ -31,13 +31,48 @@ const metricSchema = z.object({
     ),
   gender: validEnumWithNull(GenderSchemaEnum, "giới tính"),
   height: z
-    .number()
-    .min(100, { message: "Chiều cao phải lớn hơn 100 cm" })
-    .max(220, { message: "Chiều cao không được lớn hơn 220 cm" }),
+    .union([z.string(), z.number()])
+    .refine(
+      (val) =>
+        val !== null &&
+        /^\d*\.?\d*$/.test(val.toString()) &&
+        parseFloat(val.toString()) > 0,
+      {
+        message: "Chiều cao phải là số dương hợp lệ"
+      }
+    )
+    .refine(
+      (val) => {
+        const height = parseFloat(val.toString())
+        return height >= 50 && height <= 250
+      },
+      {
+        message: "Chiều cao phải nằm trong khoảng từ 50cm đến 250cm"
+      }
+    )
+    .transform((val) => (val !== null ? parseFloat(val.toString()) : 0)),
+
   weight: z
-    .number()
-    .min(30, { message: "Cân nặng phải lớn hơn 30 kg" })
-    .max(200, { message: "Cân nặng không được lớn hơn 200 kg" }),
+    .union([z.string(), z.number()])
+    .refine(
+      (val) =>
+        val !== null &&
+        /^\d*\.?\d*$/.test(val.toString()) &&
+        parseFloat(val.toString()) > 0,
+      {
+        message: "Cân nặng phải là số dương hợp lệ"
+      }
+    )
+    .refine(
+      (val) => {
+        const weight = parseFloat(val.toString())
+        return weight >= 10 && weight <= 300
+      },
+      {
+        message: "Cân nặng phải nằm trong khoảng từ 10kg đến 300kg"
+      }
+    )
+    .transform((val) => (val !== null ? parseFloat(val.toString()) : 0)),
   activityLevel: z.number().refine((val) => activityLevels.includes(val), {
     message: `Hệ số hoạt động không hợp lệ. Các giá trị hợp lệ: ${activityLevels.join(", ")}`
   }),
@@ -62,7 +97,7 @@ export const genderSetupSchema = metricSchema.pick({
   gender: true
 })
 
-export const heightWeightSetupSchema = z.object({
+const heightWeightSetupSchema = z.object({
   height: z
     .union([z.string(), z.number()])
     .refine(
@@ -74,7 +109,17 @@ export const heightWeightSetupSchema = z.object({
         message: "Chiều cao phải là số dương hợp lệ"
       }
     )
+    .refine(
+      (val) => {
+        const height = parseFloat(val.toString())
+        return height >= 50 && height <= 250
+      },
+      {
+        message: "Chiều cao phải nằm trong khoảng từ 50cm đến 250cm"
+      }
+    )
     .transform((val) => (val !== null ? parseFloat(val.toString()) : 0)),
+
   weight: z
     .union([z.string(), z.number()])
     .refine(
@@ -84,6 +129,15 @@ export const heightWeightSetupSchema = z.object({
         parseFloat(val.toString()) > 0,
       {
         message: "Cân nặng phải là số dương hợp lệ"
+      }
+    )
+    .refine(
+      (val) => {
+        const weight = parseFloat(val.toString())
+        return weight >= 10 && weight <= 300
+      },
+      {
+        message: "Cân nặng phải nằm trong khoảng từ 10kg đến 300kg"
       }
     )
     .transform((val) => (val !== null ? parseFloat(val.toString()) : 0))

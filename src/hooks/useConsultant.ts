@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
+import { MonQueryKey } from "@/constants/query"
+
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
 
@@ -35,7 +37,7 @@ export const useGetAllConsultants = (
 
   return useQuery<ConsultantResponse, Error>({
     queryKey: [
-      "consultants",
+      MonQueryKey.Consultant.Consultants,
       page,
       limit,
       expertise,
@@ -68,7 +70,7 @@ export const useGetConsultantById = (consultantId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<ConsultantType, Error>({
-    queryKey: ["consultant", consultantId],
+    queryKey: [MonQueryKey.Consultant.Consultant, consultantId],
     queryFn: async () => {
       try {
         return await getConsultantById(consultantId)
@@ -97,7 +99,9 @@ export const useCreateConsultant = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["consultants"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Consultant.Consultants]
+      })
     }
   })
 }
@@ -121,8 +125,12 @@ export const useUpdateConsultant = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["consultants"] })
-      queryClient.invalidateQueries({ queryKey: ["consultant"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Consultant.Consultants]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Consultant.Consultant]
+      })
     }
   })
 }

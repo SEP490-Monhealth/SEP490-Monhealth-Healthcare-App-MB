@@ -51,6 +51,14 @@ export const MonQueryKey = {
     Food: "food"
   },
 
+  Goal: {
+    Goals: "goals",
+    WeightGoal: "weight-goal",
+    NutritionGoal: "nutrition-goal",
+    WaterGoal: "water-goal",
+    WorkoutGoal: "workout-goal"
+  },
+
   Meal: {
     Meals: "meals",
     Meal: "meal",
