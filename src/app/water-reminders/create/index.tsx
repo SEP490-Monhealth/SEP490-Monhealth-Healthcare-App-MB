@@ -21,8 +21,6 @@ import {
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import { COLORS } from "@/constants/color"
-
 import { useAuth } from "@/contexts/AuthContext"
 
 import { useCreateWaterReminder } from "@/hooks/useWaterReminder"
@@ -52,10 +50,7 @@ function WaterReminderCreateScreen() {
     defaultValues: {
       userId: userId,
       name: "",
-      time: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit"
-      }),
+      time: "",
       volume: 0,
       isRecurring: false
     }
