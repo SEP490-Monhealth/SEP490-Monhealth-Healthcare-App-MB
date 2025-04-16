@@ -12,6 +12,7 @@ import {
 import {
   createWithdrawalRequest,
   deleteWithdrawalRequest,
+  getWithdrawalRequestById,
   getWithdrawalRequestsByConsultantId,
   updateWithdrawalRequest
 } from "@/services/withdrawalRequestService"
@@ -48,6 +49,26 @@ export const useGetWithdrawalRequestsByConsultantId = (
   })
 }
 
+export const useGetWithdrawalRequestById = (
+  withdrawalRequestId: string | undefined
+) => {
+  const handleError = useError()
+
+  return useQuery<WithdrawalRequestType, Error>({
+    queryKey: ["withdrawal-request", withdrawalRequestId],
+    queryFn: async () => {
+      try {
+        return await getWithdrawalRequestById(withdrawalRequestId)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    enabled: !!withdrawalRequestId,
+    staleTime: 1000 * 60 * 5
+  })
+}
+
 export const useCreateWithdrawalRequest = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
@@ -68,7 +89,7 @@ export const useCreateWithdrawalRequest = () => {
   })
 }
 
-export const useUpdateWaterReminder = () => {
+export const useUpdateWithdrawalRequest = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
   const { showModal } = useModal()
@@ -99,7 +120,7 @@ export const useUpdateWaterReminder = () => {
   })
 }
 
-export const useDeleteWaterReminder = () => {
+export const useDeleteWithdrawalRequest = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
   const { showModal } = useModal()

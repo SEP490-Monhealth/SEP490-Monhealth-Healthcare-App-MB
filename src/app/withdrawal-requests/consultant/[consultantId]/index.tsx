@@ -1,13 +1,27 @@
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useEffect, useMemo, useRef, useState } from "react"
 
-import { ActivityIndicator, FlatList, Keyboard, View } from "react-native"
+import {
+  ActivityIndicator,
+  FlatList,
+  Keyboard,
+  SafeAreaView,
+  TouchableWithoutFeedback,
+  View
+} from "react-native"
 
-import { useLocalSearchParams } from "expo-router"
+import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
-import { Add } from "iconsax-react-native"
+import { Add, Edit2, Trash } from "iconsax-react-native"
 
-import { Container, Content } from "@/components/global/atoms"
+import {
+  Container,
+  Content,
+  Modal,
+  Sheet,
+  SheetRefProps,
+  SheetSelect
+} from "@/components/global/atoms"
 import {
   ErrorDisplay,
   ListFooter,
@@ -18,11 +32,16 @@ import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
 
-import { useGetWithdrawalRequestsByConsultantId } from "@/hooks/useWithdrawalRequest"
+import {
+  useDeleteWithdrawalRequest,
+  useGetWithdrawalRequestsByConsultantId
+} from "@/hooks/useWithdrawalRequest"
 
 import { WithdrawalRequestType } from "@/schemas/withdrawalRequestSchema"
 
 function WithdrawalRequestsScreen() {
+  const router = useRouter()
+
   const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
 
   const [withdrawalRequestsData, setWithdrawalRequestsData] = useState<
@@ -31,6 +50,14 @@ function WithdrawalRequestsScreen() {
   const [page, setPage] = useState<number>(1)
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
+  const [isVisible, setIsVisible] = useState<boolean>(false)
+  const [selectedRequest, setSelectedRequest] = useState<string | null>("")
+
+  const ActionRef = useRef<SheetRefProps>(null)
+  const openSheetAction = () => ActionRef.current?.scrollTo(-180)
+  const closeSheet = () => {
+    ActionRef.current?.scrollTo(0)
+  }
 
   const limit = 10
 
@@ -39,6 +66,8 @@ function WithdrawalRequestsScreen() {
     page,
     limit
   )
+
+  const { mutate: deleteWithdrawalRequest } = useDeleteWithdrawalRequest()
 
   useEffect(() => {
     if (data?.withdrawalRequests) {
@@ -90,60 +119,118 @@ function WithdrawalRequestsScreen() {
     return <LoadingScreen />
   }
 
-  return (
-    <Container>
-      <Header
-        back
-        label="Yêu cầu rút tiền"
-        action={{
-          icon: <Add size={24} color={COLORS.primary} />,
-          href: `/withdrawal-requests/consultant/${consultantId}/create`
-        }}
-      />
+  const handleAction = (requestId: string) => {
+    setSelectedRequest(requestId)
+    openSheetAction()
+  }
 
-      <Content className="mt-2">
-        <FlatList
-          data={withdrawalRequestsData || []}
-          keyExtractor={(item, index) => `${item.withdrawalRequestId}-${index}`}
-          onRefresh={onRefresh}
-          refreshing={isRefreshing}
-          showsVerticalScrollIndicator={false}
-          stickyHeaderIndices={[0]}
-          initialNumToRender={10}
-          maxToRenderPerBatch={5}
-          windowSize={5}
-          onEndReached={onEndReached}
-          onEndReachedThreshold={0.5}
-          ListHeaderComponent={FlatListHeader}
-          renderItem={({ item }) => (
-            <WithdrawalRequestCard
-              description={item.description}
-              amount={item.amount}
-              time={item.createdAt}
-              status={item.status}
+  const handleUpdate = () => {
+    closeSheet()
+    router.push(
+      `/withdrawal-requests/consultant/${consultantId}/update/${selectedRequest}`
+    )
+    setSelectedRequest(null)
+  }
+
+  const handleDelete = () => {
+    setIsVisible(true)
+    closeSheet()
+  }
+
+  const handleConfirmDelete = () => {
+    if (selectedRequest) {
+      setIsVisible(false)
+      deleteWithdrawalRequest(selectedRequest)
+    }
+    setSelectedRequest(null)
+  }
+
+  return (
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <SafeAreaView className="flex-1 bg-background">
+        <Container>
+          <Header
+            back
+            label="Yêu cầu rút tiền"
+            action={{
+              icon: <Add size={24} color={COLORS.primary} />,
+              href: `/withdrawal-requests/consultant/${consultantId}/create`
+            }}
+          />
+
+          <Content className="mt-2">
+            <FlatList
+              data={withdrawalRequestsData || []}
+              keyExtractor={(item, index) =>
+                `${item.withdrawalRequestId}-${index}`
+              }
+              onRefresh={onRefresh}
+              refreshing={isRefreshing}
+              showsVerticalScrollIndicator={false}
+              stickyHeaderIndices={[0]}
+              initialNumToRender={10}
+              maxToRenderPerBatch={5}
+              windowSize={5}
+              onEndReached={onEndReached}
+              onEndReachedThreshold={0.5}
+              ListHeaderComponent={FlatListHeader}
+              renderItem={({ item }) => (
+                <WithdrawalRequestCard
+                  description={item.description}
+                  amount={item.amount}
+                  time={item.createdAt}
+                  status={item.status}
+                  onPress={() => handleAction(item.withdrawalRequestId)}
+                />
+              )}
+              ListFooterComponent={
+                hasMore ? (
+                  <ListFooter>
+                    <ActivityIndicator color={COLORS.primary} />
+                  </ListFooter>
+                ) : (
+                  <ListFooter />
+                )
+              }
+              ListEmptyComponent={
+                <ErrorDisplay
+                  imageSource={require("../../../../../public/images/monhealth-no-data-image.png")}
+                  title="Không có dữ liệu"
+                  description="Không tìm thấy có yêu cầu nào ở đây!"
+                  marginTop={24}
+                />
+              }
+              ItemSeparatorComponent={() => <View className="h-3" />}
             />
-          )}
-          ListFooterComponent={
-            hasMore ? (
-              <ListFooter>
-                <ActivityIndicator color={COLORS.primary} />
-              </ListFooter>
-            ) : (
-              <ListFooter />
-            )
-          }
-          ListEmptyComponent={
-            <ErrorDisplay
-              imageSource={require("../../../../../public/images/monhealth-no-data-image.png")}
-              title="Không có dữ liệu"
-              description="Không tìm thấy có yêu cầu nào ở đây!"
-              marginTop={24}
-            />
-          }
-          ItemSeparatorComponent={() => <View className="h-3" />}
+          </Content>
+        </Container>
+
+        <Sheet ref={ActionRef} dynamicHeight={180}>
+          <SheetSelect
+            label="Cập nhật"
+            icon={<Edit2 variant="Bold" size="20" color={COLORS.primary} />}
+            onPress={handleUpdate}
+          />
+
+          <SheetSelect
+            variant="danger"
+            label="Xóa"
+            icon={<Trash variant="Bold" size="20" color={COLORS.destructive} />}
+            onPress={handleDelete}
+          />
+        </Sheet>
+
+        <Modal
+          isVisible={isVisible}
+          onClose={() => setIsVisible(false)}
+          title="Xóa yêu cầu"
+          description="Bạn có chắc chắn muốn xóa yêu cầu này không?"
+          confirmText="Xóa"
+          cancelText="Hủy"
+          onConfirm={handleConfirmDelete}
         />
-      </Content>
-    </Container>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   )
 }
 

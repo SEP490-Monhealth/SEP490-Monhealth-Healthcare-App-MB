@@ -39,6 +39,29 @@ export const getWithdrawalRequestsByConsultantId = async (
   }
 }
 
+export const getWithdrawalRequestById = async (
+  withdrawalRequestId: string | undefined
+): Promise<WithdrawalRequestType> => {
+  try {
+    const response = await monAPI.get(
+      `/withdrawal-requests/${withdrawalRequestId}`
+    )
+
+    const { success, message, data } = response.data
+
+    if (!success) {
+      throw { isCustomError: true, message: message }
+    }
+
+    return data as WithdrawalRequestType
+  } catch (error: any) {
+    throw {
+      isCustomError: true,
+      message: "Đã xảy ra lỗi không mong muốn"
+    }
+  }
+}
+
 export const createWithdrawalRequest = async (
   newData: CreateWithdrawalRequestType,
   showModal: (message: string) => void
