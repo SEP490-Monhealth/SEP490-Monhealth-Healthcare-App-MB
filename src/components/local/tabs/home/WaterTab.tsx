@@ -12,9 +12,9 @@ import { Section } from "@/components/global/organisms"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useGetDailyWaterIntakeByUserId } from "@/hooks/useDailyWaterIntake"
 import { useGetWaterIntakeGoal } from "@/hooks/useGoal"
 import {
+  useGetDailyWaterIntakeByUserId,
   useGetWaterReminderByUserId,
   useUpdateWaterReminderDrunk
 } from "@/hooks/useWaterReminder"

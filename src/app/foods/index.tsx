@@ -36,11 +36,10 @@ import { useSearch } from "@/contexts/SearchContext"
 import { useStorage } from "@/contexts/StorageContext"
 
 import { useGetCategoriesByType } from "@/hooks/useCategory"
-import { useGetDailyMealByUserId } from "@/hooks/useDailyMeal"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useGetAllFoods } from "@/hooks/useFood"
 import { useGetNutritionGoal } from "@/hooks/useGoal"
-import { useCreateMeal } from "@/hooks/useMeal"
+import { useCreateMeal, useGetDailyMealByUserId } from "@/hooks/useMeal"
 
 import { FoodType } from "@/schemas/foodSchema"
 import { CreateMealType } from "@/schemas/mealSchema"
@@ -217,12 +216,12 @@ function FoodsScreen() {
   )
 
   const confirmAddMeal = (mealData: CreateMealType) => {
-    console.log(JSON.stringify(mealData, null, 2))
+    // console.log(JSON.stringify(mealData, null, 2))
 
-    // addMeal(mealData, {
-    //   onSuccess: () =>
-    //     setAddedFoods((prev) => new Set(prev).add(mealData.items[0].foodId))
-    // })
+    addMeal(mealData, {
+      onSuccess: () =>
+        setAddedFoods((prev) => new Set(prev).add(mealData.items[0].foodId))
+    })
     setWarningModal(null)
   }
 

@@ -48,18 +48,18 @@ const MetricUpdateScreen = () => {
   const router = useRouter()
   const { userId } = useLocalSearchParams<{ userId: string }>()
 
+  const DateOfBirthRef = useRef<SheetRefProps>(null)
+  const GenderRef = useRef<SheetRefProps>(null)
+  const GoalTypeRef = useRef<SheetRefProps>(null)
+  const ActivityLevelRef = useRef<SheetRefProps>(null)
+  const CaloriesRatioRef = useRef<SheetRefProps>(null)
+
+  const { mutate: updateMetric } = useUpdateMetric(userId)
+
   const { data: metricsData, isLoading: isMetricsLoading } =
     useGetMetricsByUserId(userId)
   const { data: goalsData, isLoading: isGoalsLoading } =
     useGetGoalsByUserId(userId)
-
-  const { mutate: updateMetric } = useUpdateMetric(userId)
-
-  const DateOfBirthRef = useRef<SheetRefProps>(null)
-  const GenderRef = useRef<SheetRefProps>(null)
-  const ActivityLevelRef = useRef<SheetRefProps>(null)
-  const GoalTypeRef = useRef<SheetRefProps>(null)
-  const CaloriesRatioRef = useRef<SheetRefProps>(null)
 
   const {
     control,
@@ -84,27 +84,26 @@ const MetricUpdateScreen = () => {
 
   useEffect(() => {
     if (metricsData && goalsData) {
-      const metricData = metricsData[0]
-      const goalData = goalsData[0]
+      const currentMetricData = metricsData[0]
+      const currentGoalData = goalsData[0]
 
       reset({
         userId: userId,
-        dateOfBirth: metricData.dateOfBirth,
-        gender: metricData.gender,
-        height: metricData.height,
-        weight: metricData.weight,
-        activityLevel: metricData.activityLevel,
-        goalType: goalData.type,
-        weightGoal: goalData.weightGoal,
-        caloriesRatio: goalData.caloriesRatio
+        dateOfBirth: currentMetricData.dateOfBirth,
+        gender: currentMetricData.gender,
+        height: currentMetricData.height,
+        weight: currentMetricData.weight,
+        activityLevel: currentMetricData.activityLevel,
+        goalType: currentGoalData.type,
+        weightGoal: currentGoalData.weightGoal,
+        caloriesRatio: currentGoalData.caloriesRatio
       })
 
-      // cập nhật các state tương ứng nếu muốn
-      setDob(metricData.dateOfBirth)
-      setGender(metricData.gender)
-      setActivityLevel(metricData.activityLevel)
-      setGoalType(goalData.type)
-      setCaloriesRatio(goalData.caloriesRatio)
+      setDob(currentMetricData.dateOfBirth)
+      setGender(currentMetricData.gender)
+      setGoalType(currentGoalData.type)
+      setActivityLevel(currentMetricData.activityLevel)
+      setCaloriesRatio(currentGoalData.caloriesRatio)
     }
   }, [metricsData, goalsData])
 
@@ -112,18 +111,20 @@ const MetricUpdateScreen = () => {
     return <LoadingScreen />
   }
 
-  const metricData = metricsData[0]
-  const goalData = goalsData[0]
+  const currentMetricData = metricsData[0]
+  const currentGoalData = goalsData[0]
 
-  const [selectedDob, setDob] = useState<string | Date>(metricData.dateOfBirth)
-  const [selectedGender, setGender] = useState<number>(metricData.gender)
-  const [selectedActivityLevel, setActivityLevel] = useState<number>(
-    metricData.activityLevel
+  const [selectedDob, setDob] = useState<string | Date>(
+    currentMetricData.dateOfBirth
   )
-  const [selectedGoalType, setGoalType] = useState<number>(goalData.type)
+  const [selectedGender, setGender] = useState<number>(currentMetricData.gender)
+  const [selectedGoalType, setGoalType] = useState<number>(currentGoalData.type)
+  const [selectedActivityLevel, setActivityLevel] = useState<number>(
+    currentMetricData.activityLevel
+  )
   const [selectedCaloriesRatio, setCaloriesRatio] = useState<
     number | undefined
-  >(goalData.caloriesRatio)
+  >(currentGoalData.caloriesRatio)
 
   const filteredCaloriesRatio =
     selectedGoalType === GoalTypeEnum.WeightLoss
@@ -136,8 +137,8 @@ const MetricUpdateScreen = () => {
 
   const openSheetDateOfBirth = () => DateOfBirthRef.current?.scrollTo(-320)
   const openSheetGender = () => GenderRef.current?.scrollTo(-180)
-  const openSheetActivity = () => ActivityLevelRef.current?.scrollTo(-320)
-  const openSheetGoalType = () => GoalTypeRef.current?.scrollTo(-200)
+  const openSheetGoalType = () => GoalTypeRef.current?.scrollTo(-240)
+  const openSheetActivityLevel = () => ActivityLevelRef.current?.scrollTo(-320)
   const openSheetCaloriesRatio = () => {
     if (filteredCaloriesRatio.length === 3) {
       CaloriesRatioRef.current?.scrollTo(-240)
@@ -238,7 +239,15 @@ const MetricUpdateScreen = () => {
                       value={value?.toString() || ""}
                       label="Chiều cao"
                       placeholder="VD: 170"
-                      onChangeText={(text) => onChange(parseFloat(text) || 0)}
+                      onChangeText={(text) => {
+                        const formattedText = text.replace(",", ".")
+                        if (
+                          /^\d*\.?\d*$/.test(formattedText) ||
+                          formattedText === ""
+                        ) {
+                          onChange(formattedText)
+                        }
+                      }}
                       keyboardType="decimal-pad"
                       endIcon={
                         <Text className="font-tregular text-sm text-accent">
@@ -260,7 +269,15 @@ const MetricUpdateScreen = () => {
                       value={value?.toString() || ""}
                       label="Cân nặng"
                       placeholder="VD: 60"
-                      onChangeText={(text) => onChange(parseFloat(text) || 0)}
+                      onChangeText={(text) => {
+                        const formattedText = text.replace(",", ".")
+                        if (
+                          /^\d*\.?\d*$/.test(formattedText) ||
+                          formattedText === ""
+                        ) {
+                          onChange(formattedText)
+                        }
+                      }}
                       keyboardType="decimal-pad"
                       endIcon={
                         <Text className="font-tregular text-sm text-accent">
@@ -308,7 +325,7 @@ const MetricUpdateScreen = () => {
                   label="Mức độ hoạt động"
                   defaultValue="Chọn mức độ hoạt động"
                   value={activityLevelLabel}
-                  onPress={openSheetActivity}
+                  onPress={openSheetActivityLevel}
                 />
 
                 <VStack>
@@ -345,6 +362,7 @@ const MetricUpdateScreen = () => {
             />
           ))}
         </Sheet>
+
         <Sheet ref={DateOfBirthRef} dynamicHeight={300}>
           <View className="items-center">
             <DateTimePicker
@@ -358,6 +376,7 @@ const MetricUpdateScreen = () => {
             />
           </View>
         </Sheet>
+
         <Sheet ref={ActivityLevelRef} dynamicHeight={300}>
           {DATA.ACTIVITY_LEVELS.map((activity) => (
             <SheetItem
@@ -368,6 +387,7 @@ const MetricUpdateScreen = () => {
             />
           ))}
         </Sheet>
+
         <Sheet ref={GoalTypeRef} dynamicHeight={400}>
           {DATA.GOALS.map((goalType) => (
             <SheetItem
@@ -378,6 +398,7 @@ const MetricUpdateScreen = () => {
             />
           ))}
         </Sheet>
+
         <Sheet ref={CaloriesRatioRef} dynamicHeight={400}>
           {filteredCaloriesRatio.map((caloriesRatio) => (
             <SheetItem

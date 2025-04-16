@@ -41,10 +41,9 @@ import { MealTypeEnum } from "@/constants/enum/Food"
 import { useAuth } from "@/contexts/AuthContext"
 import { useStorage } from "@/contexts/StorageContext"
 
-import { useGetDailyMealByUserId } from "@/hooks/useDailyMeal"
 import { useGetFoodById } from "@/hooks/useFood"
 import { useGetNutritionGoal } from "@/hooks/useGoal"
-import { useCreateMeal } from "@/hooks/useMeal"
+import { useCreateMeal, useGetDailyMealByUserId } from "@/hooks/useMeal"
 import { useGetNutritionByFoodId } from "@/hooks/useNutrition"
 import { useGetPortionByFoodId } from "@/hooks/usePortion"
 

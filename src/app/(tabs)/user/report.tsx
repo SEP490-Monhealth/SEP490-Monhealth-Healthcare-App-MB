@@ -24,8 +24,8 @@ import { MealTypeEnum } from "@/constants/enum/Food"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useGetDailyMealByUserId } from "@/hooks/useDailyMeal"
 import { useGetNutritionGoal } from "@/hooks/useGoal"
+import { useGetDailyMealByUserId } from "@/hooks/useMeal"
 import { useGetWeeklyMealByUserId } from "@/hooks/useReport"
 
 import { toFixed } from "@/utils/formatters"
@@ -46,18 +46,24 @@ function ReportScreen() {
   const { user } = useAuth()
   const userId = user?.userId
 
-  const today = new Date().toISOString().split("T")[0]
+  const today = new Date()
+  const todayWithOffset = new Date(today.getTime() + 7 * 60 * 60 * 1000)
+  const formattedDate = todayWithOffset.toISOString().split("T")[0]
 
-  const [selectedDate, setSelectedDate] = useState<string>(today)
+  const [selectedDate, setSelectedDate] = useState<string>(formattedDate)
 
-  const { data: weeklyMealData } = useGetWeeklyMealByUserId(userId, today)
+  const { data: weeklyMealData } = useGetWeeklyMealByUserId(
+    userId,
+    formattedDate
+  )
   const { data: dailyMealData } = useGetDailyMealByUserId(userId, selectedDate)
 
   const { data: nutritionGoalData } = useGetNutritionGoal(userId)
 
-  console.log(JSON.stringify(weeklyMealData, null, 2));
+  // console.log(JSON.stringify(weeklyMealData, null, 2));
+  // console.log(JSON.stringify(dailyMealData, null, 2));
 
-  const reportDate = getWeekRange(today)
+  const reportDate = getWeekRange(formattedDate)
   const mealsData = dailyMealData?.items || []
 
   if (!weeklyMealData || !dailyMealData || !nutritionGoalData) {
@@ -190,7 +196,7 @@ function ReportScreen() {
           </VStack>
 
           <BarChart
-            date={today}
+            date={formattedDate}
             labels={labels}
             data={weeklyMealData}
             onSelectDate={setSelectedDate}
