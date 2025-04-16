@@ -34,13 +34,15 @@ interface WithdrawalRequestCardProps {
   amount: number
   time: string
   status: WithdrawalRequestStatusEnum
+  onPress?: () => void
 }
 
 export const WithdrawalRequestCard = ({
   description,
   amount,
   time,
-  status
+  status,
+  onPress
 }: WithdrawalRequestCardProps) => {
   const { label: withdrawalRequestStatusLabel } =
     getWithdrawalRequestStatusMeta(status)
@@ -48,7 +50,7 @@ export const WithdrawalRequestCard = ({
   const { date, time: timestamp } = formatDateTime(time)
 
   return (
-    <Card className="flex-row items-center justify-between">
+    <Card className="flex-row items-center justify-between" onPress={onPress}>
       <TouchableOpacity
         activeOpacity={1}
         className="mr-4 h-12 w-12 items-center justify-center rounded-full bg-muted"
