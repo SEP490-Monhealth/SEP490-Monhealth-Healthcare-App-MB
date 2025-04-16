@@ -1,19 +1,23 @@
 import React from "react"
 
-import { Linking, View } from "react-native"
+import { Linking, Text, View } from "react-native"
 
 import { useLocalSearchParams } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
 
+import { Card, Container, Content, ScrollArea } from "@/components/global/atoms"
 import {
-  Container,
-  Content,
-  ScrollArea,
-  VStack
-} from "@/components/global/atoms"
-import { MeetingCard, MetricCard } from "@/components/global/molecules"
+  BookingCard,
+  ErrorDisplay,
+  MeetingCard
+} from "@/components/global/molecules"
+import { BodyIndex } from "@/components/global/molecules/BodyIndex"
+import { MetricItem } from "@/components/global/molecules/MetricItem"
 import { Header, Section } from "@/components/global/organisms"
+
+import { getGenderMeta } from "@/constants/enum/Gender"
+import { getGoalTypeMeta } from "@/constants/enum/Goal"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -22,26 +26,23 @@ import { useGetChatById } from "@/hooks/useChat"
 import { useGetGoalsByUserId } from "@/hooks/useGoal"
 import { useGetMetricsByUserId } from "@/hooks/useMetric"
 
+import { toFixed } from "@/utils/formatters"
+
 const ChatInformationScreen = () => {
   const { chatId } = useLocalSearchParams<{ chatId: string }>()
 
   const { user } = useAuth()
   const userId = user?.userId
-  const consultantId = user?.consultantId
 
   const meetUrl = "https://meet.google.com/abc-defg-hij"
 
-  const { data: chatData, isLoading: isChatLoading } = useGetChatById(chatId)
-  const { data: bookingsData, isLoading: isBookingsLoading } =
-    useGetBookingsByUserIdAndConsultantId(
-      chatData?.userId,
-      chatData?.consultantId
-    )
-  const { data: metricsData, isLoading: isMetricsLoading } =
-    useGetMetricsByUserId(chatData?.userId)
-  const { data: goalsData, isLoading: isGoalsLoading } = useGetGoalsByUserId(
-    chatData?.userId
+  const { data: chatData } = useGetChatById(chatId)
+  const { data: bookingsData } = useGetBookingsByUserIdAndConsultantId(
+    chatData?.userId,
+    chatData?.consultantId
   )
+  const { data: metricsData } = useGetMetricsByUserId(chatData?.userId)
+  const { data: goalsData } = useGetGoalsByUserId(chatData?.userId)
 
   // console.log(JSON.stringify(bookingsData, null, 2))
 
@@ -51,18 +52,26 @@ const ChatInformationScreen = () => {
 
   if (
     !chatData ||
-    isChatLoading ||
     !bookingsData ||
-    isBookingsLoading ||
     !metricsData ||
-    isMetricsLoading ||
     !goalsData ||
-    isGoalsLoading
-  )
+    metricsData.length === 0 ||
+    goalsData.length === 0
+  ) {
     return <LoadingScreen />
+  }
 
-  const metricUser = metricsData[0]
-  const goalUser = goalsData[0]
+  const userMetric = metricsData[0]
+  const userGoal = goalsData[0]
+
+  const { label: genderLabel } = getGenderMeta(userMetric.gender)
+  const { label: goalTypeLabel } = getGoalTypeMeta(userGoal.type)
+
+  const basicMetrics = [
+    { label: "Mục tiêu cân nặng", value: goalTypeLabel },
+    { label: "Chỉ số khối cơ thể (BMI)", value: toFixed(userMetric.bmi) },
+    { label: "Tỷ lệ trao đổi chất (BMR)", value: toFixed(userMetric.bmr) }
+  ]
 
   return (
     <Container>
@@ -77,22 +86,54 @@ const ChatInformationScreen = () => {
 
             {userId !== chatData?.userId && (
               <>
-                <VStack gap={12}>
-                  <Section label="Thông tin người dùng" />
+                <Section label="Thông tin người dùng" />
 
-                  {metricUser && goalUser && (
-                    <MetricCard
-                      variant="chat"
-                      key={metricUser.metricId}
-                      metric={metricUser}
-                      goal={goalUser}
+                <Card>
+                  <BodyIndex
+                    gender={genderLabel}
+                    height={userMetric.height}
+                    weight={userMetric.weight}
+                  />
+
+                  <Text className="mb-2 mt-6 font-tmedium text-base text-primary">
+                    Chỉ số cơ thể
+                  </Text>
+
+                  {basicMetrics.map((item, index) => (
+                    <MetricItem
+                      key={index}
+                      label={item.label}
+                      value={item.value}
                     />
-                  )}
-                </VStack>
+                  ))}
+                </Card>
               </>
             )}
 
             <Section label="Lịch sử đặt lịch" />
+
+            {bookingsData && bookingsData.length > 0 ? (
+              bookingsData.map((booking) => (
+                <BookingCard
+                  key={booking.bookingId}
+                  variant="consultant"
+                  name={booking.consultant.fullName}
+                  date={booking.date}
+                  startTime={booking.startTime}
+                  endTime={booking.endTime}
+                  notes={booking.notes}
+                  status={booking.status}
+                  cancellationReason={booking.cancellationReason}
+                />
+              ))
+            ) : (
+              <ErrorDisplay
+                imageSource={require("../../../../../public/images/monhealth-no-data-image.png")}
+                title="Không có dữ liệu"
+                description="Không tìm thấy có lịch hẹn nào ở đây!"
+                marginTop={12}
+              />
+            )}
           </View>
         </ScrollArea>
       </Content>

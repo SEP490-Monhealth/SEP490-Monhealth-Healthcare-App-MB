@@ -6,7 +6,7 @@ import { HStack } from "@/components/global/atoms"
 
 interface MetricItemProps {
   label: string
-  value?: number
+  value: number | string
   unit?: string
 }
 

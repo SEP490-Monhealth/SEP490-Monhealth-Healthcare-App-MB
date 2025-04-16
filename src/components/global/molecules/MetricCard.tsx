@@ -18,16 +18,11 @@ import { BodyIndex } from "./BodyIndex"
 import { MetricItem } from "./MetricItem"
 
 interface MetricCardProps {
-  variant?: "default" | "chat"
   metric: MetricType
   goal: GoalType
 }
 
-export const MetricCard = ({
-  variant = "default",
-  metric,
-  goal
-}: MetricCardProps) => {
+export const MetricCard = ({ metric, goal }: MetricCardProps) => {
   const [expanded, setExpanded] = useState(false)
 
   const toggleExpanded = () => setExpanded(!expanded)
@@ -109,7 +104,7 @@ export const MetricCard = ({
         <View>
           <VStack className="gap-2">
             <Text className="font-tmedium text-base text-primary">
-              Chỉ số sinh lý
+              Chỉ số cơ bản
             </Text>
 
             {basicMetrics.map((item, index) => (
@@ -117,7 +112,7 @@ export const MetricCard = ({
             ))}
           </VStack>
 
-          {(expanded || variant === "chat") && (
+          {expanded && (
             <>
               <VStack className="mt-2 gap-2">
                 {advancedMetrics.map((item, index) => (
@@ -129,54 +124,48 @@ export const MetricCard = ({
                 ))}
               </VStack>
 
-              {variant === "default" && (
-                <VStack>
-                  <VStack className="mt-5 gap-2">
-                    <Text className="font-tmedium text-base text-primary">
-                      Dinh dưỡng hằng ngày
-                    </Text>
+              <VStack className="mt-5 gap-2">
+                <Text className="font-tmedium text-base text-primary">
+                  Dinh dưỡng hằng ngày
+                </Text>
 
-                    {nutritionMetrics.map((item, index) => (
-                      <MetricItem
-                        key={index}
-                        label={item.label}
-                        value={item.value}
-                        unit={item.unit}
-                      />
-                    ))}
-                  </VStack>
+                {nutritionMetrics.map((item, index) => (
+                  <MetricItem
+                    key={index}
+                    label={item.label}
+                    value={item.value}
+                    unit={item.unit}
+                  />
+                ))}
+              </VStack>
 
-                  <VStack className="mt-5 gap-2">
-                    <Text className="font-tmedium text-base text-primary">
-                      Hoạt động hằng ngày
-                    </Text>
+              <VStack className="mt-5 gap-2">
+                <Text className="font-tmedium text-base text-primary">
+                  Hoạt động hằng ngày
+                </Text>
 
-                    {activityMetrics.map((item, index) => (
-                      <MetricItem
-                        key={index}
-                        label={item.label}
-                        value={item.value}
-                        unit={item.unit}
-                      />
-                    ))}
-                  </VStack>
-                </VStack>
-              )}
+                {activityMetrics.map((item, index) => (
+                  <MetricItem
+                    key={index}
+                    label={item.label}
+                    value={item.value}
+                    unit={item.unit}
+                  />
+                ))}
+              </VStack>
             </>
           )}
         </View>
 
-        {variant === "default" && (
-          <TouchableOpacity
-            onPress={toggleExpanded}
-            activeOpacity={0.8}
-            className="self-end"
-          >
-            <Text className="font-tregular text-sm text-accent">
-              {expanded ? "Ẩn bớt" : "Xem thêm"}
-            </Text>
-          </TouchableOpacity>
-        )}
+        <TouchableOpacity
+          onPress={toggleExpanded}
+          activeOpacity={0.8}
+          className="self-end"
+        >
+          <Text className="font-tregular text-sm text-accent">
+            {expanded ? "Ẩn bớt" : "Xem thêm"}
+          </Text>
+        </TouchableOpacity>
       </VStack>
     </Card>
   )
