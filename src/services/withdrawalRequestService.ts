@@ -94,3 +94,31 @@ export const updateWithdrawalRequest = async (
     }
   }
 }
+
+export const deleteWithdrawalRequest = async (
+  withdrawalRequestId: string,
+  showModal: (message: string) => void
+): Promise<string> => {
+  try {
+    const response = await monAPI.delete(
+      `/withdrawal-requests/${withdrawalRequestId}`
+    )
+
+    const { success, message } = response.data
+
+    if (!success) {
+      showModal(message)
+      throw { isCustomError: true, message: message }
+    }
+
+    showModal(message)
+    console.log(message)
+    return message
+  } catch (error: any) {
+    showModal(error.message)
+    throw {
+      isCustomError: true,
+      message: "Đã xảy ra lỗi không mong muốn"
+    }
+  }
+}

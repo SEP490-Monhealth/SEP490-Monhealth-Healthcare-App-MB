@@ -5,12 +5,15 @@ import { useModal } from "@/contexts/ModalContext"
 
 import {
   CreateWithdrawalRequestType,
+  UpdateWithdrawalRequestType,
   WithdrawalRequestType
 } from "@/schemas/withdrawalRequestSchema"
 
 import {
   createWithdrawalRequest,
-  getWithdrawalRequestsByConsultantId
+  deleteWithdrawalRequest,
+  getWithdrawalRequestsByConsultantId,
+  updateWithdrawalRequest
 } from "@/services/withdrawalRequestService"
 
 interface WithdrawalRequestResponse {
@@ -54,6 +57,57 @@ export const useCreateWithdrawalRequest = () => {
     mutationFn: async (newData) => {
       try {
         return await createWithdrawalRequest(newData, showModal)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["withdrawal-requests"] })
+    }
+  })
+}
+
+export const useUpdateWaterReminder = () => {
+  const queryClient = useQueryClient()
+  const handleError = useError()
+  const { showModal } = useModal()
+
+  return useMutation<
+    string,
+    Error,
+    { withdrawalRequestId: string; updatedData: UpdateWithdrawalRequestType }
+  >({
+    mutationFn: async ({ withdrawalRequestId, updatedData }) => {
+      try {
+        return await updateWithdrawalRequest(
+          withdrawalRequestId,
+          updatedData,
+          showModal
+        )
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    onSuccess: (_data, { withdrawalRequestId }) => {
+      queryClient.invalidateQueries({
+        queryKey: ["water-reminder", withdrawalRequestId]
+      })
+      queryClient.invalidateQueries({ queryKey: ["withdrawal-requests"] })
+    }
+  })
+}
+
+export const useDeleteWaterReminder = () => {
+  const queryClient = useQueryClient()
+  const handleError = useError()
+  const { showModal } = useModal()
+
+  return useMutation<string, Error, string>({
+    mutationFn: async (withdrawalRequestId) => {
+      try {
+        return await deleteWithdrawalRequest(withdrawalRequestId, showModal)
       } catch (error) {
         handleError(error)
         throw error

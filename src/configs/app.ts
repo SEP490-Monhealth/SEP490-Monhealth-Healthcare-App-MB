@@ -1,5 +1,5 @@
 export const appConfig = {
-  baseUrl: "https://dffa-2405-4802-8018-640-9084-8088-aabe-f76.ngrok-free.app",
+  baseUrl: "https://a316-2a09-bac5-d468-16dc-00-247-cd.ngrok-free.app",
   apiVersion: "/api/v1",
   name: "MonAPI",
   version: "1.0.0",
