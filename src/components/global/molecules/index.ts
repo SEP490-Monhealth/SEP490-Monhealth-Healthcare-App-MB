@@ -25,6 +25,7 @@ import { PaymentCard } from "./PaymentCard"
 import { RatingStars } from "./RatingStars"
 import { ReviewCard } from "./ReviewCard"
 import { ScheduleCard } from "./ScheduleCard"
+import { ScheduleExceptionCard } from "./ScheduleExceptionCard"
 import { ServiceChip } from "./ServiceChip"
 import { StepHeader } from "./StepHeader"
 import { SubscriptionCard } from "./SubscriptionCard"
@@ -61,6 +62,7 @@ export {
   RatingStars,
   ReviewCard,
   ScheduleCard,
+  ScheduleExceptionCard,
   ServiceChip,
   StepHeader,
   SubscriptionCard,

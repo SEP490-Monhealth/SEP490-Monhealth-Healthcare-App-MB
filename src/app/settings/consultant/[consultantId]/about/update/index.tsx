@@ -81,6 +81,7 @@ function ConsultantAboutUpdateScreen() {
                   onChangeText={onChange}
                   isMultiline
                   numberOfLines={12}
+                  canClearText
                   errorMessage={errors.bio?.message}
                 />
               )}
