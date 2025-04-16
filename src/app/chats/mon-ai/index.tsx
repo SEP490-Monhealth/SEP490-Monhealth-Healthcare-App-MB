@@ -28,7 +28,7 @@ import { useAuth } from "@/contexts/AuthContext"
 
 import { useCreateChatMonAI } from "@/hooks/useChat"
 
-const ChatMonAIScreen = () => {
+function ChatMonAIScreen() {
   const { user } = useAuth()
   const userId = user?.userId
 

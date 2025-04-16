@@ -29,7 +29,7 @@
     "buffer": "^6.0.3",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
-    "expo": "~52.0.42",
+    "expo": "~52.0.46",
     "expo-constants": "~17.0.8",
     "expo-device": "^7.0.3",
     "expo-file-system": "~18.0.12",

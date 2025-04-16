@@ -318,7 +318,7 @@ function SetupConsultantScreen() {
         meetUrl
       }
 
-      console.log(JSON.stringify(finalData, null, 2))
+      // console.log(JSON.stringify(finalData, null, 2))
 
       /// @ts-ignore
       createConsultant(finalData, {

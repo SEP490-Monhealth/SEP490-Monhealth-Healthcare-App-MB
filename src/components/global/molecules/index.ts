@@ -11,6 +11,7 @@ import { CounterText } from "./CounterText"
 import { CustomHeader } from "./CustomHeader"
 import { ErrorDisplay } from "./ErrorDisplay"
 import { ExerciseCard } from "./ExerciseCard"
+import { FileCard } from "./FileCard"
 import { FoodCard } from "./FoodCard"
 import { IconButton } from "./IconButton"
 import { ListFooter } from "./ListFooter"
@@ -47,6 +48,7 @@ export {
   CustomHeader,
   ErrorDisplay,
   ExerciseCard,
+  FileCard,
   FoodCard,
   IconButton,
   ListFooter,

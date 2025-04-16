@@ -20,7 +20,7 @@ import {
   LogLevel
 } from "@microsoft/signalr"
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { Information, Send2 } from "iconsax-react-native"
+import { ClipboardText, Send2 } from "iconsax-react-native"
 import LottieView from "lottie-react-native"
 
 import { HStack, Input, VStack } from "@/components/global/atoms"
@@ -36,7 +36,7 @@ import { useGetChatById } from "@/hooks/useChat"
 
 import { CreateMessageType, MessageType } from "@/schemas/messageSchema"
 
-const ChatDetailsScreen = () => {
+function ChatDetailsScreen() {
   const { chatId } = useLocalSearchParams<{ chatId: string }>()
 
   const { user } = useAuth()
@@ -190,7 +190,7 @@ const ChatDetailsScreen = () => {
           }
           action={{
             icon: (
-              <Information variant="Bold" size={20} color={COLORS.primary} />
+              <ClipboardText variant="Bold" size={20} color={COLORS.primary} />
             ),
             href: `/chats/${chatId}/information`
           }}
