@@ -48,6 +48,7 @@ function ConsultantInformationScreen() {
   const router = useRouter()
 
   const { user } = useAuth()
+  const userId = user?.userId
   const consultantId = user?.consultantId
 
   const { data: consultantData, isLoading } = useGetConsultantById(consultantId)
@@ -77,7 +78,7 @@ function ConsultantInformationScreen() {
   ]
 
   const handleUpdateConsultant = () => {
-    router.push(`/settings/consultant/${consultantId}/information`)
+    router.push(`/settings/user/${userId}/information/update`)
   }
 
   return (

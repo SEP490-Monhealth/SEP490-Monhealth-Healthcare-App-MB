@@ -83,15 +83,14 @@ export const useUpdateUser = () => {
         throw error
       }
     },
-    onSuccess: (_data, { userId }) => {
-      queryClient.invalidateQueries({
-        queryKey: ["user", userId]
-      })
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user"] })
+      queryClient.invalidateQueries({ queryKey: ["consultant"] })
     }
   })
 }
 
-export const useUpdatePasswordUser = () => {
+export const useUpdateUserPassword = () => {
   const handleError = useError()
   const { showModal } = useModal()
 
@@ -129,10 +128,8 @@ export const useUpdateUserAvatar = () => {
         throw error
       }
     },
-    onSuccess: (_data, { userId }) => {
-      queryClient.invalidateQueries({
-        queryKey: ["user", userId]
-      })
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user"] })
     }
   })
 }

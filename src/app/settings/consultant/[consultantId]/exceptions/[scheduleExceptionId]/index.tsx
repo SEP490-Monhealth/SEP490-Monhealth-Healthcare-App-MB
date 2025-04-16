@@ -109,6 +109,8 @@ function UpdateScheduleExceptionScreen() {
     return <LoadingScreen />
   }
 
+  console.log(errors)
+
   return (
     <TouchableWithoutFeedback>
       <SafeAreaView className="flex-1 bg-background">

@@ -21,7 +21,6 @@ import { MetricCard } from "./MetricCard"
 import { NotificationCard } from "./NotificationCard"
 import { NutritionCard } from "./NutritionCard"
 import { NutritionItem } from "./NutritionItem"
-import { PaymentCard } from "./PaymentCard"
 import { RatingStars } from "./RatingStars"
 import { ReviewCard } from "./ReviewCard"
 import { ScheduleCard } from "./ScheduleCard"
@@ -57,7 +56,6 @@ export {
   MetricCard,
   NotificationCard,
   NutritionCard,
-  PaymentCard,
   NutritionItem,
   RatingStars,
   ReviewCard,

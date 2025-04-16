@@ -94,12 +94,12 @@ function ConsultantDetailsScreen() {
       amount: 2000
     }
 
-    // createBookingTransaction(transactionData, {
-    //   onSuccess: async (response) => {
-    //     const { paymentUrl } = response.data
-    //     Linking.openURL(paymentUrl)
-    //   }
-    // })
+    createBookingTransaction(transactionData, {
+      onSuccess: async (response) => {
+        const { paymentUrl } = response.data
+        Linking.openURL(paymentUrl)
+      }
+    })
   }
 
   const handleChat = async () => {

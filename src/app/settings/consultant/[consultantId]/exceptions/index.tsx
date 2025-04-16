@@ -43,6 +43,8 @@ function ScheduleExceptionsScreen() {
   const router = useRouter()
   const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
 
+  const SheetRef = useRef<SheetRefProps>(null)
+
   const [scheduleExceptionsData, setScheduleExceptionsData] = useState<
     ScheduleExceptionType[]
   >([])
@@ -51,10 +53,8 @@ function ScheduleExceptionsScreen() {
   const [selectedScheduleExceptionId, setSelectedScheduleExceptionId] =
     useState<string | null>("")
 
-  const ActionRef = useRef<SheetRefProps>(null)
-
-  const openSheetAction = () => ActionRef.current?.scrollTo(-180)
-  const closeSheetAction = () => ActionRef.current?.scrollTo(0)
+  const openSheetAction = () => SheetRef.current?.scrollTo(-180)
+  const closeSheetAction = () => SheetRef.current?.scrollTo(0)
 
   const [page, setPage] = useState<number>(1)
   const [hasMore, setHasMore] = useState<boolean>(true)
@@ -114,9 +114,11 @@ function ScheduleExceptionsScreen() {
   }
   const handleUpdate = () => {
     closeSheetAction()
+
     router.push(
-      `/settings/consultant/${consultantId}/schedule-exception/${selectedScheduleExceptionId}`
+      `/settings/consultant/${consultantId}/exceptions/${selectedScheduleExceptionId}`
     )
+
     setSelectedScheduleExceptionId(null)
   }
 
@@ -154,7 +156,7 @@ function ScheduleExceptionsScreen() {
             label="Lịch bận của tôi"
             action={{
               icon: <Add size={24} color={COLORS.primary} />,
-              href: `/settings/consultant/${consultantId}/schedule-exception/create`
+              href: `/settings/consultant/${consultantId}/exceptions/create`
             }}
           />
 
@@ -203,7 +205,7 @@ function ScheduleExceptionsScreen() {
           </Content>
         </Container>
 
-        <Sheet ref={ActionRef} dynamicHeight={300}>
+        <Sheet ref={SheetRef} dynamicHeight={300}>
           <SheetSelect
             label="Cập nhật"
             icon={<Edit2 variant="Bold" size="20" color={COLORS.primary} />}

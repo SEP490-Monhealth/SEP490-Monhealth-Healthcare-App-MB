@@ -118,8 +118,8 @@ export const consultantProfileRoutes: RouteType[] = [
   },
   {
     route: (consultantId: string) =>
-      `/settings/consultant/${consultantId}/schedule-exception`,
-    label: "Lịch bận của tôi",
+      `/settings/consultant/${consultantId}/exceptions`,
+    label: "Lịch nghỉ của tôi",
     icon: VideoRemove
   },
   // {

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 
 import { SafeAreaView, TouchableWithoutFeedback, View } from "react-native"
 
@@ -15,7 +15,6 @@ import {
   Container,
   Content,
   Input,
-  ScrollArea,
   Select,
   Sheet,
   SheetRefProps,
@@ -40,34 +39,46 @@ function CreateScheduleExceptionScreen() {
   const { user } = useAuth()
   const consultantId = user?.consultantId
 
+  const [selectedDate, setSelectedDate] = useState<string | Date>(new Date())
+
   const { mutate: createScheduleException } =
     useCreateScheduleException(consultantId)
 
-  const DateRef = useRef<SheetRefProps>(null)
+  const SheetRef = useRef<SheetRefProps>(null)
 
   const {
     control,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors }
   } = useForm<CreateScheduleExceptionType>({
     resolver: zodResolver(createScheduleExceptionSchema),
     defaultValues: {
-      consultantId: consultantId,
+      consultantId: "",
       date: "",
       reason: ""
     }
   })
 
-  const [selectedDate, setSelectedDate] = useState<string | Date>("")
+  const openSheetDate = () => SheetRef.current?.scrollTo(-320)
 
-  const openSheetDate = () => DateRef.current?.scrollTo(-320)
+  useEffect(() => {
+    reset({
+      consultantId: consultantId,
+      date: formatUTCDate(new Date())
+    })
+  }, [reset])
 
   const onChange = (_event: DateTimePickerEvent, selectedDate?: Date) => {
     if (selectedDate) {
-      const formattedDate = formatUTCDate(selectedDate)
-      setValue("date", formattedDate)
-      setSelectedDate(selectedDate)
+      const currentDate = new Date()
+      currentDate.setHours(0, 0, 0, 0)
+
+      if (selectedDate >= currentDate) {
+        setValue("date", selectedDate.toISOString())
+        setSelectedDate(selectedDate)
+      }
     }
   }
 
@@ -87,14 +98,14 @@ function CreateScheduleExceptionScreen() {
     <TouchableWithoutFeedback>
       <SafeAreaView className="flex-1 bg-background">
         <Container>
-          <Header back label="Tạo lịch bận" />
+          <Header back label="Tạo lịch nghỉ" />
 
-          <Content>
-            <ScrollArea>
-              <VStack gap={12} className="pb-20">
+          <Content className="mt-2">
+            <VStack gap={32}>
+              <VStack gap={12}>
                 <Select
-                  label="Ngày bận"
-                  defaultValue="Chọn ngày bận"
+                  label="Ngày nghỉ"
+                  defaultValue="Chọn ngày nghỉ"
                   value={dateLabel}
                   onPress={openSheetDate}
                   errorMessage={errors.date?.message}
@@ -106,28 +117,27 @@ function CreateScheduleExceptionScreen() {
                   render={({ field: { onChange, value } }) => (
                     <Input
                       value={value}
-                      label="Lý do bận"
-                      placeholder="VD: Hôm đó tôi có lịch bận đột xuất"
+                      label="Lý do nghỉ"
+                      placeholder="VD: Hôm đó tôi có lịch nghỉ đột xuất"
                       onChangeText={onChange}
                       isMultiline
-                      numberOfLines={4}
+                      numberOfLines={6}
                       canClearText
                       errorMessage={errors.reason?.message}
                     />
                   )}
                 />
               </VStack>
-            </ScrollArea>
+
+              <Button onPress={handleSubmit(onSubmit)}>Tạo lịch nghỉ</Button>
+            </VStack>
           </Content>
-          <Button size="lg" onPress={handleSubmit(onSubmit)} className="mb-4">
-            Tạo lịch bận
-          </Button>
         </Container>
 
-        <Sheet ref={DateRef} dynamicHeight={300}>
+        <Sheet ref={SheetRef} dynamicHeight={300}>
           <View className="items-center">
             <DateTimePicker
-              value={new Date(selectedDate)}
+              value={selectedDate ? new Date(selectedDate) : new Date()}
               mode="date"
               display="spinner"
               onChange={onChange}

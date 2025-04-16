@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 
 import { Text } from "react-native"
 
@@ -13,7 +13,6 @@ import {
   Container,
   Content,
   Input,
-  ScrollArea,
   VStack
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
@@ -36,23 +35,34 @@ function ConsultantAboutUpdateScreen() {
 
   const { data: consultantData } = useGetConsultantById(consultantId)
 
-  if (!consultantData) return <LoadingScreen />
-
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors }
   } = useForm<UpdateConsultantType>({
     resolver: zodResolver(updateConsultantSchema),
     defaultValues: {
-      bio: consultantData.bio,
-      experience: consultantData.experience,
-      meetUrl: consultantData.meetUrl
+      bio: "",
+      experience: 0,
+      meetUrl: ""
     }
   })
 
+  useEffect(() => {
+    if (consultantData) {
+      reset({
+        bio: consultantData.bio,
+        experience: consultantData.experience,
+        meetUrl: consultantData.meetUrl
+      })
+    }
+  }, [consultantData, reset])
+
+  if (!consultantData) return <LoadingScreen />
+
   const onSubmit = async (data: UpdateConsultantType) => {
-    console.log(JSON.stringify(data, null, 2))
+    // console.log(JSON.stringify(data, null, 2))
 
     updateConsultant(
       { consultantId, updatedData: data },
@@ -69,8 +79,8 @@ function ConsultantAboutUpdateScreen() {
       <Header back label="Cập nhật" />
 
       <Content className="mt-2">
-        <ScrollArea>
-          <VStack gap={12} className="pb-20">
+        <VStack gap={32} className="pb-20">
+          <VStack gap={12}>
             <Controller
               name="bio"
               control={control}
@@ -80,8 +90,7 @@ function ConsultantAboutUpdateScreen() {
                   label="Mô tả ngắn"
                   onChangeText={onChange}
                   isMultiline
-                  numberOfLines={12}
-                  canClearText
+                  numberOfLines={8}
                   errorMessage={errors.bio?.message}
                 />
               )}
@@ -125,12 +134,10 @@ function ConsultantAboutUpdateScreen() {
               )}
             />
           </VStack>
-        </ScrollArea>
-      </Content>
 
-      <Button size="lg" onPress={handleSubmit(onSubmit)} className="mb-4">
-        Cập nhật
-      </Button>
+          <Button onPress={handleSubmit(onSubmit)}>Cập nhật</Button>
+        </VStack>
+      </Content>
     </Container>
   )
 }

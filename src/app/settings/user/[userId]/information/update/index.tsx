@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 
 import { useLocalSearchParams, useRouter } from "expo-router"
 
@@ -19,30 +19,39 @@ import { useGetUserById, useUpdateUser } from "@/hooks/useUser"
 
 import { UpdateUserType, updateUserSchema } from "@/schemas/userSchema"
 
-function UserUpdateScreen() {
+function UserInformationUpdateScreen() {
   const router = useRouter()
   const { userId } = useLocalSearchParams<{ userId: string }>()
 
-  // const { setUser } = useAuth()
-
-  const { data: userData, isLoading: isUserLoading } = useGetUserById(userId)
-
   const { mutate: updateUser } = useUpdateUser()
 
-  if (!userData || isUserLoading) return <LoadingScreen />
+  const { data: userData, isLoading: isUserLoading } = useGetUserById(userId)
 
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors }
   } = useForm<UpdateUserType>({
     resolver: zodResolver(updateUserSchema),
     defaultValues: {
-      fullName: userData.fullName,
-      email: userData.email,
-      phoneNumber: userData.phoneNumber
+      fullName: "",
+      email: "",
+      phoneNumber: ""
     }
   })
+
+  useEffect(() => {
+    if (userData) {
+      reset({
+        fullName: userData.fullName,
+        email: userData.email,
+        phoneNumber: userData.phoneNumber
+      })
+    }
+  }, [userData, reset])
+
+  if (!userData || isUserLoading) return <LoadingScreen />
 
   const onSubmit = async (data: UpdateUserType) => {
     updateUser(
@@ -57,60 +66,60 @@ function UserUpdateScreen() {
 
   return (
     <Container dismissKeyboard>
-      <Header back label="Cập nhật thông tin" />
+      <Header back label="Cập nhật" />
 
       <Content className="mt-2">
-        <VStack gap={12}>
-          <Controller
-            name="fullName"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                value={value}
-                label="Họ và tên"
-                onChangeText={onChange}
-                canClearText
-                errorMessage={errors.fullName?.message}
-              />
-            )}
-          />
+        <VStack gap={32} className="pb-20">
+          <VStack gap={12}>
+            <Controller
+              name="fullName"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  value={value}
+                  label="Họ và tên"
+                  onChangeText={onChange}
+                  canClearText
+                  errorMessage={errors.fullName?.message}
+                />
+              )}
+            />
 
-          <Controller
-            name="email"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                value={value}
-                label="Email"
-                onChangeText={onChange}
-                canClearText
-                errorMessage={errors.email?.message}
-              />
-            )}
-          />
+            <Controller
+              name="email"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  value={value}
+                  label="Email"
+                  onChangeText={onChange}
+                  canClearText
+                  errorMessage={errors.email?.message}
+                />
+              )}
+            />
 
-          <Controller
-            name="phoneNumber"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                value={value}
-                label="Số điện thoại"
-                onChangeText={onChange}
-                keyboardType="phone-pad"
-                canClearText
-                errorMessage={errors.phoneNumber?.message}
-              />
-            )}
-          />
+            <Controller
+              name="phoneNumber"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  value={value}
+                  label="Số điện thoại"
+                  onChangeText={onChange}
+                  keyboardType="phone-pad"
+                  canClearText
+                  errorMessage={errors.phoneNumber?.message}
+                />
+              )}
+            />
+          </VStack>
+
+          <Button onPress={handleSubmit(onSubmit)}>Cập nhật</Button>
         </VStack>
       </Content>
-
-      <Button size="lg" onPress={handleSubmit(onSubmit)} className="mb-4">
-        Cập nhật
-      </Button>
     </Container>
   )
 }
 
-export default UserUpdateScreen
+export default UserInformationUpdateScreen

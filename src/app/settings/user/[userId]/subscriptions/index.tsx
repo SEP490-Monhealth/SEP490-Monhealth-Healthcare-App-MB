@@ -17,6 +17,7 @@ import { SubscriptionCard } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
+import { UserSubscriptionStatus } from "@/constants/enum/UserSubscription"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -58,9 +59,9 @@ function SubscriptionsScreen() {
   )
   const { data: userSubscriptionData } = useGetUserSubscriptionByUserId(userId)
 
-  const currentSubscription = Array.isArray(userSubscriptionData)
-    ? userSubscriptionData[0]
-    : null
+  const currentSubscription = userSubscriptionData?.find(
+    (item) => item.status === UserSubscriptionStatus.Active
+  )
 
   const [selectedSubscription, setSelectedSubscription] = useState<string>("")
   const [selectedSubscriptionId, setSelectedSubscriptionId] = useState<

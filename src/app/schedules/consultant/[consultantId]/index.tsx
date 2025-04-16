@@ -229,7 +229,7 @@ function SchedulesScreen() {
               maximumDate={setHoursAndMinutes(new Date(), 18, 0)}
             />
 
-            <Button size="lg" onPress={handleConfirmTime} className="w-full">
+            <Button onPress={handleConfirmTime} className="w-full">
               Xác nhận
             </Button>
           </VStack>

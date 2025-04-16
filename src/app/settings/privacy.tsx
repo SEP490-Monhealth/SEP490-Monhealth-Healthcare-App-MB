@@ -19,7 +19,7 @@ import { COLORS } from "@/constants/color"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useUpdatePasswordUser } from "@/hooks/useUser"
+import { useUpdateUserPassword } from "@/hooks/useUser"
 
 import { UpdatePasswordType, updatePasswordSchema } from "@/schemas/userSchema"
 
@@ -27,7 +27,7 @@ function PrivacyScreen() {
   const { user } = useAuth()
   const userId = user?.userId
 
-  const { mutate: updatePassword } = useUpdatePasswordUser()
+  const { mutate: updatePassword } = useUpdateUserPassword()
 
   const [showPassword, setShowPassword] = useState(false)
   const [showNewPassword, setShowNewPassword] = useState(false)

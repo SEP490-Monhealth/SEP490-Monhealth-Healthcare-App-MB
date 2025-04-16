@@ -26,11 +26,11 @@ function ConsultantAboutScreen() {
   const { user } = useAuth()
   const consultantId = user?.consultantId
 
+  const meetUrl = "https://meet.google.com/phm-iunw-nij"
+
   const { data: consultantData } = useGetConsultantById(consultantId)
 
   if (!consultantData) return <LoadingScreen />
-
-  const meetUrl = "https://meet.google.com/phm-iunw-nij"
 
   const aboutItems = [
     {
