@@ -2,7 +2,7 @@ import { z } from "zod"
 
 import { WithdrawalRequestStatusSchemaEnum } from "@/constants/enum/WithdrawalRequest"
 
-import { auditFields, uuidSchema } from "./baseSchema"
+import { timestampFields, uuidSchema } from "./baseSchema"
 import { consultantBankSchema } from "./consultantBankSchema"
 import { userSchema } from "./userSchema"
 
@@ -35,7 +35,7 @@ const withdrawalRequestSchema = z.object({
 
   status: WithdrawalRequestStatusSchemaEnum,
 
-  ...auditFields
+  ...timestampFields
 })
 
 export const createWithdrawalRequestSchema = withdrawalRequestSchema.pick({

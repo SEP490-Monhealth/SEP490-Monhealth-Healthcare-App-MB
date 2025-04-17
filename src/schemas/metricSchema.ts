@@ -117,7 +117,7 @@ export const genderSetupSchema = metricSchema.pick({
   gender: true
 })
 
-const heightWeightSetupSchema = z.object({
+export const heightWeightSetupSchema = z.object({
   height: z
     .union([z.string(), z.number()])
     .refine(
