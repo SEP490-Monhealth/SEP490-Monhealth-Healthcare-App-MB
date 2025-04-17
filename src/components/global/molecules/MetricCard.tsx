@@ -6,7 +6,7 @@ import { HeartTick } from "iconsax-react-native"
 
 import { COLORS } from "@/constants/color"
 import { getGenderMeta } from "@/constants/enum/Gender"
-import { getGoalStatusMeta } from "@/constants/enum/Goal"
+import { GoalStatusEnum, getGoalStatusMeta } from "@/constants/enum/Goal"
 
 import { GoalType } from "@/schemas/goalSchema"
 import { MetricType } from "@/schemas/metricSchema"
@@ -76,24 +76,26 @@ export const MetricCard = ({ metric, goal }: MetricCardProps) => {
   return (
     <Card activeOpacity={1}>
       <VStack gap={20}>
-        <HStack center className="justify-between">
-          <View className="rounded-xl border bg-muted p-2">
-            <HeartTick size="24" color={COLORS.primary} />
-          </View>
+        {goal.status === GoalStatusEnum.Active && (
+          <HStack center className="justify-between">
+            <View className="rounded-xl border bg-muted p-2">
+              <HeartTick size="24" color={COLORS.primary} />
+            </View>
 
-          <VStack className="items-end">
-            <Badge
-              label={goalStatusLabel}
-              background={goalStatusColor}
-              color="#fff"
-              rounded
-            />
+            <VStack className="items-end">
+              <Badge
+                label={goalStatusLabel}
+                background={goalStatusColor}
+                color="#fff"
+                rounded
+              />
 
-            <Text className="font-tmedium text-sm text-secondary">
-              {formatDate(metric.createdAt)}
-            </Text>
-          </VStack>
-        </HStack>
+              <Text className="font-tmedium text-sm text-secondary">
+                {formatDate(metric.createdAt)}
+              </Text>
+            </VStack>
+          </HStack>
+        )}
 
         <BodyIndex
           gender={genderLabel}

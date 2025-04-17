@@ -78,7 +78,27 @@ const metricSchema = z.object({
   }),
 
   goalType: goalSchema.shape.type,
-  weightGoal: goalSchema.shape.weightGoal,
+  weightGoal: z
+    .union([z.string(), z.number()])
+    .refine(
+      (val) =>
+        val !== null &&
+        /^\d*\.?\d*$/.test(val.toString()) &&
+        parseFloat(val.toString()) > 0,
+      {
+        message: "Cân nặng phải là số dương hợp lệ"
+      }
+    )
+    .refine(
+      (val) => {
+        const weight = parseFloat(val.toString())
+        return weight >= 10 && weight <= 300
+      },
+      {
+        message: "Cân nặng phải nằm trong khoảng từ 10kg đến 300kg"
+      }
+    )
+    .transform((val) => (val !== null ? parseFloat(val.toString()) : 0)),
   caloriesRatio: goalSchema.shape.caloriesRatio,
 
   bmi: z.number(),

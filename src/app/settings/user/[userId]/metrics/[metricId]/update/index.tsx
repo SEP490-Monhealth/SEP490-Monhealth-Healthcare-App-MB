@@ -54,7 +54,7 @@ const MetricUpdateScreen = () => {
   const ActivityLevelRef = useRef<SheetRefProps>(null)
   const CaloriesRatioRef = useRef<SheetRefProps>(null)
 
-  const { mutate: updateMetric } = useUpdateMetric(userId)
+  const { mutate: updateMetric } = useUpdateMetric()
 
   const { data: metricsData, isLoading: isMetricsLoading } =
     useGetMetricsByUserId(userId)
@@ -155,8 +155,8 @@ const MetricUpdateScreen = () => {
     CaloriesRatioRef.current?.scrollTo(0)
   }
 
-  const onSubmit = async (updatedData: CreateUpdateMetricType) => {
-    updateMetric(updatedData, {
+  const onSubmit = async (data: CreateUpdateMetricType) => {
+    updateMetric(data, {
       onSuccess: () => router.back()
     })
   }
@@ -303,11 +303,18 @@ const MetricUpdateScreen = () => {
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <Input
-                      disabled
                       value={value?.toString() || ""}
                       label="Cân nặng mục tiêu"
-                      placeholder="VD: 60"
-                      onChangeText={(text) => onChange(parseFloat(text) || 0)}
+                      placeholder="VD: 66"
+                      onChangeText={(text) => {
+                        const formattedText = text.replace(",", ".")
+                        if (
+                          /^\d*\.?\d*$/.test(formattedText) ||
+                          formattedText === ""
+                        ) {
+                          onChange(formattedText)
+                        }
+                      }}
                       keyboardType="decimal-pad"
                       endIcon={
                         <Text className="font-tregular text-sm text-accent">

@@ -53,7 +53,7 @@ function ScheduleExceptionsScreen() {
   const [selectedScheduleExceptionId, setSelectedScheduleExceptionId] =
     useState<string | null>("")
 
-  const openSheetAction = () => SheetRef.current?.scrollTo(-180)
+  const openSheetAction = () => SheetRef.current?.scrollTo(-200)
   const closeSheetAction = () => SheetRef.current?.scrollTo(0)
 
   const [page, setPage] = useState<number>(1)
@@ -116,7 +116,7 @@ function ScheduleExceptionsScreen() {
     closeSheetAction()
 
     router.push(
-      `/settings/consultant/${consultantId}/exceptions/${selectedScheduleExceptionId}`
+      `/settings/consultant/${consultantId}/exceptions/${selectedScheduleExceptionId}/update`
     )
 
     setSelectedScheduleExceptionId(null)
@@ -153,7 +153,7 @@ function ScheduleExceptionsScreen() {
         <Container>
           <Header
             back
-            label="Lịch bận của tôi"
+            label="Lịch nghỉ"
             action={{
               icon: <Add size={24} color={COLORS.primary} />,
               href: `/settings/consultant/${consultantId}/exceptions/create`

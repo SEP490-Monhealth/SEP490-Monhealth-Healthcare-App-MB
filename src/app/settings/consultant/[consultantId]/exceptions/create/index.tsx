@@ -31,7 +31,7 @@ import {
   createScheduleExceptionSchema
 } from "@/schemas/scheduleExceptionSchema"
 
-import { formatDate, formatUTCDate } from "@/utils/formatters"
+import { formatDate, formatDateY } from "@/utils/formatters"
 
 const getTomorrow = () => {
   const tomorrow = new Date()
@@ -46,7 +46,8 @@ function CreateScheduleExceptionScreen() {
   const { user } = useAuth()
   const consultantId = user?.consultantId
 
-  const [selectedDate, setSelectedDate] = useState<string | Date>(getTomorrow())
+  const tomorrowDate = getTomorrow()
+  const [selectedDate, setSelectedDate] = useState<Date>(tomorrowDate)
 
   const { mutate: createScheduleException } =
     useCreateScheduleException(consultantId)
@@ -73,18 +74,18 @@ function CreateScheduleExceptionScreen() {
   useEffect(() => {
     reset({
       consultantId: consultantId,
-      date: formatUTCDate(new Date())
+      date: formatDateY(selectedDate)
     })
   }, [reset])
 
-  const openSheetDate = () => SheetRef.current?.scrollTo(-320)
+  const openSheet = () => SheetRef.current?.scrollTo(-320)
 
   const onChange = (_event: DateTimePickerEvent, selectedDate?: Date) => {
     if (selectedDate) {
       const tomorrow = getTomorrow()
 
       if (selectedDate >= tomorrow) {
-        setValue("date", selectedDate.toISOString())
+        setValue("date", formatDateY(selectedDate))
         setSelectedDate(selectedDate)
       }
     }
@@ -110,10 +111,10 @@ function CreateScheduleExceptionScreen() {
             <VStack gap={32}>
               <VStack gap={12}>
                 <Select
-                  label="Ngày nghỉ"
+                  label="Ngày"
                   defaultValue="Chọn ngày nghỉ"
                   value={dateLabel}
-                  onPress={openSheetDate}
+                  onPress={openSheet}
                   errorMessage={errors.date?.message}
                 />
 
@@ -123,8 +124,8 @@ function CreateScheduleExceptionScreen() {
                   render={({ field: { onChange, value } }) => (
                     <Input
                       value={value}
-                      label="Lý do nghỉ"
-                      placeholder="VD: Hôm đó tôi có lịch nghỉ đột xuất"
+                      label="Lý do"
+                      placeholder="VD: Hôm đó tôi có lịch bận đột xuất"
                       onChangeText={onChange}
                       isMultiline
                       numberOfLines={6}

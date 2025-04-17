@@ -200,6 +200,7 @@ function ReportScreen() {
             labels={labels}
             data={weeklyMealData}
             onSelectDate={setSelectedDate}
+            selectedDate={selectedDate}
           />
 
           <Section label="Danh sách bữa ăn" />

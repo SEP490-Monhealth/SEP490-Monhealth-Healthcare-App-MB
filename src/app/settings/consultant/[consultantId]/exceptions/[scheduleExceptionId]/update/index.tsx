@@ -34,7 +34,14 @@ import {
   updateScheduleExceptionSchema
 } from "@/schemas/scheduleExceptionSchema"
 
-import { formatDate, formatUTCDate } from "@/utils/formatters"
+import { formatDate, formatDateY } from "@/utils/formatters"
+
+const getTomorrow = () => {
+  const tomorrow = new Date()
+  tomorrow.setDate(tomorrow.getDate() + 1)
+  tomorrow.setHours(0, 0, 0, 0)
+  return tomorrow
+}
 
 function UpdateScheduleExceptionScreen() {
   const router = useRouter()
@@ -79,11 +86,11 @@ function UpdateScheduleExceptionScreen() {
     }
   }, [scheduleExceptionData, reset])
 
-  const openSheetDate = () => SheetRef.current?.scrollTo(-320)
+  const openSheet = () => SheetRef.current?.scrollTo(-320)
 
   const onChange = (_event: DateTimePickerEvent, selectedDate?: Date) => {
     if (selectedDate) {
-      const formattedDate = formatUTCDate(selectedDate)
+      const formattedDate = formatDateY(selectedDate)
       setValue("date", formattedDate)
       setSelectedDate(selectedDate)
     }
@@ -108,8 +115,6 @@ function UpdateScheduleExceptionScreen() {
     return <LoadingScreen />
   }
 
-  console.log(errors)
-
   return (
     <TouchableWithoutFeedback>
       <SafeAreaView className="flex-1 bg-background">
@@ -120,10 +125,10 @@ function UpdateScheduleExceptionScreen() {
             <ScrollArea>
               <VStack gap={12} className="pb-20">
                 <Select
-                  label="Ngày nghỉ"
+                  label="Ngày"
                   defaultValue="Chọn ngày nghỉ"
                   value={dateLabel}
-                  onPress={openSheetDate}
+                  onPress={openSheet}
                   errorMessage={errors.date?.message}
                 />
 
@@ -133,7 +138,7 @@ function UpdateScheduleExceptionScreen() {
                   render={({ field: { onChange, value } }) => (
                     <Input
                       value={value}
-                      label="Lý do nghỉ"
+                      label="Lý do"
                       placeholder="VD: Hôm đó tôi có lịch nghỉ đột xuất"
                       onChangeText={onChange}
                       isMultiline
@@ -146,8 +151,9 @@ function UpdateScheduleExceptionScreen() {
               </VStack>
             </ScrollArea>
           </Content>
+
           <Button onPress={handleSubmit(onSubmit)} className="mb-4">
-            Tạo lịch nghỉ
+            Cập nhật
           </Button>
         </Container>
 
@@ -158,7 +164,7 @@ function UpdateScheduleExceptionScreen() {
               mode="date"
               display="spinner"
               onChange={onChange}
-              minimumDate={new Date()}
+              minimumDate={getTomorrow()}
               locale="vi"
             />
           </View>

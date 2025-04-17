@@ -15,13 +15,6 @@ import { COLORS } from "@/constants/color"
 const screenWidth = Dimensions.get("window").width
 const AnimatedRect = Animated.createAnimatedComponent(Rect)
 
-interface BarChartProps {
-  date: string
-  labels: string[]
-  data: { date: string; calories: number }[]
-  onSelectDate?: (selectedDate: string) => void
-}
-
 const AnimatedBar = ({
   x,
   barWidth,
@@ -98,14 +91,21 @@ const AnimatedBar = ({
   )
 }
 
+interface BarChartProps {
+  date: string
+  labels: string[]
+  data: { date: string; calories: number }[]
+  onSelectDate?: (selectedDate: string) => void
+  selectedDate: string
+}
+
 export const BarChart = ({
   date,
   data,
   labels,
-  onSelectDate
+  onSelectDate,
+  selectedDate
 }: BarChartProps) => {
-  const [selectedDate, setSelectedDate] = useState<string>(date)
-
   const barWidth = 28
   const spacing = 14
   const maxBarHeight = 160
@@ -140,7 +140,6 @@ export const BarChart = ({
 
   const handleBarPress = useCallback(
     (dateString: string) => {
-      setSelectedDate(dateString)
       if (onSelectDate) {
         onSelectDate(dateString)
       }

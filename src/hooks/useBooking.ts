@@ -145,6 +145,9 @@ export const useUpdateBookingStatus = () => {
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Booking.ConsultantBookings]
       })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Booking.UserConsultantBookings]
+      })
     }
   })
 }
