@@ -27,7 +27,8 @@ interface ChatResponse {
 export const useGetChatsByUserId = (
   userId: string | undefined,
   page: number,
-  limit?: number
+  limit?: number,
+  search?: string
 ) => {
   const handleError = useError()
 
@@ -35,7 +36,7 @@ export const useGetChatsByUserId = (
     queryKey: [MonQueryKey.Chat.UserChats, userId],
     queryFn: async () => {
       try {
-        return await getChatsByUserId(userId, page, limit)
+        return await getChatsByUserId(userId, page, limit, search)
       } catch (error) {
         handleError(error)
         throw error
@@ -49,7 +50,8 @@ export const useGetChatsByUserId = (
 export const useGetChatsByConsultantId = (
   consultantId: string | undefined,
   page: number,
-  limit?: number
+  limit?: number,
+  search?: string
 ) => {
   const handleError = useError()
 
@@ -57,7 +59,7 @@ export const useGetChatsByConsultantId = (
     queryKey: [MonQueryKey.Chat.ConsultantChats, consultantId],
     queryFn: async () => {
       try {
-        return await getChatsByConsultantId(consultantId, page, limit)
+        return await getChatsByConsultantId(consultantId, page, limit, search)
       } catch (error) {
         handleError(error)
         throw error

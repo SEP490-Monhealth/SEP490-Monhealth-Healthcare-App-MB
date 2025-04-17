@@ -18,10 +18,8 @@ export const getMetricsByUserId = async (
 
     return data as MetricType[]
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -43,11 +41,9 @@ export const createMetric = async (
     console.log(message)
     return message
   } catch (error: any) {
-    if (showModal) showModal(error.message)
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    if (showModal) showModal(errorMessage)
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -69,10 +65,8 @@ export const updateMetric = async (
     console.log(message)
     return message
   } catch (error: any) {
-    if (showModal) showModal(error.message)
-    throw {
-      isCustomError: true,
-      message: "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    if (showModal) showModal(errorMessage)
+    throw { isCustomError: true, message: errorMessage }
   }
 }

@@ -21,19 +21,14 @@ export const getReviewsByConsultantId = async (
     const { success, message, data } = response.data
 
     if (!success) {
-      throw {
-        isCustomError: true,
-        message: message || "Không thể lấy danh sách đánh giá"
-      }
+      throw { isCustomError: true, message: message }
     }
 
     const { totalPages, totalItems, items: reviews } = data
     return { reviews, totalPages, totalItems }
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -48,20 +43,15 @@ export const createReview = async (
 
     if (!success) {
       showModal(message)
-      throw {
-        isCustomError: true,
-        message: message
-      }
+      throw { isCustomError: true, message: message }
     }
 
     showModal(message)
     console.log(message)
     return message
   } catch (error: any) {
-    showModal(error.message)
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    showModal(errorMessage)
+    throw { isCustomError: true, message: errorMessage }
   }
 }

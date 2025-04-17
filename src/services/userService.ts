@@ -34,10 +34,8 @@ export const getAllUsers = async (
     const { totalPages, totalItems, items: users } = data
     return { users, totalPages, totalItems }
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -55,10 +53,8 @@ export const getUserById = async (
 
     return data as UserType
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -81,10 +77,8 @@ export const updateUser = async (
     console.log(message)
     return message
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -107,10 +101,8 @@ export const updateUserPassword = async (
     console.log(message)
     return message
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -133,9 +125,7 @@ export const updateAvatarUser = async (
     console.log(message)
     return message
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }

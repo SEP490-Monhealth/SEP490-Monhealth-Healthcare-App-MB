@@ -18,9 +18,7 @@ export const getCertificatesByConsultantId = async (
 
     return data as CertificateType[]
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }

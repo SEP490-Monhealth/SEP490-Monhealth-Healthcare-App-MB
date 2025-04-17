@@ -91,5 +91,10 @@ export const MonQueryKey = {
     WeeklyMeal: "WeeklyMeal",
     MonthlyTransaction: "MonthlyTransaction",
     MonthlyBooking: "MonthlyBooking"
+  },
+
+  WithdrawalRequest: {
+    WithdrawalRequests: "withdrawal-requests",
+    WithdrawalRequest: "withdrawal-request"
   }
 }

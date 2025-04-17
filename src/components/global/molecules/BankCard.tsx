@@ -29,10 +29,7 @@ export const BankCard = ({
   onPress
 }: BankCardProps) => {
   return (
-    <Card
-      onPress={onPress}
-      className={`border-2 ${isSelected && "border-primary"}`}
-    >
+    <Card onPress={onPress} className={` ${isSelected && "border-primary"}`}>
       <HStack center gap={8}>
         <View className="flex-1 flex-row">
           <TouchableOpacity

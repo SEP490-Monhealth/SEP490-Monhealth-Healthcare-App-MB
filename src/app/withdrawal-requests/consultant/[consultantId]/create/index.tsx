@@ -62,9 +62,11 @@ function WithdrawalRequestCreateScreen() {
   }, [consultantBankId, setValue])
 
   const onSubmit = (newData: CreateWithdrawalRequestType) => {
+    Keyboard.dismiss()
+
     const finalData = newData
 
-    // console.log(JSON.stringify(finalData, null, 2))
+    console.log(JSON.stringify(finalData, null, 2))
 
     addWithdrawalRequest(finalData, {
       onSuccess: () => {

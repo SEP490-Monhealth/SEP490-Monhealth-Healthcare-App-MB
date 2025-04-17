@@ -18,10 +18,8 @@ export const getAllScheduleTimeSlots = async (): Promise<TimeSlot[]> => {
 
     return data as TimeSlot[]
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -38,18 +36,13 @@ export const getSchedulesByConsultantId = async (
     const { success, message, data } = response.data
 
     if (!success) {
-      throw {
-        isCustomError: true,
-        message: message
-      }
+      throw { isCustomError: true, message: message }
     }
 
     return data as ScheduleType[]
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -71,11 +64,9 @@ export const createSchedule = async (
     console.log(message)
     return message
   } catch (error: any) {
-    showModal(error.message)
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    showModal(errorMessage)
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -101,11 +92,9 @@ export const updateSchedule = async (
     console.log(message)
     return message
   } catch (error: any) {
-    showModal(error.message)
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    showModal(errorMessage)
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -127,11 +116,9 @@ export const deleteSchedule = async (
     console.log(message)
     return message
   } catch (error: any) {
-    showModal(error.message)
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    showModal(errorMessage)
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -153,10 +140,8 @@ export const updateScheduleStatus = async (
     console.log(message)
     return message
   } catch (error: any) {
-    showModal(error.message)
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    showModal(errorMessage)
+    throw { isCustomError: true, message: errorMessage }
   }
 }

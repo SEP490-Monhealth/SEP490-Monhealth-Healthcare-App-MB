@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
+import { MonQueryKey } from "@/constants/query"
+
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
 
@@ -31,7 +33,12 @@ export const useGetWithdrawalRequestsByConsultantId = (
   const handleError = useError()
 
   return useQuery<WithdrawalRequestResponse, Error>({
-    queryKey: ["withdrawal-requests", consultantId, page, limit],
+    queryKey: [
+      MonQueryKey.WithdrawalRequest.WithdrawalRequests,
+      consultantId,
+      page,
+      limit
+    ],
     queryFn: async () => {
       try {
         return await getWithdrawalRequestsByConsultantId(
@@ -55,7 +62,10 @@ export const useGetWithdrawalRequestById = (
   const handleError = useError()
 
   return useQuery<WithdrawalRequestType, Error>({
-    queryKey: ["withdrawal-request", withdrawalRequestId],
+    queryKey: [
+      MonQueryKey.WithdrawalRequest.WithdrawalRequest,
+      withdrawalRequestId
+    ],
     queryFn: async () => {
       try {
         return await getWithdrawalRequestById(withdrawalRequestId)
@@ -84,7 +94,9 @@ export const useCreateWithdrawalRequest = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["withdrawal-requests"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.WithdrawalRequest.WithdrawalRequests]
+      })
     }
   })
 }
@@ -112,8 +124,12 @@ export const useUpdateWithdrawalRequest = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["withdrawal-requests"] })
-      queryClient.invalidateQueries({ queryKey: ["withdrawal-request"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.WithdrawalRequest.WithdrawalRequests]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.WithdrawalRequest.WithdrawalRequest]
+      })
     }
   })
 }
@@ -133,7 +149,9 @@ export const useDeleteWithdrawalRequest = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["withdrawal-requests"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.WithdrawalRequest.WithdrawalRequests]
+      })
     }
   })
 }

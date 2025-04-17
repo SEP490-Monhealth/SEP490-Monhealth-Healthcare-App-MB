@@ -22,10 +22,8 @@ export const getConsultantBanksByConsultantId = async (
 
     return data as ConsultantBankType[]
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -43,10 +41,8 @@ export const getConsultantBankById = async (
 
     return data as ConsultantBankType
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -67,11 +63,9 @@ export const createConsultantBank = async (
     console.log(message)
     return message
   } catch (error: any) {
-    showModal(error.message)
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    showModal(errorMessage)
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -96,11 +90,9 @@ export const updateConsultantBank = async (
     console.log(message)
     return message
   } catch (error: any) {
-    showModal(error.message)
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    showModal(errorMessage)
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -121,10 +113,8 @@ export const deleteConsultantBank = async (
     console.log(message)
     return message
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -145,9 +135,7 @@ export const updateConsultantBankDefault = async (
     console.log(message)
     return message
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }

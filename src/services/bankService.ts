@@ -28,10 +28,8 @@ export const getAllBanks = async (
     const { totalPages, totalItems, items: banks } = data
     return { banks, totalPages, totalItems }
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -49,9 +47,7 @@ export const getBankById = async (
 
     return data as BankType
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }

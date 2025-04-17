@@ -21,10 +21,8 @@ export const getWaterRemindersByUserId = async (
 
     return data as WaterReminderType[]
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -42,10 +40,8 @@ export const getWaterReminderById = async (
 
     return data as WaterReminderType
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -67,11 +63,9 @@ export const createWaterReminder = async (
     console.log(message)
     return message
   } catch (error: any) {
-    showModal(error.message)
-    throw {
-      isCustomError: true,
-      message: "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    showModal(errorMessage)
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -97,11 +91,9 @@ export const updateWaterReminder = async (
     console.log(message)
     return message
   } catch (error: any) {
-    showModal(error.message)
-    throw {
-      isCustomError: true,
-      message: "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    showModal(errorMessage)
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -120,10 +112,8 @@ export const deleteWaterReminder = async (
     console.log(message)
     return message
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -144,10 +134,8 @@ export const updateWaterReminderStatus = async (
     console.log(message)
     return message
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -168,10 +156,8 @@ export const updateWaterReminderDrunk = async (
     console.log(message)
     return message
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -192,9 +178,7 @@ export const getDailyWaterIntakeByUserId = async (
 
     return data as DailyWaterIntakeType
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }

@@ -27,11 +27,9 @@ export const login = async (
       expiredAt: data.expiredAt
     }
   } catch (error: any) {
-    showModal(error.message)
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    showModal(errorMessage)
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -57,11 +55,9 @@ export const register = async (
       throw { isCustomError: true, message: message }
     }
   } catch (error: any) {
-    showModal(error.message)
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    showModal(errorMessage)
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -78,11 +74,9 @@ export const logout = async (
       throw { isCustomError: true, message: message }
     }
   } catch (error: any) {
-    showModal(error.message)
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    showModal(errorMessage)
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -99,10 +93,8 @@ export const whoIAm = async (showModal?: (message: string) => void) => {
 
     return data
   } catch (error: any) {
-    if (showModal) showModal(error.message)
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    if (showModal) showModal(errorMessage)
+    throw { isCustomError: true, message: errorMessage }
   }
 }

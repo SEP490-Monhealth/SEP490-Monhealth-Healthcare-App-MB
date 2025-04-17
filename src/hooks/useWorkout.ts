@@ -6,11 +6,7 @@ import { useError } from "@/contexts/ErrorContext"
 
 import { WorkoutType } from "@/schemas/workoutSchema"
 
-import {
-  getAllWorkouts,
-  getWorkoutById,
-  getWorkoutsByUserId
-} from "@/services/workoutService"
+import { getAllWorkouts, getWorkoutById } from "@/services/workoutService"
 
 interface WorkoutResponse {
   workouts: WorkoutType[]
@@ -74,28 +70,6 @@ export const useGetWorkoutById = (workoutId: string | undefined) => {
       }
     },
     enabled: !!workoutId,
-    staleTime: 1000 * 60 * 5
-  })
-}
-
-export const useGetWorkoutsByUserId = (
-  userId: string | undefined,
-  page: number,
-  limit?: number
-) => {
-  const handleError = useError()
-
-  return useQuery<WorkoutResponse, Error>({
-    queryKey: ["workouts", userId, page, limit],
-    queryFn: async () => {
-      try {
-        return await getWorkoutsByUserId(userId, page, limit)
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
-    },
-    enabled: !!userId,
     staleTime: 1000 * 60 * 5
   })
 }

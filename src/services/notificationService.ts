@@ -28,10 +28,8 @@ export const getNotificationsByConsultantId = async (
     const { totalPages, totalItems, items: notifications } = data
     return { notifications, totalPages, totalItems }
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -54,9 +52,7 @@ export const getNotificationsByUserId = async (
     const { totalPages, totalItems, items: notifications } = data
     return { notifications, totalPages, totalItems }
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }

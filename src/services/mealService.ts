@@ -20,6 +20,8 @@ export const getMealsByUserId = async (
 
     return data as MealType[]
   } catch (error: any) {
+    const errorMessage = error.response?.data?.message
+
     if (axios.isAxiosError(error)) {
       if (error.response && error.response.status === 500) {
         router.replace("/(tabs)/user/home")
@@ -28,10 +30,7 @@ export const getMealsByUserId = async (
 
       throw error
     } else {
-      throw {
-        isCustomError: true,
-        message: error.message || "Đã xảy ra lỗi không mong muốn"
-      }
+      throw { isCustomError: true, message: errorMessage }
     }
   }
 }
@@ -51,6 +50,8 @@ export const getMealById = async (
 
     return data as MealType
   } catch (error: any) {
+    const errorMessage = error.response?.data?.message
+
     if (axios.isAxiosError(error)) {
       if (error.response && error.response.status === 500) {
         router.replace("/(tabs)/user/home")
@@ -59,10 +60,7 @@ export const getMealById = async (
 
       throw error
     } else {
-      throw {
-        isCustomError: true,
-        message: error.message || "Đã xảy ra lỗi không mong muốn"
-      }
+      throw { isCustomError: true, message: errorMessage }
     }
   }
 }
@@ -85,10 +83,8 @@ export const createMeal = async (
     const mealId = data?.mealId
     return { mealId, message }
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -107,6 +103,8 @@ export const getMealFoodsByMealId = async (
 
     return data as MealFoodType[]
   } catch (error: any) {
+    const errorMessage = error.response?.data?.message
+
     if (axios.isAxiosError(error)) {
       if (error.response && error.response.status === 500) {
         router.replace("/(tabs)/user/home")
@@ -115,10 +113,7 @@ export const getMealFoodsByMealId = async (
 
       throw error
     } else {
-      throw {
-        isCustomError: true,
-        message: error.message || "Đã xảy ra lỗi không mong muốn"
-      }
+      throw { isCustomError: true, message: errorMessage }
     }
   }
 }
@@ -143,10 +138,8 @@ export const updateMealFoodQuantity = async (
     console.log(message)
     return message
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -165,10 +158,8 @@ export const updateMealFoodStatus = async (
     console.log(message)
     return message
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -189,9 +180,7 @@ export const getDailyMealByUserId = async (
 
     return data as DailyMealType
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }

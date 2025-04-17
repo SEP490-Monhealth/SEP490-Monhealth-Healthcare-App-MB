@@ -18,16 +18,6 @@ export const ErrorProvider: React.FC<{ children: React.ReactNode }> = ({
 
     console.log("Trạng thái lỗi:", statusCode)
 
-    // if (
-    //   statusCode === 500 &&
-    //   (errorMessage === "Bữa ăn không tồn tại" ||
-    //     errorMessage ===
-    //       "Bữa ăn không tồn tại hoặc không có món ăn nào trong bữa")
-    // ) {
-    //   router.replace("/(tabs)/user/home")
-    //   return
-    // }
-
     switch (statusCode) {
       case 400:
         console.log("[VALIDATION] Lỗi 400: Yêu cầu không hợp lệ")
@@ -69,7 +59,7 @@ export const ErrorProvider: React.FC<{ children: React.ReactNode }> = ({
           "[UNKNOWN] Lỗi không xác định:",
           error.message || "Đã xảy ra lỗi"
         )
-        router.replace("/errors/internal-server-error")
+      // router.replace("/errors/internal-server-error")
     }
   }
 

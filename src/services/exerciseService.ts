@@ -29,10 +29,8 @@ export const getAllExercises = async (
     const { totalPages, totalItems, items: exercises } = data
     return { exercises, totalPages, totalItems }
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -50,10 +48,8 @@ export const getExercisesByWorkoutId = async (
 
     return data as WorkoutExerciseType
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -71,9 +67,7 @@ export const getExerciseById = async (
 
     return data as ExerciseType
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }

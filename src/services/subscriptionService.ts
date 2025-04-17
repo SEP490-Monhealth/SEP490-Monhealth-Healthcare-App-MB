@@ -29,9 +29,7 @@ export const getAllSubscriptions = async (
     const { totalPages, totalItems, items: subscriptions } = data
     return { subscriptions, totalPages, totalItems }
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }

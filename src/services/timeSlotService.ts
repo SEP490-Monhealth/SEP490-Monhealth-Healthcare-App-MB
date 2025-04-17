@@ -17,10 +17,8 @@ export const createTimeSlot = async (
     console.log(message)
     return message
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -37,9 +35,7 @@ export const deleteTimeSlot = async (timeSlotId: string): Promise<string> => {
     console.log(message)
     return message
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }

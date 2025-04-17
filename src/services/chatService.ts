@@ -15,11 +15,12 @@ interface ChatResponse {
 export const getChatsByUserId = async (
   userId: string | undefined,
   page: number,
-  limit?: number
+  limit?: number,
+  search?: string
 ): Promise<ChatResponse> => {
   try {
     const response = await monAPI.get(`/chats/user/${userId}`, {
-      params: { page, limit }
+      params: { page, limit, search }
     })
 
     const { success, message, data } = response.data
@@ -31,21 +32,20 @@ export const getChatsByUserId = async (
     const { totalPages, totalItems, items: chats } = data
     return { chats, totalPages, totalItems }
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
 export const getChatsByConsultantId = async (
   consultantId: string | undefined,
   page: number,
-  limit?: number
+  limit?: number,
+  search?: string
 ): Promise<ChatResponse> => {
   try {
     const response = await monAPI.get(`/chats/consultant/${consultantId}`, {
-      params: { page, limit }
+      params: { page, limit, search }
     })
 
     const { success, message, data } = response.data
@@ -57,10 +57,8 @@ export const getChatsByConsultantId = async (
     const { totalPages, totalItems, items: chats } = data
     return { chats, totalPages, totalItems }
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -76,10 +74,8 @@ export const getChatById = async (chatId: string | undefined) => {
 
     return data as ChatType
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -98,10 +94,8 @@ export const createChat = async (
     console.log(message)
     return { message, data }
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -120,9 +114,7 @@ export const createChatMonAI = async (
     console.log(message)
     return message
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }

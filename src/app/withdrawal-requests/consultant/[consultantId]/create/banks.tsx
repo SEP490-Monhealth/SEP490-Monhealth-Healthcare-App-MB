@@ -48,6 +48,7 @@ const ConsultantBanksScreen = ({}: ConsultantBanksScreenProps) => {
                 name={bank.name}
                 shortName={bank.number}
                 logoUrl={bank.bank.logoUrl}
+                addNewButton
                 onPress={() => handleSelectBank(bank)}
               />
             ))}

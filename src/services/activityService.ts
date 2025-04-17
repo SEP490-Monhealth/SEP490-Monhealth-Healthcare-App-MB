@@ -17,10 +17,8 @@ export const getActivityById = async (
 
     return data as ActivityType
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -31,7 +29,7 @@ export const createActivity = async (
   try {
     const response = await monAPI.post("/activities", newData)
 
-    const { success, message, data } = response.data
+    const { success, message } = response.data
 
     if (!success) {
       throw { isCustomError: true, message: message }
@@ -39,12 +37,10 @@ export const createActivity = async (
 
     showModal(message)
     console.log(message)
-    return data
+    return message
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -65,9 +61,7 @@ export const getDailyActivityByUserId = async (
 
     return data as DailyActivityType
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }

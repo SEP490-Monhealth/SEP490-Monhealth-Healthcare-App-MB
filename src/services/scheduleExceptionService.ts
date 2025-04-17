@@ -20,13 +20,7 @@ export const getScheduleExceptionByConsultantId = async (
   try {
     const response = await monAPI.get(
       `/schedule-exceptions/consultant/${consultantId}`,
-      {
-        params: {
-          consultantId,
-          page,
-          limit
-        }
-      }
+      { params: { consultantId, page, limit } }
     )
 
     const { success, message, data } = response.data
@@ -38,10 +32,8 @@ export const getScheduleExceptionByConsultantId = async (
     const { totalPages, totalItems, items: scheduleExceptions } = data
     return { scheduleExceptions, totalPages, totalItems }
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -61,10 +53,8 @@ export const getScheduleExceptionById = async (
 
     return data as ScheduleExceptionType
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -85,11 +75,9 @@ export const createScheduleException = async (
     console.log(message)
     return message
   } catch (error: any) {
-    showModal(error.message)
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    showModal(errorMessage)
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -115,11 +103,9 @@ export const updateScheduleException = async (
     console.log(message)
     return message
   } catch (error: any) {
-    showModal(error.message)
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    showModal(errorMessage)
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -142,7 +128,8 @@ export const deleteScheduleException = async (
     console.log(message)
     return message
   } catch (error: any) {
-    showModal(error.message)
+    const errorMessage = error.response?.data?.message
+    showModal(errorMessage)
     throw {
       isCustomError: true,
       message: "Đã xảy ra lỗi không mong muốn"

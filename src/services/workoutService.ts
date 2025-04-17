@@ -21,15 +21,7 @@ export const getAllWorkouts = async (
 ): Promise<WorkoutResponse> => {
   try {
     const response = await monAPI.get(`/workouts`, {
-      params: {
-        page,
-        limit,
-        category,
-        search,
-        difficulty,
-        popular,
-        status
-      }
+      params: { page, limit, category, search, difficulty, popular, status }
     })
 
     const { success, message, data } = response.data
@@ -41,36 +33,8 @@ export const getAllWorkouts = async (
     const { totalPages, totalItems, items: workouts } = data
     return { workouts, totalPages, totalItems }
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
-  }
-}
-
-export const getWorkoutsByUserId = async (
-  userId: string | undefined,
-  page: number,
-  limit?: number
-): Promise<WorkoutResponse> => {
-  try {
-    const response = await monAPI.get(`/workouts/user/${userId}`, {
-      params: { page, limit }
-    })
-
-    const { success, message, data } = response.data
-
-    if (!success) {
-      throw { isCustomError: true, message: message }
-    }
-
-    const { totalPages, totalItems, items: workouts } = data
-    return { workouts, totalPages, totalItems }
-  } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
 
@@ -88,9 +52,7 @@ export const getWorkoutById = async (
 
     return data as WorkoutType
   } catch (error: any) {
-    throw {
-      isCustomError: true,
-      message: error.message || "Đã xảy ra lỗi không mong muốn"
-    }
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
   }
 }
