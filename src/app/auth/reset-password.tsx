@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { Text, View } from "react-native"
+import { Keyboard, Text, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -40,6 +40,8 @@ function ForgotPasswordScreen() {
   })
 
   const onSubmit = (data: ResetPasswordType) => {
+    Keyboard.dismiss()
+
     console.log(data)
     router.push("/auth/sign-in")
   }

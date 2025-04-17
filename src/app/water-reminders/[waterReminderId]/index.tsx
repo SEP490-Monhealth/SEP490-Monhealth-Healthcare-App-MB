@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-import { Text } from "react-native"
+import { Keyboard, Text } from "react-native"
 
 import { router, useLocalSearchParams } from "expo-router"
 
@@ -82,6 +82,8 @@ function WaterReminderDetailsScreen() {
   }
 
   const onSubmit = (data: UpdateWaterReminderType) => {
+    Keyboard.dismiss()
+
     updateWaterReminder(
       { waterReminderId, updatedData: data },
       {

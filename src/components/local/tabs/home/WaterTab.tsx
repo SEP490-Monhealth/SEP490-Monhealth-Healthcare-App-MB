@@ -41,7 +41,7 @@ export const WaterTab = ({ onOverlayLoading }: WaterTabProps) => {
     userId,
     today
   )
-  const { data: waterRemindersData } = useGetWaterReminderByUserId(userId)
+  const { data: waterRemindersData } = useGetWaterReminderByUserId(userId, true)
   const { data: waterIntakeGoalData } = useGetWaterIntakeGoal(userId)
 
   const waterIntakesValue = dailyWaterIntakeData?.totalVolume || 0

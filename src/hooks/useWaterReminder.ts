@@ -21,14 +21,17 @@ import {
   updateWaterReminderStatus
 } from "@/services/waterReminderService"
 
-export const useGetWaterReminderByUserId = (userId: string | undefined) => {
+export const useGetWaterReminderByUserId = (
+  userId: string | undefined,
+  status?: boolean
+) => {
   const handleError = useError()
 
   return useQuery<WaterReminderType[], Error>({
-    queryKey: ["water-reminders", userId],
+    queryKey: ["water-reminders", userId, status],
     queryFn: async () => {
       try {
-        return await getWaterRemindersByUserId(userId)
+        return await getWaterRemindersByUserId(userId, status)
       } catch (error) {
         handleError(error)
         throw error
@@ -111,11 +114,12 @@ export const useUpdateWaterReminder = () => {
 export const useDeleteWaterReminder = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
+  const { showModal } = useModal()
 
   return useMutation<string, Error, string>({
     mutationFn: async (waterReminderId) => {
       try {
-        return await deleteWaterReminder(waterReminderId)
+        return await deleteWaterReminder(waterReminderId, showModal)
       } catch (error) {
         handleError(error)
         throw error
@@ -130,11 +134,12 @@ export const useDeleteWaterReminder = () => {
 export const useUpdateWaterReminderStatus = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
+  const { showModal } = useModal()
 
   return useMutation<string, Error, string>({
     mutationFn: async (waterReminderId) => {
       try {
-        return await updateWaterReminderStatus(waterReminderId)
+        return await updateWaterReminderStatus(waterReminderId, showModal)
       } catch (error) {
         handleError(error)
         throw error

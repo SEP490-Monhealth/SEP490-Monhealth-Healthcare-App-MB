@@ -1,5 +1,7 @@
 import React, { useEffect } from "react"
 
+import { Keyboard } from "react-native"
+
 import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
@@ -60,6 +62,7 @@ const BankUpdateScreen = () => {
   }, [consultantBankData, setValue])
 
   const onSubmit = (newData: UpdateConsultantBankType) => {
+    Keyboard.dismiss()
     const finalData = newData
 
     // console.log(JSON.stringify(finalData, null, 2))

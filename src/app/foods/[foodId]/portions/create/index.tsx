@@ -71,10 +71,12 @@ function PortionCreateScreen() {
     closeSheet()
   }
 
-  const onSubmit = (newPortionData: CreatePortionType) => {
-    console.log("Submitted Data:", JSON.stringify(newPortionData, null, 2))
+  const onSubmit = (data: CreatePortionType) => {
+    Keyboard.dismiss()
 
-    createPortion(newPortionData, {
+    console.log("Submitted Data:", JSON.stringify(data, null, 2))
+
+    createPortion(data, {
       onSuccess: () => {
         handleViewFood(foodId)
       }

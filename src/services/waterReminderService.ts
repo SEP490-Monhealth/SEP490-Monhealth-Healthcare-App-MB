@@ -8,10 +8,13 @@ import {
 } from "@/schemas/waterReminderSchema"
 
 export const getWaterRemindersByUserId = async (
-  userId: string | undefined
+  userId: string | undefined,
+  status?: boolean
 ): Promise<WaterReminderType[]> => {
   try {
-    const response = await monAPI.get(`/water-reminders/user/${userId}`)
+    const response = await monAPI.get(`/water-reminders/user/${userId}`, {
+      params: { status }
+    })
 
     const { success, message, data } = response.data
 
@@ -98,7 +101,8 @@ export const updateWaterReminder = async (
 }
 
 export const deleteWaterReminder = async (
-  waterReminderId: string
+  waterReminderId: string,
+  showModal: (message: string) => void
 ): Promise<string> => {
   try {
     const response = await monAPI.delete(`/water-reminders/${waterReminderId}`)
@@ -106,19 +110,23 @@ export const deleteWaterReminder = async (
     const { success, message } = response.data
 
     if (!success) {
+      showModal(message)
       throw { isCustomError: true, message: message }
     }
 
+    showModal(message)
     console.log(message)
     return message
   } catch (error: any) {
     const errorMessage = error.response?.data?.message
+    showModal(errorMessage)
     throw { isCustomError: true, message: errorMessage }
   }
 }
 
 export const updateWaterReminderStatus = async (
-  waterReminderId: string
+  waterReminderId: string,
+  showModal: (message: string) => void
 ): Promise<string> => {
   try {
     const response = await monAPI.patch(
@@ -128,13 +136,16 @@ export const updateWaterReminderStatus = async (
     const { success, message } = response.data
 
     if (!success) {
+      showModal(message)
       throw { isCustomError: true, message: message }
     }
 
+    showModal(message)
     console.log(message)
     return message
   } catch (error: any) {
     const errorMessage = error.response?.data?.message
+    showModal(errorMessage)
     throw { isCustomError: true, message: errorMessage }
   }
 }

@@ -51,7 +51,7 @@ function WaterRemindersScreen() {
     data: remindersData,
     isLoading,
     refetch
-  } = useGetWaterReminderByUserId(userId)
+  } = useGetWaterReminderByUserId(userId, undefined)
 
   const [isModalVisible, setIsModalVisible] = useState(false)
 

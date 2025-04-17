@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 
-import { Text, TouchableOpacity, View } from "react-native"
+import { Keyboard, Text, TouchableOpacity, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -48,6 +48,8 @@ function OTPVerificationScreen() {
   }, [timeLeft])
 
   const onSubmit = (data: OtpVerificationType) => {
+    Keyboard.dismiss()
+
     console.log("OTP Submitted:", data)
     router.replace("/auth/reset-password")
   }

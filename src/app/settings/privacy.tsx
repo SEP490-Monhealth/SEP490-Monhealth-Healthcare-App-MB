@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { Text } from "react-native"
+import { Keyboard, Text } from "react-native"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Eye, EyeSlash, Lock1 } from "iconsax-react-native"
@@ -49,6 +49,7 @@ function PrivacyScreen() {
   })
 
   const onSubmit = (data: UpdatePasswordType) => {
+    Keyboard.dismiss()
     setIsLoading(true)
 
     const { oldPassword, newPassword } = data

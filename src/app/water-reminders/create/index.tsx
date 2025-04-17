@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { Text } from "react-native"
+import { Keyboard, Text } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -71,6 +71,8 @@ function WaterReminderCreateScreen() {
   }
 
   const onSubmit = (newWaterReminderData: CreateWaterReminderType) => {
+    Keyboard.dismiss()
+
     const finalData = { ...newWaterReminderData, userId }
 
     // console.log(JSON.stringify(finalData, null, 2))

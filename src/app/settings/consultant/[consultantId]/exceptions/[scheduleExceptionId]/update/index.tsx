@@ -121,7 +121,7 @@ function UpdateScheduleExceptionScreen() {
         <Container>
           <Header back label="Cập nhật" />
 
-          <Content>
+          <Content className="mt-2">
             <ScrollArea>
               <VStack gap={12} className="pb-20">
                 <Select
