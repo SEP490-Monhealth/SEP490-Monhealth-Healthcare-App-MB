@@ -33,23 +33,22 @@ import {
   updateWithdrawalRequestSchema
 } from "@/schemas/withdrawalRequestSchema"
 
+import { useWithdrawalRequestStore } from "@/stores/withdrawalRequestStore"
+
 function UpdateWithdrawalRequestScreen() {
   const router = useRouter()
 
-  const { consultantId, consultantBankId, accountNumber, withdrawalRequestId } =
-    useLocalSearchParams<{
-      consultantId: string
-      consultantBankId?: string
-      accountNumber?: string
-      withdrawalRequestId?: string
-    }>()
+  const { consultantId, withdrawalRequestId } = useLocalSearchParams<{
+    consultantId: string
+    withdrawalRequestId: string
+  }>()
+
+  const { accountNumber, updateField, reset } = useWithdrawalRequestStore()
+
+  const { mutate: updateWithdrawalRequest } = useUpdateWithdrawalRequest()
 
   const { data: withdrawalRequestData, isLoading } =
     useGetWithdrawalRequestById(withdrawalRequestId)
-
-  console.log(withdrawalRequestData)
-
-  const { mutate: updateWithdrawalRequest } = useUpdateWithdrawalRequest()
 
   const {
     control,
@@ -57,12 +56,7 @@ function UpdateWithdrawalRequestScreen() {
     handleSubmit,
     formState: { errors }
   } = useForm<UpdateWithdrawalRequestType>({
-    resolver: zodResolver(updateWithdrawalRequestSchema),
-    defaultValues: {
-      consultantBankId: withdrawalRequestData?.consultantBankId,
-      description: withdrawalRequestData?.description,
-      amount: withdrawalRequestData?.amount
-    }
+    resolver: zodResolver(updateWithdrawalRequestSchema)
   })
 
   useEffect(() => {
@@ -71,37 +65,28 @@ function UpdateWithdrawalRequestScreen() {
       setValue("description", withdrawalRequestData.description)
       setValue("amount", withdrawalRequestData.amount)
     }
-
-    if (consultantBankId) {
-      setValue("consultantBankId", consultantBankId)
-      setValue("description", withdrawalRequestData?.description || "")
-      setValue("amount", withdrawalRequestData?.amount || 0)
-    }
-  }, [withdrawalRequestData, consultantBankId])
+  }, [withdrawalRequestData, setValue, updateField])
 
   const handleViewConsultantBanks = () => {
-    router.replace(
-      `/withdrawal-requests/consultant/${consultantId}/create/banks`
-    )
+    router.push(`/withdrawal-requests/consultant/${consultantId}/create/banks`)
   }
 
   const onSubmit = (data: UpdateWithdrawalRequestType) => {
+    Keyboard.dismiss()
+
     const finalData = data
 
-    console.log(JSON.stringify(finalData, null, 2))
+    // console.log(JSON.stringify(finalData, null, 2))
 
-    if (!withdrawalRequestId) {
-      return
-    }
-
-    // updateWithdrawalRequest(
-    //   { withdrawalRequestId, updatedData: finalData },
-    //   {
-    //     onSuccess: () => {
-    //       router.back()
-    //     }
-    //   }
-    // )
+    updateWithdrawalRequest(
+      { withdrawalRequestId, updatedData: finalData },
+      {
+        onSuccess: () => {
+          reset()
+          router.back()
+        }
+      }
+    )
   }
 
   if (!withdrawalRequestData || isLoading) return <LoadingScreen />
@@ -118,7 +103,7 @@ function UpdateWithdrawalRequestScreen() {
                 <Select
                   label="Ngân hàng"
                   defaultValue="VD: 2003150599"
-                  value={accountNumber || ""}
+                  value={accountNumber}
                   errorMessage={errors.consultantBankId?.message}
                   onPress={handleViewConsultantBanks}
                 />

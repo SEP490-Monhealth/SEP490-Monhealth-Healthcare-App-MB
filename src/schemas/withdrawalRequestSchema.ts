@@ -3,12 +3,26 @@ import { z } from "zod"
 import { WithdrawalRequestStatusSchemaEnum } from "@/constants/enum/WithdrawalRequest"
 
 import { auditFields, uuidSchema } from "./baseSchema"
+import { consultantBankSchema } from "./consultantBankSchema"
+import { userSchema } from "./userSchema"
 
 const withdrawalRequestSchema = z.object({
   withdrawalRequestId: uuidSchema,
   consultantId: uuidSchema,
   consultantBankId: z.string().nonempty({
     message: "Ngân hàng không được để trống"
+  }),
+
+  consultant: z.object({
+    fullName: userSchema.shape.fullName,
+    email: userSchema.shape.email,
+    phoneNumber: userSchema.shape.phoneNumber,
+    avatarUrl: userSchema.shape.avatarUrl
+  }),
+
+  consultantBank: z.object({
+    accountNumber: consultantBankSchema.shape.number,
+    accountName: consultantBankSchema.shape.name
   }),
 
   description: z

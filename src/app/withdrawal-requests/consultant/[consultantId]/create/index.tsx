@@ -29,14 +29,13 @@ import {
   createWithdrawalRequestSchema
 } from "@/schemas/withdrawalRequestSchema"
 
+import { useWithdrawalRequestStore } from "@/stores/withdrawalRequestStore"
+
 function WithdrawalRequestCreateScreen() {
   const router = useRouter()
-  const { consultantId, consultantBankId, accountNumber } =
-    useLocalSearchParams<{
-      consultantId: string
-      consultantBankId?: string
-      accountNumber?: string
-    }>()
+  const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
+
+  const { consultantBankId, accountNumber, reset } = useWithdrawalRequestStore()
 
   const { mutate: addWithdrawalRequest } = useCreateWithdrawalRequest()
 
@@ -46,39 +45,31 @@ function WithdrawalRequestCreateScreen() {
     handleSubmit,
     formState: { errors }
   } = useForm<CreateWithdrawalRequestType>({
-    resolver: zodResolver(createWithdrawalRequestSchema),
-    defaultValues: {
-      consultantId: consultantId || "",
-      consultantBankId: "",
-      description: "",
-      amount: 0
-    }
+    resolver: zodResolver(createWithdrawalRequestSchema)
   })
 
   useEffect(() => {
-    if (consultantBankId) {
-      setValue("consultantBankId", consultantBankId)
-    }
-  }, [consultantBankId, setValue])
+    setValue("consultantId", consultantId)
+    setValue("consultantBankId", consultantBankId)
+  }, [consultantId, consultantBankId])
 
   const onSubmit = (newData: CreateWithdrawalRequestType) => {
     Keyboard.dismiss()
 
     const finalData = newData
 
-    console.log(JSON.stringify(finalData, null, 2))
+    // console.log(JSON.stringify(finalData, null, 2))
 
     addWithdrawalRequest(finalData, {
       onSuccess: () => {
+        reset()
         router.back()
       }
     })
   }
 
   const handleViewConsultantBanks = () => {
-    router.replace(
-      `/withdrawal-requests/consultant/${consultantId}/create/banks`
-    )
+    router.push(`/withdrawal-requests/consultant/${consultantId}/create/banks`)
   }
 
   return (

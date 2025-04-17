@@ -12,26 +12,24 @@ import { useGetConsultantBanksByConsultantId } from "@/hooks/useConsultantBank"
 
 import { ConsultantBankType } from "@/schemas/consultantBankSchema"
 
-interface ConsultantBanksScreenProps {}
+import { useWithdrawalRequestStore } from "@/stores/withdrawalRequestStore"
 
-const ConsultantBanksScreen = ({}: ConsultantBanksScreenProps) => {
+const ConsultantBanksScreen = () => {
   const router = useRouter()
   const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
 
-  const { data: consultantBanksData, isLoading: isConsultantBanksLoading } =
+  const { consultantBankId, updateField } = useWithdrawalRequestStore()
+
+  const { data: consultantBanksData } =
     useGetConsultantBanksByConsultantId(consultantId)
 
   const handleSelectBank = (bank: ConsultantBankType) => {
-    router.replace({
-      pathname: `/withdrawal-requests/consultant/${consultantId}/create`,
-      params: {
-        consultantBankId: bank.consultantBankId,
-        accountNumber: bank.number
-      }
-    })
+    updateField("consultantBankId", bank.consultantBankId)
+    updateField("accountNumber", bank.number)
+    router.back()
   }
 
-  if (!consultantBanksData || isConsultantBanksLoading) {
+  if (!consultantBanksData) {
     return <LoadingScreen />
   }
 
@@ -48,6 +46,7 @@ const ConsultantBanksScreen = ({}: ConsultantBanksScreenProps) => {
                 name={bank.name}
                 shortName={bank.number}
                 logoUrl={bank.bank.logoUrl}
+                isSelected={bank.consultantBankId === consultantBankId}
                 addNewButton
                 onPress={() => handleSelectBank(bank)}
               />

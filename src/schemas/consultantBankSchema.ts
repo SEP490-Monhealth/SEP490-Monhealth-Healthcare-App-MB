@@ -3,7 +3,7 @@ import { z } from "zod"
 import { bankSchema } from "./bankSchema"
 import { timestampFields, uuidSchema } from "./baseSchema"
 
-const consultantBankSchema = z.object({
+export const consultantBankSchema = z.object({
   consultantBankId: uuidSchema,
   consultantId: uuidSchema,
   bankId: uuidSchema,

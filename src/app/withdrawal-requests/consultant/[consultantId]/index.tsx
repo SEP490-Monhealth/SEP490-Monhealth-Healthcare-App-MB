@@ -41,8 +41,9 @@ import { WithdrawalRequestType } from "@/schemas/withdrawalRequestSchema"
 
 function WithdrawalRequestsScreen() {
   const router = useRouter()
-
   const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
+
+  const SheetRef = useRef<SheetRefProps>(null)
 
   const [withdrawalRequestsData, setWithdrawalRequestsData] = useState<
     WithdrawalRequestType[]
@@ -53,21 +54,17 @@ function WithdrawalRequestsScreen() {
   const [isVisible, setIsVisible] = useState<boolean>(false)
   const [selectedRequest, setSelectedRequest] = useState<string | null>("")
 
-  const ActionRef = useRef<SheetRefProps>(null)
-  const openSheetAction = () => ActionRef.current?.scrollTo(-180)
-  const closeSheet = () => {
-    ActionRef.current?.scrollTo(0)
-  }
+  console.log(selectedRequest)
 
   const limit = 10
+
+  const { mutate: deleteWithdrawalRequest } = useDeleteWithdrawalRequest()
 
   const { data, isLoading, refetch } = useGetWithdrawalRequestsByConsultantId(
     consultantId,
     page,
     limit
   )
-
-  const { mutate: deleteWithdrawalRequest } = useDeleteWithdrawalRequest()
 
   useEffect(() => {
     if (data?.withdrawalRequests) {
@@ -105,6 +102,9 @@ function WithdrawalRequestsScreen() {
     setIsRefreshing(false)
   }
 
+  const openSheetAction = () => SheetRef.current?.scrollTo(-200)
+  const closeSheet = () => SheetRef.current?.scrollTo(0)
+
   const FlatListHeader = useMemo(() => {
     return (
       <ListHeader>
@@ -127,7 +127,7 @@ function WithdrawalRequestsScreen() {
   const handleUpdate = () => {
     closeSheet()
     router.push(
-      `/withdrawal-requests/consultant/${consultantId}/update/${selectedRequest}`
+      `/withdrawal-requests/consultant/${consultantId}/${selectedRequest}/update`
     )
     setSelectedRequest(null)
   }
@@ -178,7 +178,7 @@ function WithdrawalRequestsScreen() {
                 <WithdrawalRequestCard
                   description={item.description}
                   amount={item.amount}
-                  time={item.createdAt}
+                  time={item.updatedAt}
                   status={item.status}
                   onPress={() => handleAction(item.withdrawalRequestId)}
                 />
@@ -205,7 +205,7 @@ function WithdrawalRequestsScreen() {
           </Content>
         </Container>
 
-        <Sheet ref={ActionRef} dynamicHeight={180}>
+        <Sheet ref={SheetRef} dynamicHeight={180}>
           <SheetSelect
             label="Cập nhật"
             icon={<Edit2 variant="Bold" size="20" color={COLORS.primary} />}
