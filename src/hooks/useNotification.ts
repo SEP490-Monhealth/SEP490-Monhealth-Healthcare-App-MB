@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 
+import { MonQueryKey } from "@/constants/query"
+
 import { useError } from "@/contexts/ErrorContext"
 
 import { NotificationType } from "@/schemas/notificationSchema"
@@ -23,7 +25,12 @@ export const useGetNotificationsByConsultantId = (
   const handleError = useError()
 
   return useQuery<NotificationResponse, Error>({
-    queryKey: ["notifications-consultant", consultantId, page, limit],
+    queryKey: [
+      MonQueryKey.Notification.ConsultantNotifications,
+      consultantId,
+      page,
+      limit
+    ],
     queryFn: async () => {
       try {
         return await getNotificationsByConsultantId(consultantId, page, limit)
@@ -45,7 +52,7 @@ export const useGetNotificationsByUserId = (
   const handleError = useError()
 
   return useQuery<NotificationResponse, Error>({
-    queryKey: ["notifications-user", userId, page, limit],
+    queryKey: [MonQueryKey.Notification.UserNotifications, userId, page, limit],
     queryFn: async () => {
       try {
         return await getNotificationsByUserId(userId, page, limit)

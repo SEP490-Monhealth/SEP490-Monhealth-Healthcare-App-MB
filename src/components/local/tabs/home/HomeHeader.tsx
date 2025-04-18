@@ -35,8 +35,8 @@ export const HomeHeader = ({ userId, fullName }: HomeHeaderProps) => {
   const paddingClass = Platform.OS === "ios" ? "pb-3 pt-0" : "py-4"
 
   const handleViewNotifications = useCallback(() => {
-    router.push(`/notifications/user/${userId}`)
-  }, [router, userId])
+    router.push("/notifications")
+  }, [router])
 
   return (
     <HStack

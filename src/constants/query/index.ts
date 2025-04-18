@@ -70,6 +70,11 @@ export const MonQueryKey = {
     Metrics: "metrics"
   },
 
+  Notification: {
+    UserNotifications: "notifications-user",
+    ConsultantNotifications: "notifications-consultant"
+  },
+
   Nutrition: {
     Nutrition: "nutrition"
   },

@@ -13,26 +13,33 @@ import { IconButton } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/color"
 
-import { useGetNotificationsByConsultantId } from "@/hooks/useNotification"
+import { useAuth } from "@/contexts/AuthContext"
+
+import {
+  useGetNotificationsByConsultantId,
+  useGetNotificationsByUserId
+} from "@/hooks/useNotification"
 
 import { formatCurrency } from "@/utils/formatters"
 import { getGreeting } from "@/utils/helpers"
 
 interface DashboardHeaderProps {
+  userId?: string
   consultantId?: string
   fullName?: string
   balance: number
 }
 
 export const DashboardHeader = ({
+  userId,
   consultantId,
   fullName,
   balance
 }: DashboardHeaderProps) => {
   const router = useRouter()
 
-  const { data: notificationsData } = useGetNotificationsByConsultantId(
-    consultantId,
+  const { data: notificationsData } = useGetNotificationsByUserId(
+    userId,
     1,
     undefined
   )
@@ -41,12 +48,12 @@ export const DashboardHeader = ({
 
   const paddingClass = Platform.OS === "ios" ? "pb-3 pt-0" : "py-4"
 
+  const handleViewNotifications = useCallback(() => {
+    router.push("/notifications")
+  }, [router])
+
   const handleViewWithdrawalRequests = useCallback(() => {
     router.push(`/banks/consultant/${consultantId}`)
-  }, [router, consultantId])
-
-  const handleViewNotifications = useCallback(() => {
-    router.push(`/notifications/consultant/${consultantId}`)
   }, [router, consultantId])
 
   return (

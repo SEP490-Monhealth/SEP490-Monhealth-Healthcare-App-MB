@@ -2,8 +2,6 @@ import React, { useEffect, useMemo, useState } from "react"
 
 import { ActivityIndicator, FlatList, Keyboard, View } from "react-native"
 
-import { useLocalSearchParams } from "expo-router"
-
 import { LoadingScreen } from "@/app/loading"
 
 import { Container, Content } from "@/components/global/atoms"
@@ -17,12 +15,15 @@ import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
 
-import { useGetNotificationsByConsultantId } from "@/hooks/useNotification"
+import { useAuth } from "@/contexts/AuthContext"
+
+import { useGetNotificationsByUserId } from "@/hooks/useNotification"
 
 import { NotificationType } from "@/schemas/notificationSchema"
 
-function NotificationsConsultantScreen() {
-  const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
+function NotificationsScreen() {
+  const { user } = useAuth()
+  const userId = user?.userId
 
   const [notificationsData, setNotificationsData] = useState<
     NotificationType[]
@@ -33,8 +34,8 @@ function NotificationsConsultantScreen() {
 
   const limit = 10
 
-  const { data, isLoading, refetch } = useGetNotificationsByConsultantId(
-    consultantId,
+  const { data, isLoading, refetch } = useGetNotificationsByUserId(
+    userId,
     page,
     limit
   )
@@ -76,7 +77,7 @@ function NotificationsConsultantScreen() {
     return (
       <ListHeader>
         {notificationsData.length > 0 && (
-          <Section label="Tất cả thông báo" margin={false} className="pt-2" />
+          <Section label="Tất cả thông báo" margin={false} />
         )}
       </ListHeader>
     )
@@ -123,7 +124,7 @@ function NotificationsConsultantScreen() {
           }
           ListEmptyComponent={
             <ErrorDisplay
-              imageSource={require("../../../../../public/images/monhealth-no-data-image.png")}
+              imageSource={require("../../../public/images/monhealth-no-data-image.png")}
               title="Không có dữ liệu"
               description="Không tìm thấy có thông báo nào ở đây!"
               marginTop={24}
@@ -136,4 +137,4 @@ function NotificationsConsultantScreen() {
   )
 }
 
-export default NotificationsConsultantScreen
+export default NotificationsScreen
