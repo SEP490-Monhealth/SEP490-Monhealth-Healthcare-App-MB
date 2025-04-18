@@ -46,12 +46,11 @@ import { getInitials } from "@/utils/helpers"
 
 function ConsultantDetailsScreen() {
   const router = useRouter()
+  const { tab } = useLocalSearchParams<{ tab: string }>()
+  const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
 
   const { user } = useAuth()
   const userId = user?.userId
-
-  const { tab } = useLocalSearchParams<{ tab: string }>()
-  const { consultantId } = useLocalSearchParams() as { consultantId: string }
 
   const { date: storedDate, startTime, endTime } = useBookingStore()
 
@@ -66,7 +65,6 @@ function ConsultantDetailsScreen() {
   )
 
   const [activeTab, setActiveTab] = useState<string>(tab || "info")
-  const [loading, setLoading] = useState<boolean>(false)
   const [overlayLoading, setOverlayLoading] = useState<boolean>(false)
   const [isTimeModalVisible, setIsTimeModalVisible] = useState<boolean>(false)
   const [isNoBookingsLeftModalVisible, setIsNoBookingsLeftModalVisible] =
@@ -75,10 +73,6 @@ function ConsultantDetailsScreen() {
   const handleTabChange = (tab: string) => {
     setActiveTab(tab)
   }
-
-  const handleLoading = useCallback((isLoading: boolean) => {
-    setLoading(isLoading)
-  }, [])
 
   const handleOverlayLoading = useCallback((isLoading: boolean) => {
     setOverlayLoading(isLoading)
@@ -216,17 +210,11 @@ function ConsultantDetailsScreen() {
                 </TabsList>
 
                 <TabsContent value="info">
-                  <InformationTab
-                    onLoading={handleLoading}
-                    onOverlayLoading={handleOverlayLoading}
-                  />
+                  <InformationTab onOverlayLoading={handleOverlayLoading} />
                 </TabsContent>
 
                 <TabsContent value="certificate">
-                  <CertificateTab
-                    onLoading={handleLoading}
-                    onOverlayLoading={handleOverlayLoading}
-                  />
+                  <CertificateTab onOverlayLoading={handleOverlayLoading} />
                 </TabsContent>
 
                 <TabsContent value="review">

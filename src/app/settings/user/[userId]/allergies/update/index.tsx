@@ -29,6 +29,7 @@ import {
   UpdateUserAllergyType,
   updateUserAllergySchema
 } from "@/schemas/allergySchema"
+import { Keyboard } from "react-native"
 
 function UpdateUserAllergyScreen() {
   const router = useRouter()
@@ -78,6 +79,8 @@ function UpdateUserAllergyScreen() {
   }
 
   const onSubmit = async (data: UpdateUserAllergyType) => {
+    Keyboard.dismiss()
+
     // console.log(JSON.stringify(data, null, 2))
 
     updateUserAllergy(

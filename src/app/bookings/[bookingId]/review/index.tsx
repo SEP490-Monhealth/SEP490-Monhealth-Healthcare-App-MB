@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react"
 
 import {
   Image,
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -109,6 +110,8 @@ function ReviewCreateScreen() {
   }, [bookingId, bookingData, userId, reset])
 
   const onSubmit = async (reviewData: CreateReviewType) => {
+    Keyboard.dismiss()
+
     const comment =
       selectedReviews.length > 0
         ? `${selectedReviews.join(" - ")}. ${reviewData.comment}`

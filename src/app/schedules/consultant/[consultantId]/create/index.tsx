@@ -327,6 +327,7 @@ function ScheduleCreateScreen() {
   }
 
   const onSubmit = async (data: CreateScheduleType) => {
+    Keyboard.dismiss()
     setIsLoading(true)
 
     try {

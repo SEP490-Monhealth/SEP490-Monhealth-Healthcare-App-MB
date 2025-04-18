@@ -13,26 +13,18 @@ import { Section } from "@/components/global/organisms"
 import { useGetCertificatesByConsultantId } from "@/hooks/useCertificate"
 
 interface CertificateTabProps {
-  onLoading: (isLoading: boolean) => void
   onOverlayLoading: (isLoading: boolean) => void
 }
 
-export const CertificateTab = ({
-  onLoading,
-  onOverlayLoading
-}: CertificateTabProps) => {
+export const CertificateTab = ({ onOverlayLoading }: CertificateTabProps) => {
   const router = useRouter()
-  const { consultantId } = useLocalSearchParams() as { consultantId: string }
+  const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
 
-  const { data: certificatesData, isLoading } =
+  const { data: certificatesData } =
     useGetCertificatesByConsultantId(consultantId)
 
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()
-
-  useEffect(() => {
-    onLoading?.(isLoading)
-  }, [isLoading, onLoading])
 
   useEffect(() => {
     onOverlayLoading?.(isFetching > 0 || isMutating > 0)

@@ -63,6 +63,7 @@ const BankUpdateScreen = () => {
 
   const onSubmit = (newData: UpdateConsultantBankType) => {
     Keyboard.dismiss()
+
     const finalData = newData
 
     // console.log(JSON.stringify(finalData, null, 2))

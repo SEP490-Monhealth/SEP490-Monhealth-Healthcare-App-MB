@@ -66,8 +66,8 @@ function SignUpScreen() {
   const handleSignIn = () => router.replace(`/auth/sign-in?userType=${role}`)
 
   const onSubmit = async (registerData: RegisterType) => {
-    setIsLoading(true)
     Keyboard.dismiss()
+    setIsLoading(true)
 
     // console.log(registerData)
 

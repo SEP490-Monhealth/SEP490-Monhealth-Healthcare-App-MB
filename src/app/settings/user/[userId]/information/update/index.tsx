@@ -1,5 +1,7 @@
 import React, { useEffect } from "react"
 
+import { Keyboard } from "react-native"
+
 import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
@@ -54,6 +56,8 @@ function UserInformationUpdateScreen() {
   if (!userData || isUserLoading) return <LoadingScreen />
 
   const onSubmit = async (data: UpdateUserType) => {
+    Keyboard.dismiss()
+
     updateUser(
       { userId, updateData: data },
       {

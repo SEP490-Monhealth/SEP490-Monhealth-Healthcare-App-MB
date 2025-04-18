@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { Image, Text, View } from "react-native"
+import { Image, Keyboard, Text, View } from "react-native"
 
 import { useLocalSearchParams, useRouter } from "expo-router"
 
@@ -47,10 +47,10 @@ function BookingsScreen() {
 
   // console.log(storedDate)
 
+  const { mutate: createBooking } = useCreateBooking()
+
   const { data: consultantData, isLoading: isConsultantLoading } =
     useGetConsultantById(consultantId)
-
-  const { mutate: createBooking } = useCreateBooking()
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
@@ -77,6 +77,7 @@ function BookingsScreen() {
   }
 
   const onSubmit = async (data: CreateBookingType) => {
+    Keyboard.dismiss()
     setIsLoading(true)
 
     try {

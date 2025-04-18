@@ -156,6 +156,8 @@ const MetricUpdateScreen = () => {
   }
 
   const onSubmit = async (data: CreateUpdateMetricType) => {
+    Keyboard.dismiss()
+
     updateMetric(data, {
       onSuccess: () => router.back()
     })

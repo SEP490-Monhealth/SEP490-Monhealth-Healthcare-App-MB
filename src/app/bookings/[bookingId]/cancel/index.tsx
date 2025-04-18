@@ -1,6 +1,12 @@
 import React, { useRef, useState } from "react"
 
-import { KeyboardAvoidingView, Platform, ScrollView, Text } from "react-native"
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Text
+} from "react-native"
 
 import { useLocalSearchParams, useRouter } from "expo-router"
 
@@ -65,6 +71,7 @@ function BookingCancelScreen() {
   })
 
   const onSubmit = async () => {
+    Keyboard.dismiss()
     setIsModalVisible(true)
   }
 

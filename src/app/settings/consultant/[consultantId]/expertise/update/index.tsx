@@ -156,6 +156,8 @@ function ExpertiseUpdateScreen() {
   }
 
   const onSubmit = async (data: ExpertiseUpdateType) => {
+    Keyboard.dismiss()
+
     console.log(JSON.stringify(data, null, 2))
 
     updateExpertise(

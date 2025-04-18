@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 
-import { Text } from "react-native"
+import { Keyboard, Text } from "react-native"
 
 import { useLocalSearchParams, useRouter } from "expo-router"
 
@@ -62,6 +62,8 @@ function ConsultantAboutUpdateScreen() {
   if (!consultantData) return <LoadingScreen />
 
   const onSubmit = async (data: UpdateConsultantType) => {
+    Keyboard.dismiss()
+
     // console.log(JSON.stringify(data, null, 2))
 
     updateConsultant(

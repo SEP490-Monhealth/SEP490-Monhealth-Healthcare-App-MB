@@ -20,14 +20,10 @@ import { formatDateY } from "@/utils/formatters"
 import { ConsultantBio } from "./ConsultantBio"
 
 interface InformationTabProps {
-  onLoading: (isLoading: boolean) => void
   onOverlayLoading: (isLoading: boolean) => void
 }
 
-export const InformationTab = ({
-  onLoading,
-  onOverlayLoading
-}: InformationTabProps) => {
+export const InformationTab = ({ onOverlayLoading }: InformationTabProps) => {
   const router = useRouter()
   const { consultantId, selectedDate: newSelectedDate } =
     useLocalSearchParams() as { consultantId: string; selectedDate?: string }
@@ -41,14 +37,12 @@ export const InformationTab = ({
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
   const [selectedTime, setSelectedTime] = useState<string | null>(null)
 
-  const { data: consultantData, isLoading: isConsultantLoading } =
-    useGetConsultantById(consultantId)
-  const { data: schedulesData, isLoading: isSchedulesLoading } =
-    useGetSchedulesByConsultantId(
-      consultantId,
-      undefined,
-      selectedDate || today
-    )
+  const { data: consultantData } = useGetConsultantById(consultantId)
+  const { data: schedulesData } = useGetSchedulesByConsultantId(
+    consultantId,
+    undefined,
+    selectedDate || today
+  )
 
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()
@@ -59,21 +53,6 @@ export const InformationTab = ({
       updateField("date", newSelectedDate)
     }
   }, [newSelectedDate, updateField])
-
-  useEffect(() => {
-    onLoading?.(
-      !consultantData ||
-        isConsultantLoading ||
-        !schedulesData ||
-        isSchedulesLoading
-    )
-  }, [
-    consultantData,
-    isConsultantLoading,
-    schedulesData,
-    isSchedulesLoading,
-    onLoading
-  ])
 
   useEffect(() => {
     onOverlayLoading?.(isFetching > 0 || isMutating > 0)

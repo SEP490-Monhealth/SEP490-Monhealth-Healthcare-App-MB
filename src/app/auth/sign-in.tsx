@@ -71,8 +71,8 @@ function SignInScreen() {
   const handleForgotPassword = () => router.push("/auth/forgot-password")
 
   const onSubmit = async (loginData: LoginType) => {
-    setIsLoading(true)
     Keyboard.dismiss()
+    setIsLoading(true)
 
     // console.log(loginData)
 

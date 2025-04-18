@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react"
 
-import { SafeAreaView, TouchableWithoutFeedback, View } from "react-native"
+import { Keyboard, SafeAreaView, TouchableWithoutFeedback, View } from "react-native"
 
 import { useLocalSearchParams, useRouter } from "expo-router"
 
@@ -99,6 +99,8 @@ function UpdateScheduleExceptionScreen() {
   const dateLabel = formatDate(selectedDate)
 
   const onSubmit = async (data: UpdateScheduleExceptionType) => {
+    Keyboard.dismiss()
+
     // console.log("Final Data:", JSON.stringify(data, null, 2))
 
     updateScheduleException(
