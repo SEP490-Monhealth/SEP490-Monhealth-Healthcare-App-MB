@@ -22,15 +22,12 @@ const deviceSchema = z.object({
       message: "Mã thông báo thiết bị quá ngắn, phải có ít nhất 10 ký tự"
     })
     .max(255, { message: "Mã thông báo thiết bị quá dài, tối đa 255 ký tự" }),
-
   deviceModel: z
     .string()
     .nonempty({ message: "Tên thiết bị là bắt buộc" })
     .min(2, { message: "Tên thiết bị quá ngắn" })
     .max(100, { message: "Tên thiết bị quá dài" }),
-
   os: osEnum,
-
   osVersion: z
     .string()
     .nonempty({ message: "Phiên bản hệ điều hành là bắt buộc" })
@@ -38,7 +35,6 @@ const deviceSchema = z.object({
       message: "Phiên bản hệ điều hành phải có định dạng x.y hoặc x.y.z"
     })
     .max(20, { message: "Phiên bản hệ điều hành quá dài" }),
-
   appVersion: z
     .string()
     .nonempty({ message: "Phiên bản ứng dụng là bắt buộc" })

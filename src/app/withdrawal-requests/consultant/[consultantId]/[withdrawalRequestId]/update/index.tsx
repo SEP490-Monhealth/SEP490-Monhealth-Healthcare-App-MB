@@ -43,7 +43,10 @@ function UpdateWithdrawalRequestScreen() {
     withdrawalRequestId: string
   }>()
 
-  const { accountNumber, updateField, reset } = useWithdrawalRequestStore()
+  console.log(withdrawalRequestId)
+
+  const { consultantBankId, accountNumber, updateField, reset } =
+    useWithdrawalRequestStore()
 
   const { mutate: updateWithdrawalRequest } = useUpdateWithdrawalRequest()
 
@@ -61,11 +64,18 @@ function UpdateWithdrawalRequestScreen() {
 
   useEffect(() => {
     if (withdrawalRequestData) {
+      updateField("consultantBankId", withdrawalRequestData.consultantBankId)
       setValue("consultantBankId", withdrawalRequestData.consultantBankId)
       setValue("description", withdrawalRequestData.description)
       setValue("amount", withdrawalRequestData.amount)
     }
   }, [withdrawalRequestData, setValue, updateField])
+
+  useEffect(() => {
+    if (consultantBankId) {
+      setValue("consultantBankId", consultantBankId)
+    }
+  }, [consultantBankId, setValue])
 
   const handleViewConsultantBanks = () => {
     router.push(`/withdrawal-requests/consultant/${consultantId}/create/banks`)
@@ -76,17 +86,17 @@ function UpdateWithdrawalRequestScreen() {
 
     const finalData = data
 
-    // console.log(JSON.stringify(finalData, null, 2))
+    console.log(JSON.stringify(finalData, null, 2))
 
-    updateWithdrawalRequest(
-      { withdrawalRequestId, updatedData: finalData },
-      {
-        onSuccess: () => {
-          reset()
-          router.back()
-        }
-      }
-    )
+    // updateWithdrawalRequest(
+    //   { withdrawalRequestId, updatedData: finalData },
+    //   {
+    //     onSuccess: () => {
+    //       reset()
+    //       router.back()
+    //     }
+    //   }
+    // )
   }
 
   if (!withdrawalRequestData || isLoading) return <LoadingScreen />
@@ -103,7 +113,10 @@ function UpdateWithdrawalRequestScreen() {
                 <Select
                   label="Ngân hàng"
                   defaultValue="VD: 2003150599"
-                  value={accountNumber}
+                  value={
+                    accountNumber ||
+                    withdrawalRequestData?.consultantBank.accountNumber
+                  }
                   errorMessage={errors.consultantBankId?.message}
                   onPress={handleViewConsultantBanks}
                 />
@@ -146,7 +159,7 @@ function UpdateWithdrawalRequestScreen() {
                 />
               </VStack>
 
-              <Button onPress={handleSubmit(onSubmit)}>Tạo yêu cầu</Button>
+              <Button onPress={handleSubmit(onSubmit)}>Cập nhật</Button>
             </VStack>
           </Content>
         </Container>

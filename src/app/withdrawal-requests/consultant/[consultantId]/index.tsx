@@ -54,8 +54,6 @@ function WithdrawalRequestsScreen() {
   const [isVisible, setIsVisible] = useState<boolean>(false)
   const [selectedRequest, setSelectedRequest] = useState<string | null>("")
 
-  console.log(selectedRequest)
-
   const limit = 10
 
   const { mutate: deleteWithdrawalRequest } = useDeleteWithdrawalRequest()
