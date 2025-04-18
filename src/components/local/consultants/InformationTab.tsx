@@ -15,19 +15,9 @@ import { useGetSchedulesByConsultantId } from "@/hooks/useSchedule"
 
 import { useBookingStore } from "@/stores/bookingStore"
 
+import { formatDateY } from "@/utils/formatters"
+
 import { ConsultantBio } from "./ConsultantBio"
-
-const getTodayInISOFormat = () => {
-  const now = new Date()
-
-  now.setHours(now.getHours() + 7)
-
-  const year = now.getFullYear()
-  const month = String(now.getMonth() + 1).padStart(2, "0")
-  const day = String(now.getDate()).padStart(2, "0")
-
-  return `${year}-${month}-${day}`
-}
 
 interface InformationTabProps {
   onLoading: (isLoading: boolean) => void
@@ -42,7 +32,7 @@ export const InformationTab = ({
   const { consultantId, selectedDate: newSelectedDate } =
     useLocalSearchParams() as { consultantId: string; selectedDate?: string }
 
-  const today = getTodayInISOFormat()
+  const today = formatDateY(new Date())
 
   // console.log(today)
 
@@ -142,6 +132,8 @@ export const InformationTab = ({
               endTime={slot.endTime}
               isSelected={selectedTime === slot.startTime}
               status={slot.status}
+              date={selectedDate || today}
+              bufferMinutes={60}
               onPress={() => handleScheduleSelect(slot.startTime, slot.endTime)}
             />
           ))

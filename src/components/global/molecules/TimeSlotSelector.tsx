@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo } from "react"
 
 import { Text, TouchableOpacity } from "react-native"
 
@@ -13,6 +13,8 @@ interface TimeSlotSelectorProps {
   isSelected?: boolean
   status: ScheduleTimeSlotStatusEnum
   onPress?: () => void
+  date: string
+  bufferMinutes?: number
 }
 
 export const TimeSlotSelector = ({
@@ -20,10 +22,25 @@ export const TimeSlotSelector = ({
   endTime,
   isSelected = false,
   status,
-  onPress
+  onPress,
+  date,
+  bufferMinutes = 60
 }: TimeSlotSelectorProps) => {
   const isBooked = status === ScheduleTimeSlotStatusEnum.Booked
   const isDisabled = status === ScheduleTimeSlotStatusEnum.Unavailable
+
+  const isTimeSlotInvalid = useMemo(() => {
+    const now = new Date()
+
+    const [hours, minutes] = startTime.split(":").map(Number)
+    const slotDateTime = new Date(date)
+    slotDateTime.setHours(hours, minutes, 0, 0)
+
+    const bufferTime = new Date(slotDateTime.getTime())
+    bufferTime.setMinutes(bufferTime.getMinutes() - bufferMinutes)
+
+    return now > bufferTime
+  }, [date, startTime, bufferMinutes])
 
   const formatTime = (time: string) => {
     const [hour, minute] = time.split(":")
@@ -32,19 +49,19 @@ export const TimeSlotSelector = ({
 
   return (
     <TouchableOpacity
-      disabled={isBooked || isDisabled}
+      disabled={isBooked || isDisabled || isTimeSlotInvalid}
       activeOpacity={0.8}
       onPress={onPress}
       className={cn(
         "items-center rounded-xl border border-border px-5 py-3",
-        isSelected || isDisabled ? "" : "bg-card"
+        isSelected || isDisabled || isTimeSlotInvalid ? "" : "bg-card"
       )}
       style={
         isSelected
           ? { backgroundColor: COLORS.primary }
           : isBooked
             ? { backgroundColor: "#facc15" }
-            : isDisabled
+            : isDisabled || isTimeSlotInvalid
               ? { backgroundColor: COLORS.muted }
               : {}
       }
@@ -54,7 +71,7 @@ export const TimeSlotSelector = ({
           "font-tmedium text-base",
           isSelected
             ? "text-white"
-            : isDisabled
+            : isDisabled || isTimeSlotInvalid
               ? "text-accent"
               : "text-primary"
         )}
