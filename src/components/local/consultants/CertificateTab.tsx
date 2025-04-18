@@ -30,10 +30,6 @@ export const CertificateTab = ({
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()
 
-  const handleViewCertificate = () => {
-    router.push(`/consultants/${consultantId}/certificates`)
-  }
-
   useEffect(() => {
     onLoading?.(isLoading)
   }, [isLoading, onLoading])
@@ -41,6 +37,10 @@ export const CertificateTab = ({
   useEffect(() => {
     onOverlayLoading?.(isFetching > 0 || isMutating > 0)
   }, [isFetching, isMutating, onOverlayLoading])
+
+  const handleViewCertificate = () => {
+    router.push(`/consultants/${consultantId}/certificates`)
+  }
 
   return (
     <View className="mt-2">
@@ -55,7 +55,7 @@ export const CertificateTab = ({
             issueDate={certificate.issueDate}
             expiryDate={certificate.expiryDate}
             issuedBy={certificate.issuedBy}
-            onPress={() => handleViewCertificate()}
+            onPress={handleViewCertificate}
           />
         ))}
       </VStack>
