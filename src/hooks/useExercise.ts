@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 
+import { MonQueryKey } from "@/constants/query"
+
 import { useError } from "@/contexts/ErrorContext"
 
 import { ExerciseType } from "@/schemas/exerciseSchema"
@@ -26,7 +28,7 @@ export const useGetAllExercises = (
   const handleError = useError()
 
   return useQuery<ExerciseResponse, Error>({
-    queryKey: ["exercisesAll", page, limit, search, status],
+    queryKey: [MonQueryKey.Exercise.Exercises, page, limit, search, status],
     queryFn: async () => {
       try {
         return await getAllExercises(page, limit, search, status)
@@ -43,7 +45,7 @@ export const useGetExercisesByWorkoutId = (workoutId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<WorkoutExerciseType, Error>({
-    queryKey: ["exercises", workoutId],
+    queryKey: [MonQueryKey.Exercise.WorkoutExercises, workoutId],
     queryFn: async () => {
       try {
         return await getExercisesByWorkoutId(workoutId)
@@ -61,7 +63,7 @@ export const useGetExerciseById = (exerciseId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<ExerciseType, Error>({
-    queryKey: ["exercise", exerciseId],
+    queryKey: [MonQueryKey.Exercise.Exercise, exerciseId],
     queryFn: async () => {
       try {
         return await getExerciseById(exerciseId)

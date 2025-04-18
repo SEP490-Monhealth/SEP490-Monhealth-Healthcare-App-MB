@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
+import { MonQueryKey } from "@/constants/query"
+
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
 
@@ -28,7 +30,7 @@ export const useGetWaterReminderByUserId = (
   const handleError = useError()
 
   return useQuery<WaterReminderType[], Error>({
-    queryKey: ["water-reminders", userId, status],
+    queryKey: [MonQueryKey.WaterReminder.WaterReminders, userId, status],
     queryFn: async () => {
       try {
         return await getWaterRemindersByUserId(userId, status)
@@ -48,7 +50,7 @@ export const useGetWaterReminderById = (
   const handleError = useError()
 
   return useQuery<WaterReminderType, Error>({
-    queryKey: ["water-reminder", waterReminderId],
+    queryKey: [MonQueryKey.WaterReminder.WaterReminder, waterReminderId],
     queryFn: async () => {
       try {
         return await getWaterReminderById(waterReminderId)
@@ -77,7 +79,9 @@ export const useCreateWaterReminder = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["water-reminders"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.WaterReminder.WaterReminders]
+      })
     }
   })
 }
@@ -105,8 +109,12 @@ export const useUpdateWaterReminder = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["water-reminders"] })
-      queryClient.invalidateQueries({ queryKey: ["water-reminder"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.WaterReminder.WaterReminders]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.WaterReminder.WaterReminder]
+      })
     }
   })
 }
@@ -126,7 +134,9 @@ export const useDeleteWaterReminder = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["water-reminders"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.WaterReminder.WaterReminders]
+      })
     }
   })
 }
@@ -146,7 +156,12 @@ export const useUpdateWaterReminderStatus = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["water-reminders"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.WaterReminder.WaterReminders]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.WaterReminder.WaterReminder]
+      })
     }
   })
 }
@@ -169,8 +184,15 @@ export const useUpdateWaterReminderDrunk = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["water-reminders"] })
-      queryClient.invalidateQueries({ queryKey: ["dailyWaterIntake"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.WaterReminder.WaterReminders]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.WaterReminder.WaterReminder]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.WaterReminder.DailyWaterIntake]
+      })
     }
   })
 }
@@ -182,7 +204,7 @@ export const useGetDailyWaterIntakeByUserId = (
   const handleError = useError()
 
   return useQuery<DailyWaterIntakeType, Error>({
-    queryKey: ["dailyWaterIntake", userId, date],
+    queryKey: [MonQueryKey.WaterReminder.DailyWaterIntake, userId, date],
     queryFn: async () => {
       try {
         return await getDailyWaterIntakeByUserId(userId, date)

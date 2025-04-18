@@ -7,38 +7,6 @@ import {
   UserType
 } from "@/schemas/userSchema"
 
-interface UserResponse {
-  users: UserType[]
-  totalPages: number
-  totalItems: number
-}
-
-export const getAllUsers = async (
-  page: number,
-  limit?: number,
-  search?: string,
-  role?: string,
-  status?: boolean
-): Promise<UserResponse> => {
-  try {
-    const response = await monAPI.get(`/users`, {
-      params: { page, limit, search, role, status }
-    })
-
-    const { success, message, data } = response.data
-
-    if (!success) {
-      throw { isCustomError: true, message: message }
-    }
-
-    const { totalPages, totalItems, items: users } = data
-    return { users, totalPages, totalItems }
-  } catch (error: any) {
-    const errorMessage = error.response?.data?.message
-    throw { isCustomError: true, message: errorMessage }
-  }
-}
-
 export const getUserById = async (
   userId: string | undefined
 ): Promise<UserType> => {
@@ -82,13 +50,13 @@ export const updateUser = async (
   }
 }
 
-export const updateUserPassword = async (
+export const updateUserAvatar = async (
   userId: string,
-  passwordData: UpdateUserPasswordType,
+  avatarData: UpdateAvatarType,
   showModal: (message: string) => void
 ): Promise<string> => {
   try {
-    const response = await monAPI.put(`/users/${userId}/password`, passwordData)
+    const response = await monAPI.put(`/users/${userId}/avatar`, avatarData)
 
     const { success, message } = response.data
 
@@ -106,13 +74,13 @@ export const updateUserPassword = async (
   }
 }
 
-export const updateAvatarUser = async (
+export const updateUserPassword = async (
   userId: string,
-  avatarData: UpdateAvatarType,
+  passwordData: UpdateUserPasswordType,
   showModal: (message: string) => void
 ): Promise<string> => {
   try {
-    const response = await monAPI.put(`/users/${userId}/avatar`, avatarData)
+    const response = await monAPI.put(`/users/${userId}/password`, passwordData)
 
     const { success, message } = response.data
 

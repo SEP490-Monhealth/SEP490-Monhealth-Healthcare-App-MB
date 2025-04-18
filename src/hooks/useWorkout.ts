@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 
 import { DifficultyLevelEnum } from "@/constants/enum/Workout"
+import { MonQueryKey } from "@/constants/query"
 
 import { useError } from "@/contexts/ErrorContext"
 
@@ -27,7 +28,7 @@ export const useGetAllWorkouts = (
 
   return useQuery<WorkoutResponse, Error>({
     queryKey: [
-      "workouts",
+      MonQueryKey.Workout.Workouts,
       page,
       limit,
       category,
@@ -60,7 +61,7 @@ export const useGetWorkoutById = (workoutId: string | undefined) => {
   const handleError = useError()
 
   return useQuery<WorkoutType, Error>({
-    queryKey: ["workout", workoutId],
+    queryKey: [MonQueryKey.Workout.Workout, workoutId],
     queryFn: async () => {
       try {
         return await getWorkoutById(workoutId)

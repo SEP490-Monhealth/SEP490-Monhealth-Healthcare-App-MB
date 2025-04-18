@@ -26,7 +26,7 @@ export const useGetReviewsByConsultantId = (
   const handleError = useError()
 
   return useQuery<ReviewResponse, Error>({
-    queryKey: ["reviews", consultantId, page, limit],
+    queryKey: [MonQueryKey.Review.ReviewsConsultant, consultantId, page, limit],
     queryFn: async () => {
       try {
         return await getReviewsByConsultantId(consultantId, page, limit)
@@ -55,9 +55,17 @@ export const useCreateReview = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["reviews"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Review.ReviewsConsultant]
+      })
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Booking.UserBookings]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Consultant.Consultants]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Consultant.Consultant]
       })
     }
   })

@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
+import { MonQueryKey } from "@/constants/query"
+
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
 
@@ -17,7 +19,7 @@ export const useGetAllExpertise = (page: number, limit?: number) => {
   const handleError = useError()
 
   return useQuery<ExpertiseResponse, Error>({
-    queryKey: ["expertise", page, limit],
+    queryKey: [MonQueryKey.Expertise.Expertise, page, limit],
     queryFn: async () => {
       try {
         return await getAllExpertise(page, limit)
@@ -52,11 +54,13 @@ export const useUpdateExpertise = () => {
       }
     },
 
-    onSuccess: (_, { consultantId }) => {
-      if (consultantId) {
-        queryClient.invalidateQueries({ queryKey: ["expertise"] })
-        queryClient.invalidateQueries({ queryKey: ["certificates"] })
-      }
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Expertise.Expertise]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Certificate.Certificates]
+      })
     }
   })
 }

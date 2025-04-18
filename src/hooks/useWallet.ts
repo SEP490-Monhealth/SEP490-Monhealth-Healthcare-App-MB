@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 
+import { MonQueryKey } from "@/constants/query"
+
 import { useError } from "@/contexts/ErrorContext"
 
 import { WalletType } from "@/schemas/walletSchema"
@@ -12,7 +14,7 @@ export const useGetWalletByConsultantId = (
   const handleError = useError()
 
   return useQuery<WalletType, Error>({
-    queryKey: ["wallets", consultantId],
+    queryKey: [MonQueryKey.Wallet.Wallet, consultantId],
     queryFn: async () => {
       try {
         return await getWalletByConsultantId(consultantId)

@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 
+import { MonQueryKey } from "@/constants/query"
+
 import { useError } from "@/contexts/ErrorContext"
 
 import { SubscriptionType } from "@/schemas/subscriptionSchema"
@@ -22,7 +24,14 @@ export const useGetAllSubscriptions = (
   const handleError = useError()
 
   return useQuery<SubscriptionsResponse, Error>({
-    queryKey: ["subscriptions", page, limit, search, sort, status],
+    queryKey: [
+      MonQueryKey.Subscription.Subscriptions,
+      page,
+      limit,
+      search,
+      sort,
+      status
+    ],
     queryFn: async () => {
       try {
         return await getAllSubscriptions(page, limit, search, sort, status)

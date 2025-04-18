@@ -154,7 +154,9 @@ export const useCompleteTransaction = () => {
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Transaction.UserTransactions]
       })
-      // refetch remaining booking
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Subscription.UserSubscriptions]
+      })
     }
   })
 }

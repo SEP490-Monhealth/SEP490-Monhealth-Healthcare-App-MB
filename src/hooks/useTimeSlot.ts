@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
+import { MonQueryKey } from "@/constants/query"
+
 import { useError } from "@/contexts/ErrorContext"
 
 import { CreateTimeSlotType } from "@/schemas/scheduleSchema"
@@ -20,7 +22,9 @@ export const useCreateTimeSlot = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["schedules"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Schedule.Schedules]
+      })
     }
   })
 }
@@ -39,7 +43,9 @@ export const useDeleteTimeSlot = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["schedules"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Schedule.Schedules]
+      })
     }
   })
 }

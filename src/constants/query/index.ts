@@ -42,7 +42,19 @@ export const MonQueryKey = {
 
   Consultant: {
     Consultants: "consultants",
-    Consultant: "consultant"
+    Consultant: "consultant",
+    ConsultantBanks: "consultant-banks",
+    ConsultantBank: "consultant-bank"
+  },
+
+  Exercise: {
+    Exercises: "exercises",
+    Exercise: "exercise",
+    WorkoutExercises: "workout-exercises"
+  },
+
+  Expertise: {
+    Expertise: "expertise"
   },
 
   Food: {
@@ -83,23 +95,55 @@ export const MonQueryKey = {
     Portions: "portions"
   },
 
-  Transaction: {
-    UserTransactions: "transactions-user",
-    ConsultantTransactions: "transactions-consultant"
-  },
-
-  Message: {
-    Messages: "messages"
-  },
-
   Report: {
     WeeklyMeal: "WeeklyMeal",
     MonthlyTransaction: "MonthlyTransaction",
     MonthlyBooking: "MonthlyBooking"
   },
 
+  Review: {
+    ReviewsConsultant: "reviews-consultant"
+  },
+
+  Schedule: {
+    Schedules: "schedules",
+    Schedule: "schedule",
+    ScheduleExceptions: "schedule-exceptions",
+    ScheduleException: "schedule-exception",
+    ScheduleTimeSlots: "schedule-time-slots"
+  },
+
+  Subscription: {
+    Subscriptions: "subscriptions",
+    UserSubscriptions: "subscriptions-user"
+  },
+
+  Transaction: {
+    UserTransactions: "transactions-user",
+    ConsultantTransactions: "transactions-consultant"
+  },
+
+  User: {
+    User: "user"
+  },
+
+  Wallet: {
+    Wallet: "wallet"
+  },
+
+  WaterReminder: {
+    WaterReminders: "water-reminders",
+    WaterReminder: "water-reminder",
+    DailyWaterIntake: "daily-water-intake"
+  },
+
   WithdrawalRequest: {
     WithdrawalRequests: "withdrawal-requests",
     WithdrawalRequest: "withdrawal-request"
+  },
+
+  Workout: {
+    Workouts: "workouts",
+    Workout: "workout"
   }
 }

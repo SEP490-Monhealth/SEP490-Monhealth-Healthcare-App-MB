@@ -120,6 +120,12 @@ export const useCreateBooking = () => {
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Booking.ConsultantBookings]
       })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Booking.UserConsultantBookings]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Subscription.UserSubscriptions]
+      })
     }
   })
 }

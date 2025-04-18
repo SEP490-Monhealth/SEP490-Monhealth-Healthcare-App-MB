@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
+import { MonQueryKey } from "@/constants/query"
+
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
 
@@ -31,7 +33,12 @@ export const useGetScheduleExceptionByConsultantId = (
   const handleError = useError()
 
   return useQuery<ScheduleExceptionResponse, Error>({
-    queryKey: ["schedule-exceptions", consultantId, page, limit],
+    queryKey: [
+      MonQueryKey.Schedule.ScheduleExceptions,
+      consultantId,
+      page,
+      limit
+    ],
     queryFn: async () => {
       try {
         return await getScheduleExceptionByConsultantId(
@@ -54,7 +61,7 @@ export const useGetScheduleExceptionById = (
   const handleError = useError()
 
   return useQuery<ScheduleExceptionType, Error>({
-    queryKey: [scheduleExceptionId],
+    queryKey: [MonQueryKey.Schedule.ScheduleException, scheduleExceptionId],
     queryFn: async () => {
       try {
         return await getScheduleExceptionById(scheduleExceptionId)
@@ -68,9 +75,7 @@ export const useGetScheduleExceptionById = (
   })
 }
 
-export const useCreateScheduleException = (
-  consultantId: string | undefined
-) => {
+export const useCreateScheduleException = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
   const { showModal } = useModal()
@@ -85,14 +90,14 @@ export const useCreateScheduleException = (
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["schedule-exceptions"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Schedule.ScheduleExceptions]
+      })
     }
   })
 }
 
-export const useUpdateScheduleException = (
-  consultantId: string | undefined
-) => {
+export const useUpdateScheduleException = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
   const { showModal } = useModal()
@@ -115,11 +120,12 @@ export const useUpdateScheduleException = (
       }
     },
     onSuccess: () => {
-      if (consultantId) {
-        queryClient.invalidateQueries({
-          queryKey: ["schedule-exceptions", consultantId]
-        })
-      }
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Schedule.ScheduleExceptions]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Schedule.ScheduleException]
+      })
     }
   })
 }
@@ -139,7 +145,9 @@ export const useDeleteScheduleException = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["schedule-exceptions"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Schedule.ScheduleExceptions]
+      })
     }
   })
 }

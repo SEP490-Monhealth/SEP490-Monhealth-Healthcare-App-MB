@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
+import { MonQueryKey } from "@/constants/query"
+
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
 
@@ -23,8 +25,8 @@ export const useGetConsultantBanksByConsultantId = (
 ) => {
   const handleError = useError()
 
-  return useQuery<any[], Error>({
-    queryKey: ["consultant-banks", consultantId],
+  return useQuery<ConsultantBankType[], Error>({
+    queryKey: [MonQueryKey.Consultant.ConsultantBanks, consultantId],
     queryFn: async () => {
       try {
         return await getConsultantBanksByConsultantId(consultantId)
@@ -44,7 +46,7 @@ export const useGetConsultantBankById = (
   const handleError = useError()
 
   return useQuery<ConsultantBankType, Error>({
-    queryKey: ["consultant-bank", consultantBankId],
+    queryKey: [MonQueryKey.Consultant.ConsultantBank, consultantBankId],
     queryFn: async () => {
       try {
         return await getConsultantBankById(consultantBankId)
@@ -73,7 +75,9 @@ export const useCreateConsultantBank = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["consultant-banks"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Consultant.ConsultantBanks]
+      })
     }
   })
 }
@@ -104,13 +108,13 @@ export const useUpdateConsultantBank = () => {
       }
     },
 
-    onSuccess: (_, { consultantBankId }) => {
-      if (consultantBankId) {
-        queryClient.invalidateQueries({ queryKey: ["consultant-banks"] })
-        queryClient.invalidateQueries({
-          queryKey: ["consultant-bank", consultantBankId]
-        })
-      }
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Consultant.ConsultantBanks]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Consultant.ConsultantBank]
+      })
     }
   })
 }
@@ -129,7 +133,9 @@ export const useDeleteConsultantBank = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["consultant-banks"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Consultant.ConsultantBanks]
+      })
     }
   })
 }
@@ -148,7 +154,9 @@ export const useUpdateConsultantBankDefault = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["consultant-banks"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Consultant.ConsultantBanks]
+      })
     }
   })
 }

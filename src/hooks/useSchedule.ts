@@ -20,7 +20,7 @@ export const useGetAllScheduleTimeSlots = () => {
   const handleError = useError()
 
   return useQuery<TimeSlot[], Error>({
-    queryKey: ["schedules-time-slots"],
+    queryKey: [MonQueryKey.Schedule.ScheduleTimeSlots],
     queryFn: async () => {
       try {
         return await getAllScheduleTimeSlots()
@@ -41,7 +41,7 @@ export const useGetSchedulesByConsultantId = (
   const handleError = useError()
 
   return useQuery<ScheduleType[], Error>({
-    queryKey: ["schedules", consultantId, type, date],
+    queryKey: [MonQueryKey.Schedule.Schedules, consultantId, type, date],
     queryFn: async () => {
       try {
         return await getSchedulesByConsultantId(consultantId, type, date)
@@ -70,8 +70,12 @@ export const useCreateSchedule = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["schedules-time-slots"] })
-      queryClient.invalidateQueries({ queryKey: ["schedules"] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Schedule.ScheduleTimeSlots]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Schedule.Schedules]
+      })
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Consultant.Consultants]
       })

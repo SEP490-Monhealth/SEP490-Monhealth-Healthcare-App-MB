@@ -1,6 +1,12 @@
 import React, { useEffect, useRef, useState } from "react"
 
-import { SafeAreaView, TouchableWithoutFeedback, View } from "react-native"
+import {
+  Alert,
+  Keyboard,
+  SafeAreaView,
+  TouchableWithoutFeedback,
+  View
+} from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -15,6 +21,7 @@ import {
   Container,
   Content,
   Input,
+  Modal,
   Select,
   Sheet,
   SheetRefProps,
@@ -22,8 +29,11 @@ import {
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
+import { BookingStatusEnum } from "@/constants/enum/Booking"
+
 import { useAuth } from "@/contexts/AuthContext"
 
+import { useGetBookingsByConsultantId } from "@/hooks/useBooking"
 import { useCreateScheduleException } from "@/hooks/useScheduleException"
 
 import {
@@ -48,13 +58,22 @@ function CreateScheduleExceptionScreen() {
 
   const tomorrowDate = getTomorrow()
   const [selectedDate, setSelectedDate] = useState<Date>(tomorrowDate)
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+  const dateLabel = formatDate(selectedDate)
+
+  const SheetRef = useRef<SheetRefProps>(null)
 
   const { mutate: createScheduleException } =
     useCreateScheduleException(consultantId)
 
-  const SheetRef = useRef<SheetRefProps>(null)
+  const localDate = new Date(selectedDate)
+  localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset())
+  const formattedDate = localDate.toISOString().split("T")[0]
 
-  const dateLabel = formatDate(selectedDate)
+  const { data: bookingsData } = useGetBookingsByConsultantId(
+    consultantId,
+    formattedDate
+  )
 
   const {
     control,
@@ -65,8 +84,8 @@ function CreateScheduleExceptionScreen() {
   } = useForm<CreateScheduleExceptionType>({
     resolver: zodResolver(createScheduleExceptionSchema),
     defaultValues: {
-      consultantId: "",
-      date: "",
+      consultantId: consultantId,
+      date: formatDateY(selectedDate),
       reason: ""
     }
   })
@@ -91,7 +110,25 @@ function CreateScheduleExceptionScreen() {
     }
   }
 
+  const checkForBookings = () => {
+    const hasBooking = bookingsData?.some(
+      (booking) =>
+        booking.date === formatDateY(selectedDate) &&
+        (booking.status === BookingStatusEnum.Pending ||
+          booking.status === BookingStatusEnum.Confirmed)
+    )
+
+    return hasBooking
+  }
+
   const onSubmit = async (data: CreateScheduleExceptionType) => {
+    Keyboard.dismiss()
+
+    if (checkForBookings()) {
+      setIsModalVisible(true)
+      return
+    }
+
     // console.log("Final Data:", JSON.stringify(data, null, 2))
 
     await createScheduleException(data, {
@@ -104,7 +141,7 @@ function CreateScheduleExceptionScreen() {
   return (
     <TouchableWithoutFeedback>
       <SafeAreaView className="flex-1 bg-background">
-        <Container>
+        <Container dismissKeyboard>
           <Header back label="Tạo lịch nghỉ" />
 
           <Content className="mt-2">
@@ -153,6 +190,15 @@ function CreateScheduleExceptionScreen() {
             />
           </View>
         </Sheet>
+
+        <Modal
+          isVisible={isModalVisible}
+          title="Cảnh báo"
+          description="Ngày này đã có lịch hẹn. Vui lòng chọn ngày khác hoặc hủy lịch hẹn."
+          confirmText="Đồng ý"
+          onClose={() => setIsModalVisible(false)}
+          onConfirm={() => setIsModalVisible(false)}
+        />
       </SafeAreaView>
     </TouchableWithoutFeedback>
   )
