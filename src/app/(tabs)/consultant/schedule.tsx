@@ -1,6 +1,6 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
-import { useRouter } from "expo-router"
+import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
 
@@ -22,6 +22,9 @@ import { useGetSchedulesByConsultantId } from "@/hooks/useSchedule"
 
 function SchedulesScreen() {
   const router = useRouter()
+  const { selectedDate: routeSelectedDate } = useLocalSearchParams<{
+    selectedDate?: string
+  }>()
 
   const { user } = useAuth()
   const consultantId = user?.consultantId
@@ -32,8 +35,14 @@ function SchedulesScreen() {
     useGetSchedulesByConsultantId(consultantId)
 
   const [selectedDate, setSelectedDate] = useState<string | null>(
-    now.toISOString()
+    routeSelectedDate || now.toISOString()
   )
+
+  useEffect(() => {
+    if (routeSelectedDate) {
+      setSelectedDate(routeSelectedDate)
+    }
+  }, [routeSelectedDate])
 
   const { data: bookingsData, isLoading: isBookingsLoading } =
     useGetBookingsByConsultantId(
@@ -49,6 +58,13 @@ function SchedulesScreen() {
 
   const handleSelectSchedule = (scheduleId: string) => {
     setSelectedSchedule(scheduleId)
+  }
+
+  const handleViewCalendar = () => {
+    router.push({
+      pathname: "/calendars",
+      params: { selectedDate }
+    })
   }
 
   const handleViewSchedules = () => {
@@ -100,6 +116,7 @@ function SchedulesScreen() {
             <Schedule
               initialDate={new Date(selectedDate || now.toISOString())}
               onDateSelect={handleDateSelect}
+              onCalendarPress={handleViewCalendar}
             />
 
             <Section

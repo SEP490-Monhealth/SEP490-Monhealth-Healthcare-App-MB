@@ -1,10 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
-import { FlatList, Text, TouchableOpacity } from "react-native"
+import { FlatList, Text, TouchableOpacity, View } from "react-native"
 
-import { useRouter } from "expo-router"
-
-import { Calendar } from "iconsax-react-native"
+import { Calendar as CalendarIcon } from "iconsax-react-native"
 
 import { COLORS } from "@/constants/color"
 
@@ -16,6 +14,7 @@ import { HStack } from "./Stack"
 interface ScheduleProps {
   initialDate: Date
   onDateSelect: (date: string) => void
+  onCalendarPress?: () => void
 }
 
 interface DayDetails {
@@ -23,9 +22,11 @@ interface DayDetails {
   dayOfWeek: string
 }
 
-export const Schedule = ({ initialDate, onDateSelect }: ScheduleProps) => {
-  const router = useRouter()
-
+export const Schedule = ({
+  initialDate,
+  onDateSelect,
+  onCalendarPress
+}: ScheduleProps) => {
   const validInitialDate = useMemo(() => {
     if (initialDate instanceof Date && !isNaN(initialDate.getTime())) {
       return initialDate
@@ -34,6 +35,13 @@ export const Schedule = ({ initialDate, onDateSelect }: ScheduleProps) => {
   }, [initialDate])
 
   const [selectedDay, setSelectedDay] = useState<Date>(validInitialDate)
+
+  // Cập nhật selectedDay khi initialDate thay đổi
+  useEffect(() => {
+    if (initialDate instanceof Date && !isNaN(initialDate.getTime())) {
+      setSelectedDay(initialDate)
+    }
+  }, [initialDate])
 
   const daysInMonth = useMemo(() => {
     const selectedDate = selectedDay
@@ -59,17 +67,25 @@ export const Schedule = ({ initialDate, onDateSelect }: ScheduleProps) => {
 
   const scrollToSelectedDate = useCallback(() => {
     const index = daysInMonth.findIndex(
-      (day) => day.date.toDateString() === selectedDay.toDateString()
+      (day) =>
+        day.date.getDate() === selectedDay.getDate() &&
+        day.date.getMonth() === selectedDay.getMonth() &&
+        day.date.getFullYear() === selectedDay.getFullYear()
     )
+
     if (flatListScrollRef.current && index >= 0) {
       flatListScrollRef.current.scrollToIndex({ index, animated: false })
     }
   }, [selectedDay, daysInMonth])
 
   useEffect(() => {
-    if (daysInMonth.length > 0) {
-      scrollToSelectedDate()
-    }
+    const timer = setTimeout(() => {
+      if (daysInMonth.length > 0) {
+        scrollToSelectedDate()
+      }
+    }, 100)
+
+    return () => clearTimeout(timer)
   }, [daysInMonth, selectedDay, scrollToSelectedDate])
 
   const handleSelectedDay = (date: Date) => {
@@ -78,7 +94,10 @@ export const Schedule = ({ initialDate, onDateSelect }: ScheduleProps) => {
   }
 
   const DayItem = ({ date, dayOfWeek }: DayDetails) => {
-    const isSelected = date.toDateString() === selectedDay.toDateString()
+    const isSelected =
+      date.getDate() === selectedDay.getDate() &&
+      date.getMonth() === selectedDay.getMonth() &&
+      date.getFullYear() === selectedDay.getFullYear()
 
     return (
       <TouchableOpacity
@@ -104,8 +123,6 @@ export const Schedule = ({ initialDate, onDateSelect }: ScheduleProps) => {
   const month = selectedDay.toLocaleString("vi-VN", { month: "short" })
   const year = selectedDay.toLocaleString("vi-VN", { year: "numeric" })
 
-  const handleViewCalendar = () => router.push("/calendars")
-
   return (
     <Card activeOpacity={1}>
       <HStack center className="mb-4 justify-between">
@@ -113,11 +130,11 @@ export const Schedule = ({ initialDate, onDateSelect }: ScheduleProps) => {
           {month}, {year}
         </Text>
 
-        <Calendar
+        <CalendarIcon
           variant="Bold"
           size={24}
           color={COLORS.primary}
-          onPress={handleViewCalendar}
+          onPress={onCalendarPress}
         />
       </HStack>
 
@@ -130,15 +147,17 @@ export const Schedule = ({ initialDate, onDateSelect }: ScheduleProps) => {
         renderItem={({ item }) => (
           <DayItem date={item.date} dayOfWeek={item.dayOfWeek} />
         )}
+        ItemSeparatorComponent={() => <View style={{ width: 8 }} />}
+        initialNumToRender={31}
         onScrollToIndexFailed={(info) => {
           setTimeout(() => {
             if (flatListScrollRef.current) {
-              flatListScrollRef.current.scrollToIndex({
-                index: info.index,
+              flatListScrollRef.current.scrollToOffset({
+                offset: info.index * 53,
                 animated: false
               })
             }
-          }, 500)
+          }, 100)
         }}
       />
     </Card>

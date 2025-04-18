@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Image, View } from "react-native"
+import { Image, Linking, TouchableOpacity } from "react-native"
 
 import { useLocalSearchParams } from "expo-router"
 
@@ -22,6 +22,10 @@ function ConsultantCertificatesScreen() {
   const { data: certificatesData, isLoading } =
     useGetCertificatesByConsultantId(consultantId)
 
+  const handleViewCertificate = (imageUrl: string) => {
+    Linking.openURL(imageUrl)
+  }
+
   if (!certificatesData || isLoading) return <LoadingScreen />
 
   return (
@@ -33,12 +37,17 @@ function ConsultantCertificatesScreen() {
           <VStack gap={20} className="pb-12">
             {certificatesData?.map((certificate) =>
               certificate.imageUrls.map((imageUrl, index) => (
-                <View key={index} className="rounded-xl border border-border">
+                <TouchableOpacity
+                  key={index}
+                  activeOpacity={0.8}
+                  onPress={() => handleViewCertificate(imageUrl)}
+                  className="rounded-xl border border-border"
+                >
                   <Image
                     source={{ uri: imageUrl }}
                     className="h-52 w-full rounded-2xl"
                   />
-                </View>
+                </TouchableOpacity>
               ))
             )}
           </VStack>

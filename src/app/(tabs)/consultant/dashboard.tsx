@@ -28,6 +28,7 @@ function DashboardScreen() {
   const { tab } = useLocalSearchParams<{ tab: string }>()
 
   const { user } = useAuth()
+  const userId = user?.userId
   const consultantId = user?.consultantId
   const fullName = user?.fullName
 
@@ -51,6 +52,7 @@ function DashboardScreen() {
       <LoadingOverlay visible={overlayLoading} />
 
       <DashboardHeader
+        userId={userId}
         consultantId={consultantId}
         fullName={fullName}
         balance={walletData?.balance || 0}

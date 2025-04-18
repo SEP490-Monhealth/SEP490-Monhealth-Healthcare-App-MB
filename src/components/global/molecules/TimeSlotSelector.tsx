@@ -62,7 +62,7 @@ export const TimeSlotSelector = ({
           : isBooked
             ? { backgroundColor: "#facc15" }
             : isDisabled || isTimeSlotInvalid
-              ? { backgroundColor: COLORS.muted }
+              ? { backgroundColor: "#f3f4f6" }
               : {}
       }
     >
