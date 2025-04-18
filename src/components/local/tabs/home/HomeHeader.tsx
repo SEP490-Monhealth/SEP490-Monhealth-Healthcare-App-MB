@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useCallback } from "react"
 
 import { Platform, Text } from "react-native"
 import { View } from "react-native"
@@ -12,6 +12,8 @@ import { IconButton } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/color"
 
+import { useGetNotificationsByUserId } from "@/hooks/useNotification"
+
 import { getGreeting } from "@/utils/helpers"
 
 interface HomeHeaderProps {
@@ -22,11 +24,19 @@ interface HomeHeaderProps {
 export const HomeHeader = ({ userId, fullName }: HomeHeaderProps) => {
   const router = useRouter()
 
+  const { data: notificationsData } = useGetNotificationsByUserId(
+    userId,
+    1,
+    undefined
+  )
+
+  const hasNotifications = notificationsData?.notifications || []
+
   const paddingClass = Platform.OS === "ios" ? "pb-3 pt-0" : "py-4"
 
-  const handleViewNotifications = () => {
+  const handleViewNotifications = useCallback(() => {
     router.push(`/notifications/user/${userId}`)
-  }
+  }, [router, userId])
 
   return (
     <HStack
@@ -47,7 +57,9 @@ export const HomeHeader = ({ userId, fullName }: HomeHeaderProps) => {
           onPress={handleViewNotifications}
         />
 
-        <View className="absolute right-3 top-2.5 h-3 w-3 rounded-full bg-destructive" />
+        {hasNotifications.length > 0 && (
+          <View className="absolute right-3 top-2.5 h-3 w-3 rounded-full bg-destructive" />
+        )}
       </View>
     </HStack>
   )

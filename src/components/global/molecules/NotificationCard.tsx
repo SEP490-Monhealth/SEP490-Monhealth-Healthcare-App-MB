@@ -47,6 +47,10 @@ export const NotificationCard = ({
             source={require("../../../../public/icons/notifications/ring.png")}
             style={{ width: 24, height: 24 }}
           />
+
+          {!isRead && (
+            <View className="absolute right-3 top-2.5 h-3 w-3 rounded-full bg-destructive" />
+          )}
         </TouchableOpacity>
 
         <View className="flex-1">
@@ -56,7 +60,7 @@ export const NotificationCard = ({
               numberOfLines={1}
               ellipsizeMode="tail"
             >
-              {title} {isRead ? "" : "(Mới)"}
+              {title}
             </Text>
 
             <Text className="mr-1 font-tregular text-sm text-secondary">

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useCallback } from "react"
 
 import { Platform, Text } from "react-native"
 import { View } from "react-native"
@@ -12,6 +12,8 @@ import { HStack } from "@/components/global/atoms"
 import { IconButton } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/color"
+
+import { useGetNotificationsByConsultantId } from "@/hooks/useNotification"
 
 import { formatCurrency } from "@/utils/formatters"
 import { getGreeting } from "@/utils/helpers"
@@ -29,15 +31,23 @@ export const DashboardHeader = ({
 }: DashboardHeaderProps) => {
   const router = useRouter()
 
+  const { data: notificationsData } = useGetNotificationsByConsultantId(
+    consultantId,
+    1,
+    undefined
+  )
+
+  const hasNotifications = notificationsData?.notifications || []
+
   const paddingClass = Platform.OS === "ios" ? "pb-3 pt-0" : "py-4"
 
-  const handleViewWithdrawalRequests = () => {
+  const handleViewWithdrawalRequests = useCallback(() => {
     router.push(`/banks/consultant/${consultantId}`)
-  }
+  }, [router, consultantId])
 
-  const handleViewNotifications = () => {
+  const handleViewNotifications = useCallback(() => {
     router.push(`/notifications/consultant/${consultantId}`)
-  }
+  }, [router, consultantId])
 
   return (
     <HStack
@@ -67,7 +77,9 @@ export const DashboardHeader = ({
           onPress={handleViewNotifications}
         />
 
-        <View className="absolute right-3 top-2.5 h-3 w-3 rounded-full bg-destructive" />
+        {hasNotifications.length > 0 && (
+          <View className="absolute right-3 top-2.5 h-3 w-3 rounded-full bg-destructive" />
+        )}
       </View>
     </HStack>
   )
