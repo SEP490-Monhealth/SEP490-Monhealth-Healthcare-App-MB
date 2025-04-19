@@ -13,12 +13,7 @@ import { IconButton } from "@/components/global/molecules"
 
 import { COLORS } from "@/constants/color"
 
-import { useAuth } from "@/contexts/AuthContext"
-
-import {
-  useGetNotificationsByConsultantId,
-  useGetNotificationsByUserId
-} from "@/hooks/useNotification"
+import { useGetNotificationsByUserId } from "@/hooks/useNotification"
 
 import { formatCurrency } from "@/utils/formatters"
 import { getGreeting } from "@/utils/helpers"
@@ -44,7 +39,9 @@ export const DashboardHeader = ({
     undefined
   )
 
-  const hasNotifications = notificationsData?.notifications || []
+  const hasNewNotifications = (notificationsData?.notifications || []).some(
+    (notification) => notification.isRead === false
+  )
 
   const paddingClass = Platform.OS === "ios" ? "pb-3 pt-0" : "py-4"
 
@@ -84,7 +81,7 @@ export const DashboardHeader = ({
           onPress={handleViewNotifications}
         />
 
-        {hasNotifications.length > 0 && (
+        {hasNewNotifications && (
           <View className="absolute right-3 top-2.5 h-3 w-3 rounded-full bg-destructive" />
         )}
       </View>

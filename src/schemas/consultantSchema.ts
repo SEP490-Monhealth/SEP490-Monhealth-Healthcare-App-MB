@@ -99,6 +99,13 @@ export const meetingSetupSchema = consultantSchema.pick({
   meetUrl: true
 })
 
+export const meetingUrlSchema = consultantSchema.pick({
+  consultantId: true,
+  meetUrl: true
+})
+
 export type ConsultantType = z.infer<typeof consultantSchema>
 export type CreateConsultantType = z.infer<typeof createConsultantSchema>
 export type UpdateConsultantType = z.infer<typeof updateConsultantSchema>
+
+export type MeetingUrlType = z.infer<typeof meetingUrlSchema>

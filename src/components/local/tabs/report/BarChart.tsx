@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useEffect } from "react"
 
 import { Dimensions } from "react-native"
 import Animated, {
@@ -11,6 +11,8 @@ import Animated, {
 import Svg, { Line, Rect, Text as SvgText } from "react-native-svg"
 
 import { COLORS } from "@/constants/color"
+
+import { WeeklyMealType } from "@/schemas/reportSchema"
 
 const screenWidth = Dimensions.get("window").width
 const AnimatedRect = Animated.createAnimatedComponent(Rect)
@@ -92,19 +94,17 @@ const AnimatedBar = ({
 }
 
 interface BarChartProps {
-  date: string
   labels: string[]
-  data: { date: string; calories: number }[]
-  onSelectDate?: (selectedDate: string) => void
+  data: WeeklyMealType[]
   selectedDate: string
+  onSelectDate?: (selectedDate: string) => void
 }
 
 export const BarChart = ({
-  date,
   data,
   labels,
-  onSelectDate,
-  selectedDate
+  selectedDate,
+  onSelectDate
 }: BarChartProps) => {
   const barWidth = 28
   const spacing = 14

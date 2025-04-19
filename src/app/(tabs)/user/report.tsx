@@ -196,11 +196,10 @@ function ReportScreen() {
           </VStack>
 
           <BarChart
-            date={formattedDate}
             labels={labels}
             data={weeklyMealData}
-            onSelectDate={setSelectedDate}
             selectedDate={selectedDate}
+            onSelectDate={setSelectedDate}
           />
 
           <Section label="Danh sách bữa ăn" />

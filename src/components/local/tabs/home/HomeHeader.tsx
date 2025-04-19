@@ -30,7 +30,9 @@ export const HomeHeader = ({ userId, fullName }: HomeHeaderProps) => {
     undefined
   )
 
-  const hasNotifications = notificationsData?.notifications || []
+  const hasNewNotifications = (notificationsData?.notifications || []).some(
+    (notification) => notification.isRead === false
+  )
 
   const paddingClass = Platform.OS === "ios" ? "pb-3 pt-0" : "py-4"
 
@@ -57,7 +59,7 @@ export const HomeHeader = ({ userId, fullName }: HomeHeaderProps) => {
           onPress={handleViewNotifications}
         />
 
-        {hasNotifications.length > 0 && (
+        {hasNewNotifications && (
           <View className="absolute right-3 top-2.5 h-3 w-3 rounded-full bg-destructive" />
         )}
       </View>

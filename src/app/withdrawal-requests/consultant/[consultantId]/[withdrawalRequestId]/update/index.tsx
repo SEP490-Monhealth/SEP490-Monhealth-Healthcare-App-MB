@@ -86,17 +86,17 @@ function UpdateWithdrawalRequestScreen() {
 
     const finalData = data
 
-    console.log(JSON.stringify(finalData, null, 2))
+    // console.log(JSON.stringify(finalData, null, 2))
 
-    // updateWithdrawalRequest(
-    //   { withdrawalRequestId, updatedData: finalData },
-    //   {
-    //     onSuccess: () => {
-    //       reset()
-    //       router.back()
-    //     }
-    //   }
-    // )
+    updateWithdrawalRequest(
+      { withdrawalRequestId, updatedData: finalData },
+      {
+        onSuccess: () => {
+          reset()
+          router.back()
+        }
+      }
+    )
   }
 
   if (!withdrawalRequestData || isLoading) return <LoadingScreen />

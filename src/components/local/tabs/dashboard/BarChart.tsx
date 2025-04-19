@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useEffect } from "react"
 
 import { Dimensions } from "react-native"
 import Animated, {
@@ -16,13 +16,6 @@ import { YearlyBookingType } from "@/schemas/reportSchema"
 
 const screenWidth = Dimensions.get("window").width
 const AnimatedRect = Animated.createAnimatedComponent(Rect)
-
-interface BarChartProps {
-  date: string
-  labels: string[]
-  data: YearlyBookingType[]
-  onSelectMonth?: (selectedDate: string) => void
-}
 
 const AnimatedBar = ({
   x,
@@ -73,7 +66,7 @@ const AnimatedBar = ({
   const touchableY = maxBarHeight - touchableHeight + paddingTop
 
   const handlePress = useCallback(() => {
-    onPress(monthString) // Changed to monthString
+    onPress(monthString)
   }, [onPress, monthString])
 
   return (
@@ -100,14 +93,19 @@ const AnimatedBar = ({
   )
 }
 
+interface BarChartProps {
+  labels: string[]
+  data: YearlyBookingType[]
+  selectedMonth: string
+  onSelectMonth?: (selectedDate: string) => void
+}
+
 export const BarChart = ({
-  date,
   data,
   labels,
+  selectedMonth,
   onSelectMonth
 }: BarChartProps) => {
-  const [selectedDate, setSelectedMonth] = useState<string>(date)
-
   const barWidth = 28
   const spacing = 14
   const maxBarHeight = 160
@@ -118,9 +116,9 @@ export const BarChart = ({
   const dynamicPadding = screenWidth * 0.16
 
   const maxDataValue = Math.max(...data.map((item) => item.bookings), 1)
-  let step = 100
-  if (maxDataValue >= 600) step = 200
-  if (maxDataValue >= 2000) step = 500
+  let step = 10
+  if (maxDataValue >= 20) step = 50
+  else if (maxDataValue >= 50) step = 100
   const roundedMaxValue = Math.ceil(maxDataValue / step) * step
 
   const yAxisValues = []
@@ -142,7 +140,6 @@ export const BarChart = ({
 
   const handleBarPress = useCallback(
     (monthString: string) => {
-      setSelectedMonth(monthString)
       if (onSelectMonth) {
         onSelectMonth(monthString)
       }
@@ -182,7 +179,12 @@ export const BarChart = ({
       {data.map((item, index) => {
         const x = index * (barWidth + spacing) + dynamicPadding
         const monthString = item.month
-        const isSelected = monthString === selectedDate
+
+        const selectedMonthWithoutDay = selectedMonth
+          .split("-")
+          .slice(0, 2)
+          .join("-")
+        const isSelected = monthString === selectedMonthWithoutDay
 
         return (
           <AnimatedBar
@@ -202,8 +204,6 @@ export const BarChart = ({
       })}
 
       {labels.map((label, index) => {
-        if (index >= data.length) return null
-
         const x = index * (barWidth + spacing) + dynamicPadding
         return (
           <SvgText

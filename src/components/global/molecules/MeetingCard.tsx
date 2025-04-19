@@ -9,7 +9,7 @@ import { COLORS } from "@/constants/color"
 import { Card } from "../atoms"
 
 interface MeetingCardProps {
-  meetUrl: string
+  meetUrl?: string
   onPress: () => void
 }
 
