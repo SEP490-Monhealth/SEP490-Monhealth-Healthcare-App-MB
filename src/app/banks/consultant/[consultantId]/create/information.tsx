@@ -2,6 +2,7 @@ import React, { useEffect } from "react"
 
 import { Text } from "react-native"
 
+import { LoadingScreen } from "@/app/loading"
 import { Control, Controller, FieldValues } from "react-hook-form"
 
 import {
@@ -47,7 +48,7 @@ function BankInformation({
   }
 
   if (!bankData && isLoading) {
-    return null
+    return <LoadingScreen />
   }
 
   return (

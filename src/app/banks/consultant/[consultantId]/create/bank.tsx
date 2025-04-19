@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useState } from "react"
 import { FlatList, Keyboard, View } from "react-native"
 import { ActivityIndicator } from "react-native"
 
+import { LoadingScreen } from "@/app/loading"
 import { SearchNormal1 } from "iconsax-react-native"
 
 import { Input } from "@/components/global/atoms"
@@ -29,7 +30,7 @@ interface BankSelectionProps {
 }
 
 function BankSelection({ setValue, setIsLoading }: BankSelectionProps) {
-  const { updateField } = useBankStore()
+  const { bankId, updateField } = useBankStore()
 
   const [banksData, setBanksData] = useState<BankType[]>([])
   const [page, setPage] = useState<number>(1)
@@ -114,7 +115,7 @@ function BankSelection({ setValue, setIsLoading }: BankSelectionProps) {
   }, [])
 
   if (banksData.length === 0 && isLoading) {
-    return null
+    return <LoadingScreen />
   }
 
   return (
@@ -145,7 +146,7 @@ function BankSelection({ setValue, setIsLoading }: BankSelectionProps) {
             name={item.name}
             shortName={item.shortName}
             logoUrl={item.logoUrl}
-            isSelected={item.bankId === selectedBank}
+            isSelected={item.bankId === (selectedBank || bankId)}
             addNewButton
             onPress={() => handleSelectBank(item.bankId)}
           />

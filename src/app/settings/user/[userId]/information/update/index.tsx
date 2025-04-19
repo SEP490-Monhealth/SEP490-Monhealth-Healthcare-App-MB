@@ -17,13 +17,19 @@ import {
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
+import { useAuth } from "@/contexts/AuthContext"
+
 import { useGetUserById, useUpdateUser } from "@/hooks/useUser"
 
 import { UpdateUserType, updateUserSchema } from "@/schemas/userSchema"
 
+import { whoIAm } from "@/services/authService"
+
 function UserInformationUpdateScreen() {
   const router = useRouter()
   const { userId } = useLocalSearchParams<{ userId: string }>()
+
+  const { setUser } = useAuth()
 
   const { mutate: updateUser } = useUpdateUser()
 
@@ -61,7 +67,9 @@ function UserInformationUpdateScreen() {
     updateUser(
       { userId, updateData: data },
       {
-        onSuccess: () => {
+        onSuccess: async () => {
+          const updatedUser = await whoIAm()
+          setUser(updatedUser)
           router.back()
         }
       }

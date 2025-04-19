@@ -33,6 +33,7 @@ import {
   useUpdateBookingStatus
 } from "@/hooks/useBooking"
 import { useGetChatById } from "@/hooks/useChat"
+import { useGetMeetingUrl } from "@/hooks/useConsultant"
 import { useGetGoalsByUserId } from "@/hooks/useGoal"
 import { useGetMetricsByUserId } from "@/hooks/useMetric"
 
@@ -44,12 +45,13 @@ const ChatInformationScreen = () => {
 
   const { user } = useAuth()
   const userId = user?.userId
+  const consultantId = user?.consultantId
+
+  const { data: meetingUrl } = useGetMeetingUrl(consultantId)
 
   const [modalType, setModalType] = useState<"cancel" | "confirm">("cancel")
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
   const [selectedBooking, setSelectedBooking] = useState<string | null>(null)
-
-  const meetUrl = "https://meet.google.com/abc-defg-hij"
 
   const { mutate: updateBookingStatus } = useUpdateBookingStatus()
 
@@ -64,7 +66,9 @@ const ChatInformationScreen = () => {
   // console.log(JSON.stringify(bookingsData, null, 2))
 
   const handleViewMeetUrl = () => {
-    Linking.openURL(meetUrl)
+    if (meetingUrl?.meetUrl) {
+      Linking.openURL(meetingUrl.meetUrl)
+    }
   }
 
   const handleCancel = (bookingId: string) => {
@@ -125,7 +129,10 @@ const ChatInformationScreen = () => {
             <View className="pb-12">
               <Section label="Link phòng họp" margin={false} />
 
-              <MeetingCard meetUrl={meetUrl} onPress={handleViewMeetUrl} />
+              <MeetingCard
+                meetUrl={meetingUrl?.meetUrl}
+                onPress={handleViewMeetUrl}
+              />
 
               {userId !== chatData?.userId && (
                 <>
@@ -163,7 +170,11 @@ const ChatInformationScreen = () => {
                       variant={
                         userId === chatData?.userId ? "default" : "consultant"
                       }
-                      name={booking.consultant.fullName}
+                      name={
+                        consultantId
+                          ? booking.member.fullName
+                          : booking.consultant.fullName
+                      }
                       date={booking.date}
                       startTime={booking.startTime}
                       endTime={booking.endTime}
