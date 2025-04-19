@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from "react"
 
-import { Keyboard, SafeAreaView, TouchableWithoutFeedback, View } from "react-native"
+import {
+  Keyboard,
+  SafeAreaView,
+  TouchableWithoutFeedback,
+  View
+} from "react-native"
 
 import { useLocalSearchParams, useRouter } from "expo-router"
 
@@ -51,8 +56,7 @@ function UpdateScheduleExceptionScreen() {
     scheduleExceptionId: string
   }>()
 
-  const { mutate: updateScheduleException } =
-    useUpdateScheduleException(consultantId)
+  const { mutate: updateScheduleException } = useUpdateScheduleException()
 
   const { data: scheduleExceptionData } =
     useGetScheduleExceptionById(scheduleExceptionId)
@@ -159,7 +163,7 @@ function UpdateScheduleExceptionScreen() {
           </Button>
         </Container>
 
-        <Sheet ref={SheetRef} dynamicHeight={300}>
+        <Sheet ref={SheetRef} dynamicHeight={320}>
           <View className="items-center">
             <DateTimePicker
               value={new Date(selectedDate)}

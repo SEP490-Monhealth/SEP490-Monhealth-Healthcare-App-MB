@@ -40,7 +40,7 @@ function PortionCreateScreen() {
   const [selectedUnit, setSelectedUnit] = useState("")
 
   const SheetRef = useRef<SheetRefProps>(null)
-  const sheetHeight = DATA.MEASUREMENT_UNITS.length * 110
+  const sheetHeight = 200
 
   const {
     control,
@@ -91,7 +91,7 @@ function PortionCreateScreen() {
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView className="h-full flex-1 bg-background">
         <View className="flex-1 px-6">
-          <Header back label="Thêm khẩu phần" />
+          <Header back label="Tạo khẩu phần" />
 
           <Content className="mt-2">
             <VStack gap={32}>
@@ -147,7 +147,7 @@ function PortionCreateScreen() {
           </Content>
         </View>
 
-        <Sheet ref={SheetRef}>
+        <Sheet ref={SheetRef} dynamicHeight={sheetHeight}>
           {DATA.MEASUREMENT_UNITS.map((unit) => (
             <SheetItem
               key={unit.value}

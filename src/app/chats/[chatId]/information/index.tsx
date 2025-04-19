@@ -11,7 +11,8 @@ import {
   Container,
   Content,
   Modal,
-  ScrollArea
+  ScrollArea,
+  VStack
 } from "@/components/global/atoms"
 import {
   BookingCard,
@@ -155,21 +156,25 @@ const ChatInformationScreen = () => {
               <Section label="Lịch sử đặt lịch" />
 
               {bookingsData && bookingsData.length > 0 ? (
-                bookingsData.map((booking) => (
-                  <BookingCard
-                    key={booking.bookingId}
-                    variant="consultant"
-                    name={booking.consultant.fullName}
-                    date={booking.date}
-                    startTime={booking.startTime}
-                    endTime={booking.endTime}
-                    notes={booking.notes}
-                    status={booking.status}
-                    cancellationReason={booking.cancellationReason}
-                    onCancelPress={() => handleCancel(booking.bookingId)}
-                    onConfirmPress={() => handleConfirm(booking.bookingId)}
-                  />
-                ))
+                <VStack gap={12}>
+                  {bookingsData.map((booking) => (
+                    <BookingCard
+                      key={booking.bookingId}
+                      variant={
+                        userId === chatData?.userId ? "default" : "consultant"
+                      }
+                      name={booking.consultant.fullName}
+                      date={booking.date}
+                      startTime={booking.startTime}
+                      endTime={booking.endTime}
+                      notes={booking.notes}
+                      status={booking.status}
+                      cancellationReason={booking.cancellationReason}
+                      onCancelPress={() => handleCancel(booking.bookingId)}
+                      onConfirmPress={() => handleConfirm(booking.bookingId)}
+                    />
+                  ))}
+                </VStack>
               ) : (
                 <ErrorDisplay
                   imageSource={require("../../../../../public/images/monhealth-no-data-image.png")}

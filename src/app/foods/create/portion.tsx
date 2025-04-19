@@ -35,8 +35,6 @@ const portionSizesData = [
 ]
 
 function FoodPortion({ control, errors, setValue }: FoodPortionProps) {
-  const [selectedPortion, setSelectedPortion] = useState<string | null>(null)
-
   const SheetRef = useRef<SheetRefProps>(null)
 
   const selectedUnit = useWatch({
@@ -44,19 +42,18 @@ function FoodPortion({ control, errors, setValue }: FoodPortionProps) {
     name: "portion.unit"
   })
 
+  const [selectedPortion, setSelectedPortion] = useState<string | null>(null)
+
+  const sheetHeight = 280
+
   const onUnitSelect = (unit: string) => {
     setValue("portion.unit", unit)
     setSelectedPortion(unit)
     closeSheet()
   }
 
-  const openSheet = () => {
-    SheetRef.current?.scrollTo(-300)
-  }
-
-  const closeSheet = () => {
-    SheetRef.current?.scrollTo(0)
-  }
+  const openSheet = () => SheetRef.current?.scrollTo(-sheetHeight)
+  const closeSheet = () => SheetRef.current?.scrollTo(0)
 
   const sizeError = get(errors, "portion.size.message", null)
   const weightError = get(errors, "portion.weight.message", null)
@@ -141,7 +138,7 @@ function FoodPortion({ control, errors, setValue }: FoodPortionProps) {
         </VStack>
       </VStack>
 
-      <Sheet ref={SheetRef} dynamicHeight={300}>
+      <Sheet ref={SheetRef} dynamicHeight={sheetHeight}>
         {portionSizesData.map((portion) => (
           <SheetItem
             key={portion.value}

@@ -377,11 +377,8 @@ function FoodDetailsScreen() {
                       activeOpacity={0.8}
                       onPress={handleLinkPress}
                     >
-                      <Text className="text-primary">
-                        Nguồn:{" "}
-                        <Text className="font-tmedium text-secondary underline">
-                          {foodData.referenceUrl}
-                        </Text>
+                      <Text className="font-tmedium text-secondary underline">
+                        {foodData.referenceUrl}
                       </Text>
                     </TouchableOpacity>
                   </VStack>

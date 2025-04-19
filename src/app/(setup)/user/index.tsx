@@ -193,29 +193,7 @@ function SetupUserScreen() {
     defaultValues: formData
   })
 
-  const onSubmitStep = async (data: Record<string, any>, setError: any) => {
-    const { weightGoal } = data
-
-    const { weight } = useSetupStore.getState()
-
-    if (weight !== null) {
-      if (goalType === GoalTypeEnum.WeightLoss && weightGoal >= weight) {
-        setError("weightGoal", {
-          type: "manual",
-          message: "Mục tiêu giảm cân phải nhỏ hơn cân nặng hiện tại"
-        })
-        return
-      }
-
-      if (goalType === GoalTypeEnum.WeightGain && weightGoal <= weight) {
-        setError("weightGoal", {
-          type: "manual",
-          message: "Mục tiêu tăng cân phải lớn hơn cân nặng hiện tại"
-        })
-        return
-      }
-    }
-
+  const onSubmitStep = async (data: Record<string, any>) => {
     Object.keys(data).forEach((key) => {
       updateField(key, data[key])
     })
@@ -303,6 +281,8 @@ function SetupUserScreen() {
 
   const StepComponent = currentStepData.component
 
+  console.log(errors)
+
   return (
     <Container dismissKeyboard>
       {isLoading && <LoadingOverlay visible={isLoading} />}
@@ -331,7 +311,7 @@ function SetupUserScreen() {
       <Button
         loading={isLoading}
         size="lg"
-        onPress={handleSubmit((data) => onSubmitStep(data, setError))}
+        onPress={handleSubmit((data) => onSubmitStep(data))}
         className="absolute bottom-4 left-6 right-6"
       >
         {currentStep === setupSteps.length ? "Hoàn thành" : "Tiếp tục"}

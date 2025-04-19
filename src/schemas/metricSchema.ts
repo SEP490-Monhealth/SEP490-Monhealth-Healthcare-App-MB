@@ -25,9 +25,9 @@ const metricSchema = z.object({
       (date) => {
         const birthDate = new Date(date)
         const age = new Date().getFullYear() - birthDate.getFullYear()
-        return age >= 12 && age <= 100
+        return age >= 15 && age <= 100
       },
-      { message: "Tuổi phải nằm trong khoảng từ 12 đến 100" }
+      { message: "Tuổi phải nằm trong khoảng từ 15 đến 100" }
     ),
   gender: validEnumWithNull(GenderSchemaEnum, "giới tính"),
   height: z
@@ -38,16 +38,16 @@ const metricSchema = z.object({
         /^\d*\.?\d*$/.test(val.toString()) &&
         parseFloat(val.toString()) > 0,
       {
-        message: "Chiều cao phải là số dương hợp lệ"
+        message: "Vui lòng nhập chiều cao hợp lệ"
       }
     )
     .refine(
       (val) => {
         const height = parseFloat(val.toString())
-        return height >= 50 && height <= 250
+        return height >= 130 && height <= 220
       },
       {
-        message: "Chiều cao phải nằm trong khoảng từ 50cm đến 250cm"
+        message: "Chiều cao phải nằm trong khoảng từ 130cm đến 220cm"
       }
     )
     .transform((val) => (val !== null ? parseFloat(val.toString()) : 0)),
@@ -60,16 +60,16 @@ const metricSchema = z.object({
         /^\d*\.?\d*$/.test(val.toString()) &&
         parseFloat(val.toString()) > 0,
       {
-        message: "Cân nặng phải là số dương hợp lệ"
+        message: "Vui lòng nhập cân nặng hợp lệ"
       }
     )
     .refine(
       (val) => {
         const weight = parseFloat(val.toString())
-        return weight >= 10 && weight <= 300
+        return weight >= 35 && weight <= 200
       },
       {
-        message: "Cân nặng phải nằm trong khoảng từ 10kg đến 300kg"
+        message: "Cân nặng phải nằm trong khoảng từ 35kg đến 200kg"
       }
     )
     .transform((val) => (val !== null ? parseFloat(val.toString()) : 0)),
@@ -86,7 +86,7 @@ const metricSchema = z.object({
         /^\d*\.?\d*$/.test(val.toString()) &&
         parseFloat(val.toString()) > 0,
       {
-        message: "Cân nặng phải là số dương hợp lệ"
+        message: "Vui lòng nhập cân nặng hợp lệ"
       }
     )
     .refine(
@@ -126,16 +126,16 @@ export const heightWeightSetupSchema = z.object({
         /^\d*\.?\d*$/.test(val.toString()) &&
         parseFloat(val.toString()) > 0,
       {
-        message: "Chiều cao phải là số dương hợp lệ"
+        message: "Vui lòng nhập chiều cao hợp lệ"
       }
     )
     .refine(
       (val) => {
         const height = parseFloat(val.toString())
-        return height >= 50 && height <= 250
+        return height >= 130 && height <= 220
       },
       {
-        message: "Chiều cao phải nằm trong khoảng từ 50cm đến 250cm"
+        message: "Chiều cao phải nằm trong khoảng từ 130cm đến 220cm"
       }
     )
     .transform((val) => (val !== null ? parseFloat(val.toString()) : 0)),
@@ -148,16 +148,16 @@ export const heightWeightSetupSchema = z.object({
         /^\d*\.?\d*$/.test(val.toString()) &&
         parseFloat(val.toString()) > 0,
       {
-        message: "Cân nặng phải là số dương hợp lệ"
+        message: "Vui lòng nhập cân nặng hợp lệ"
       }
     )
     .refine(
       (val) => {
         const weight = parseFloat(val.toString())
-        return weight >= 10 && weight <= 300
+        return weight >= 35 && weight <= 200
       },
       {
-        message: "Cân nặng phải nằm trong khoảng từ 10kg đến 300kg"
+        message: "Cân nặng phải nằm trong khoảng từ 35kg đến 200kg"
       }
     )
     .transform((val) => (val !== null ? parseFloat(val.toString()) : 0))
@@ -178,10 +178,20 @@ export const weightGoalSetupSchema = metricSchema
         (val) =>
           /^\d*\.?\d*$/.test(val.toString()) && parseFloat(val.toString()) > 0,
         {
-          message: "Mục tiêu cân nặng phải là số dương hợp lệ"
+          message: "Vui lòng nhập cân nặng mục tiêu hợp lệ"
         }
       )
       .transform((val) => parseFloat(val.toString()) || 0)
+      .refine(
+        (val) => {
+          const weight = parseFloat(val.toString())
+          return weight >= 35 && weight <= 200
+        },
+        {
+          message: "Cân nặng phải nằm trong khoảng từ 35kg đến 200kg"
+        }
+      )
+      .transform((val) => (val !== null ? parseFloat(val.toString()) : 0))
   })
 
 export const createUpdateMetricSchema = metricSchema.pick({
