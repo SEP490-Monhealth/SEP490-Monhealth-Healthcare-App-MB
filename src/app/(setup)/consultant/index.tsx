@@ -320,7 +320,7 @@ function SetupConsultantScreen() {
 
       // console.log(JSON.stringify(finalData, null, 2))
 
-      /// @ts-ignore
+      // @ts-ignore
       createConsultant(finalData, {
         onSuccess: async () => {
           const updatedUser = await whoIAm()

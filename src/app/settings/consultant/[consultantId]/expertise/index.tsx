@@ -43,35 +43,35 @@ function ExpertiseScreen() {
 
   if (!certificatesData || isCertificatesLoading) return <LoadingScreen />
 
-  const certificateData = certificatesData[0]
+  const currentCertificateData = certificatesData[0]
 
   const certificateItems = [
     {
       icon: <DocumentText variant="Bold" size="24" color={COLORS.primary} />,
       label: "Số chứng chỉ",
-      value: certificateData.number
+      value: currentCertificateData.number
     },
     {
       icon: <Medal variant="Bold" size="24" color={COLORS.primary} />,
       label: "Tên chứng chỉ",
-      value: certificateData.name
+      value: currentCertificateData.name
     },
     {
       icon: <Calendar variant="Bold" size="24" color={COLORS.primary} />,
       label: "Ngày cấp",
-      value: formatDate(certificateData.issueDate)
+      value: formatDate(currentCertificateData.issueDate)
     },
     {
       icon: <Calendar variant="Bold" size="24" color={COLORS.primary} />,
       label: "Ngày hết hạn",
-      value: certificateData.expiryDate
-        ? formatDate(certificateData.expiryDate)
+      value: currentCertificateData.expiryDate
+        ? formatDate(currentCertificateData.expiryDate)
         : "Không giới hạn"
     },
     {
       icon: <Building variant="Bold" size="24" color={COLORS.primary} />,
       label: "Nơi cấp",
-      value: certificateData.issuedBy
+      value: currentCertificateData.issuedBy
     }
   ]
 
@@ -100,17 +100,17 @@ function ExpertiseScreen() {
                 <VStack gap={12}>
                   <HStack center className="justify-between">
                     <Text className="font-tbold text-xl text-primary">
-                      {certificateData.expertiseName}
+                      {currentCertificateData.expertiseName}
                     </Text>
 
                     <Badge
                       label={
-                        certificateData.isVerified
+                        currentCertificateData.isVerified
                           ? "Đã xác thực"
                           : "Chưa xác thực"
                       }
                       background={
-                        certificateData.isVerified
+                        currentCertificateData.isVerified
                           ? COLORS.primary
                           : COLORS.destructive
                       }
@@ -120,7 +120,7 @@ function ExpertiseScreen() {
                   </HStack>
 
                   <Text className="font-tregular text-base text-secondary">
-                    {certificateData.expertiseDescription}
+                    {currentCertificateData.expertiseDescription}
                   </Text>
                 </VStack>
               </Card>
@@ -145,7 +145,7 @@ function ExpertiseScreen() {
               <Section label="Hình ảnh chứng chỉ" margin={false} />
 
               <View className="flex-row flex-wrap gap-2">
-                {certificateData.imageUrls?.map((imageUrl, index) => (
+                {currentCertificateData.imageUrls?.map((imageUrl, index) => (
                   <CertificateImage
                     key={index}
                     imageUrl={imageUrl}

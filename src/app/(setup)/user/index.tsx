@@ -281,7 +281,7 @@ function SetupUserScreen() {
 
   const StepComponent = currentStepData.component
 
-  console.log(errors)
+  // console.log(errors)
 
   return (
     <Container dismissKeyboard>

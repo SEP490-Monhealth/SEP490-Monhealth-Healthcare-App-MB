@@ -10,14 +10,12 @@ import { HStack, VStack } from "@/components/global/atoms"
 import { BookingCard, ErrorDisplay } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
 
-import { useGetBookingsByConsultantId } from "@/hooks/useBooking"
+import { useGetMonthlyBookingsByConsultantId } from "@/hooks/useBooking"
 import { useGetYearlyBookingByConsultantId } from "@/hooks/useReport"
 
 import { getMonthRange } from "@/utils/helpers"
 
 import { BarChart } from "./BarChart"
-
-const labels = ["T1", "T2", "T3", "T4", "T5", "T6"]
 
 interface BookingTabProps {
   consultantId?: string
@@ -32,11 +30,22 @@ export const BookingTab = ({
 }: BookingTabProps) => {
   const router = useRouter()
 
-  const [selectedMonth, setSelectedMonth] = useState<string>(date)
+  const month = date.split("-").slice(0, 2).join("-")
+
+  const [initialDate] = useState(date)
+  const [selectedMonth, setSelectedMonth] = useState<string>(month)
 
   const { data: monthlyBookingData, isLoading: isMonthlyBookingLoading } =
-    useGetYearlyBookingByConsultantId(consultantId, selectedMonth)
-  const { data: bookingsData } = useGetBookingsByConsultantId(consultantId)
+    useGetYearlyBookingByConsultantId(
+      consultantId,
+      initialDate.split("-").slice(0, 2).join("-")
+    )
+  const { data: bookingsData } = useGetMonthlyBookingsByConsultantId(
+    consultantId,
+    1,
+    undefined,
+    selectedMonth
+  )
 
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()
@@ -47,24 +56,32 @@ export const BookingTab = ({
     )
   }, [isFetching, isMutating, isMonthlyBookingLoading, onOverlayLoading])
 
-  const currentDate = new Date(date)
+  const currentDate = new Date(initialDate)
   const currentMonthNum = currentDate.getMonth()
   const currentYear = currentDate.getFullYear()
 
   const startMonthDate = new Date(currentYear, currentMonthNum - 5, 1)
   const startMonth = `${startMonthDate.getFullYear()}-${String(startMonthDate.getMonth() + 1).padStart(2, "0")}`
 
-  const monthRange = getMonthRange(startMonth, date)
+  const monthRange = getMonthRange(startMonth, initialDate)
 
-  const totalBookings = monthlyBookingData?.reduce(
-    (acc, item) => acc + item.bookings,
-    0
-  )
+  const totalBookings =
+    monthlyBookingData?.reduce((acc, item) => acc + item.bookings, 0) || 0
 
   const barChartData = monthlyBookingData || []
 
+  const labels = Array.from({ length: 6 }, (_, index) => {
+    const month = new Date(currentYear, currentMonthNum - 5 + index, 1)
+    const monthNumber = month.getMonth() + 1
+    return `T${monthNumber}`
+  })
+
   const handleViewBookings = () => {
     router.replace("/(tabs)/consultant/booking")
+  }
+
+  const handleSelectMonth = (month: string) => {
+    setSelectedMonth(month)
   }
 
   return (
@@ -81,7 +98,7 @@ export const BookingTab = ({
               {totalBookings}
             </Text>
             <Text className="mb-1 font-tmedium text-base text-secondary">
-              lượt đặt lịch
+              lịch hẹn
             </Text>
           </HStack>
 
@@ -90,21 +107,25 @@ export const BookingTab = ({
       </VStack>
 
       <BarChart
-        date={date}
         labels={labels}
         data={barChartData}
-        onSelectMonth={setSelectedMonth}
+        selectedMonth={selectedMonth}
+        onSelectMonth={handleSelectMonth}
       />
 
       <Section label="Danh sách lịch hẹn" />
 
-      {bookingsData && bookingsData.length > 0 ? (
+      {bookingsData && bookingsData.bookings.length > 0 ? (
         <VStack gap={12}>
-          {bookingsData.map((booking) => (
+          {bookingsData.bookings.map((booking) => (
             <BookingCard
               key={booking.bookingId}
               variant="default"
-              name={booking.consultant.fullName}
+              name={
+                consultantId
+                  ? booking.member.fullName
+                  : booking.consultant.fullName
+              }
               date={booking.date}
               startTime={booking.startTime}
               endTime={booking.endTime}

@@ -140,10 +140,7 @@ function ExpertiseUpdateScreen() {
   )
     return <LoadingScreen />
 
-  const openSheetExpertise = () => {
-    const sheetItem = 52 * expertiseData.expertise.length
-    ExpertiseRef.current?.scrollTo(-sheetItem)
-  }
+  const openSheetExpertise = () => ExpertiseRef.current?.scrollTo(-540)
   const openSheetIssueDate = () => IssueDateRef.current?.scrollTo(-300)
   const openSheetExpiryDate = () => ExpiryDateRef.current?.scrollTo(-300)
   const openSheetUpload = () => UploadSheetRef.current?.scrollTo(-200)
@@ -158,7 +155,7 @@ function ExpertiseUpdateScreen() {
   const onSubmit = async (data: ExpertiseUpdateType) => {
     Keyboard.dismiss()
 
-    console.log(JSON.stringify(data, null, 2))
+    // console.log(JSON.stringify(data, null, 2))
 
     updateExpertise(
       { consultantId, updatedData: data },
@@ -348,6 +345,17 @@ function ExpertiseUpdateScreen() {
           </Button>
         </Container>
 
+        <Sheet ref={ExpertiseRef} dynamicHeight={540}>
+          {expertiseData.expertise.map((expertise) => (
+            <SheetItem
+              key={expertise.expertiseId}
+              item={expertise.name}
+              isSelected={selectedExpertise === expertise.name}
+              onSelect={() => onExpertiseSelect(expertise.name)}
+            />
+          ))}
+        </Sheet>
+
         <Sheet ref={IssueDateRef} dynamicHeight={300}>
           <View className="items-center">
             <DateTimePicker
@@ -376,17 +384,6 @@ function ExpertiseUpdateScreen() {
               locale="vi"
             />
           </View>
-        </Sheet>
-
-        <Sheet ref={ExpertiseRef} dynamicHeight={300}>
-          {expertiseData.expertise.map((expertise) => (
-            <SheetItem
-              key={expertise.expertiseId}
-              item={expertise.name}
-              isSelected={selectedExpertise === expertise.name}
-              onSelect={() => onExpertiseSelect(expertise.name)}
-            />
-          ))}
         </Sheet>
 
         <Sheet ref={UploadSheetRef} dynamicHeight={300}>

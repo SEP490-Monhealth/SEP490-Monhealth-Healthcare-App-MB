@@ -28,8 +28,6 @@ interface FileCardProps {
 export const FileCard = ({ fileUrl, onPress }: FileCardProps) => {
   const fileName = getFileName(fileUrl)
 
-  console.log(fileName)
-
   return (
     <Card onPress={onPress} className="flex-row items-center justify-between">
       <TouchableOpacity

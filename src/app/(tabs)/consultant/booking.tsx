@@ -138,7 +138,11 @@ function BookingsScreen() {
                       <BookingCard
                         key={booking.bookingId}
                         variant="consultant"
-                        name={booking.consultant.fullName}
+                        name={
+                          consultantId
+                            ? booking.member.fullName
+                            : booking.consultant.fullName
+                        }
                         date={booking.date}
                         startTime={booking.startTime}
                         endTime={booking.endTime}
