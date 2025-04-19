@@ -1,6 +1,9 @@
 import monAPI from "@/lib/monAPI"
 
-import { UserSubscriptionType } from "@/schemas/subscriptionSchema"
+import {
+  RemainingBookingsType,
+  UserSubscriptionType
+} from "@/schemas/subscriptionSchema"
 
 export const getUserSubscriptionByUserId = async (
   userId: string | undefined
@@ -23,7 +26,7 @@ export const getUserSubscriptionByUserId = async (
 
 export const getRemainingBookingsByUserId = async (
   userId: string | undefined
-): Promise<number> => {
+): Promise<RemainingBookingsType> => {
   try {
     const response = await monAPI.get(
       `/user-subscriptions/${userId}/remaining-bookings`
@@ -35,7 +38,7 @@ export const getRemainingBookingsByUserId = async (
       throw { isCustomError: true, message: message }
     }
 
-    return data.remainingBookings as number
+    return data
   } catch (error: any) {
     const errorMessage = error.response?.data?.message
     throw { isCustomError: true, message: errorMessage }

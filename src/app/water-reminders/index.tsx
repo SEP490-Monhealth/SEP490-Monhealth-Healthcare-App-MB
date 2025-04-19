@@ -116,7 +116,7 @@ function WaterRemindersScreen() {
       <View className="flex-1 px-6">
         <Header
           back
-          label="Nhắc nhở uống nước"
+          label="Nhắc nhở"
           action={{
             icon: <Add size={24} color={COLORS.primary} />,
             href: "/water-reminders/create"
@@ -138,6 +138,7 @@ function WaterRemindersScreen() {
                 name={item.name}
                 time={item.time}
                 volume={item.volume}
+                status={item.status}
                 isDrunk={item.status}
                 onPress={() => handleViewWaterReminder(item.waterReminderId)}
                 onMorePress={() => openWaterReminderSheet(item)}

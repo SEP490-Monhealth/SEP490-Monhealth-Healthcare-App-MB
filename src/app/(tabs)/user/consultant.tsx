@@ -32,7 +32,6 @@ import { Section } from "@/components/global/organisms"
 import ConsultantExpertise from "@/components/local/tabs/consultant/ConsultantExpertise"
 
 import { COLORS } from "@/constants/color"
-import { UserSubscriptionStatus } from "@/constants/enum/UserSubscription"
 
 import { useAuth } from "@/contexts/AuthContext"
 import { useSearch } from "@/contexts/SearchContext"
@@ -40,10 +39,7 @@ import { useSearch } from "@/contexts/SearchContext"
 import { useGetAllConsultants } from "@/hooks/useConsultant"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useGetAllExpertise } from "@/hooks/useExpertise"
-import {
-  useGetRemainingBookingByUserId,
-  useGetUserSubscriptionByUserId
-} from "@/hooks/useUserSubscription"
+import { useGetRemainingBookings } from "@/hooks/useUserSubscription"
 
 import { ConsultantType } from "@/schemas/consultantSchema"
 
@@ -74,13 +70,9 @@ function ConsultantScreen() {
   const debouncedSearch = useDebounce(searchQuery)
   const debouncedFilter = useDebounce(selectedExpertise, 0)
 
-  const { data: userSubscriptionData } = useGetUserSubscriptionByUserId(userId)
+  const { data: userSubscriptionData } = useGetRemainingBookings(userId)
   const { data: expertiseData, isLoading: isExpertiseLoading } =
     useGetAllExpertise(1, 100)
-
-  const currentSubscription = userSubscriptionData?.find(
-    (subscription) => subscription.status === UserSubscriptionStatus.Active
-  )
 
   const { data, isLoading, refetch } = useGetAllConsultants(
     page,
@@ -175,11 +167,16 @@ function ConsultantScreen() {
 
         <Section
           label="Danh sách chuyên viên"
-          actionText={`Số lần đặt lịch: ${currentSubscription?.remainingBookings || 0}`}
+          actionText={`Số lần đặt lịch: ${userSubscriptionData?.remainingBookings || 0}`}
         />
       </ListHeader>
     )
-  }, [expertiseData, selectedExpertise, searchConsultantHistory])
+  }, [
+    expertiseData,
+    selectedExpertise,
+    searchConsultantHistory,
+    userSubscriptionData
+  ])
 
   if (
     (consultantsData.length === 0 && isLoading) ||

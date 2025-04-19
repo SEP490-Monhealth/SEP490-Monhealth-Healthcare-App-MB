@@ -8,7 +8,15 @@ import { COLORS } from "@/constants/color"
 
 import { toFixed } from "@/utils/formatters"
 
-import { Card, CardHeader, Checkbox, HStack, Toggle, VStack } from "../atoms"
+import {
+  Badge,
+  Card,
+  CardHeader,
+  Checkbox,
+  HStack,
+  Toggle,
+  VStack
+} from "../atoms"
 import { IconButton } from "./IconButton"
 
 interface WaterReminderCardProps {
@@ -16,6 +24,7 @@ interface WaterReminderCardProps {
   name?: string
   time: string
   volume: number
+  status: boolean
   isDrunk: boolean
   onPress?: () => void
   onCheckboxChange?: (value: boolean) => void
@@ -28,6 +37,7 @@ export const WaterReminderCard = ({
   name,
   time,
   volume,
+  status,
   isDrunk,
   onPress,
   onCheckboxChange,
@@ -57,7 +67,11 @@ export const WaterReminderCard = ({
           </TouchableOpacity>
 
           <VStack gap={0} className="ml-1">
-            <CardHeader label={time} />
+            <HStack center gap={8}>
+              <CardHeader label={time} />
+
+              {status && <Badge label="Đang bật" />}
+            </HStack>
 
             <Text className="font-tmedium text-sm text-accent">
               {name} • {toFixed(volume, 0)} ml

@@ -124,6 +124,9 @@ export const useCreateBooking = () => {
         queryKey: [MonQueryKey.Booking.UserConsultantBookings]
       })
       queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Subscription.RemainingBookings]
+      })
+      queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Subscription.UserSubscriptions]
       })
     }
@@ -154,6 +157,12 @@ export const useUpdateBookingStatus = () => {
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Booking.UserConsultantBookings]
       })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Subscription.RemainingBookings]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Subscription.UserSubscriptions]
+      })
     }
   })
 }
@@ -182,6 +191,15 @@ export const useCancelBooking = () => {
       })
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Booking.ConsultantBookings]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Booking.UserConsultantBookings]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Subscription.RemainingBookings]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Subscription.UserSubscriptions]
       })
     }
   })

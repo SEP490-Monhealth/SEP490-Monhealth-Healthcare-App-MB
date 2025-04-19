@@ -66,5 +66,11 @@ export const userSubscriptionSchema = z.object({
   ...timestampFields
 })
 
+export const remainingBookingsSchema = z.object({
+  remainingBookings: userSubscriptionSchema.shape.remainingBookings
+})
+
 export type SubscriptionType = z.infer<typeof subscriptionSchema>
+
 export type UserSubscriptionType = z.infer<typeof userSubscriptionSchema>
+export type RemainingBookingsType = z.infer<typeof remainingBookingsSchema>

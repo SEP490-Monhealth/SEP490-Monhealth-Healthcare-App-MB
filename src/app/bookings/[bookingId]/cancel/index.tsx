@@ -87,10 +87,6 @@ function BookingCancelScreen() {
       {
         onSuccess: () => {
           router.back()
-        },
-        onError: (error) => {
-          alert("Đã xảy ra lỗi khi hủy lịch hẹn. Vui lòng thử lại.")
-          console.error(error)
         }
       }
     )
@@ -110,7 +106,7 @@ function BookingCancelScreen() {
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={{ flex: 1 }}
-          keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 20}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 20 : 20}
         >
           <Content className="mt-2">
             <ScrollView
@@ -118,56 +114,54 @@ function BookingCancelScreen() {
               showsVerticalScrollIndicator={false}
               contentContainerStyle={{ paddingBottom: 100 }}
             >
-              <VStack className="pb-20">
-                <Text className="text-tregular text-center text-base text-secondary">
-                  Bạn đang hủy buổi hẹn với chuyên gia tư vấn. Vui lòng cho
-                  chúng tôi biết lý do để chúng tôi có thể cải thiện dịch vụ
-                </Text>
+              <VStack gap={32}>
+                <VStack>
+                  <Text className="text-tregular text-center text-base text-secondary">
+                    Bạn đang hủy buổi hẹn với chuyên gia tư vấn. Vui lòng cho
+                    chúng tôi biết lý do để chúng tôi có thể cải thiện dịch vụ
+                  </Text>
 
-                <Section label="Lý do hủy" margin={false} />
+                  <Section label="Lý do hủy" margin={false} />
 
-                <HStack
-                  gap={8}
-                  className="flex-row flex-wrap justify-center gap-y-3"
-                >
-                  {cancellationReasons.map((reason) => (
-                    <Chip
-                      key={reason}
-                      label={reason}
-                      selected={selectedReasons.includes(reason)}
-                      onPress={() => handleSelectQuick(reason)}
-                    />
-                  ))}
-                </HStack>
+                  <HStack
+                    gap={8}
+                    className="flex-row flex-wrap justify-center gap-y-3"
+                  >
+                    {cancellationReasons.map((reason) => (
+                      <Chip
+                        key={reason}
+                        label={reason}
+                        selected={selectedReasons.includes(reason)}
+                        onPress={() => handleSelectQuick(reason)}
+                      />
+                    ))}
+                  </HStack>
 
-                <Section label="Chi tiết lý do" />
+                  <Section label="Chi tiết lý do" />
 
-                <Controller
-                  name="cancellationReason"
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Input
-                      value={value}
-                      placeholder="Nhập lý do của bạn"
-                      onChangeText={onChange}
-                      isMultiline
-                      numberOfLines={6}
-                      canClearText
-                      errorMessage={errors.cancellationReason?.message}
-                      onFocus={scrollToInput}
-                    />
-                  )}
-                />
+                  <Controller
+                    name="cancellationReason"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Input
+                        value={value}
+                        placeholder="Nhập lý do của bạn"
+                        onChangeText={onChange}
+                        isMultiline
+                        numberOfLines={6}
+                        canClearText
+                        errorMessage={errors.cancellationReason?.message}
+                        onFocus={scrollToInput}
+                      />
+                    )}
+                  />
+                </VStack>
+
+                <Button onPress={handleSubmit(onSubmit)} className="w-full">
+                  Hủy lịch
+                </Button>
               </VStack>
             </ScrollView>
-
-            <Button
-              size="lg"
-              onPress={handleSubmit(onSubmit)}
-              className="absolute bottom-4 w-full"
-            >
-              Hủy lịch
-            </Button>
           </Content>
         </KeyboardAvoidingView>
       </Container>

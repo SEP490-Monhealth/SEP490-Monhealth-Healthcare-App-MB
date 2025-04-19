@@ -115,7 +115,8 @@ export const MonQueryKey = {
 
   Subscription: {
     Subscriptions: "subscriptions",
-    UserSubscriptions: "subscriptions-user"
+    UserSubscriptions: "subscriptions-user",
+    RemainingBookings: "remaining-bookings"
   },
 
   Transaction: {

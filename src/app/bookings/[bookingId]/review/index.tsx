@@ -149,7 +149,7 @@ function ReviewCreateScreen() {
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 20}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 20 : 20}
       >
         <Content className="mt-2">
           <ScrollView
@@ -157,108 +157,107 @@ function ReviewCreateScreen() {
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: 100 }}
           >
-            <VStack className="pb-20">
-              <VStack center gap={20}>
-                <Text className="text-tregular text-center text-base text-secondary">
-                  Hãy giúp chúng tôi cải thiện bằng cách cho chúng tôi biết cuộc
-                  hẹn của bạn với chuyên gia tư vấn diễn ra như thế nào
-                </Text>
-
-                <VStack center gap={12}>
-                  <VStack center gap={8}>
-                    {bookingData.consultant.avatarUrl ? (
-                      <Image
-                        source={{ uri: bookingData.consultant.avatarUrl }}
-                        className="h-32 w-32 rounded-2xl border border-border"
-                      />
-                    ) : (
-                      <View className="flex h-32 w-32 items-center justify-center rounded-xl border border-muted bg-border">
-                        <Text className="font-tbold text-lg text-primary">
-                          {getInitials(bookingData.consultant.fullName)}
-                        </Text>
-                      </View>
-                    )}
-
-                    <Text className="font-tbold text-xl text-primary">
-                      {bookingData?.consultant.fullName}
-                    </Text>
-                  </VStack>
+            <VStack gap={32}>
+              <VStack>
+                <VStack center gap={20}>
+                  <Text className="text-tregular text-center text-base text-secondary">
+                    Hãy giúp chúng tôi cải thiện bằng cách cho chúng tôi biết
+                    cuộc hẹn của bạn với chuyên gia tư vấn diễn ra như thế nào
+                  </Text>
 
                   <VStack center gap={12}>
-                    <HStack gap={8}>
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <TouchableOpacity
-                          key={star}
-                          activeOpacity={0.8}
-                          onPress={() => handleRating(star)}
-                        >
-                          <Star
-                            size={24}
-                            fill={
-                              star <= ratingNumber
-                                ? COLORS.PRIMARY.lemon
-                                : COLORS.border
-                            }
-                            color={
-                              star <= ratingNumber
-                                ? COLORS.PRIMARY.lemon
-                                : COLORS.border
-                            }
-                          />
-                        </TouchableOpacity>
-                      ))}
-                    </HStack>
+                    <VStack center gap={8}>
+                      {bookingData.consultant.avatarUrl ? (
+                        <Image
+                          source={{ uri: bookingData.consultant.avatarUrl }}
+                          className="h-32 w-32 rounded-2xl border border-border"
+                        />
+                      ) : (
+                        <View className="flex h-32 w-32 items-center justify-center rounded-xl border border-muted bg-border">
+                          <Text className="font-tbold text-lg text-primary">
+                            {getInitials(bookingData.consultant.fullName)}
+                          </Text>
+                        </View>
+                      )}
 
-                    {errors.rating?.message && (
-                      <ErrorText text={errors.rating.message} />
-                    )}
+                      <Text className="font-tbold text-xl text-primary">
+                        {bookingData?.consultant.fullName}
+                      </Text>
+                    </VStack>
+
+                    <VStack center gap={12}>
+                      <HStack gap={8}>
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <TouchableOpacity
+                            key={star}
+                            activeOpacity={0.8}
+                            onPress={() => handleRating(star)}
+                          >
+                            <Star
+                              size={24}
+                              fill={
+                                star <= ratingNumber
+                                  ? COLORS.PRIMARY.lemon
+                                  : COLORS.border
+                              }
+                              color={
+                                star <= ratingNumber
+                                  ? COLORS.PRIMARY.lemon
+                                  : COLORS.border
+                              }
+                            />
+                          </TouchableOpacity>
+                        ))}
+                      </HStack>
+
+                      {errors.rating?.message && (
+                        <ErrorText text={errors.rating.message} />
+                      )}
+                    </VStack>
                   </VStack>
                 </VStack>
+
+                <Section label="Điểm nổi bật" margin={false} />
+
+                <HStack
+                  gap={8}
+                  className="flex-row flex-wrap justify-center gap-y-3"
+                >
+                  {quickReviewsData.map((review) => (
+                    <Chip
+                      key={review}
+                      label={review}
+                      selected={selectedReviews.includes(review)}
+                      onPress={() => handleSelectQuick(review)}
+                    />
+                  ))}
+                </HStack>
+
+                <Section label="Chi tiết đánh giá" />
+
+                <Controller
+                  name="comment"
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Input
+                      value={value}
+                      placeholder="Nhập đánh giá của bạn"
+                      onChangeText={onChange}
+                      isMultiline
+                      numberOfLines={6}
+                      canClearText
+                      errorMessage={errors.comment?.message}
+                      onFocus={scrollToInput}
+                    />
+                  )}
+                />
               </VStack>
 
-              <Section label="Điểm nổi bật" margin={false} />
-
-              <HStack
-                gap={8}
-                className="flex-row flex-wrap justify-center gap-y-3"
-              >
-                {quickReviewsData.map((review) => (
-                  <Chip
-                    key={review}
-                    label={review}
-                    selected={selectedReviews.includes(review)}
-                    onPress={() => handleSelectQuick(review)}
-                  />
-                ))}
-              </HStack>
-
-              <Section label="Chi tiết đánh giá" />
-
-              <Controller
-                name="comment"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <Input
-                    value={value}
-                    placeholder="Nhập đánh giá của bạn"
-                    onChangeText={onChange}
-                    isMultiline
-                    numberOfLines={6}
-                    canClearText
-                    errorMessage={errors.comment?.message}
-                    onFocus={scrollToInput}
-                  />
-                )}
-              />
+              <Button onPress={handleSubmit(onSubmit)} className="w-full">
+                Đánh giá
+              </Button>
             </VStack>
           </ScrollView>
-
-          <Button
-            onPress={handleSubmit(onSubmit)}
-            className="absolute bottom-4 w-full"
-          >
-            Đánh giá
-          </Button>
         </Content>
       </KeyboardAvoidingView>
     </Container>
