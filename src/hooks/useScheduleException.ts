@@ -93,6 +93,12 @@ export const useCreateScheduleException = () => {
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Schedule.ScheduleExceptions]
       })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Schedule.Schedules]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Consultant.Consultants]
+      })
     }
   })
 }

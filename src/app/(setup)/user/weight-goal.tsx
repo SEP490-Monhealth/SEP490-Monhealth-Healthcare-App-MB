@@ -52,8 +52,6 @@ function SetupWeightGoal({ control, setValue, errors }: SetupWeightGoalProps) {
 
   const errorMessage = get(errors, "weightGoal.message", null)
 
-  console.log(weightGoal)
-
   return (
     <VStack gap={12}>
       <Controller

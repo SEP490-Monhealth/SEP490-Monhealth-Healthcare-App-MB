@@ -65,7 +65,7 @@ function SchedulesScreen() {
     scheduleType
   )
 
-  console.log(JSON.stringify(schedulesData, null, 2))
+  // console.log(JSON.stringify(schedulesData, null, 2))
 
   const handleScheduleTypeChange = (value: boolean) => {
     const newType = value

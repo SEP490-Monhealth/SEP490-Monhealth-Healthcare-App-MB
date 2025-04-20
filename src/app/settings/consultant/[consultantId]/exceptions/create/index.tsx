@@ -63,8 +63,7 @@ function CreateScheduleExceptionScreen() {
 
   const SheetRef = useRef<SheetRefProps>(null)
 
-  const { mutate: createScheduleException } =
-    useCreateScheduleException(consultantId)
+  const { mutate: createScheduleException } = useCreateScheduleException()
 
   const localDate = new Date(selectedDate)
   localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset())

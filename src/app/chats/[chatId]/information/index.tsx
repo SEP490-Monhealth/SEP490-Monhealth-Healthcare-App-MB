@@ -47,8 +47,6 @@ const ChatInformationScreen = () => {
   const userId = user?.userId
   const consultantId = user?.consultantId
 
-  const { data: meetingUrl } = useGetMeetingUrl(consultantId)
-
   const [modalType, setModalType] = useState<"cancel" | "confirm">("cancel")
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
   const [selectedBooking, setSelectedBooking] = useState<string | null>(null)
@@ -56,6 +54,7 @@ const ChatInformationScreen = () => {
   const { mutate: updateBookingStatus } = useUpdateBookingStatus()
 
   const { data: chatData } = useGetChatById(chatId)
+  const { data: meetingUrl } = useGetMeetingUrl(chatData?.consultantId)
   const { data: bookingsData } = useGetBookingsByUserIdAndConsultantId(
     chatData?.userId,
     chatData?.consultantId

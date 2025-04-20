@@ -85,7 +85,7 @@ function ConsultantDetailsScreen() {
       userId: userId || "",
       description: "Thanh toán mua thêm lượt",
       // amount: 200000,
-      amount: 2000
+      amount: 10000
     }
 
     createBookingTransaction(transactionData, {
