@@ -5,6 +5,7 @@ import monAPI from "@/lib/monAPI"
 import {
   ConsultantType,
   CreateConsultantType,
+  MeetingUrlType,
   UpdateConsultantType
 } from "@/schemas/consultantSchema"
 
@@ -84,6 +85,27 @@ export const getConsultantById = async (
     }
 
     return data as ConsultantType
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
+  }
+}
+
+export const getMeetingUrlByConsultantId = async (
+  consultantId: string | undefined
+): Promise<MeetingUrlType> => {
+  try {
+    const response = await monAPI.get(
+      `/consultants/${consultantId}/meeting-url`
+    )
+
+    const { success, message, data } = response.data
+
+    if (!success) {
+      throw { isCustomError: true, message: message }
+    }
+
+    return data as MeetingUrlType
   } catch (error: any) {
     const errorMessage = error.response?.data?.message
     throw { isCustomError: true, message: errorMessage }

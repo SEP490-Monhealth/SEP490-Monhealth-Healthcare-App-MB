@@ -15,7 +15,6 @@ interface NotificationCardProps {
   actionUrl?: string
   isRead?: boolean
   onPress?: () => void
-  onReadChange?: (value: boolean) => void
 }
 
 export const NotificationCard = ({

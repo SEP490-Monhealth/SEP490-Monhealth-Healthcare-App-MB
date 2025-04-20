@@ -8,6 +8,7 @@ import { useModal } from "@/contexts/ModalContext"
 import {
   ConsultantType,
   CreateConsultantType,
+  MeetingUrlType,
   UpdateConsultantType
 } from "@/schemas/consultantSchema"
 
@@ -15,6 +16,7 @@ import {
   createConsultant,
   getAllConsultants,
   getConsultantById,
+  getMeetingUrlByConsultantId,
   updateConsultant
 } from "@/services/consultantService"
 
@@ -74,6 +76,24 @@ export const useGetConsultantById = (consultantId: string | undefined) => {
     queryFn: async () => {
       try {
         return await getConsultantById(consultantId)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    enabled: !!consultantId,
+    staleTime: 1000 * 60 * 5
+  })
+}
+
+export const useGetMeetingUrl = (consultantId: string | undefined) => {
+  const handleError = useError()
+
+  return useQuery<MeetingUrlType, Error>({
+    queryKey: [MonQueryKey.Consultant.ConsultantMeetUrl, consultantId],
+    queryFn: async () => {
+      try {
+        return await getMeetingUrlByConsultantId(consultantId)
       } catch (error) {
         handleError(error)
         throw error

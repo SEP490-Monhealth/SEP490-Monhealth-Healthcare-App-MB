@@ -18,6 +18,8 @@ export const notificationSchema = z.object({
 
   actionUrl: z.string().optional(),
 
+  isRead: z.boolean().default(false),
+
   ...timestampFields
 })
 

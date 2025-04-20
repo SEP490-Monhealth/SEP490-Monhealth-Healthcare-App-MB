@@ -17,7 +17,10 @@ import { COLORS } from "@/constants/color"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useGetNotificationsByUserId } from "@/hooks/useNotification"
+import {
+  useGetNotificationsByUserId,
+  useUpdateNotificationStatus
+} from "@/hooks/useNotification"
 
 import { NotificationType } from "@/schemas/notificationSchema"
 
@@ -33,6 +36,8 @@ function NotificationsScreen() {
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
 
   const limit = 10
+
+  const { mutate: markAsRead } = useUpdateNotificationStatus()
 
   const { data, isLoading, refetch } = useGetNotificationsByUserId(
     userId,
@@ -73,6 +78,11 @@ function NotificationsScreen() {
     refetch()
     setIsRefreshing(false)
   }
+
+  const handleMarkAsRead = (notificationId: string) => {
+    markAsRead({ notificationId })
+  }
+
   const FlatListHeader = useMemo(() => {
     return (
       <ListHeader>

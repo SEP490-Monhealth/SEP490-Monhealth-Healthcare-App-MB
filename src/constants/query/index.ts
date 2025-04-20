@@ -22,6 +22,7 @@ export const MonQueryKey = {
   Booking: {
     UserBookings: "bookings-user",
     ConsultantBookings: "bookings-consultant",
+    MonthlyBookings: "bookings-monthly",
     UserConsultantBookings: "bookings-user-consultant",
     Booking: "booking"
   },
@@ -44,7 +45,8 @@ export const MonQueryKey = {
     Consultants: "consultants",
     Consultant: "consultant",
     ConsultantBanks: "consultant-banks",
-    ConsultantBank: "consultant-bank"
+    ConsultantBank: "consultant-bank",
+    ConsultantMeetUrl: "consultant-meet-url",
   },
 
   Exercise: {

@@ -2,6 +2,12 @@ import monAPI from "@/lib/monAPI"
 
 import { BookingType, CreateBookingType } from "@/schemas/bookingSchema"
 
+interface BookingResponse {
+  bookings: BookingType[]
+  totalPages: number
+  totalItems: number
+}
+
 export const getBookingsByUserId = async (
   userId: string | undefined
 ): Promise<BookingType[]> => {
@@ -37,6 +43,32 @@ export const getBookingsByConsultantId = async (
     }
 
     return data as BookingType[]
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
+  }
+}
+
+export const getMonthlyBookingsByConsultantId = async (
+  consultantId: string | undefined,
+  page: number,
+  limit?: number,
+  month?: string
+): Promise<BookingResponse> => {
+  try {
+    const response = await monAPI.get(
+      `/bookings/monthly/consultant/${consultantId}`,
+      { params: { page, limit, month } }
+    )
+
+    const { success, message, data } = response.data
+
+    if (!success) {
+      throw { isCustomError: true, message: message }
+    }
+
+    const { totalPages, totalItems, items: bookings } = data
+    return { bookings, totalPages, totalItems }
   } catch (error: any) {
     const errorMessage = error.response?.data?.message
     throw { isCustomError: true, message: errorMessage }

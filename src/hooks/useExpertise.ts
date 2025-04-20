@@ -61,6 +61,9 @@ export const useUpdateExpertise = () => {
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Certificate.Certificates]
       })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Consultant.Consultant]
+      })
     }
   })
 }
