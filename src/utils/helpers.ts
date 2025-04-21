@@ -289,35 +289,6 @@ export const parseJSON = (json: string[]): string[] => {
  * @param value
  * @returns
  */
-export const getBookingLabel = (value: BookingStatusEnum): string => {
-  return DATA.BOOKINGS.find((item) => item.value === value)?.label || ""
-}
-
-/**
- *
- * @param value
- * @returns
- */
-export const getBookingColor = (value: BookingStatusEnum): string => {
-  return DATA.BOOKINGS.find((item) => item.value === value)?.color || ""
-}
-
-/**
- *
- * @param value
- * @returns
- */
-export const getBookingIcon = (
-  value: BookingStatusEnum
-): React.ElementType | null => {
-  return DATA.BOOKINGS.find((item) => item.value === value)?.icon || null
-}
-
-/**
- *
- * @param value
- * @returns
- */
 export const getDayLabel = (value: RecurringDayEnum): string => {
   return DATA.DAY_OF_WEEK.find((item) => item.value === value)?.label || ""
 }

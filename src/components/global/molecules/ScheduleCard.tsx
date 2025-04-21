@@ -3,13 +3,10 @@ import React from "react"
 import { Text, View } from "react-native"
 
 import { COLORS } from "@/constants/color"
-import { BookingStatusEnum } from "@/constants/enum/Booking"
-
 import {
-  getBookingColor,
-  getBookingIcon,
-  getBookingLabel
-} from "@/utils/helpers"
+  BookingStatusEnum,
+  getBookingStatusMeta
+} from "@/constants/enum/Booking"
 
 import { Badge, Card, CardHeader, HStack, VStack } from "../atoms"
 import { IconButton } from "./IconButton"
@@ -38,7 +35,13 @@ export const ScheduleCard = ({
   status,
   onPress
 }: ScheduleCardProps) => {
-  const BookingIcon = getBookingIcon(status)
+  const {
+    label: bookingStatusLabel,
+    icon: bookingStatusIcon,
+    color: bookingStatusColor
+  } = getBookingStatusMeta(status)
+
+  const BookingIcon = bookingStatusIcon
 
   return (
     <View className="flex-1 flex-row gap-4">
@@ -61,8 +64,8 @@ export const ScheduleCard = ({
           </Text>
 
           <Badge
-            label={getBookingLabel(status)}
-            background={getBookingColor(status)}
+            label={bookingStatusLabel}
+            background={bookingStatusColor}
             color="#fff"
             rounded
           />

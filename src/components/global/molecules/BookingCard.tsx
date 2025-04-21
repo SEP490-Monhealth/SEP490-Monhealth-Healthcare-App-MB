@@ -5,10 +5,12 @@ import { Text, View } from "react-native"
 import { Calendar2, Timer1 } from "iconsax-react-native"
 
 import { COLORS } from "@/constants/color"
-import { BookingStatusEnum } from "@/constants/enum/Booking"
+import {
+  BookingStatusEnum,
+  getBookingStatusMeta
+} from "@/constants/enum/Booking"
 
 import { formatDate } from "@/utils/formatters"
-import { getBookingColor, getBookingLabel } from "@/utils/helpers"
 
 import { Badge, Button, Card, CardHeader, HStack, VStack } from "../atoms"
 
@@ -52,6 +54,9 @@ export const BookingCard = ({
   onCancelPress,
   onReviewPress
 }: BookingCardProps) => {
+  const { label: bookingStatusLabel, color: bookingStatusColor } =
+    getBookingStatusMeta(status)
+
   return (
     <Card onPress={onPress}>
       <VStack gap={12}>
@@ -60,8 +65,8 @@ export const BookingCard = ({
             <CardHeader label={name} />
 
             <Badge
-              label={getBookingLabel(status)}
-              background={getBookingColor(status)}
+              label={bookingStatusLabel}
+              background={bookingStatusColor}
               color="#fff"
               rounded
             />
@@ -109,17 +114,6 @@ export const BookingCard = ({
           </Button>
         )}
 
-        {variant === "member" && status === BookingStatusEnum.Confirmed && (
-          <Button
-            variant="primary"
-            size="sm"
-            onPress={onCompletePress}
-            className="flex-1"
-          >
-            Hoàn thành
-          </Button>
-        )}
-
         {variant === "member" &&
           status === BookingStatusEnum.Completed &&
           !reviewed && (
@@ -133,7 +127,7 @@ export const BookingCard = ({
             </Button>
           )}
 
-        {variant === "consultant" && status === BookingStatusEnum.Pending && (
+        {/* {variant === "consultant" && status === BookingStatusEnum.Pending && (
           <HStack gap={16}>
             <Button
               variant="danger"
@@ -148,6 +142,17 @@ export const BookingCard = ({
               Xác nhận
             </Button>
           </HStack>
+        )} */}
+
+        {variant === "consultant" && status === BookingStatusEnum.Pending && (
+          <Button
+            variant="primary"
+            size="sm"
+            onPress={onCompletePress}
+            className="flex-1"
+          >
+            Hoàn thành
+          </Button>
         )}
       </VStack>
     </Card>

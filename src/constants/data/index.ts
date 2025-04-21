@@ -171,32 +171,6 @@ export const DATA = {
       color: "#ca8a04"
     }
   ],
-  BOOKINGS: [
-    {
-      label: "Chờ xác nhận",
-      value: BookingStatusEnum.Pending,
-      icon: CalendarAdd,
-      color: "#ca8a04"
-    },
-    {
-      label: "Đã xác nhận",
-      value: BookingStatusEnum.Confirmed,
-      icon: Calendar,
-      color: "#16a34a"
-    },
-    {
-      label: "Hoàn thành",
-      value: BookingStatusEnum.Completed,
-      icon: CalendarTick,
-      color: "#3b82f6"
-    },
-    {
-      label: "Đã hủy",
-      value: BookingStatusEnum.Cancelled,
-      icon: CalendarRemove,
-      color: "#ef4444"
-    }
-  ],
   DAY_OF_WEEK: [
     { label: "Chủ Nhật", shortLabel: "CN", value: RecurringDayEnum.Sun },
     { label: "Thứ 2", shortLabel: "T2", value: RecurringDayEnum.Mon },
