@@ -33,7 +33,6 @@ import {
   useUpdateBookingStatus
 } from "@/hooks/useBooking"
 import { useGetChatById } from "@/hooks/useChat"
-import { useGetMeetingUrl } from "@/hooks/useConsultant"
 import { useGetGoalsByUserId } from "@/hooks/useGoal"
 import { useGetMetricsByUserId } from "@/hooks/useMetric"
 
@@ -51,10 +50,11 @@ const ChatInformationScreen = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
   const [selectedBooking, setSelectedBooking] = useState<string | null>(null)
 
+  const meetingUrl = "https://meet.google.com/phm-iunw-nij"
+
   const { mutate: updateBookingStatus } = useUpdateBookingStatus()
 
   const { data: chatData } = useGetChatById(chatId)
-  const { data: meetingUrl } = useGetMeetingUrl(chatData?.consultantId)
   const { data: bookingsData } = useGetBookingsByUserIdAndConsultantId(
     chatData?.userId,
     chatData?.consultantId
@@ -64,10 +64,8 @@ const ChatInformationScreen = () => {
 
   // console.log(JSON.stringify(bookingsData, null, 2))
 
-  const handleViewMeetUrl = () => {
-    if (meetingUrl?.meetUrl) {
-      Linking.openURL(meetingUrl.meetUrl)
-    }
+  const handleViewMeetingUrl = () => {
+    Linking.openURL(meetingUrl)
   }
 
   const handleCancel = (bookingId: string) => {
@@ -129,8 +127,8 @@ const ChatInformationScreen = () => {
               <Section label="Link phòng họp" margin={false} />
 
               <MeetingCard
-                meetUrl={meetingUrl?.meetUrl}
-                onPress={handleViewMeetUrl}
+                meetingUrl={meetingUrl}
+                onPress={handleViewMeetingUrl}
               />
 
               {userId !== chatData?.userId && (

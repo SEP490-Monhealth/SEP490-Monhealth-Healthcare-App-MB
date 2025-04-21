@@ -1,9 +1,9 @@
 import React from "react"
 
-import { Linking, Text, View } from "react-native"
+import { Text, View } from "react-native"
 
 import { LoadingScreen } from "@/app/loading"
-import { Crown1, Edit2, Zoom } from "iconsax-react-native"
+import { Crown1, Edit2 } from "iconsax-react-native"
 
 import {
   Card,
@@ -26,7 +26,7 @@ function ConsultantAboutScreen() {
   const { user } = useAuth()
   const consultantId = user?.consultantId
 
-  const meetUrl = "https://meet.google.com/phm-iunw-nij"
+  // const meetingUrl = "https://meet.google.com/phm-iunw-nij"
 
   const { data: consultantData } = useGetConsultantById(consultantId)
 
@@ -37,17 +37,17 @@ function ConsultantAboutScreen() {
       icon: <Crown1 variant="Bold" size="22" color={COLORS.primary} />,
       label: "Kinh nghiệm",
       value: `${consultantData.experience} năm`
-    },
-    {
-      icon: <Zoom variant="Bold" size="24" color={COLORS.primary} />,
-      label: "Link phòng họp",
-      value: meetUrl
     }
+    // {
+    //   icon: <Zoom variant="Bold" size="24" color={COLORS.primary} />,
+    //   label: "Link phòng họp",
+    //   value: meetingUrl
+    // }
   ]
 
-  const handleLinking = (meeting: string) => {
-    Linking.openURL(meeting)
-  }
+  // const handleLinking = (meetingUrl: string) => {
+  //   Linking.openURL(meetingUrl)
+  // }
 
   return (
     <Container>
@@ -83,7 +83,7 @@ function ConsultantAboutScreen() {
                     icon={item.icon}
                     label={item.label}
                     value={item.value}
-                    onPress={() => handleLinking(item.value)}
+                    // onPress={() => handleLinking(item.value)}
                   />
                 ))}
               </Card>

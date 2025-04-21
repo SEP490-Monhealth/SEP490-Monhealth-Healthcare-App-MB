@@ -18,7 +18,7 @@ interface ConsultantStoreState {
   expiryDate: string | null
   issuedBy: string
   imageUrls: ImageType[]
-  meetUrl: string
+  // meetUrl: string
 
   updateField: (field: string, value: any, append?: boolean) => void
   reset: () => void
@@ -35,7 +35,7 @@ export const useConsultantStore = create<ConsultantStoreState>((set) => ({
   expiryDate: "2024-01-01",
   issuedBy: "Trường Đại học Y Dược TP.HCM",
   imageUrls: [],
-  meetUrl: "https://meet.google.com/abc-defg-hij",
+  // meetUrl: "https://meet.google.com/abc-defg-hij",
 
   // bio: "",
   // experience: 0,
@@ -72,7 +72,7 @@ export const useConsultantStore = create<ConsultantStoreState>((set) => ({
       issueDate: "",
       expiryDate: "",
       issuedBy: "",
-      imageUrls: [],
-      meetUrl: ""
+      imageUrls: []
+      // meetUrl: ""
     })
 }))

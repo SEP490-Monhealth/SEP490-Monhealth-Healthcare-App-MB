@@ -32,8 +32,7 @@ import {
   certificateSetupSchema,
   expertiseSetupSchema,
   imageSetupSchema,
-  informationSetupSchema,
-  meetingSetupSchema
+  informationSetupSchema
 } from "@/schemas/consultantSchema"
 
 import { whoIAm } from "@/services/authService"
@@ -89,7 +88,6 @@ function SetupConsultantScreen() {
     expiryDate,
     issuedBy,
     imageUrls,
-    meetUrl,
     updateField
   } = useConsultantStore()
 
@@ -105,8 +103,7 @@ function SetupConsultantScreen() {
     issuedBy,
     imageUrls: (imageUrls || [])
       .filter((img) => !img.deleting && !img.uploading)
-      .map((img) => (typeof img === "string" ? img : img.uri)),
-    meetUrl
+      .map((img) => (typeof img === "string" ? img : img.uri))
   }
 
   const setupSteps: SetupStepsProps[] = [
@@ -141,15 +138,15 @@ function SetupConsultantScreen() {
       component: SetupImage,
       fields: ["imageUrls"],
       schema: imageSetupSchema
-    },
-    {
-      step: 5,
-      title: "Cuộc họp",
-      description: "Thêm đường dẫn cuộc họp của bạn để tư vấn trực tuyến",
-      component: SetupMeeting,
-      fields: ["meetUrl"],
-      schema: meetingSetupSchema
     }
+    // {
+    //   step: 5,
+    //   title: "Cuộc họp",
+    //   description: "Thêm đường dẫn cuộc họp của bạn để tư vấn trực tuyến",
+    //   component: SetupMeeting,
+    //   fields: ["meetUrl"],
+    //   schema: meetingSetupSchema
+    // }
   ]
 
   const currentStepData = setupSteps.find((step) => step.step === currentStep)
@@ -300,8 +297,7 @@ function SetupConsultantScreen() {
         certificate,
         issueDate,
         expiryDate,
-        issuedBy,
-        meetUrl
+        issuedBy
       } = useConsultantStore.getState()
 
       const finalData = {
@@ -314,8 +310,7 @@ function SetupConsultantScreen() {
         issueDate,
         expiryDate,
         issuedBy,
-        imageUrls: imageUris,
-        meetUrl
+        imageUrls: imageUris
       }
 
       // console.log(JSON.stringify(finalData, null, 2))
