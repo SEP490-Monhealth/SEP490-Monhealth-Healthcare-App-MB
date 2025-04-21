@@ -171,25 +171,3 @@ export const updateWaterReminderDrunk = async (
     throw { isCustomError: true, message: errorMessage }
   }
 }
-
-export const getDailyWaterIntakeByUserId = async (
-  userId: string | undefined,
-  date: string
-): Promise<DailyWaterIntakeType> => {
-  try {
-    const response = await monAPI.get(`/daily-water-intakes/user`, {
-      params: { userId, date }
-    })
-
-    const { success, message, data } = response.data
-
-    if (!success) {
-      throw { isCustomError: true, message: message }
-    }
-
-    return data as DailyWaterIntakeType
-  } catch (error: any) {
-    const errorMessage = error.response?.data?.message
-    throw { isCustomError: true, message: errorMessage }
-  }
-}

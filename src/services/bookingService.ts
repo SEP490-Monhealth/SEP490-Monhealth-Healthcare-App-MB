@@ -49,32 +49,6 @@ export const getBookingsByConsultantId = async (
   }
 }
 
-export const getMonthlyBookingsByConsultantId = async (
-  consultantId: string | undefined,
-  page: number,
-  limit?: number,
-  month?: string
-): Promise<BookingResponse> => {
-  try {
-    const response = await monAPI.get(
-      `/bookings/monthly/consultant/${consultantId}`,
-      { params: { page, limit, month } }
-    )
-
-    const { success, message, data } = response.data
-
-    if (!success) {
-      throw { isCustomError: true, message: message }
-    }
-
-    const { totalPages, totalItems, items: bookings } = data
-    return { bookings, totalPages, totalItems }
-  } catch (error: any) {
-    const errorMessage = error.response?.data?.message
-    throw { isCustomError: true, message: errorMessage }
-  }
-}
-
 export const getBookingsByUserIdAndConsultantId = async (
   userId: string | undefined,
   consultantId: string | undefined

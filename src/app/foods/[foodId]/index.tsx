@@ -43,9 +43,10 @@ import { useStorage } from "@/contexts/StorageContext"
 
 import { useGetFoodById } from "@/hooks/useFood"
 import { useGetNutritionGoal } from "@/hooks/useGoal"
-import { useCreateMeal, useGetDailyMealByUserId } from "@/hooks/useMeal"
+import { useCreateMeal } from "@/hooks/useMeal"
 import { useGetNutritionByFoodId } from "@/hooks/useNutrition"
 import { useGetPortionByFoodId } from "@/hooks/usePortion"
+import { useGetDailyMealByUserId } from "@/hooks/useTracker"
 
 import { CreateMealType } from "@/schemas/mealSchema"
 

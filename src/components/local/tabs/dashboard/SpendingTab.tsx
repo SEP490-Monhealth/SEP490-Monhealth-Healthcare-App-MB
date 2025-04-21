@@ -20,7 +20,7 @@ import { Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
 
-import { useGetYearlyTransactionByConsultantId } from "@/hooks/useReport"
+import { useGetYearlyTransactionByConsultantId } from "@/hooks/useTracker"
 import { useGetTransactionsByConsultantId } from "@/hooks/useTransaction"
 
 import { TransactionType } from "@/schemas/transactionSchema"
@@ -52,12 +52,12 @@ export const SpendingTab = ({
 
   const limit = 5
 
-  const { data: monthlyTransactionData, refetch: refetchMonthlyTransaction } =
+  const { data: yearlyTransactionData, refetch: refetchYearlyTransaction } =
     useGetYearlyTransactionByConsultantId(consultantId, date)
   const {
     data,
     isLoading,
-    refetch: refetchTransactions
+    refetch: refetchTransactionsData
   } = useGetTransactionsByConsultantId(consultantId, page, limit)
 
   const isFetching = useIsFetching()
@@ -97,8 +97,8 @@ export const SpendingTab = ({
     setIsRefreshing(true)
     Keyboard.dismiss()
     setPage(1)
-    refetchMonthlyTransaction()
-    refetchTransactions()
+    refetchYearlyTransaction()
+    refetchTransactionsData()
     setIsRefreshing(false)
   }
 
@@ -112,13 +112,13 @@ export const SpendingTab = ({
   const monthRange = getMonthRange(startMonth, date)
 
   const totalIncome =
-    monthlyTransactionData?.income?.reduce(
+    yearlyTransactionData?.income?.reduce(
       (sum, item) => sum + item.amount,
       0
     ) || 0
 
   const totalExpense =
-    monthlyTransactionData?.expense?.reduce(
+    yearlyTransactionData?.expense?.reduce(
       (sum, item) => sum + item.amount,
       0
     ) || 0
@@ -135,8 +135,8 @@ export const SpendingTab = ({
     router.push("/transactions")
   }
 
-  const incomeData = monthlyTransactionData?.income || []
-  const expenseData = monthlyTransactionData?.expense || []
+  const incomeData = yearlyTransactionData?.income || []
+  const expenseData = yearlyTransactionData?.expense || []
 
   const FlatListHeader = useMemo(() => {
     return (

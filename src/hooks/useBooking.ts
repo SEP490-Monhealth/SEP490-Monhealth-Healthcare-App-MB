@@ -14,7 +14,6 @@ import {
   getBookingsByConsultantId,
   getBookingsByUserId,
   getBookingsByUserIdAndConsultantId,
-  getMonthlyBookingsByConsultantId,
   updateBookingStatus
 } from "@/services/bookingService"
 
@@ -53,40 +52,6 @@ export const useGetBookingsByConsultantId = (
     queryFn: async () => {
       try {
         return await getBookingsByConsultantId(consultantId, date)
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
-    },
-    enabled: !!consultantId,
-    staleTime: 1000 * 60 * 5
-  })
-}
-
-export const useGetMonthlyBookingsByConsultantId = (
-  consultantId: string | undefined,
-  page: number,
-  limit?: number,
-  month?: string
-) => {
-  const handleError = useError()
-
-  return useQuery<BookingResponse, Error>({
-    queryKey: [
-      MonQueryKey.Booking.MonthlyBookings,
-      consultantId,
-      page,
-      limit,
-      month
-    ],
-    queryFn: async () => {
-      try {
-        return await getMonthlyBookingsByConsultantId(
-          consultantId,
-          page,
-          limit,
-          month
-        )
       } catch (error) {
         handleError(error)
         throw error

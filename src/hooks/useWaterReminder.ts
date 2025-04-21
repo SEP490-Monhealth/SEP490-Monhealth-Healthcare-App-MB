@@ -5,7 +5,6 @@ import { MonQueryKey } from "@/constants/query"
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
 
-import { DailyWaterIntakeType } from "@/schemas/dailyWaterIntakeSchema"
 import {
   CreateWaterReminderType,
   UpdateWaterReminderType,
@@ -15,7 +14,6 @@ import {
 import {
   createWaterReminder,
   deleteWaterReminder,
-  getDailyWaterIntakeByUserId,
   getWaterReminderById,
   getWaterRemindersByUserId,
   updateWaterReminder,
@@ -194,26 +192,5 @@ export const useUpdateWaterReminderDrunk = () => {
         queryKey: [MonQueryKey.WaterReminder.DailyWaterIntake]
       })
     }
-  })
-}
-
-export const useGetDailyWaterIntakeByUserId = (
-  userId: string | undefined,
-  date: string
-) => {
-  const handleError = useError()
-
-  return useQuery<DailyWaterIntakeType, Error>({
-    queryKey: [MonQueryKey.WaterReminder.DailyWaterIntake, userId, date],
-    queryFn: async () => {
-      try {
-        return await getDailyWaterIntakeByUserId(userId, date)
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
-    },
-    enabled: !!userId,
-    staleTime: 1000 * 60 * 5
   })
 }

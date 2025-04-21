@@ -23,7 +23,7 @@ import { GoalTypeEnum, getGoalTypeMeta } from "@/constants/enum/Goal"
 import { useAuth } from "@/contexts/AuthContext"
 
 import { useGetNutritionGoal } from "@/hooks/useGoal"
-import { useGetDailyMealByUserId } from "@/hooks/useMeal"
+import { useGetDailyMealByUserId } from "@/hooks/useTracker"
 
 import { formatDateY } from "@/utils/formatters"
 import { getRandomTip } from "@/utils/helpers"

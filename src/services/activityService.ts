@@ -43,25 +43,3 @@ export const createActivity = async (
     throw { isCustomError: true, message: errorMessage }
   }
 }
-
-export const getDailyActivityByUserId = async (
-  userId: string | undefined,
-  date: string
-): Promise<DailyActivityType> => {
-  try {
-    const response = await monAPI.get(`/daily-activities/user`, {
-      params: { userId, date }
-    })
-
-    const { success, message, data } = response.data
-
-    if (!success) {
-      throw { isCustomError: true, message: message }
-    }
-
-    return data as DailyActivityType
-  } catch (error: any) {
-    const errorMessage = error.response?.data?.message
-    throw { isCustomError: true, message: errorMessage }
-  }
-}

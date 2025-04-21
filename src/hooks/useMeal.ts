@@ -7,12 +7,10 @@ import { MonQueryKey } from "@/constants/query"
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
 
-import { DailyMealType } from "@/schemas/dailyMealSchema"
 import { CreateMealType, MealFoodType, MealType } from "@/schemas/mealSchema"
 
 import {
   createMeal,
-  getDailyMealByUserId,
   getMealById,
   getMealFoodsByMealId,
   getMealsByUserId,
@@ -169,29 +167,8 @@ export const useUpdateMealFoodStatus = () => {
       queryClient.invalidateQueries({ queryKey: [MonQueryKey.Meal.MealFoods] })
       queryClient.invalidateQueries({ queryKey: [MonQueryKey.Meal.DailyMeal] })
       queryClient.invalidateQueries({
-        queryKey: [MonQueryKey.Report.WeeklyMeal]
+        queryKey: [MonQueryKey.Tracker.WeeklyMeal]
       })
     }
-  })
-}
-
-export const useGetDailyMealByUserId = (
-  userId: string | undefined,
-  date: string
-) => {
-  const handleError = useError()
-
-  return useQuery<DailyMealType, Error>({
-    queryKey: [MonQueryKey.Meal.DailyMeal, userId, date],
-    queryFn: async () => {
-      try {
-        return await getDailyMealByUserId(userId, date)
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
-    },
-    enabled: !!userId,
-    staleTime: 1000 * 60 * 5
   })
 }

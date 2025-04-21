@@ -15,8 +15,8 @@ import { GoalTypeEnum, getGoalTypeMeta } from "@/constants/enum/Goal"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useGetDailyActivityByUserId } from "@/hooks/useActivity"
 import { useGetWorkoutGoal } from "@/hooks/useGoal"
+import { useGetDailyActivityByUserId } from "@/hooks/useTracker"
 
 import { formatDateY, toFixed } from "@/utils/formatters"
 

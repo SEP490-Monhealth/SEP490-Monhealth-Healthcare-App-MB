@@ -9,12 +9,14 @@ import { COLORS } from "@/constants/color"
 import { Card } from "../atoms"
 
 interface MeetingCardProps {
-  meetUrl?: string
+  meetingUrl?: string
   onPress: () => void
 }
 
-export const MeetingCard = ({ meetUrl, onPress }: MeetingCardProps) => {
-  const displayMeetingUrl = meetUrl ? meetUrl.replace(/^https?:\/\//, "") : null
+export const MeetingCard = ({ meetingUrl, onPress }: MeetingCardProps) => {
+  const displayMeetingUrl = meetingUrl
+    ? meetingUrl.replace(/^https?:\/\//, "")
+    : null
 
   return (
     <Card onPress={onPress} className="flex-row items-center justify-between">

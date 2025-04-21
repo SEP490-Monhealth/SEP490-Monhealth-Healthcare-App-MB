@@ -10,8 +10,10 @@ import { HStack, VStack } from "@/components/global/atoms"
 import { BookingCard, ErrorDisplay } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
 
-import { useGetMonthlyBookingsByConsultantId } from "@/hooks/useBooking"
-import { useGetYearlyBookingByConsultantId } from "@/hooks/useReport"
+import {
+  useGetMonthlyBookingsByConsultantId,
+  useGetYearlyBookingByConsultantId
+} from "@/hooks/useTracker"
 
 import { getMonthRange } from "@/utils/helpers"
 
@@ -35,11 +37,12 @@ export const BookingTab = ({
   const [initialDate] = useState(date)
   const [selectedMonth, setSelectedMonth] = useState<string>(month)
 
-  const { data: monthlyBookingData, isLoading: isMonthlyBookingLoading } =
+  const { data: yearlyBookingData, isLoading: isYearlyBookingLoading } =
     useGetYearlyBookingByConsultantId(
       consultantId,
       initialDate.split("-").slice(0, 2).join("-")
     )
+
   const { data: bookingsData } = useGetMonthlyBookingsByConsultantId(
     consultantId,
     1,
@@ -51,10 +54,8 @@ export const BookingTab = ({
   const isMutating = useIsMutating()
 
   useEffect(() => {
-    onOverlayLoading(
-      isFetching > 0 || isMutating > 0 || isMonthlyBookingLoading
-    )
-  }, [isFetching, isMutating, isMonthlyBookingLoading, onOverlayLoading])
+    onOverlayLoading(isFetching > 0 || isMutating > 0 || isYearlyBookingLoading)
+  }, [isFetching, isMutating, isYearlyBookingLoading, onOverlayLoading])
 
   const currentDate = new Date(initialDate)
   const currentMonthNum = currentDate.getMonth()
@@ -66,9 +67,9 @@ export const BookingTab = ({
   const monthRange = getMonthRange(startMonth, initialDate)
 
   const totalBookings =
-    monthlyBookingData?.reduce((acc, item) => acc + item.bookings, 0) || 0
+    yearlyBookingData?.reduce((acc, item) => acc + item.bookings, 0) || 0
 
-  const barChartData = monthlyBookingData || []
+  const barChartData = yearlyBookingData || []
 
   const labels = Array.from({ length: 6 }, (_, index) => {
     const month = new Date(currentYear, currentMonthNum - 5 + index, 1)

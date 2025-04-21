@@ -25,8 +25,10 @@ import { MealTypeEnum } from "@/constants/enum/Food"
 import { useAuth } from "@/contexts/AuthContext"
 
 import { useGetNutritionGoal } from "@/hooks/useGoal"
-import { useGetDailyMealByUserId } from "@/hooks/useMeal"
-import { useGetWeeklyMealByUserId } from "@/hooks/useReport"
+import {
+  useGetDailyMealByUserId,
+  useGetWeeklyMealByUserId
+} from "@/hooks/useTracker"
 
 import { toFixed } from "@/utils/formatters"
 import { getWeekRange } from "@/utils/helpers"

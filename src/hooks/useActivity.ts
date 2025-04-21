@@ -6,13 +6,8 @@ import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
 
 import { ActivityType, CreateActivityType } from "@/schemas/activitySchema"
-import { DailyActivityType } from "@/schemas/dailyActivitySchema"
 
-import {
-  createActivity,
-  getActivityById,
-  getDailyActivityByUserId
-} from "@/services/activityService"
+import { createActivity, getActivityById } from "@/services/activityService"
 
 export const useGetActivityById = (activityId: string | undefined) => {
   const handleError = useError()
@@ -54,26 +49,5 @@ export const useCreateActivity = () => {
         queryKey: [MonQueryKey.Activity.DailyActivity]
       })
     }
-  })
-}
-
-export const useGetDailyActivityByUserId = (
-  userId: string | undefined,
-  date: string
-) => {
-  const handleError = useError()
-
-  return useQuery<DailyActivityType, Error>({
-    queryKey: [MonQueryKey.Activity.DailyActivity, userId, date],
-    queryFn: async () => {
-      try {
-        return await getDailyActivityByUserId(userId, date)
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
-    },
-    enabled: !!userId,
-    staleTime: 1000 * 60 * 5
   })
 }

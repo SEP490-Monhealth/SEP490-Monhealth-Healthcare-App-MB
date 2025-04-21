@@ -22,7 +22,6 @@ export const MonQueryKey = {
   Booking: {
     UserBookings: "bookings-user",
     ConsultantBookings: "bookings-consultant",
-    MonthlyBookings: "bookings-monthly",
     UserConsultantBookings: "bookings-user-consultant",
     Booking: "booking"
   },
@@ -45,8 +44,7 @@ export const MonQueryKey = {
     Consultants: "consultants",
     Consultant: "consultant",
     ConsultantBanks: "consultant-banks",
-    ConsultantBank: "consultant-bank",
-    ConsultantMeetUrl: "consultant-meet-url",
+    ConsultantBank: "consultant-bank"
   },
 
   Exercise: {
@@ -97,12 +95,6 @@ export const MonQueryKey = {
     Portions: "portions"
   },
 
-  Report: {
-    WeeklyMeal: "WeeklyMeal",
-    MonthlyTransaction: "MonthlyTransaction",
-    MonthlyBooking: "MonthlyBooking"
-  },
-
   Review: {
     ReviewsConsultant: "reviews-consultant"
   },
@@ -119,6 +111,13 @@ export const MonQueryKey = {
     Subscriptions: "subscriptions",
     UserSubscriptions: "subscriptions-user",
     RemainingBookings: "remaining-bookings"
+  },
+
+  Tracker: {
+    WeeklyMeal: "weekly-meal",
+    YearlyTransaction: "yearly-transaction",
+    MonthlyBookings: "monthly-bookings",
+    YearlyBooking: "yearly-booking"
   },
 
   Transaction: {

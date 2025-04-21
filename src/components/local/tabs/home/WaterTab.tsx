@@ -13,8 +13,8 @@ import { Section } from "@/components/global/organisms"
 import { useAuth } from "@/contexts/AuthContext"
 
 import { useGetWaterIntakeGoal } from "@/hooks/useGoal"
+import { useGetDailyWaterIntakeByUserId } from "@/hooks/useTracker"
 import {
-  useGetDailyWaterIntakeByUserId,
   useGetWaterReminderByUserId,
   useUpdateWaterReminderDrunk
 } from "@/hooks/useWaterReminder"
@@ -117,6 +117,7 @@ export const WaterTab = ({ onOverlayLoading }: WaterTabProps) => {
             name={item.name}
             time={item.time}
             volume={item.volume}
+            status={item.status}
             isDrunk={item.isDrunk}
             onMorePress={() => handleViewWaterReminder(item.waterReminderId)}
             onCheckboxChange={() =>
