@@ -162,7 +162,7 @@ export const getYearlyTransactionByConsultantId = async (
 ): Promise<YearlyTransactionType> => {
   try {
     const response = await monAPI.get(
-      `/trackers/user/${consultantId}/transactions/yearly`,
+      `/trackers/consultant/${consultantId}/transactions/yearly`,
       { params: { date } }
     )
 

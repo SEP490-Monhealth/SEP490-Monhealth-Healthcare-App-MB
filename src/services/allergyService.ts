@@ -28,7 +28,6 @@ export const getAllergiesByUserId = async (
 export const createUserAllergy = async (newData: CreateUserAllergyType) => {
   try {
     const response = await monAPI.post("/allergies/user", newData)
-
     const { success, message } = response.data
 
     if (!success) {
@@ -50,7 +49,6 @@ export const updateUserAllergy = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.put(`/allergies/user/${userId}`, updatedData)
-
     const { success, message } = response.data
 
     if (!success) {

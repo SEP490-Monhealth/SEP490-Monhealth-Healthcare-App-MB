@@ -60,9 +60,7 @@ export const NutritionProgress = ({
           {caloriesValue} / {caloriesGoal}
         </Text>
 
-        <Text className="font-tmedium text-sm text-accent">
-          {calorieData.label === "Calories" && "kcal"}
-        </Text>
+        <Text className="font-tmedium text-sm text-accent">kcal</Text>
       </VStack>
     </View>
   )

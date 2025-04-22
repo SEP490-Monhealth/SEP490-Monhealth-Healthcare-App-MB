@@ -104,7 +104,6 @@ export const createChatMonAI = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.post(`/chats/mon-ai`, newData)
-
     const { success, message } = response.data
 
     if (!success) {

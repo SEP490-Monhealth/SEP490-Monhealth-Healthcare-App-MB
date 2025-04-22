@@ -85,7 +85,6 @@ export const createFood = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.post(`/foods`, newData)
-
     const { success, message } = response.data
 
     if (!success) {

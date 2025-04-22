@@ -84,7 +84,7 @@ function ConsultantDetailsScreen() {
     const transactionData = {
       userId: userId || "",
       description: "Thanh toán mua thêm lượt",
-      // amount: 200000,
+      // amount: 230000,
       amount: 10000
     }
 

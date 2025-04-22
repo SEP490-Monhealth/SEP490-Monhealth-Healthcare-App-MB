@@ -120,7 +120,6 @@ export const completeTransaction = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.patch(`/transactions/${orderCode}/completed`)
-
     const { success, message } = response.data
 
     if (!success) {

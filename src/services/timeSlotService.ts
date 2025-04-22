@@ -7,7 +7,6 @@ export const createTimeSlot = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.post(`/time-slots`, newData)
-
     const { success, message } = response.data
 
     if (!success) {
@@ -25,7 +24,6 @@ export const createTimeSlot = async (
 export const deleteTimeSlot = async (timeSlotId: string): Promise<string> => {
   try {
     const response = await monAPI.delete(`/time-slots/${timeSlotId}`)
-
     const { success, message } = response.data
 
     if (!success) {

@@ -52,7 +52,6 @@ export const createSchedule = async (
 ) => {
   try {
     const response = await monAPI.post(`/schedules`, newData)
-
     const { success, message } = response.data
 
     if (!success) {
@@ -104,7 +103,6 @@ export const deleteSchedule = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.delete(`/schedules/${scheduleId}`)
-
     const { success, message } = response.data
 
     if (!success) {
@@ -128,7 +126,6 @@ export const updateScheduleStatus = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.put(`/schedules/${scheduleId}/status`)
-
     const { success, message } = response.data
 
     if (!success) {

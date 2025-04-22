@@ -37,7 +37,6 @@ export const updateNotificationStatus = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.patch(`/notifications/${notificationId}/read`)
-
     const { success, message } = response.data
 
     if (!success) {

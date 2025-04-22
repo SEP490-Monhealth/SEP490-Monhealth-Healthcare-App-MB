@@ -1,6 +1,5 @@
 import monAPI from "@/lib/monAPI"
 
-import { DailyWaterIntakeType } from "@/schemas/dailyWaterIntakeSchema"
 import {
   CreateWaterReminderType,
   UpdateWaterReminderType,
@@ -34,7 +33,6 @@ export const getWaterReminderById = async (
 ): Promise<WaterReminderType> => {
   try {
     const response = await monAPI.get(`/water-reminders/${waterReminderId}`)
-
     const { success, message, data } = response.data
 
     if (!success) {
@@ -54,7 +52,6 @@ export const createWaterReminder = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.post(`/water-reminders`, newData)
-
     const { success, message } = response.data
 
     if (!success) {
@@ -106,7 +103,6 @@ export const deleteWaterReminder = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.delete(`/water-reminders/${waterReminderId}`)
-
     const { success, message } = response.data
 
     if (!success) {

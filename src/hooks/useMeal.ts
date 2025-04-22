@@ -169,6 +169,9 @@ export const useUpdateMealFoodStatus = () => {
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Tracker.WeeklyMeal]
       })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Activity.DailyActivity]
+      })
     }
   })
 }

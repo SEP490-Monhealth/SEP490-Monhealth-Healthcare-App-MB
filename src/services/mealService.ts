@@ -147,7 +147,6 @@ export const updateMealFoodStatus = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.patch(`/meal/food/${mealFoodId}/completed`)
-
     const { success, message } = response.data
 
     if (!success) {

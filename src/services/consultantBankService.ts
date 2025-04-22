@@ -52,7 +52,6 @@ export const createConsultantBank = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.post(`/consultant-banks`, newData)
-
     const { success, message } = response.data
 
     if (!success) {

@@ -29,7 +29,6 @@ export const createMetric = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.post(`/metrics`, newData)
-
     const { success, message } = response.data
 
     if (!success) {
@@ -53,7 +52,6 @@ export const updateMetric = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.post(`/metrics/update`, newData)
-
     const { success, message } = response.data
 
     if (!success) {

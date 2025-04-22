@@ -64,7 +64,6 @@ export const createWithdrawalRequest = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.post(`/withdrawal-requests`, newData)
-
     const { success, message } = response.data
 
     if (!success) {

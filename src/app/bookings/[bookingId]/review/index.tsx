@@ -51,7 +51,7 @@ const quickReviewsData = [
   "Phản hồi nhanh"
 ]
 
-function ReviewCreateScreen() {
+function BookingReviewScreen() {
   const router = useRouter()
   const { bookingId } = useLocalSearchParams<{ bookingId: string }>()
 
@@ -87,14 +87,7 @@ function ReviewCreateScreen() {
     reset,
     formState: { errors }
   } = useForm<CreateReviewType>({
-    resolver: zodResolver(createReviewSchema),
-    defaultValues: {
-      bookingId: "",
-      consultantId: "",
-      userId: "",
-      rating: 0,
-      comment: ""
-    }
+    resolver: zodResolver(createReviewSchema)
   })
 
   useEffect(() => {
@@ -155,16 +148,11 @@ function ReviewCreateScreen() {
           <ScrollView
             ref={scrollViewRef}
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ paddingBottom: 100 }}
+            contentContainerStyle={{ paddingBottom: 60 }}
           >
             <VStack gap={32}>
               <VStack>
                 <VStack center gap={20}>
-                  <Text className="text-tregular text-center text-base text-secondary">
-                    Hãy giúp chúng tôi cải thiện bằng cách cho chúng tôi biết
-                    cuộc hẹn của bạn với chuyên gia tư vấn diễn ra như thế nào
-                  </Text>
-
                   <VStack center gap={12}>
                     <VStack center gap={8}>
                       {bookingData.consultant.avatarUrl ? (
@@ -215,6 +203,11 @@ function ReviewCreateScreen() {
                       )}
                     </VStack>
                   </VStack>
+
+                  <Text className="text-tregular text-center text-base text-secondary">
+                    Hãy giúp chúng tôi cải thiện bằng cách cho chúng tôi biết
+                    cuộc hẹn của bạn với chuyên gia tư vấn diễn ra như thế nào
+                  </Text>
                 </VStack>
 
                 <Section label="Điểm nổi bật" margin={false} />
@@ -264,4 +257,4 @@ function ReviewCreateScreen() {
   )
 }
 
-export default ReviewCreateScreen
+export default BookingReviewScreen

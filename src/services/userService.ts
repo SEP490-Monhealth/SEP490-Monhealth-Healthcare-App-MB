@@ -33,7 +33,6 @@ export const updateUser = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.put(`/users/${userId}`, userData)
-
     const { success, message } = response.data
 
     if (!success) {
@@ -57,7 +56,6 @@ export const updateUserAvatar = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.put(`/users/${userId}/avatar`, avatarData)
-
     const { success, message } = response.data
 
     if (!success) {
@@ -81,7 +79,6 @@ export const updateUserPassword = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.put(`/users/${userId}/password`, passwordData)
-
     const { success, message } = response.data
 
     if (!success) {

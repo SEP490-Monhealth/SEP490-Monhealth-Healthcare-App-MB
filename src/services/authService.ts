@@ -66,7 +66,6 @@ export const logout = async (
 ): Promise<void> => {
   try {
     const response = await monAPI.post(`/auth/logout`)
-
     const { success, message } = response.data
 
     if (!success) {

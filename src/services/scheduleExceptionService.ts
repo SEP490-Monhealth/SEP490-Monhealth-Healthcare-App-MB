@@ -64,7 +64,6 @@ export const createScheduleException = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.post(`/schedule-exceptions`, newData)
-
     const { success, message } = response.data
 
     if (!success) {

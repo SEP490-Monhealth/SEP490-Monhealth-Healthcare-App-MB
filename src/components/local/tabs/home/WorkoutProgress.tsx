@@ -52,6 +52,7 @@ export const WorkoutProgress = ({
       <VStack center>
         <Image
           source={require("../../../../../public/images/monhealth-workout-image.png")}
+          resizeMode="cover"
           className="rotate-45"
           style={{ width: 24, height: 24 }}
         />
@@ -60,9 +61,7 @@ export const WorkoutProgress = ({
           {workoutValue} / {workoutGoal}
         </Text>
 
-        <Text className="font-tmedium text-sm text-accent">
-          {calorieData.label === "Calories" && "kcal"}
-        </Text>
+        <Text className="font-tmedium text-sm text-accent">kcal</Text>
       </VStack>
     </View>
   )
