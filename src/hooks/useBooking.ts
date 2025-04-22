@@ -166,6 +166,9 @@ export const useCompleteBooking = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Booking.UserBookings]
+      })
+      queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Booking.ConsultantBookings]
       })
       queryClient.invalidateQueries({

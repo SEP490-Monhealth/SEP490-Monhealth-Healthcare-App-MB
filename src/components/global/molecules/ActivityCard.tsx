@@ -2,6 +2,10 @@ import React from "react"
 
 import { Image, Text, TouchableOpacity } from "react-native"
 
+import { ChevronRight } from "lucide-react-native"
+
+import { COLORS } from "@/constants/color"
+
 import { toFixed } from "@/utils/formatters"
 
 import { Card, CardHeader, Checkbox, HStack, VStack } from "../atoms"
@@ -11,6 +15,7 @@ interface ActivityCardProps {
   durationMinutes: number
   caloriesBurned: number
   isCompleted: boolean
+  isDefault: boolean
   onPress?: () => void
   onCheckboxChange?: (value: boolean) => void
 }
@@ -20,14 +25,13 @@ export const ActivityCard = ({
   durationMinutes,
   caloriesBurned,
   isCompleted,
+  isDefault,
   onPress,
   onCheckboxChange
 }: ActivityCardProps) => {
   const handlePress = () => {
     if (onCheckboxChange) {
-      if (onCheckboxChange) {
-        onCheckboxChange(!isCompleted)
-      }
+      onCheckboxChange(!isCompleted)
     }
   }
 
@@ -56,7 +60,11 @@ export const ActivityCard = ({
           </VStack>
         </HStack>
 
-        <Checkbox checked={isCompleted} onCheckChange={onCheckboxChange} />
+        {isDefault ? (
+          <ChevronRight size={20} color={COLORS.primary} />
+        ) : (
+          <Checkbox checked={isCompleted} onCheckChange={onCheckboxChange} />
+        )}
       </HStack>
     </Card>
   )

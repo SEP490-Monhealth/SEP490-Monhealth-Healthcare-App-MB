@@ -169,7 +169,7 @@ export const Input: React.FC<InputProps> = ({
         )}
       </View>
 
-      {hasError && errorMessage && <ErrorText text={errorMessage} />}
+      {hasError && errorMessage && <ErrorText error={errorMessage} />}
     </View>
   )
 }

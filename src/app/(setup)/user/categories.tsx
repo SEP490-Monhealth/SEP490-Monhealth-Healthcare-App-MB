@@ -65,7 +65,7 @@
 //           />
 //         ))}
 
-//         {errorMessage && <ErrorText text={errorMessage} />}
+//         {errorMessage && <ErrorText error={errorMessage} />}
 //       </VStack>
 //     </ScrollArea>
 //   )

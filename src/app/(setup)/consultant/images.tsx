@@ -49,7 +49,7 @@ function SetupImage({ setValue, errors, openUploadSheet }: SetupImageProps) {
       </Card>
 
       {errors.imageUrls?.message && imageUrls.length === 0 && (
-        <ErrorText text={errors.imageUrls?.message} />
+        <ErrorText error={errors.imageUrls?.message} />
       )}
 
       <View className="mt-3 flex-row flex-wrap">

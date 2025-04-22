@@ -199,7 +199,7 @@ function BookingReviewScreen() {
                       </HStack>
 
                       {errors.rating?.message && (
-                        <ErrorText text={errors.rating.message} />
+                        <ErrorText error={errors.rating.message} />
                       )}
                     </VStack>
                   </VStack>

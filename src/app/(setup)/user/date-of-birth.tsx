@@ -44,7 +44,7 @@ function SetupDateOfBirth({
 
   return (
     <VStack gap={12}>
-      {errors.dateOfBirth && <ErrorText text={errorMessage} />}
+      {errors.dateOfBirth && <ErrorText error={errorMessage} />}
 
       <View className="items-center">
         <DateTimePicker

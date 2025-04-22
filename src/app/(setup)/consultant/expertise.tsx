@@ -29,7 +29,7 @@ function SetupExpertise({ control, errors }: SetupExpertiseProps) {
   return (
     <ScrollArea>
       <VStack gap={12}>
-        {errorMessage && <ErrorText text={errorMessage} />}
+        {errorMessage && <ErrorText error={errorMessage} />}
 
         {expertiseData.map((expertise) => (
           <Chip

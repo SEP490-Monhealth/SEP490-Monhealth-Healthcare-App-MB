@@ -8,13 +8,13 @@ import { CardHeader } from "./Card"
 import { HStack, VStack } from "./Stack"
 
 interface TextProps {
-  text: string
+  error: string
 }
 
-export const ErrorText = ({ text }: TextProps) => {
+export const ErrorText = ({ error }: TextProps) => {
   return (
     <Text className="ml-1 mt-1 font-tregular text-sm text-destructive">
-      {text}
+      {error}
     </Text>
   )
 }

@@ -43,7 +43,6 @@ const BookingCompleteScreen = () => {
 
   const [selectedImages, setSelectedImages] = useState<string[]>([])
   const [uploading, setUploading] = useState<boolean>(false)
-  const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([])
 
   const SheetRef = useRef<SheetRefProps>(null)
 
@@ -159,7 +158,6 @@ const BookingCompleteScreen = () => {
       const urls = (await Promise.all(uploadPromises)) as (string | null)[]
       const validUrls = urls.filter((url): url is string => url !== null)
 
-      setUploadedImageUrls(validUrls)
       setUploading(false)
 
       return validUrls
@@ -188,7 +186,6 @@ const BookingCompleteScreen = () => {
       })
     } catch (error) {
       console.error("Report submission error:", error)
-      Alert.alert("Lỗi", "Có lỗi xảy ra khi gửi báo cáo. Vui lòng thử lại sau.")
     }
   }
 

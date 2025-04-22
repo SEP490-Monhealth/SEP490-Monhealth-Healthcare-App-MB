@@ -177,12 +177,15 @@ export const ActivityTab = ({ onOverlayLoading }: ActivityTabProps) => {
             durationMinutes={item.durationMinutes}
             caloriesBurned={item.caloriesBurned}
             isCompleted={item.isCompleted}
+            isDefault={"isDefault" in item}
             onPress={() =>
-              "isDefault" in item ? null : handleViewWorkout(item.workoutId)
+              "isDefault" in item
+                ? handleViewWorkouts()
+                : handleViewWorkout(item.workoutId)
             }
             onCheckboxChange={() =>
               "isDefault" in item
-                ? null
+                ? handleViewWorkouts()
                 : handleCompleteActivity(item.activityId)
             }
           />

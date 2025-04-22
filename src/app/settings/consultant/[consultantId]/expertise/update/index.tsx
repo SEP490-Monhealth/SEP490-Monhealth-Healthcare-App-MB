@@ -287,7 +287,7 @@ function ExpertiseUpdateScreen() {
                   </Card>
 
                   {errors.imageUrls?.message && imageUrls.length === 0 && (
-                    <ErrorText text={errors.imageUrls?.message} />
+                    <ErrorText error={errors.imageUrls?.message} />
                   )}
                 </VStack>
 
