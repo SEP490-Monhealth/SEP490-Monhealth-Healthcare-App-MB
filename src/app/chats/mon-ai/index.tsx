@@ -15,6 +15,7 @@ import {
   HubConnectionBuilder,
   LogLevel
 } from "@microsoft/signalr"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 import { Header } from "@/components/global/organisms"
 
@@ -40,13 +41,87 @@ function ChatMonAIScreen() {
   const [messages, setMessages] = useState<MessageType[]>([])
   const [isAITyping, setIsAITyping] = useState<boolean>(false)
   const [hasStarted, setHasStarted] = useState<boolean>(false)
-  const [newMessage, setNewMessage] = useState<string>(
-    "Tôi muốn tăng cân nhanh chóng, bạn có thể giúp tôi không?"
-  )
+  // const [newMessage, setNewMessage] = useState<string>(
+  //   "Tôi muốn tăng cân nhanh chóng, bạn có thể giúp tôi không?"
+  // )
+  const [newMessage, setNewMessage] = useState<string>("")
 
   const { mutate: chatMonAI } = useCreateChatMonAI()
 
+  const handleStartConnection = async () => {
+    // console.log("🚀 Starting chat connection process...")
+    // console.log(`🔑 Using userId: ${userId}`)
+    setHasStarted(true)
+
+    if (!connectionStatus || !chatHubConnection) {
+      let connection: HubConnection | null = null
+
+      try {
+        // console.log("🔌 Building hub connection...")
+        connection = new HubConnectionBuilder()
+          .withUrl(`${appConfig.baseUrl}/chat/mon-ai`, {
+            accessTokenFactory: async () => {
+              const token = await AsyncStorage.getItem("accessToken")
+              // console.log(`🔒 Access token retrieved: ${token ? "✓" : "✗"}`)
+              return token || ""
+            }
+          })
+          .withAutomaticReconnect()
+          .configureLogging(LogLevel.Information)
+          .build()
+
+        // console.log("👂 Setting up message listener...")
+        connection.on("ReceiveMessage", (message) => {
+          // console.log("📨 Message received:", JSON.stringify(message, null, 2))
+          handleReceiveMessage(message)
+        })
+
+        connection.on("ErrorOccurred", (error) => {
+          console.error("❌ Error from SignalR:", error)
+        })
+
+        connection.on("JoinedChat", (message) => {
+          console.log("✅ Join confirmation:", message)
+        })
+
+        // console.log("🔄 Starting connection...")
+        await connection.start()
+        // console.log("✅ Connection started successfully")
+        setConnectionStatus(true)
+
+        // console.log(`👤 Joining chat with userId: ${userId}`)
+        await connection.invoke("JoinChat", userId)
+        // console.log("✅ JoinChat invoked successfully")
+
+        setChatHubConnection(connection)
+      } catch (error) {
+        // console.error("❌ Error starting connection:", error)
+        setConnectionStatus(false)
+      }
+    } else {
+      console.log(
+        "🔄 Connection already established, reusing existing connection"
+      )
+    }
+  }
+
+  useEffect(() => {
+    // console.log("🧹 Setting up cleanup function")
+    return () => {
+      // console.log("🔌 Component unmounting, stopping connection...")
+      if (chatHubConnection) {
+        chatHubConnection.off("LoadMessageHistory")
+        chatHubConnection.off("ReceiveMessage")
+        chatHubConnection.off("ErrorOccurred")
+        chatHubConnection.off("JoinedChat")
+        chatHubConnection.stop()
+        // console.log("🔌 Connection stopped")
+      }
+    }
+  }, [chatHubConnection])
+
   const handleReceiveMessage = useCallback((message: any) => {
+    // console.log("🔍 Processing received message...")
     setIsAITyping(false)
 
     try {
@@ -65,68 +140,30 @@ function ChatMonAIScreen() {
             (msg) => msg.messageId === validatedMessage.messageId
           )
           if (isDuplicate) {
+            // console.log("⚠️ Duplicate message detected, skipping")
             return prevMessages
           }
+          // console.log("✅ Adding new message to chat")
           return [...prevMessages, validatedMessage]
         })
+      } else {
+        console.log(
+          "⚠️ Message doesn't contain expected content format:",
+          message
+        )
       }
     } catch (error) {
-      console.error("Error processing received message:", error)
+      console.error("❌ Error processing received message:", error)
     }
   }, [])
 
-  const createHubConnection = useCallback(async () => {
-    if (chatHubConnection) {
-      return
-    }
-
-    const hubConnection = new HubConnectionBuilder()
-      .withUrl(`${appConfig.baseUrl}/chat/mon-ai`)
-      .withAutomaticReconnect()
-      .configureLogging(LogLevel.Information)
-      .build()
-
-    try {
-      hubConnection.on("ReceiveMessage", handleReceiveMessage)
-
-      await hubConnection.start()
-      console.log("Connection started")
-
-      setConnectionStatus(true)
-      setHasStarted(true)
-      setChatHubConnection(hubConnection)
-    } catch (error) {
-      console.error("Error starting connection:", error)
-      setConnectionStatus(false)
-      setHasStarted(false)
-    }
-  }, [chatHubConnection, handleReceiveMessage])
-
-  useEffect(() => {
-    return () => {
-      if (chatHubConnection) {
-        console.log("Stopping SignalR connection")
-        chatHubConnection.stop()
-      }
-    }
-  }, [chatHubConnection])
-
-  useEffect(() => {
-    if (messages.length > 0) {
-      setTimeout(() => {
-        flatListRef.current?.scrollToEnd({ animated: true })
-      }, 100)
-    }
-  }, [messages])
-
-  const handleStartConnection = () => {
-    createHubConnection()
-  }
-
   const handleSendMessage = async () => {
     if (!chatHubConnection || !newMessage.trim() || !connectionStatus) {
+      // console.log("❌ Cannot send message - connection issues or empty message")
       return
     }
+
+    // console.log("📤 Preparing to send message:", newMessage)
 
     const userMessage: ChatUserType = {
       messageId: Date.now().toString(),
@@ -135,18 +172,22 @@ function ChatMonAIScreen() {
     }
 
     try {
+      // console.log("📝 Adding user message to chat")
       setMessages((prevMessages) => [...prevMessages, userMessage])
 
+      // console.log("⏳ Setting AI typing status")
       setIsAITyping(true)
 
+      // console.log("🚀 Sending message to API")
       await chatMonAI({
         userId: userId || "",
         query: newMessage
       })
+      // console.log("✅ Message sent successfully")
 
       setNewMessage("")
     } catch (error) {
-      console.error("Error sending message:", error)
+      // console.error("❌ Error sending message:", error)
       setIsAITyping(false)
     }
   }
@@ -162,7 +203,7 @@ function ChatMonAIScreen() {
         className="flex-1 px-6 pt-2"
       >
         {!hasStarted ? (
-          <ChatWelcome onStartConnection={handleStartConnection} />
+          <ChatWelcome onStart={handleStartConnection} />
         ) : (
           <FlatList
             ref={flatListRef}

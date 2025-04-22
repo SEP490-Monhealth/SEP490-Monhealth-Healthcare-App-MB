@@ -5,10 +5,10 @@ import { Button, VStack } from "@/components/global/atoms"
 import { COLORS } from "@/constants/color"
 
 interface ChatWelcomeProps {
-  onStartConnection: () => void
+  onStart: () => void
 }
 
-export const ChatWelcome = ({ onStartConnection }: ChatWelcomeProps) => {
+export const ChatWelcome = ({ onStart }: ChatWelcomeProps) => {
   return (
     <View className="flex flex-1 flex-col items-center justify-center gap-8 px-6 pb-40">
       <View
@@ -37,7 +37,7 @@ export const ChatWelcome = ({ onStartConnection }: ChatWelcomeProps) => {
         </Text>
       </VStack>
 
-      <Button onPress={onStartConnection} className="mt-4 w-full">
+      <Button onPress={onStart} className="mt-4 w-full">
         Bắt đầu
       </Button>
     </View>
