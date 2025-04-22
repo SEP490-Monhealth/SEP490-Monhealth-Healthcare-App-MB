@@ -25,6 +25,11 @@ const reviewSchema = z.object({
   ...auditFields
 })
 
+export const reviewDetailSchema = reviewSchema.pick({
+  rating: true,
+  comment: true
+})
+
 export const createReviewSchema = reviewSchema.pick({
   bookingId: true,
   consultantId: true,

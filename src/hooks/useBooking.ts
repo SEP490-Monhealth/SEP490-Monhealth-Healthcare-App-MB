@@ -9,12 +9,12 @@ import { BookingType, CreateBookingType } from "@/schemas/bookingSchema"
 
 import {
   cancelBooking,
+  completeBooking,
   createBooking,
   getBookingById,
   getBookingsByConsultantId,
   getBookingsByUserId,
-  getBookingsByUserIdAndConsultantId,
-  updateBookingStatus
+  getBookingsByUserIdAndConsultantId
 } from "@/services/bookingService"
 
 interface BookingResponse {
@@ -23,14 +23,18 @@ interface BookingResponse {
   totalItems: number
 }
 
-export const useGetBookingsByUserId = (userId: string | undefined) => {
+export const useGetBookingsByUserId = (
+  userId: string | undefined,
+  page: number,
+  limit?: number
+) => {
   const handleError = useError()
 
-  return useQuery<BookingType[], Error>({
-    queryKey: [MonQueryKey.Booking.UserBookings, userId],
+  return useQuery<BookingResponse, Error>({
+    queryKey: [MonQueryKey.Booking.UserBookings, userId, page, limit],
     queryFn: async () => {
       try {
-        return await getBookingsByUserId(userId)
+        return await getBookingsByUserId(userId, page, limit)
       } catch (error) {
         handleError(error)
         throw error
@@ -135,19 +139,26 @@ export const useCreateBooking = () => {
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Subscription.UserSubscriptions]
       })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Schedule.Schedules]
+      })
     }
   })
 }
 
-export const useUpdateBookingStatus = () => {
+export const useCompleteBooking = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
   const { showModal } = useModal()
 
-  return useMutation<string, Error, { bookingId: string | undefined }>({
-    mutationFn: async ({ bookingId }) => {
+  return useMutation<
+    string,
+    Error,
+    { bookingId: string | undefined; evidenceUrls: string[] }
+  >({
+    mutationFn: async ({ bookingId, evidenceUrls }) => {
       try {
-        return await updateBookingStatus(bookingId, showModal)
+        return await completeBooking(bookingId, evidenceUrls, showModal)
       } catch (error) {
         handleError(error)
         throw error
@@ -155,19 +166,13 @@ export const useUpdateBookingStatus = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [MonQueryKey.Booking.UserBookings]
-      })
-      queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Booking.ConsultantBookings]
       })
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Booking.UserConsultantBookings]
       })
       queryClient.invalidateQueries({
-        queryKey: [MonQueryKey.Subscription.RemainingBookings]
-      })
-      queryClient.invalidateQueries({
-        queryKey: [MonQueryKey.Subscription.UserSubscriptions]
+        queryKey: [MonQueryKey.Tracker.MonthlyBookings]
       })
     }
   })

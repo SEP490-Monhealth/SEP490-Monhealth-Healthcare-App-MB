@@ -9,10 +9,14 @@ interface BookingResponse {
 }
 
 export const getBookingsByUserId = async (
-  userId: string | undefined
-): Promise<BookingType[]> => {
+  userId: string | undefined,
+  page: number,
+  limit?: number
+): Promise<BookingResponse> => {
   try {
-    const response = await monAPI.get(`/bookings/user/${userId}`)
+    const response = await monAPI.get(`/bookings/user/${userId}`, {
+      params: { page, limit }
+    })
 
     const { success, message, data } = response.data
 
@@ -20,7 +24,8 @@ export const getBookingsByUserId = async (
       throw { isCustomError: true, message: message }
     }
 
-    return data as BookingType[]
+    const { totalPages, totalItems, items: bookings } = data
+    return { bookings, totalPages, totalItems }
   } catch (error: any) {
     const errorMessage = error.response?.data?.message
     throw { isCustomError: true, message: errorMessage }
@@ -96,7 +101,6 @@ export const createBooking = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.post(`/bookings`, newData)
-
     const { success, message } = response.data
 
     if (!success) {
@@ -114,12 +118,15 @@ export const createBooking = async (
   }
 }
 
-export const updateBookingStatus = async (
+export const completeBooking = async (
   bookingId: string | undefined,
+  evidenceUrls: string[],
   showModal: (message: string) => void
 ): Promise<string> => {
   try {
-    const response = await monAPI.patch(`/bookings/${bookingId}/status`)
+    const response = await monAPI.put(`/bookings/${bookingId}/complete`, {
+      evidenceUrls: evidenceUrls
+    })
 
     const { success, message } = response.data
 
