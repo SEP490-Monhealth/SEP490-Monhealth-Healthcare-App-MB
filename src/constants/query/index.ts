@@ -95,6 +95,11 @@ export const MonQueryKey = {
     Portions: "portions"
   },
 
+  Report: {
+    UserReports: "reports-user",
+    BookingReport: "report-booking"
+  },
+
   Review: {
     ReviewsConsultant: "reviews-consultant"
   },

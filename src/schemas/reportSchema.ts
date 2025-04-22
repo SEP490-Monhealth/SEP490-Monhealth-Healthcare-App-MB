@@ -1,7 +1,8 @@
 import { z } from "zod"
 
 import { timestampFields, uuidSchema } from "./baseSchema"
-import { userInfoSchema } from "./userSchema"
+import { bookingDetailSchema } from "./bookingSchema"
+import { userDetailSchema } from "./userSchema"
 
 export const weeklyMealSchema = z.object({
   date: z.string(),
@@ -36,8 +37,10 @@ const reportSchema = z.object({
   reportId: uuidSchema,
   bookingId: uuidSchema,
 
-  member: userInfoSchema,
-  consultant: userInfoSchema,
+  member: userDetailSchema,
+  consultant: userDetailSchema,
+
+  booking: bookingDetailSchema,
 
   reason: z
     .string()

@@ -24,7 +24,7 @@ interface WaterReminderCardProps {
   name?: string
   time: string
   volume: number
-  status: boolean
+  status?: boolean
   isDrunk: boolean
   onPress?: () => void
   onCheckboxChange?: (value: boolean) => void

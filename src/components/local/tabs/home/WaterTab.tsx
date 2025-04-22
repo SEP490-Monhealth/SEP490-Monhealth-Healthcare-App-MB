@@ -68,7 +68,7 @@ export const WaterTab = ({ onOverlayLoading }: WaterTabProps) => {
     [updateWaterReminderDrunk]
   )
 
-  const data = {
+  const waterIntakeData = {
     label: "Water",
     value: waterIntakesValue,
     targetValue: waterIntakesGoal
@@ -78,14 +78,10 @@ export const WaterTab = ({ onOverlayLoading }: WaterTabProps) => {
     router.push("/water-reminders")
   }
 
-  const handleViewWaterReminder = (waterReminderId: string) => {
-    router.push(`/water-reminders/${waterReminderId}`)
-  }
-
   return (
     <View className="mt-6 h-full">
       <HStack className="justify-center">
-        <WaterIntakeProgress waterIntakeData={data} />
+        <WaterIntakeProgress waterIntakeData={waterIntakeData} />
       </HStack>
 
       {/* <ArcProgress
@@ -106,7 +102,6 @@ export const WaterTab = ({ onOverlayLoading }: WaterTabProps) => {
         label="Nhắc nhở hôm nay"
         actionText="Cập nhật"
         onPress={handleViewWaterReminders}
-        className="mt-8"
       />
 
       <VStack gap={12}>
@@ -117,9 +112,7 @@ export const WaterTab = ({ onOverlayLoading }: WaterTabProps) => {
             name={item.name}
             time={item.time}
             volume={item.volume}
-            status={item.status}
             isDrunk={item.isDrunk}
-            onMorePress={() => handleViewWaterReminder(item.waterReminderId)}
             onCheckboxChange={() =>
               handleDrunkWaterReminder(item.waterReminderId)
             }

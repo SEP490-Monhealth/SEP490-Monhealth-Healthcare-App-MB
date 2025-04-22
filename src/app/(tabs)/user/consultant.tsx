@@ -70,11 +70,16 @@ function ConsultantScreen() {
   const debouncedSearch = useDebounce(searchQuery)
   const debouncedFilter = useDebounce(selectedExpertise, 0)
 
-  const { data: userSubscriptionData } = useGetRemainingBookings(userId)
+  const { data: userSubscriptionData, refetch: userSubscriptionRefetch } =
+    useGetRemainingBookings(userId)
   const { data: expertiseData, isLoading: isExpertiseLoading } =
     useGetAllExpertise(1, 100)
 
-  const { data, isLoading, refetch } = useGetAllConsultants(
+  const {
+    data,
+    isLoading,
+    refetch: consultantsRefetch
+  } = useGetAllConsultants(
     page,
     limit,
     debouncedFilter === "Tất cả" ? "" : debouncedFilter,
@@ -118,7 +123,8 @@ function ConsultantScreen() {
     setIsRefreshing(true)
     Keyboard.dismiss()
     setPage(1)
-    refetch()
+    userSubscriptionRefetch()
+    consultantsRefetch()
     setIsRefreshing(false)
   }
 

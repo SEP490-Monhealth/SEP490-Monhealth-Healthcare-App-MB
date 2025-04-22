@@ -2,6 +2,8 @@ import React, { useEffect, useMemo, useState } from "react"
 
 import { ActivityIndicator, FlatList, Keyboard, View } from "react-native"
 
+import { useRouter } from "expo-router"
+
 import { LoadingScreen } from "@/app/loading"
 
 import { Container, Content } from "@/components/global/atoms"
@@ -25,6 +27,8 @@ import {
 import { NotificationType } from "@/schemas/notificationSchema"
 
 function NotificationsScreen() {
+  const router = useRouter()
+
   const { user } = useAuth()
   const userId = user?.userId
 
@@ -79,8 +83,12 @@ function NotificationsScreen() {
     setIsRefreshing(false)
   }
 
-  const handleMarkAsRead = (notificationId: string) => {
-    markAsRead({ notificationId })
+  const handleMarkAsRead = (
+    notificationId: string,
+    actionUrl: string | undefined
+  ) => {
+    // markAsRead({ notificationId })
+    // router.push(actionUrl)
   }
 
   const FlatListHeader = useMemo(() => {
@@ -120,7 +128,10 @@ function NotificationsScreen() {
               title={item.title}
               content={item.content}
               timestamp={item.createdAt}
-              actionUrl={item.actionUrl}
+              isRead={item.isRead}
+              onPress={() =>
+                handleMarkAsRead(item.notificationId, item.actionUrl)
+              }
             />
           )}
           ListFooterComponent={

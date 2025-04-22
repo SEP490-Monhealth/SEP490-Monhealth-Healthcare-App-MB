@@ -112,7 +112,7 @@ function BookingCancelScreen() {
             <ScrollView
               ref={scrollViewRef}
               showsVerticalScrollIndicator={false}
-              contentContainerStyle={{ paddingBottom: 100 }}
+              contentContainerStyle={{ paddingBottom: 60 }}
             >
               <VStack gap={32}>
                 <VStack>

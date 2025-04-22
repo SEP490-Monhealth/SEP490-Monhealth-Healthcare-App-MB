@@ -46,6 +46,13 @@ export const userSchema = z.object({
   ...auditFields
 })
 
+export const userDetailSchema = userSchema.pick({
+  fullName: true,
+  email: true,
+  phoneNumber: true,
+  avatarUrl: true
+})
+
 export const updateUserSchema = userSchema.pick({
   fullName: true,
   email: true,
