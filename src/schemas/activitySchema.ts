@@ -6,8 +6,9 @@ import { workoutSchema } from "./workoutSchema"
 export const activitySchema = z.object({
   activityId: uuidSchema,
   userId: uuidSchema,
-  dailyActivityId: uuidSchema,
   workoutId: uuidSchema,
+
+  name: workoutSchema.shape.name,
 
   caloriesBurned: workoutSchema.shape.caloriesBurned,
   durationMinutes: workoutSchema.shape.durationMinutes,

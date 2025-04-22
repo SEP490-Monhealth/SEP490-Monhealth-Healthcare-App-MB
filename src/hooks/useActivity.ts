@@ -7,7 +7,11 @@ import { useModal } from "@/contexts/ModalContext"
 
 import { ActivityType, CreateActivityType } from "@/schemas/activitySchema"
 
-import { createActivity, getActivityById } from "@/services/activityService"
+import {
+  createActivity,
+  getActivityById,
+  updateActivityStatus
+} from "@/services/activityService"
 
 export const useGetActivityById = (activityId: string | undefined) => {
   const handleError = useError()
@@ -36,6 +40,30 @@ export const useCreateActivity = () => {
     mutationFn: async (newData) => {
       try {
         return await createActivity(newData, showModal)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Activity.Activities]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Activity.DailyActivity]
+      })
+    }
+  })
+}
+
+export const useUpdateActivityStatus = () => {
+  const queryClient = useQueryClient()
+  const handleError = useError()
+
+  return useMutation<string, Error, string>({
+    mutationFn: async (activityId) => {
+      try {
+        return await updateActivityStatus(activityId)
       } catch (error) {
         handleError(error)
         throw error

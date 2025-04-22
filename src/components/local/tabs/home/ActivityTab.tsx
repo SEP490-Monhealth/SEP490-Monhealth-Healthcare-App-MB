@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import React, { useEffect } from "react"
 
 import { View } from "react-native"
 
@@ -15,6 +15,7 @@ import { GoalTypeEnum, getGoalTypeMeta } from "@/constants/enum/Goal"
 
 import { useAuth } from "@/contexts/AuthContext"
 
+import { useUpdateActivityStatus } from "@/hooks/useActivity"
 import { useGetWorkoutGoal } from "@/hooks/useGoal"
 import { useGetDailyActivityByUserId } from "@/hooks/useTracker"
 
@@ -35,10 +36,12 @@ export const ActivityTab = ({ onOverlayLoading }: ActivityTabProps) => {
 
   const today = formatDateY(new Date())
 
+  const { mutate: updateActivityStatus } = useUpdateActivityStatus()
+
   const { data: dailyActivityData } = useGetDailyActivityByUserId(userId, today)
   const { data: workoutGoalData } = useGetWorkoutGoal(userId)
 
-  // console.log(dailyActivityData)
+  // console.log(JSON.stringify(dailyActivityData, null, 2))
 
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()
@@ -53,28 +56,32 @@ export const ActivityTab = ({ onOverlayLoading }: ActivityTabProps) => {
     dailyActivityData?.goalType ?? GoalTypeEnum.Maintenance
   )
 
-  // const { label: goalTypeLabel } = getGoalTypeMeta(2)
-
   const defaultActivitiesData = [
     {
       activityId: "default-workout-1",
+      workoutId: "default-workout-1",
       name: "Hoạt động 1",
       caloriesBurned: 0,
       durationMinutes: 0,
+      isCompleted: false,
       isDefault: true
     },
     {
       activityId: "default-workout-2",
+      workoutId: "default-workout-2",
       name: "Hoạt động 2",
       caloriesBurned: 0,
       durationMinutes: 0,
+      isCompleted: false,
       isDefault: true
     },
     {
       activityId: "default-workout-3",
+      workoutId: "default-workout-3",
       name: "Hoạt động 3",
       caloriesBurned: 0,
       durationMinutes: 0,
+      isCompleted: false,
       isDefault: true
     }
   ]
@@ -83,7 +90,6 @@ export const ActivityTab = ({ onOverlayLoading }: ActivityTabProps) => {
     ? activitiesData
     : defaultActivitiesData
 
-  const caloriesBurnedValue = dailyActivityData?.totalCaloriesBurned || 0
   const caloriesBurnedGoal = workoutGoalData?.caloriesBurnedGoal || 0
 
   const caloriesBurnedData = {
@@ -105,17 +111,17 @@ export const ActivityTab = ({ onOverlayLoading }: ActivityTabProps) => {
     }
   ]
 
-  // const dailyCaloriesBurnedGoal =
-  //   caloriesBurnedGoal > 0
-  //     ? (caloriesBurnedValue / caloriesBurnedGoal) * 100
-  //     : 0
+  const handleCompleteActivity = (activityId: string) => {
+    console.log(activityId)
+    updateActivityStatus(activityId)
+  }
 
   const handleViewWorkouts = () => {
     router.push("/workouts")
   }
 
-  const handleViewWorkout = (activityId: string) => {
-    router.push(`/workouts/${activityId}`)
+  const handleViewWorkout = (workoutId: string) => {
+    router.push(`/workouts/${workoutId}`)
   }
 
   return (
@@ -148,15 +154,12 @@ export const ActivityTab = ({ onOverlayLoading }: ActivityTabProps) => {
                 : "Duy trì năng lượng ổn định"
           }
           action={
-            <HStack className="items-center justify-between">
-              <Badge
-                label={goalTypeLabel || ""}
-                background={COLORS.primary}
-                color="#fff"
-              />
-            </HStack>
+            <Badge
+              label={goalTypeLabel || ""}
+              background={COLORS.primary}
+              color="#fff"
+            />
           }
-          className="mt-8"
         />
       )}
 
@@ -167,16 +170,20 @@ export const ActivityTab = ({ onOverlayLoading }: ActivityTabProps) => {
       />
 
       <VStack gap={12}>
-        {mergedActivitiesData.map((item, index) => (
+        {mergedActivitiesData.map((item) => (
           <ActivityCard
             key={item.activityId}
-            name={`Hoạt động ${index + 1}`}
+            name={item.name}
             durationMinutes={item.durationMinutes}
             caloriesBurned={item.caloriesBurned}
+            isCompleted={item.isCompleted}
             onPress={() =>
-              "isDefault" in item &&
-              !item.isDefault &&
-              handleViewWorkout(item.activityId)
+              "isDefault" in item ? null : handleViewWorkout(item.workoutId)
+            }
+            onCheckboxChange={() =>
+              "isDefault" in item
+                ? null
+                : handleCompleteActivity(item.activityId)
             }
           />
         ))}

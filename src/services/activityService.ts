@@ -1,7 +1,6 @@
 import monAPI from "@/lib/monAPI"
 
 import { ActivityType, CreateActivityType } from "@/schemas/activitySchema"
-import { DailyActivityType } from "@/schemas/dailyActivitySchema"
 
 export const getActivityById = async (
   activityId: string | undefined
@@ -28,7 +27,6 @@ export const createActivity = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.post("/activities", newData)
-
     const { success, message } = response.data
 
     if (!success) {
@@ -36,6 +34,25 @@ export const createActivity = async (
     }
 
     showModal(message)
+    console.log(message)
+    return message
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
+  }
+}
+
+export const updateActivityStatus = async (
+  activityId: string
+): Promise<string> => {
+  try {
+    const response = await monAPI.patch(`/activities/${activityId}/completed`)
+    const { success, message } = response.data
+
+    if (!success) {
+      throw { isCustomError: true, message: message }
+    }
+
     console.log(message)
     return message
   } catch (error: any) {
