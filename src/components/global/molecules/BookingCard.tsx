@@ -28,14 +28,15 @@ interface BookingCardProps {
   startTime: string
   endTime: string
   notes?: string
-  reviewed?: boolean
+  isReviewed?: boolean
+  comment?: string
   status: BookingStatusEnum
   cancellationReason?: string
   onPress?: () => void
-  onConfirmPress?: () => void
   onCompletePress?: () => void
   onCancelPress?: () => void
   onReviewPress?: () => void
+  onReportPress?: () => void
 }
 
 export const BookingCard = ({
@@ -45,15 +46,46 @@ export const BookingCard = ({
   startTime,
   endTime,
   notes,
-  reviewed,
+  isReviewed,
+  comment,
   status,
   cancellationReason,
   onPress,
-  onConfirmPress,
   onCompletePress,
   onCancelPress,
-  onReviewPress
+  onReviewPress,
+  onReportPress
 }: BookingCardProps) => {
+  // const today = new Date()
+  // const bookingDate = new Date(date)
+
+  // const isBookingEnded = () => {
+  //   if (
+  //     bookingDate.getDate() < today.getDate() ||
+  //     bookingDate.getMonth() < today.getMonth() ||
+  //     bookingDate.getFullYear() < today.getFullYear()
+  //   ) {
+  //     return true
+  //   }
+
+  //   if (
+  //     bookingDate.getDate() === today.getDate() &&
+  //     bookingDate.getMonth() === today.getMonth() &&
+  //     bookingDate.getFullYear() === today.getFullYear()
+  //   ) {
+  //     const [endHour, endMinute] = endTime.split(":").map(Number)
+  //     const currentHour = today.getHours()
+  //     const currentMinute = today.getMinutes()
+
+  //     return (
+  //       currentHour > endHour ||
+  //       (currentHour === endHour && currentMinute >= endMinute)
+  //     )
+  //   }
+
+  //   return false
+  // }
+
   const { label: bookingStatusLabel, color: bookingStatusColor } =
     getBookingStatusMeta(status)
 
@@ -78,9 +110,11 @@ export const BookingCard = ({
               numberOfLines={2}
               ellipsizeMode="tail"
             >
-              {status === BookingStatusEnum.Cancelled
-                ? `Lý do hủy: ${cancellationReason}`
-                : `Ghi chú: ${notes}`}
+              {status === BookingStatusEnum.Completed && isReviewed
+                ? `Phản hồi: ${comment}`
+                : status === BookingStatusEnum.Cancelled
+                  ? `Lý do hủy: ${cancellationReason}`
+                  : `Ghi chú: ${notes}`}
             </Text>
           )}
         </VStack>
@@ -103,7 +137,7 @@ export const BookingCard = ({
           </HStack>
         </HStack>
 
-        {variant === "member" && status === BookingStatusEnum.Pending && (
+        {variant === "member" && status === BookingStatusEnum.Booked && (
           <Button
             variant="danger"
             size="sm"
@@ -116,15 +150,21 @@ export const BookingCard = ({
 
         {variant === "member" &&
           status === BookingStatusEnum.Completed &&
-          !reviewed && (
-            <Button
-              variant="primary"
-              size="sm"
-              onPress={onReviewPress}
-              className="flex-1"
-            >
-              Phản hồi
-            </Button>
+          !isReviewed && (
+            <HStack gap={16}>
+              <Button
+                variant="danger"
+                size="sm"
+                onPress={onReportPress}
+                className="flex-1"
+              >
+                Báo cáo
+              </Button>
+
+              <Button size="sm" onPress={onReviewPress} className="flex-1">
+                Phản hồi
+              </Button>
+            </HStack>
           )}
 
         {/* {variant === "consultant" && status === BookingStatusEnum.Pending && (
@@ -144,7 +184,7 @@ export const BookingCard = ({
           </HStack>
         )} */}
 
-        {variant === "consultant" && status === BookingStatusEnum.Pending && (
+        {variant === "consultant" && status === BookingStatusEnum.Booked && (
           <Button
             variant="primary"
             size="sm"

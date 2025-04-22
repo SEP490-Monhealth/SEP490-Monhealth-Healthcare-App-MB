@@ -1,13 +1,20 @@
 import React, { useEffect, useMemo, useState } from "react"
 
-import { ActivityIndicator, Keyboard, View } from "react-native"
+import { ActivityIndicator, Keyboard, Text, View } from "react-native"
 import { FlatList } from "react-native"
 
 import { useRouter } from "expo-router"
 
-import { SearchNormal1 } from "iconsax-react-native"
+import { LampOn, SearchNormal1 } from "iconsax-react-native"
 
-import { Container, Content, Input } from "@/components/global/atoms"
+import {
+  CardHeader,
+  Container,
+  Content,
+  HStack,
+  Input,
+  VStack
+} from "@/components/global/atoms"
 import {
   CustomHeader,
   ErrorDisplay,
@@ -22,6 +29,8 @@ import { WorkoutTypes } from "@/components/local/workouts"
 import { COLORS } from "@/constants/color"
 import { CategoryTypeEnum } from "@/constants/enum/Category"
 
+import { useAuth } from "@/contexts/AuthContext"
+
 import { useGetCategoriesByType } from "@/hooks/useCategory"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useGetAllWorkouts } from "@/hooks/useWorkout"
@@ -32,6 +41,11 @@ import { LoadingScreen } from "../loading"
 
 function WorkoutsScreen() {
   const router = useRouter()
+
+  const { user } = useAuth()
+  const userSubscription = user?.subscription
+
+  console.log(userSubscription)
 
   const [workoutsData, setWorkoutsData] = useState<WorkoutType[]>([])
   const [page, setPage] = useState<number>(1)
@@ -51,7 +65,7 @@ function WorkoutsScreen() {
 
   const { data, isLoading, refetch } = useGetAllWorkouts(
     page,
-    limit,
+    userSubscription === "Gói Cơ Bản" ? 10 : limit,
     debouncedFilter === "Tất cả" ? "" : debouncedFilter,
     debouncedSearch,
     undefined,
@@ -64,9 +78,13 @@ function WorkoutsScreen() {
       setWorkoutsData((prev) =>
         page === 1 ? data.workouts : [...prev, ...data.workouts]
       )
-      setHasMore(page * limit < data.totalItems)
+      if (userSubscription === "Gói Cơ Bản") {
+        setHasMore(false)
+      } else {
+        setHasMore(page * limit < data.totalItems)
+      }
     }
-  }, [data, page])
+  }, [data, page, userSubscription])
 
   useEffect(() => {
     setPage(1)
@@ -79,7 +97,7 @@ function WorkoutsScreen() {
   }, [isLoading, isRefreshing])
 
   const loadMoreData = () => {
-    if (!hasMore || isLoading) return
+    if (!hasMore || isLoading || userSubscription === "Gói Cơ Bản") return
     setPage((prev) => prev + 1)
   }
 
@@ -156,7 +174,24 @@ function WorkoutsScreen() {
             />
           )}
           ListFooterComponent={
-            hasMore ? (
+            userSubscription === "Gói Cơ Bản" ? (
+              <ListFooter>
+                <VStack center>
+                  <HStack center gap={6}>
+                    <LampOn
+                      variant="Bold"
+                      size={20}
+                      color={COLORS.PRIMARY.lemon}
+                    />
+                    <CardHeader label="Mở khóa bộ bài tập đầy đủ" />
+                  </HStack>
+
+                  <Text className="text-center font-tregular text-sm text-secondary">
+                    Nâng cấp để xem thêm nhiều bộ bài tập hơn!
+                  </Text>
+                </VStack>
+              </ListFooter>
+            ) : hasMore ? (
               <ListFooter>
                 <ActivityIndicator color={COLORS.primary} />
               </ListFooter>

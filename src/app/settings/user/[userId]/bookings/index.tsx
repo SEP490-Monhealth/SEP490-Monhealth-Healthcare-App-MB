@@ -1,67 +1,83 @@
-import React, { useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 
-import { RefreshControl, ScrollView } from "react-native"
+import { ActivityIndicator, FlatList, Keyboard, View } from "react-native"
 
 import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
 
+import { Container, Content, Modal } from "@/components/global/atoms"
 import {
-  Container,
-  Content,
-  Modal,
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-  VStack
-} from "@/components/global/atoms"
-import { BookingCard, ErrorDisplay } from "@/components/global/molecules"
-import { Header } from "@/components/global/organisms"
+  BookingCard,
+  ErrorDisplay,
+  ListFooter,
+  ListHeader
+} from "@/components/global/molecules"
+import { Header, Section } from "@/components/global/organisms"
 
-import { BookingStatusEnum } from "@/constants/enum/Booking"
+import { COLORS } from "@/constants/color"
 
-import {
-  useGetBookingsByUserId,
-  useUpdateBookingStatus
-} from "@/hooks/useBooking"
+import { useGetBookingsByUserId } from "@/hooks/useBooking"
+
+import { BookingType } from "@/schemas/bookingSchema"
 
 function BookingsUserScreen() {
   const router = useRouter()
-  const { userId, tab } = useLocalSearchParams<{
-    userId: string
-    tab: string
-  }>()
+  const { userId } = useLocalSearchParams<{ userId: string }>()
 
-  const { mutate: updateBookingStatus } = useUpdateBookingStatus()
+  const [bookingsData, setBookingsData] = useState<BookingType[]>([])
+  const [page, setPage] = useState<number>(1)
+  const [hasMore, setHasMore] = useState<boolean>(true)
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
 
-  const {
-    data: bookingsData,
-    isLoading,
-    refetch
-  } = useGetBookingsByUserId(userId)
-
-  const [activeTab, setActiveTab] = useState(tab || "pending")
-  const [modalType, setModalType] = useState<"cancel" | "complete">("cancel")
+  const [modalType, setModalType] = useState<"cancel" | "report">("cancel")
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
   const [selectedBooking, setSelectedBooking] = useState<string | null>(null)
-  const [refreshing, setRefreshing] = useState<boolean>(false)
 
-  const filteredBookingsData = bookingsData?.filter((booking) => {
-    if (activeTab === "pending") {
-      return booking.status === BookingStatusEnum.Pending
-    }
-    if (activeTab === "ongoing") {
-      return booking.status === BookingStatusEnum.Confirmed
-    }
-    return (
-      booking.status === BookingStatusEnum.Completed ||
-      booking.status === BookingStatusEnum.Cancelled
-    )
-  })
+  const limit = 10
 
-  const handleTabChange = (tab: string) => {
-    setActiveTab(tab)
+  const { data, isLoading, refetch } = useGetBookingsByUserId(
+    userId,
+    page,
+    limit
+  )
+
+  useEffect(() => {
+    if (data?.bookings) {
+      setBookingsData((prev) =>
+        page === 1 ? data.bookings : [...prev, ...data.bookings]
+      )
+      setHasMore(page * limit < data.totalItems)
+    }
+  }, [data, page])
+
+  useEffect(() => {
+    if (!isLoading && isRefreshing) {
+      setIsRefreshing(false)
+    }
+  }, [isLoading, isRefreshing])
+
+  const loadMoreData = () => {
+    if (!hasMore || isLoading) return
+    setPage((prev) => prev + 1)
+  }
+
+  const onEndReached = () => {
+    if (isLoading || !hasMore) return
+    Keyboard.dismiss()
+    loadMoreData()
+  }
+
+  const onRefresh = () => {
+    setIsRefreshing(true)
+    Keyboard.dismiss()
+    setPage(1)
+    refetch()
+    setIsRefreshing(false)
+  }
+
+  const handleViewBooking = (bookingId: string) => {
+    router.push(`/bookings/${bookingId}`)
   }
 
   const handleCancel = (bookingId: string) => {
@@ -70,36 +86,45 @@ function BookingsUserScreen() {
     setIsModalVisible(true)
   }
 
-  const handleComplete = (bookingId: string) => {
-    setSelectedBooking(bookingId)
-    setModalType("complete")
-    setIsModalVisible(true)
-  }
-
-  const handleConfirmAction = () => {
-    if (selectedBooking) {
-      setIsModalVisible(false)
-
-      if (modalType === "cancel") {
-        router.push(`/bookings/${selectedBooking}/cancel`)
-      } else if (modalType === "complete") {
-        updateBookingStatus({ bookingId: selectedBooking })
-      }
-    }
-    setSelectedBooking(null)
-  }
-
-  const onRefresh = async () => {
-    setRefreshing(true)
-    await refetch()
-    setRefreshing(false)
-  }
-
   const handleReview = (bookingId: string) => {
     router.push(`/bookings/${bookingId}/review`)
   }
 
-  if (!bookingsData || isLoading) {
+  const handleReport = (bookingId: string) => {
+    setSelectedBooking(bookingId)
+    setModalType("report")
+    setIsModalVisible(true)
+  }
+
+  const handleViewReport = (bookingId: string) => {
+    router.push(`/bookings/${bookingId}/report`)
+  }
+
+  const handleConfirmAction = () => {
+    if (!selectedBooking) return
+
+    if (modalType === "cancel") {
+      setIsModalVisible(false)
+      router.push(`/bookings/${selectedBooking}/cancel`)
+    } else if (modalType === "report") {
+      setIsModalVisible(false)
+      router.push(`/bookings/${selectedBooking}/report/create`)
+    }
+
+    setSelectedBooking(null)
+  }
+
+  const FlatListHeader = useMemo(() => {
+    return (
+      <ListHeader>
+        {bookingsData.length > 0 && (
+          <Section label="Danh sách lịch hẹn" margin={false} className="pt-2" />
+        )}
+      </ListHeader>
+    )
+  }, [bookingsData.length])
+
+  if (bookingsData.length === 0 && isLoading) {
     return <LoadingScreen />
   }
 
@@ -109,73 +134,72 @@ function BookingsUserScreen() {
         <Header back label="Lịch hẹn" />
 
         <Content className="mt-2">
-          <ScrollView
-            className="flex-1"
-            showsHorizontalScrollIndicator={false}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          <FlatList
+            data={bookingsData || []}
+            keyExtractor={(item, index) => `${item.bookingId}-${index}`}
+            onRefresh={onRefresh}
+            refreshing={isRefreshing}
+            showsVerticalScrollIndicator={false}
+            stickyHeaderIndices={[0]}
+            initialNumToRender={10}
+            maxToRenderPerBatch={5}
+            windowSize={5}
+            onEndReached={onEndReached}
+            onEndReachedThreshold={0.5}
+            ListHeaderComponent={FlatListHeader}
+            renderItem={({ item }) => (
+              <BookingCard
+                key={item.bookingId}
+                variant="member"
+                name={item.consultant.fullName}
+                date={item.date}
+                startTime={item.startTime}
+                endTime={item.endTime}
+                notes={item.notes}
+                isReviewed={item.isReviewed}
+                comment={item.review.comment}
+                status={item.status}
+                cancellationReason={item.cancellationReason}
+                onPress={() => handleViewBooking(item.bookingId)}
+                onCancelPress={() => handleCancel(item.bookingId)}
+                onReviewPress={() => handleReview(item.bookingId)}
+                onReportPress={() =>
+                  item.isReported
+                    ? handleViewReport(item.bookingId)
+                    : handleReport(item.bookingId)
+                }
+              />
+            )}
+            ListFooterComponent={
+              hasMore ? (
+                <ListFooter>
+                  <ActivityIndicator color={COLORS.primary} />
+                </ListFooter>
+              ) : (
+                <ListFooter />
+              )
             }
-          >
-            <Tabs defaultValue={activeTab} contentMarginTop={12}>
-              <TabsList center>
-                <TabsTrigger value="pending" onChange={handleTabChange}>
-                  Chờ xác nhận
-                </TabsTrigger>
-
-                <TabsTrigger value="ongoing" onChange={handleTabChange}>
-                  Đang diễn ra
-                </TabsTrigger>
-
-                <TabsTrigger value="history" onChange={handleTabChange}>
-                  Lịch sử
-                </TabsTrigger>
-              </TabsList>
-
-              <TabsContent value={activeTab}>
-                {filteredBookingsData && filteredBookingsData.length > 0 ? (
-                  <VStack gap={12}>
-                    {filteredBookingsData?.map((booking) => (
-                      <BookingCard
-                        key={booking.bookingId}
-                        variant="member"
-                        name={booking.consultant.fullName}
-                        date={booking.date}
-                        startTime={booking.startTime}
-                        endTime={booking.endTime}
-                        notes={booking.notes}
-                        reviewed={booking.isReviewed}
-                        status={booking.status}
-                        cancellationReason={booking.cancellationReason}
-                        onCancelPress={() => handleCancel(booking.bookingId)}
-                        onCompletePress={() =>
-                          handleComplete(booking.bookingId)
-                        }
-                        onReviewPress={() => handleReview(booking.bookingId)}
-                      />
-                    ))}
-                  </VStack>
-                ) : (
-                  <ErrorDisplay
-                    imageSource={require("../../../../../../public/images/monhealth-no-data-image.png")}
-                    title="Không có lịch hẹn"
-                    description="Không tìm thấy có lịch hẹn nào ở đây!"
-                    marginTop={24}
-                  />
-                )}
-              </TabsContent>
-            </Tabs>
-          </ScrollView>
+            ListEmptyComponent={
+              <ErrorDisplay
+                imageSource={require("../../../../../../public/images/monhealth-no-data-image.png")}
+                title="Không có dữ liệu"
+                description="Không tìm thấy có lịch hẹn nào ở đây!"
+                marginTop={24}
+              />
+            }
+            ItemSeparatorComponent={() => <View className="h-3" />}
+          />
         </Content>
       </Container>
 
       <Modal
         isVisible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
-        title={modalType === "cancel" ? "Hủy lịch hẹn" : "Hoàn thành lịch hẹn"}
+        title={modalType === "cancel" ? "Hủy lịch hẹn" : "Báo cáo lịch hẹn"}
         description={
           modalType === "cancel"
             ? "Bạn có chắc chắn muốn hủy lịch hẹn này không?"
-            : "Bạn có chắc chắn muốn đánh dấu lịch hẹn này là hoàn thành không?"
+            : "Bạn có chắc chắn muốn báo cáo lịch hẹn không?"
         }
         confirmText="Đồng ý"
         cancelText="Hủy"

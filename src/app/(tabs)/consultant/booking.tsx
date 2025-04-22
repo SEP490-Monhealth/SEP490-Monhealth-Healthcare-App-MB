@@ -23,10 +23,7 @@ import { BookingStatusEnum } from "@/constants/enum/Booking"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import {
-  useGetBookingsByConsultantId,
-  useUpdateBookingStatus
-} from "@/hooks/useBooking"
+import { useGetBookingsByConsultantId } from "@/hooks/useBooking"
 
 function BookingsScreen() {
   const router = useRouter()
@@ -35,23 +32,20 @@ function BookingsScreen() {
   const { user } = useAuth()
   const consultantId = user?.consultantId
 
-  const { mutate: updateBookingStatus } = useUpdateBookingStatus()
-
   const {
     data: bookingsData,
     isLoading,
     refetch
   } = useGetBookingsByConsultantId(consultantId)
 
-  const [activeTab, setActiveTab] = useState(tab || "pending")
-  const [modalType, setModalType] = useState<"cancel" | "confirm">("cancel")
+  const [activeTab, setActiveTab] = useState(tab || "booked")
+  const [modalType, setModalType] = useState<"cancel" | "complete">("cancel")
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
   const [selectedBooking, setSelectedBooking] = useState<string | null>(null)
   const [refreshing, setRefreshing] = useState<boolean>(false)
 
   const tabStatusMap: Record<string, BookingStatusEnum> = {
-    pending: BookingStatusEnum.Pending,
-    confirmed: BookingStatusEnum.Confirmed,
+    booked: BookingStatusEnum.Booked,
     completed: BookingStatusEnum.Completed,
     cancelled: BookingStatusEnum.Cancelled
   }
@@ -70,9 +64,9 @@ function BookingsScreen() {
     setIsModalVisible(true)
   }
 
-  const handleConfirm = (bookingId: string) => {
+  const handleComplete = (bookingId: string) => {
     setSelectedBooking(bookingId)
-    setModalType("confirm")
+    setModalType("complete")
     setIsModalVisible(true)
   }
 
@@ -82,8 +76,8 @@ function BookingsScreen() {
 
       if (modalType === "cancel") {
         router.push(`/bookings/${selectedBooking}/cancel`)
-      } else if (modalType === "confirm") {
-        updateBookingStatus({ bookingId: selectedBooking })
+      } else if (modalType === "complete") {
+        router.push(`/bookings/${selectedBooking}/complete`)
       }
     }
     setSelectedBooking(null)
@@ -95,6 +89,10 @@ function BookingsScreen() {
     setRefreshing(false)
   }
 
+  const handleViewBooking = (bookingId: string) => {
+    router.push(`/bookings/${bookingId}`)
+  }
+
   if (!bookingsData || isLoading) {
     return <LoadingScreen />
   }
@@ -104,22 +102,19 @@ function BookingsScreen() {
       <Container>
         <Header label="Lịch hẹn" />
 
-        <Content className="mt-2">
+        <Content>
           <ScrollView
             className="flex-1"
+            showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
           >
             <Tabs defaultValue={activeTab} contentMarginTop={12}>
-              <TabsList scrollable>
-                <TabsTrigger value="pending" onChange={handleTabChange}>
-                  Chờ xác nhận
-                </TabsTrigger>
-
-                <TabsTrigger value="confirmed" onChange={handleTabChange}>
-                  Đã xác nhận
+              <TabsList center>
+                <TabsTrigger value="booked" onChange={handleTabChange}>
+                  Đã đặt
                 </TabsTrigger>
 
                 <TabsTrigger value="completed" onChange={handleTabChange}>
@@ -147,10 +142,15 @@ function BookingsScreen() {
                         startTime={booking.startTime}
                         endTime={booking.endTime}
                         notes={booking.notes}
+                        isReviewed={booking.isReviewed}
+                        comment={booking.reviews?.comment}
                         status={booking.status}
                         cancellationReason={booking.cancellationReason}
+                        onPress={() => handleViewBooking(booking.bookingId)}
                         onCancelPress={() => handleCancel(booking.bookingId)}
-                        onConfirmPress={() => handleConfirm(booking.bookingId)}
+                        onCompletePress={() =>
+                          handleComplete(booking.bookingId)
+                        }
                       />
                     ))}
                   </VStack>
@@ -171,11 +171,11 @@ function BookingsScreen() {
       <Modal
         isVisible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
-        title={modalType === "cancel" ? "Hủy lịch hẹn" : "Xác nhận lịch hẹn"}
+        title={modalType === "cancel" ? "Hủy lịch hẹn" : "Hoàn thành lịch hẹn"}
         description={
           modalType === "cancel"
             ? "Bạn có chắc chắn muốn hủy lịch hẹn này không?"
-            : "Bạn có chắc chắn muốn xác nhận lịch hẹn này không?"
+            : "Bạn có chắc chắn muốn hoàn thành lịch hẹn này không?"
         }
         confirmText="Đồng ý"
         cancelText="Hủy"
