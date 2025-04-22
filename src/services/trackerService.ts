@@ -44,7 +44,7 @@ export const getWeeklyMealByUserId = async (
 ): Promise<WeeklyMealType[]> => {
   try {
     const response = await monAPI.get(
-      `/trackers/users/${userId}/meals/weekly`,
+      `/trackers/user/${userId}/meals/weekly`,
       { params: { date } }
     )
 

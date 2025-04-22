@@ -56,11 +56,7 @@ export const ActivityCard = ({
           </VStack>
         </HStack>
 
-        <Checkbox
-          size={18}
-          checked={isCompleted}
-          onCheckChange={onCheckboxChange}
-        />
+        <Checkbox checked={isCompleted} onCheckChange={onCheckboxChange} />
       </HStack>
     </Card>
   )
