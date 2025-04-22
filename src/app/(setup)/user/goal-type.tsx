@@ -1,6 +1,11 @@
 import React, { useEffect } from "react"
 
-import { Control, FieldValues, useController } from "react-hook-form"
+import {
+  Control,
+  FieldValues,
+  UseFormSetValue,
+  useController
+} from "react-hook-form"
 
 import { Chip, VStack } from "@/components/global/atoms"
 
@@ -14,10 +19,11 @@ import { calculateBMI } from "@/utils/calculations"
 
 interface SetupGoalTypeProps {
   control: Control<FieldValues>
+  setValue: UseFormSetValue<FieldValues>
 }
 
-function SetupGoalType({ control }: SetupGoalTypeProps) {
-  const { weight, height } = useSetupStore()
+function SetupGoalType({ control, setValue }: SetupGoalTypeProps) {
+  const { weight, height, goalType } = useSetupStore()
 
   const { field } = useController({
     name: "goalType",
@@ -26,20 +32,17 @@ function SetupGoalType({ control }: SetupGoalTypeProps) {
 
   useEffect(() => {
     if (weight !== undefined && height !== undefined) {
-      const bmi = calculateBMI(weight, height)
-
-      let suggestedGoal: GoalTypeEnum
-
-      if (bmi < 18.5) {
-        suggestedGoal = GoalTypeEnum.WeightGain
-      } else if (bmi >= 18.5 && bmi < 24.9) {
-        suggestedGoal = GoalTypeEnum.Maintenance
+      if (goalType === null) {
+        const bmi = calculateBMI(weight, height)
+        if (bmi < 18.5) {
+          field.onChange(GoalTypeEnum.WeightGain)
+        } else if (bmi >= 18.5 && bmi <= 24.9) {
+          field.onChange(GoalTypeEnum.Maintenance)
+        } else {
+          field.onChange(GoalTypeEnum.WeightLoss)
+        }
       } else {
-        suggestedGoal = GoalTypeEnum.WeightLoss
-      }
-
-      if (field.value !== suggestedGoal) {
-        field.onChange(suggestedGoal)
+        setValue("goalType", goalType)
       }
     }
   }, [weight, height])

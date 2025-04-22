@@ -125,20 +125,20 @@ function SetupUserScreen() {
       schema: activityLevelSetupSchema
     },
     {
-      title: "Cân nặng mục tiêu",
-      description:
-        "Dựa trên chiều cao và giới tính của bạn, hệ thống gợi ý cân nặng phù hợp",
-      component: SetupWeightGoal,
-      fields: ["weightGoal"],
-      schema: weightGoalSetupSchema
-    },
-    {
       title: "Mục tiêu",
       description:
         "Bạn muốn giảm cân, duy trì cân nặng hiện tại, hay tăng cân?",
       component: SetupGoalType,
       fields: ["goalType"],
       schema: goalTypeSetupSchema
+    },
+    {
+      title: "Cân nặng mục tiêu",
+      description:
+        "Dựa trên chiều cao và giới tính của bạn, hệ thống gợi ý cân nặng phù hợp",
+      component: SetupWeightGoal,
+      fields: ["weightGoal"],
+      schema: weightGoalSetupSchema
     }
   ]
 
@@ -193,7 +193,29 @@ function SetupUserScreen() {
     defaultValues: formData
   })
 
-  const onSubmitStep = async (data: Record<string, any>) => {
+  const onSubmitStep = async (data: Record<string, any>, setError: any) => {
+    const { weightGoal } = data
+
+    const { weight } = useSetupStore.getState()
+
+    if (weight !== null) {
+      if (goalType === GoalTypeEnum.WeightLoss && weightGoal >= weight) {
+        setError("weightGoal", {
+          type: "manual",
+          message: "Mục tiêu giảm cân phải nhỏ hơn cân nặng hiện tại"
+        })
+        return
+      }
+
+      if (goalType === GoalTypeEnum.WeightGain && weightGoal <= weight) {
+        setError("weightGoal", {
+          type: "manual",
+          message: "Mục tiêu tăng cân phải lớn hơn cân nặng hiện tại"
+        })
+        return
+      }
+    }
+
     Object.keys(data).forEach((key) => {
       updateField(key, data[key])
     })
@@ -311,7 +333,7 @@ function SetupUserScreen() {
       <Button
         loading={isLoading}
         size="lg"
-        onPress={handleSubmit((data) => onSubmitStep(data))}
+        onPress={handleSubmit((data) => onSubmitStep(data, setError))}
         className="absolute bottom-4 left-6 right-6"
       >
         {currentStep === setupSteps.length ? "Hoàn thành" : "Tiếp tục"}

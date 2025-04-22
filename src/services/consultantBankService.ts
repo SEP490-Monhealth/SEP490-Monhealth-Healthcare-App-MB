@@ -71,13 +71,13 @@ export const createConsultantBank = async (
 
 export const updateConsultantBank = async (
   consultantBankId: string | undefined,
-  consultantBankData: UpdateConsultantBankType,
+  updatedData: UpdateConsultantBankType,
   showModal: (message: string) => void
 ): Promise<string> => {
   try {
     const response = await monAPI.put(
       `/consultant-banks/${consultantBankId}`,
-      consultantBankData
+      updatedData
     )
 
     const { success, message } = response.data

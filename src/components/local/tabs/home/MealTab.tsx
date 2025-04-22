@@ -195,15 +195,12 @@ export const MealTab = ({ onOverlayLoading }: MealTabProps) => {
                 : "Duy trì năng lượng ổn định"
           }
           action={
-            <HStack className="items-center justify-between">
-              <Badge
-                label={goalTypeLabel || ""}
-                background={COLORS.primary}
-                color="#fff"
-              />
-            </HStack>
+            <Badge
+              label={goalTypeLabel || ""}
+              background={COLORS.primary}
+              color="#fff"
+            />
           }
-          className="mt-8"
         />
       )}
 

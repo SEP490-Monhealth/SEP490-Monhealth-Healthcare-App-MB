@@ -139,7 +139,7 @@ export const getYearlyBookingByConsultantId = async (
 ): Promise<YearlyBookingType[]> => {
   try {
     const response = await monAPI.get(
-      `/trackers//${consultantId}/bookings/yearly`,
+      `/trackers/consultant/${consultantId}/bookings/yearly`,
       { params: { date } }
     )
 

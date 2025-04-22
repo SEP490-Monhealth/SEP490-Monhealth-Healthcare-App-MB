@@ -12,7 +12,7 @@ export const BookingStatusSchemaEnum = z.nativeEnum(BookingStatusEnum)
 
 export const bookingStatusMap: Record<BookingStatusEnum, EnumMeta> = {
   [BookingStatusEnum.Pending]: {
-    label: "Chờ xác nhận",
+    label: "Đã đặt",
     color: "#ca8a04",
     icon: CalendarAdd
   },
