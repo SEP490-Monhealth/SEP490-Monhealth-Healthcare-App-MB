@@ -10,7 +10,7 @@ import { Card } from "../atoms"
 
 interface MeetingCardProps {
   meetingUrl?: string
-  onPress: () => void
+  onPress?: () => void
 }
 
 export const MeetingCard = ({ meetingUrl, onPress }: MeetingCardProps) => {
@@ -19,7 +19,11 @@ export const MeetingCard = ({ meetingUrl, onPress }: MeetingCardProps) => {
     : null
 
   return (
-    <Card onPress={onPress} className="flex-row items-center justify-between">
+    <TouchableOpacity
+      activeOpacity={1}
+      onPress={onPress}
+      className="flex-row items-center justify-between"
+    >
       <TouchableOpacity
         activeOpacity={1}
         onPress={onPress}
@@ -40,6 +44,6 @@ export const MeetingCard = ({ meetingUrl, onPress }: MeetingCardProps) => {
       </View>
 
       <ChevronRight size={20} color={COLORS.primary} />
-    </Card>
+    </TouchableOpacity>
   )
 }

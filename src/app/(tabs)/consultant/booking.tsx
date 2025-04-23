@@ -143,6 +143,7 @@ function BookingsScreen() {
                         endTime={booking.endTime}
                         notes={booking.notes}
                         isReviewed={booking.isReviewed}
+                        rating={booking.reviews?.rating}
                         comment={booking.reviews?.comment}
                         status={booking.status}
                         cancellationReason={booking.cancellationReason}

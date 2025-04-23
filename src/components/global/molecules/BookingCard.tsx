@@ -1,8 +1,9 @@
 import React from "react"
 
-import { Text, View } from "react-native"
+import { Linking, Text, View } from "react-native"
 
 import { Calendar2, Timer1 } from "iconsax-react-native"
+import { Star } from "lucide-react-native"
 
 import { COLORS } from "@/constants/color"
 import {
@@ -13,6 +14,7 @@ import {
 import { formatDate } from "@/utils/formatters"
 
 import { Badge, Button, Card, CardHeader, HStack, VStack } from "../atoms"
+import { MeetingCard } from "./MeetingCard"
 
 const formatTime = (time: string): string => {
   if (!time) return ""
@@ -27,9 +29,12 @@ interface BookingCardProps {
   date: string
   startTime: string
   endTime: string
+  meetingUrl?: string
   notes?: string
   isReviewed?: boolean
+  rating?: number
   comment?: string
+  isReported?: boolean
   status: BookingStatusEnum
   cancellationReason?: string
   onPress?: () => void
@@ -45,9 +50,12 @@ export const BookingCard = ({
   date,
   startTime,
   endTime,
+  meetingUrl,
   notes,
   isReviewed,
+  rating,
   comment,
+  isReported,
   status,
   cancellationReason,
   onPress,
@@ -89,6 +97,12 @@ export const BookingCard = ({
   const { label: bookingStatusLabel, color: bookingStatusColor } =
     getBookingStatusMeta(status)
 
+  const handleViewMeetingUrl = () => {
+    if (meetingUrl) {
+      Linking.openURL(meetingUrl)
+    }
+  }
+
   return (
     <Card onPress={onPress}>
       <VStack gap={12}>
@@ -97,26 +111,20 @@ export const BookingCard = ({
             <CardHeader label={name} />
 
             <Badge
-              label={bookingStatusLabel}
-              background={bookingStatusColor}
+              label={!isReported ? bookingStatusLabel : "Đã báo cáo"}
+              background={!isReported ? bookingStatusColor : COLORS.destructive}
               color="#fff"
               rounded
             />
           </HStack>
 
-          {variant !== "default" && (
-            <Text
-              className="mt-1 font-tmedium text-sm text-accent"
-              numberOfLines={2}
-              ellipsizeMode="tail"
-            >
-              {status === BookingStatusEnum.Completed && isReviewed
-                ? `Phản hồi: ${comment}`
-                : status === BookingStatusEnum.Cancelled
-                  ? `Lý do hủy: ${cancellationReason}`
-                  : `Ghi chú: ${notes}`}
-            </Text>
-          )}
+          <Text
+            className="mt-1 font-tmedium text-sm text-accent"
+            numberOfLines={2}
+            ellipsizeMode="tail"
+          >
+            Ghi chú: {notes}
+          </Text>
         </VStack>
 
         {variant !== "default" && <View className="border border-border" />}
@@ -136,6 +144,45 @@ export const BookingCard = ({
             </Text>
           </HStack>
         </HStack>
+
+        {meetingUrl && (
+          <MeetingCard meetingUrl={meetingUrl} onPress={handleViewMeetingUrl} />
+        )}
+
+        {cancellationReason && (
+          <HStack center gap={6}>
+            <Text className="font-tmedium text-sm text-accent">Lý do hủy:</Text>
+            <Text className="font-tmedium text-sm text-accent">
+              {cancellationReason}
+            </Text>
+          </HStack>
+        )}
+
+        {isReviewed && rating && comment && (
+          <View className="flex-1 gap-2">
+            <HStack center>
+              {Array.from({ length: 5 })
+                .map((_, index) => {
+                  const starValue = index + 1
+
+                  if (rating >= starValue) {
+                    return (
+                      <Star
+                        key={index}
+                        size={14}
+                        fill={COLORS.PRIMARY.lemon}
+                        color={COLORS.PRIMARY.lemon}
+                      />
+                    )
+                  }
+                  return null
+                })
+                .filter(Boolean)}
+            </HStack>
+
+            <Text className="font-tmedium text-sm text-accent">{comment}</Text>
+          </View>
+        )}
 
         {variant === "member" && status === BookingStatusEnum.Booked && (
           <Button

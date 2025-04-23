@@ -156,10 +156,12 @@ function BookingsUserScreen() {
                 startTime={item.startTime}
                 endTime={item.endTime}
                 notes={item.notes}
-                isReviewed={item.isReviewed}
-                comment={item.review.comment}
-                status={item.status}
                 cancellationReason={item.cancellationReason}
+                isReviewed={item.isReviewed}
+                rating={item.review.rating}
+                comment={item.review.comment}
+                isReported={item.isReported}
+                status={item.status}
                 onPress={() => handleViewBooking(item.bookingId)}
                 onCancelPress={() => handleCancel(item.bookingId)}
                 onReviewPress={() => handleReview(item.bookingId)}

@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { Linking, Text, View } from "react-native"
+import { Text, View } from "react-native"
 
 import { useLocalSearchParams, useRouter } from "expo-router"
 
@@ -14,24 +14,18 @@ import {
   ScrollArea,
   VStack
 } from "@/components/global/atoms"
-import {
-  BookingCard,
-  ErrorDisplay,
-  MeetingCard
-} from "@/components/global/molecules"
+import { BookingCard, ErrorDisplay } from "@/components/global/molecules"
 import { BodyIndex } from "@/components/global/molecules/BodyIndex"
 import { MetricItem } from "@/components/global/molecules/MetricItem"
 import { Header, Section } from "@/components/global/organisms"
 
+import { BookingStatusEnum } from "@/constants/enum/Booking"
 import { getGenderMeta } from "@/constants/enum/Gender"
 import { getGoalTypeMeta } from "@/constants/enum/Goal"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import {
-  useGetBookingsByUserIdAndConsultantId,
-  useUpdateBookingStatus
-} from "@/hooks/useBooking"
+import { useGetBookingsByUserIdAndConsultantId } from "@/hooks/useBooking"
 import { useGetChatById } from "@/hooks/useChat"
 import { useGetGoalsByUserId } from "@/hooks/useGoal"
 import { useGetMetricsByUserId } from "@/hooks/useMetric"
@@ -52,8 +46,6 @@ const ChatInformationScreen = () => {
 
   const meetingUrl = "https://meet.google.com/phm-iunw-nij"
 
-  const { mutate: updateBookingStatus } = useUpdateBookingStatus()
-
   const { data: chatData } = useGetChatById(chatId)
   const { data: bookingsData } = useGetBookingsByUserIdAndConsultantId(
     chatData?.userId,
@@ -64,19 +56,9 @@ const ChatInformationScreen = () => {
 
   // console.log(JSON.stringify(bookingsData, null, 2))
 
-  const handleViewMeetingUrl = () => {
-    Linking.openURL(meetingUrl)
-  }
-
   const handleCancel = (bookingId: string) => {
     setSelectedBooking(bookingId)
     setModalType("cancel")
-    setIsModalVisible(true)
-  }
-
-  const handleConfirm = (bookingId: string) => {
-    setSelectedBooking(bookingId)
-    setModalType("confirm")
     setIsModalVisible(true)
   }
 
@@ -86,8 +68,6 @@ const ChatInformationScreen = () => {
 
       if (modalType === "cancel") {
         router.push(`/bookings/${selectedBooking}/cancel`)
-      } else if (modalType === "confirm") {
-        updateBookingStatus({ bookingId: selectedBooking })
       }
     }
     setSelectedBooking(null)
@@ -124,16 +104,16 @@ const ChatInformationScreen = () => {
         <Content className="mt-2">
           <ScrollArea>
             <View className="pb-12">
-              <Section label="Link phòng họp" margin={false} />
+              {/* <Section label="Link phòng họp" margin={false} />
 
               <MeetingCard
                 meetingUrl={meetingUrl}
                 onPress={handleViewMeetingUrl}
-              />
+              /> */}
 
               {userId !== chatData?.userId && (
                 <>
-                  <Section label="Thông tin người dùng" />
+                  <Section label="Thông tin người dùng" margin={false} />
 
                   <Card>
                     <BodyIndex
@@ -157,7 +137,10 @@ const ChatInformationScreen = () => {
                 </>
               )}
 
-              <Section label="Lịch sử đặt lịch" />
+              <Section
+                label="Lịch sử đặt lịch"
+                margin={userId !== chatData?.userId ? true : false}
+              />
 
               {bookingsData && bookingsData.length > 0 ? (
                 <VStack gap={12}>
@@ -175,11 +158,15 @@ const ChatInformationScreen = () => {
                       date={booking.date}
                       startTime={booking.startTime}
                       endTime={booking.endTime}
+                      meetingUrl={
+                        booking.status === BookingStatusEnum.Booked
+                          ? meetingUrl
+                          : ""
+                      }
                       notes={booking.notes}
                       status={booking.status}
                       cancellationReason={booking.cancellationReason}
                       onCancelPress={() => handleCancel(booking.bookingId)}
-                      onConfirmPress={() => handleConfirm(booking.bookingId)}
                     />
                   ))}
                 </VStack>
