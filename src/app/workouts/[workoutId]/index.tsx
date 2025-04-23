@@ -105,9 +105,9 @@ function WorkoutDetailsScreen() {
                   <Section
                     label="Khởi động"
                     description={`${toFixed(exercisesData.warmupDuration)} phút / ${warmupRounds} vòng`}
-                    action={
-                      <Toggle value={isWarmup} onValueChange={setIsWarmup} />
-                    }
+                    // action={
+                    //   <Toggle value={isWarmup} onValueChange={setIsWarmup} />
+                    // }
                   />
                 )}
 

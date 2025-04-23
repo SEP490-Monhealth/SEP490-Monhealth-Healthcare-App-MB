@@ -85,10 +85,7 @@ function BookingsScreen() {
 
       await createBooking(data, {
         onSuccess: () => {
-          router.replace({
-            pathname: `/settings/user/${userId}/bookings`,
-            params: { tab: "pending" }
-          })
+          router.replace(`/settings/user/${userId}/bookings`)
         }
       })
     } catch (error) {
@@ -179,6 +176,7 @@ function BookingsScreen() {
 
               <Button
                 loading={isLoading}
+                disabled={isLoading}
                 onPress={handleOpenModal}
                 className="mt-8"
               >

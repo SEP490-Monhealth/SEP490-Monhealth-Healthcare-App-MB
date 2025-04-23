@@ -87,7 +87,8 @@ function NotificationsScreen() {
     notificationId: string,
     actionUrl: string | undefined
   ) => {
-    // markAsRead({ notificationId })
+    // console.log(notificationId)
+    markAsRead({ notificationId })
     // router.push(actionUrl)
   }
 

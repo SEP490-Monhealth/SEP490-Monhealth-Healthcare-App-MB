@@ -65,8 +65,6 @@ function SchedulesScreen() {
     scheduleType
   )
 
-  // console.log(JSON.stringify(schedulesData, null, 2))
-
   const handleScheduleTypeChange = (value: boolean) => {
     const newType = value
       ? ScheduleTypeEnum.Recurring
@@ -111,13 +109,42 @@ function SchedulesScreen() {
     return `${hours}:${minutes}:00`
   }
 
-  const handleOpenTimeSheet = (scheduleId: string | null, day: number) => {
+  const handleOpenTimeSheet = (scheduleId: string | null) => {
     setCurrentScheduleId(scheduleId || "")
     SheetRef.current?.scrollTo(-sheetHeight)
   }
 
+  const timeToMinutes = (timeString: string): number => {
+    const [hours, minutes] = timeString.split(":").map(Number)
+    return hours * 60 + minutes
+  }
+
+  const checkTimeSlotOverlap = (
+    newStartTime: string,
+    newEndTime: string,
+    existingTimeSlots: { startTime: string; endTime: string }[]
+  ): boolean => {
+    const newStart = timeToMinutes(newStartTime.substring(0, 5))
+    const newEnd = timeToMinutes(newEndTime.substring(0, 5))
+
+    for (const slot of existingTimeSlots) {
+      const existingStart = timeToMinutes(slot.startTime.substring(0, 5))
+      const existingEnd = timeToMinutes(slot.endTime.substring(0, 5))
+
+      if (
+        (newStart >= existingStart && newStart < existingEnd) ||
+        (newEnd > existingStart && newEnd <= existingEnd) ||
+        (newStart <= existingStart && newEnd >= existingEnd)
+      ) {
+        return true
+      }
+    }
+    return false
+  }
+
   const handleConfirmTime = async () => {
     setErrorMessage("")
+
     if (duration <= 0) {
       setErrorMessage(
         "Thời lượng không hợp lệ, vui lòng nhập số phút lớn hơn 0!"
@@ -125,16 +152,46 @@ function SchedulesScreen() {
       return
     }
 
+    if (duration < 45) {
+      setErrorMessage("Thời lượng tối thiểu phải là 45 phút")
+      return
+    }
+
+    if (duration > 120) {
+      setErrorMessage("Thời lượng tối đa phải là 120 phút")
+      return
+    }
+
     const startTime = selectedTime
     const endTime = new Date(selectedTime.getTime() + duration * 60 * 1000)
 
-    const finalData = {
-      scheduleId: currentScheduleId,
-      startTime: formatTime(startTime),
-      endTime: formatTime(endTime)
+    const formattedStartTime = formatTime(startTime)
+    const formattedEndTime = formatTime(endTime)
+
+    const currentSchedule = schedulesData?.find(
+      (schedule) => schedule.scheduleId === currentScheduleId
+    )
+
+    if (currentSchedule) {
+      const hasOverlap = checkTimeSlotOverlap(
+        formattedStartTime,
+        formattedEndTime,
+        currentSchedule.timeSlots
+      )
+
+      if (hasOverlap) {
+        setErrorMessage(
+          "Khung giờ này đã trùng hoặc xen kẽ với khung giờ hiện có!"
+        )
+        return
+      }
     }
 
-    // console.log(JSON.stringify(finalData, null, 2))
+    const finalData = {
+      scheduleId: currentScheduleId,
+      startTime: formattedStartTime,
+      endTime: formattedEndTime
+    }
 
     await createTimeSlot(finalData, {
       onSuccess: () => {

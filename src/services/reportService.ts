@@ -34,7 +34,7 @@ export const getReportsByUserId = async (
 
 export const getReportByBookingId = async (
   bookingId: string | undefined
-): Promise<ReportType> => {
+): Promise<ReportType[]> => {
   try {
     const response = await monAPI.get(`/reports/booking/${bookingId}`)
 
@@ -44,7 +44,7 @@ export const getReportByBookingId = async (
       throw { isCustomError: true, message: message }
     }
 
-    return data as ReportType
+    return data as ReportType[]
   } catch (error: any) {
     const errorMessage = error.response?.data?.message
     throw { isCustomError: true, message: errorMessage }

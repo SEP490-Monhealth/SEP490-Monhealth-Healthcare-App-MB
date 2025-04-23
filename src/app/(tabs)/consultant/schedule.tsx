@@ -94,7 +94,7 @@ function SchedulesScreen() {
             marginTop={24}
           />
 
-          <Button size="lg" onPress={handleCreateSchedule} className="mt-12">
+          <Button onPress={handleCreateSchedule} className="mt-12">
             Thiết lập lịch
           </Button>
         </Content>

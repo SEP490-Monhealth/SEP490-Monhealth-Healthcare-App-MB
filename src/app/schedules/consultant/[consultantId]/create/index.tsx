@@ -274,6 +274,16 @@ function ScheduleCreateScreen() {
         return
       }
 
+      if (duration < 45) {
+        setErrorMessage("Thời lượng tối thiểu phải là 45 phút")
+        return
+      }
+
+      if (duration > 120) {
+        setErrorMessage("Thời lượng tối đa phải là 120 phút")
+        return
+      }
+
       setErrorMessage("")
 
       const hours = selectedTime.getHours().toString().padStart(2, "0")
@@ -310,10 +320,10 @@ function ScheduleCreateScreen() {
         )
       })
 
-      // if (hasOverlap) {
-      //   setErrorMessage("Khung giờ này đã bị trùng lặp với khung giờ khác")
-      //   return
-      // }
+      if (hasOverlap) {
+        setErrorMessage("Khung giờ này đã bị trùng lặp với khung giờ khác")
+        return
+      }
 
       if (!daySlot?.timeSlots.includes(timeRange)) {
         toggleTimeSlot(selectedDay, timeRange)
@@ -352,7 +362,8 @@ function ScheduleCreateScreen() {
 
       await createSchedule(formattedData, {
         onSuccess: () => {
-          router.replace(`/schedules/consultant/${consultantId}`)
+          router.back()
+          // router.replace(`/schedules/consultant/${consultantId}`)
         }
       })
     } catch (error) {

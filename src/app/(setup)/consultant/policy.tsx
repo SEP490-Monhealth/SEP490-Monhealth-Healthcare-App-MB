@@ -96,7 +96,7 @@ function SetupPolicy() {
 
             <VStack>
               <Text className="font-tbold text-lg text-primary">
-                Hoàn thành đơn đặt lịch & Cung cấp bằng chứng
+                Hoàn thành lịch hẹn
               </Text>
               <Text className="text-justify font-tregular text-base text-secondary">
                 Sau mỗi buổi tư vấn, chuyên viên cần cung cấp đầy đủ{" "}

@@ -44,7 +44,7 @@ export const useGetReportByUserId = (
 export const useGetReportByBookingId = (bookingId: string | undefined) => {
   const handleError = useError()
 
-  return useQuery<ReportType, Error>({
+  return useQuery<ReportType[], Error>({
     queryKey: [MonQueryKey.Report.BookingReport, bookingId],
     queryFn: async () => {
       try {
