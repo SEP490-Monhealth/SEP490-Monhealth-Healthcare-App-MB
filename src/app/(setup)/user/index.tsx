@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import { useRouter } from "expo-router"
 
@@ -78,6 +78,35 @@ function SetupUserScreen() {
 
   const [currentStep, setCurrentStep] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    if (goalType !== null) {
+      let newRatio = caloriesRatio
+
+      if (
+        caloriesRatio === 0 ||
+        (goalType === GoalTypeEnum.WeightLoss && caloriesRatio >= 1) ||
+        (goalType === GoalTypeEnum.Maintenance && caloriesRatio !== 1) ||
+        (goalType === GoalTypeEnum.WeightGain && caloriesRatio <= 1)
+      ) {
+        switch (goalType) {
+          case GoalTypeEnum.WeightLoss:
+            newRatio = 0.8
+            break
+          case GoalTypeEnum.Maintenance:
+            newRatio = 1
+            break
+          case GoalTypeEnum.WeightGain:
+            newRatio = 1.2
+            break
+        }
+
+        if (newRatio !== caloriesRatio) {
+          updateField("caloriesRatio", newRatio)
+        }
+      }
+    }
+  }, [goalType, caloriesRatio, updateField])
 
   const formData: Record<string, any> = {
     userId,
@@ -219,6 +248,34 @@ function SetupUserScreen() {
     Object.keys(data).forEach((key) => {
       updateField(key, data[key])
     })
+
+    if (data.goalType !== undefined) {
+      const currentCaloriesRatio = useSetupStore.getState().caloriesRatio
+
+      if (
+        currentCaloriesRatio === 0 ||
+        (data.goalType === GoalTypeEnum.WeightLoss &&
+          currentCaloriesRatio >= 1) ||
+        (data.goalType === GoalTypeEnum.Maintenance &&
+          currentCaloriesRatio !== 1) ||
+        (data.goalType === GoalTypeEnum.WeightGain && currentCaloriesRatio <= 1)
+      ) {
+        let newRatio = currentCaloriesRatio
+        switch (data.goalType) {
+          case GoalTypeEnum.WeightLoss:
+            newRatio = 0.8
+            break
+          case GoalTypeEnum.Maintenance:
+            newRatio = 1
+            break
+          case GoalTypeEnum.WeightGain:
+            newRatio = 1.2
+            break
+        }
+
+        updateField("caloriesRatio", newRatio)
+      }
+    }
 
     if (currentStep < setupSteps.length) {
       setCurrentStep(currentStep + 1)
