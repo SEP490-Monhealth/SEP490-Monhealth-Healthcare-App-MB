@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react"
 
 import {
-  Alert,
   Keyboard,
   SafeAreaView,
   TouchableWithoutFeedback,
@@ -29,8 +28,6 @@ import {
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
-import { BookingStatusEnum } from "@/constants/enum/Booking"
-
 import { useAuth } from "@/contexts/AuthContext"
 
 import { useGetBookingsByConsultantId } from "@/hooks/useBooking"
@@ -43,35 +40,30 @@ import {
 
 import { formatDate, formatDateY } from "@/utils/formatters"
 
-const getTomorrow = () => {
-  const tomorrow = new Date()
-  tomorrow.setDate(tomorrow.getDate() + 1)
-  tomorrow.setHours(0, 0, 0, 0)
-  return tomorrow
-}
-
 function CreateScheduleExceptionScreen() {
   const router = useRouter()
 
   const { user } = useAuth()
   const consultantId = user?.consultantId
 
-  const tomorrowDate = getTomorrow()
-  const [selectedDate, setSelectedDate] = useState<Date>(tomorrowDate)
+  const today = new Date()
+
+  const [selectedDate, setSelectedDate] = useState<Date>(today)
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+
   const dateLabel = formatDate(selectedDate)
+
+  const [formData, setFormData] = useState<CreateScheduleExceptionType | null>(
+    null
+  )
 
   const SheetRef = useRef<SheetRefProps>(null)
 
   const { mutate: createScheduleException } = useCreateScheduleException()
 
-  const localDate = new Date(selectedDate)
-  localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset())
-  const formattedDate = localDate.toISOString().split("T")[0]
-
   const { data: bookingsData } = useGetBookingsByConsultantId(
     consultantId,
-    formattedDate
+    formatDateY(selectedDate)
   )
 
   const {
@@ -100,21 +92,14 @@ function CreateScheduleExceptionScreen() {
 
   const onChange = (_event: DateTimePickerEvent, selectedDate?: Date) => {
     if (selectedDate) {
-      const tomorrow = getTomorrow()
-
-      if (selectedDate >= tomorrow) {
-        setValue("date", formatDateY(selectedDate))
-        setSelectedDate(selectedDate)
-      }
+      setValue("date", formatDateY(selectedDate))
+      setSelectedDate(selectedDate)
     }
   }
 
   const checkForBookings = () => {
     const hasBooking = bookingsData?.some(
-      (booking) =>
-        booking.date === formatDateY(selectedDate) &&
-        (booking.status === BookingStatusEnum.Pending ||
-          booking.status === BookingStatusEnum.Confirmed)
+      (booking) => booking.date === formatDateY(selectedDate)
     )
 
     return hasBooking
@@ -124,17 +109,31 @@ function CreateScheduleExceptionScreen() {
     Keyboard.dismiss()
 
     if (checkForBookings()) {
+      setFormData(data)
       setIsModalVisible(true)
       return
     }
 
+    submitScheduleException(data)
+  }
+
+  const submitScheduleException = (data: CreateScheduleExceptionType) => {
     // console.log("Final Data:", JSON.stringify(data, null, 2))
 
-    await createScheduleException(data, {
+    createScheduleException(data, {
       onSuccess: () => {
         router.back()
       }
     })
+  }
+
+  const handleConfirmModal = () => {
+    setIsModalVisible(false)
+
+    if (formData) {
+      submitScheduleException(formData)
+      setFormData(null)
+    }
   }
 
   return (
@@ -184,7 +183,7 @@ function CreateScheduleExceptionScreen() {
               mode="date"
               display="spinner"
               onChange={onChange}
-              minimumDate={getTomorrow()}
+              minimumDate={today}
               locale="vi"
             />
           </View>
@@ -193,10 +192,11 @@ function CreateScheduleExceptionScreen() {
         <Modal
           isVisible={isModalVisible}
           title="Cảnh báo"
-          description="Ngày này đã có lịch hẹn. Vui lòng chọn ngày khác hoặc hủy lịch hẹn."
+          description="Ngày này đã có lịch hẹn. Bạn có chắc chắn muốn tạo lịch nghỉ không?"
+          cancelText="Hủy"
           confirmText="Đồng ý"
           onClose={() => setIsModalVisible(false)}
-          onConfirm={() => setIsModalVisible(false)}
+          onConfirm={handleConfirmModal}
         />
       </SafeAreaView>
     </TouchableWithoutFeedback>

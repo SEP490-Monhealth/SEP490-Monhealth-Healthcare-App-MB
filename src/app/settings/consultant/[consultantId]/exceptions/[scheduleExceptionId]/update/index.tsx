@@ -41,20 +41,13 @@ import {
 
 import { formatDate, formatDateY } from "@/utils/formatters"
 
-const getTomorrow = () => {
-  const tomorrow = new Date()
-  tomorrow.setDate(tomorrow.getDate() + 1)
-  tomorrow.setHours(0, 0, 0, 0)
-  return tomorrow
-}
-
 function UpdateScheduleExceptionScreen() {
   const router = useRouter()
-
-  const { consultantId, scheduleExceptionId } = useLocalSearchParams<{
-    consultantId: string
+  const { scheduleExceptionId } = useLocalSearchParams<{
     scheduleExceptionId: string
   }>()
+
+  const today = new Date()
 
   const { mutate: updateScheduleException } = useUpdateScheduleException()
 
@@ -64,6 +57,7 @@ function UpdateScheduleExceptionScreen() {
   const [selectedDate, setSelectedDate] = useState<string | Date>(
     scheduleExceptionData?.date || ""
   )
+
   const SheetRef = useRef<SheetRefProps>(null)
 
   const {
@@ -148,7 +142,7 @@ function UpdateScheduleExceptionScreen() {
                       placeholder="VD: Hôm đó tôi có lịch nghỉ đột xuất"
                       onChangeText={onChange}
                       isMultiline
-                      numberOfLines={4}
+                      numberOfLines={6}
                       canClearText
                       errorMessage={errors.reason?.message}
                     />
@@ -170,7 +164,7 @@ function UpdateScheduleExceptionScreen() {
               mode="date"
               display="spinner"
               onChange={onChange}
-              minimumDate={getTomorrow()}
+              minimumDate={today}
               locale="vi"
             />
           </View>
