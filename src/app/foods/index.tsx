@@ -172,7 +172,9 @@ function FoodsScreen() {
         ]
       }
 
-      trackMealFood({ foodId: food.foodId, name: food.name })
+      if (userId) {
+        trackMealFood({ userId, foodId: food.foodId, name: food.name })
+      }
 
       const totalCalories =
         dailyMealData &&

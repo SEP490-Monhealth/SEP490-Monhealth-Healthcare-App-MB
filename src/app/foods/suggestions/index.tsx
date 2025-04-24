@@ -41,11 +41,6 @@ import { getMealTypeByTime } from "@/utils/helpers"
 
 import { LoadingScreen } from "../../loading"
 
-interface FoodWithName {
-  name: string
-  [key: string]: any
-}
-
 function FoodSuggestScreen() {
   const router = useRouter()
   const { mealType, date: selectedDate } = useLocalSearchParams<{
@@ -59,22 +54,20 @@ function FoodSuggestScreen() {
       : getMealTypeByTime()
 
   const { user } = useAuth()
-  const userId = user?.userId
+  const userId = user?.userId || ""
 
   const today = formatDateY(new Date())
 
   const { userAllergies } = useStorage()
 
   const {
-    searchFoodHistory,
     addSearchFoodHistory,
-    clearSearchFoodHistory,
     trackMealFood,
     getFrequentFoods,
     extractKeywordsFromFoods
   } = useSearch()
 
-  const frequentFoods = getFrequentFoods()
+  const frequentFoods = getFrequentFoods(userId)
   const searchQuery = extractKeywordsFromFoods(frequentFoods.slice(0, 3))
 
   const { mutate: addMeal } = useCreateMeal()
@@ -164,7 +157,7 @@ function FoodSuggestScreen() {
         ]
       }
 
-      trackMealFood({ foodId: food.foodId, name: food.name })
+      trackMealFood({ userId, foodId: food.foodId, name: food.name })
 
       const totalCalories =
         dailyMealData &&
@@ -250,31 +243,10 @@ function FoodSuggestScreen() {
           </>
         )}
 
-        {searchFoodHistory.length > 0 && (
-          <>
-            <Section
-              label="Tìm kiếm gần đây"
-              actionText="Xóa tất cả"
-              onPress={clearSearchFoodHistory}
-            />
-            <HStack gap={6} className="mb-4 flex-wrap">
-              {searchFoodHistory.map((search) => (
-                <TouchableOpacity
-                  key={search.foodId}
-                  activeOpacity={0.8}
-                  onPress={() => handleViewFood(search.foodId, search.name)}
-                >
-                  <Badge label={search.name} />
-                </TouchableOpacity>
-              ))}
-            </HStack>
-          </>
-        )}
-
         <Section label="Đề xuất món ăn" margin={false} />
       </ListHeader>
     )
-  }, [frequentFoods, searchFoodHistory, clearSearchFoodHistory])
+  }, [frequentFoods])
 
   if (
     (foodsData.length === 0 && isLoading) ||

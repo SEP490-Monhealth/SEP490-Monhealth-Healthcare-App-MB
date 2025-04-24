@@ -8,6 +8,7 @@ interface FoodFrequency {
   foodId: string
   name: string
   count: number
+  userId: string // Added userId for tracking per user
 }
 
 export const SearchProvider = ({ children }: { children: ReactNode }) => {
@@ -133,12 +134,17 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
-  const trackMealFood = async (food: { foodId: string; name: string }) => {
+  // Updated to include userId
+  const trackMealFood = async (food: {
+    foodId: string
+    name: string
+    userId: string
+  }) => {
     try {
       // Find existing food frequency or create new one
       let updatedFrequency = [...foodFrequency]
       const existingIndex = updatedFrequency.findIndex(
-        (item) => item.foodId === food.foodId
+        (item) => item.foodId === food.foodId && item.userId === food.userId
       )
 
       if (existingIndex !== -1) {
@@ -152,7 +158,8 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
         updatedFrequency.push({
           foodId: food.foodId,
           name: food.name,
-          count: 1
+          count: 1,
+          userId: food.userId
         })
       }
 
@@ -170,9 +177,12 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
-  const getFrequentFoods = () => {
-    // Return foods with count >= 2
-    return foodFrequency.filter((food) => food.count >= 2)
+  // Updated to filter by userId
+  const getFrequentFoods = (userId: string) => {
+    // Return foods with count >= 2 for specific user
+    return foodFrequency.filter(
+      (food) => food.count >= 2 && food.userId === userId
+    )
   }
 
   // New function to extract keywords from foods
