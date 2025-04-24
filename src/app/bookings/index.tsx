@@ -191,7 +191,7 @@ function BookingsScreen() {
                 </HStack>
 
                 <View>
-                  <Section label="Thông tin" />
+                  <Section label="Chi tiết" />
 
                   <Card className="py-2">
                     {bookingItems.map((item, index) => (

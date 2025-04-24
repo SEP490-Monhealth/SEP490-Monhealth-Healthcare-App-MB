@@ -112,7 +112,7 @@ function FoodCreateScreen() {
   })
 
   const onSubmitStep = (data: Record<string, any>) => {
-    console.log("Submitted data:", data)
+    // console.log("Submitted data:", data)
     // console.log("Errors after submit:", errors)
 
     Object.keys(data).forEach((key) => {

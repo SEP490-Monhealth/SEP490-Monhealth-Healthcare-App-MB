@@ -74,7 +74,7 @@ function PortionCreateScreen() {
   const onSubmit = (data: CreatePortionType) => {
     Keyboard.dismiss()
 
-    console.log("Submitted Data:", JSON.stringify(data, null, 2))
+    // console.log("Submitted Data:", JSON.stringify(data, null, 2))
 
     createPortion(data, {
       onSuccess: () => {

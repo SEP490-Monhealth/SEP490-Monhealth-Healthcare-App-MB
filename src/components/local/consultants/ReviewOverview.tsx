@@ -27,7 +27,7 @@ export const ReviewOverview = ({
       {showSection && (
         <Section
           label={`Điểm đánh giá (${totalReviews})`}
-          actionText={`${averageRating.toString()} / 5.0`}
+          actionText={`${averageRating.toFixed(1)} / 5.0`}
           margin={false}
         />
       )}

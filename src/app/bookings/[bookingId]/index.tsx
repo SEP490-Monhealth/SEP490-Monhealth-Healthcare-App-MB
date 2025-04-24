@@ -22,7 +22,10 @@ import { BookingItem, RatingStars } from "@/components/global/molecules"
 import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
-import { getBookingStatusMeta } from "@/constants/enum/Booking"
+import {
+  BookingStatusEnum,
+  getBookingStatusMeta
+} from "@/constants/enum/Booking"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -63,7 +66,7 @@ const BookingDetailsScreen = () => {
   if (!bookingData || !consultantData) {
     return <LoadingScreen />
   }
-  
+
   const bookingItems = [
     {
       icon: <Calendar variant="Bold" size={20} color={COLORS.primary} />,
@@ -199,7 +202,7 @@ const BookingDetailsScreen = () => {
           </View>
 
           <View>
-            <Section label="Thông tin" />
+            <Section label="Chi tiết" />
 
             <Card>
               {bookingItems.map((item, index) => (
@@ -213,14 +216,42 @@ const BookingDetailsScreen = () => {
             </Card>
           </View>
 
+          <View>
+            <Section label="Hình ảnh" />
+
+            <View className="flex-row flex-wrap gap-2">
+              {bookingData.status === BookingStatusEnum.Completed &&
+              bookingData.evidenceUrls &&
+              bookingData.evidenceUrls.length > 0 ? (
+                bookingData.evidenceUrls.map((uri, index) => (
+                  <View key={index} className="h-28 w-28">
+                    <Image
+                      source={{ uri }}
+                      resizeMode="cover"
+                      className="h-full w-full rounded-lg"
+                    />
+                  </View>
+                ))
+              ) : (
+                <Text className="ml-1 font-tregular text-sm text-accent">
+                  Chuyên viên tư vấn phải hoàn thành lịch hẹn và đính kèm hình
+                  ảnh
+                </Text>
+              )}
+            </View>
+          </View>
+
           {bookingData.cancellationReason && (
-            <Input
-              disabled
-              value={bookingData.cancellationReason}
-              label="Lý do hủy"
-              isMultiline
-              numberOfLines={2}
-            />
+            <View>
+              <Section label="Lý do hủy" />
+
+              <Input
+                disabled
+                value={bookingData.cancellationReason}
+                isMultiline
+                numberOfLines={2}
+              />
+            </View>
           )}
 
           {bookingData.isReviewed && (

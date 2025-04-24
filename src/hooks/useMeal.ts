@@ -76,13 +76,12 @@ export const useCreateMeal = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [MonQueryKey.Meal.Meals] })
-      queryClient.invalidateQueries({
-        queryKey: [MonQueryKey.Meal.MealFoods]
-      })
-      queryClient.invalidateQueries({
-        queryKey: [MonQueryKey.Meal.Meal]
-      })
+      queryClient.invalidateQueries({ queryKey: [MonQueryKey.Meal.MealFoods] })
+      queryClient.invalidateQueries({ queryKey: [MonQueryKey.Meal.Meal] })
       queryClient.invalidateQueries({ queryKey: [MonQueryKey.Meal.DailyMeal] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Tracker.WeeklyMeal]
+      })
     }
   })
 }
@@ -131,14 +130,11 @@ export const useUpdateMealFoodQuantity = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [MonQueryKey.Meal.Meals] })
+      queryClient.invalidateQueries({ queryKey: [MonQueryKey.Meal.Meal] })
+      queryClient.invalidateQueries({ queryKey: [MonQueryKey.Meal.MealFoods] })
+      queryClient.invalidateQueries({ queryKey: [MonQueryKey.Meal.DailyMeal] })
       queryClient.invalidateQueries({
-        queryKey: [MonQueryKey.Meal.Meal]
-      })
-      queryClient.invalidateQueries({
-        queryKey: [MonQueryKey.Meal.MealFoods]
-      })
-      queryClient.invalidateQueries({
-        queryKey: [MonQueryKey.Meal.DailyMeal]
+        queryKey: [MonQueryKey.Tracker.WeeklyMeal]
       })
     }
   })
