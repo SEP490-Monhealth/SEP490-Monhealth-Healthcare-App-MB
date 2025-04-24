@@ -20,7 +20,7 @@ export const Checkbox = ({ checked = false, onCheckChange }: CheckboxProps) => {
       {checked ? (
         <CircleCheck size={20} strokeWidth={2.5} color="#16a34a" />
       ) : (
-        <Circle size={20} strokeWidth={2.5} color={COLORS.primary} />
+        <Circle size={20} strokeWidth={2.5} color="#16a34a" />
       )}
     </TouchableOpacity>
   )

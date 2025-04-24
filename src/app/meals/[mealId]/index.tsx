@@ -100,15 +100,18 @@ const RenderRightActions = React.memo(({ onPress }: any) => {
 function MealDetailsScreen() {
   const router = useRouter()
 
-  const SheetRef = useRef<SheetRefProps>(null)
-  const swipeableRef = useRef<Swipeable>(null)
+  const { mealId, date: selectedDate } = useLocalSearchParams() as {
+    mealId: string
+    date: string
+  }
 
   const { user } = useAuth()
   const userId = user?.userId
 
-  const { mealId } = useLocalSearchParams() as { mealId: string }
-
   const today = formatDateY(new Date())
+
+  const SheetRef = useRef<SheetRefProps>(null)
+  const swipeableRef = useRef<Swipeable>(null)
 
   const { mutate: updateMealFoodStatus } = useUpdateMealFoodStatus()
   const { mutate: updateMealFoodQuantity } = useUpdateMealFoodQuantity()
@@ -257,11 +260,11 @@ function MealDetailsScreen() {
             label={getMealTypeName("vi", mealType)}
             action={
               today
-                ? undefined
-                : {
+                ? {
                     icon: <Add size={24} color={COLORS.primary} />,
-                    href: `/foods?mealType=${mealType}`
+                    href: `/foods?mealType=${mealType}&date=${selectedDate}`
                   }
+                : undefined
             }
           />
 

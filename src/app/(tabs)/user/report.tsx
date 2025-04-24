@@ -154,7 +154,10 @@ function ReportScreen() {
   })
 
   const handleViewMeal = (mealId: string) => {
-    router.push(`/meals/${mealId}`)
+    router.push({
+      pathname: `/meals/${mealId}`,
+      params: { date: selectedDate }
+    })
   }
 
   const handleViewFoods = (mealType?: MealTypeEnum) => {

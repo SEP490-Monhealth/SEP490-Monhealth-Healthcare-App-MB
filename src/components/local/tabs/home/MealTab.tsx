@@ -227,7 +227,7 @@ export const MealTab = ({ onOverlayLoading }: MealTabProps) => {
       </VStack>
 
       <View className="mt-8">
-        <TipText text={getRandomTip()} />
+        <TipText tip={getRandomTip()} />
       </View>
     </View>
   )

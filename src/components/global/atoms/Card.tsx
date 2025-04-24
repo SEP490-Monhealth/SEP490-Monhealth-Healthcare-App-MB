@@ -16,7 +16,7 @@ interface CardProps {
 
 export const Card: React.FC<CardProps> = ({
   testID,
-  activeOpacity = 0.7,
+  activeOpacity = 0.8,
   hasImage = false,
   className = "",
   onPress,
