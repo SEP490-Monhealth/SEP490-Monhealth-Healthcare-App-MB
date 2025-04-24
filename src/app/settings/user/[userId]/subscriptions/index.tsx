@@ -131,11 +131,7 @@ function SubscriptionsScreen() {
     if (selectedPlanIndex < currentPlanIndex) {
       setDowngradeModalVisible(true)
     } else if (selectedPlanIndex > currentPlanIndex) {
-      if (userSubscription === subscriptionsData.subscriptions[0].name) {
-        handlePayment()
-      } else {
-        setWarningModalVisible(true)
-      }
+      setWarningModalVisible(true)
     } else {
       handlePayment()
     }

@@ -35,7 +35,7 @@ import {
 } from "@/hooks/useBooking"
 import { useGetConsultantById } from "@/hooks/useConsultant"
 
-import { formatDate } from "@/utils/formatters"
+import { formatDate, formatUrl } from "@/utils/formatters"
 import { getInitials } from "@/utils/helpers"
 
 const formatTime = (time: string) => {
@@ -49,17 +49,16 @@ const BookingDetailsScreen = () => {
   const { user } = useAuth()
   const userId = user?.userId
 
-  const { data: bookingData, isLoading: isBookingLoading } =
-    useGetBookingById(bookingId)
+  const { data: bookingData } = useGetBookingById(bookingId)
 
-  const { data: consultantData, isLoading: isConsultantLoading } =
-    useGetConsultantById(bookingData?.consultantId)
+  const { data: consultantData } = useGetConsultantById(
+    bookingData?.consultantId
+  )
 
-  const { data: bookingsData, isLoading: isBookingsLoading } =
-    useGetBookingsByUserIdAndConsultantId(
-      bookingData?.userId,
-      bookingData?.consultantId
-    )
+  const { data: bookingsData } = useGetBookingsByUserIdAndConsultantId(
+    bookingData?.userId,
+    bookingData?.consultantId
+  )
 
   const bookingsCount = bookingsData?.length || 0
 
@@ -83,7 +82,7 @@ const BookingDetailsScreen = () => {
     {
       icon: <Zoom variant="Bold" size={20} color={COLORS.primary} />,
       label: "Link phòng họp",
-      value: bookingData.meetingUrl
+      value: formatUrl(bookingData.meetingUrl || "")
     }
   ]
 
@@ -121,88 +120,103 @@ const BookingDetailsScreen = () => {
     )
   }
 
+  const { label: bookingStatusLabel, color: bookingStatusColor } =
+    getBookingStatusMeta(bookingData.status)
+
   return (
     <Container>
       <Header back label="Lịch hẹn" />
 
       <ScrollArea>
         <Content className="mt-2 pb-12">
-          {userId === bookingData.userId ? (
-            <HStack center gap={20}>
-              {consultantData.avatarUrl ? (
-                <Image
-                  source={{ uri: consultantData.avatarUrl }}
-                  className="h-24 w-24 rounded-2xl border border-border"
-                />
-              ) : (
-                <View className="flex h-24 w-24 items-center justify-center rounded-xl border border-muted bg-border">
-                  <Text className="font-tbold text-lg text-primary">
-                    {getInitials(consultantData.fullName)}
-                  </Text>
-                </View>
-              )}
+          <HStack className="justify-between">
+            <Text className="font-tbold text-xl text-primary">
+              Trạng thái lịch hẹn
+            </Text>
 
-              <VStack gap={8}>
-                <View>
-                  <Text className="font-tbold text-2xl text-primary">
-                    {consultantData.fullName}
-                  </Text>
-
-                  <Text className="font-tmedium text-base text-accent">
-                    {consultantData.expertise} • KN {consultantData.experience}{" "}
-                    năm
-                  </Text>
-                </View>
-
-                <RatingStars
-                  rating={consultantData.averageRating}
-                  count={consultantData.ratingCount}
-                  showCount
-                />
-              </VStack>
-            </HStack>
-          ) : (
-            <HStack center gap={20}>
-              {bookingData.member?.avatarUrl ? (
-                <Image
-                  source={{ uri: bookingData.member.avatarUrl }}
-                  className="h-24 w-24 rounded-2xl border border-border"
-                />
-              ) : (
-                <View className="flex h-24 w-24 items-center justify-center rounded-xl border border-muted bg-border">
-                  <Text className="font-tbold text-lg text-primary">
-                    {getInitials(bookingData.member?.fullName || "")}
-                  </Text>
-                </View>
-              )}
-
-              <VStack gap={8}>
-                <View>
-                  <Text className="font-tbold text-2xl text-primary">
-                    {bookingData.member?.fullName || ""}
-                  </Text>
-
-                  <Text className="font-tmedium text-base text-accent">
-                    {bookingsCount} lần đặt lịch hẹn
-                  </Text>
-                </View>
-              </VStack>
-            </HStack>
-          )}
+            <Badge
+              label={bookingStatusLabel}
+              background={bookingStatusColor}
+              color="#fff"
+              rounded
+            />
+          </HStack>
 
           <View>
-            <Section label="Ghi chú" />
-
-            <Input
-              disabled
-              value={bookingData.notes || ""}
-              isMultiline
-              numberOfLines={6}
+            <Section
+              label={
+                userId === bookingData.userId
+                  ? "Chuyên viên tư vấn"
+                  : "Người đặt lịch"
+              }
             />
+
+            {userId === bookingData.userId ? (
+              <HStack center gap={20}>
+                {consultantData.avatarUrl ? (
+                  <Image
+                    source={{ uri: consultantData.avatarUrl }}
+                    className="h-24 w-24 rounded-2xl border border-border"
+                  />
+                ) : (
+                  <View className="flex h-24 w-24 items-center justify-center rounded-xl border border-muted bg-border">
+                    <Text className="font-tbold text-lg text-primary">
+                      {getInitials(consultantData.fullName)}
+                    </Text>
+                  </View>
+                )}
+
+                <VStack gap={8}>
+                  <View>
+                    <Text className="font-tbold text-2xl text-primary">
+                      {consultantData.fullName}
+                    </Text>
+
+                    <Text className="font-tmedium text-base text-accent">
+                      {consultantData.expertise} • KN{" "}
+                      {consultantData.experience} năm
+                    </Text>
+                  </View>
+
+                  <RatingStars
+                    rating={consultantData.averageRating}
+                    count={consultantData.ratingCount}
+                    showCount
+                  />
+                </VStack>
+              </HStack>
+            ) : (
+              <HStack center gap={20}>
+                {bookingData.member?.avatarUrl ? (
+                  <Image
+                    source={{ uri: bookingData.member.avatarUrl }}
+                    className="h-24 w-24 rounded-2xl border border-border"
+                  />
+                ) : (
+                  <View className="flex h-24 w-24 items-center justify-center rounded-xl border border-muted bg-border">
+                    <Text className="font-tbold text-lg text-primary">
+                      {getInitials(bookingData.member?.fullName || "")}
+                    </Text>
+                  </View>
+                )}
+
+                <VStack gap={8}>
+                  <View>
+                    <Text className="font-tbold text-2xl text-primary">
+                      {bookingData.member?.fullName || ""}
+                    </Text>
+
+                    <Text className="font-tmedium text-base text-accent">
+                      {bookingsCount} lần đặt lịch hẹn
+                    </Text>
+                  </View>
+                </VStack>
+              </HStack>
+            )}
           </View>
 
           <View>
-            <Section label="Chi tiết" />
+            <Section label="Chi tiết lịch hẹn" />
 
             <Card>
               {bookingItems.map((item, index) => (
@@ -215,6 +229,30 @@ const BookingDetailsScreen = () => {
               ))}
             </Card>
           </View>
+
+          <View>
+            <Section label="Ghi chú" />
+
+            <Input
+              disabled
+              value={bookingData.notes}
+              isMultiline
+              numberOfLines={6}
+            />
+          </View>
+
+          {bookingData.cancellationReason && (
+            <View>
+              <Section label="Lý do hủy" />
+
+              <Input
+                disabled
+                value={bookingData.cancellationReason}
+                isMultiline
+                numberOfLines={2}
+              />
+            </View>
+          )}
 
           <View>
             <Section label="Hình ảnh" />
@@ -241,23 +279,9 @@ const BookingDetailsScreen = () => {
             </View>
           </View>
 
-          {bookingData.cancellationReason && (
-            <View>
-              <Section label="Lý do hủy" />
-
-              <Input
-                disabled
-                value={bookingData.cancellationReason}
-                isMultiline
-                numberOfLines={2}
-              />
-            </View>
-          )}
-
           {bookingData.isReviewed && (
             <View>
               <Section label="Đánh giá" action={renderReviewStars()} />
-
               <Input
                 disabled
                 value={bookingData.review?.comment || ""}

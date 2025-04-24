@@ -184,3 +184,13 @@ export const formatTime = (isoString: string): string => {
 
   return `${hours}h${minutes}`
 }
+
+/**
+ * Strips the protocol (http:// or https://) from a URL
+ * @param {string|null} url - The URL to format
+ * @returns {string|null} Formatted URL without protocol or null if input is null
+ */
+export const formatUrl = (url: string) => {
+  if (!url) return ""
+  return url.replace(/^https?:\/\//, "")
+}

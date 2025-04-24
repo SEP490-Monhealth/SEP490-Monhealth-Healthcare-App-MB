@@ -6,16 +6,14 @@ import { ChevronRight } from "lucide-react-native"
 
 import { COLORS } from "@/constants/color"
 
+import { formatUrl } from "@/utils/formatters"
+
 interface MeetingCardProps {
   meetingUrl?: string
   onPress?: () => void
 }
 
 export const MeetingCard = ({ meetingUrl, onPress }: MeetingCardProps) => {
-  const displayMeetingUrl = meetingUrl
-    ? meetingUrl.replace(/^https?:\/\//, "")
-    : null
-
   return (
     <TouchableOpacity
       activeOpacity={1}
@@ -37,7 +35,7 @@ export const MeetingCard = ({ meetingUrl, onPress }: MeetingCardProps) => {
         <Text className="font-tmedium text-base text-primary">Google Meet</Text>
 
         <Text className="font-tmedium text-sm text-accent">
-          {displayMeetingUrl}
+          {formatUrl(meetingUrl ?? "")}
         </Text>
       </View>
 

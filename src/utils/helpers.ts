@@ -62,13 +62,25 @@ export const getRandomTip = (): string => {
 }
 
 /**
- * Lấy lời chào phù hợp dựa trên thời gian hiện tại.
- * @returns Lời chào bằng tiếng Việt (Chào buổi sáng, Chào buổi chiều, Chào buổi tối).
+ * Lấy lời chào phù hợp dựa trên thời gian hiện tại và các tình huống khác.
+ * @returns Lời chào bằng tiếng Việt (Chào buổi sáng, Chào buổi chiều, Chào buổi tối, ...).
  */
 export const getGreeting = (): string => {
   const date = new Date()
   const hours = date.getHours()
+  const dayOfWeek = date.getDay()
 
+  // Thêm lời chào cho buổi trưa
+  if (hours >= 12 && hours < 13) {
+    return "Chào buổi trưa,"
+  }
+
+  // Thêm lời chào cho cuối tuần (thứ 7 và chủ nhật)
+  if (dayOfWeek === 6 || dayOfWeek === 0) {
+    return "Chào cuối tuần vui vẻ,"
+  }
+
+  // Thêm lời chào cho buổi sáng, chiều và tối
   if (hours < 12) {
     return "Chào buổi sáng,"
   } else if (hours < 18) {

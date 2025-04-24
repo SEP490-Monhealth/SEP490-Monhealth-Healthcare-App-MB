@@ -205,7 +205,7 @@ function ScheduleExceptionsScreen() {
           </Content>
         </Container>
 
-        <Sheet ref={SheetRef} dynamicHeight={300}>
+        <Sheet ref={SheetRef} dynamicHeight={200}>
           <SheetSelect
             label="Cập nhật"
             icon={<Edit2 variant="Bold" size="20" color={COLORS.primary} />}

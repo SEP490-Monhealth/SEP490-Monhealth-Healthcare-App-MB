@@ -33,7 +33,7 @@ const cancellationReasons = [
   "Việc đột xuất",
   "Đổi lịch",
   "Không phù hợp",
-  "Đổi tư vấn viên",
+  "Đổi chuyên viên",
   "Hết nhu cầu",
   "Lỗi kỹ thuật",
   "Lý do khác"

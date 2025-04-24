@@ -24,7 +24,6 @@ import {
   HStack,
   Input,
   Modal,
-  ScrollArea,
   VStack
 } from "@/components/global/atoms"
 import { BookingItem, RatingStars } from "@/components/global/molecules"
@@ -66,7 +65,7 @@ function BookingsScreen() {
 
   const scrollViewRef = useRef<ScrollView>(null)
 
-  const { mutate: createBooking } = useCreateBooking()
+  const { mutate: createBooking, isPending: isSubmitting } = useCreateBooking()
 
   const { data: consultantData, isLoading: isConsultantLoading } =
     useGetConsultantById(consultantId)
@@ -227,13 +226,13 @@ function BookingsScreen() {
                 </View>
 
                 <Text className="ml-1 mt-4 font-tregular text-sm text-accent">
-                  Thông tin thêm giúp tư vấn viên chuẩn bị tốt hơn cho buổi tư
-                  vấn
+                  Thông tin thêm giúp chuyên viên tư vấn chuẩn bị tốt hơn cho
+                  buổi tư vấn
                 </Text>
 
                 <Button
                   loading={isLoading}
-                  disabled={isLoading}
+                  disabled={isLoading || isSubmitting}
                   onPress={handleOpenModal}
                   className="mt-8"
                 >

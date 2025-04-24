@@ -262,7 +262,7 @@ function MealDetailsScreen() {
               today
                 ? {
                     icon: <Add size={24} color={COLORS.primary} />,
-                    href: `/foods?mealType=${mealType}&date=${selectedDate}`
+                    href: `/foods?mealType=${mealType}&date=${selectedDate || today}`
                   }
                 : undefined
             }

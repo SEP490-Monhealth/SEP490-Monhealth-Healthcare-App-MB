@@ -3,6 +3,7 @@ import React from "react"
 import { Image, Text, View } from "react-native"
 
 import { formatTimeAgo } from "@/utils/formatters"
+import { getInitials } from "@/utils/helpers"
 
 import { Card, CardHeader, HStack } from "../atoms"
 
@@ -26,10 +27,18 @@ export const ChatCard = ({
   return (
     <Card hasImage onPress={onPress}>
       <HStack center gap={12}>
-        <Image
-          source={isUrl ? { uri: avatarUrl } : avatarUrl}
-          className="h-14 w-14 rounded-xl border border-border"
-        />
+        {avatarUrl ? (
+          <Image
+            source={isUrl ? { uri: avatarUrl } : avatarUrl}
+            className="h-14 w-14 rounded-2xl border border-border"
+          />
+        ) : (
+          <View className="flex h-14 w-14 items-center justify-center rounded-xl border border-muted bg-border">
+            <Text className="font-tbold text-lg text-primary">
+              {getInitials(fullName)}
+            </Text>
+          </View>
+        )}
 
         <View className="flex-1 flex-col">
           <HStack center className="justify-between">
