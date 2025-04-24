@@ -137,7 +137,7 @@ export const ScheduleTimeSlots = ({
     const allDays = [0, 1, 2, 3, 4, 5, 6]
 
     return (
-      <VStack gap={8}>
+      <VStack className="-mt-14">
         {allDays.map((day) => (
           <MemoizedDayTimeSlots
             key={`recurring-${day}`}

@@ -107,7 +107,7 @@ function BookingsScreen() {
     setIsLoading(true)
 
     try {
-      // console.log("Final Data:", JSON.stringify(data, null, 2))
+      console.log("Final Data:", JSON.stringify(data, null, 2))
 
       await createBooking(data, {
         onSuccess: () => {

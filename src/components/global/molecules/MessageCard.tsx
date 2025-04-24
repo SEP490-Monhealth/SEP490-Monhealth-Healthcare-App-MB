@@ -4,6 +4,8 @@ import { Image, Text, TouchableOpacity, View } from "react-native"
 
 import { cn } from "@/lib/utils"
 
+import { getInitials } from "@/utils/helpers"
+
 const formatTime = (timestamp: string): string => {
   const date = new Date(timestamp)
 
@@ -15,7 +17,7 @@ const formatTime = (timestamp: string): string => {
 
 interface MessageCardProps {
   sender?: boolean
-  messageId: string
+  senderName: string
   message: string
   timestamp: string
   avatarUrl?: string
@@ -25,7 +27,7 @@ interface MessageCardProps {
 
 export const MessageCard = ({
   sender = false,
-  messageId,
+  senderName,
   message,
   timestamp,
   avatarUrl,
@@ -46,7 +48,11 @@ export const MessageCard = ({
           {avatarUrl ? (
             <Image source={{ uri: avatarUrl }} className="h-full w-full" />
           ) : (
-            <View className="h-full w-full" style={{ opacity: 0 }} />
+            <View className="h-full w-full items-center justify-center overflow-hidden border border-border bg-border">
+              <Text className="font-tbold text-lg text-primary">
+                {getInitials(senderName ? senderName : "asd")}
+              </Text>
+            </View>
           )}
         </View>
       )}

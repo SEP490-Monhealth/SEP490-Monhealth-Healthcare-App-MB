@@ -44,8 +44,7 @@ function ConsultantAboutUpdateScreen() {
     resolver: zodResolver(updateConsultantSchema),
     defaultValues: {
       bio: "",
-      experience: 0,
-      meetUrl: ""
+      experience: 0
     }
   })
 
@@ -53,8 +52,7 @@ function ConsultantAboutUpdateScreen() {
     if (consultantData) {
       reset({
         bio: consultantData.bio,
-        experience: consultantData.experience,
-        meetUrl: consultantData.meetUrl
+        experience: consultantData.experience
       })
     }
   }, [consultantData, reset])
@@ -116,22 +114,6 @@ function ConsultantAboutUpdateScreen() {
                   alwaysShowEndIcon
                   canClearText
                   errorMessage={errors.experience?.message}
-                />
-              )}
-            />
-
-            <Controller
-              name="meetUrl"
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <Input
-                  value={value}
-                  label="Link phòng họp"
-                  placeholder="VD: https://meet.google.com/abc-defg-hij"
-                  onChangeText={onChange}
-                  keyboardType="default"
-                  canClearText
-                  errorMessage={errors.meetUrl?.message}
                 />
               )}
             />

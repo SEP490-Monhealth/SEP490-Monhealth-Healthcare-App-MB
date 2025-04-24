@@ -9,7 +9,6 @@ import { Calendar, Clock, Zoom } from "iconsax-react-native"
 import { Star } from "lucide-react-native"
 
 import {
-  Badge,
   Card,
   Container,
   Content,
@@ -22,10 +21,7 @@ import { BookingItem, RatingStars } from "@/components/global/molecules"
 import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
-import {
-  BookingStatusEnum,
-  getBookingStatusMeta
-} from "@/constants/enum/Booking"
+import { BookingStatusEnum } from "@/constants/enum/Booking"
 
 import { useAuth } from "@/contexts/AuthContext"
 

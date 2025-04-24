@@ -380,7 +380,6 @@ function ExpertiseUpdateScreen() {
                 onDateSelect(event, "expiryDate", date)
               }
               minimumDate={new Date(1904, 0, 1)}
-              maximumDate={new Date()}
               locale="vi"
             />
           </View>

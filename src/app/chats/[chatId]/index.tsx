@@ -39,6 +39,8 @@ import { useGetChatById } from "@/hooks/useChat"
 
 import { CreateMessageType, MessageType } from "@/schemas/messageSchema"
 
+import { getInitials } from "@/utils/helpers"
+
 const containsEmail = (text: string) => {
   const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g
   return emailRegex.test(text)
@@ -204,7 +206,7 @@ function ChatDetailsScreen() {
     return (
       <MessageCard
         key={item.messageId}
-        messageId={item.messageId}
+        senderName={item.senderName}
         sender={currentSender === senderId}
         message={item.content}
         timestamp={item.createdAt}
@@ -215,16 +217,23 @@ function ChatDetailsScreen() {
     )
   }
 
+  const avatarUrl = consultantId
+    ? chatData?.member.avatarUrl
+    : chatData?.consultant.avatarUrl
+
+  const nameUser =
+    (consultantId
+      ? chatData?.member.fullName
+      : chatData?.consultant.fullName) || "asd"
+
+  const isAvatarValid = avatarUrl && avatarUrl.trim() !== ""
+
   return (
     <SafeAreaView className="flex-1 bg-background">
       <VStack gap={12} className="px-6">
         <Header
           back
-          label={
-            consultantId
-              ? chatData?.member.fullName
-              : chatData?.consultant.fullName
-          }
+          label={nameUser}
           action={{
             icon: (
               <ClipboardText variant="Bold" size={20} color={COLORS.primary} />
@@ -266,7 +275,7 @@ function ChatDetailsScreen() {
           />
         ) : (
           <View className="flex flex-1 flex-col items-center justify-center gap-8 px-6 pb-24">
-            <Image
+            {/* <Image
               source={{
                 uri: consultantId
                   ? chatData?.member.avatarUrl
@@ -274,7 +283,24 @@ function ChatDetailsScreen() {
               }}
               className="rounded-full"
               style={{ height: 128, width: 128 }}
-            />
+            /> */}
+
+            {!isAvatarValid ? (
+              <View
+                className="flex items-center justify-center rounded-full border-4 border-muted bg-border"
+                style={{ width: 128, height: 128 }}
+              >
+                <Text className="font-tbold text-2xl text-primary">
+                  {getInitials(nameUser)}
+                </Text>
+              </View>
+            ) : (
+              <Image
+                source={{ uri: avatarUrl }}
+                className="rounded-full border-4 border-white bg-border shadow"
+                style={{ width: 128, height: 128 }}
+              />
+            )}
 
             <VStack center gap={8}>
               <Text className="text-center font-tbold text-xl text-primary">
