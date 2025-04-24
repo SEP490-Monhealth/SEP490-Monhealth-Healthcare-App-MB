@@ -34,11 +34,13 @@ export const getBookingsByUserId = async (
 
 export const getBookingsByConsultantId = async (
   consultantId: string | undefined,
+  page: number,
+  limit?: number,
   date?: string
-): Promise<BookingType[]> => {
+): Promise<BookingResponse> => {
   try {
     const response = await monAPI.get(`/bookings/consultant/${consultantId}`, {
-      params: { date }
+      params: { page, limit, date }
     })
 
     const { success, message, data } = response.data
@@ -47,7 +49,8 @@ export const getBookingsByConsultantId = async (
       throw { isCustomError: true, message: message }
     }
 
-    return data as BookingType[]
+    const { totalPages, totalItems, items: bookings } = data
+    return { bookings, totalPages, totalItems }
   } catch (error: any) {
     const errorMessage = error.response?.data?.message
     throw { isCustomError: true, message: errorMessage }

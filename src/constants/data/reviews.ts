@@ -25,7 +25,7 @@ export const sampleReviewsData = {
       avatarUrl: null,
       rating: 2.7,
       comment:
-        "Rất hài lòng với dịch vụ của tư vấn viên, tuy nhiên vẫn còn một số điểm có thể cải thiện để trải nghiệm trở nên hoàn hảo hơn.",
+        "Rất hài lòng với dịch vụ của chuyên viên tư vấn, tuy nhiên vẫn còn một số điểm có thể cải thiện để trải nghiệm trở nên hoàn hảo hơn.",
       createdAt: "2025-02-22T00:00:00Z",
       updatedAt: "2025-01-06T00:00:00Z"
     },

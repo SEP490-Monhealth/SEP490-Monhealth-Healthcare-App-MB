@@ -36,7 +36,7 @@ function BookingsScreen() {
     data: bookingsData,
     isLoading,
     refetch
-  } = useGetBookingsByConsultantId(consultantId)
+  } = useGetBookingsByConsultantId(consultantId, 1)
 
   const [activeTab, setActiveTab] = useState(tab || "booked")
   const [modalType, setModalType] = useState<"cancel" | "complete">("cancel")
@@ -50,7 +50,7 @@ function BookingsScreen() {
     cancelled: BookingStatusEnum.Cancelled
   }
 
-  const filteredBookingsData = bookingsData?.filter(
+  const filteredBookingsData = bookingsData?.bookings?.filter(
     (booking) => booking.status === tabStatusMap[activeTab]
   )
 

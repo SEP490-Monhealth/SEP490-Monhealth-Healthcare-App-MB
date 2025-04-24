@@ -1,6 +1,6 @@
 import React from "react"
 
-import { VStack } from "@/components/global/atoms"
+import { Card, VStack } from "@/components/global/atoms"
 
 import { NutritionFactType } from "@/schemas/nutritionSchema"
 
@@ -129,25 +129,27 @@ export const NutritionFacts = ({
   ]
 
   return (
-    <VStack>
-      {nutritionItems.map((item, index) => (
-        <NutritionItem
-          key={index}
-          label={item.label}
-          value={item.value}
-          unit={item.unit}
-        >
-          {item.subItems &&
-            item.subItems.map((subItem, subIndex) => (
-              <NutritionSubItem
-                key={subIndex}
-                label={subItem.label}
-                value={subItem.value}
-                unit={subItem.unit}
-              />
-            ))}
-        </NutritionItem>
-      ))}
-    </VStack>
+    <Card>
+      <VStack>
+        {nutritionItems.map((item, index) => (
+          <NutritionItem
+            key={index}
+            label={item.label}
+            value={item.value}
+            unit={item.unit}
+          >
+            {item.subItems &&
+              item.subItems.map((subItem, subIndex) => (
+                <NutritionSubItem
+                  key={subIndex}
+                  label={subItem.label}
+                  value={subItem.value}
+                  unit={subItem.unit}
+                />
+              ))}
+          </NutritionItem>
+        ))}
+      </VStack>
+    </Card>
   )
 }

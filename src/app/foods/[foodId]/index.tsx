@@ -354,7 +354,7 @@ function FoodDetailsScreen() {
                 <VStack gap={8}>
                   <Section label="Thông tin dinh dưỡng" />
 
-                  <VStack gap={12}>
+                  <VStack gap={20}>
                     <FoodNutrition
                       calories={nutritionData?.calories || 0}
                       protein={nutritionData?.protein || 0}

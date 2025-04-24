@@ -66,12 +66,3 @@ export const sampleSubscriptionsData: SubscriptionType[] = [
     updatedBy: "3026595f-1414-4b74-be8f-11b7f6e7f4f6"
   }
 ]
-
-export const commissionStructure = {
-  premium: {
-    appPercentage: 30, // Hệ thống nhận 30%
-    consultantPercentage: 70, // Tư vấn viên nhận 70%
-    bookingValue: 899000 / 3, // Giá trị mỗi buổi tư vấn: 299,667 VND
-    hourlyRate: 299667 // Tương đương khoảng 300,000 VND/buổi - 1 buoi = 1h30
-  }
-}

@@ -33,7 +33,7 @@ export const ConsultantOverview = ({
 
       <VStack center gap={0}>
         <Text className="font-tbold text-xl text-primary">
-          {rating.toFixed(1)}
+          {rating ? toFixed(rating, 1) : 0}
         </Text>
         <Text className="font-tmedium text-base text-accent">Trung bình</Text>
       </VStack>

@@ -47,15 +47,17 @@ export const useGetBookingsByUserId = (
 
 export const useGetBookingsByConsultantId = (
   consultantId: string | undefined,
+  page: number,
+  limit?: number,
   date?: string
 ) => {
   const handleError = useError()
 
-  return useQuery<BookingType[], Error>({
+  return useQuery<BookingResponse, Error>({
     queryKey: [MonQueryKey.Booking.ConsultantBookings, consultantId, date],
     queryFn: async () => {
       try {
-        return await getBookingsByConsultantId(consultantId, date)
+        return await getBookingsByConsultantId(consultantId, page, limit, date)
       } catch (error) {
         handleError(error)
         throw error
@@ -174,6 +176,7 @@ export const useCompleteBooking = () => {
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Booking.UserConsultantBookings]
       })
+      queryClient.invalidateQueries({ queryKey: [MonQueryKey.Booking.Booking] })
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Tracker.MonthlyBookings]
       })

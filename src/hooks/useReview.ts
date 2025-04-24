@@ -61,6 +61,7 @@ export const useCreateReview = () => {
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Booking.UserBookings]
       })
+      queryClient.invalidateQueries({ queryKey: [MonQueryKey.Booking.Booking] })
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Consultant.Consultants]
       })
