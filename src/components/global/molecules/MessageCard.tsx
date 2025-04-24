@@ -16,6 +16,7 @@ const formatTime = (timestamp: string): string => {
 }
 
 interface MessageCardProps {
+  messageId?: string
   sender?: boolean
   senderName: string
   message: string
@@ -26,6 +27,7 @@ interface MessageCardProps {
 }
 
 export const MessageCard = ({
+  messageId,
   sender = false,
   senderName,
   message,
@@ -50,7 +52,7 @@ export const MessageCard = ({
           ) : (
             <View className="h-full w-full items-center justify-center overflow-hidden border border-border bg-border">
               <Text className="font-tbold text-lg text-primary">
-                {getInitials(senderName ? senderName : "asd")}
+                {getInitials(senderName ? senderName : "")}
               </Text>
             </View>
           )}

@@ -25,28 +25,26 @@ interface ConsultantStoreState {
 }
 
 export const useConsultantStore = create<ConsultantStoreState>((set) => ({
-  bio: "",
   // bio: "Tôi là vi khuẩn tôi có kinh nghiệm quen 8 người cùng 1 lúc nhưng tất cả chỉ là hẹn hò thôi vì tôi với bọn họ vẫn chưa chính thức yêu nhau",
-  experience: 1,
+  // experience: 5,
+  // expertise: "Dinh dưỡng",
+  // number: "CERT-2025-002",
+  // certificate: "Chứng chỉ chuyên môn về Dinh dưỡng",
+  // issueDate: "2021-01-01",
+  // expiryDate: "2024-01-01",
+  // issuedBy: "Trường Đại học Y Dược TP.HCM",
+  // imageUrls: [],
+
+  bio: "",
+  experience: 0,
   expertise: "",
   number: "",
   certificate: "",
+  // issueDate: new Date().toISOString().split("T")[0],
   issueDate: "",
   expiryDate: "",
   issuedBy: "",
   imageUrls: [],
-  // meetUrl: "https://meet.google.com/abc-defg-hij",
-
-  // bio: "",
-  // experience: 0,
-  // expertise: "",
-  // number: "",
-  // certificate: "",
-  // // issueDate: new Date().toISOString().split("T")[0],
-  // issueDate: "",
-  // expiryDate: "",
-  // issuedBy: "",
-  // imageUrls: [],
 
   updateField: (key, value, append = false) =>
     set((state) => {

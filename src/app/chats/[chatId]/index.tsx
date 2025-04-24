@@ -206,8 +206,9 @@ function ChatDetailsScreen() {
     return (
       <MessageCard
         key={item.messageId}
-        senderName={item.senderName}
+        messageId={item.messageId}
         sender={currentSender === senderId}
+        senderName={item.senderName}
         message={item.content}
         timestamp={item.createdAt}
         avatarUrl={showAvatar ? item.avatarUrl : undefined}

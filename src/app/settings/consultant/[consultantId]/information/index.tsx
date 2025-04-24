@@ -36,10 +36,7 @@ import { ListItem } from "@/components/local/tabs/settings"
 
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
-import {
-  VerificationStatus,
-  getConsultantVerificationStatusMeta
-} from "@/constants/enum/Consultant"
+import { getConsultantVerificationStatusMeta } from "@/constants/enum/Consultant"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -74,10 +71,7 @@ function ConsultantInformationScreen() {
     { label: consultantData?.fullName, icon: ProfileCircle },
     { label: consultantData?.phoneNumber, icon: CallCalling },
     { label: consultantData?.email, icon: Sms },
-    {
-      label: verificationStatusLabel,
-      icon: Verify
-    }
+    { label: verificationStatusLabel, icon: Verify }
   ]
 
   const handleUpdateConsultant = () => {
