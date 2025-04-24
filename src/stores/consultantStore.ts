@@ -25,15 +25,15 @@ interface ConsultantStoreState {
 }
 
 export const useConsultantStore = create<ConsultantStoreState>((set) => ({
-  bio: "Với kinh nghiệm hơn 2 năm trong lĩnh vực tư vấn tâm lý, tôi chuyên hỗ trợ những người gặp phải các triệu chứng trầm cảm, lo âu và căng thẳng kéo dài",
+  bio: "",
   // bio: "Tôi là vi khuẩn tôi có kinh nghiệm quen 8 người cùng 1 lúc nhưng tất cả chỉ là hẹn hò thôi vì tôi với bọn họ vẫn chưa chính thức yêu nhau",
-  experience: 5,
-  expertise: "Dinh dưỡng",
-  number: "CERT-2025-002",
-  certificate: "Chứng chỉ chuyên môn về Dinh dưỡng",
-  issueDate: "2021-01-01",
-  expiryDate: "2024-01-01",
-  issuedBy: "Trường Đại học Y Dược TP.HCM",
+  experience: 1,
+  expertise: "",
+  number: "",
+  certificate: "",
+  issueDate: "",
+  expiryDate: "",
+  issuedBy: "",
   imageUrls: [],
   // meetUrl: "https://meet.google.com/abc-defg-hij",
 

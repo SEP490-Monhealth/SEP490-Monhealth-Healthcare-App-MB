@@ -24,7 +24,6 @@ import {
   HStack,
   Input,
   Modal,
-  ScrollArea,
   VStack
 } from "@/components/global/atoms"
 import { BookingItem, RatingStars } from "@/components/global/molecules"
@@ -108,7 +107,7 @@ function BookingsScreen() {
     setIsLoading(true)
 
     try {
-      // console.log("Final Data:", JSON.stringify(data, null, 2))
+      console.log("Final Data:", JSON.stringify(data, null, 2))
 
       await createBooking(data, {
         onSuccess: () => {

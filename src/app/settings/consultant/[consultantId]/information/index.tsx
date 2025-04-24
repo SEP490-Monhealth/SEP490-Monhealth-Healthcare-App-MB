@@ -36,7 +36,10 @@ import { ListItem } from "@/components/local/tabs/settings"
 
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
-import { VerificationStatus } from "@/constants/enum/Consultant"
+import {
+  VerificationStatus,
+  getConsultantVerificationStatusMeta
+} from "@/constants/enum/Consultant"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -60,6 +63,9 @@ function ConsultantInformationScreen() {
 
   if (!consultantData || isLoading) return <LoadingScreen />
 
+  const { label: verificationStatusLabel } =
+    getConsultantVerificationStatusMeta(consultantData?.verificationStatus)
+
   const userInfoList = [
     {
       label: formatDate(consultantData.createdAt),
@@ -69,10 +75,7 @@ function ConsultantInformationScreen() {
     { label: consultantData?.phoneNumber, icon: CallCalling },
     { label: consultantData?.email, icon: Sms },
     {
-      label:
-        consultantData?.verificationStatus === VerificationStatus.Verified
-          ? "Đã xác thực"
-          : "Chưa xác thực",
+      label: verificationStatusLabel,
       icon: Verify
     }
   ]
