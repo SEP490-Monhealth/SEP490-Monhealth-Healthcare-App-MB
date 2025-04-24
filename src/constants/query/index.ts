@@ -59,6 +59,7 @@ export const MonQueryKey = {
 
   Food: {
     Foods: "foods",
+    FoodSuggestions: "food-suggestions",
     UserFoods: "foods-user",
     Food: "food"
   },

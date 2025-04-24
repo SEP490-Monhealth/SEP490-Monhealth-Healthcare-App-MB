@@ -11,6 +11,7 @@ import {
   createFood,
   getAllFoods,
   getFoodById,
+  getFoodSuggestions,
   getFoodsByUserId
 } from "@/services/foodService"
 
@@ -53,6 +54,36 @@ export const useGetAllFoods = (
           popular,
           status
         )
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    staleTime: 1000 * 60 * 5
+  })
+}
+
+export const useGetFoodSuggestions = (
+  page: number,
+  limit?: number,
+  search?: string,
+  isPublic?: boolean,
+  status?: boolean
+) => {
+  const handleError = useError()
+
+  return useQuery<FoodResponse, Error>({
+    queryKey: [
+      MonQueryKey.Food.FoodSuggestions,
+      page,
+      limit,
+      search,
+      isPublic,
+      status
+    ],
+    queryFn: async () => {
+      try {
+        return await getFoodSuggestions(page, limit, search, isPublic, status)
       } catch (error) {
         handleError(error)
         throw error

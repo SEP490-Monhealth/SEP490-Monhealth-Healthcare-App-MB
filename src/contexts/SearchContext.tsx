@@ -1,5 +1,11 @@
 import { createContext, useContext } from "react"
 
+interface FoodFrequency {
+  foodId: string
+  name: string
+  count: number
+}
+
 export interface SearchContextType {
   searchFoodHistory: { foodId: string; name: string }[]
   searchConsultantHistory: { consultantId: string; fullName: string }[]
@@ -13,6 +19,13 @@ export interface SearchContextType {
     fullName: string
   }) => Promise<void>
   clearSearchConsultantHistory: () => Promise<void>
+  trackMealFood: (food: { foodId: string; name: string }) => Promise<void>
+  getFrequentFoods: () => FoodFrequency[]
+  foodFrequency: FoodFrequency[]
+  extractKeywordsFromFoods: (
+    foods: { name: string; [key: string]: any }[],
+    limit?: number
+  ) => string
 }
 
 export const SearchContext = createContext<SearchContextType | undefined>(

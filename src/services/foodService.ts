@@ -36,6 +36,32 @@ export const getAllFoods = async (
   }
 }
 
+export const getFoodSuggestions = async (
+  page: number,
+  limit?: number,
+  search?: string,
+  isPublic?: boolean,
+  status?: boolean
+): Promise<FoodResponse> => {
+  try {
+    const response = await monAPI.get(`/foods/suggestions`, {
+      params: { page, limit, search, isPublic, status }
+    })
+
+    const { success, message, data } = response.data
+
+    if (!success) {
+      throw { isCustomError: true, message: message }
+    }
+
+    const { totalPages, totalItems, items: foods } = data
+    return { foods, totalPages, totalItems }
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
+  }
+}
+
 export const getFoodsByUserId = async (
   userId: string | undefined,
   page: number,

@@ -6,38 +6,29 @@ import { Keyboard } from "react-native"
 
 import { useLocalSearchParams, useRouter } from "expo-router"
 
-import { SearchNormal1 } from "iconsax-react-native"
-
 import {
   Badge,
   Container,
   Content,
   HStack,
-  Input,
   Modal
 } from "@/components/global/atoms"
 import {
-  CustomHeader,
   ErrorDisplay,
   FoodCard,
   ListFooter,
   ListHeader
 } from "@/components/global/molecules"
-import { Section } from "@/components/global/organisms"
-
-import { FoodCategories } from "@/components/local/foods"
+import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
-import { CategoryTypeEnum } from "@/constants/enum/Category"
 import { MealTypeEnum } from "@/constants/enum/Food"
 
 import { useAuth } from "@/contexts/AuthContext"
 import { useSearch } from "@/contexts/SearchContext"
 import { useStorage } from "@/contexts/StorageContext"
 
-import { useGetCategoriesByType } from "@/hooks/useCategory"
-import { useDebounce } from "@/hooks/useDebounce"
-import { useGetAllFoods } from "@/hooks/useFood"
+import { useGetFoodSuggestions } from "@/hooks/useFood"
 import { useGetNutritionGoal } from "@/hooks/useGoal"
 import { useCreateMeal } from "@/hooks/useMeal"
 import { useGetDailyMealByUserId } from "@/hooks/useTracker"
@@ -48,9 +39,14 @@ import { CreateMealType } from "@/schemas/mealSchema"
 import { formatDateY } from "@/utils/formatters"
 import { getMealTypeByTime } from "@/utils/helpers"
 
-import { LoadingScreen } from "../loading"
+import { LoadingScreen } from "../../loading"
 
-function FoodsScreen() {
+interface FoodWithName {
+  name: string
+  [key: string]: any
+}
+
+function FoodSuggestScreen() {
   const router = useRouter()
   const { mealType, date: selectedDate } = useLocalSearchParams<{
     mealType?: string
@@ -68,21 +64,25 @@ function FoodsScreen() {
   const today = formatDateY(new Date())
 
   const { userAllergies } = useStorage()
+
   const {
     searchFoodHistory,
     addSearchFoodHistory,
     clearSearchFoodHistory,
-    trackMealFood
+    trackMealFood,
+    getFrequentFoods,
+    extractKeywordsFromFoods
   } = useSearch()
+
+  const frequentFoods = getFrequentFoods()
+  const searchQuery = extractKeywordsFromFoods(frequentFoods.slice(0, 3))
 
   const { mutate: addMeal } = useCreateMeal()
 
   const [foodsData, setFoodsData] = useState<FoodType[]>([])
   const [page, setPage] = useState<number>(1)
   const [hasMore, setHasMore] = useState<boolean>(true)
-  const [searchQuery, setSearchQuery] = useState<string>("")
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
-  const [selectedCategory, setSelectedCategory] = useState<string>("Tất cả")
   const [addedFoods, setAddedFoods] = useState<Set<string>>(new Set())
   const [pendingMealData, setPendingMealData] = useState<CreateMealType | null>(
     null
@@ -95,24 +95,16 @@ function FoodsScreen() {
 
   const limit = 10
 
-  const debouncedSearch = useDebounce(searchQuery)
-  const debouncedFilter = useDebounce(selectedCategory, 0)
-
   const { data: dailyMealData, isLoading: isDailyMealLoading } =
     useGetDailyMealByUserId(userId, today)
 
   const { data: nutritionGoalData, isLoading: isGoalLoading } =
     useGetNutritionGoal(userId)
 
-  const { data: categoriesData, isLoading: isCategoriesLoading } =
-    useGetCategoriesByType(CategoryTypeEnum.Food)
-
-  const { data, isLoading, refetch } = useGetAllFoods(
+  const { data, isLoading, refetch } = useGetFoodSuggestions(
     page,
     limit,
-    debouncedFilter === "Tất cả" ? "" : debouncedFilter,
-    debouncedSearch,
-    true,
+    searchQuery,
     true,
     true
   )
@@ -128,7 +120,7 @@ function FoodsScreen() {
 
   useEffect(() => {
     setPage(1)
-  }, [debouncedFilter, debouncedSearch])
+  }, [])
 
   useEffect(() => {
     if (!isLoading && isRefreshing) {
@@ -218,12 +210,10 @@ function FoodsScreen() {
 
       confirmAddMeal(mealData)
     },
-    [userId, userAllergies, dailyMealData, nutritionGoalData]
+    [userId, userAllergies, dailyMealData, nutritionGoalData, trackMealFood]
   )
 
   const confirmAddMeal = (mealData: CreateMealType) => {
-    // console.log(JSON.stringify(mealData, null, 2))
-
     addMeal(mealData, {
       onSuccess: () =>
         setAddedFoods((prev) => new Set(prev).add(mealData.items[0].foodId))
@@ -239,59 +229,55 @@ function FoodsScreen() {
     })
   }
 
-  const handleViewUserFoods = () => router.push("/foods/user")
-
-  const handleViewFoodSuggestions = () => {
-    router.push({
-      pathname: "/foods/suggestions",
-      params: { mealType: mealTypeParsed.toString(), date: selectedDate }
-    })
-  }
-
   const FlatListHeader = useMemo(() => {
     return (
-      <ListHeader className="pt-4">
-        <FoodCategories
-          categoriesData={categoriesData || []}
-          selectedCategory={selectedCategory}
-          onSelectCategory={setSelectedCategory}
-        />
+      <ListHeader className="pt-2">
+        {frequentFoods.length > 0 && (
+          <>
+            <Section label="Món ăn yêu thích" margin={false} />
 
-        {searchFoodHistory.length > 0 && (
-          <Section
-            label="Tìm kiếm gần đây"
-            actionText="Xóa tất cả"
-            onPress={clearSearchFoodHistory}
-          />
+            <HStack gap={6} className="mb-4 flex-wrap">
+              {frequentFoods.slice(0, 5).map((food) => (
+                <TouchableOpacity
+                  key={food.foodId}
+                  activeOpacity={0.8}
+                  onPress={() => handleViewFood(food.foodId, food.name)}
+                >
+                  <Badge label={`${food.name} (${food.count})`} />
+                </TouchableOpacity>
+              ))}
+            </HStack>
+          </>
         )}
 
-        <HStack gap={6} className="flex-wrap">
-          {searchFoodHistory.map((search) => (
-            <TouchableOpacity
-              key={search.foodId}
-              activeOpacity={0.8}
-              onPress={() => handleViewFood(search.foodId, search.name)}
-            >
-              <Badge label={search.name} />
-            </TouchableOpacity>
-          ))}
-        </HStack>
+        {searchFoodHistory.length > 0 && (
+          <>
+            <Section
+              label="Tìm kiếm gần đây"
+              actionText="Xóa tất cả"
+              onPress={clearSearchFoodHistory}
+            />
+            <HStack gap={6} className="mb-4 flex-wrap">
+              {searchFoodHistory.map((search) => (
+                <TouchableOpacity
+                  key={search.foodId}
+                  activeOpacity={0.8}
+                  onPress={() => handleViewFood(search.foodId, search.name)}
+                >
+                  <Badge label={search.name} />
+                </TouchableOpacity>
+              ))}
+            </HStack>
+          </>
+        )}
 
-        <Section
-          label="Danh sách thức ăn"
-          // actionText="Thức ăn của tôi"
-          // onPress={handleViewUserFoods}
-          actionText="Đề xuất thức ăn"
-          onPress={handleViewFoodSuggestions}
-        />
+        <Section label="Đề xuất món ăn" margin={false} />
       </ListHeader>
     )
-  }, [categoriesData, selectedCategory, searchFoodHistory])
+  }, [frequentFoods, searchFoodHistory, clearSearchFoodHistory])
 
   if (
     (foodsData.length === 0 && isLoading) ||
-    !categoriesData ||
-    isCategoriesLoading ||
     isDailyMealLoading ||
     isGoalLoading
   )
@@ -300,17 +286,7 @@ function FoodsScreen() {
   return (
     <>
       <Container>
-        <CustomHeader
-          content={
-            <Input
-              value={searchQuery}
-              placeholder="Tìm kiếm thức ăn..."
-              onChangeText={(text) => setSearchQuery(text)}
-              startIcon={<SearchNormal1 size={20} color={COLORS.primary} />}
-              canClearText
-            />
-          }
-        />
+        <Header back label="Đề xuất món ăn" />
 
         <Content>
           <FlatList
@@ -352,7 +328,7 @@ function FoodsScreen() {
             }
             ListEmptyComponent={
               <ErrorDisplay
-                imageSource={require("../../../public/images/monhealth-no-data-image.png")}
+                imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
                 title="Không có dữ liệu"
                 description="Không tìm thấy có thức ăn nào ở đây!"
                 marginTop={12}
@@ -384,4 +360,4 @@ function FoodsScreen() {
   )
 }
 
-export default FoodsScreen
+export default FoodSuggestScreen
