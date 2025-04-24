@@ -206,7 +206,7 @@ export const SpendingTab = ({
           </ListFooter>
         ) : (
           <ListFooter className="pb-12">
-            <TipText text={getRandomTip()} />
+            <TipText tip={getRandomTip()} />
           </ListFooter>
         )
       }

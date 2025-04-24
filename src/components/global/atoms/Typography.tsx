@@ -7,11 +7,11 @@ import { COLORS } from "@/constants/color"
 import { CardHeader } from "./Card"
 import { HStack, VStack } from "./Stack"
 
-interface TextProps {
+interface ErrorTextProps {
   error: string
 }
 
-export const ErrorText = ({ error }: TextProps) => {
+export const ErrorText = ({ error }: ErrorTextProps) => {
   return (
     <Text className="ml-1 mt-1 font-tregular text-sm text-destructive">
       {error}
@@ -19,7 +19,11 @@ export const ErrorText = ({ error }: TextProps) => {
   )
 }
 
-export const TipText = ({ text }: TextProps) => {
+interface TipTextProps {
+  tip: string
+}
+
+export const TipText = ({ tip }: TipTextProps) => {
   return (
     <VStack center>
       <HStack center gap={6}>
@@ -28,7 +32,7 @@ export const TipText = ({ text }: TextProps) => {
       </HStack>
 
       <Text className="text-center font-tregular text-sm text-secondary">
-        "{text}"
+        "{tip}"
       </Text>
     </VStack>
   )

@@ -2,6 +2,7 @@ import { ActivityCard } from "./ActivityCard"
 import { ArcProgress } from "./ArcProgress"
 import { BankCard } from "./BankCard"
 import { BookingCard } from "./BookingCard"
+import { BookingItem } from "./BookingItem"
 import { CertificateCard } from "./CertificateCard"
 import { ChatCard } from "./ChatCard"
 import { CircularProgress } from "./CircularProgress"
@@ -39,6 +40,7 @@ export {
   ArcProgress,
   BankCard,
   BookingCard,
+  BookingItem,
   CertificateCard,
   ChatCard,
   CircularProgress,

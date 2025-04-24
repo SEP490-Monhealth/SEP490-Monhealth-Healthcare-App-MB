@@ -1,14 +1,24 @@
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
 
-import { Image, Keyboard, Text, View } from "react-native"
+import {
+  Image,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Text,
+  View
+} from "react-native"
 
 import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Calendar, Clock } from "iconsax-react-native"
 import { Controller, useForm } from "react-hook-form"
 
 import {
   Button,
+  Card,
   Container,
   Content,
   HStack,
@@ -17,8 +27,10 @@ import {
   ScrollArea,
   VStack
 } from "@/components/global/atoms"
-import { RatingStars } from "@/components/global/molecules"
+import { BookingItem, RatingStars } from "@/components/global/molecules"
 import { Header, Section } from "@/components/global/organisms"
+
+import { COLORS } from "@/constants/color"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -34,18 +46,25 @@ import { getInitials } from "@/utils/helpers"
 
 import { LoadingScreen } from "../loading"
 
+const formatTime = (time: string) => {
+  const [hour, minute] = time.split(":")
+  return `${hour}h${minute}`
+}
+
 function BookingsScreen() {
   const router = useRouter()
   const { consultantId } = useLocalSearchParams() as {
     consultantId: string
   }
 
-  const { date: storedDate, startTime, endTime } = useBookingStore()
-
   const { user } = useAuth()
   const userId = user?.userId
 
+  const { date: storedDate, startTime, endTime } = useBookingStore()
+
   // console.log(storedDate)
+
+  const scrollViewRef = useRef<ScrollView>(null)
 
   const { mutate: createBooking } = useCreateBooking()
 
@@ -54,6 +73,19 @@ function BookingsScreen() {
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+
+  const bookingItems = [
+    {
+      icon: <Calendar variant="Bold" size={20} color={COLORS.primary} />,
+      label: "Ngày",
+      value: formatDate(storedDate)
+    },
+    {
+      icon: <Clock variant="Bold" size={20} color={COLORS.primary} />,
+      label: "Thời gian",
+      value: `${formatTime(startTime)} - ${formatTime(endTime)}`
+    }
+  ]
 
   const {
     control,
@@ -70,11 +102,6 @@ function BookingsScreen() {
       notes: ""
     }
   })
-
-  const formatTime = (time: string) => {
-    const [hour, minute] = time.split(":")
-    return `${hour}h${minute}`
-  }
 
   const onSubmit = async (data: CreateBookingType) => {
     Keyboard.dismiss()
@@ -104,6 +131,12 @@ function BookingsScreen() {
     handleSubmit(onSubmit)()
   }
 
+  const scrollToInput = () => {
+    setTimeout(() => {
+      scrollViewRef.current?.scrollToEnd({ animated: true })
+    }, 50)
+  }
+
   if (isConsultantLoading || !consultantData) return <LoadingScreen />
 
   return (
@@ -111,80 +144,105 @@ function BookingsScreen() {
       <Container>
         <Header back label="Tạo lịch hẹn" />
 
-        <Content className="mt-2">
-          <ScrollArea className="flex-1">
-            <View className="pb-12">
-              <HStack center gap={20}>
-                {consultantData.avatarUrl ? (
-                  <Image
-                    source={{ uri: consultantData.avatarUrl }}
-                    className="h-24 w-24 rounded-2xl border border-border"
-                  />
-                ) : (
-                  <View className="flex h-24 w-24 items-center justify-center rounded-xl border border-muted bg-border">
-                    <Text className="font-tbold text-lg text-primary">
-                      {getInitials(consultantData.fullName)}
-                    </Text>
-                  </View>
-                )}
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={{ flex: 1 }}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 20 : 20}
+        >
+          <Content className="mt-2">
+            <ScrollView
+              ref={scrollViewRef}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{ paddingBottom: 20 }}
+            >
+              <View className="pb-12">
+                <HStack center gap={20}>
+                  {consultantData.avatarUrl ? (
+                    <Image
+                      source={{ uri: consultantData.avatarUrl }}
+                      className="h-24 w-24 rounded-2xl border border-border"
+                    />
+                  ) : (
+                    <View className="flex h-24 w-24 items-center justify-center rounded-xl border border-muted bg-border">
+                      <Text className="font-tbold text-lg text-primary">
+                        {getInitials(consultantData.fullName)}
+                      </Text>
+                    </View>
+                  )}
 
-                <VStack gap={8}>
-                  <VStack gap={0}>
-                    <Text className="font-tbold text-2xl text-primary">
-                      {consultantData.fullName}
-                    </Text>
+                  <VStack gap={8}>
+                    <VStack gap={0}>
+                      <Text className="font-tbold text-2xl text-primary">
+                        {consultantData.fullName}
+                      </Text>
 
-                    <Text className="font-tmedium text-base text-accent">
-                      {consultantData.expertise} • KN{" "}
-                      {consultantData.experience} năm
-                    </Text>
+                      <Text className="font-tmedium text-base text-accent">
+                        {consultantData.expertise} • KN{" "}
+                        {consultantData.experience} năm
+                      </Text>
+                    </VStack>
+
+                    <RatingStars
+                      rating={consultantData.averageRating}
+                      count={consultantData.ratingCount}
+                      showCount
+                    />
                   </VStack>
+                </HStack>
 
-                  <RatingStars
-                    rating={consultantData.averageRating}
-                    count={consultantData.ratingCount}
-                    showCount
+                <View>
+                  <Section label="Thông tin" />
+
+                  <Card className="py-2">
+                    {bookingItems.map((item, index) => (
+                      <BookingItem
+                        key={index}
+                        icon={item.icon}
+                        label={item.label}
+                        value={item.value}
+                      />
+                    ))}
+                  </Card>
+                </View>
+
+                <View>
+                  <Section label="Ghi chú" />
+
+                  <Controller
+                    name="notes"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Input
+                        value={value ? value.toString() : ""}
+                        placeholder="VD: Tôi muốn hỏi về chế độ ăn kiêng."
+                        onChangeText={(text) => onChange(text)}
+                        isMultiline
+                        numberOfLines={6}
+                        canClearText
+                        errorMessage={errors.notes?.message}
+                        onFocus={scrollToInput}
+                      />
+                    )}
                   />
-                </VStack>
-              </HStack>
+                </View>
 
-              <Section
-                label="Thời gian"
-                actionText={`${formatDate(storedDate)}, ${formatTime(startTime)} - ${formatTime(endTime)}`}
-              />
+                <Text className="ml-1 mt-4 font-tregular text-sm text-accent">
+                  Thông tin thêm giúp tư vấn viên chuẩn bị tốt hơn cho buổi tư
+                  vấn
+                </Text>
 
-              <Controller
-                name="notes"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <Input
-                    value={value ? value.toString() : ""}
-                    label="Ghi chú"
-                    placeholder="VD: Tôi muốn hỏi về chế độ ăn kiêng."
-                    onChangeText={(text) => onChange(text)}
-                    isMultiline
-                    numberOfLines={6}
-                    canClearText
-                    errorMessage={errors.notes?.message}
-                  />
-                )}
-              />
-
-              <Text className="ml-1 mt-4 font-tregular text-sm text-accent">
-                Thông tin thêm giúp tư vấn viên chuẩn bị tốt hơn cho buổi tư vấn
-              </Text>
-
-              <Button
-                loading={isLoading}
-                disabled={isLoading}
-                onPress={handleOpenModal}
-                className="mt-8"
-              >
-                Đặt lịch
-              </Button>
-            </View>
-          </ScrollArea>
-        </Content>
+                <Button
+                  loading={isLoading}
+                  disabled={isLoading}
+                  onPress={handleOpenModal}
+                  className="mt-8"
+                >
+                  Đặt lịch
+                </Button>
+              </View>
+            </ScrollView>
+          </Content>
+        </KeyboardAvoidingView>
       </Container>
 
       <Modal

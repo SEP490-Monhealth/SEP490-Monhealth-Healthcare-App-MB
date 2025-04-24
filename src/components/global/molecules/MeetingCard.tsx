@@ -6,8 +6,6 @@ import { ChevronRight } from "lucide-react-native"
 
 import { COLORS } from "@/constants/color"
 
-import { Card } from "../atoms"
-
 interface MeetingCardProps {
   meetingUrl?: string
   onPress?: () => void
