@@ -4,6 +4,7 @@ import {
   FlatList,
   Image,
   KeyboardAvoidingView,
+  Linking,
   SafeAreaView,
   Text,
   View
@@ -24,10 +25,12 @@ import { ClipboardText, Send2 } from "iconsax-react-native"
 import LottieView from "lottie-react-native"
 
 import { HStack, Input, VStack } from "@/components/global/atoms"
+import { MeetingCard } from "@/components/global/molecules"
 import { MessageCard } from "@/components/global/molecules/MessageCard"
 import { Header } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
+import { BookingStatusEnum } from "@/constants/enum/Booking"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -35,6 +38,17 @@ import { useGetBookingsByUserIdAndConsultantId } from "@/hooks/useBooking"
 import { useGetChatById } from "@/hooks/useChat"
 
 import { CreateMessageType, MessageType } from "@/schemas/messageSchema"
+
+const containsEmail = (text: string) => {
+  const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g
+  return emailRegex.test(text)
+}
+
+const containsPhoneNumber = (text: string) => {
+  const phoneRegex =
+    /(\+?\d{1,4}[ .-]?)?(\(?\d{3,4}\)?[ .-]?)?\d{3}[ .-]?\d{4}/g
+  return phoneRegex.test(text)
+}
 
 function ChatDetailsScreen() {
   const { chatId } = useLocalSearchParams<{ chatId: string }>()
@@ -53,6 +67,7 @@ function ChatDetailsScreen() {
   const [newMessage, setNewMessage] = useState<string>("")
   const [isLoadingMessages, setIsLoadingMessages] = useState(true)
   const [selectedMessage, setSelectedMessage] = useState<string | null>(null)
+  const [validationError, setValidationError] = useState<string>("")
 
   const { data: chatData } = useGetChatById(chatId)
 
@@ -61,7 +76,9 @@ function ChatDetailsScreen() {
     chatData?.consultantId
   )
 
-  // console.log(JSON.stringify(bookingsData, null, 2))
+  const currentBooking = bookingsData?.find(
+    (booking) => booking.status === BookingStatusEnum.Booked
+  )
 
   useEffect(() => {
     let connection: HubConnection | null = null
@@ -128,7 +145,21 @@ function ChatDetailsScreen() {
   }, [chatId])
 
   const handleSendMessage = async () => {
-    if (chatHubConnection && newMessage) {
+    if (!newMessage.trim() || !connectionStatus) return
+
+    if (containsEmail(newMessage)) {
+      setValidationError("Không được phép gửi địa chỉ email trong tin nhắn")
+      return
+    }
+
+    if (containsPhoneNumber(newMessage)) {
+      setValidationError("Không được phép gửi số điện thoại trong tin nhắn")
+      return
+    }
+
+    setValidationError("")
+
+    if (chatHubConnection) {
       const newData: CreateMessageType = {
         chatId: chatId,
         senderId,
@@ -151,6 +182,12 @@ function ChatDetailsScreen() {
 
   const handlePressMessage = async (selectedMessage: string) => {
     setSelectedMessage(selectedMessage)
+  }
+
+  const handleViewMeetingUrl = () => {
+    if (currentBooking) {
+      Linking.openURL(currentBooking.meetingUrl)
+    }
   }
 
   const renderMessageItem = ({
@@ -180,7 +217,7 @@ function ChatDetailsScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-background">
-      <View className="px-6">
+      <VStack gap={12} className="px-6">
         <Header
           back
           label={
@@ -195,7 +232,14 @@ function ChatDetailsScreen() {
             href: `/chats/${chatId}/information`
           }}
         />
-      </View>
+
+        {currentBooking && (
+          <MeetingCard
+            meetingUrl={currentBooking.meetingUrl}
+            onPress={handleViewMeetingUrl}
+          />
+        )}
+      </VStack>
 
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -252,9 +296,18 @@ function ChatDetailsScreen() {
             <Input
               placeholder="Nhập tin nhắn..."
               value={newMessage}
-              onChangeText={setNewMessage}
+              onChangeText={(text) => {
+                setNewMessage(text)
+                if (validationError) setValidationError("")
+              }}
               onSubmitEditing={handleSendMessage}
             />
+
+            {validationError ? (
+              <Text className="ml-2 mt-1 font-tregular text-sm text-destructive">
+                {validationError}
+              </Text>
+            ) : null}
           </View>
 
           <TouchableOpacity
