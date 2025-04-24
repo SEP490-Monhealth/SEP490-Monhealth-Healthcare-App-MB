@@ -34,12 +34,14 @@ interface SpendingTabProps {
   consultantId?: string
   date: string
   onOverlayLoading: (isLoading: boolean) => void
+  onWalletRefresh: () => void
 }
 
 export const SpendingTab = ({
   consultantId,
   date,
-  onOverlayLoading
+  onOverlayLoading,
+  onWalletRefresh
 }: SpendingTabProps) => {
   const router = useRouter()
 
@@ -99,6 +101,7 @@ export const SpendingTab = ({
     setPage(1)
     refetchYearlyTransaction()
     refetchTransactionsData()
+    onWalletRefresh()
     setIsRefreshing(false)
   }
 

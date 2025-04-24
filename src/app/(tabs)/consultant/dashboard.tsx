@@ -37,7 +37,8 @@ function DashboardScreen() {
   const [activeTab, setActiveTab] = useState(tab || "spending")
   const [overlayLoading, setOverlayLoading] = useState(false)
 
-  const { data: walletData } = useGetWalletByConsultantId(consultantId)
+  const { data: walletData, refetch: refetchWallet } =
+    useGetWalletByConsultantId(consultantId)
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab)
@@ -46,6 +47,10 @@ function DashboardScreen() {
   const handleOverlayLoading = useCallback((isLoading: boolean) => {
     setOverlayLoading(isLoading)
   }, [])
+
+  const handleRefresh = useCallback(() => {
+    refetchWallet()
+  }, [refetchWallet])
 
   return (
     <Container>
@@ -79,6 +84,7 @@ function DashboardScreen() {
               consultantId={consultantId}
               date={today}
               onOverlayLoading={handleOverlayLoading}
+              onWalletRefresh={handleRefresh}
             />
           </TabsContent>
 
