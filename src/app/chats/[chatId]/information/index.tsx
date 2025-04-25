@@ -166,7 +166,6 @@ const ChatInformationScreen = () => {
                       notes={booking.notes}
                       status={booking.status}
                       cancellationReason={booking.cancellationReason}
-                      onCancelPress={() => handleCancel(booking.bookingId)}
                     />
                   ))}
                 </VStack>

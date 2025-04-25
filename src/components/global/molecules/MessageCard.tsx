@@ -50,11 +50,7 @@ export const MessageCard = ({
           {avatarUrl ? (
             <Image source={{ uri: avatarUrl }} className="h-full w-full" />
           ) : (
-            <View className="h-full w-full items-center justify-center overflow-hidden border border-border bg-border">
-              <Text className="font-tbold text-lg text-primary">
-                {getInitials(senderName ? senderName : "")}
-              </Text>
-            </View>
+            <View className="h-full w-full" style={{ opacity: 0 }} />
           )}
         </View>
       )}

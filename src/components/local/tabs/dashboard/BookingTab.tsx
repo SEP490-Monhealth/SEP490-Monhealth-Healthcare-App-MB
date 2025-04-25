@@ -130,6 +130,7 @@ export const BookingTab = ({
               date={booking.date}
               startTime={booking.startTime}
               endTime={booking.endTime}
+              notes={booking.notes}
               status={booking.status}
               onPress={handleViewBookings}
             />

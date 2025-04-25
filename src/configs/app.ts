@@ -1,5 +1,5 @@
 export const appConfig = {
-  baseUrl: "http://144.91.64.170:8082",
+  baseUrl: "https://monhealth-api.persiehomeserver.com",
   apiVersion: "/api/v1",
   name: "MonAPI",
   version: "1.0.0",

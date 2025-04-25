@@ -47,6 +47,8 @@ function SchedulesScreen() {
   const { data: bookingsData, isLoading: isBookingsLoading } =
     useGetBookingsByConsultantId(
       consultantId,
+      1,
+      undefined,
       selectedDate || now.toISOString()
     )
 
@@ -102,7 +104,7 @@ function SchedulesScreen() {
     )
   }
 
-  if (isBookingsLoading || !bookingsData) {
+  if (!bookingsData || isBookingsLoading) {
     return <LoadingScreen />
   }
 
@@ -128,8 +130,8 @@ function SchedulesScreen() {
             />
 
             <VStack gap={0}>
-              {bookingsData.length > 0 ? (
-                bookingsData.map((schedule) => (
+              {bookingsData.bookings.length > 0 ? (
+                bookingsData.bookings.map((schedule) => (
                   <ScheduleCard
                     key={schedule.bookingId}
                     member={schedule.member.fullName}
