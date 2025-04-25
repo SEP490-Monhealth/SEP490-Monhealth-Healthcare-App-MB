@@ -33,6 +33,7 @@ interface WithdrawalRequestCardProps {
   description: string
   amount: number
   time: string
+  reason?: string | null
   status: WithdrawalRequestStatusEnum
   onPress?: () => void
 }
@@ -41,6 +42,7 @@ export const WithdrawalRequestCard = ({
   description,
   amount,
   time,
+  reason,
   status,
   onPress
 }: WithdrawalRequestCardProps) => {
@@ -50,36 +52,44 @@ export const WithdrawalRequestCard = ({
   const { date, time: timestamp } = formatDateTime(time)
 
   return (
-    <Card className="flex-row items-center justify-between" onPress={onPress}>
-      <TouchableOpacity
-        activeOpacity={1}
-        className="mr-4 h-12 w-12 items-center justify-center rounded-full bg-muted"
-      >
-        <Image
-          source={require("../../../../public/icons/transactions/donate.png")}
-          style={{ width: 24, height: 24 }}
-        />
-      </TouchableOpacity>
+    <Card className="flex-col gap-2" onPress={onPress}>
+      <View className="flex-row items-center justify-between">
+        <TouchableOpacity
+          activeOpacity={1}
+          className="mr-4 h-12 w-12 items-center justify-center rounded-full bg-muted"
+        >
+          <Image
+            source={require("../../../../public/icons/transactions/donate.png")}
+            style={{ width: 24, height: 24 }}
+          />
+        </TouchableOpacity>
 
-      <View className="flex-1">
-        <Text className="font-tmedium text-base text-primary">
-          {description}
-        </Text>
+        <View className="flex-1">
+          <Text className="font-tmedium text-base text-primary">
+            {description}
+          </Text>
 
-        <Text className="font-tmedium text-sm text-accent">
-          {date} • {timestamp}
-        </Text>
+          <Text className="font-tmedium text-sm text-accent">
+            {date} • {timestamp}
+          </Text>
+        </View>
+
+        <VStack gap={4} className="items-end">
+          <Text className="font-tmedium text-sm text-primary">
+            {formatCurrency(amount)}
+          </Text>
+
+          <Text className="font-tregular text-sm text-accent">
+            {withdrawalRequestStatusLabel}
+          </Text>
+        </VStack>
       </View>
 
-      <VStack gap={4} className="items-end">
-        <Text className="font-tmedium text-sm text-primary">
-          {formatCurrency(amount)}
+      {reason && (
+        <Text className="text-justify font-tregular text-sm text-accent">
+          Lý do: {reason}
         </Text>
-
-        <Text className="font-tregular text-sm text-accent">
-          {withdrawalRequestStatusLabel}
-        </Text>
-      </VStack>
+      )}
     </Card>
   )
 }

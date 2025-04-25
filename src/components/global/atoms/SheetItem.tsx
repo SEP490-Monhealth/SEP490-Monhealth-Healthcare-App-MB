@@ -46,7 +46,7 @@ export const SheetSelect = ({
       activeOpacity={0.8}
       disabled={disabled}
       onPress={!disabled ? onPress : undefined}
-      className={`border-b border-border p-4 ${disabled ? "opacity-30" : "opacity-100"}`}
+      className={`border-b border-border p-4 ${disabled ? "opacity-60" : "opacity-100"}`}
     >
       <HStack center gap={16}>
         <View>{icon}</View>

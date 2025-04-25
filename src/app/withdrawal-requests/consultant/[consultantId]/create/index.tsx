@@ -4,24 +4,31 @@ import {
   Keyboard,
   SafeAreaView,
   Text,
-  TouchableWithoutFeedback
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View
 } from "react-native"
+import { SvgUri } from "react-native-svg"
 
 import { useLocalSearchParams, useRouter } from "expo-router"
 
+import { LoadingScreen } from "@/app/loading"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 
 import {
   Button,
+  Card,
   Container,
   Content,
+  HStack,
   Input,
   Select,
   VStack
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
+import { useGetConsultantBanksByConsultantId } from "@/hooks/useConsultantBank"
 import { useCreateWithdrawalRequest } from "@/hooks/useWithdrawalRequest"
 
 import {
@@ -35,7 +42,18 @@ function WithdrawalRequestCreateScreen() {
   const router = useRouter()
   const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
 
-  const { consultantBankId, accountNumber, reset } = useWithdrawalRequestStore()
+  const {
+    consultantBankId,
+    accountNumber,
+    name,
+    shortName,
+    logoUrl,
+    updateField,
+    resetWithdrawalRequest
+  } = useWithdrawalRequestStore()
+
+  const { data: consultantBanksData } =
+    useGetConsultantBanksByConsultantId(consultantId)
 
   const { mutate: addWithdrawalRequest } = useCreateWithdrawalRequest()
 
@@ -53,6 +71,24 @@ function WithdrawalRequestCreateScreen() {
     setValue("consultantBankId", consultantBankId)
   }, [consultantId, consultantBankId])
 
+  useEffect(() => {
+    if (consultantBanksData?.length === 1) {
+      updateField("accountNumber", consultantBanksData[0].number)
+      setValue("consultantBankId", consultantBanksData[0].consultantBankId)
+
+      updateField("name", consultantBanksData[0].bank.name)
+      updateField("shortName", consultantBanksData[0].bank.shortName)
+      updateField("logoUrl", consultantBanksData[0].bank.logoUrl)
+    }
+  }, [
+    consultantId,
+    consultantBankId,
+    name,
+    shortName,
+    logoUrl,
+    consultantBanksData
+  ])
+
   const onSubmit = (newData: CreateWithdrawalRequestType) => {
     Keyboard.dismiss()
 
@@ -62,14 +98,24 @@ function WithdrawalRequestCreateScreen() {
 
     addWithdrawalRequest(finalData, {
       onSuccess: () => {
-        reset()
+        resetWithdrawalRequest()
         router.back()
       }
     })
   }
 
   const handleViewConsultantBanks = () => {
-    router.push(`/withdrawal-requests/consultant/${consultantId}/create/banks`)
+    if (consultantBanksData?.length === 1) {
+      return null
+    } else {
+      router.push(
+        `/withdrawal-requests/consultant/${consultantId}/create/banks`
+      )
+    }
+  }
+
+  if (!consultantBanksData) {
+    return <LoadingScreen />
   }
 
   return (
@@ -81,6 +127,33 @@ function WithdrawalRequestCreateScreen() {
           <Content className="mt-2">
             <VStack gap={32}>
               <VStack gap={8}>
+                {accountNumber && (
+                  <Card>
+                    <HStack center>
+                      <TouchableOpacity
+                        activeOpacity={1}
+                        className="mr-4 h-12 w-12 items-center justify-center rounded-full bg-muted"
+                      >
+                        <SvgUri uri={logoUrl} width={24} height={24} />
+                      </TouchableOpacity>
+
+                      <VStack>
+                        <Text className="font-tmedium text-base text-primary">
+                          {shortName}
+                        </Text>
+
+                        <Text
+                          className="font-tmedium text-sm text-accent"
+                          numberOfLines={1}
+                          ellipsizeMode="tail"
+                        >
+                          {name}
+                        </Text>
+                      </VStack>
+                    </HStack>
+                  </Card>
+                )}
+
                 <Select
                   label="Ngân hàng"
                   defaultValue="VD: 2003150599"

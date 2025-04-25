@@ -26,6 +26,10 @@ const ConsultantBanksScreen = () => {
   const handleSelectBank = (bank: ConsultantBankType) => {
     updateField("consultantBankId", bank.consultantBankId)
     updateField("accountNumber", bank.number)
+
+    updateField("name", bank.bank.name)
+    updateField("shortName", bank.bank.shortName)
+    updateField("logoUrl", bank.bank.logoUrl)
     router.back()
   }
 
