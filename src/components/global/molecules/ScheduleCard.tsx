@@ -24,7 +24,6 @@ interface ScheduleCardProps {
   endTime: string
   notes?: string
   status: BookingStatusEnum
-  onPress?: () => void
 }
 
 export const ScheduleCard = ({
@@ -32,8 +31,7 @@ export const ScheduleCard = ({
   startTime,
   endTime,
   notes,
-  status,
-  onPress
+  status
 }: ScheduleCardProps) => {
   const {
     label: bookingStatusLabel,
@@ -71,7 +69,7 @@ export const ScheduleCard = ({
           />
         </HStack>
 
-        <Card onPress={onPress}>
+        <Card>
           <CardHeader label={member} />
 
           <Text

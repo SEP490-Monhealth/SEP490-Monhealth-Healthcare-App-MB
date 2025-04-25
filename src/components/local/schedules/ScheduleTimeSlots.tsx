@@ -9,7 +9,7 @@ import { HStack, VStack } from "@/components/global/atoms"
 import { COLORS } from "@/constants/color"
 import { RecurringDayEnum, ScheduleTypeEnum } from "@/constants/enum/Schedule"
 
-import { useDeleteTimeSlot } from "@/hooks/useTimeSlot"
+import { useDeleteScheduleTimeSlot } from "@/hooks/useSchedule"
 
 import { ScheduleType, TimeSlotType } from "@/schemas/scheduleSchema"
 
@@ -70,7 +70,7 @@ const DayTimeSlots = ({
   day,
   onAddTimeSlot
 }: DayTimeSlotsProps) => {
-  const { mutate: deleteTimeSlot } = useDeleteTimeSlot()
+  const { mutate: deleteScheduleTimeSlot } = useDeleteScheduleTimeSlot()
 
   const scheduleForDay = scheduleData.find(
     (schedule) => schedule.recurringDay === (day as RecurringDayEnum)
@@ -101,7 +101,7 @@ const DayTimeSlots = ({
           <TimeSlotButton
             key={`${timeSlot.startTime}-${timeSlot.endTime}`}
             timeSlot={timeSlot}
-            onDeletePress={() => deleteTimeSlot(timeSlot.timeSlotId)}
+            onDeletePress={() => deleteScheduleTimeSlot(timeSlot.timeSlotId)}
           />
         ))}
 
@@ -133,11 +133,13 @@ export const ScheduleTimeSlots = ({
   onOpenTimeSheet,
   scheduleType
 }: ScheduleTimeSlotsProps) => {
+  const { mutate: deleteScheduleTimeSlot } = useDeleteScheduleTimeSlot()
+
   if (scheduleType === ScheduleTypeEnum.Recurring) {
     const allDays = [0, 1, 2, 3, 4, 5, 6]
 
     return (
-      <VStack className="-mt-14">
+      <VStack gap={8}>
         {allDays.map((day) => (
           <MemoizedDayTimeSlots
             key={`recurring-${day}`}
@@ -179,6 +181,9 @@ export const ScheduleTimeSlots = ({
               <TimeSlotButton
                 key={`${timeSlot.startTime}-${timeSlot.endTime}`}
                 timeSlot={timeSlot}
+                onDeletePress={() =>
+                  deleteScheduleTimeSlot(timeSlot.timeSlotId)
+                }
               />
             ))}
 

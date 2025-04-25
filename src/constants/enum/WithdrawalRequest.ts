@@ -4,7 +4,6 @@ import { z } from "zod"
 export enum WithdrawalRequestStatusEnum {
   Pending,
   Approved,
-  Completed,
   Rejected
 }
 

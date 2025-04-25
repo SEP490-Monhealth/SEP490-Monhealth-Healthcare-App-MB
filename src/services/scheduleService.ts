@@ -142,3 +142,24 @@ export const updateScheduleStatus = async (
     throw { isCustomError: true, message: errorMessage }
   }
 }
+
+export const deleteScheduleTimeSlot = async (
+  scheduleTimeSlotId: string
+): Promise<string> => {
+  try {
+    const response = await monAPI.delete(
+      `/schedule/time-slots/${scheduleTimeSlotId}`
+    )
+    const { success, message } = response.data
+
+    if (!success) {
+      throw { isCustomError: true, message: message }
+    }
+
+    console.log(message)
+    return message
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
+  }
+}

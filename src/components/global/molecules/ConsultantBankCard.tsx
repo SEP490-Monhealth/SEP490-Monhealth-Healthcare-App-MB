@@ -65,11 +65,13 @@ export const ConsultantBankCard = ({
             )}
           </HStack>
 
-          <IconButton
-            size="sm"
-            icon={<MoreHorizontal size={20} color={COLORS.primary} />}
-            onPress={onMorePress}
-          />
+          {bank && (
+            <IconButton
+              size="sm"
+              icon={<MoreHorizontal size={20} color={COLORS.primary} />}
+              onPress={onMorePress}
+            />
+          )}
         </HStack>
 
         <View className="border border-border" />

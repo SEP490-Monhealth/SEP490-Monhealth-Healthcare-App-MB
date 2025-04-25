@@ -27,7 +27,6 @@ const TimeSlotButton = ({
   onPress
 }: TimeSlotButtonProps) => {
   const isPrimary = isSelected || isExisting
-
   const isDisabled = isExisting
 
   return (

@@ -12,6 +12,7 @@ import { CreateScheduleType, ScheduleType } from "@/schemas/scheduleSchema"
 
 import {
   createSchedule,
+  deleteScheduleTimeSlot,
   getAllScheduleTimeSlots,
   getSchedulesByConsultantId
 } from "@/services/scheduleService"
@@ -78,6 +79,33 @@ export const useCreateSchedule = () => {
       })
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Consultant.Consultants]
+      })
+    }
+  })
+}
+
+export const useDeleteScheduleTimeSlot = () => {
+  const queryClient = useQueryClient()
+  const handleError = useError()
+
+  return useMutation<string, Error, string>({
+    mutationFn: async (scheduleTimeSlotId) => {
+      try {
+        return await deleteScheduleTimeSlot(scheduleTimeSlotId)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Schedule.Schedules]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Schedule.Schedule]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Consultant.Consultant]
       })
     }
   })

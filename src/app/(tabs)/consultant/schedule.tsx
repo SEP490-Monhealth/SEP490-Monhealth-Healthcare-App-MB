@@ -52,14 +52,8 @@ function SchedulesScreen() {
       selectedDate || now.toISOString()
     )
 
-  const [selectedSchedule, setSelectedSchedule] = useState<string | null>(null)
-
   const handleDateSelect = (date: string) => {
     setSelectedDate(date)
-  }
-
-  const handleSelectSchedule = (scheduleId: string) => {
-    setSelectedSchedule(scheduleId)
   }
 
   const handleViewCalendar = () => {
@@ -139,7 +133,6 @@ function SchedulesScreen() {
                     endTime={schedule.endTime}
                     notes={schedule.notes}
                     status={schedule.status}
-                    onPress={() => handleSelectSchedule(schedule.bookingId)}
                   />
                 ))
               ) : (
