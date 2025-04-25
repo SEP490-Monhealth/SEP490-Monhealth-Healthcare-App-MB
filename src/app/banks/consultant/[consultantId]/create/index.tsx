@@ -24,6 +24,7 @@ import { useCreateConsultantBank } from "@/hooks/useConsultantBank"
 import { createConsultantBankSchema } from "@/schemas/consultantBankSchema"
 
 import { useBankStore } from "@/stores/bankStore"
+import { useWithdrawalRequestStore } from "@/stores/withdrawalRequestStore"
 
 import BankSelection from "./bank"
 import BankInformation from "./information"
@@ -36,7 +37,9 @@ function BankCreateScreen() {
 
   const { mutate: createConsultantBank } = useCreateConsultantBank()
 
-  const { bankId, number, name, isDefault, updateField } = useBankStore()
+  const { bankId, number, name, isDefault, updateField, reset } = useBankStore()
+
+  const { resetWithdrawalRequest } = useWithdrawalRequestStore()
 
   const [currentStep, setCurrentStep] = useState(1)
   const [isStepLoading, setIsStepLoading] = useState(false)
@@ -119,7 +122,9 @@ function BankCreateScreen() {
 
       createConsultantBank(finalData, {
         onSuccess: () => {
+          resetWithdrawalRequest()
           router.replace(`/banks/consultant/${consultantId}`)
+          reset()
         }
       })
     }

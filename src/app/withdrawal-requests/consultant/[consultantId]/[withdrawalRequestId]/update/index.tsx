@@ -4,8 +4,10 @@ import {
   Keyboard,
   SafeAreaView,
   Text,
+  TouchableOpacity,
   TouchableWithoutFeedback
 } from "react-native"
+import { SvgUri } from "react-native-svg"
 
 import { useLocalSearchParams, useRouter } from "expo-router"
 
@@ -15,14 +17,17 @@ import { Controller, useForm } from "react-hook-form"
 
 import {
   Button,
+  Card,
   Container,
   Content,
+  HStack,
   Input,
   Select,
   VStack
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
+import { useGetConsultantBanksByConsultantId } from "@/hooks/useConsultantBank"
 import {
   useGetWithdrawalRequestById,
   useUpdateWithdrawalRequest
@@ -43,15 +48,25 @@ function UpdateWithdrawalRequestScreen() {
     withdrawalRequestId: string
   }>()
 
-  console.log(withdrawalRequestId)
+  // console.log(withdrawalRequestId)
 
-  const { consultantBankId, accountNumber, updateField, reset } =
-    useWithdrawalRequestStore()
+  const {
+    consultantBankId,
+    accountNumber,
+    name,
+    shortName,
+    logoUrl,
+    updateField,
+    resetWithdrawalRequest
+  } = useWithdrawalRequestStore()
 
   const { mutate: updateWithdrawalRequest } = useUpdateWithdrawalRequest()
 
-  const { data: withdrawalRequestData, isLoading } =
+  const { data: withdrawalRequestData, isLoading: isLoadingWithdrawalRequest } =
     useGetWithdrawalRequestById(withdrawalRequestId)
+
+  const { data: consultantBanksData, isLoading: isLoadingConsultantBanksData } =
+    useGetConsultantBanksByConsultantId(consultantId)
 
   const {
     control,
@@ -65,6 +80,11 @@ function UpdateWithdrawalRequestScreen() {
   useEffect(() => {
     if (withdrawalRequestData) {
       updateField("consultantBankId", withdrawalRequestData.consultantBankId)
+
+      updateField("name", withdrawalRequestData.consultantBank.bankName)
+      updateField("shortName", withdrawalRequestData.consultantBank.shortName)
+      updateField("logoUrl", withdrawalRequestData.consultantBank.logoUrl)
+
       setValue("consultantBankId", withdrawalRequestData.consultantBankId)
       setValue("description", withdrawalRequestData.description)
       setValue("amount", withdrawalRequestData.amount)
@@ -78,7 +98,13 @@ function UpdateWithdrawalRequestScreen() {
   }, [consultantBankId, setValue])
 
   const handleViewConsultantBanks = () => {
-    router.push(`/withdrawal-requests/consultant/${consultantId}/create/banks`)
+    if (consultantBanksData?.length === 1) {
+      return null
+    } else {
+      router.push(
+        `/withdrawal-requests/consultant/${consultantId}/create/banks`
+      )
+    }
   }
 
   const onSubmit = (data: UpdateWithdrawalRequestType) => {
@@ -92,14 +118,20 @@ function UpdateWithdrawalRequestScreen() {
       { withdrawalRequestId, updatedData: finalData },
       {
         onSuccess: () => {
-          reset()
+          resetWithdrawalRequest()
           router.back()
         }
       }
     )
   }
 
-  if (!withdrawalRequestData || isLoading) return <LoadingScreen />
+  if (
+    !withdrawalRequestData ||
+    isLoadingWithdrawalRequest ||
+    !consultantBanksData ||
+    isLoadingConsultantBanksData
+  )
+    return <LoadingScreen />
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -110,6 +142,31 @@ function UpdateWithdrawalRequestScreen() {
           <Content className="mt-2">
             <VStack gap={32}>
               <VStack gap={8}>
+                <Card>
+                  <HStack center>
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      className="mr-4 h-12 w-12 items-center justify-center rounded-full bg-muted"
+                    >
+                      <SvgUri uri={logoUrl} width={24} height={24} />
+                    </TouchableOpacity>
+
+                    <VStack>
+                      <Text className="font-tmedium text-base text-primary">
+                        {shortName}
+                      </Text>
+
+                      <Text
+                        className="font-tmedium text-sm text-accent"
+                        numberOfLines={1}
+                        ellipsizeMode="tail"
+                      >
+                        {name}
+                      </Text>
+                    </VStack>
+                  </HStack>
+                </Card>
+
                 <Select
                   label="Ngân hàng"
                   defaultValue="VD: 2003150599"

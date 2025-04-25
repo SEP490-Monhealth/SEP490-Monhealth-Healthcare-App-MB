@@ -31,6 +31,7 @@ import {
 import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
+import { WithdrawalRequestStatusEnum } from "@/constants/enum/WithdrawalRequest"
 
 import {
   useDeleteWithdrawalRequest,
@@ -53,6 +54,8 @@ function WithdrawalRequestsScreen() {
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
   const [isVisible, setIsVisible] = useState<boolean>(false)
   const [selectedRequest, setSelectedRequest] = useState<string | null>("")
+
+  const [disabledAction, setDisabledAction] = useState<boolean>(false)
 
   const limit = 10
 
@@ -117,7 +120,15 @@ function WithdrawalRequestsScreen() {
     return <LoadingScreen />
   }
 
-  const handleAction = (requestId: string) => {
+  const handleAction = (
+    requestId: string,
+    status: WithdrawalRequestStatusEnum
+  ) => {
+    if (status != WithdrawalRequestStatusEnum.Pending) {
+      setDisabledAction(true)
+    } else {
+      setDisabledAction(false)
+    }
     setSelectedRequest(requestId)
     openSheetAction()
   }
@@ -177,8 +188,11 @@ function WithdrawalRequestsScreen() {
                   description={item.description}
                   amount={item.amount}
                   time={item.updatedAt}
+                  reason={item.reason}
                   status={item.status}
-                  onPress={() => handleAction(item.withdrawalRequestId)}
+                  onPress={() =>
+                    handleAction(item.withdrawalRequestId, item.status)
+                  }
                 />
               )}
               ListFooterComponent={
@@ -205,12 +219,14 @@ function WithdrawalRequestsScreen() {
 
         <Sheet ref={SheetRef} dynamicHeight={180}>
           <SheetSelect
+            disabled={disabledAction}
             label="Cập nhật"
             icon={<Edit2 variant="Bold" size="20" color={COLORS.primary} />}
             onPress={handleUpdate}
           />
 
           <SheetSelect
+            disabled={disabledAction}
             variant="danger"
             label="Xóa"
             icon={<Trash variant="Bold" size="20" color={COLORS.destructive} />}

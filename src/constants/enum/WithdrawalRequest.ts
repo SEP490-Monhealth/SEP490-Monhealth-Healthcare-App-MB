@@ -23,10 +23,6 @@ const withdrawalRequestStatusMap: Record<
     label: "Đã chấp nhận",
     color: "#16a34a" // green 600
   },
-  [WithdrawalRequestStatusEnum.Completed]: {
-    label: "Đã thanh toán",
-    color: "#3b82f6" // blue 500
-  },
   [WithdrawalRequestStatusEnum.Rejected]: {
     label: "Đã từ chối",
     color: "#ef4444" // red 500

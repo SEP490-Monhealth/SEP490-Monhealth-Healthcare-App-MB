@@ -2,6 +2,7 @@ import { z } from "zod"
 
 import { WithdrawalRequestStatusSchemaEnum } from "@/constants/enum/WithdrawalRequest"
 
+import { bankSchema } from "./bankSchema"
 import { timestampFields, uuidSchema } from "./baseSchema"
 import { consultantBankSchema } from "./consultantBankSchema"
 import { userSchema } from "./userSchema"
@@ -22,7 +23,11 @@ const withdrawalRequestSchema = z.object({
 
   consultantBank: z.object({
     accountNumber: consultantBankSchema.shape.number,
-    accountName: consultantBankSchema.shape.name
+    accountName: consultantBankSchema.shape.name,
+
+    bankName: bankSchema.shape.name,
+    shortName: bankSchema.shape.shortName,
+    logoUrl: bankSchema.shape.logoUrl
   }),
 
   description: z
@@ -32,6 +37,8 @@ const withdrawalRequestSchema = z.object({
   amount: z
     .number({ message: "Số tiền yêu cầu phải là một số" })
     .positive({ message: "Số tiền yêu cầu phải lớn hơn 0" }),
+
+  reason: z.string().optional(),
 
   status: WithdrawalRequestStatusSchemaEnum,
 
