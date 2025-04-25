@@ -4,7 +4,6 @@ import { z } from "zod"
 export enum WithdrawalRequestStatusEnum {
   Pending,
   Approved,
-  Completed,
   Rejected
 }
 
@@ -23,10 +22,6 @@ const withdrawalRequestStatusMap: Record<
   [WithdrawalRequestStatusEnum.Approved]: {
     label: "Đã chấp nhận",
     color: "#16a34a" // green 600
-  },
-  [WithdrawalRequestStatusEnum.Completed]: {
-    label: "Đã thanh toán",
-    color: "#3b82f6" // blue 500
   },
   [WithdrawalRequestStatusEnum.Rejected]: {
     label: "Đã từ chối",
