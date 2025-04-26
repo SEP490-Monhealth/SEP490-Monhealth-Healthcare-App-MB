@@ -49,9 +49,7 @@ function PrivacyScreen() {
   })
 
   const onSubmit = (data: UpdatePasswordType) => {
-    if (!userId) {
-      return
-    }
+    if (!userId) return
 
     Keyboard.dismiss()
     setIsLoading(true)
@@ -59,9 +57,9 @@ function PrivacyScreen() {
     const { oldPassword, newPassword } = data
     const finalData = { oldPassword, newPassword }
 
-    console.log("Final Data", JSON.stringify(finalData, null, 2))
+    // console.log("Final Data", JSON.stringify(finalData, null, 2))
 
-    // updatePassword({ userId, updatedData: finalData })
+    updatePassword({ userId, updatedData: finalData })
 
     setIsLoading(false)
   }

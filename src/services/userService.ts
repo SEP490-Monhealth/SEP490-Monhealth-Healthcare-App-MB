@@ -74,11 +74,11 @@ export const updateUserAvatar = async (
 
 export const updateUserPassword = async (
   userId: string,
-  passwordData: UpdateUserPasswordType,
+  updatedData: UpdateUserPasswordType,
   showModal: (message: string) => void
 ): Promise<string> => {
   try {
-    const response = await monAPI.put(`/users/${userId}/password`, passwordData)
+    const response = await monAPI.put(`/users/${userId}/password`, updatedData)
     const { success, message } = response.data
 
     if (!success) {
