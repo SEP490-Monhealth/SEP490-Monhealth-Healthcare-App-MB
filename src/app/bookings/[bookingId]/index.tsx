@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Image, Text, View } from "react-native"
+import { Image, Linking, Text, View } from "react-native"
 
 import { useLocalSearchParams } from "expo-router"
 
@@ -82,7 +82,8 @@ const BookingDetailsScreen = () => {
     {
       icon: <Zoom variant="Bold" size={20} color={COLORS.primary} />,
       label: "Link phòng họp",
-      value: formatUrl(bookingData.meetingUrl || "")
+      value: formatUrl(bookingData.meetingUrl || ""),
+      meetingUrl: bookingData.meetingUrl
     }
   ]
 
@@ -225,6 +226,15 @@ const BookingDetailsScreen = () => {
                   icon={item.icon}
                   label={item.label}
                   value={item.value}
+                  onPress={
+                    item.meetingUrl
+                      ? () => {
+                          if (item.meetingUrl.startsWith("http")) {
+                            Linking.openURL(item.meetingUrl)
+                          }
+                        }
+                      : undefined
+                  }
                 />
               ))}
             </Card>

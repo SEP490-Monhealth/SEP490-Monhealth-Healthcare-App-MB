@@ -5,7 +5,8 @@ import {
   SafeAreaView,
   Text,
   TouchableOpacity,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  View
 } from "react-native"
 import { SvgUri } from "react-native-svg"
 
@@ -83,6 +84,11 @@ function UpdateWithdrawalRequestScreen() {
     if (withdrawalRequestData) {
       updateField("consultantBankId", withdrawalRequestData.consultantBankId)
 
+      updateField(
+        "accountNumber",
+        withdrawalRequestData.consultantBank.accountNumber
+      )
+
       updateField("name", withdrawalRequestData.bank.name)
       updateField("shortName", withdrawalRequestData.bank.shortName)
       updateField("logoUrl", withdrawalRequestData.bank.logoUrl)
@@ -153,7 +159,7 @@ function UpdateWithdrawalRequestScreen() {
                       <SvgUri uri={logoUrl} width={24} height={24} />
                     </TouchableOpacity>
 
-                    <VStack>
+                    <View className="flex-1">
                       <Text className="font-tmedium text-base text-primary">
                         {shortName}
                       </Text>
@@ -165,7 +171,7 @@ function UpdateWithdrawalRequestScreen() {
                       >
                         {name}
                       </Text>
-                    </VStack>
+                    </View>
                   </HStack>
                 </Card>
 

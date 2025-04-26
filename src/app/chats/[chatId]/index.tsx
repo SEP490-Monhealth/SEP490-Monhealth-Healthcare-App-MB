@@ -225,7 +225,7 @@ function ChatDetailsScreen() {
   const nameUser =
     (consultantId
       ? chatData?.member.fullName
-      : chatData?.consultant.fullName) || "asd"
+      : chatData?.consultant.fullName) || ""
 
   const isAvatarValid = avatarUrl && avatarUrl.trim() !== ""
 

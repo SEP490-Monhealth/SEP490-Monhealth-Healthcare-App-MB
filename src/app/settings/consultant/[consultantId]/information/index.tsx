@@ -78,6 +78,10 @@ function ConsultantInformationScreen() {
     router.push(`/settings/user/${userId}/information/update`)
   }
 
+  const handleUpdateBio = () => {
+    router.push(`/settings/consultant/${consultantId}/about/update`)
+  }
+
   return (
     <TouchableWithoutFeedback>
       <SafeAreaView className="flex-1 bg-background">
@@ -164,6 +168,29 @@ function ConsultantInformationScreen() {
                       )
                     })}
                   </Card>
+                </View>
+
+                <View>
+                  <Section
+                    label="Giới thiệu"
+                    actionText="Cập nhật"
+                    margin={false}
+                    onPress={handleUpdateBio}
+                  />
+
+                  <VStack gap={10}>
+                    <Card className="flex-col gap-2">
+                      <Text className="font-tregular text-base text-secondary">
+                        {consultantData.bio}
+                      </Text>
+
+                      <HStack>
+                        <Text className="font-tmedium text-base text-secondary">
+                          Kinh nghiệm: {consultantData.experience} năm
+                        </Text>
+                      </HStack>
+                    </Card>
+                  </VStack>
                 </View>
               </VStack>
             </ScrollArea>
