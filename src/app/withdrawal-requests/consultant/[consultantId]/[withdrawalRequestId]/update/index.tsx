@@ -68,6 +68,8 @@ function UpdateWithdrawalRequestScreen() {
   const { data: consultantBanksData, isLoading: isLoadingConsultantBanksData } =
     useGetConsultantBanksByConsultantId(consultantId)
 
+  // console.log(JSON.stringify(withdrawalRequestData, null, 2))
+
   const {
     control,
     setValue,
@@ -81,9 +83,9 @@ function UpdateWithdrawalRequestScreen() {
     if (withdrawalRequestData) {
       updateField("consultantBankId", withdrawalRequestData.consultantBankId)
 
-      updateField("name", withdrawalRequestData.consultantBank.bankName)
-      updateField("shortName", withdrawalRequestData.consultantBank.shortName)
-      updateField("logoUrl", withdrawalRequestData.consultantBank.logoUrl)
+      updateField("name", withdrawalRequestData.bank.name)
+      updateField("shortName", withdrawalRequestData.bank.shortName)
+      updateField("logoUrl", withdrawalRequestData.bank.logoUrl)
 
       setValue("consultantBankId", withdrawalRequestData.consultantBankId)
       setValue("description", withdrawalRequestData.description)

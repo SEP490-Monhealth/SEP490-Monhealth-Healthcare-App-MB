@@ -15,11 +15,11 @@ import {
   Calendar,
   CalendarCircle,
   CallCalling,
-  CommandSquare,
   ProfileCircle,
-  Ruler,
+  RulerPen,
   Slash,
-  Sms
+  Sms,
+  WeightMeter
 } from "iconsax-react-native"
 
 import {
@@ -89,8 +89,8 @@ function UserInformationScreen() {
   const userMetricList = [
     { label: gender.label, icon: gender.icon },
     { label: formatDate(metricData[0].dateOfBirth), icon: Calendar },
-    { label: `${metricData[0].height} cm`, icon: Ruler },
-    { label: `${metricData[0].weight} kg`, icon: CommandSquare },
+    { label: `${metricData[0].height} cm`, icon: RulerPen },
+    { label: `${metricData[0].weight} kg`, icon: WeightMeter },
     { label: `${goalType.label}`, icon: goalType.icon }
   ]
 

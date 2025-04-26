@@ -127,6 +127,10 @@ function WithdrawalRequestCreateScreen() {
           <Content className="mt-2">
             <VStack gap={32}>
               <VStack gap={8}>
+                <Text className="mb-1 ml-1 font-tregular text-base">
+                  Ngân hàng
+                </Text>
+
                 {accountNumber && (
                   <Card>
                     <HStack center>
@@ -155,7 +159,7 @@ function WithdrawalRequestCreateScreen() {
                 )}
 
                 <Select
-                  label="Ngân hàng"
+                  label="Số tài khoản"
                   defaultValue="VD: 2003150599"
                   value={accountNumber || ""}
                   errorMessage={errors.consultantBankId?.message}

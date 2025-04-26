@@ -122,9 +122,9 @@ function BankCreateScreen() {
 
       createConsultantBank(finalData, {
         onSuccess: () => {
-          resetWithdrawalRequest()
           router.replace(`/banks/consultant/${consultantId}`)
           reset()
+          resetWithdrawalRequest()
         }
       })
     }
@@ -143,7 +143,7 @@ function BankCreateScreen() {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView className="h-full flex-1 bg-background">
-        <LoadingOverlay visible={isStepLoading} />
+        {/* <LoadingOverlay visible={isStepLoading} /> */}
 
         <View className="px-6">
           <Header back label={currentStepData.title} onBackPress={handleBack} />

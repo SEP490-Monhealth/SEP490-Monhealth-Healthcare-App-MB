@@ -30,6 +30,8 @@ export const TimeSlotSelector = ({
   const isDisabled = status === ScheduleTimeSlotStatusEnum.Unavailable
 
   const isTimeSlotInvalid = useMemo(() => {
+    if (isBooked) return false
+
     const now = new Date()
 
     const [hours, minutes] = startTime.split(":").map(Number)

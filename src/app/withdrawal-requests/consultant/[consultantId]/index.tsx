@@ -55,8 +55,6 @@ function WithdrawalRequestsScreen() {
   const [isVisible, setIsVisible] = useState<boolean>(false)
   const [selectedRequest, setSelectedRequest] = useState<string | null>("")
 
-  const [disabledAction, setDisabledAction] = useState<boolean>(false)
-
   const limit = 10
 
   const { mutate: deleteWithdrawalRequest } = useDeleteWithdrawalRequest()
@@ -103,7 +101,7 @@ function WithdrawalRequestsScreen() {
     setIsRefreshing(false)
   }
 
-  const openSheetAction = () => SheetRef.current?.scrollTo(-200)
+  const openSheet = () => SheetRef.current?.scrollTo(-200)
   const closeSheet = () => SheetRef.current?.scrollTo(0)
 
   const FlatListHeader = useMemo(() => {
@@ -124,13 +122,10 @@ function WithdrawalRequestsScreen() {
     requestId: string,
     status: WithdrawalRequestStatusEnum
   ) => {
-    if (status != WithdrawalRequestStatusEnum.Pending) {
-      setDisabledAction(true)
-    } else {
-      setDisabledAction(false)
+    if (status === WithdrawalRequestStatusEnum.Pending) {
+      setSelectedRequest(requestId)
+      openSheet()
     }
-    setSelectedRequest(requestId)
-    openSheetAction()
   }
 
   const handleUpdate = () => {
@@ -217,16 +212,14 @@ function WithdrawalRequestsScreen() {
           </Content>
         </Container>
 
-        <Sheet ref={SheetRef} dynamicHeight={180}>
+        <Sheet ref={SheetRef} dynamicHeight={200}>
           <SheetSelect
-            disabled={disabledAction}
             label="Cập nhật"
             icon={<Edit2 variant="Bold" size="20" color={COLORS.primary} />}
             onPress={handleUpdate}
           />
 
           <SheetSelect
-            disabled={disabledAction}
             variant="danger"
             label="Xóa"
             icon={<Trash variant="Bold" size="20" color={COLORS.destructive} />}
