@@ -80,6 +80,9 @@ function TransactionPaymentScreen() {
     transactionData.type
   )
 
+  // console.log(transactionData)
+  console.log("trạng thái", transactionStatus)
+
   return (
     <>
       <Container>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 
-import { ScrollView, Text } from "react-native"
+import { RefreshControl, ScrollView, Text } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -36,6 +36,7 @@ export const BookingTab = ({
 
   const [initialDate] = useState(date)
   const [selectedMonth, setSelectedMonth] = useState<string>(month)
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
 
   const { data: yearlyBookingData, isLoading: isYearlyBookingLoading } =
     useGetYearlyBookingByConsultantId(
@@ -43,12 +44,18 @@ export const BookingTab = ({
       initialDate.split("-").slice(0, 2).join("-")
     )
 
-  const { data: bookingsData } = useGetMonthlyBookingsByConsultantId(
+  const { data: bookingsData, isLoading } = useGetMonthlyBookingsByConsultantId(
     consultantId,
     1,
     undefined,
     selectedMonth
   )
+
+  useEffect(() => {
+    if (!isLoading && isRefreshing) {
+      setIsRefreshing(false)
+    }
+  }, [isLoading, isRefreshing])
 
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()
@@ -81,6 +88,11 @@ export const BookingTab = ({
     router.replace("/(tabs)/consultant/booking")
   }
 
+  const onRefresh = () => {
+    setIsRefreshing(true)
+    setIsRefreshing(false)
+  }
+
   const handleSelectMonth = (month: string) => {
     setSelectedMonth(month)
   }
@@ -89,6 +101,9 @@ export const BookingTab = ({
     <ScrollView
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ paddingBottom: 48 }}
+      refreshControl={
+        <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+      }
     >
       <VStack className="px-2">
         <Text className="font-tbold text-xl text-secondary">Tổng quan</Text>
