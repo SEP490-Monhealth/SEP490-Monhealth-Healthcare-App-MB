@@ -70,6 +70,44 @@ export const getTransactionsByConsultantId = async (
   }
 }
 
+export const getTransactionById = async (
+  transactionId: string | undefined
+): Promise<TransactionType> => {
+  try {
+    const response = await monAPI.get(`/transactions/${transactionId}`)
+
+    const { success, message, data } = response.data
+
+    if (!success) {
+      throw { isCustomError: true, message: message }
+    }
+
+    return data
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
+  }
+}
+
+export const getTransactionStatusById = async (
+  transactionId: string | undefined
+): Promise<TransactionType> => {
+  try {
+    const response = await monAPI.get(`/transactions/${transactionId}/status`)
+
+    const { success, message, data } = response.data
+
+    if (!success) {
+      throw { isCustomError: true, message: message }
+    }
+
+    return data
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
+  }
+}
+
 export const createBookingTransaction = async (
   newData: CreateBookingTransactionType,
   showModal: (message: string) => void

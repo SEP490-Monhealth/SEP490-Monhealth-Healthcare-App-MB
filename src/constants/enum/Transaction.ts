@@ -28,7 +28,7 @@ export const transactionTypeMap: Record<TransactionTypeEnum, EnumMeta> = {
     icon: require("../../../public/icons/transactions/expense.png")
   },
   [TransactionTypeEnum.Fee]: {
-    label: "Phí",
+    label: "Thanh toán",
     icon: require("../../../public/icons/transactions/expense.png")
   },
   [TransactionTypeEnum.Bonus]: {

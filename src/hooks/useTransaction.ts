@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
+import { TransactionStatusEnum } from "@/constants/enum/Transaction"
 import { MonQueryKey } from "@/constants/query"
 
 import { useError } from "@/contexts/ErrorContext"
@@ -15,6 +16,8 @@ import {
   completeTransaction,
   createBookingTransaction,
   createSubscriptionTransaction,
+  getTransactionById,
+  getTransactionStatusById,
   getTransactionsByConsultantId,
   getTransactionsByUserId
 } from "@/services/transactionService"
@@ -81,6 +84,46 @@ export const useGetTransactionsByConsultantId = (
     },
     enabled: !!consultantId,
     staleTime: 1000 * 60 * 5
+  })
+}
+
+export const useGetTransactionById = (transactionId: string | undefined) => {
+  const handleError = useError()
+
+  return useQuery<TransactionType, Error>({
+    queryKey: [MonQueryKey.Transaction.Transaction, transactionId],
+    queryFn: async () => {
+      try {
+        return await getTransactionById(transactionId)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    enabled: !!transactionId,
+    staleTime: 1000 * 60 * 5
+  })
+}
+
+export const useGetTransactionStatusById = (
+  transactionId: string | undefined
+) => {
+  const handleError = useError()
+
+  return useQuery<{ status: TransactionStatusEnum }, Error>({
+    queryKey: [MonQueryKey.Transaction.TransactionStatus, transactionId],
+    queryFn: async () => {
+      try {
+        return await getTransactionStatusById(transactionId)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    enabled: !!transactionId,
+    refetchInterval: 2000,
+    refetchIntervalInBackground: true,
+    staleTime: 0
   })
 }
 

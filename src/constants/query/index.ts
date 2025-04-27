@@ -128,7 +128,9 @@ export const MonQueryKey = {
 
   Transaction: {
     UserTransactions: "transactions-user",
-    ConsultantTransactions: "transactions-consultant"
+    ConsultantTransactions: "transactions-consultant",
+    Transaction: "transaction",
+    TransactionStatus: "transaction-status"
   },
 
   User: {
