@@ -79,7 +79,7 @@ export const InformationTab = ({ onOverlayLoading }: InformationTabProps) => {
       setSelectedDate(today)
       updateField("date", today)
     }
-  }, [storedDate, today])
+  }, [storedDate, today, updateField])
 
   const handleViewCalendar = () => {
     router.push({ pathname: "/calendars", params: { selectedDate } })

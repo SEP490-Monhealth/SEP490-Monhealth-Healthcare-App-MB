@@ -2,11 +2,8 @@ import {
   Calendar,
   Calendar1,
   Calendar2,
-  CalendarAdd,
   CalendarCircle,
-  CalendarRemove,
   CalendarSearch,
-  CalendarTick,
   Camera,
   GalleryAdd,
   Man,
@@ -14,7 +11,6 @@ import {
 } from "iconsax-react-native"
 import { Scale, TrendingDown, TrendingUp } from "lucide-react-native"
 
-import { BookingStatusEnum } from "../enum/Booking"
 import { DishTypeEnum, MealTypeEnum } from "../enum/Food"
 import { GenderEnum } from "../enum/Gender"
 import { GoalTypeEnum } from "../enum/Goal"

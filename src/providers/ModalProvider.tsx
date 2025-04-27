@@ -28,6 +28,7 @@ export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({
   return (
     <ModalContext.Provider value={{ showModal, closeModal }}>
       {children}
+
       <Modal
         isVisible={isVisible}
         onClose={closeModal}

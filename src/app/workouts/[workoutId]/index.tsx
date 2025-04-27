@@ -15,7 +15,6 @@ import {
   ScrollArea,
   Sheet,
   SheetRefProps,
-  Toggle,
   VStack
 } from "@/components/global/atoms"
 import { ExerciseCard } from "@/components/global/molecules"

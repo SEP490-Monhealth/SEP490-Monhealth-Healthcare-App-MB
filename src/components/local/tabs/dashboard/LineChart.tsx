@@ -101,7 +101,7 @@ export const LineChart = ({ date, data, labels }: LineChartProps) => {
 
       setTooltip({ x, y, value: data[index].amount })
     }
-  }, [date, data])
+  }, [date, data, dynamicPadding, roundedMaxValue])
 
   const handlePointPress = (index: number) => {
     const selected = data[index].date

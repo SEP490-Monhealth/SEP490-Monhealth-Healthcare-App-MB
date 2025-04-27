@@ -23,7 +23,7 @@ export const getMealsByUserId = async (
 
     if (axios.isAxiosError(error)) {
       if (error.response && error.response.status === 500) {
-        router.replace("/(tabs)/user/home")
+        router.back()
         return null
       }
 
@@ -53,7 +53,7 @@ export const getMealById = async (
 
     if (axios.isAxiosError(error)) {
       if (error.response && error.response.status === 500) {
-        router.replace("/(tabs)/user/home")
+        router.back()
         return null
       }
 
@@ -106,7 +106,7 @@ export const getMealFoodsByMealId = async (
 
     if (axios.isAxiosError(error)) {
       if (error.response && error.response.status === 500) {
-        router.replace("/(tabs)/user/home")
+        router.back()
         return null
       }
 

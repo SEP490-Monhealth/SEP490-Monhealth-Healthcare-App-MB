@@ -27,38 +27,42 @@ function ResultScreen() {
   const { mutate: completeTransaction } = useCompleteTransaction()
 
   const handleDone = async () => {
-    await completeTransaction(
-      {
-        orderCode: Array.isArray(params.orderCode)
-          ? params.orderCode[0]
-          : params.orderCode
-      },
-      {
-        onSuccess: async () => {
-          const updatedUser = await whoIAm()
-          setUser(updatedUser)
-          router.replace(`/settings/user/${userId}/information`)
-        }
-      }
-    )
+    // await completeTransaction(
+    //   {
+    //     orderCode: Array.isArray(params.orderCode)
+    //       ? params.orderCode[0]
+    //       : params.orderCode
+    //   },
+    //   {
+    //     onSuccess: async () => {
+    //       const updatedUser = await whoIAm()
+    //       setUser(updatedUser)
+    //       router.replace(`/settings/user/${userId}/information`)
+    //     }
+    //   }
+    // )
+
+    const updatedUser = await whoIAm()
+    setUser(updatedUser)
+    router.replace(`/settings/user/${userId}/information`)
   }
 
   return (
     <Container>
       <View className="flex-1 items-center justify-center">
-        {isSuccess ? (
-          <ErrorDisplay
-            imageSource={require("../../../../public/images/monhealth-congratulations-image.png")}
-            title="Thanh toán thành công"
-            description="Bạn đã thanh toán thành công cho gói đăng ký của mình!"
-          />
-        ) : (
+        {/* {isSuccess ? ( */}
+        <ErrorDisplay
+          imageSource={require("../../../../public/images/monhealth-congratulations-image.png")}
+          title="Thanh toán thành công"
+          description="Bạn đã thanh toán thành công giao dịch của mình!"
+        />
+        {/* ) : (
           <ErrorDisplay
             imageSource={require("../../../../public/images/monhealth-internal-server-error-image.png")}
             title="Thanh toán thất bại"
             description="Thanh toán của bạn không thành công, vui lòng thử lại."
           />
-        )}
+        )} */}
       </View>
 
       <Button size="lg" onPress={handleDone} className="mb-4">

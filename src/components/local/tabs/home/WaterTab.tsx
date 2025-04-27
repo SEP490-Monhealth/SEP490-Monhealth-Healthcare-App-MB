@@ -63,7 +63,7 @@ export const WaterTab = ({ onOverlayLoading }: WaterTabProps) => {
     (waterReminderId: string) => {
       if (!userId) return
 
-      updateWaterReminderDrunk({ waterReminderId, userId, today })
+      updateWaterReminderDrunk({ waterReminderId })
     },
     [updateWaterReminderDrunk]
   )

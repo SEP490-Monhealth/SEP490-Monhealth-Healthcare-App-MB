@@ -5,8 +5,7 @@ import {
   SafeAreaView,
   Text,
   TouchableOpacity,
-  TouchableWithoutFeedback,
-  View
+  TouchableWithoutFeedback
 } from "react-native"
 import { SvgUri } from "react-native-svg"
 

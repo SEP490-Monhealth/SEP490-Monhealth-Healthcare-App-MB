@@ -232,7 +232,7 @@ function WithdrawalRequestsScreen() {
           onClose={() => setIsVisible(false)}
           title="Xóa yêu cầu"
           description="Bạn có chắc chắn muốn xóa yêu cầu này không?"
-          confirmText="Xóa"
+          confirmText="Đồng ý"
           cancelText="Hủy"
           onConfirm={handleConfirmDelete}
         />

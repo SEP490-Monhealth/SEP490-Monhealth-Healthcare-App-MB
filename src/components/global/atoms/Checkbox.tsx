@@ -4,8 +4,6 @@ import { TouchableOpacity } from "react-native"
 
 import { Circle, CircleCheck } from "lucide-react-native"
 
-import { COLORS } from "@/constants/color"
-
 interface CheckboxProps {
   checked?: boolean
   onCheckChange?: (checked: boolean) => void

@@ -190,7 +190,7 @@ function WaterRemindersScreen() {
         onClose={() => setIsModalVisible(false)}
         title="Xóa nhắc nhở"
         description="Bạn có chắc chắn muốn xóa nhắc nhở này không?"
-        confirmText="Xóa"
+        confirmText="Đồng ý"
         cancelText="Hủy"
         onConfirm={handleDelete}
       />

@@ -45,7 +45,6 @@ import SetupCertificate from "./certificate"
 import SetupExpertise from "./expertise"
 import SetupImage from "./images"
 import SetupInformation from "./information"
-import SetupMeeting from "./meeting"
 
 interface SetupStepsProps {
   step: number

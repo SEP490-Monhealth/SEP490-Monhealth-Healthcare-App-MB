@@ -110,7 +110,6 @@ export const MealTab = ({ onOverlayLoading }: MealTabProps) => {
     return (existingMeal || defaultMeal) as typeof defaultMeal
   })
 
-  const caloriesValue = dailyMealData?.nutrition?.calories || 0
   const caloriesGoal = nutritionGoalData?.caloriesGoal || 0
 
   const caloriesData = {

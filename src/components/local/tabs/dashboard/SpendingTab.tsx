@@ -173,7 +173,9 @@ export const SpendingTab = ({
     monthRange,
     incomeData,
     expenseData,
-    transactionsData.length
+    transactionsData.length,
+    handleViewTransactions,
+    labels
   ])
 
   if (transactionsData.length === 0 && isLoading) {

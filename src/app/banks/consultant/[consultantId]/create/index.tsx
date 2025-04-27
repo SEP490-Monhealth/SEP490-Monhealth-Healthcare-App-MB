@@ -9,7 +9,6 @@ import {
 
 import { useRouter } from "expo-router"
 
-import { LoadingOverlay } from "@/app/loading"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { set } from "lodash"
 import { useForm } from "react-hook-form"
@@ -41,8 +40,7 @@ function BankCreateScreen() {
 
   const { resetWithdrawalRequest } = useWithdrawalRequestStore()
 
-  const [currentStep, setCurrentStep] = useState(1)
-  const [isStepLoading, setIsStepLoading] = useState(false)
+  const [currentStep, setCurrentStep] = useState<number>(1)
 
   const formData: Record<string, any> = {
     consultantId,
@@ -143,8 +141,6 @@ function BankCreateScreen() {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView className="h-full flex-1 bg-background">
-        {/* <LoadingOverlay visible={isStepLoading} /> */}
-
         <View className="px-6">
           <Header back label={currentStepData.title} onBackPress={handleBack} />
         </View>
@@ -154,7 +150,6 @@ function BankCreateScreen() {
             control={control}
             errors={errors}
             setValue={setValue}
-            setIsLoading={setIsStepLoading}
           />
         </Content>
 

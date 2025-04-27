@@ -137,7 +137,7 @@ function ScheduleExceptionsScreen() {
     return (
       <ListHeader>
         {scheduleExceptionsData.length > 0 && (
-          <Section label="Danh sách lịch bận" margin={false} className="pt-2" />
+          <Section label="Danh sách lịch nghỉ" margin={false} className="pt-2" />
         )}
       </ListHeader>
     )
@@ -223,8 +223,8 @@ function ScheduleExceptionsScreen() {
         <Modal
           isVisible={isModalVisible}
           onClose={() => setIsModalVisible(false)}
-          title="Xóa lịch bận"
-          description="Bạn có chắc chắn muốn xóa lịch bận này không?"
+          title="Xóa lịch nghỉ"
+          description="Bạn có chắc chắn muốn xóa lịch nghỉ này không?"
           confirmText="Đồng ý"
           cancelText="Hủy"
           onConfirm={handleConfirm}

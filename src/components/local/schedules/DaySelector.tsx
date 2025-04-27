@@ -94,7 +94,7 @@ export const DaySelector = ({
       )
       setSelectedDays(allDays)
     }
-  }, [existingSchedules, scheduleType, setSelectedDays])
+  }, [selectedDays, existingSchedules, scheduleType, setSelectedDays])
 
   return (
     <HStack gap={8}>

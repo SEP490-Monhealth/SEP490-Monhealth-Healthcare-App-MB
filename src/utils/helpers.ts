@@ -1,7 +1,6 @@
 import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
 import { TipsData } from "@/constants/data/tips"
-import { BookingStatusEnum } from "@/constants/enum/Booking"
 import { MealTypeEnum } from "@/constants/enum/Food"
 import { RecurringDayEnum } from "@/constants/enum/Schedule"
 import { DifficultyLevelEnum } from "@/constants/enum/Workout"
@@ -361,4 +360,15 @@ export const getMonthRange = (startMonthStr: string, endMonthStr?: string) => {
   } else {
     return `T${startMonth} ${startDate.getFullYear()} - T${endMonth} ${endDate.getFullYear()}`
   }
+}
+
+export const containsEmail = (text: string) => {
+  const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g
+  return emailRegex.test(text)
+}
+
+export const containsPhoneNumber = (text: string) => {
+  const phoneRegex =
+    /(\+?\d{1,4}[ .-]?)?(\(?\d{3,4}\)?[ .-]?)?\d{3}[ .-]?\d{4}/g
+  return phoneRegex.test(text)
 }

@@ -56,12 +56,6 @@ const MealFoodOptions = React.memo(
   ({ onIncrease, onDecrease, onDelete, quantity }: any) => {
     return [
       {
-        label: "",
-        icon: <Reserve size={24} color={COLORS.primary} />,
-        onPress: onIncrease,
-        disabled: false
-      },
-      {
         label: "Tăng số lượng",
         icon: <Add size={24} color={COLORS.primary} />,
         onPress: onIncrease,
@@ -364,7 +358,7 @@ function MealDetailsScreen() {
           onClose={() => setIsModalVisible(false)}
           title="Xóa thức ăn"
           description="Bạn có chắc chắn muốn xóa thức ăn này không?"
-          confirmText="Xóa"
+          confirmText="Đồng ý"
           cancelText="Hủy"
           onConfirm={handleDeleteMealFood}
         />

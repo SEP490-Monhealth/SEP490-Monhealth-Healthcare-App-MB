@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react"
 
-import { Linking, Text, View } from "react-native"
+import { Text, View } from "react-native"
+
+import { useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
 import { Award } from "iconsax-react-native"
@@ -43,6 +45,8 @@ const getRemainingDaysText = (expiresAt: string | undefined) => {
 }
 
 function SubscriptionsScreen() {
+  const router = useRouter()
+
   const { user } = useAuth()
   const userId = user?.userId
   const userSubscription = user?.subscription
@@ -110,8 +114,12 @@ function SubscriptionsScreen() {
 
     createSubscriptionTransaction(transactionData, {
       onSuccess: async (response) => {
-        const { paymentUrl } = response.data
-        Linking.openURL(paymentUrl)
+        const { transactionId, qrCode } = response.data
+
+        router.replace({
+          pathname: "/transactions/payment",
+          params: { transactionId: transactionId, qrCode: qrCode }
+        })
       }
     })
   }

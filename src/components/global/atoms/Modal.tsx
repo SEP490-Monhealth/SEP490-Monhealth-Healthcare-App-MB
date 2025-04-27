@@ -36,7 +36,7 @@ export const Modal = ({
   onClose,
   title,
   description,
-  confirmText = "Đồng ý",
+  confirmText,
   cancelText,
   onConfirm
 }: ModalProps) => {
@@ -105,12 +105,14 @@ export const Modal = ({
             />
           )}
 
-          <ModalButton
-            onPress={onConfirm ? handleConfirm : onClose}
-            text={confirmText}
-            style={`flex-1 rounded-xl ${variantStyles[variant]} px-4 py-3`}
-            textStyle="text-center font-tmedium text-base text-white"
-          />
+          {confirmText && (
+            <ModalButton
+              onPress={onConfirm ? handleConfirm : onClose}
+              text={confirmText}
+              style={`flex-1 rounded-xl ${variantStyles[variant]} px-4 py-3`}
+              textStyle="text-center font-tmedium text-base text-white"
+            />
+          )}
         </HStack>
       </Animated.View>
     </View>

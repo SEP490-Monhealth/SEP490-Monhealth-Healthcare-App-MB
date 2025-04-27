@@ -168,11 +168,7 @@ export const useUpdateWaterReminderDrunk = () => {
   const queryClient = useQueryClient()
   const handleError = useError()
 
-  return useMutation<
-    string,
-    Error,
-    { waterReminderId: string; userId: string; today: string }
-  >({
+  return useMutation<string, Error, { waterReminderId: string }>({
     mutationFn: async ({ waterReminderId }) => {
       try {
         return await updateWaterReminderDrunk(waterReminderId)

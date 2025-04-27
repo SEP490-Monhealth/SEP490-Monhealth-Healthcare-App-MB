@@ -4,8 +4,6 @@ import { Image, Text, TouchableOpacity, View } from "react-native"
 
 import { cn } from "@/lib/utils"
 
-import { getInitials } from "@/utils/helpers"
-
 const formatTime = (timestamp: string): string => {
   const date = new Date(timestamp)
 

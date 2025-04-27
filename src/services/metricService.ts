@@ -1,5 +1,3 @@
-import axios from "axios"
-
 import monAPI from "@/lib/monAPI"
 
 import { CreateUpdateMetricType, MetricType } from "@/schemas/metricSchema"

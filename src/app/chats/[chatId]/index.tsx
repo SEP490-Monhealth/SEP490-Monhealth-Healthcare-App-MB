@@ -39,18 +39,11 @@ import { useGetChatById } from "@/hooks/useChat"
 
 import { CreateMessageType, MessageType } from "@/schemas/messageSchema"
 
-import { getInitials } from "@/utils/helpers"
-
-const containsEmail = (text: string) => {
-  const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g
-  return emailRegex.test(text)
-}
-
-const containsPhoneNumber = (text: string) => {
-  const phoneRegex =
-    /(\+?\d{1,4}[ .-]?)?(\(?\d{3,4}\)?[ .-]?)?\d{3}[ .-]?\d{4}/g
-  return phoneRegex.test(text)
-}
+import {
+  containsEmail,
+  containsPhoneNumber,
+  getInitials
+} from "@/utils/helpers"
 
 function ChatDetailsScreen() {
   const { chatId } = useLocalSearchParams<{ chatId: string }>()
