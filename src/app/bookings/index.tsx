@@ -236,7 +236,7 @@ function BookingsScreen() {
                   onPress={handleOpenModal}
                   className="mt-8"
                 >
-                  Đặt lịch
+                  {isSubmitting && "Đặt lịch hẹn"}
                 </Button>
               </View>
             </ScrollView>

@@ -209,7 +209,7 @@ export const BookingCard = ({
               </Button>
 
               <Button size="sm" onPress={onReviewPress} className="flex-1">
-                Phản hồi
+                Đánh giá
               </Button>
             </HStack>
           )}

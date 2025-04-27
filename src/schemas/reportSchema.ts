@@ -1,5 +1,7 @@
 import { z } from "zod"
 
+import { ReportStatusSchemaEnum } from "@/constants/enum/Report"
+
 import { timestampFields, uuidSchema } from "./baseSchema"
 import { bookingDetailSchema } from "./bookingSchema"
 import { userDetailSchema } from "./userSchema"
@@ -52,6 +54,8 @@ const reportSchema = z.object({
   imageUrls: z
     .array(z.string().nonempty("Đường dẫn hình ảnh không hợp lệ"))
     .min(1, { message: "Cần ít nhất một hình ảnh" }),
+
+  status: ReportStatusSchemaEnum,
 
   ...timestampFields
 })

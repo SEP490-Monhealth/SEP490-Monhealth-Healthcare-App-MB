@@ -6,49 +6,167 @@ import { useLocalSearchParams } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
 
-import { Container, Content, Input, VStack } from "@/components/global/atoms"
-import { Header } from "@/components/global/organisms"
+import {
+  Badge,
+  Container,
+  Content,
+  HStack,
+  Input,
+  ScrollArea,
+  VStack
+} from "@/components/global/atoms"
+import { Header, Section } from "@/components/global/organisms"
 
+import { getBookingStatusMeta } from "@/constants/enum/Booking"
+import { ReportStatusEnum, getReportStatusMeta } from "@/constants/enum/Report"
+
+import { useAuth } from "@/contexts/AuthContext"
+
+import { useGetBookingById } from "@/hooks/useBooking"
+import { useGetConsultantById } from "@/hooks/useConsultant"
 import { useGetReportByBookingId } from "@/hooks/useReport"
 
-const ReportDetailsScreen = () => {
+import { formatDate } from "@/utils/formatters"
+import { getInitials } from "@/utils/helpers"
+
+const formatTime = (time: string) => {
+  const [hour, minute] = time.split(":")
+  return `${hour}h${minute}`
+}
+
+function ReportDetailsScreen() {
   const { bookingId } = useLocalSearchParams<{ bookingId: string }>()
 
+  const { user } = useAuth()
+  const userId = user?.userId
+
+  const { data: bookingData } = useGetBookingById(bookingId)
   const { data: reportData } = useGetReportByBookingId(bookingId)
+  const { data: consultantData } = useGetConsultantById(
+    bookingData?.consultantId
+  )
 
-  const currentReport = reportData?.[0]
+  // console.log(JSON.stringify(currentReport, null, 2))
 
-  console.log(JSON.stringify(currentReport, null, 2))
-
-  if (!reportData) {
+  if (
+    !bookingData ||
+    !reportData ||
+    reportData.length === 0 ||
+    !consultantData
+  ) {
     return <LoadingScreen />
   }
+
+  const currentReport = reportData[0]
+
+  const { label: reportStatusLabel, color: reportStatusColor } =
+    getReportStatusMeta(currentReport?.status)
 
   return (
     <Container>
       <Header back label="Báo cáo" />
 
       <Content className="pt-2">
-        <VStack gap={12}>
-          <Input disabled value={currentReport?.reason} label="Lý do" />
+        <ScrollArea>
+          <HStack className="justify-between">
+            <Text className="font-tbold text-xl text-primary">
+              Trạng thái báo cáo
+            </Text>
 
-          {currentReport?.reason === "Khác (Thêm mô tả bên dưới)" && (
-            <Input
-              value={currentReport?.reason}
-              label="Thông tin bổ sung"
-              isMultiline
-              numberOfLines={6}
+            <Badge
+              label={reportStatusLabel}
+              background={reportStatusColor}
+              color="#fff"
+              rounded
             />
-          )}
+          </HStack>
 
           <View>
-            <Text className="mb-1 ml-1 font-tregular text-base text-primary">
-              Hình ảnh
-            </Text>
+            <Section
+              label={
+                userId === bookingData.userId
+                  ? "Chuyên viên tư vấn"
+                  : "Người đặt lịch"
+              }
+            />
+
+            {userId === bookingData.userId ? (
+              <HStack center gap={20}>
+                {bookingData.consultant.avatarUrl ? (
+                  <Image
+                    source={{ uri: bookingData.consultant.avatarUrl }}
+                    className="h-24 w-24 rounded-2xl border border-border"
+                  />
+                ) : (
+                  <View className="flex h-24 w-24 items-center justify-center rounded-xl border border-muted bg-border">
+                    <Text className="font-tbold text-lg text-primary">
+                      {getInitials(bookingData.consultant.fullName)}
+                    </Text>
+                  </View>
+                )}
+
+                <VStack>
+                  <Text className="font-tbold text-2xl text-primary">
+                    {bookingData.consultant.fullName}
+                  </Text>
+
+                  <Text className="font-tmedium text-base text-accent">
+                    {formatTime(bookingData.startTime)} -{" "}
+                    {formatTime(bookingData.endTime)},{" "}
+                    {formatDate(bookingData.date)}
+                  </Text>
+                </VStack>
+              </HStack>
+            ) : (
+              <HStack center gap={20}>
+                {bookingData.member?.avatarUrl ? (
+                  <Image
+                    source={{ uri: bookingData.member.avatarUrl }}
+                    className="h-24 w-24 rounded-2xl border border-border"
+                  />
+                ) : (
+                  <View className="flex h-24 w-24 items-center justify-center rounded-xl border border-muted bg-border">
+                    <Text className="font-tbold text-lg text-primary">
+                      {getInitials(bookingData.member?.fullName)}
+                    </Text>
+                  </View>
+                )}
+
+                <VStack>
+                  <Text className="font-tbold text-2xl text-primary">
+                    {bookingData.member.fullName}
+                  </Text>
+
+                  <Text className="font-tmedium text-base text-accent">
+                    {formatTime(bookingData.startTime)} -{" "}
+                    {formatTime(bookingData.endTime)},{" "}
+                    {formatDate(bookingData.date)}
+                  </Text>
+                </VStack>
+              </HStack>
+            )}
+          </View>
+
+          <View>
+            <Section label="Lý do" />
+
+            {currentReport?.reason.startsWith("Khác") ? (
+              <Input
+                value={currentReport?.reason}
+                isMultiline
+                numberOfLines={6}
+              />
+            ) : (
+              <Input disabled value={currentReport?.reason} />
+            )}
+          </View>
+
+          <View>
+            <Section label="Hình ảnh" />
 
             <View className="flex-row flex-wrap gap-2">
               {currentReport?.imageUrls.map((uri, index) => (
-                <View key={index} className="h-28 w-28">
+                <View key={index} className="h-full w-full">
                   <Image
                     source={{ uri }}
                     resizeMode="cover"
@@ -58,7 +176,7 @@ const ReportDetailsScreen = () => {
               ))}
             </View>
           </View>
-        </VStack>
+        </ScrollArea>
       </Content>
     </Container>
   )

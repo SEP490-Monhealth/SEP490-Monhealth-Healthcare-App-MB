@@ -82,8 +82,7 @@ const BookingDetailsScreen = () => {
     {
       icon: <Zoom variant="Bold" size={20} color={COLORS.primary} />,
       label: "Link phòng họp",
-      value: formatUrl(bookingData.meetingUrl || ""),
-      meetingUrl: bookingData.meetingUrl
+      value: formatUrl(bookingData.meetingUrl)
     }
   ]
 
@@ -220,23 +219,24 @@ const BookingDetailsScreen = () => {
             <Section label="Chi tiết lịch hẹn" />
 
             <Card>
-              {bookingItems.map((item, index) => (
-                <BookingItem
-                  key={index}
-                  icon={item.icon}
-                  label={item.label}
-                  value={item.value}
-                  onPress={
-                    item.meetingUrl
-                      ? () => {
-                          if (item.meetingUrl.startsWith("http")) {
-                            Linking.openURL(item.meetingUrl)
-                          }
-                        }
-                      : undefined
-                  }
-                />
-              ))}
+              {bookingItems.map((item, index) => {
+                const isLast = index === bookingItems.length - 1
+
+                return (
+                  <BookingItem
+                    key={index}
+                    icon={item.icon}
+                    label={item.label}
+                    value={item.value}
+                    showMore={isLast}
+                    onPress={
+                      isLast && bookingData.meetingUrl
+                        ? () => Linking.openURL(bookingData.meetingUrl!)
+                        : undefined
+                    }
+                  />
+                )
+              })}
             </Card>
           </View>
 

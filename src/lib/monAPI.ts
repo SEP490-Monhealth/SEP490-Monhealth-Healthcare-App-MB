@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import axios from "axios"
 
 const monAPI = axios.create({
-  baseURL: appConfig.baseUrl + appConfig.apiVersion,
+  baseURL: `${appConfig.baseUrl}/${appConfig.apiVersion}`,
   timeout: 30000,
   headers: {
     "Content-Type": "application/json"
