@@ -163,6 +163,7 @@ function TransactionPaymentScreen() {
         isVisible={showDialog}
         title="Thanh toán thành công"
         description={`Tự động quay lại sau ${countdown} giây`}
+        showConfirm={false}
         onClose={() => {
           setShowDialog(false)
           router.back()

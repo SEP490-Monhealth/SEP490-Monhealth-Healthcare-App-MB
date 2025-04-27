@@ -24,6 +24,7 @@ interface ModalProps {
   onClose: () => void
   title: string
   description: string
+  showConfirm?: boolean
   confirmText?: string
   cancelText?: string
   onConfirm?: () => void
@@ -36,7 +37,8 @@ export const Modal = ({
   onClose,
   title,
   description,
-  confirmText,
+  showConfirm = true,
+  confirmText = "Đồng ý",
   cancelText,
   onConfirm
 }: ModalProps) => {
@@ -105,7 +107,7 @@ export const Modal = ({
             />
           )}
 
-          {confirmText && (
+          {showConfirm && (
             <ModalButton
               onPress={onConfirm ? handleConfirm : onClose}
               text={confirmText}
