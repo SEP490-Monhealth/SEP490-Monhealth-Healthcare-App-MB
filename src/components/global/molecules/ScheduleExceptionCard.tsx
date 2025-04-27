@@ -2,28 +2,36 @@ import React from "react"
 
 import { Image, Text, TouchableOpacity, View } from "react-native"
 
-import { MoreHorizontal } from "lucide-react-native"
-
-import { COLORS } from "@/constants/color"
+import {
+  ScheduleExceptionStatusEnum,
+  getScheduleExceptionStatusMeta
+} from "@/constants/enum/Schedule"
 
 import { formatDate } from "@/utils/formatters"
 
-import { Card } from "../atoms"
-import { IconButton } from "./IconButton"
+import { Card, VStack } from "../atoms"
 
 interface ScheduleExceptionCardProps {
   date: string
   reason: string
+  status: ScheduleExceptionStatusEnum
   onPress?: () => void
 }
 
 export const ScheduleExceptionCard = ({
   date,
   reason,
+  status,
   onPress
 }: ScheduleExceptionCardProps) => {
+  const { label: scheduleExceptionStatusLabel } =
+    getScheduleExceptionStatusMeta(status)
+
   return (
-    <Card className="flex-row items-center justify-between gap-4">
+    <Card
+      className="flex-row items-center justify-between gap-4"
+      onPress={onPress}
+    >
       <View className="flex flex-1 flex-row items-center">
         <TouchableOpacity
           activeOpacity={1}
@@ -50,11 +58,11 @@ export const ScheduleExceptionCard = ({
         </View>
       </View>
 
-      <IconButton
-        size="sm"
-        icon={<MoreHorizontal size={20} color={COLORS.primary} />}
-        onPress={onPress}
-      />
+      <VStack className="items-end">
+        <Text className="font-tregular text-sm text-accent">
+          {scheduleExceptionStatusLabel}
+        </Text>
+      </VStack>
     </Card>
   )
 }

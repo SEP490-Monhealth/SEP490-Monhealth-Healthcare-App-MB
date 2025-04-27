@@ -12,7 +12,7 @@ import {
 import {
   getRemainingBookingsByUserId,
   getUserSubscriptionByUserId
-} from "@/services/useSubscriptionService"
+} from "@/services/userSubscriptionService"
 
 export const useGetUserSubscriptionByUserId = (userId: string | undefined) => {
   const handleError = useError()

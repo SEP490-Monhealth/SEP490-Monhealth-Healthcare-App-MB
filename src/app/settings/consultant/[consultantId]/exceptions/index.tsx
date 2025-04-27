@@ -31,6 +31,7 @@ import {
 import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
+import { ScheduleExceptionStatusEnum } from "@/constants/enum/Schedule"
 
 import {
   useDeleteScheduleException,
@@ -106,12 +107,16 @@ function ScheduleExceptionsScreen() {
     setIsRefreshing(false)
   }
 
-  const handleAction = (exceptionId: string) => {
-    if (exceptionId) {
+  const handleAction = (
+    exceptionId: string,
+    status: ScheduleExceptionStatusEnum
+  ) => {
+    if (status === ScheduleExceptionStatusEnum.Pending) {
       setSelectedScheduleExceptionId(exceptionId)
       openSheetAction()
     }
   }
+
   const handleUpdate = () => {
     closeSheetAction()
 
@@ -137,7 +142,11 @@ function ScheduleExceptionsScreen() {
     return (
       <ListHeader>
         {scheduleExceptionsData.length > 0 && (
-          <Section label="Danh sách lịch nghỉ" margin={false} className="pt-2" />
+          <Section
+            label="Danh sách lịch nghỉ"
+            margin={false}
+            className="pt-2"
+          />
         )}
       </ListHeader>
     )
@@ -180,7 +189,10 @@ function ScheduleExceptionsScreen() {
                 <ScheduleExceptionCard
                   date={item.date}
                   reason={item.reason}
-                  onPress={() => handleAction(item.scheduleExceptionId)}
+                  status={item.status}
+                  onPress={() =>
+                    handleAction(item.scheduleExceptionId, item.status)
+                  }
                 />
               )}
               ListFooterComponent={

@@ -95,7 +95,7 @@ export const Modal = ({
           </Text>
         </View>
 
-        <View className="my-4 h-px bg-border" />
+        {showConfirm && <View className="my-4 h-px bg-border" />}
 
         <HStack gap={12}>
           {cancelText && (
