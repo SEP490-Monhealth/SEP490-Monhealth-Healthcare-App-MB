@@ -46,6 +46,8 @@ function CreateScheduleExceptionScreen() {
   const { user } = useAuth()
   const consultantId = user?.consultantId
 
+  const SheetRef = useRef<SheetRefProps>(null)
+
   const today = new Date()
 
   const [selectedDate, setSelectedDate] = useState<Date>(today)
@@ -57,14 +59,12 @@ function CreateScheduleExceptionScreen() {
     null
   )
 
-  const SheetRef = useRef<SheetRefProps>(null)
-
   const { mutate: createScheduleException } = useCreateScheduleException()
 
   const { data: bookingsData } = useGetBookingsByConsultantId(
     consultantId,
     1,
-    100,
+    undefined,
     formatDateY(selectedDate)
   )
 

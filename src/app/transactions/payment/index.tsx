@@ -81,7 +81,6 @@ function TransactionPaymentScreen() {
   )
 
   // console.log(transactionData)
-  console.log("trạng thái", transactionStatus)
 
   return (
     <>
