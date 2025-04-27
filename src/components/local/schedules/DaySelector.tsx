@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react"
+import React, { memo, useEffect, useRef } from "react"
 
 import { Text, TouchableOpacity } from "react-native"
 
@@ -74,27 +74,37 @@ export const DaySelector = ({
   existingSchedules = [],
   setSelectedDays
 }: DaySelectorProps) => {
+  const processedInitially = useRef(false)
+
   useEffect(() => {
-    if (!existingSchedules?.length || !setSelectedDays) return
+    if (
+      !processedInitially.current &&
+      existingSchedules?.length &&
+      setSelectedDays
+    ) {
+      const daysWithSchedules = (existingSchedules || [])
+        .filter((schedule) =>
+          scheduleType === ScheduleTypeEnum.Recurring
+            ? schedule.recurringDay !== null
+            : schedule.specificDate !== null
+        )
+        .map((schedule) => schedule.recurringDay)
+        .filter(
+          (day): day is number => day !== null && day !== undefined
+        ) as RecurringDayEnum[]
 
-    const daysWithSchedules = (existingSchedules || [])
-      .filter((schedule) =>
-        scheduleType === ScheduleTypeEnum.Recurring
-          ? schedule.recurringDay !== null
-          : schedule.specificDate !== null
-      )
-      .map((schedule) => schedule.recurringDay)
-      .filter(
-        (day): day is number => day !== null && day !== undefined
-      ) as RecurringDayEnum[]
+      if (daysWithSchedules.length > 0) {
+        const allDaysSet = new Set([...selectedDays, ...daysWithSchedules])
+        const allDays = Array.from(allDaysSet)
 
-    if (daysWithSchedules.length > 0) {
-      const allDays = Array.from(
-        new Set([...selectedDays, ...daysWithSchedules])
-      )
-      setSelectedDays(allDays)
+        if (allDays.length !== selectedDays.length) {
+          setSelectedDays(allDays)
+        }
+      }
+
+      processedInitially.current = true
     }
-  }, [selectedDays, existingSchedules, scheduleType, setSelectedDays])
+  }, [scheduleType])
 
   return (
     <HStack gap={8}>

@@ -9,6 +9,7 @@ import {
 import { timeSchema, timestampFields, uuidSchema } from "./baseSchema"
 
 const timeSlotSchema = z.object({
+  scheduleTimeSlotId: uuidSchema,
   timeSlotId: uuidSchema,
   startTime: timeSchema.shape.time,
   endTime: timeSchema.shape.time,

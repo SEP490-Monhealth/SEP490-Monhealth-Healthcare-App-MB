@@ -148,7 +148,7 @@ export const deleteScheduleTimeSlot = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.delete(
-      `/schedule/time-slots/${scheduleTimeSlotId}`
+      `/schedules/time-slots/${scheduleTimeSlotId}`
     )
     const { success, message } = response.data
 

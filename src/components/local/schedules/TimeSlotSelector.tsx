@@ -150,11 +150,22 @@ export const TimeSlotSelector = ({
       (schedule) => schedule.recurringDay === day
     )
 
-    return daySchedules.flatMap((schedule) =>
-      schedule.timeSlots.map((slot) =>
-        formatTimeSlot(slot.startTime, slot.endTime)
-      )
-    )
+    return daySchedules.flatMap((schedule) => {
+      return schedule.timeSlots
+        .map((slot) => {
+          if (typeof slot === "string") {
+            return slot
+          } else if (
+            typeof slot === "object" &&
+            slot.startTime &&
+            slot.endTime
+          ) {
+            return formatTimeSlot(slot.startTime, slot.endTime)
+          }
+          return ""
+        })
+        .filter((slot) => slot !== "")
+    })
   }
 
   const sortedDays = [...selectedDays].sort((a, b) => a - b)
