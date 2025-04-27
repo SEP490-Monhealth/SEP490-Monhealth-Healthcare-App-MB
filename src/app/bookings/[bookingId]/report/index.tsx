@@ -52,7 +52,7 @@ const ReportDetailsScreen = () => {
                   <Image
                     source={{ uri }}
                     resizeMode="cover"
-                    className="h-full w-full rounded-lg"
+                    className="h-full w-full rounded-lg border border-border"
                   />
                 </View>
               ))}

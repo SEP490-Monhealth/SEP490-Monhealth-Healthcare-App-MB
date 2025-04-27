@@ -103,12 +103,12 @@ export const consultantProfileRoutes: RouteType[] = [
     label: "Hồ sơ cá nhân",
     icon: Profile
   },
-  {
-    route: (consultantId: string) =>
-      `/settings/consultant/${consultantId}/about`,
-    label: "Mô tả bản thân",
-    icon: Personalcard
-  },
+  // {
+  //   route: (consultantId: string) =>
+  //     `/settings/consultant/${consultantId}/about`,
+  //   label: "Mô tả bản thân",
+  //   icon: Personalcard
+  // },
   {
     route: (consultantId: string) =>
       `/settings/consultant/${consultantId}/expertise`,

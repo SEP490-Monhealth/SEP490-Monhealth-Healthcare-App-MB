@@ -44,7 +44,7 @@ const ChatInformationScreen = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
   const [selectedBooking, setSelectedBooking] = useState<string | null>(null)
 
-  const meetingUrl = "https://meet.google.com/phm-iunw-nij"
+  // const meetingUrl = "https://meet.google.com/phm-iunw-nij"
 
   const { data: chatData } = useGetChatById(chatId)
   const { data: bookingsData } = useGetBookingsByUserIdAndConsultantId(
@@ -53,6 +53,8 @@ const ChatInformationScreen = () => {
   )
   const { data: metricsData } = useGetMetricsByUserId(chatData?.userId)
   const { data: goalsData } = useGetGoalsByUserId(chatData?.userId)
+
+  // const datahehe = bookingsData?.[0]
 
   // console.log(JSON.stringify(bookingsData, null, 2))
 
@@ -160,7 +162,7 @@ const ChatInformationScreen = () => {
                       endTime={booking.endTime}
                       meetingUrl={
                         booking.status === BookingStatusEnum.Booked
-                          ? meetingUrl
+                          ? booking.meetingUrl
                           : ""
                       }
                       notes={booking.notes}
