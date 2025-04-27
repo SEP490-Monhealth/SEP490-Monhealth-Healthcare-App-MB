@@ -63,6 +63,8 @@ function CreateScheduleExceptionScreen() {
 
   const { data: bookingsData } = useGetBookingsByConsultantId(
     consultantId,
+    1,
+    100,
     formatDateY(selectedDate)
   )
 
@@ -98,7 +100,7 @@ function CreateScheduleExceptionScreen() {
   }
 
   const checkForBookings = () => {
-    const hasBooking = bookingsData?.some(
+    const hasBooking = bookingsData?.bookings.some(
       (booking) => booking.date === formatDateY(selectedDate)
     )
 

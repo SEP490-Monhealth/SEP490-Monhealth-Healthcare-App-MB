@@ -241,6 +241,17 @@ export const BookingCard = ({
             Hoàn thành
           </Button>
         )}
+
+        {variant === "consultant" && status === BookingStatusEnum.Cancelled && (
+          <Button
+            variant="danger"
+            size="sm"
+            onPress={onCompletePress}
+            className="flex-1"
+          >
+            Đã hủy
+          </Button>
+        )}
       </VStack>
     </Card>
   )
