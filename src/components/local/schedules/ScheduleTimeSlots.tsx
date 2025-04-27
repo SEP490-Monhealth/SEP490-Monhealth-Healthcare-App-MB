@@ -85,27 +85,25 @@ const DayTimeSlots = ({
       gap={20}
       className={`pb-2 ${scheduleForDay ? "border-b border-border" : ""}`}
     >
-      {scheduleForDay && (
-        <View className="items-center" style={{ width: 64 }}>
-          <Text className="font-tmedium text-base text-primary">
-            {day === 0 ? "Hôm nay" : getDayLabel(day)}
-          </Text>
-          <Text className="text-tregular text-center text-sm text-secondary">
-            {timeSlotsCount} khung giờ
-          </Text>
-        </View>
-      )}
+      <View className="items-center" style={{ width: 64 }}>
+        <Text className="font-tmedium text-base text-primary">
+          {day === 0 ? "Hôm nay" : getDayLabel(day)}
+        </Text>
+        <Text className="text-tregular text-center text-sm text-secondary">
+          {timeSlotsCount} khung giờ
+        </Text>
+      </View>
 
       <View className="flex-1 flex-row flex-wrap gap-2">
         {timeSlotsForDay.map((timeSlot) => (
           <TimeSlotButton
             key={`${timeSlot.startTime}-${timeSlot.endTime}`}
             timeSlot={timeSlot}
-            onDeletePress={() => deleteScheduleTimeSlot(timeSlot.timeSlotId)}
+            onDeletePress={() => deleteScheduleTimeSlot(timeSlot.scheduleTimeSlotId)}
           />
         ))}
 
-        {scheduleForDay && (
+        {scheduleForDay ? (
           <AddTimeButton
             onPress={() =>
               onAddTimeSlot(
@@ -114,6 +112,8 @@ const DayTimeSlots = ({
               )
             }
           />
+        ) : (
+          <AddTimeButton onPress={() => onAddTimeSlot(null, day)} />
         )}
       </View>
     </HStack>
@@ -136,7 +136,14 @@ export const ScheduleTimeSlots = ({
   const { mutate: deleteScheduleTimeSlot } = useDeleteScheduleTimeSlot()
 
   if (scheduleType === ScheduleTypeEnum.Recurring) {
-    const allDays = [0, 1, 2, 3, 4, 5, 6]
+    const daysWithData = data.map((schedule) => schedule.recurringDay as number)
+    const allDays = [0, 1, 2, 3, 4, 5, 6].filter(
+      (day) => day === 0 || daysWithData.includes(day)
+    )
+
+    if (allDays.length === 0) {
+      return <View className="h-8" /> // Empty spacer
+    }
 
     return (
       <VStack gap={8}>
@@ -182,7 +189,7 @@ export const ScheduleTimeSlots = ({
                 key={`${timeSlot.startTime}-${timeSlot.endTime}`}
                 timeSlot={timeSlot}
                 onDeletePress={() =>
-                  deleteScheduleTimeSlot(timeSlot.timeSlotId)
+                  deleteScheduleTimeSlot(timeSlot.scheduleTimeSlotId)
                 }
               />
             ))}

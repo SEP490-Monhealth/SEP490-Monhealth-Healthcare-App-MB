@@ -80,7 +80,7 @@ export const userProfileRoutes: RouteType[] = [
 
 export const userAboutRoutes: RouteType[] = [
   {
-    route: "/settings/app-about",
+    route: "/settings/app",
     label: "Giới thiệu ứng dụng",
     icon: I3Dcube
   },
@@ -135,8 +135,13 @@ export const consultantProfileRoutes: RouteType[] = [
 
 export const consultantAboutRoutes: RouteType[] = [
   {
-    route: "/settings/app-about",
+    route: "/settings/app",
     label: "Giới thiệu ứng dụng",
+    icon: I3Dcube
+  },
+  {
+    route: "/settings/policy",
+    label: "Chính sách & điều khoản",
     icon: I3Dcube
   },
   {

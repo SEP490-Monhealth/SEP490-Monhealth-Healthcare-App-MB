@@ -2,10 +2,7 @@ import React from "react"
 
 import { Text } from "react-native"
 
-import { useRouter } from "expo-router"
-
 import {
-  Button,
   Container,
   Content,
   ScrollArea,
@@ -14,15 +11,9 @@ import {
 import { Header } from "@/components/global/organisms"
 
 function SetupPolicy() {
-  const router = useRouter()
-
-  const handleSetup = () => {
-    router.replace("/(setup)/consultant")
-  }
-
   return (
     <Container>
-      <Header label="Chính sách" />
+      <Header back label="Chính sách" />
 
       <Content className="mt-2">
         <ScrollArea>
@@ -144,10 +135,6 @@ function SetupPolicy() {
           </VStack>
         </ScrollArea>
       </Content>
-
-      <Button size="lg" onPress={handleSetup} className="mb-4">
-        Xác nhận
-      </Button>
     </Container>
   )
 }
