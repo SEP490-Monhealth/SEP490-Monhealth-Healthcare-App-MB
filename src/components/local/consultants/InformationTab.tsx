@@ -13,6 +13,8 @@ import { Section } from "@/components/global/organisms"
 import { useGetConsultantById } from "@/hooks/useConsultant"
 import { useGetSchedulesByConsultantId } from "@/hooks/useSchedule"
 
+import { TimeSlotType } from "@/schemas/scheduleSchema"
+
 import { useBookingStore } from "@/stores/bookingStore"
 
 import { formatDateY } from "@/utils/formatters"
@@ -29,8 +31,6 @@ export const InformationTab = ({ onOverlayLoading }: InformationTabProps) => {
     useLocalSearchParams() as { consultantId: string; selectedDate?: string }
 
   const today = formatDateY(new Date())
-
-  // console.log(today)
 
   const { date: storedDate, updateField } = useBookingStore()
 
@@ -85,6 +85,23 @@ export const InformationTab = ({ onOverlayLoading }: InformationTabProps) => {
     router.push({ pathname: "/calendars", params: { selectedDate } })
   }
 
+  const getAllSortedTimeSlots = (): TimeSlotType[] => {
+    if (!schedulesData) return []
+
+    const allTimeSlots: TimeSlotType[] = []
+    schedulesData.forEach((schedule) => {
+      schedule.timeSlots.forEach((slot) => {
+        allTimeSlots.push(slot)
+      })
+    })
+
+    return allTimeSlots.sort((a, b) => {
+      return a.startTime.localeCompare(b.startTime)
+    })
+  }
+
+  const sortedTimeSlots = getAllSortedTimeSlots()
+
   return (
     <View className="mt-2 pb-10">
       {consultantData && <ConsultantBio bio={consultantData.bio} />}
@@ -103,20 +120,18 @@ export const InformationTab = ({ onOverlayLoading }: InformationTabProps) => {
       <Section label="Thời gian" />
 
       <View className="flex-row flex-wrap gap-x-2 gap-y-3">
-        {schedulesData?.map((schedule) =>
-          schedule.timeSlots.map((slot) => (
-            <TimeSlotSelector
-              key={slot.startTime}
-              startTime={slot.startTime}
-              endTime={slot.endTime}
-              isSelected={selectedTime === slot.startTime}
-              status={slot.status}
-              date={selectedDate || today}
-              bufferMinutes={60}
-              onPress={() => handleScheduleSelect(slot.startTime, slot.endTime)}
-            />
-          ))
-        )}
+        {sortedTimeSlots.map((slot) => (
+          <TimeSlotSelector
+            key={slot.timeSlotId}
+            startTime={slot.startTime}
+            endTime={slot.endTime}
+            isSelected={selectedTime === slot.startTime}
+            status={slot.status}
+            date={selectedDate || today}
+            bufferMinutes={60}
+            onPress={() => handleScheduleSelect(slot.startTime, slot.endTime)}
+          />
+        ))}
       </View>
     </View>
   )

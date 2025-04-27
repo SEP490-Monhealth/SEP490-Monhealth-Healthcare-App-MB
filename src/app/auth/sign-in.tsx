@@ -59,8 +59,8 @@ function SignInScreen() {
       // 0987654321 chuyên viên
       // 0792766979 người dùng
       // 0112223333 vi khuẩn
-      phoneNumber: "0792766979",
-      password: "123As@"
+      phoneNumber: "",
+      password: ""
     }
   })
 

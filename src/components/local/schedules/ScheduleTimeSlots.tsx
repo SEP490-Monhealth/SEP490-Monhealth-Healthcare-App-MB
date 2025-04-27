@@ -99,7 +99,9 @@ const DayTimeSlots = ({
           <TimeSlotButton
             key={`${timeSlot.startTime}-${timeSlot.endTime}`}
             timeSlot={timeSlot}
-            onDeletePress={() => deleteScheduleTimeSlot(timeSlot.scheduleTimeSlotId)}
+            onDeletePress={() =>
+              deleteScheduleTimeSlot(timeSlot.scheduleTimeSlotId)
+            }
           />
         ))}
 
@@ -142,7 +144,7 @@ export const ScheduleTimeSlots = ({
     )
 
     if (allDays.length === 0) {
-      return <View className="h-8" /> // Empty spacer
+      return <View className="h-8" />
     }
 
     return (
