@@ -6,6 +6,7 @@ import QRCode from "react-native-qrcode-svg"
 import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
+import { useQueryClient } from "@tanstack/react-query"
 
 import {
   Card,
@@ -21,6 +22,9 @@ import {
   TransactionStatusEnum,
   getTransactionTypeMeta
 } from "@/constants/enum/Transaction"
+import { MonQueryKey } from "@/constants/query"
+
+import { useAuth } from "@/contexts/AuthContext"
 
 import {
   useGetTransactionById,
@@ -36,20 +40,34 @@ function TransactionPaymentScreen() {
     qrCode: string
   }>()
 
+  const { user } = useAuth()
+  const userId = user?.userId
+
+  const queryClient = useQueryClient()
+
   const [showDialog, setShowDialog] = useState<boolean>(false)
   const [countdown, setCountdown] = useState<number>(5)
-
-  const qrLogo =
-    "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Monhealth%2FSEP490%20-%20Monhealth%20-%20Logo.png?alt=media&token=4a00b1c9-6f2c-4cfe-8868-94ed554ff3d0"
 
   const { data: transactionData } = useGetTransactionById(transactionId)
   const { data: transactionStatus } = useGetTransactionStatusById(transactionId)
 
+  const qrLogo =
+    "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Monhealth%2FSEP490%20-%20Monhealth%20-%20Logo.png?alt=media&token=4a00b1c9-6f2c-4cfe-8868-94ed554ff3d0"
+
   useEffect(() => {
-    if (transactionStatus?.status === TransactionStatusEnum.Completed) {
-      setShowDialog(true)
+    const refreshData = async () => {
+      if (
+        transactionStatus?.status === TransactionStatusEnum.Completed &&
+        userId
+      ) {
+        invalidateRelatedQueries()
+
+        setShowDialog(true)
+      }
     }
-  }, [transactionStatus])
+
+    refreshData()
+  }, [transactionStatus, userId])
 
   useEffect(() => {
     let countdownTimer: NodeJS.Timeout
@@ -59,7 +77,9 @@ function TransactionPaymentScreen() {
         setCountdown((prev) => {
           if (prev <= 1) {
             clearInterval(countdownTimer)
-            router.back()
+            setTimeout(() => {
+              router.back()
+            }, 0)
             return 0
           }
           return prev - 1
@@ -71,6 +91,18 @@ function TransactionPaymentScreen() {
       if (countdownTimer) clearInterval(countdownTimer)
     }
   }, [showDialog, router])
+
+  const invalidateRelatedQueries = () => {
+    queryClient.invalidateQueries({
+      queryKey: [MonQueryKey.Transaction.UserTransactions]
+    })
+    queryClient.invalidateQueries({
+      queryKey: [MonQueryKey.Subscription.UserSubscriptions]
+    })
+    queryClient.invalidateQueries({
+      queryKey: [MonQueryKey.Subscription.RemainingBookings]
+    })
+  }
 
   if (!transactionData || !transactionStatus) {
     return <LoadingScreen />

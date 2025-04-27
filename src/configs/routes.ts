@@ -79,6 +79,11 @@ export const userProfileRoutes: RouteType[] = [
 ]
 
 export const userAboutRoutes: RouteType[] = [
+  // {
+  //   route: "/transactions/payment",
+  //   label: "Giới thiệu ứng dụng",
+  //   icon: I3Dcube
+  // },
   {
     route: "/settings/app",
     label: "Giới thiệu ứng dụng",

@@ -17,8 +17,7 @@ import {
 } from "@/components/global/atoms"
 import { Header, Section } from "@/components/global/organisms"
 
-import { getBookingStatusMeta } from "@/constants/enum/Booking"
-import { ReportStatusEnum, getReportStatusMeta } from "@/constants/enum/Report"
+import { getReportStatusMeta } from "@/constants/enum/Report"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -66,8 +65,8 @@ function ReportDetailsScreen() {
     <Container>
       <Header back label="Báo cáo" />
 
-      <Content className="pt-2">
-        <ScrollArea>
+      <ScrollArea>
+        <Content className="pt-2">
           <HStack className="justify-between">
             <Text className="font-tbold text-xl text-primary">
               Trạng thái báo cáo
@@ -176,8 +175,8 @@ function ReportDetailsScreen() {
               ))}
             </View>
           </View>
-        </ScrollArea>
-      </Content>
+        </Content>
+      </ScrollArea>
     </Container>
   )
 }

@@ -87,7 +87,7 @@ export const TransactionCard = ({
         </Text>
       </View>
 
-      <VStack gap={4} className="items-end">
+      <VStack className="items-end">
         <Text className="font-tmedium text-sm text-primary">
           {isPositiveTransaction ? "+" : "-"}
           {formatCurrency(amount)}

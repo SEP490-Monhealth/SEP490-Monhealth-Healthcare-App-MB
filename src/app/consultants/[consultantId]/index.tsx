@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react"
 
-import { Image, Linking, Text, View } from "react-native"
+import { Image, Text, View } from "react-native"
 
 import { useLocalSearchParams, useRouter } from "expo-router"
 
@@ -90,8 +90,12 @@ function ConsultantDetailsScreen() {
 
     createBookingTransaction(transactionData, {
       onSuccess: async (response) => {
-        const { paymentUrl } = response.data
-        Linking.openURL(paymentUrl)
+        const { transactionId, qrCode } = response.data
+
+        router.replace({
+          pathname: "/transactions/payment",
+          params: { transactionId: transactionId, qrCode: qrCode }
+        })
       }
     })
   }

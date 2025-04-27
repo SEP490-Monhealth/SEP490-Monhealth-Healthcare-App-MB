@@ -74,7 +74,7 @@ export const WithdrawalRequestCard = ({
           </Text>
         </View>
 
-        <VStack gap={4} className="items-end">
+        <VStack className="items-end">
           <Text className="font-tmedium text-sm text-primary">
             {formatCurrency(amount)}
           </Text>
