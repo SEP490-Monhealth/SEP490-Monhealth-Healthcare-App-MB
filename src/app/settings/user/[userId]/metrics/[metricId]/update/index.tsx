@@ -61,10 +61,15 @@ const MetricUpdateScreen = () => {
   const { data: goalsData, isLoading: isGoalsLoading } =
     useGetGoalsByUserId(userId)
 
+  const [isDisabled, setIsDisabled] = useState<boolean>(false)
+
   const {
     control,
     handleSubmit,
     setValue,
+    setError,
+    clearErrors,
+    watch,
     reset,
     formState: { errors }
   } = useForm<CreateUpdateMetricType>({
@@ -155,8 +160,73 @@ const MetricUpdateScreen = () => {
     CaloriesRatioRef.current?.scrollTo(0)
   }
 
+  useEffect(() => {
+    const weightGoal = watch("weightGoal")
+    const weight = watch("weight")
+    const goalType = watch("goalType")
+
+    if (weightGoal !== undefined && weight !== null && goalType !== undefined) {
+      if (
+        goalType === GoalTypeEnum.WeightLoss &&
+        Number(weightGoal) >= Number(weight)
+      ) {
+        setError("weightGoal", {
+          type: "manual",
+          message: "Mục tiêu giảm cân phải nhỏ hơn cân nặng hiện tại"
+        })
+      } else if (
+        goalType === GoalTypeEnum.WeightGain &&
+        Number(weightGoal) <= Number(weight)
+      ) {
+        setError("weightGoal", {
+          type: "manual",
+          message: "Mục tiêu tăng cân phải lớn hơn cân nặng hiện tại"
+        })
+      } else if (goalType === GoalTypeEnum.Maintenance) {
+        setIsDisabled(true)
+        clearErrors("weightGoal")
+        setValue("weightGoal", weight)
+      }
+    }
+  }, [watch("weightGoal"), watch("weight"), watch("goalType")])
+
   const onSubmit = async (data: CreateUpdateMetricType) => {
     Keyboard.dismiss()
+
+    const weightGoal = data.weightGoal
+    const weight = data.weight
+    const goalType = data.goalType
+
+    if (weightGoal !== undefined && weight !== null) {
+      if (
+        goalType === GoalTypeEnum.WeightLoss &&
+        Number(weightGoal) >= Number(weight)
+      ) {
+        setError("weightGoal", {
+          type: "manual",
+          message: "Mục tiêu giảm cân phải nhỏ hơn cân nặng hiện tại"
+        })
+        return
+      }
+
+      if (
+        goalType === GoalTypeEnum.WeightGain &&
+        Number(weightGoal) <= Number(weight)
+      ) {
+        setError("weightGoal", {
+          type: "manual",
+          message: "Mục tiêu tăng cân phải lớn hơn cân nặng hiện tại"
+        })
+        return
+      }
+    }
+
+    if (Object.keys(errors).length > 0) {
+      console.log("Form has errors, not submitting:", errors)
+      return
+    }
+
+    // console.log("Data", JSON.stringify(data, null, 2))
 
     updateMetric(data, {
       onSuccess: () => router.back()
@@ -184,6 +254,9 @@ const MetricUpdateScreen = () => {
   }
 
   const onGoalTypeSelect = (goalType: number) => {
+    const isMaintenance = goalType === GoalTypeEnum.Maintenance
+
+    setIsDisabled(isMaintenance === true)
     setValue("goalType", goalType)
     setGoalType(goalType)
     setCaloriesRatio(undefined)
@@ -305,6 +378,7 @@ const MetricUpdateScreen = () => {
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <Input
+                      disabled={isDisabled}
                       value={value?.toString() || ""}
                       label="Cân nặng mục tiêu"
                       placeholder="VD: 66"

@@ -1,6 +1,6 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 
-import { Text, View } from "react-native"
+import { RefreshControl, ScrollView, Text, View } from "react-native"
 
 import { useLocalSearchParams } from "expo-router"
 
@@ -38,8 +38,13 @@ import { formatDate } from "@/utils/formatters"
 function ExpertiseScreen() {
   const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
 
-  const { data: certificatesData, isLoading: isCertificatesLoading } =
-    useGetCertificatesByConsultantId(consultantId)
+  const {
+    data: certificatesData,
+    isLoading: isCertificatesLoading,
+    refetch
+  } = useGetCertificatesByConsultantId(consultantId)
+
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
 
   if (!certificatesData || isCertificatesLoading) return <LoadingScreen />
 
@@ -80,6 +85,23 @@ function ExpertiseScreen() {
     }
   ]
 
+  useEffect(() => {
+    if (!isCertificatesLoading && isRefreshing) {
+      setIsRefreshing(false)
+    }
+  }, [isCertificatesLoading, isRefreshing])
+
+  const onRefresh = async () => {
+    setIsRefreshing(true)
+    try {
+      await refetch()
+    } catch (error) {
+      console.error("Error refreshing data:", error)
+    } finally {
+      setIsRefreshing(false)
+    }
+  }
+
   const handleViewImage = (imageUrl: string) => {
     console.log("View image:", imageUrl)
   }
@@ -96,7 +118,13 @@ function ExpertiseScreen() {
       />
 
       <Content className="mt-2">
-        <ScrollArea className="pb-12">
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 48 }}
+          refreshControl={
+            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+          }
+        >
           <Section label="Chuyên môn" margin={false} />
 
           <Card>
@@ -135,7 +163,7 @@ function ExpertiseScreen() {
               />
             ))}
           </View>
-        </ScrollArea>
+        </ScrollView>
       </Content>
     </Container>
   )
