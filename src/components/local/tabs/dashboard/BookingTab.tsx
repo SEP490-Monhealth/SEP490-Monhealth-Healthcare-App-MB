@@ -43,7 +43,11 @@ export const BookingTab = ({
     initialDate.split("-").slice(0, 2).join("-")
   )
 
-  const { data: bookingsData, isLoading } = useGetMonthlyBookingsByConsultantId(
+  const {
+    data: bookingsData,
+    isLoading,
+    refetch
+  } = useGetMonthlyBookingsByConsultantId(
     consultantId,
     1,
     undefined,
@@ -87,11 +91,16 @@ export const BookingTab = ({
     router.replace("/(tabs)/consultant/booking")
   }
 
-  const onRefresh = () => {
+  const onRefresh = async () => {
     setIsRefreshing(true)
-    setIsRefreshing(false)
+    try {
+      await refetch()
+    } catch (error) {
+      console.error("Error refreshing data:", error)
+    } finally {
+      setIsRefreshing(false)
+    }
   }
-
   const handleSelectMonth = (month: string) => {
     setSelectedMonth(month)
   }

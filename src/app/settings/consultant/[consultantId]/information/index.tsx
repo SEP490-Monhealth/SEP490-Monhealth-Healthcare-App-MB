@@ -1,7 +1,9 @@
-import React, { useRef } from "react"
+import React, { useEffect, useRef, useState } from "react"
 
 import {
+  RefreshControl,
   SafeAreaView,
+  ScrollView,
   Text,
   TouchableWithoutFeedback,
   View
@@ -53,13 +55,18 @@ function ConsultantInformationScreen() {
   const userId = user?.userId
   const consultantId = user?.consultantId
 
-  const { data: consultantData, isLoading } = useGetConsultantById(consultantId)
+  const {
+    data: consultantData,
+    isLoading,
+    refetch
+  } = useGetConsultantById(consultantId)
+
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
 
   const SheetRef = useRef<SheetRefProps>(null)
   const sheetHeight = 180
 
   const openSheet = () => SheetRef.current?.scrollTo(-sheetHeight)
-  const closeSheet = () => SheetRef.current?.scrollTo(0)
 
   const handleUpdateConsultant = () => {
     router.push(`/settings/user/${userId}/information/update`)
@@ -67,6 +74,23 @@ function ConsultantInformationScreen() {
 
   const handleUpdateBio = () => {
     router.push(`/settings/consultant/${consultantId}/about/update`)
+  }
+
+  useEffect(() => {
+    if (!isLoading && isRefreshing) {
+      setIsRefreshing(false)
+    }
+  }, [isLoading, isRefreshing])
+
+  const onRefresh = async () => {
+    setIsRefreshing(true)
+    try {
+      await refetch()
+    } catch (error) {
+      console.error("Error refreshing data:", error)
+    } finally {
+      setIsRefreshing(false)
+    }
   }
 
   if (!consultantData || isLoading) return <LoadingScreen />
@@ -93,7 +117,13 @@ function ConsultantInformationScreen() {
         <Container>
           <Header back label="Hồ sơ" />
 
-          <ScrollArea>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 48 }}
+            refreshControl={
+              <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+            }
+          >
             <Content className="mt-2 pb-12">
               <VStack center gap={12}>
                 <Avatar
@@ -108,34 +138,32 @@ function ConsultantInformationScreen() {
                 </Text>
               </VStack>
 
-              <View>
-                <Section label="Thông tin" />
-
-                <Card>
+              <View className="mt-4 px-4">
+                <Card className="bg-muted">
                   <HStack className="justify-between">
-                    <VStack center gap={8}>
+                    <VStack center gap={6}>
                       <Text className="font-tmedium text-base text-accent">
                         Lịch hẹn
                       </Text>
-                      <Text className="font-tbold text-lg text-primary">
+                      <Text className="font-tbold text-xl text-primary">
                         {consultantData.bookingCount}
                       </Text>
                     </VStack>
 
-                    <VStack center gap={8}>
+                    <VStack center gap={6}>
                       <Text className="font-tmedium text-base text-accent">
                         Đánh giá
                       </Text>
-                      <Text className="font-tbold text-lg text-primary">
+                      <Text className="font-tbold text-xl text-primary">
                         {consultantData.ratingCount}
                       </Text>
                     </VStack>
 
-                    <VStack center gap={8}>
+                    <VStack center gap={6}>
                       <Text className="font-tmedium text-base text-accent">
                         Trung bình
                       </Text>
-                      <Text className="font-tbold text-lg text-primary">
+                      <Text className="font-tbold text-xl text-primary">
                         {toFixed(consultantData.averageRating)}
                       </Text>
                     </VStack>
@@ -203,7 +231,7 @@ function ConsultantInformationScreen() {
                 </Card>
               </View>
             </Content>
-          </ScrollArea>
+          </ScrollView>
         </Container>
 
         <Sheet ref={SheetRef} dynamicHeight={sheetHeight}>
