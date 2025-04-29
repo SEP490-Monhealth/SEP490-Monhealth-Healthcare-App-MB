@@ -51,6 +51,7 @@ function FoodCreateScreen() {
     // dishType,
     name,
     description,
+    referenceUrl,
     portion,
     nutrition,
     isPublic,
@@ -65,6 +66,7 @@ function FoodCreateScreen() {
     // dishType,
     name,
     description,
+    referenceUrl,
     portion,
     nutrition,
     isPublic
@@ -89,7 +91,7 @@ function FoodCreateScreen() {
       step: 3,
       title: "Dinh dưỡng",
       component: FoodNutrition,
-      fields: ["nutrition"],
+      fields: ["nutrition", "referenceUrl"],
       schema: nutritionFoodSchema
     }
   ]
@@ -147,11 +149,11 @@ function FoodCreateScreen() {
 
       console.log("Final Form Data:", JSON.stringify(finalData, null, 2))
 
-      createFood(finalData, {
-        onSuccess: () => {
-          router.push("/foods")
-        }
-      })
+      // createFood(finalData, {
+      //   onSuccess: () => {
+      //     router.replace("/foods")
+      //   }
+      // })
     }
   }
 
@@ -201,8 +203,8 @@ function FoodCreateScreen() {
         <Content className="mt-2">
           <StepComponent
             control={control}
-            errors={errors}
             setValue={setValue}
+            errors={errors}
             // openMealSheet={openMealSheet}
             // openDishSheet={openDishSheet}
           />

@@ -8,6 +8,7 @@ interface CreateFoodState {
   // dishType: DishTypeEnum[]
   name: string
   description: string
+  referenceUrl: string
   portion: PortionType
   nutrition: NutritionType
   isPublic: boolean
@@ -21,6 +22,7 @@ export const useFoodStore = create<CreateFoodState>((set) => ({
   // dishType: [],
   name: "",
   description: "",
+  referenceUrl: "",
   portion: {
     size: "",
     weight: 1,
@@ -56,6 +58,7 @@ export const useFoodStore = create<CreateFoodState>((set) => ({
       // dishType: [],
       name: "",
       description: "",
+      referenceUrl: "",
       portion: {
         size: "",
         weight: 0,

@@ -80,12 +80,7 @@ function FoodNutrition({ control, errors }: FoodNutritionProps) {
             placeholder={placeholder}
             onChangeText={handleChangeText}
             keyboardType="numeric"
-            alignRight
-            startIcon={
-              <Text className="font-tregular text-base text-primary">
-                {label}
-              </Text>
-            }
+            label={label}
             endIcon={
               <Text className="font-tregular text-sm text-accent">{unit}</Text>
             }
@@ -119,6 +114,22 @@ function FoodNutrition({ control, errors }: FoodNutritionProps) {
               renderInput(item.name, item.label, item.unit)
             )}
           </VStack>
+
+          <Section label="Tham khảo" />
+
+          <Controller
+            name="referenceUrl"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                value={value}
+                placeholder="VD: https://example.com"
+                onChangeText={onChange}
+                canClearText
+                errorMessage={errors.referenceUrl?.message}
+              />
+            )}
+          />
         </View>
       </ScrollArea>
     </KeyboardAvoidingView>
