@@ -46,7 +46,6 @@ import { getInitials } from "@/utils/helpers"
 
 function ConsultantDetailsScreen() {
   const router = useRouter()
-  const { tab } = useLocalSearchParams<{ tab: string }>()
   const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
 
   const { user } = useAuth()
@@ -64,7 +63,7 @@ function ConsultantDetailsScreen() {
     (subscription) => subscription.status === UserSubscriptionStatus.Active
   )
 
-  const [activeTab, setActiveTab] = useState<string>(tab || "info")
+  const [activeTab, setActiveTab] = useState<string>("info")
   const [overlayLoading, setOverlayLoading] = useState<boolean>(false)
   const [isTimeModalVisible, setIsTimeModalVisible] = useState<boolean>(false)
   const [isNoBookingsLeftModalVisible, setIsNoBookingsLeftModalVisible] =
@@ -85,7 +84,7 @@ function ConsultantDetailsScreen() {
       userId: userId || "",
       description: "Thanh toán mua thêm lượt",
       // amount: 230000,
-      amount: 10000
+      amount: 5000
     }
 
     createBookingTransaction(transactionData, {
@@ -112,13 +111,13 @@ function ConsultantDetailsScreen() {
   }
 
   const handleBooking = () => {
-    if (currentSubscription && currentSubscription.remainingBookings <= 0) {
-      setIsNoBookingsLeftModalVisible(true)
+    if (!startTime || !endTime) {
+      setIsTimeModalVisible(true)
       return
     }
 
-    if (!startTime || !endTime) {
-      setIsTimeModalVisible(true)
+    if (currentSubscription && currentSubscription.remainingBookings <= 0) {
+      setIsNoBookingsLeftModalVisible(true)
       return
     }
 

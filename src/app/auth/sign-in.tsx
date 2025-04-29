@@ -46,8 +46,8 @@ function SignInScreen() {
   const { title, description } =
     signInData[role ?? "Member"] || signInData.Member
 
-  const [isLoading, setIsLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [showPassword, setShowPassword] = useState<boolean>(false)
 
   const {
     control,

@@ -21,8 +21,8 @@ import { OtpVerificationType, otpSchema } from "@/schemas/userSchema"
 function OTPVerificationScreen() {
   const router = useRouter()
 
-  const [timeLeft, setTimeLeft] = useState(30)
-  const [isClear, setIsClear] = useState(false)
+  const [timeLeft, setTimeLeft] = useState<number>(30)
+  const [isClear, setIsClear] = useState<boolean>(false)
 
   const {
     control,

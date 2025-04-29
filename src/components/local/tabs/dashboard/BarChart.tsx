@@ -12,7 +12,7 @@ import Svg, { Line, Rect, Text as SvgText } from "react-native-svg"
 
 import { COLORS } from "@/constants/color"
 
-import { YearlyBookingType } from "@/schemas/reportSchema"
+import { YearlyBookingType } from "@/schemas/trackerSchema"
 
 const screenWidth = Dimensions.get("window").width
 const AnimatedRect = Animated.createAnimatedComponent(Rect)

@@ -24,8 +24,8 @@ import { ResetPasswordType, resetPasswordSchema } from "@/schemas/userSchema"
 function ForgotPasswordScreen() {
   const router = useRouter()
 
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)
 
   const {
     control,

@@ -1,7 +1,5 @@
 import React, { useCallback, useState } from "react"
 
-import { useLocalSearchParams } from "expo-router"
-
 import { LoadingOverlay } from "@/app/loading"
 
 import {
@@ -22,14 +20,12 @@ import { WaterTab } from "@/components/local/tabs/home/WaterTab"
 import { useAuth } from "@/contexts/AuthContext"
 
 function HomeScreen() {
-  const { tab } = useLocalSearchParams<{ tab: string }>()
-
   const { user } = useAuth()
   const userId = user?.userId
   const fullName = user?.fullName
 
-  const [activeTab, setActiveTab] = useState(tab || "meal")
-  const [overlayLoading, setOverlayLoading] = useState(false)
+  const [activeTab, setActiveTab] = useState<string>("meal")
+  const [overlayLoading, setOverlayLoading] = useState<boolean>(false)
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab)
@@ -63,15 +59,24 @@ function HomeScreen() {
             </TabsList>
 
             <TabsContent value="meal">
-              <MealTab onOverlayLoading={handleOverlayLoading} />
+              <MealTab
+                userId={userId}
+                onOverlayLoading={handleOverlayLoading}
+              />
             </TabsContent>
 
             <TabsContent value="water">
-              <WaterTab onOverlayLoading={handleOverlayLoading} />
+              <WaterTab
+                userId={userId}
+                onOverlayLoading={handleOverlayLoading}
+              />
             </TabsContent>
 
             <TabsContent value="workout">
-              <ActivityTab onOverlayLoading={handleOverlayLoading} />
+              <ActivityTab
+                userId={userId}
+                onOverlayLoading={handleOverlayLoading}
+              />
             </TabsContent>
           </Tabs>
         </Content>

@@ -22,7 +22,7 @@ function SettingsScreen() {
   const { user, logout } = useAuth()
   const userId = user?.userId
 
-  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 
   const handleLogout = async () => {
     await logout()

@@ -20,8 +20,6 @@ import { COLORS } from "@/constants/color"
 import { MealTypeEnum } from "@/constants/enum/Food"
 import { GoalTypeEnum, getGoalTypeMeta } from "@/constants/enum/Goal"
 
-import { useAuth } from "@/contexts/AuthContext"
-
 import { useGetNutritionGoal } from "@/hooks/useGoal"
 import { useGetDailyMealByUserId } from "@/hooks/useTracker"
 
@@ -29,14 +27,12 @@ import { formatDateY } from "@/utils/formatters"
 import { getRandomTip } from "@/utils/helpers"
 
 interface MealTabProps {
+  userId?: string
   onOverlayLoading: (isLoading: boolean) => void
 }
 
-export const MealTab = ({ onOverlayLoading }: MealTabProps) => {
+export const MealTab = ({ userId, onOverlayLoading }: MealTabProps) => {
   const router = useRouter()
-
-  const { user } = useAuth()
-  const userId = user?.userId
 
   const today = formatDateY(new Date())
 

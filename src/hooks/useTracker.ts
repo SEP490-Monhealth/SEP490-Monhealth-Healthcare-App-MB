@@ -10,9 +10,10 @@ import { DailyMealType } from "@/schemas/dailyMealSchema"
 import { DailyWaterIntakeType } from "@/schemas/dailyWaterIntakeSchema"
 import {
   WeeklyMealType,
+  WeeklyWeightType,
   YearlyBookingType,
   YearlyTransactionType
-} from "@/schemas/reportSchema"
+} from "@/schemas/trackerSchema"
 
 import {
   getDailyActivityByUserId,
@@ -20,6 +21,7 @@ import {
   getDailyWaterIntakeByUserId,
   getMonthlyBookingsByConsultantId,
   getWeeklyMealByUserId,
+  getWeeklyWeightByUserId,
   getYearlyBookingByConsultantId,
   getYearlyTransactionByConsultantId
 } from "@/services/trackerService"
@@ -104,6 +106,24 @@ export const useGetDailyActivityByUserId = (
     queryFn: async () => {
       try {
         return await getDailyActivityByUserId(userId, date)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    enabled: !!userId,
+    staleTime: 1000 * 60 * 5
+  })
+}
+
+export const useGetWeeklyWeightByUserId = (userId: string | undefined) => {
+  const handleError = useError()
+
+  return useQuery<WeeklyWeightType[], Error>({
+    queryKey: [MonQueryKey.Tracker.WeeklyWeight, userId],
+    queryFn: async () => {
+      try {
+        return await getWeeklyWeightByUserId(userId)
       } catch (error) {
         handleError(error)
         throw error

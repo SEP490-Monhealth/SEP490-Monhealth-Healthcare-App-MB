@@ -13,8 +13,6 @@ import { Section } from "@/components/global/organisms"
 import { COLORS } from "@/constants/color"
 import { GoalTypeEnum, getGoalTypeMeta } from "@/constants/enum/Goal"
 
-import { useAuth } from "@/contexts/AuthContext"
-
 import { useUpdateActivityStatus } from "@/hooks/useActivity"
 import { useGetWorkoutGoal } from "@/hooks/useGoal"
 import { useGetDailyActivityByUserId } from "@/hooks/useTracker"
@@ -25,14 +23,12 @@ import { WorkoutProgress } from "./WorkoutProgress"
 import { WorkoutSummary } from "./WorkoutSummary"
 
 interface ActivityTabProps {
+  userId?: string
   onOverlayLoading: (isLoading: boolean) => void
 }
 
-export const ActivityTab = ({ onOverlayLoading }: ActivityTabProps) => {
+export const ActivityTab = ({ userId, onOverlayLoading }: ActivityTabProps) => {
   const router = useRouter()
-
-  const { user } = useAuth()
-  const userId = user?.userId
 
   const today = formatDateY(new Date())
 

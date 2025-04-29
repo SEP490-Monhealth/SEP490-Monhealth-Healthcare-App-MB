@@ -80,9 +80,9 @@ function FoodDetailsScreen() {
 
   const [selectedMeal, setSelectedMeal] = useState(getMealType("vi"))
 
-  const [selectedPortion, setSelectedPortion] = useState("g")
-  const [quantity, setQuantity] = useState("100")
-  const [portionSheetHeight, setPortionSheetHeight] = useState(320)
+  const [selectedPortion, setSelectedPortion] = useState<string>("g")
+  const [quantity, setQuantity] = useState<string>("100")
+  const [portionSheetHeight, setPortionSheetHeight] = useState<number>(320)
   const [pendingMealData, setPendingMealData] = useState<CreateMealType | null>(
     null
   )

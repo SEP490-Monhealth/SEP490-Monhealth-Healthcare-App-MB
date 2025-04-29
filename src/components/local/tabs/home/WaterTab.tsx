@@ -7,10 +7,8 @@ import { useRouter } from "expo-router"
 import { useIsFetching, useIsMutating } from "@tanstack/react-query"
 
 import { HStack, VStack } from "@/components/global/atoms"
-import { WaterReminderCard } from "@/components/global/molecules"
+import { ErrorDisplay, WaterReminderCard } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
-
-import { useAuth } from "@/contexts/AuthContext"
 
 import { useGetWaterIntakeGoal } from "@/hooks/useGoal"
 import { useGetDailyWaterIntakeByUserId } from "@/hooks/useTracker"
@@ -24,14 +22,12 @@ import { formatDateY } from "@/utils/formatters"
 import { WaterIntakeProgress } from "./WaterIntakeProgress"
 
 interface WaterTabProps {
+  userId?: string
   onOverlayLoading: (isLoading: boolean) => void
 }
 
-export const WaterTab = ({ onOverlayLoading }: WaterTabProps) => {
+export const WaterTab = ({ userId, onOverlayLoading }: WaterTabProps) => {
   const router = useRouter()
-
-  const { user } = useAuth()
-  const userId = user?.userId
 
   const today = formatDateY(new Date())
 
@@ -104,21 +100,30 @@ export const WaterTab = ({ onOverlayLoading }: WaterTabProps) => {
         onPress={handleViewWaterReminders}
       />
 
-      <VStack gap={12}>
-        {waterRemindersData?.map((item) => (
-          <WaterReminderCard
-            key={item.waterReminderId}
-            variant="checkbox"
-            name={item.name}
-            time={item.time}
-            volume={item.volume}
-            isDrunk={item.isDrunk}
-            onCheckboxChange={() =>
-              handleDrunkWaterReminder(item.waterReminderId)
-            }
-          />
-        ))}
-      </VStack>
+      {waterRemindersData && waterRemindersData.length === 0 ? (
+        <VStack gap={12}>
+          {waterRemindersData?.map((item) => (
+            <WaterReminderCard
+              key={item.waterReminderId}
+              variant="checkbox"
+              name={item.name}
+              time={item.time}
+              volume={item.volume}
+              isDrunk={item.isDrunk}
+              onCheckboxChange={() =>
+                handleDrunkWaterReminder(item.waterReminderId)
+              }
+            />
+          ))}
+        </VStack>
+      ) : (
+        <ErrorDisplay
+          imageSource={require("../../../../../public/images/monhealth-no-data-image.png")}
+          title="Không có dữ liệu"
+          description="Không tìm thấy có nhắc nhở uống nước nào ở đây!"
+          marginTop={12}
+        />
+      )}
     </View>
   )
 }

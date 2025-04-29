@@ -121,6 +121,7 @@ export const MonQueryKey = {
 
   Tracker: {
     WeeklyMeal: "weekly-meal",
+    WeeklyWeight: "weekly-weight",
     YearlyTransaction: "yearly-transaction",
     MonthlyBookings: "monthly-bookings",
     YearlyBooking: "yearly-booking"

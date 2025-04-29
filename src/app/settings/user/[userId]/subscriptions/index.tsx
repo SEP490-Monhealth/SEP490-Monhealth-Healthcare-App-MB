@@ -107,7 +107,7 @@ function SubscriptionsScreen() {
       subscriptionId: selectedSubscriptionId || "",
       description: `Thanh toán ${selectedPlan?.name}`,
       // amount: selectedPlan?.price
-      amount: 10000
+      amount: 5000
     }
 
     // console.log("Final Data:", JSON.stringify(transactionData, null, 2))

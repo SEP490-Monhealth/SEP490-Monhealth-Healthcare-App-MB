@@ -25,8 +25,6 @@ import { useAuth } from "@/contexts/AuthContext"
 import { useGetWalletByConsultantId } from "@/hooks/useWallet"
 
 function DashboardScreen() {
-  const { tab } = useLocalSearchParams<{ tab: string }>()
-
   const { user } = useAuth()
   const userId = user?.userId
   const consultantId = user?.consultantId
@@ -34,8 +32,8 @@ function DashboardScreen() {
 
   const today = new Date().toISOString().split("T")[0]
 
-  const [activeTab, setActiveTab] = useState(tab || "spending")
-  const [overlayLoading, setOverlayLoading] = useState(false)
+  const [activeTab, setActiveTab] = useState<string>("spending")
+  const [overlayLoading, setOverlayLoading] = useState<boolean>(false)
 
   const { data: walletData, refetch: refetchWallet } =
     useGetWalletByConsultantId(consultantId)

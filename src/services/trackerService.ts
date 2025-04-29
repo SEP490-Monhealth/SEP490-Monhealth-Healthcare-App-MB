@@ -6,9 +6,10 @@ import { DailyMealType } from "@/schemas/dailyMealSchema"
 import { DailyWaterIntakeType } from "@/schemas/dailyWaterIntakeSchema"
 import {
   WeeklyMealType,
+  WeeklyWeightType,
   YearlyBookingType,
   YearlyTransactionType
-} from "@/schemas/reportSchema"
+} from "@/schemas/trackerSchema"
 
 interface BookingResponse {
   bookings: BookingType[]
@@ -43,10 +44,9 @@ export const getWeeklyMealByUserId = async (
   date: string
 ): Promise<WeeklyMealType[]> => {
   try {
-    const response = await monAPI.get(
-      `/trackers/user/${userId}/meals/weekly`,
-      { params: { date } }
-    )
+    const response = await monAPI.get(`/trackers/user/${userId}/meals/weekly`, {
+      params: { date }
+    })
 
     const { success, message, data } = response.data
 
@@ -101,6 +101,25 @@ export const getDailyActivityByUserId = async (
     }
 
     return data as DailyActivityType
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.message
+    throw { isCustomError: true, message: errorMessage }
+  }
+}
+
+export const getWeeklyWeightByUserId = async (
+  userId: string | undefined
+): Promise<WeeklyWeightType[]> => {
+  try {
+    const response = await monAPI.get(`/trackers/user/${userId}/weight/weekly`)
+
+    const { success, message, data } = response.data
+
+    if (!success) {
+      throw { isCustomError: true, message: message }
+    }
+
+    return data as WeeklyWeightType[]
   } catch (error: any) {
     const errorMessage = error.response?.data?.message
     throw { isCustomError: true, message: errorMessage }

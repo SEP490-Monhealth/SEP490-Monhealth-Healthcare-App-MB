@@ -76,8 +76,8 @@ function SetupUserScreen() {
     updateField
   } = useSetupStore()
 
-  const [currentStep, setCurrentStep] = useState(1)
-  const [isLoading, setIsLoading] = useState(false)
+  const [currentStep, setCurrentStep] = useState<number>(1)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   useEffect(() => {
     if (goalType !== null) {

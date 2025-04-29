@@ -40,8 +40,8 @@ function SignUpScreen() {
 
   const { title, description } = signUpData[role ?? "Member"]
 
-  const [isLoading, setIsLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [showPassword, setShowPassword] = useState<boolean>(false)
 
   const {
     control,

@@ -27,7 +27,6 @@ import { useGetBookingsByConsultantId } from "@/hooks/useBooking"
 
 function BookingsScreen() {
   const router = useRouter()
-  const { tab } = useLocalSearchParams<{ tab: string }>()
 
   const { user } = useAuth()
   const consultantId = user?.consultantId
@@ -38,7 +37,7 @@ function BookingsScreen() {
     refetch
   } = useGetBookingsByConsultantId(consultantId, 1)
 
-  const [activeTab, setActiveTab] = useState(tab || "booked")
+  const [activeTab, setActiveTab] = useState<string>("booked")
   const [modalType, setModalType] = useState<"cancel" | "complete">("cancel")
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
   const [selectedBooking, setSelectedBooking] = useState<string | null>(null)

@@ -14,7 +14,7 @@ import { ConsultantBankType } from "@/schemas/consultantBankSchema"
 
 import { useWithdrawalRequestStore } from "@/stores/withdrawalRequestStore"
 
-const ConsultantBanksScreen = () => {
+function ConsultantBanksScreen() {
   const router = useRouter()
   const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
 
