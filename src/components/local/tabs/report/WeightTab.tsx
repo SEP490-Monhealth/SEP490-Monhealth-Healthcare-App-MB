@@ -5,38 +5,40 @@ import { Text, View } from "react-native"
 import { useIsFetching, useIsMutating } from "@tanstack/react-query"
 
 import { HStack, VStack } from "@/components/global/atoms"
+import { WeightCard } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
 
 import { useGetWeeklyWeightByUserId } from "@/hooks/useTracker"
 
 import { toFixed } from "@/utils/formatters"
 
-import { LineChart } from "../dashboard"
+import { LineChart } from "./LineChart"
 
-const weightData = [
-  { date: "2025-01-01", weight: 75.5 },
-  { date: "2025-01-08", weight: 74.8 },
-  { date: "2025-01-15", weight: 73.2 },
-  { date: "2025-01-22", weight: 73.9 },
-  { date: "2025-01-29", weight: 72.6 },
-  { date: "2025-02-05", weight: 71.8 },
-  { date: "2025-02-12", weight: 71.3 }
+const weightsData = [
+  { date: "2025-01-01", weight: 75.5, height: 170 },
+  { date: "2025-01-08", weight: 74.8, height: 170 },
+  { date: "2025-01-15", weight: 73.2, height: 170 },
+  { date: "2025-01-22", weight: 73.9, height: 170 },
+  { date: "2025-01-29", weight: 72.6, height: 170 },
+  { date: "2025-02-05", weight: 71.8, height: 170 },
+  { date: "2025-02-12", weight: 71.3, height: 170 }
 ]
 
-const createVietnameseDateRangeLabel = (
+const formattedDateRangeLabel = (
   startDate: string,
   endDate: string
 ): string => {
-  const startYear = startDate.split("-")[0]
-  const endYear = endDate.split("-")[0]
+  const [startYear, startMonth, startDay] = startDate.split("-").map(Number)
+  const [endYear, endMonth, endDay] = endDate.split("-").map(Number)
 
-  const [startY, startM, startD] = startDate.split("-").map(Number)
-  const [endY, endM, endD] = endDate.split("-").map(Number)
+  const startDayString = startDay.toString()
+  const startMonthString = startMonth.toString()
+  const endDayString = endDay.toString()
+  const endMonthString = endMonth.toString()
 
-  const startDayString = startD.toString()
-  const startMonthString = startM.toString()
-  const endDayString = endD.toString()
-  const endMonthString = endM.toString()
+  if (startDate === endDate) {
+    return `${startDayString} tháng ${startMonthString} ${startYear}`
+  }
 
   if (startYear === endYear) {
     return `${startDayString} tháng ${startMonthString} - ${endDayString} tháng ${endMonthString} ${startYear}`
@@ -66,8 +68,10 @@ export const WeightTab = ({ userId, onOverlayLoading }: WeightTabProps) => {
   }, [isFetching, isMutating, onOverlayLoading])
 
   const recentWeightData = useMemo(() => {
-    const dataLength = weightData.length
-    return dataLength <= 6 ? [...weightData] : weightData.slice(dataLength - 6)
+    const dataLength = weightsData.length
+    return dataLength <= 6
+      ? [...weightsData]
+      : weightsData.slice(dataLength - 6)
   }, [])
 
   const selectedDate = recentWeightData[recentWeightData.length - 1].date
@@ -75,7 +79,7 @@ export const WeightTab = ({ userId, onOverlayLoading }: WeightTabProps) => {
   const dateRangeLabel = useMemo(() => {
     const startDate = recentWeightData[0].date
     const endDate = recentWeightData[recentWeightData.length - 1].date
-    return createVietnameseDateRangeLabel(startDate, endDate)
+    return formattedDateRangeLabel(startDate, endDate)
   }, [recentWeightData])
 
   const dateLabels = useMemo(() => {
@@ -109,13 +113,19 @@ export const WeightTab = ({ userId, onOverlayLoading }: WeightTabProps) => {
         date={selectedDate}
       />
 
-      <Section label="" />
+      <Section label="Lịch sử cân nặng" />
 
-      {/* <VStack gap={12}>
-        {weightsData.weights.map((weight) => (
-          <WeightCard key={weight.weightId} />
+      <VStack gap={12}>
+        {weightsData.map((weight, index) => (
+          <WeightCard
+            key={index}
+            date={weight.date}
+            weight={weight.weight}
+            height={weight.height}
+            onPress={() => {}}
+          />
         ))}
-      </VStack> */}
+      </VStack>
     </View>
   )
 }

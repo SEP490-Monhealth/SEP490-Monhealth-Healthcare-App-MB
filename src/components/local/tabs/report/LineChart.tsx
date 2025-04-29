@@ -60,6 +60,22 @@ export const LineChart = ({ date, labels, data }: LineChartProps) => {
   const dynamicPadding = screenWidth * 0.16
 
   const getPoints = (dataPoints: { date: string; weight: number }[]) => {
+    // Xử lý trường hợp chỉ có 1 điểm dữ liệu
+    if (dataPoints.length === 1) {
+      const singleValue = dataPoints[0].weight
+      const y =
+        maxBarHeight -
+        ((singleValue - chartMin) / (chartMax - chartMin)) * maxBarHeight +
+        paddingTop
+
+      // Tạo 2 điểm để vẽ đường thẳng ngang
+      const x1 = dynamicPadding
+      const x2 = screenWidth - dynamicPadding
+
+      return `${x1},${y} ${x2},${y}`
+    }
+
+    // Trường hợp bình thường với nhiều điểm dữ liệu
     return dataPoints
       .map((item, index) => {
         const x =
@@ -82,9 +98,11 @@ export const LineChart = ({ date, labels, data }: LineChartProps) => {
     selectedIndex !== -1
       ? {
           x:
-            selectedIndex *
-              ((screenWidth - dynamicPadding * 2) / (data.length - 1)) +
-            dynamicPadding,
+            data.length === 1
+              ? screenWidth / 2 // Nếu chỉ có 1 điểm, đặt điểm được chọn ở giữa
+              : selectedIndex *
+                  ((screenWidth - dynamicPadding * 2) / (data.length - 1)) +
+                dynamicPadding,
           y:
             maxBarHeight -
             ((data[selectedIndex].weight - chartMin) / (chartMax - chartMin)) *
@@ -131,40 +149,72 @@ export const LineChart = ({ date, labels, data }: LineChartProps) => {
         strokeWidth={2.5}
       />
 
-      {data.map((item, index) => {
-        const x =
-          index * ((screenWidth - dynamicPadding * 2) / (data.length - 1)) +
-          dynamicPadding
-        const y =
-          maxBarHeight -
-          ((item.weight - chartMin) / (chartMax - chartMin)) * maxBarHeight +
-          paddingTop
-        const isSelected = item.date === date
-        const pointColor = isSelected ? COLORS.primary : COLORS.border
+      {data.length === 1 ? (
+        // Nếu chỉ có 1 điểm, hiển thị một chấm ở giữa
+        <Circle
+          cx={screenWidth / 2}
+          cy={
+            maxBarHeight -
+            ((data[0].weight - chartMin) / (chartMax - chartMin)) *
+              maxBarHeight +
+            paddingTop
+          }
+          r={4}
+          fill={COLORS.primary}
+        />
+      ) : (
+        // Trường hợp nhiều điểm
+        data.map((item, index) => {
+          const x =
+            index * ((screenWidth - dynamicPadding * 2) / (data.length - 1)) +
+            dynamicPadding
+          const y =
+            maxBarHeight -
+            ((item.weight - chartMin) / (chartMax - chartMin)) * maxBarHeight +
+            paddingTop
+          const isSelected = item.date === date
+          const pointColor = isSelected ? COLORS.primary : COLORS.border
 
-        return <Circle key={index} cx={x} cy={y} r={4} fill={pointColor} />
-      })}
+          return <Circle key={index} cx={x} cy={y} r={4} fill={pointColor} />
+        })
+      )}
 
-      {labels.map((label, index) => {
-        const x =
-          index * ((screenWidth - dynamicPadding * 2) / (labels.length - 1)) +
-          dynamicPadding
+      {data.length === 1 ? (
+        // Nếu chỉ có 1 điểm, hiển thị nhãn ở giữa
+        <SvgText
+          x={screenWidth / 2}
+          y={chartHeight}
+          fontFamily="TikTokText-Medium"
+          fontSize="12"
+          fontWeight="500"
+          fill={COLORS.primary}
+          textAnchor="middle"
+        >
+          {labels[0]}
+        </SvgText>
+      ) : (
+        // Trường hợp nhiều điểm
+        labels.map((label, index) => {
+          const x =
+            index * ((screenWidth - dynamicPadding * 2) / (labels.length - 1)) +
+            dynamicPadding
 
-        return (
-          <SvgText
-            key={`label-${index}`}
-            x={x}
-            y={chartHeight}
-            fontFamily="TikTokText-Medium"
-            fontSize="12"
-            fontWeight="500"
-            fill={COLORS.primary}
-            textAnchor="middle"
-          >
-            {label}
-          </SvgText>
-        )
-      })}
+          return (
+            <SvgText
+              key={`label-${index}`}
+              x={x}
+              y={chartHeight}
+              fontFamily="TikTokText-Medium"
+              fontSize="12"
+              fontWeight="500"
+              fill={COLORS.primary}
+              textAnchor="middle"
+            >
+              {label}
+            </SvgText>
+          )
+        })
+      )}
 
       {selectedPoint && (
         <React.Fragment>

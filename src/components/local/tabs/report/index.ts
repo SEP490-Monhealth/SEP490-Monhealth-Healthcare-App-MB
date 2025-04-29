@@ -1,3 +1,4 @@
 import { BarChart } from "./BarChart"
+import { LineChart } from "./LineChart"
 
-export { BarChart }
+export { BarChart, LineChart }

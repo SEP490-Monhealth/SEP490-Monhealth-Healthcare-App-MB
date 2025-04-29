@@ -7,7 +7,8 @@ export const weeklyMealSchema = z.object({
 
 export const weeklyWeightSchema = z.object({
   date: z.string(),
-  weight: z.number()
+  weight: z.number(),
+  height: z.number()
 })
 
 export const yearlyTransactionSchema = z.object({
