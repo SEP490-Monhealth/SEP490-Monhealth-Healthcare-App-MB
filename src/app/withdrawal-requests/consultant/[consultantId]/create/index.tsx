@@ -1,13 +1,6 @@
 import React, { useEffect } from "react"
 
-import {
-  Keyboard,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback
-} from "react-native"
-import { SvgUri } from "react-native-svg"
+import { Keyboard, Text, View } from "react-native"
 
 import { useLocalSearchParams, useRouter } from "expo-router"
 
@@ -17,14 +10,13 @@ import { Controller, useForm } from "react-hook-form"
 
 import {
   Button,
-  Card,
   Container,
   Content,
-  HStack,
   Input,
   Select,
   VStack
 } from "@/components/global/atoms"
+import { BankCard } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
 import { useGetConsultantBanksByConsultantId } from "@/hooks/useConsultantBank"
@@ -37,6 +29,8 @@ import {
 
 import { useWithdrawalRequestStore } from "@/stores/withdrawalRequestStore"
 
+import { formatCurrency } from "@/utils/formatters"
+
 function WithdrawalRequestCreateScreen() {
   const router = useRouter()
   const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
@@ -48,7 +42,7 @@ function WithdrawalRequestCreateScreen() {
     shortName,
     logoUrl,
     updateField,
-    resetWithdrawalRequest
+    resetWithdrawalRequest: reset
   } = useWithdrawalRequestStore()
 
   const { data: consultantBanksData } =
@@ -97,16 +91,14 @@ function WithdrawalRequestCreateScreen() {
 
     addWithdrawalRequest(finalData, {
       onSuccess: () => {
-        resetWithdrawalRequest()
+        reset()
         router.back()
       }
     })
   }
 
   const handleViewConsultantBanks = () => {
-    if (consultantBanksData?.length === 1) {
-      return null
-    } else {
+    if (consultantBanksData?.length !== 1) {
       router.push(
         `/withdrawal-requests/consultant/${consultantId}/create/banks`
       )
@@ -118,97 +110,76 @@ function WithdrawalRequestCreateScreen() {
   }
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <SafeAreaView className="flex-1 bg-background">
-        <Container dismissKeyboard>
-          <Header back label="Tạo yêu cầu" />
+    <Container dismissKeyboard>
+      <Header back label="Tạo yêu cầu" />
 
-          <Content className="mt-2">
-            <VStack gap={32}>
-              <VStack gap={8}>
-                <Text className="mb-1 ml-1 font-tregular text-base">
-                  Ngân hàng
-                </Text>
+      <Content className="mt-2">
+        <VStack gap={32}>
+          <VStack gap={12}>
+            <View>
+              <Text className="mb-1 ml-1 font-tregular text-base">
+                Ngân hàng
+              </Text>
 
-                {accountNumber && (
-                  <Card>
-                    <HStack center>
-                      <TouchableOpacity
-                        activeOpacity={1}
-                        className="mr-4 h-12 w-12 items-center justify-center rounded-full bg-muted"
-                      >
-                        <SvgUri uri={logoUrl} width={24} height={24} />
-                      </TouchableOpacity>
+              {accountNumber && (
+                <BankCard name={name} shortName={shortName} logoUrl={logoUrl} />
+              )}
+            </View>
 
-                      <VStack>
-                        <Text className="font-tmedium text-base text-primary">
-                          {shortName}
-                        </Text>
+            <Text className="font-tregular text-sm text-accent">
+              Số dư khả dụng: {formatCurrency(200000)}
+            </Text>
 
-                        <Text
-                          className="font-tmedium text-sm text-accent"
-                          numberOfLines={1}
-                          ellipsizeMode="tail"
-                        >
-                          {name}
-                        </Text>
-                      </VStack>
-                    </HStack>
-                  </Card>
-                )}
+            <Select
+              label="Số tài khoản"
+              defaultValue="VD: 2003150599"
+              value={accountNumber || ""}
+              errorMessage={errors.consultantBankId?.message}
+              onPress={handleViewConsultantBanks}
+            />
 
-                <Select
-                  label="Số tài khoản"
-                  defaultValue="VD: 2003150599"
-                  value={accountNumber || ""}
-                  errorMessage={errors.consultantBankId?.message}
-                  onPress={handleViewConsultantBanks}
+            <Controller
+              name="description"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  value={value}
+                  label="Mô tả"
+                  placeholder="VD: Rút tiền hàng tháng"
+                  onChangeText={onChange}
+                  canClearText
+                  errorMessage={errors.description?.message}
                 />
+              )}
+            />
 
-                <Controller
-                  name="description"
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Input
-                      value={value}
-                      label="Mô tả"
-                      placeholder="VD: Rút tiền hàng tháng"
-                      onChangeText={onChange}
-                      canClearText
-                      errorMessage={errors.description?.message}
-                    />
-                  )}
+            <Controller
+              name="amount"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  value={value ? value.toString() : ""}
+                  label="Số tiền"
+                  placeholder="VD: 50.000"
+                  onChangeText={(text) => onChange(parseFloat(text) || 0)}
+                  keyboardType="numeric"
+                  endIcon={
+                    <Text className="font-tregular text-sm text-accent">
+                      VND
+                    </Text>
+                  }
+                  canClearText
+                  alwaysShowEndIcon
+                  errorMessage={errors.amount?.message}
                 />
+              )}
+            />
+          </VStack>
 
-                <Controller
-                  name="amount"
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Input
-                      value={value ? value.toString() : ""}
-                      label="Số tiền"
-                      placeholder="VD: 50.000"
-                      onChangeText={(text) => onChange(parseFloat(text) || 0)}
-                      keyboardType="numeric"
-                      endIcon={
-                        <Text className="font-tregular text-sm text-accent">
-                          VND
-                        </Text>
-                      }
-                      canClearText
-                      alwaysShowEndIcon
-                      errorMessage={errors.amount?.message}
-                    />
-                  )}
-                />
-              </VStack>
-
-              <Button onPress={handleSubmit(onSubmit)}>Tạo yêu cầu</Button>
-            </VStack>
-          </Content>
-        </Container>
-      </SafeAreaView>
-    </TouchableWithoutFeedback>
+          <Button onPress={handleSubmit(onSubmit)}>Tạo yêu cầu</Button>
+        </VStack>
+      </Content>
+    </Container>
   )
 }
 
