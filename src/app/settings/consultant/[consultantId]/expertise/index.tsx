@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useState } from "react"
 
 import { RefreshControl, ScrollView, Text, View } from "react-native"
 
@@ -15,13 +15,7 @@ import {
   Verify
 } from "iconsax-react-native"
 
-import {
-  Card,
-  Container,
-  Content,
-  ScrollArea,
-  VStack
-} from "@/components/global/atoms"
+import { Card, Container, Content, VStack } from "@/components/global/atoms"
 import { Header, Section } from "@/components/global/organisms"
 
 import {
@@ -38,15 +32,17 @@ import { formatDate } from "@/utils/formatters"
 function ExpertiseScreen() {
   const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
 
-  const {
-    data: certificatesData,
-    isLoading: isCertificatesLoading,
-    refetch
-  } = useGetCertificatesByConsultantId(consultantId)
-
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
 
-  if (!certificatesData || isCertificatesLoading) return <LoadingScreen />
+  const { data: certificatesData, refetch } =
+    useGetCertificatesByConsultantId(consultantId)
+
+  const onRefresh = useCallback(() => {
+    setIsRefreshing(true)
+    refetch().finally(() => setIsRefreshing(false))
+  }, [refetch])
+
+  if (!certificatesData) return <LoadingScreen />
 
   const currentCertificateData = certificatesData[0]
 
@@ -84,23 +80,6 @@ function ExpertiseScreen() {
       value: currentCertificateData.isVerified ? "Đã xác thực" : "Chưa xác thực"
     }
   ]
-
-  useEffect(() => {
-    if (!isCertificatesLoading && isRefreshing) {
-      setIsRefreshing(false)
-    }
-  }, [isCertificatesLoading, isRefreshing])
-
-  const onRefresh = async () => {
-    setIsRefreshing(true)
-    try {
-      await refetch()
-    } catch (error) {
-      console.error("Error refreshing data:", error)
-    } finally {
-      setIsRefreshing(false)
-    }
-  }
 
   const handleViewImage = (imageUrl: string) => {
     console.log("View image:", imageUrl)

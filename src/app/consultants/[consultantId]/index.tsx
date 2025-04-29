@@ -91,7 +91,7 @@ function ConsultantDetailsScreen() {
       onSuccess: async (response) => {
         const { transactionId, qrCode } = response.data
 
-        router.replace({
+        router.push({
           pathname: "/transactions/payment",
           params: { transactionId: transactionId, qrCode: qrCode }
         })

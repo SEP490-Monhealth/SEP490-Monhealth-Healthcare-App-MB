@@ -24,6 +24,8 @@ export const useGetCertificatesByConsultantId = (
       }
     },
     enabled: !!consultantId,
-    staleTime: 1000 * 60 * 5
+    staleTime: 1000 * 60,
+    refetchOnWindowFocus: true,
+    refetchOnMount: true
   })
 }

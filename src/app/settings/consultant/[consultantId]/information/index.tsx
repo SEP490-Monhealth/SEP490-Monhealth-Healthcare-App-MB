@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 
 import {
   RefreshControl,
@@ -55,45 +55,22 @@ function ConsultantInformationScreen() {
   const userId = user?.userId
   const consultantId = user?.consultantId
 
-  const {
-    data: consultantData,
-    isLoading,
-    refetch
-  } = useGetConsultantById(consultantId)
+  const SheetRef = useRef<SheetRefProps>(null)
 
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
 
-  const SheetRef = useRef<SheetRefProps>(null)
   const sheetHeight = 180
+
+  const { data: consultantData, refetch } = useGetConsultantById(consultantId)
 
   const openSheet = () => SheetRef.current?.scrollTo(-sheetHeight)
 
-  const handleUpdateConsultant = () => {
-    router.push(`/settings/user/${userId}/information/update`)
-  }
-
-  const handleUpdateBio = () => {
-    router.push(`/settings/consultant/${consultantId}/about/update`)
-  }
-
-  useEffect(() => {
-    if (!isLoading && isRefreshing) {
-      setIsRefreshing(false)
-    }
-  }, [isLoading, isRefreshing])
-
-  const onRefresh = async () => {
+  const onRefresh = useCallback(() => {
     setIsRefreshing(true)
-    try {
-      await refetch()
-    } catch (error) {
-      console.error("Error refreshing data:", error)
-    } finally {
-      setIsRefreshing(false)
-    }
-  }
+    refetch().finally(() => setIsRefreshing(false))
+  }, [refetch])
 
-  if (!consultantData || isLoading) return <LoadingScreen />
+  if (!consultantData) return <LoadingScreen />
 
   const { label: verificationStatusLabel } =
     getConsultantVerificationStatusMeta(consultantData?.verificationStatus)
@@ -110,6 +87,14 @@ function ConsultantInformationScreen() {
     { label: consultantData?.email, icon: Sms },
     { label: verificationStatusLabel, icon: Verify }
   ]
+
+  const handleUpdateConsultant = () => {
+    router.push(`/settings/user/${userId}/information/update`)
+  }
+
+  const handleUpdateBio = () => {
+    router.push(`/settings/consultant/${consultantId}/about/update`)
+  }
 
   return (
     <TouchableWithoutFeedback>
@@ -141,7 +126,7 @@ function ConsultantInformationScreen() {
               <View className="mt-4 px-4">
                 <Card className="bg-muted">
                   <HStack className="justify-between">
-                    <VStack center gap={6}>
+                    <VStack center gap={8}>
                       <Text className="font-tmedium text-base text-accent">
                         Lịch hẹn
                       </Text>
@@ -150,7 +135,7 @@ function ConsultantInformationScreen() {
                       </Text>
                     </VStack>
 
-                    <VStack center gap={6}>
+                    <VStack center gap={8}>
                       <Text className="font-tmedium text-base text-accent">
                         Đánh giá
                       </Text>
@@ -159,7 +144,7 @@ function ConsultantInformationScreen() {
                       </Text>
                     </VStack>
 
-                    <VStack center gap={6}>
+                    <VStack center gap={8}>
                       <Text className="font-tmedium text-base text-accent">
                         Trung bình
                       </Text>
