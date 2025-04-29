@@ -4,6 +4,7 @@ import { useRouter } from "expo-router"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import { z } from "zod"
 
 import { Button, Container, Content, Progress } from "@/components/global/atoms"
 import { CustomHeader, StepHeader } from "@/components/global/molecules"
@@ -40,6 +41,7 @@ import SetupDateOfBirth from "./date-of-birth"
 import SetupGender from "./gender"
 import SetupGoalType from "./goal-type"
 import SetupHeightWeight from "./height-weight"
+import SetupTimeLine from "./time-line"
 import SetupWeightGoal from "./weight-goal"
 
 interface SetupStepsProps {
@@ -49,6 +51,7 @@ interface SetupStepsProps {
   component: React.FC<any>
   fields: string[]
   schema: any
+  condition?: () => boolean
 }
 
 function SetupUserScreen() {
@@ -122,89 +125,108 @@ function SetupUserScreen() {
     allergies
   }
 
-  const baseSteps: Omit<SetupStepsProps, "step">[] = [
+  const setupSteps: SetupStepsProps[] = [
     {
-      title: "Sinh nhật",
-      description: "Nhập ngày sinh để chúng tôi xác định tuổi của bạn",
+      step: 1,
+      title: "Ngày sinh của bạn",
+      description:
+        "Nhập ngày sinh để chúng tôi tính toán chế độ dinh dưỡng phù hợp với độ tuổi",
       component: SetupDateOfBirth,
       fields: ["dateOfBirth"],
       schema: dateOfBirthSetupSchema
     },
     {
-      title: "Giới tính",
-      description: "Chọn giới tính để cá nhân hóa trải nghiệm của bạn",
+      step: 2,
+      title: "Giới tính của bạn",
+      description:
+        "Chọn giới tính để chúng tôi tính toán nhu cầu dinh dưỡng chính xác",
       component: SetupGender,
       fields: ["gender"],
       schema: genderSetupSchema
     },
     {
-      title: "Số đo",
+      step: 3,
+      title: "Chiều cao và cân nặng",
       description:
-        "Nhập chiều cao và cân nặng hiện tại để tính chỉ số BMI và nhu cầu dinh dưỡng của bạn",
+        "Nhập chiều cao và cân nặng hiện tại để tính chỉ số BMI và nhu cầu calo hàng ngày",
       component: SetupHeightWeight,
       fields: ["height", "weight"],
       schema: heightWeightSetupSchema
     },
     {
-      title: "Hoạt động",
+      step: 4,
+      title: "Mức độ hoạt động",
       description:
-        "Chọn mức độ vận động hàng ngày để chúng tôi có thể tính toán nhu cầu calo phù hợp cho bạn",
+        "Cho chúng tôi biết bạn vận động nhiều thế nào để tính lượng calo bạn cần mỗi ngày",
       component: SetupActivityLevel,
       fields: ["activityLevel"],
       schema: activityLevelSetupSchema
     },
     {
-      title: "Mục tiêu",
-      description:
-        "Bạn muốn giảm cân, duy trì cân nặng hiện tại, hay tăng cân?",
+      step: 5,
+      title: "Mục tiêu sức khỏe",
+      description: "Bạn muốn giảm cân, duy trì cân nặng, hay tăng cân và cơ?",
       component: SetupGoalType,
       fields: ["goalType"],
       schema: goalTypeSetupSchema
     },
     {
-      title: "Cân nặng mục tiêu",
+      step: 6,
+      title: "Cân nặng mong muốn",
       description:
-        "Dựa trên chiều cao và giới tính của bạn, hệ thống gợi ý cân nặng phù hợp",
+        "Nhập cân nặng mục tiêu bạn muốn đạt được trong thời gian tới",
       component: SetupWeightGoal,
       fields: ["weightGoal"],
       schema: weightGoalSetupSchema
+    },
+    {
+      step: 7,
+      title: "Tốc độ thay đổi cân nặng",
+      description:
+        "Chọn tốc độ phù hợp để đạt được mục tiêu cân nặng an toàn và hiệu quả",
+      component: SetupCaloriesRatio,
+      fields: ["caloriesRatio"],
+      schema: caloriesRatioSetupSchema,
+      condition: () => goalType !== GoalTypeEnum.Maintenance
+    },
+    {
+      step: 8,
+      title: "Lộ trình của bạn",
+      description:
+        "Dựa trên thông tin bạn cung cấp, đây là kế hoạch để đạt mục tiêu cân nặng",
+      component: SetupTimeLine,
+      fields: [],
+      schema: z.object({}),
+      condition: () => goalType !== GoalTypeEnum.Maintenance
+    },
+    {
+      step: 9,
+      title: "Dị ứng thực phẩm",
+      description:
+        "Chọn thực phẩm bạn bị dị ứng để chúng tôi tạo kế hoạch dinh dưỡng an toàn",
+      component: SetupAllergies,
+      fields: ["allergies"],
+      schema: allergySetupSchema
     }
   ]
 
-  let stepsWithGoalType = [...baseSteps]
-
-  if (goalType !== GoalTypeEnum.Maintenance) {
-    stepsWithGoalType.push({
-      title:
-        goalType === GoalTypeEnum.WeightLoss
-          ? "Tốc độ giảm cân"
-          : "Tốc độ tăng cân",
-      description:
-        goalType === GoalTypeEnum.WeightLoss
-          ? "Chọn tốc độ giảm cân phù hợp với cơ thể của bạn"
-          : "Chọn tốc độ tăng cân phù hợp với cơ thể của bạn",
-      component: SetupCaloriesRatio,
-      fields: ["caloriesRatio"],
-      schema: caloriesRatioSetupSchema
-    })
-  }
-
-  stepsWithGoalType.push({
-    title: "Dị ứng",
-    description:
-      "Chọn các thực phẩm bạn bị dị ứng để chúng tôi loại bỏ khỏi chế độ ăn của bạn",
-    component: SetupAllergies,
-    fields: ["allergies"],
-    schema: allergySetupSchema
-  })
-
-  const setupSteps: SetupStepsProps[] = stepsWithGoalType.map(
-    (step, index) => ({
-      step: index + 1,
-      ...step
-    })
+  const filteredSteps = setupSteps.filter((s) => !s.condition || s.condition())
+  const visibleStepIndex = filteredSteps.findIndex(
+    (s) => s.step === currentStep
   )
-  const currentStepData = setupSteps.find((step) => step.step === currentStep)
+
+  useEffect(() => {
+    if (visibleStepIndex === -1 && filteredSteps.length > 0) {
+      const nextValid = filteredSteps.find((s) => s.step > currentStep)
+      const fallback = nextValid
+        ? nextValid.step
+        : filteredSteps[filteredSteps.length - 1].step
+      setCurrentStep(fallback)
+    }
+  }, [visibleStepIndex, filteredSteps, currentStep])
+
+  const currentStepData =
+    filteredSteps.find((s) => s.step === currentStep) || filteredSteps[0]
 
   if (!currentStepData) {
     setCurrentStep(1)
@@ -222,12 +244,31 @@ function SetupUserScreen() {
     defaultValues: formData
   })
 
+  const findNextStep = () => {
+    const currentIndex = filteredSteps.findIndex(
+      (step) => step.step === currentStep
+    )
+    if (currentIndex < filteredSteps.length - 1) {
+      return filteredSteps[currentIndex + 1].step
+    }
+    return null
+  }
+
+  const findPrevStep = () => {
+    const currentIndex = filteredSteps.findIndex(
+      (step) => step.step === currentStep
+    )
+    if (currentIndex > 0) {
+      return filteredSteps[currentIndex - 1].step
+    }
+    return null
+  }
+
   const onSubmitStep = async (data: Record<string, any>, setError: any) => {
     const { weightGoal } = data
-
     const { weight } = useSetupStore.getState()
 
-    if (weight !== null) {
+    if (weightGoal !== undefined && weight !== null) {
       if (goalType === GoalTypeEnum.WeightLoss && weightGoal >= weight) {
         setError("weightGoal", {
           type: "manual",
@@ -275,10 +316,16 @@ function SetupUserScreen() {
 
         updateField("caloriesRatio", newRatio)
       }
+
+      if (data.goalType === GoalTypeEnum.Maintenance) {
+        updateField("weightGoal", weight)
+      }
     }
 
-    if (currentStep < setupSteps.length) {
-      setCurrentStep(currentStep + 1)
+    const nextStep = findNextStep()
+
+    if (nextStep) {
+      setCurrentStep(nextStep)
     } else {
       setIsLoading(true)
 
@@ -323,7 +370,6 @@ function SetupUserScreen() {
         // )
 
         await addAllergies(userAllergiesData.allergies)
-
         await Promise.all([
           new Promise((resolve, reject) =>
             // @ts-ignore
@@ -351,27 +397,33 @@ function SetupUserScreen() {
   }
 
   const handleBack = () => {
-    if (currentStep === 1) {
-      router.back()
+    const prevStep = findPrevStep()
+
+    if (prevStep) {
+      setCurrentStep(prevStep)
     } else {
-      setCurrentStep(currentStep - 1)
+      router.back()
     }
   }
 
   const StepComponent = currentStepData.component
+  const totalSteps = filteredSteps.length
+  const currentStepIndex = filteredSteps.findIndex(
+    (step) => step.step === currentStep
+  )
 
-  // console.log(errors)
+  // console.log("errors", errors)
 
   return (
     <Container dismissKeyboard>
       {isLoading && <LoadingOverlay visible={isLoading} />}
 
       <CustomHeader
-        back={currentStep === 1 ? false : true}
+        back={currentStepIndex > 0}
         content={
           <Progress
             height={14}
-            progress={((currentStep - 1) / setupSteps.length) * 100}
+            progress={(currentStepIndex / (totalSteps - 1)) * 100}
             color={COLORS.PRIMARY.lemon}
           />
         }
@@ -393,7 +445,7 @@ function SetupUserScreen() {
         onPress={handleSubmit((data) => onSubmitStep(data, setError))}
         className="absolute bottom-4 left-6 right-6"
       >
-        {currentStep === setupSteps.length ? "Hoàn thành" : "Tiếp tục"}
+        {currentStepIndex === totalSteps - 1 ? "Hoàn thành" : "Tiếp tục"}
       </Button>
     </Container>
   )

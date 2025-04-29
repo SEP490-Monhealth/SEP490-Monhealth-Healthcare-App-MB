@@ -124,13 +124,13 @@ export const DATA = {
     // }
   ],
   CALORIES_RATIO: [
-    { label: "Giảm cân chậm", description: "0.25kg / tuần", value: 0.9 },
-    { label: "Giảm cân trung bình", description: "0.5kg / tuần", value: 0.8 },
-    { label: "Giảm cân nhanh", description: "0.75kg / tuần", value: 0.7 },
+    { label: "Giảm cân chậm", description: "0.25 kg / tuần", value: 0.9 },
+    { label: "Giảm cân trung bình", description: "0.5 kg / tuần", value: 0.8 },
+    { label: "Giảm cân nhanh", description: "0.75 kg / tuần", value: 0.7 },
     { label: "Duy trì cân nặng", description: "Không thay đổi", value: 1 },
-    { label: "Tăng cân chậm", description: "0.25kg / tuần", value: 1.1 },
-    { label: "Tăng cân trung bình", description: "0.5kg / tuần", value: 1.2 },
-    { label: "Tăng cân nhanh", description: "0.75kg / tuần", value: 1.3 }
+    { label: "Tăng cân chậm", description: "0.25 kg / tuần", value: 1.1 },
+    { label: "Tăng cân trung bình", description: "0.5 kg / tuần", value: 1.2 },
+    { label: "Tăng cân nhanh", description: "0.75 kg / tuần", value: 1.3 }
   ],
   WORKOUTS: [
     { label: "Đã nạp", unit: "kcal", color: "#16a34a" },

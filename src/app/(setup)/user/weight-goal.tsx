@@ -13,6 +13,7 @@ import {
 import { Input, VStack } from "@/components/global/atoms"
 
 import { GenderEnum } from "@/constants/enum/Gender"
+import { GoalTypeEnum } from "@/constants/enum/Goal"
 
 import { useSetupStore } from "@/stores/setupStore"
 
@@ -26,10 +27,12 @@ interface SetupWeightGoalProps {
 }
 
 function SetupWeightGoal({ control, setValue, errors }: SetupWeightGoalProps) {
-  const { height, gender, weightGoal } = useSetupStore() as {
+  const { weight, height, gender, weightGoal, goalType } = useSetupStore() as {
+    weight: number
     height: number
     gender: GenderEnum
     weightGoal: number
+    goalType: GoalTypeEnum
   }
 
   const [idealWeight, setIdealWeight] = useState<number | null>(null)
@@ -42,13 +45,17 @@ function SetupWeightGoal({ control, setValue, errors }: SetupWeightGoalProps) {
       const ibw = calculateIBW(height, gender)
       setIdealWeight(ibw)
 
-      if (weightGoal === 0) {
-        setValue("weightGoal", Number(ibw.toFixed(1)))
+      if (weightGoal === 0 || goalType === GoalTypeEnum.Maintenance) {
+        if (goalType === GoalTypeEnum.Maintenance) {
+          setValue("weightGoal", Number(weight.toFixed(1)))
+        } else {
+          setValue("weightGoal", Number(ibw.toFixed(1)))
+        }
       } else {
         setValue("weightGoal", weightGoal)
       }
     }
-  }, [height, gender, setValue, weightGoal])
+  }, [height, gender, setValue, weightGoal, goalType, weight])
 
   const errorMessage = get(errors, "weightGoal.message", null)
 

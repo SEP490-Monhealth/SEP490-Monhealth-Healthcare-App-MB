@@ -1,7 +1,7 @@
 import React from "react"
 
 import { Dimensions } from "react-native"
-import Svg, { Circle, Line, Path, Text as SvgText } from "react-native-svg"
+import Svg, { Circle, Line, Polyline, Text as SvgText } from "react-native-svg"
 
 import { COLORS } from "@/constants/color"
 
@@ -30,12 +30,12 @@ export const LineChart = ({ date, labels, data }: LineChartProps) => {
     ? 100
     : Math.max(...data.map((item) => item.weight))
 
-  let step = 5
+  const step = 5
 
   const chartMin = Math.max(0, Math.floor(minDataValue / step) * step - step)
   const chartMax = Math.ceil(maxDataValue / step) * step + step
 
-  const yAxisValues = []
+  const yAxisValues: number[] = []
   for (let i = chartMin; i <= chartMax; i += step) {
     yAxisValues.push(i)
   }
@@ -59,10 +59,7 @@ export const LineChart = ({ date, labels, data }: LineChartProps) => {
 
   const dynamicPadding = screenWidth * 0.16
 
-  const generateSmoothPath = (
-    dataPoints: { date: string; weight: number }[]
-  ) => {
-    if (dataPoints.length === 0) return ""
+  const getPoints = (dataPoints: { date: string; weight: number }[]) => {
     if (dataPoints.length === 1) {
       const singleValue = dataPoints[0].weight
       const y =
@@ -73,40 +70,25 @@ export const LineChart = ({ date, labels, data }: LineChartProps) => {
       const x1 = dynamicPadding
       const x2 = screenWidth - dynamicPadding
 
-      return `M ${x1} ${y} L ${x2} ${y}`
+      return `${x1},${y} ${x2},${y}`
     }
 
-    const points = dataPoints.map((item, index) => {
-      const x =
-        index * ((screenWidth - dynamicPadding * 2) / (dataPoints.length - 1)) +
-        dynamicPadding
-      const y =
-        maxBarHeight -
-        ((item.weight - chartMin) / (chartMax - chartMin)) * maxBarHeight +
-        paddingTop
-      return { x, y }
-    })
-
-    let path = `M ${points[0].x} ${points[0].y}`
-
-    for (let i = 0; i < points.length - 1; i++) {
-      const currentPoint = points[i]
-      const nextPoint = points[i + 1]
-
-      const controlPointDistance = (nextPoint.x - currentPoint.x) * 0.4
-
-      const cp1x = currentPoint.x + controlPointDistance
-      const cp1y = currentPoint.y
-      const cp2x = nextPoint.x - controlPointDistance
-      const cp2y = nextPoint.y
-
-      path += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${nextPoint.x} ${nextPoint.y}`
-    }
-
-    return path
+    return dataPoints
+      .map((item, index) => {
+        const x =
+          index *
+            ((screenWidth - dynamicPadding * 2) / (dataPoints.length - 1)) +
+          dynamicPadding
+        const y =
+          maxBarHeight -
+          ((item.weight - chartMin) / (chartMax - chartMin)) * maxBarHeight +
+          paddingTop
+        return `${x},${y}`
+      })
+      .join(" ")
   }
 
-  const pathData = generateSmoothPath(data)
+  const polylinePoints = getPoints(data)
 
   const selectedIndex = data.findIndex((item) => item.date === date)
   const selectedPoint =
@@ -157,39 +139,67 @@ export const LineChart = ({ date, labels, data }: LineChartProps) => {
         )
       })}
 
-      <Path
-        d={pathData}
+      <Polyline
+        points={polylinePoints}
         fill="none"
         stroke={COLORS.primary}
         strokeWidth={2.5}
       />
 
-      {data.map((item, index) => {
-        const x =
-          index * ((screenWidth - dynamicPadding * 2) / (data.length - 1)) +
-          dynamicPadding
-        const y =
-          maxBarHeight -
-          ((item.weight - chartMin) / (chartMax - chartMin)) * maxBarHeight +
-          paddingTop
-        const isSelected = item.date === date
-
-        const shouldShowDot = isSelected || data.length === 1
-
-        return shouldShowDot ? (
-          <Circle key={index} cx={x} cy={y} r={4} fill={COLORS.primary} />
-        ) : (
+      {selectedPoint && (
+        <>
           <Circle
-            key={index}
-            cx={x}
-            cy={y}
-            r={0}
-            fill="#FFFFFF"
-            stroke={COLORS.primary}
-            strokeWidth={1.5}
+            cx={selectedPoint.x}
+            cy={selectedPoint.y}
+            r={5}
+            fill={COLORS.primary}
           />
-        )
-      })}
+          <SvgText
+            x={selectedPoint.x}
+            y={selectedPoint.y - 12}
+            fontFamily="TikTokText-Medium"
+            fontSize="12"
+            fontWeight="600"
+            fill={COLORS.primary}
+            textAnchor="middle"
+          >
+            {toFixed(selectedPoint.value)}
+          </SvgText>
+        </>
+      )}
+
+      {data.length > 0 &&
+        (() => {
+          const lastIndex = data.length - 1
+          const lastItem = data[lastIndex]
+          const lastX =
+            data.length === 1
+              ? screenWidth / 2
+              : lastIndex *
+                  ((screenWidth - dynamicPadding * 2) / (data.length - 1)) +
+                dynamicPadding
+          const lastY =
+            maxBarHeight -
+            ((lastItem.weight - chartMin) / (chartMax - chartMin)) *
+              maxBarHeight +
+            paddingTop
+          return (
+            <>
+              <Circle cx={lastX} cy={lastY} r={5} fill={COLORS.primary} />
+              <SvgText
+                x={lastX}
+                y={lastY - 12}
+                fontFamily="TikTokText-Medium"
+                fontSize="12"
+                fontWeight="600"
+                fill={COLORS.primary}
+                textAnchor="middle"
+              >
+                {toFixed(lastItem.weight)}
+              </SvgText>
+            </>
+          )
+        })()}
 
       {labels &&
         (data.length === 1 ? (
@@ -227,28 +237,6 @@ export const LineChart = ({ date, labels, data }: LineChartProps) => {
             )
           })
         ))}
-
-      {selectedPoint && (
-        <React.Fragment>
-          <Circle
-            cx={selectedPoint.x}
-            cy={selectedPoint.y}
-            r={5}
-            fill={COLORS.primary}
-          />
-          <SvgText
-            x={selectedPoint.x}
-            y={selectedPoint.y - 12}
-            fontFamily="TikTokText-Medium"
-            fontSize="12"
-            fontWeight="600"
-            fill={COLORS.primary}
-            textAnchor="middle"
-          >
-            {toFixed(selectedPoint.value)}
-          </SvgText>
-        </React.Fragment>
-      )}
     </Svg>
   )
 }
