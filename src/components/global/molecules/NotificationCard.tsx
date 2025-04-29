@@ -29,7 +29,7 @@ export const NotificationCard = ({
           className="h-12 w-12 items-center justify-center rounded-full bg-muted"
         >
           <Image
-            source={require("../../../../public/icons/notifications/ring.png")}
+            source={require("../../../../public/icons/notification.png")}
             style={{ width: 24, height: 24 }}
           />
 

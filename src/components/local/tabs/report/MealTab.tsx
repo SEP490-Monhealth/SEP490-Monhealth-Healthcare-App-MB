@@ -191,7 +191,7 @@ export const MealTab = ({ userId, onOverlayLoading }: MealTabProps) => {
         onSelectDate={setSelectedDate}
       />
 
-      <Section label="Danh sách bữa ăn" />
+      <Section label="Lịch sử bữa ăn" />
 
       <VStack gap={12}>
         {mergedMealsData.map((item) => {

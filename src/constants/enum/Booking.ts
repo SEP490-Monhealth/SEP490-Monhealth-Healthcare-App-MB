@@ -1,11 +1,11 @@
 import { EnumMeta } from "@/configs/enum"
-import { CalendarAdd, CalendarRemove, CalendarTick } from "iconsax-react-native"
 import { z } from "zod"
 
 export enum BookingStatusEnum {
   Booked,
   Completed,
-  Cancelled
+  Cancelled,
+  Reported
 }
 
 export const BookingStatusSchemaEnum = z.nativeEnum(BookingStatusEnum)
@@ -13,18 +13,19 @@ export const BookingStatusSchemaEnum = z.nativeEnum(BookingStatusEnum)
 export const bookingStatusMap: Record<BookingStatusEnum, EnumMeta> = {
   [BookingStatusEnum.Booked]: {
     label: "Đã đặt",
-    color: "#ca8a04",
-    icon: CalendarAdd
+    color: "#ca8a04"
   },
   [BookingStatusEnum.Completed]: {
     label: "Đã hoàn thành",
-    color: "#3b82f6",
-    icon: CalendarTick
+    color: "#3b82f6"
   },
   [BookingStatusEnum.Cancelled]: {
     label: "Đã hủy",
-    color: "#ef4444",
-    icon: CalendarRemove
+    color: "#ef4444"
+  },
+  [BookingStatusEnum.Reported]: {
+    label: "Đã báo cáo",
+    color: "#ef4444"
   }
 }
 

@@ -24,28 +24,28 @@ export const DATA = {
       engLabel: "Breakfast",
       value: MealTypeEnum.Breakfast,
       ratio: 30,
-      icon: require("../../../public/icons/meals/sandwich.png")
+      icon: require("../../../public/icons/sandwich.png")
     },
     {
       label: "Bữa trưa",
       engLabel: "Lunch",
       value: MealTypeEnum.Lunch,
       ratio: 35,
-      icon: require("../../../public/icons/meals/rice.png")
+      icon: require("../../../public/icons/rice.png")
     },
     {
       label: "Bữa tối",
       engLabel: "Dinner",
       value: MealTypeEnum.Dinner,
       ratio: 25,
-      icon: require("../../../public/icons/meals/roast-chicken.png")
+      icon: require("../../../public/icons/roast-chicken.png")
     },
     {
       label: "Bữa phụ",
       engLabel: "Snack",
       value: MealTypeEnum.Snack,
       ratio: 10,
-      icon: require("../../../public/icons/meals/cupcake.png")
+      icon: require("../../../public/icons/cupcake.png")
     }
   ],
   DISHES: [

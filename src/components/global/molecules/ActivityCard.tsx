@@ -44,7 +44,7 @@ export const ActivityCard = ({
             className="flex h-12 w-12 items-center justify-center rounded-full bg-muted"
           >
             <Image
-              source={require("../../../../public/icons/activities/dumbbell.png")}
+              source={require("../../../../public/icons/activity.png")}
               style={{ width: 24, height: 24 }}
             />
           </TouchableOpacity>

@@ -38,7 +38,7 @@ export const ScheduleExceptionCard = ({
           className="mr-4 h-12 w-12 items-center justify-center rounded-full bg-muted"
         >
           <Image
-            source={require("../../../../public/icons/schedules/exception.png")}
+            source={require("../../../../public/icons/schedule-exception.png")}
             style={{ width: 24, height: 24 }}
           />
         </TouchableOpacity>

@@ -233,15 +233,15 @@ export const getWorkoutUnit = (label: string): string => {
 export const getMealTypeImage = (mealType: MealTypeEnum) => {
   switch (mealType) {
     case MealTypeEnum.Breakfast:
-      return require("../../public/icons/meals/sandwich.png")
+      return require("../../public/icons/sandwich.png")
     case MealTypeEnum.Lunch:
-      return require("../../public/icons/meals/rice.png")
+      return require("../../public/icons/rice.png")
     case MealTypeEnum.Dinner:
-      return require("../../public/icons/meals/roast-chicken.png")
+      return require("../../public/icons/roast-chicken.png")
     case MealTypeEnum.Snack:
-      return require("../../public/icons/meals/cupcake.png")
+      return require("../../public/icons/cupcake.png")
     default:
-      return require("../../public/icons/meals/dish.png")
+      return require("../../public/icons/dish.png")
   }
 }
 
