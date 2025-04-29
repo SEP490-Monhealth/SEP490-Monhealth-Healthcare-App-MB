@@ -5,7 +5,7 @@ import Svg, { Line, Polyline, Text as SvgText } from "react-native-svg"
 
 import { COLORS } from "@/constants/color"
 
-import { YearlyTransactionType } from "@/schemas/reportSchema"
+import { YearlyTransactionType } from "@/schemas/trackerSchema"
 
 const formatCurrency = (value: number): string => {
   if (value === 0) return "0"
@@ -89,7 +89,6 @@ export const IncomeExpenseChart = ({
 
   return (
     <Svg width={screenWidth} height={chartHeight}>
-      {/* Trục Y */}
       {yAxisValues.map((value, index) => {
         const y = getYAxisPosition(value)
 
@@ -118,7 +117,6 @@ export const IncomeExpenseChart = ({
         )
       })}
 
-      {/* Đường income */}
       <Polyline
         points={incomePoints}
         fill="none"
@@ -126,7 +124,6 @@ export const IncomeExpenseChart = ({
         strokeWidth={2.5}
       />
 
-      {/* Đường expense */}
       <Polyline
         points={expensePoints}
         fill="none"
@@ -134,7 +131,6 @@ export const IncomeExpenseChart = ({
         strokeWidth={2.5}
       />
 
-      {/* Label trục X */}
       {labels.map((label, index) => {
         const x =
           index * ((screenWidth - dynamicPadding * 2) / (labels.length - 1)) +

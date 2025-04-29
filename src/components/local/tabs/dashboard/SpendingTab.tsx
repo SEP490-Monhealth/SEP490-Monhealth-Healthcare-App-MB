@@ -5,7 +5,6 @@ import { View } from "react-native"
 
 import { useRouter } from "expo-router"
 
-import { LoadingScreen } from "@/app/loading"
 import { useIsFetching, useIsMutating } from "@tanstack/react-query"
 
 import { HStack, VStack } from "@/components/global/atoms"
@@ -179,7 +178,7 @@ export const SpendingTab = ({
   ])
 
   if (transactionsData.length === 0 && isLoading) {
-    return <LoadingScreen />
+    return null
   }
 
   return (

@@ -29,11 +29,11 @@ function PrivacyScreen() {
 
   const { mutate: updatePassword } = useUpdateUserPassword()
 
-  const [showPassword, setShowPassword] = useState(false)
-  const [showNewPassword, setShowNewPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [showNewPassword, setShowNewPassword] = useState<boolean>(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)
 
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const {
     control,
@@ -69,112 +69,111 @@ function PrivacyScreen() {
       <Header back label="Bảo mật" />
 
       <Content className="mt-2">
-        <VStack gap={12}>
-          <Controller
-            name="oldPassword"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                value={value}
-                label="Mật khẩu cũ"
-                placeholder="******"
-                onChangeText={onChange}
-                isSecure={!showPassword}
-                onToggleSecure={() => setShowPassword(!showPassword)}
-                startIcon={
-                  <Lock1 variant="Bold" size={20} color={COLORS.primary} />
-                }
-                endIcon={
-                  showPassword ? (
-                    <Eye variant="Bold" size={20} color={COLORS.primary} />
-                  ) : (
-                    <EyeSlash variant="Bold" size={20} color="#cbd5e1" />
-                  )
-                }
-                alwaysShowEndIcon
-                canClearText
-                errorMessage={errors.oldPassword?.message}
-              />
-            )}
-          />
+        <VStack gap={32}>
+          <VStack gap={12}>
+            <Controller
+              name="oldPassword"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  value={value}
+                  label="Mật khẩu cũ"
+                  placeholder="******"
+                  onChangeText={onChange}
+                  isSecure={!showPassword}
+                  onToggleSecure={() => setShowPassword(!showPassword)}
+                  startIcon={
+                    <Lock1 variant="Bold" size={20} color={COLORS.primary} />
+                  }
+                  endIcon={
+                    showPassword ? (
+                      <Eye variant="Bold" size={20} color={COLORS.primary} />
+                    ) : (
+                      <EyeSlash variant="Bold" size={20} color="#cbd5e1" />
+                    )
+                  }
+                  alwaysShowEndIcon
+                  canClearText
+                  errorMessage={errors.oldPassword?.message}
+                />
+              )}
+            />
 
-          <Controller
-            name="newPassword"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                value={value}
-                label="Mật khẩu mới"
-                placeholder="******"
-                onChangeText={onChange}
-                isSecure={!showNewPassword}
-                onToggleSecure={() => setShowNewPassword(!showNewPassword)}
-                startIcon={
-                  <Lock1 variant="Bold" size={20} color={COLORS.primary} />
-                }
-                endIcon={
-                  showNewPassword ? (
-                    <Eye variant="Bold" size={20} color={COLORS.primary} />
-                  ) : (
-                    <EyeSlash variant="Bold" size={20} color="#cbd5e1" />
-                  )
-                }
-                alwaysShowEndIcon
-                canClearText
-                errorMessage={errors.newPassword?.message}
-              />
-            )}
-          />
+            <Controller
+              name="newPassword"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  value={value}
+                  label="Mật khẩu mới"
+                  placeholder="******"
+                  onChangeText={onChange}
+                  isSecure={!showNewPassword}
+                  onToggleSecure={() => setShowNewPassword(!showNewPassword)}
+                  startIcon={
+                    <Lock1 variant="Bold" size={20} color={COLORS.primary} />
+                  }
+                  endIcon={
+                    showNewPassword ? (
+                      <Eye variant="Bold" size={20} color={COLORS.primary} />
+                    ) : (
+                      <EyeSlash variant="Bold" size={20} color="#cbd5e1" />
+                    )
+                  }
+                  alwaysShowEndIcon
+                  canClearText
+                  errorMessage={errors.newPassword?.message}
+                />
+              )}
+            />
 
-          <Controller
-            name="confirmPassword"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                value={value}
-                label="Xác nhận mật khẩu"
-                placeholder="******"
-                onChangeText={onChange}
-                isSecure={!showConfirmPassword}
-                onToggleSecure={() =>
-                  setShowConfirmPassword(!showConfirmPassword)
-                }
-                startIcon={
-                  <Lock1 variant="Bold" size={20} color={COLORS.primary} />
-                }
-                endIcon={
-                  showConfirmPassword ? (
-                    <Eye variant="Bold" size={20} color={COLORS.primary} />
-                  ) : (
-                    <EyeSlash variant="Bold" size={20} color="#cbd5e1" />
-                  )
-                }
-                alwaysShowEndIcon
-                canClearText
-                errorMessage={errors.confirmPassword?.message}
-              />
-            )}
-          />
-          <VStack className="mt-4">
-            <Text className="font-tregular text-base text-accent">
-              Mật khẩu phải từ 6 đến 20 ký tự
-            </Text>
-            <Text className="font-tregular text-base text-accent">
-              Bao gồm số, chữ viết hoa, chữ viết thường
-            </Text>
-            <Text className="font-tregular text-base text-accent">
-              Bao gồm có ít nhất 1 ký tự đặc biệt
-            </Text>
+            <Controller
+              name="confirmPassword"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  value={value}
+                  label="Xác nhận mật khẩu"
+                  placeholder="******"
+                  onChangeText={onChange}
+                  isSecure={!showConfirmPassword}
+                  onToggleSecure={() =>
+                    setShowConfirmPassword(!showConfirmPassword)
+                  }
+                  startIcon={
+                    <Lock1 variant="Bold" size={20} color={COLORS.primary} />
+                  }
+                  endIcon={
+                    showConfirmPassword ? (
+                      <Eye variant="Bold" size={20} color={COLORS.primary} />
+                    ) : (
+                      <EyeSlash variant="Bold" size={20} color="#cbd5e1" />
+                    )
+                  }
+                  alwaysShowEndIcon
+                  canClearText
+                  errorMessage={errors.confirmPassword?.message}
+                />
+              )}
+            />
+
+            <VStack className="mt-4">
+              <Text className="font-tregular text-base text-accent">
+                Mật khẩu phải từ 6 đến 20 ký tự
+              </Text>
+              <Text className="font-tregular text-base text-accent">
+                Bao gồm số, chữ viết hoa, chữ viết thường
+              </Text>
+              <Text className="font-tregular text-base text-accent">
+                Bao gồm có ít nhất 1 ký tự đặc biệt
+              </Text>
+            </VStack>
           </VStack>
-        </VStack>
 
-        <Button
-          loading={isLoading}
-          onPress={handleSubmit(onSubmit)}
-          className="mt-8"
-        >
-          {!isLoading && "Cập nhật"}
-        </Button>
+          <Button loading={isLoading} onPress={handleSubmit(onSubmit)}>
+            {!isLoading && "Cập nhật"}
+          </Button>
+        </VStack>
       </Content>
     </Container>
   )

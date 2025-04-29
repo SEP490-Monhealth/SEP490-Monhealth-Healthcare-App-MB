@@ -38,11 +38,10 @@ export const BookingTab = ({
   const [selectedMonth, setSelectedMonth] = useState<string>(month)
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
 
-  const { data: yearlyBookingData, isLoading: isYearlyBookingLoading } =
-    useGetYearlyBookingByConsultantId(
-      consultantId,
-      initialDate.split("-").slice(0, 2).join("-")
-    )
+  const { data: yearlyBookingData } = useGetYearlyBookingByConsultantId(
+    consultantId,
+    initialDate.split("-").slice(0, 2).join("-")
+  )
 
   const { data: bookingsData, isLoading } = useGetMonthlyBookingsByConsultantId(
     consultantId,
@@ -51,18 +50,18 @@ export const BookingTab = ({
     selectedMonth
   )
 
+  const isFetching = useIsFetching()
+  const isMutating = useIsMutating()
+
+  useEffect(() => {
+    onOverlayLoading(isFetching > 0 || isMutating > 0)
+  }, [isFetching, isMutating, onOverlayLoading])
+
   useEffect(() => {
     if (!isLoading && isRefreshing) {
       setIsRefreshing(false)
     }
   }, [isLoading, isRefreshing])
-
-  const isFetching = useIsFetching()
-  const isMutating = useIsMutating()
-
-  useEffect(() => {
-    onOverlayLoading(isFetching > 0 || isMutating > 0 || isYearlyBookingLoading)
-  }, [isFetching, isMutating, isYearlyBookingLoading, onOverlayLoading])
 
   const currentDate = new Date(initialDate)
   const currentMonthNum = currentDate.getMonth()

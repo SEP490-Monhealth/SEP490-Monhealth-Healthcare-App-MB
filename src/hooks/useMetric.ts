@@ -69,6 +69,7 @@ export const useUpdateMetric = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [MonQueryKey.Metric.Metrics] })
+
       queryClient.invalidateQueries({ queryKey: [MonQueryKey.Goal.Goals] })
       queryClient.invalidateQueries({ queryKey: [MonQueryKey.Goal.WeightGoal] })
       queryClient.invalidateQueries({
@@ -77,6 +78,15 @@ export const useUpdateMetric = () => {
       queryClient.invalidateQueries({ queryKey: [MonQueryKey.Goal.WaterGoal] })
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Goal.WorkoutGoal]
+      })
+
+      queryClient.invalidateQueries({ queryKey: [MonQueryKey.Meal.DailyMeal] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Tracker.WeeklyMeal]
+      })
+
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Activity.DailyActivity]
       })
     }
   })

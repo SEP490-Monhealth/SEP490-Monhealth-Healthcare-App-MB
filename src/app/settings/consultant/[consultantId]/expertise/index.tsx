@@ -7,18 +7,18 @@ import { useLocalSearchParams } from "expo-router"
 import { LoadingScreen } from "@/app/loading"
 import {
   Building,
-  Calendar,
-  DocumentText,
+  CalendarAdd,
+  CalendarRemove,
   Edit2,
-  Medal
+  Personalcard,
+  Teacher,
+  Verify
 } from "iconsax-react-native"
 
 import {
-  Badge,
   Card,
   Container,
   Content,
-  HStack,
   ScrollArea,
   VStack
 } from "@/components/global/atoms"
@@ -47,22 +47,22 @@ function ExpertiseScreen() {
 
   const certificateItems = [
     {
-      icon: <DocumentText variant="Bold" size="24" color={COLORS.primary} />,
+      icon: <Personalcard variant="Bold" size="24" color={COLORS.primary} />,
       label: "Số chứng chỉ",
       value: currentCertificateData.number
     },
     {
-      icon: <Medal variant="Bold" size="24" color={COLORS.primary} />,
+      icon: <Teacher variant="Bold" size="24" color={COLORS.primary} />,
       label: "Tên chứng chỉ",
       value: currentCertificateData.name
     },
     {
-      icon: <Calendar variant="Bold" size="24" color={COLORS.primary} />,
+      icon: <CalendarAdd variant="Bold" size="24" color={COLORS.primary} />,
       label: "Ngày cấp",
       value: formatDate(currentCertificateData.issueDate)
     },
     {
-      icon: <Calendar variant="Bold" size="24" color={COLORS.primary} />,
+      icon: <CalendarRemove variant="Bold" size="24" color={COLORS.primary} />,
       label: "Ngày hết hạn",
       value: currentCertificateData.expiryDate
         ? formatDate(currentCertificateData.expiryDate)
@@ -72,6 +72,11 @@ function ExpertiseScreen() {
       icon: <Building variant="Bold" size="24" color={COLORS.primary} />,
       label: "Nơi cấp",
       value: currentCertificateData.issuedBy
+    },
+    {
+      icon: <Verify variant="Bold" size="24" color={COLORS.primary} />,
+      label: "Xác thực",
+      value: currentCertificateData.isVerified ? "Đã xác thực" : "Chưa xác thực"
     }
   ]
 
@@ -91,70 +96,45 @@ function ExpertiseScreen() {
       />
 
       <Content className="mt-2">
-        <ScrollArea>
-          <VStack gap={20} className="pb-12">
-            <View>
-              <Section label="Chuyên môn" margin={false} />
+        <ScrollArea className="pb-12">
+          <Section label="Chuyên môn" margin={false} />
 
-              <Card className="p-4">
-                <VStack gap={12}>
-                  <HStack center className="justify-between">
-                    <Text className="font-tbold text-xl text-primary">
-                      {currentCertificateData.expertiseName}
-                    </Text>
+          <Card>
+            <VStack>
+              <Text className="font-tbold text-xl text-primary">
+                {currentCertificateData.expertiseName}
+              </Text>
 
-                    <Badge
-                      label={
-                        currentCertificateData.isVerified
-                          ? "Đã xác thực"
-                          : "Chưa xác thực"
-                      }
-                      background={
-                        currentCertificateData.isVerified
-                          ? COLORS.primary
-                          : COLORS.destructive
-                      }
-                      color="#fff"
-                      rounded
-                    />
-                  </HStack>
-
-                  <Text className="font-tregular text-base text-secondary">
-                    {currentCertificateData.expertiseDescription}
-                  </Text>
-                </VStack>
-              </Card>
-            </View>
-
-            <View>
-              <Section label="Thông tin chứng chỉ" margin={false} />
-
-              <Card>
-                {certificateItems.map((item, index) => (
-                  <CertificateItem
-                    key={index}
-                    icon={item.icon}
-                    label={item.label}
-                    value={item.value}
-                  />
-                ))}
-              </Card>
-            </View>
-
-            <VStack gap={8}>
-              <Section label="Hình ảnh chứng chỉ" margin={false} />
-
-              <View className="flex-row flex-wrap gap-2">
-                {currentCertificateData.imageUrls?.map((imageUrl, index) => (
-                  <CertificateImage
-                    key={index}
-                    imageUrl={imageUrl}
-                    onPress={() => handleViewImage(imageUrl)}
-                  />
-                ))}
-              </View>
+              <Text className="font-tregular text-base text-secondary">
+                {currentCertificateData.expertiseDescription}
+              </Text>
             </VStack>
-          </VStack>
+          </Card>
+
+          <Section label="Chứng chỉ" />
+
+          <Card>
+            {certificateItems.map((item, index) => (
+              <CertificateItem
+                key={index}
+                icon={item.icon}
+                label={item.label}
+                value={item.value}
+              />
+            ))}
+          </Card>
+
+          <Section label="Hình ảnh" />
+
+          <View className="flex-row flex-wrap gap-2">
+            {currentCertificateData.imageUrls?.map((imageUrl, index) => (
+              <CertificateImage
+                key={index}
+                imageUrl={imageUrl}
+                onPress={() => handleViewImage(imageUrl)}
+              />
+            ))}
+          </View>
         </ScrollArea>
       </Content>
     </Container>
