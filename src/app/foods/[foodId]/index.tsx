@@ -14,7 +14,6 @@ import {
 import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
-import { ArchiveTick } from "iconsax-react-native"
 
 import {
   Button,
@@ -34,7 +33,6 @@ import { Header, Section } from "@/components/global/organisms"
 
 import { FoodNutrition, NutritionFacts } from "@/components/local/foods"
 
-import { COLORS } from "@/constants/color"
 import { DATA } from "@/constants/data"
 import { MealTypeEnum } from "@/constants/enum/Food"
 
@@ -249,38 +247,34 @@ function FoodDetailsScreen() {
   )
     return <LoadingScreen />
 
-  const handleToggleSavedFood = () => {
-    if (foodData && nutritionData && portionData) {
-      const { portionSize, portionWeight, portionUnit } = parsePortion(
-        selectedPortion,
-        quantity
-      )
+  // const handleToggleSavedFood = () => {
+  //   if (foodData && nutritionData && portionData) {
+  //     const { portionSize, portionWeight, portionUnit } = parsePortion(
+  //       selectedPortion,
+  //       quantity
+  //     )
 
-      toggleSavedFood({
-        foodId: foodId,
-        name: foodData.name,
-        portion: {
-          size: portionSize,
-          weight: portionWeight,
-          unit: portionUnit
-        },
-        // @ts-ignore
-        nutrition: {
-          calories: nutritionData.calories
-        }
-      })
-    }
-  }
+  //     toggleSavedFood({
+  //       foodId: foodId,
+  //       name: foodData.name,
+  //       portion: {
+  //         size: portionSize,
+  //         weight: portionWeight,
+  //         unit: portionUnit
+  //       },
+  //       // @ts-ignore
+  //       nutrition: {
+  //         calories: nutritionData.calories
+  //       }
+  //     })
+  //   }
+  // }
 
   const handleLinkPress = () => {
     const url = foodData.referenceUrl
 
     if (url) {
-      Linking.openURL(url).catch((err) =>
-        console.error("Failed to open URL:", err)
-      )
-    } else {
-      console.error("URL is undefined or empty")
+      Linking.openURL(url)
     }
   }
 
@@ -291,16 +285,16 @@ function FoodDetailsScreen() {
           <Header
             back
             label={foodData.name}
-            action={{
-              icon: (
-                <ArchiveTick
-                  variant={isSaved ? "Bold" : "Linear"}
-                  size={20}
-                  color={COLORS.primary}
-                />
-              )
-            }}
-            onActionPress={handleToggleSavedFood}
+            // action={{
+            //   icon: (
+            //     <ArchiveTick
+            //       variant={isSaved ? "Bold" : "Linear"}
+            //       size={20}
+            //       color={COLORS.primary}
+            //     />
+            //   )
+            // }}
+            // onActionPress={handleToggleSavedFood}
           />
 
           <Content className="mt-2">

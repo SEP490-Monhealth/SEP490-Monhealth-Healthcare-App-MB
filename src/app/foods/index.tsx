@@ -241,13 +241,6 @@ function FoodsScreen() {
 
   const handleViewUserFoods = () => router.push("/foods/user")
 
-  const handleViewFoodSuggestions = () => {
-    router.push({
-      pathname: "/foods/suggestions",
-      params: { mealType: mealTypeParsed.toString(), date: selectedDate }
-    })
-  }
-
   const handleViewFood = (foodId: string, foodName: string) => {
     if (userId) addSearchFoodHistory({ userId, foodId, name: foodName })
     router.push({
@@ -260,6 +253,8 @@ function FoodsScreen() {
     return (
       <ListHeader className="pt-4">
         <FoodCategories
+          mealType={mealTypeParsed.toString()}
+          selectedDate={selectedDate}
           categoriesData={categoriesData || []}
           selectedCategory={selectedCategory}
           onSelectCategory={setSelectedCategory}
@@ -287,10 +282,10 @@ function FoodsScreen() {
 
         <Section
           label="Danh sách thức ăn"
-          // actionText="Thức ăn của tôi"
-          // onPress={handleViewUserFoods}
-          actionText="Đề xuất thức ăn"
-          onPress={handleViewFoodSuggestions}
+          actionText="Thức ăn của tôi"
+          onPress={handleViewUserFoods}
+          // actionText="Đề xuất thức ăn"
+          // onPress={handleViewFoodSuggestions}
         />
       </ListHeader>
     )

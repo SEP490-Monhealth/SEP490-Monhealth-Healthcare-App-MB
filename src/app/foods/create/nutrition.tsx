@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { KeyboardAvoidingView, Platform, Text } from "react-native"
+import { KeyboardAvoidingView, Platform, Text, View } from "react-native"
 
 import { get } from "lodash"
 import { Control, Controller, FieldValues } from "react-hook-form"
@@ -103,25 +103,23 @@ function FoodNutrition({ control, errors }: FoodNutritionProps) {
       className="flex-1 px-6"
     >
       <ScrollArea>
-        <VStack gap={12} className="pb-40">
-          <VStack>
-            <Section label="Dinh dưỡng cơ bản" />
-            <VStack gap={12}>
-              {basicNutritionItems.map((item) =>
-                renderInput(item.name, item.label, item.unit)
-              )}
-            </VStack>
+        <View className="pb-28">
+          <Section label="Dinh dưỡng cơ bản" margin={false} />
+
+          <VStack gap={12}>
+            {basicNutritionItems.map((item) =>
+              renderInput(item.name, item.label, item.unit)
+            )}
           </VStack>
 
-          <VStack>
-            <Section label="Dinh dưỡng chi tiết" />
-            <VStack gap={12}>
-              {detailedNutritionItems.map((item) =>
-                renderInput(item.name, item.label, item.unit)
-              )}
-            </VStack>
+          <Section label="Dinh dưỡng chi tiết" />
+
+          <VStack gap={12}>
+            {detailedNutritionItems.map((item) =>
+              renderInput(item.name, item.label, item.unit)
+            )}
           </VStack>
-        </VStack>
+        </View>
       </ScrollArea>
     </KeyboardAvoidingView>
   )

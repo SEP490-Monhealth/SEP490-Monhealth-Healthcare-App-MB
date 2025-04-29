@@ -61,7 +61,7 @@ export const WaterTab = ({ userId, onOverlayLoading }: WaterTabProps) => {
 
       updateWaterReminderDrunk({ waterReminderId })
     },
-    [updateWaterReminderDrunk]
+    [userId, updateWaterReminderDrunk]
   )
 
   const waterIntakeData = {
