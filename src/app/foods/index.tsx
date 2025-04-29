@@ -69,11 +69,13 @@ function FoodsScreen() {
 
   const { userAllergies } = useStorage()
   const {
-    searchFoodHistory,
+    getSearchFoodHistory,
     addSearchFoodHistory,
     clearSearchFoodHistory,
     trackMealFood
   } = useSearch()
+
+  const searchFoodHistory = userId ? getSearchFoodHistory(userId) : []
 
   const { mutate: addMeal } = useCreateMeal()
 
@@ -233,12 +235,8 @@ function FoodsScreen() {
     setWarningModal(null)
   }
 
-  const handleViewFood = (foodId: string, foodName: string) => {
-    addSearchFoodHistory({ foodId, name: foodName })
-    router.push({
-      pathname: `/foods/${foodId}`,
-      params: { mealType: mealTypeParsed.toString(), date: selectedDate }
-    })
+  const handleClearSearchHistory = () => {
+    if (userId) clearSearchFoodHistory(userId)
   }
 
   const handleViewUserFoods = () => router.push("/foods/user")
@@ -246,6 +244,14 @@ function FoodsScreen() {
   const handleViewFoodSuggestions = () => {
     router.push({
       pathname: "/foods/suggestions",
+      params: { mealType: mealTypeParsed.toString(), date: selectedDate }
+    })
+  }
+
+  const handleViewFood = (foodId: string, foodName: string) => {
+    if (userId) addSearchFoodHistory({ userId, foodId, name: foodName })
+    router.push({
+      pathname: `/foods/${foodId}`,
       params: { mealType: mealTypeParsed.toString(), date: selectedDate }
     })
   }
@@ -263,7 +269,7 @@ function FoodsScreen() {
           <Section
             label="Tìm kiếm gần đây"
             actionText="Xóa tất cả"
-            onPress={clearSearchFoodHistory}
+            onPress={handleClearSearchHistory}
           />
         )}
 

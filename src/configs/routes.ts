@@ -10,7 +10,6 @@ import {
   Lock1,
   Logout,
   Message,
-  Personalcard,
   Profile,
   Ram,
   Setting,

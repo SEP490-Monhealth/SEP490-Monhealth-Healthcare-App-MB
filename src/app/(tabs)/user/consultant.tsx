@@ -51,10 +51,12 @@ function ConsultantScreen() {
   // const userSubscription = user?.subscription
 
   const {
-    searchConsultantHistory,
+    getSearchConsultantHistory,
     addSearchConsultantHistory,
     clearSearchConsultantHistory
   } = useSearch()
+
+  const searchConsultantHistory = userId ? getSearchConsultantHistory(userId) : []
 
   const [consultantsData, setConsultantsData] = useState<ConsultantType[]>([])
   const [page, setPage] = useState<number>(1)
@@ -135,8 +137,12 @@ function ConsultantScreen() {
   //   }
   // }, [userSubscription])
 
+  const handleClearSearchHistory = () => {
+    if (userId) clearSearchConsultantHistory(userId)
+  }
+
   const handleViewConsultant = (consultantId: string, fullName: string) => {
-    addSearchConsultantHistory({ consultantId, fullName })
+    if (userId) addSearchConsultantHistory({ userId, consultantId, fullName })
     router.push(`/consultants/${consultantId}`)
   }
 
@@ -153,7 +159,7 @@ function ConsultantScreen() {
           <Section
             label="Tìm kiếm gần đây"
             actionText="Xóa tất cả"
-            onPress={clearSearchConsultantHistory}
+            onPress={handleClearSearchHistory}
           />
         )}
 

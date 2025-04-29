@@ -146,26 +146,26 @@ export const formatDuration = (seconds: number): string => {
 }
 
 /**
- * Định dạng ngày giờ theo định dạng "dd/mm/yyyy HH:mm:ss".
- * @param dateTime Ngày giờ cần định dạng (có thể là đối tượng Date hoặc chuỗi ngày).
- * @returns Chuỗi ngày giờ đã được định dạng.
+ * Định dạng ngày giờ theo định dạng "HH:mm:ss, dd/MM/yyyy",
+ * dựa trên UTC +7 (Asia/Ho_Chi_Minh).
+ * @param dateString Chuỗi ngày giờ ISO (ví dụ "2024-03-15T14:30:00Z" hoặc "2024-03-15T14:30:00").
+ * @returns Chuỗi ngày giờ đã được định dạng và cộng thêm 7 tiếng.
  *
  * Ví dụ:
- * formatDateTime("2024-03-15T14:30:00") => "14:30:00, 15/03/2024"
- * formatDateTime(new Date(2024, 2, 15, 14, 30, 0)) => "14:30:00, 15/03/2024"
+ * formatDateTime("2024-03-15T14:30:00Z") => "21:30:00, 15/03/2024"
  */
 export const formatDateTime = (dateString: string): string => {
-  const date = new Date(dateString) // Create a Date object from the string
+  const date = new Date(dateString)
 
-  // Extract UTC values
+  date.setTime(date.getTime() + 7 * 60 * 60 * 1000)
+
   const hours = date.getUTCHours().toString().padStart(2, "0")
   const minutes = date.getUTCMinutes().toString().padStart(2, "0")
   const day = date.getUTCDate().toString().padStart(2, "0")
-  const month = (date.getUTCMonth() + 1).toString().padStart(2, "0") // Months are zero-based
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, "0")
   const year = date.getUTCFullYear()
 
-  // Format the date and time in UTC
-  return `${hours}:${minutes}, ${day}/${month}/${year}`
+  return `${hours}h${minutes}, ${day}/${month}/${year}`
 }
 
 /**

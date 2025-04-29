@@ -1,32 +1,52 @@
 import { createContext, useContext } from "react"
 
-interface FoodFrequency {
+export interface FoodFrequency {
   userId: string
   foodId: string
   name: string
   count: number
 }
 
+export interface FoodSearchHistory {
+  userId: string
+  foodId: string
+  name: string
+}
+
+export interface ConsultantSearchHistory {
+  userId: string
+  consultantId: string
+  fullName: string
+}
+
 export interface SearchContextType {
-  searchFoodHistory: { foodId: string; name: string }[]
-  searchConsultantHistory: { consultantId: string; fullName: string }[]
+  searchFoodHistory: FoodSearchHistory[]
+  searchConsultantHistory: ConsultantSearchHistory[]
+  foodFrequency: FoodFrequency[]
+
   addSearchFoodHistory: (search: {
+    userId: string
     foodId: string
     name: string
   }) => Promise<void>
-  clearSearchFoodHistory: () => Promise<void>
+  clearSearchFoodHistory: (userId: string) => Promise<void>
+  getSearchFoodHistory: (userId: string) => FoodSearchHistory[]
+
   addSearchConsultantHistory: (search: {
+    userId: string
     consultantId: string
     fullName: string
   }) => Promise<void>
-  clearSearchConsultantHistory: () => Promise<void>
+  clearSearchConsultantHistory: (userId: string) => Promise<void>
+  getSearchConsultantHistory: (userId: string) => ConsultantSearchHistory[]
+
   trackMealFood: (food: {
     userId: string
     foodId: string
     name: string
   }) => Promise<void>
   getFrequentFoods: (userId: string) => FoodFrequency[]
-  foodFrequency: FoodFrequency[]
+
   extractKeywordsFromFoods: (
     foods: { name: string; [key: string]: any }[],
     limit?: number

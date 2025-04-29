@@ -14,7 +14,7 @@ import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingOverlay, LoadingScreen } from "@/app/loading"
 import { useIsFetching, useIsMutating } from "@tanstack/react-query"
-import { Add, Minus, Reserve, Trash } from "iconsax-react-native"
+import { Add, Minus, Trash } from "iconsax-react-native"
 import { MoreHorizontal } from "lucide-react-native"
 
 import {

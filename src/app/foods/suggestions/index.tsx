@@ -215,7 +215,7 @@ function FoodSuggestScreen() {
   }
 
   const handleViewFood = (foodId: string, foodName: string) => {
-    addSearchFoodHistory({ foodId, name: foodName })
+    if (userId) addSearchFoodHistory({ userId, foodId, name: foodName })
     router.push({
       pathname: `/foods/${foodId}`,
       params: { mealType: mealTypeParsed.toString(), date: selectedDate }
