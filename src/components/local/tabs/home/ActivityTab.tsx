@@ -14,7 +14,7 @@ import { COLORS } from "@/constants/color"
 import { GoalTypeEnum, getGoalTypeMeta } from "@/constants/enum/Goal"
 
 import { useUpdateActivityStatus } from "@/hooks/useActivity"
-import { useGetWorkoutGoal } from "@/hooks/useGoal"
+import { useGetGoalsByUserId, useGetWorkoutGoal } from "@/hooks/useGoal"
 import { useGetDailyActivityByUserId } from "@/hooks/useTracker"
 
 import { formatDateY, toFixed } from "@/utils/formatters"
@@ -35,9 +35,9 @@ export const ActivityTab = ({ userId, onOverlayLoading }: ActivityTabProps) => {
   const { mutate: updateActivityStatus } = useUpdateActivityStatus()
 
   const { data: dailyActivityData } = useGetDailyActivityByUserId(userId, today)
-  const { data: workoutGoalData } = useGetWorkoutGoal(userId)
+  const { data: goalData } = useGetGoalsByUserId(userId)
 
-  // console.log(JSON.stringify(dailyActivityData, null, 2))
+  const currentGoalData = goalData?.[0]
 
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()
@@ -49,7 +49,7 @@ export const ActivityTab = ({ userId, onOverlayLoading }: ActivityTabProps) => {
   const activitiesData = dailyActivityData?.items || []
 
   const { label: goalTypeLabel } = getGoalTypeMeta(
-    dailyActivityData?.goalType ?? GoalTypeEnum.Maintenance
+    currentGoalData?.type ?? GoalTypeEnum.Maintenance
   )
 
   const defaultActivitiesData = [
@@ -86,7 +86,7 @@ export const ActivityTab = ({ userId, onOverlayLoading }: ActivityTabProps) => {
     ? activitiesData
     : defaultActivitiesData
 
-  const caloriesBurnedGoal = workoutGoalData?.caloriesBurnedGoal || 0
+  const caloriesBurnedGoal = currentGoalData?.caloriesBurnedGoal || 0
 
   const caloriesBurnedData = {
     label: "Calories",
@@ -98,12 +98,12 @@ export const ActivityTab = ({ userId, onOverlayLoading }: ActivityTabProps) => {
     {
       label: "Đã nạp",
       value: toFixed(dailyActivityData?.totalCaloriesIntake ?? 0, 0) || 0,
-      targetValue: toFixed(workoutGoalData?.caloriesGoal ?? 0, 0)
+      targetValue: toFixed(currentGoalData?.caloriesGoal ?? 0, 0)
     },
     {
       label: "Thời gian",
       value: dailyActivityData?.totalDurationMinutes || 0,
-      targetValue: workoutGoalData?.workoutDurationGoal || 0
+      targetValue: currentGoalData?.workoutDurationGoal || 0
     }
   ]
 

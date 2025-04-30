@@ -20,7 +20,7 @@ import { COLORS } from "@/constants/color"
 import { MealTypeEnum } from "@/constants/enum/Food"
 import { GoalTypeEnum, getGoalTypeMeta } from "@/constants/enum/Goal"
 
-import { useGetNutritionGoal } from "@/hooks/useGoal"
+import { useGetGoalsByUserId } from "@/hooks/useGoal"
 import { useGetDailyMealByUserId } from "@/hooks/useTracker"
 
 import { formatDateY } from "@/utils/formatters"
@@ -37,7 +37,9 @@ export const MealTab = ({ userId, onOverlayLoading }: MealTabProps) => {
   const today = formatDateY(new Date())
 
   const { data: dailyMealData } = useGetDailyMealByUserId(userId, today)
-  const { data: nutritionGoalData } = useGetNutritionGoal(userId)
+  const { data: goalData } = useGetGoalsByUserId(userId)
+
+  const currentGoalData = goalData?.[0]
 
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()
@@ -46,13 +48,13 @@ export const MealTab = ({ userId, onOverlayLoading }: MealTabProps) => {
   //   onLoading(
   //     !dailyMealData ||
   //       isDailyMealLoading ||
-  //       !nutritionGoalData ||
+  //       !goalData ||
   //       isGoalLoading
   //   )
   // }, [
   //   dailyMealData,
   //   isDailyMealLoading,
-  //   nutritionGoalData,
+  //   goalData,
   //   isGoalLoading,
   //   onLoading
   // ])
@@ -64,7 +66,7 @@ export const MealTab = ({ userId, onOverlayLoading }: MealTabProps) => {
   const mealsData = dailyMealData?.items || []
 
   const { label: goalTypeLabel } = getGoalTypeMeta(
-    dailyMealData?.goalType ?? GoalTypeEnum.Maintenance
+    currentGoalData?.type ?? GoalTypeEnum.Maintenance
   )
 
   const defaultMealsData = [
@@ -106,7 +108,7 @@ export const MealTab = ({ userId, onOverlayLoading }: MealTabProps) => {
     return (existingMeal || defaultMeal) as typeof defaultMeal
   })
 
-  const caloriesGoal = nutritionGoalData?.caloriesGoal || 0
+  const caloriesGoal = currentGoalData?.caloriesGoal || 0
 
   const caloriesData = {
     label: "Calories",
@@ -118,27 +120,27 @@ export const MealTab = ({ userId, onOverlayLoading }: MealTabProps) => {
     {
       label: "Protein",
       value: dailyMealData?.nutrition?.protein || 0,
-      targetValue: nutritionGoalData?.proteinGoal || 0
+      targetValue: currentGoalData?.proteinGoal || 0
     },
     {
       label: "Carbs",
       value: dailyMealData?.nutrition?.carbs || 0,
-      targetValue: nutritionGoalData?.carbsGoal || 0
+      targetValue: currentGoalData?.carbsGoal || 0
     },
     {
       label: "Fat",
       value: dailyMealData?.nutrition?.fat || 0,
-      targetValue: nutritionGoalData?.fatGoal || 0
+      targetValue: currentGoalData?.fatGoal || 0
     },
     {
       label: "Fiber",
       value: dailyMealData?.nutrition?.fiber || 0,
-      targetValue: nutritionGoalData?.fiberGoal || 0
+      targetValue: currentGoalData?.fiberGoal || 0
     },
     {
       label: "Sugar",
       value: dailyMealData?.nutrition?.sugar || 0,
-      targetValue: nutritionGoalData?.sugarGoal || 0
+      targetValue: currentGoalData?.sugarGoal || 0
     }
   ]
 
@@ -191,7 +193,7 @@ export const MealTab = ({ userId, onOverlayLoading }: MealTabProps) => {
           }
           action={
             <Badge
-              label={goalTypeLabel || ""}
+              label={goalTypeLabel}
               background={COLORS.primary}
               color="#fff"
             />
