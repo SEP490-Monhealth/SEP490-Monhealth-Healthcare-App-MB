@@ -61,7 +61,6 @@ const bookingSchema = z.object({
   cancellationReason: z.string().optional(),
 
   isReviewed: z.boolean(),
-  isReported: z.boolean().optional(),
 
   reviews: reviewDetailSchema.optional(),
 

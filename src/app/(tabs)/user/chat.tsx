@@ -110,7 +110,7 @@ function ChatScreen() {
           </View>
         )}
 
-        <Section label="Danh sách tin nhắn" />
+        <Section label="Lịch sử tin nhắn" />
       </ListHeader>
     )
   }, [])

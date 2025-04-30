@@ -16,6 +16,7 @@ import {
 import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
+import { BookingStatusEnum } from "@/constants/enum/Booking"
 
 import { useGetBookingsByUserId } from "@/hooks/useBooking"
 
@@ -96,10 +97,6 @@ function BookingsUserScreen() {
     setIsModalVisible(true)
   }
 
-  const handleViewReport = (bookingId: string) => {
-    router.push(`/bookings/${bookingId}/report`)
-  }
-
   const handleConfirmAction = () => {
     if (!selectedBooking) return
 
@@ -160,16 +157,11 @@ function BookingsUserScreen() {
                 isReviewed={item.isReviewed}
                 rating={item.review.rating}
                 comment={item.review.comment}
-                isReported={item.isReported}
                 status={item.status}
                 onPress={() => handleViewBooking(item.bookingId)}
                 onCancelPress={() => handleCancel(item.bookingId)}
                 onReviewPress={() => handleReview(item.bookingId)}
-                onReportPress={() =>
-                  item.isReported
-                    ? handleViewReport(item.bookingId)
-                    : handleReport(item.bookingId)
-                }
+                onReportPress={() => handleReport(item.bookingId)}
               />
             )}
             ListFooterComponent={

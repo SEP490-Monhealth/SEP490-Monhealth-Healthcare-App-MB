@@ -34,7 +34,6 @@ interface BookingCardProps {
   isReviewed?: boolean
   rating?: number
   comment?: string
-  isReported?: boolean
   status: BookingStatusEnum
   cancellationReason?: string
   onPress?: () => void
@@ -55,7 +54,6 @@ export const BookingCard = ({
   isReviewed,
   rating,
   comment,
-  isReported,
   status,
   cancellationReason,
   onPress,
@@ -64,35 +62,35 @@ export const BookingCard = ({
   onReviewPress,
   onReportPress
 }: BookingCardProps) => {
-  // const today = new Date()
-  // const bookingDate = new Date(date)
+  const today = new Date()
+  const bookingDate = new Date(date)
 
-  // const isBookingEnded = () => {
-  //   if (
-  //     bookingDate.getDate() < today.getDate() ||
-  //     bookingDate.getMonth() < today.getMonth() ||
-  //     bookingDate.getFullYear() < today.getFullYear()
-  //   ) {
-  //     return true
-  //   }
+  const isBookingEnded = () => {
+    if (
+      bookingDate.getDate() < today.getDate() ||
+      bookingDate.getMonth() < today.getMonth() ||
+      bookingDate.getFullYear() < today.getFullYear()
+    ) {
+      return true
+    }
 
-  //   if (
-  //     bookingDate.getDate() === today.getDate() &&
-  //     bookingDate.getMonth() === today.getMonth() &&
-  //     bookingDate.getFullYear() === today.getFullYear()
-  //   ) {
-  //     const [endHour, endMinute] = endTime.split(":").map(Number)
-  //     const currentHour = today.getHours()
-  //     const currentMinute = today.getMinutes()
+    if (
+      bookingDate.getDate() === today.getDate() &&
+      bookingDate.getMonth() === today.getMonth() &&
+      bookingDate.getFullYear() === today.getFullYear()
+    ) {
+      const [endHour, endMinute] = endTime.split(":").map(Number)
+      const currentHour = today.getHours()
+      const currentMinute = today.getMinutes()
 
-  //     return (
-  //       currentHour > endHour ||
-  //       (currentHour === endHour && currentMinute >= endMinute)
-  //     )
-  //   }
+      return (
+        currentHour > endHour ||
+        (currentHour === endHour && currentMinute >= endMinute)
+      )
+    }
 
-  //   return false
-  // }
+    return false
+  }
 
   const { label: bookingStatusLabel, color: bookingStatusColor } =
     getBookingStatusMeta(status)
@@ -111,8 +109,8 @@ export const BookingCard = ({
             <CardHeader label={name} />
 
             <Badge
-              label={!isReported ? bookingStatusLabel : "Đã báo cáo"}
-              background={!isReported ? bookingStatusColor : COLORS.destructive}
+              label={bookingStatusLabel}
+              background={bookingStatusColor}
               color="#fff"
               rounded
             />
@@ -150,12 +148,9 @@ export const BookingCard = ({
         )}
 
         {cancellationReason && (
-          <HStack center gap={6}>
-            <Text className="font-tmedium text-sm text-accent">Lý do hủy:</Text>
-            <Text className="font-tmedium text-sm text-accent">
-              {cancellationReason}
-            </Text>
-          </HStack>
+          <Text className="font-tmedium text-sm text-accent">
+            Lý do hủy: {cancellationReason}
+          </Text>
         )}
 
         {isReviewed && rating && comment && (
@@ -200,6 +195,9 @@ export const BookingCard = ({
           !isReviewed && (
             <HStack gap={16}>
               <Button
+                disabled={
+                  status === (BookingStatusEnum.Reported as BookingStatusEnum)
+                }
                 variant="danger"
                 size="sm"
                 onPress={onReportPress}

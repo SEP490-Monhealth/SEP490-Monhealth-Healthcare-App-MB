@@ -100,7 +100,7 @@ export const WaterTab = ({ userId, onOverlayLoading }: WaterTabProps) => {
         onPress={handleViewWaterReminders}
       />
 
-      {waterRemindersData && waterRemindersData.length === 0 ? (
+      {waterRemindersData && waterRemindersData.length > 0 ? (
         <VStack gap={12}>
           {waterRemindersData?.map((item) => (
             <WaterReminderCard
