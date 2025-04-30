@@ -15,7 +15,10 @@ import {
 } from "@/components/global/atoms"
 import { BankCard } from "@/components/global/molecules"
 
+import { useAuth } from "@/contexts/AuthContext"
+
 import { useGetBankById } from "@/hooks/useBank"
+import { useGetConsultantBanksByConsultantId } from "@/hooks/useConsultantBank"
 
 import { useBankStore } from "@/stores/bankStore"
 
@@ -34,6 +37,12 @@ function BankInformation({
 }: BankSelectionProps) {
   const { bankId, isDefault, updateField } = useBankStore()
 
+  const { user } = useAuth()
+  const consultantId = user?.consultantId
+
+  const { data: consultantBanksData, isLoading: isConsultantBanksLoading } =
+    useGetConsultantBanksByConsultantId(consultantId)
+
   const { data: bankData, isLoading } = useGetBankById(bankId)
 
   useEffect(() => {
@@ -51,8 +60,12 @@ function BankInformation({
     return <LoadingScreen />
   }
 
+  if (!consultantBanksData) {
+    return <LoadingScreen />
+  }
+
   return (
-    <VStack gap={32} className="px-6">
+    <VStack gap={20} className="px-6">
       <VStack gap={8}>
         {bankData && (
           <BankCard
@@ -93,32 +106,40 @@ function BankInformation({
         />
       </VStack>
 
-      <Card activeOpacity={1}>
-        <VStack gap={12}>
-          <VStack>
-            <CardHeader label="Bạn muốn lưu tài khoản này như thế nào?" />
+      {consultantBanksData.length > 0 ? (
+        <Card activeOpacity={1}>
+          <VStack gap={12}>
+            <VStack>
+              <CardHeader label="Bạn muốn lưu tài khoản này như thế nào?" />
 
-            <Text className="font-tregular text-sm text-accent">
-              Chọn "Mặc định" để sử dụng thẻ ngân hàng này làm mặc định hoặc
-              "Tùy chỉnh" để chỉ sử dụng khi cần.
-            </Text>
+              <Text className="font-tregular text-sm text-accent">
+                Chọn "Mặc định" để sử dụng thẻ ngân hàng này làm mặc định hoặc
+                "Tùy chỉnh" để chỉ sử dụng khi cần.
+              </Text>
+            </VStack>
+
+            <HStack gap={12} className="justify-end">
+              <Chip
+                label="Tùy chỉnh"
+                selected={!isDefault}
+                onPress={() => handleDefaultSelect(false)}
+              />
+
+              <Chip
+                label="Mặc định"
+                selected={isDefault}
+                onPress={() => handleDefaultSelect(true)}
+              />
+            </HStack>
           </VStack>
-
-          <HStack gap={12} className="justify-end">
-            <Chip
-              label="Tùy chỉnh"
-              selected={!isDefault}
-              onPress={() => handleDefaultSelect(false)}
-            />
-
-            <Chip
-              label="Mặc định"
-              selected={isDefault}
-              onPress={() => handleDefaultSelect(true)}
-            />
-          </HStack>
-        </VStack>
-      </Card>
+        </Card>
+      ) : (
+        <Text className="text-justify font-tregular text-sm text-accent">
+          Tài khoản này sẽ được sử dụng cho tất cả các giao dịch rút tiền của
+          bạn, đảm bảo sự thuận tiện và nhanh chóng trong mọi yêu cầu tài chính.
+          Hãy chắc chắn rằng thông tin tài khoản của bạn là chính xác.
+        </Text>
+      )}
     </VStack>
   )
 }

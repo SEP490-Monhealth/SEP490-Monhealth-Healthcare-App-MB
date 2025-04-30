@@ -264,6 +264,7 @@ function BanksScreen() {
           />
 
           <SheetSelect
+            disabled={selectedConsultantBank?.isDefault}
             variant="danger"
             label="Xóa"
             icon={<Trash variant="Bold" size="20" color={COLORS.destructive} />}
