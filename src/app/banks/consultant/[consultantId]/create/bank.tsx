@@ -4,6 +4,7 @@ import { FlatList, Keyboard, View } from "react-native"
 import { ActivityIndicator } from "react-native"
 
 import { LoadingScreen } from "@/app/loading"
+import { useIsFetching, useIsMutating } from "@tanstack/react-query"
 import { SearchNormal1 } from "iconsax-react-native"
 
 import { Input } from "@/components/global/atoms"
@@ -26,10 +27,10 @@ import { useBankStore } from "@/stores/bankStore"
 
 interface BankSelectionProps {
   setValue: any
-  setIsLoading?: (isLoading: boolean) => void
+  onOverlayLoading: (isLoading: boolean) => void
 }
 
-function BankSelection({ setValue, setIsLoading }: BankSelectionProps) {
+function BankSelection({ setValue, onOverlayLoading }: BankSelectionProps) {
   const { bankId, updateField } = useBankStore()
 
   const [banksData, setBanksData] = useState<BankType[]>([])
@@ -50,11 +51,12 @@ function BankSelection({ setValue, setIsLoading }: BankSelectionProps) {
     true
   )
 
+  const isFetching = useIsFetching()
+  const isMutating = useIsMutating()
+
   useEffect(() => {
-    if (setIsLoading) {
-      setIsLoading(isLoading && banksData.length === 0)
-    }
-  }, [isLoading, banksData, setIsLoading])
+    onOverlayLoading(isFetching > 0 || isMutating > 0)
+  }, [isFetching, isMutating, onOverlayLoading])
 
   useEffect(() => {
     if (data?.banks) {
@@ -115,7 +117,7 @@ function BankSelection({ setValue, setIsLoading }: BankSelectionProps) {
   }, [])
 
   if (banksData.length === 0 && isLoading) {
-    return <LoadingScreen />
+    return null
   }
 
   return (

@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 
 import { Text } from "react-native"
 
-import { LoadingScreen } from "@/app/loading"
+import { useIsFetching, useIsMutating } from "@tanstack/react-query"
 import { Control, Controller, FieldValues } from "react-hook-form"
 
 import {
@@ -24,49 +24,42 @@ import { useBankStore } from "@/stores/bankStore"
 
 interface BankSelectionProps {
   control: Control<FieldValues>
-  errors: any
   setValue: any
-  setIsLoading?: (isLoading: boolean) => void
+  errors: any
+  onOverlayLoading: (isLoading: boolean) => void
 }
 
 function BankInformation({
   control,
-  errors,
   setValue,
-  setIsLoading
+  errors,
+  onOverlayLoading
 }: BankSelectionProps) {
-  const { bankId, isDefault, updateField } = useBankStore()
-
   const { user } = useAuth()
   const consultantId = user?.consultantId
 
-  const { data: consultantBanksData, isLoading: isConsultantBanksLoading } =
+  const { bankId, isDefault, updateField } = useBankStore()
+
+  const { data: consultantBanksData } =
     useGetConsultantBanksByConsultantId(consultantId)
 
-  const { data: bankData, isLoading } = useGetBankById(bankId)
+  const { data: bankData } = useGetBankById(bankId)
+
+  const isFetching = useIsFetching()
+  const isMutating = useIsMutating()
 
   useEffect(() => {
-    if (setIsLoading) {
-      setIsLoading(isLoading)
-    }
-  }, [isLoading, setIsLoading])
+    onOverlayLoading(isFetching > 0 || isMutating > 0)
+  }, [isFetching, isMutating, onOverlayLoading])
 
   const handleDefaultSelect = (value: boolean) => {
     updateField("isDefault", value)
     setValue("isDefault", value)
   }
 
-  if (!bankData && isLoading) {
-    return <LoadingScreen />
-  }
-
-  if (!consultantBanksData) {
-    return <LoadingScreen />
-  }
-
   return (
-    <VStack gap={20} className="px-6">
-      <VStack gap={8}>
+    <VStack gap={32} className="px-6">
+      <VStack gap={12}>
         {bankData && (
           <BankCard
             name={bankData.name}
@@ -106,7 +99,7 @@ function BankInformation({
         />
       </VStack>
 
-      {consultantBanksData.length > 0 ? (
+      {consultantBanksData && consultantBanksData.length > 0 ? (
         <Card activeOpacity={1}>
           <VStack gap={12}>
             <VStack>

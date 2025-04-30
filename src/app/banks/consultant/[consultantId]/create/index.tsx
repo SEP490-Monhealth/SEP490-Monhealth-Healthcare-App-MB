@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useCallback, useState } from "react"
 
 import {
   Keyboard,
@@ -9,6 +9,7 @@ import {
 
 import { useRouter } from "expo-router"
 
+import { LoadingOverlay } from "@/app/loading"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { set } from "lodash"
 import { useForm } from "react-hook-form"
@@ -41,6 +42,7 @@ function BankCreateScreen() {
   const { resetWithdrawalRequest } = useWithdrawalRequestStore()
 
   const [currentStep, setCurrentStep] = useState<number>(1)
+  const [overlayLoading, setOverlayLoading] = useState<boolean>(false)
 
   const formData: Record<string, any> = {
     consultantId,
@@ -138,9 +140,15 @@ function BankCreateScreen() {
 
   const StepComponent = currentStepData.component
 
+  const handleOverlayLoading = useCallback((isLoading: boolean) => {
+    setOverlayLoading(isLoading)
+  }, [])
+
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView className="h-full flex-1 bg-background">
+        <LoadingOverlay visible={overlayLoading} />
+
         <View className="px-6">
           <Header back label={currentStepData.title} onBackPress={handleBack} />
         </View>
@@ -150,6 +158,7 @@ function BankCreateScreen() {
             control={control}
             errors={errors}
             setValue={setValue}
+            onOverlayLoading={handleOverlayLoading}
           />
         </Content>
 

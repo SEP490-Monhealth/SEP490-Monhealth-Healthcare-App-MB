@@ -1,3 +1,5 @@
+import axios from "axios"
+
 import monAPI from "@/lib/monAPI"
 
 import { BankType } from "@/schemas/bankSchema"
@@ -35,7 +37,7 @@ export const getAllBanks = async (
 
 export const getBankById = async (
   bankId: string | undefined
-): Promise<BankType> => {
+): Promise<BankType | null> => {
   try {
     const response = await monAPI.get(`/banks/${bankId}`)
 
@@ -47,7 +49,17 @@ export const getBankById = async (
 
     return data as BankType
   } catch (error: any) {
-    const errorMessage = error.response?.data?.message
-    throw { isCustomError: true, message: errorMessage }
+    if (axios.isAxiosError(error)) {
+      if (error.response && error.response.status === 404) {
+        return null
+      }
+
+      throw error
+    } else {
+      throw {
+        isCustomError: true,
+        message: error.message || "Đã xảy ra lỗi không mong muốn"
+      }
+    }
   }
 }

@@ -39,7 +39,7 @@ export const useGetAllBanks = (
 export const useGetBankById = (bankId: string | undefined) => {
   const handleError = useError()
 
-  return useQuery<BankType, Error>({
+  return useQuery<BankType | null, Error>({
     queryKey: [MonQueryKey.Bank.Bank, bankId],
     queryFn: async () => {
       try {
@@ -49,7 +49,7 @@ export const useGetBankById = (bankId: string | undefined) => {
         throw error
       }
     },
-    staleTime: 1000 * 60 * 5,
-    enabled: !!bankId
+    enabled: !!bankId,
+    staleTime: 1000 * 60 * 5
   })
 }
