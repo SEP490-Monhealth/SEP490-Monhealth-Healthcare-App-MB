@@ -120,7 +120,7 @@ function BankCreateScreen() {
 
       createConsultantBank(finalData, {
         onSuccess: () => {
-          router.replace(`/banks/consultant/${consultantId}`)
+          router.back()
           reset()
           resetWithdrawalRequest()
         }
