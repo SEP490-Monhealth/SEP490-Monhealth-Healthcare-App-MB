@@ -161,7 +161,7 @@ export const SpendingTab = ({
         />
 
         <Section
-          label="Danh sách chi tiêu"
+          label="Lịch sử chi tiêu"
           actionText="Xem tất cả"
           onPress={handleViewTransactions}
         />
@@ -197,9 +197,7 @@ export const SpendingTab = ({
       renderItem={({ item }) => (
         <TransactionCard
           type={item.type}
-          datetime={item.createdAt}
           amount={item.amount}
-          showStatus
           status={item.status}
         />
       )}

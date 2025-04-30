@@ -20,7 +20,8 @@ import {
   Modal,
   Sheet,
   SheetRefProps,
-  SheetSelect
+  SheetSelect,
+  VStack
 } from "@/components/global/atoms"
 import {
   ErrorDisplay,
@@ -39,6 +40,13 @@ import {
 } from "@/hooks/useWithdrawalRequest"
 
 import { WithdrawalRequestType } from "@/schemas/withdrawalRequestSchema"
+
+import { formatDate } from "@/utils/formatters"
+
+interface GroupedWithdrawalRequest {
+  date: string
+  withdrawalRequests: WithdrawalRequestType[]
+}
 
 function WithdrawalRequestsScreen() {
   const router = useRouter()
@@ -104,20 +112,6 @@ function WithdrawalRequestsScreen() {
   const openSheet = () => SheetRef.current?.scrollTo(-200)
   const closeSheet = () => SheetRef.current?.scrollTo(0)
 
-  const FlatListHeader = useMemo(() => {
-    return (
-      <ListHeader>
-        {withdrawalRequestsData.length > 0 && (
-          <Section label="Danh sách yêu cầu" margin={false} className="pt-2" />
-        )}
-      </ListHeader>
-    )
-  }, [withdrawalRequestsData.length])
-
-  if (withdrawalRequestsData.length === 0 && isLoading) {
-    return <LoadingScreen />
-  }
-
   const handleAction = (
     requestId: string,
     status: WithdrawalRequestStatusEnum
@@ -149,6 +143,45 @@ function WithdrawalRequestsScreen() {
     setSelectedRequest(null)
   }
 
+  const groupTransactionsByDate = (
+    withdrawalRequests: WithdrawalRequestType[]
+  ): GroupedWithdrawalRequest[] => {
+    const grouped: Record<string, WithdrawalRequestType[]> = {}
+
+    withdrawalRequests.forEach((transaction) => {
+      const dateKey = formatDate(transaction.createdAt)
+
+      if (!grouped[dateKey]) {
+        grouped[dateKey] = []
+      }
+
+      grouped[dateKey].push(transaction)
+    })
+
+    return Object.keys(grouped).map((date) => ({
+      date,
+      withdrawalRequests: grouped[date]
+    }))
+  }
+
+  const groupedWithdrawalRequests = useMemo(() => {
+    return groupTransactionsByDate(withdrawalRequestsData)
+  }, [withdrawalRequestsData])
+
+  const FlatListHeader = useMemo(() => {
+    return (
+      <ListHeader>
+        {withdrawalRequestsData.length > 0 && (
+          <Section label="Lịch sử yêu cầu" margin={false} className="pt-2" />
+        )}
+      </ListHeader>
+    )
+  }, [withdrawalRequestsData.length])
+
+  if (withdrawalRequestsData.length === 0 && isLoading) {
+    return <LoadingScreen />
+  }
+
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView className="flex-1 bg-background">
@@ -164,10 +197,7 @@ function WithdrawalRequestsScreen() {
 
           <Content className="mt-2">
             <FlatList
-              data={withdrawalRequestsData || []}
-              keyExtractor={(item, index) =>
-                `${item.withdrawalRequestId}-${index}`
-              }
+              data={groupedWithdrawalRequests}
               onRefresh={onRefresh}
               refreshing={isRefreshing}
               showsVerticalScrollIndicator={false}
@@ -178,17 +208,28 @@ function WithdrawalRequestsScreen() {
               onEndReached={onEndReached}
               onEndReachedThreshold={0.5}
               ListHeaderComponent={FlatListHeader}
-              renderItem={({ item }) => (
-                <WithdrawalRequestCard
-                  description={item.description}
-                  amount={item.amount}
-                  time={item.updatedAt}
-                  reason={item.reason}
-                  status={item.status}
-                  onPress={() =>
-                    handleAction(item.withdrawalRequestId, item.status)
-                  }
-                />
+              renderItem={({ item }: { item: GroupedWithdrawalRequest }) => (
+                <>
+                  <Section label={`${item.date}`} margin={false} />
+
+                  <VStack gap={12}>
+                    {item.withdrawalRequests.map((withdrawalRequest, index) => (
+                      <WithdrawalRequestCard
+                        key={`${withdrawalRequest.withdrawalRequestId}-${index}`}
+                        description={withdrawalRequest.description}
+                        amount={withdrawalRequest.amount}
+                        reason={withdrawalRequest.reason}
+                        status={withdrawalRequest.status}
+                        onPress={() =>
+                          handleAction(
+                            withdrawalRequest.withdrawalRequestId,
+                            withdrawalRequest.status
+                          )
+                        }
+                      />
+                    ))}
+                  </VStack>
+                </>
               )}
               ListFooterComponent={
                 hasMore ? (

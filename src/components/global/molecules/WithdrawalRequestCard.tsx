@@ -9,7 +9,7 @@ import {
 
 import { formatCurrency } from "@/utils/formatters"
 
-import { Card, VStack } from "../atoms"
+import { Card } from "../atoms"
 
 const formatDateTime = (isoString: string) => {
   if (!isoString) return { date: "", time: "" }
@@ -32,7 +32,7 @@ const formatDateTime = (isoString: string) => {
 interface WithdrawalRequestCardProps {
   description: string
   amount: number
-  time: string
+  time?: string
   reason?: string | null
   status: WithdrawalRequestStatusEnum
   onPress?: () => void
@@ -49,7 +49,7 @@ export const WithdrawalRequestCard = ({
   const { label: withdrawalRequestStatusLabel } =
     getWithdrawalRequestStatusMeta(status)
 
-  const { date, time: timestamp } = formatDateTime(time)
+  const { date, time: timestamp } = formatDateTime(time || "")
 
   return (
     <Card className="flex-col gap-2" onPress={onPress}>
@@ -70,25 +70,23 @@ export const WithdrawalRequestCard = ({
           </Text>
 
           <Text className="font-tmedium text-sm text-accent">
-            {date} • {timestamp}
+            {time ? `${date} • ${timestamp}` : formatCurrency(amount)}
           </Text>
         </View>
 
-        <VStack className="items-end">
-          <Text className="font-tmedium text-sm text-primary">
-            {formatCurrency(amount)}
-          </Text>
-
-          <Text className="font-tregular text-sm text-accent">
-            {withdrawalRequestStatusLabel}
-          </Text>
-        </VStack>
+        <Text className="font-tregular text-sm text-accent">
+          {withdrawalRequestStatusLabel}
+        </Text>
       </View>
 
       {reason && (
-        <Text className="text-justify font-tregular text-sm text-accent">
-          Lý do: {reason}
-        </Text>
+        <>
+          <View className="border border-border" />
+
+          <Text className="font-tmedium text-sm text-accent">
+            Lý do: {reason}
+          </Text>
+        </>
       )}
     </Card>
   )

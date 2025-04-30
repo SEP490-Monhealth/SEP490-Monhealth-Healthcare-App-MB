@@ -39,7 +39,7 @@ const BankUpdateScreen = () => {
   const { data: consultantBankData, isLoading: isConsultantBankLoading } =
     useGetConsultantBankById(consultantBankId)
 
-  console.log(JSON.stringify(consultantBankData, null, 2))
+  // console.log(JSON.stringify(consultantBankData, null, 2))
 
   const {
     control,

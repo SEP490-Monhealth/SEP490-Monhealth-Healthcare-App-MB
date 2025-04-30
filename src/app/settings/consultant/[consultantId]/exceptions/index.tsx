@@ -143,7 +143,7 @@ function ScheduleExceptionsScreen() {
       <ListHeader>
         {scheduleExceptionsData.length > 0 && (
           <Section
-            label="Danh sách lịch nghỉ"
+            label="Lịch sử lịch nghỉ"
             margin={false}
             className="pt-2"
           />

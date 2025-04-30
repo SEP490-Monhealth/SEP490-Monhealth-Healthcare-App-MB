@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 
 import { Keyboard, Text, View } from "react-native"
 
@@ -13,6 +13,7 @@ import {
   Container,
   Content,
   Input,
+  Modal,
   Select,
   VStack
 } from "@/components/global/atoms"
@@ -35,6 +36,9 @@ function WithdrawalRequestCreateScreen() {
   const router = useRouter()
   const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
 
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+
   const {
     consultantBankId,
     accountNumber,
@@ -45,7 +49,7 @@ function WithdrawalRequestCreateScreen() {
     resetWithdrawalRequest: reset
   } = useWithdrawalRequestStore()
 
-  const { data: consultantBanksData } =
+  const { data: consultantBanksData, isLoading: isLoadingBanks } =
     useGetConsultantBanksByConsultantId(consultantId)
 
   const { mutate: addWithdrawalRequest } = useCreateWithdrawalRequest()
@@ -62,24 +66,30 @@ function WithdrawalRequestCreateScreen() {
   useEffect(() => {
     setValue("consultantId", consultantId)
     setValue("consultantBankId", consultantBankId)
-  }, [consultantId, consultantBankId])
+  }, [consultantId, consultantBankId, setValue])
 
   useEffect(() => {
-    if (consultantBanksData?.length === 1) {
-      updateField("accountNumber", consultantBanksData[0].number)
-      setValue("consultantBankId", consultantBanksData[0].consultantBankId)
+    if (!isLoadingBanks) {
+      setIsLoading(false)
 
-      updateField("name", consultantBanksData[0].bank.name)
-      updateField("shortName", consultantBanksData[0].bank.shortName)
-      updateField("logoUrl", consultantBanksData[0].bank.logoUrl)
+      if (consultantBanksData?.length === 0) {
+        setIsModalVisible(true)
+      } else if (consultantBanksData?.length === 1) {
+        updateField("accountNumber", consultantBanksData[0].number)
+        setValue("consultantBankId", consultantBanksData[0].consultantBankId)
+
+        updateField("name", consultantBanksData[0].bank.name)
+        updateField("shortName", consultantBanksData[0].bank.shortName)
+        updateField("logoUrl", consultantBanksData[0].bank.logoUrl)
+      }
     }
   }, [
+    isLoadingBanks,
+    consultantBanksData,
     consultantId,
     consultantBankId,
-    name,
-    shortName,
-    logoUrl,
-    consultantBanksData
+    updateField,
+    setValue
   ])
 
   const onSubmit = (newData: CreateWithdrawalRequestType) => {
@@ -105,81 +115,103 @@ function WithdrawalRequestCreateScreen() {
     }
   }
 
-  if (!consultantBanksData) {
+  const handleConfirmAction = () => {
+    setIsModalVisible(false)
+    router.push(`/banks/consultant/${consultantId}`)
+  }
+
+  if (isLoading || isLoadingBanks) {
     return <LoadingScreen />
   }
 
   return (
-    <Container dismissKeyboard>
-      <Header back label="Tạo yêu cầu" />
+    <>
+      <Container dismissKeyboard>
+        <Header back label="Tạo yêu cầu" />
 
-      <Content className="mt-2">
-        <VStack gap={32}>
-          <VStack gap={12}>
-            <View>
-              <Text className="mb-1 ml-1 font-tregular text-base">
-                Ngân hàng
+        <Content className="mt-2">
+          <VStack gap={32}>
+            <VStack gap={12}>
+              <View>
+                <Text className="mb-1 ml-1 font-tregular text-base">
+                  Ngân hàng
+                </Text>
+
+                {accountNumber && (
+                  <BankCard
+                    name={name}
+                    shortName={shortName}
+                    logoUrl={logoUrl}
+                  />
+                )}
+              </View>
+
+              <Text className="font-tregular text-sm text-accent">
+                Số dư khả dụng: {formatCurrency(200000)}
               </Text>
 
-              {accountNumber && (
-                <BankCard name={name} shortName={shortName} logoUrl={logoUrl} />
-              )}
-            </View>
+              <Select
+                label="Số tài khoản"
+                defaultValue="VD: 2003150599"
+                value={accountNumber || ""}
+                errorMessage={errors.consultantBankId?.message}
+                onPress={handleViewConsultantBanks}
+              />
 
-            <Text className="font-tregular text-sm text-accent">
-              Số dư khả dụng: {formatCurrency(200000)}
-            </Text>
+              <Controller
+                name="description"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    value={value}
+                    label="Mô tả"
+                    placeholder="VD: Rút tiền hàng tháng"
+                    onChangeText={onChange}
+                    canClearText
+                    errorMessage={errors.description?.message}
+                  />
+                )}
+              />
 
-            <Select
-              label="Số tài khoản"
-              defaultValue="VD: 2003150599"
-              value={accountNumber || ""}
-              errorMessage={errors.consultantBankId?.message}
-              onPress={handleViewConsultantBanks}
-            />
+              <Controller
+                name="amount"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    value={value ? value.toString() : ""}
+                    label="Số tiền"
+                    placeholder="VD: 50.000"
+                    onChangeText={(text) => onChange(parseFloat(text) || 0)}
+                    keyboardType="numeric"
+                    endIcon={
+                      <Text className="font-tregular text-sm text-accent">
+                        VND
+                      </Text>
+                    }
+                    canClearText
+                    alwaysShowEndIcon
+                    errorMessage={errors.amount?.message}
+                  />
+                )}
+              />
+            </VStack>
 
-            <Controller
-              name="description"
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <Input
-                  value={value}
-                  label="Mô tả"
-                  placeholder="VD: Rút tiền hàng tháng"
-                  onChangeText={onChange}
-                  canClearText
-                  errorMessage={errors.description?.message}
-                />
-              )}
-            />
-
-            <Controller
-              name="amount"
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <Input
-                  value={value ? value.toString() : ""}
-                  label="Số tiền"
-                  placeholder="VD: 50.000"
-                  onChangeText={(text) => onChange(parseFloat(text) || 0)}
-                  keyboardType="numeric"
-                  endIcon={
-                    <Text className="font-tregular text-sm text-accent">
-                      VND
-                    </Text>
-                  }
-                  canClearText
-                  alwaysShowEndIcon
-                  errorMessage={errors.amount?.message}
-                />
-              )}
-            />
+            <Button loading={isLoading} onPress={handleSubmit(onSubmit)}>
+              {!isLoading && "Tạo yêu cầu"}
+            </Button>
           </VStack>
+        </Content>
+      </Container>
 
-          <Button onPress={handleSubmit(onSubmit)}>Tạo yêu cầu</Button>
-        </VStack>
-      </Content>
-    </Container>
+      <Modal
+        isVisible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+        title="Cảnh báo"
+        description="Bạn chưa có ngân hàng nào. Vui lòng thêm ngân hàng trước khi tạo yêu cầu rút tiền."
+        confirmText="Đồng ý"
+        onConfirm={handleConfirmAction}
+      />
+    </>
   )
 }
 

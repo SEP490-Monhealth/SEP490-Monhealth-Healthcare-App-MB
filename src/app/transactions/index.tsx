@@ -114,9 +114,7 @@ function TransactionsScreen() {
           renderItem={({ item }) => (
             <TransactionCard
               type={item.type}
-              datetime={item.createdAt}
               amount={item.amount}
-              showStatus
               status={item.status}
             />
           )}

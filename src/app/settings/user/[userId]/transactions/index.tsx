@@ -6,7 +6,7 @@ import { useLocalSearchParams } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
 
-import { Container, Content } from "@/components/global/atoms"
+import { Container, Content, VStack } from "@/components/global/atoms"
 import {
   ErrorDisplay,
   ListFooter,
@@ -21,6 +21,13 @@ import { TransactionTypeEnum } from "@/constants/enum/Transaction"
 import { useGetTransactionsByUserId } from "@/hooks/useTransaction"
 
 import { TransactionType } from "@/schemas/transactionSchema"
+
+import { formatDate } from "@/utils/formatters"
+
+interface GroupedTransaction {
+  date: string
+  transactions: TransactionType[]
+}
 
 function UserTransactionsScreen() {
   const { userId } = useLocalSearchParams<{ userId: string }>()
@@ -74,19 +81,38 @@ function UserTransactionsScreen() {
     setIsRefreshing(false)
   }
 
-  const FlatListHeader = useMemo(() => {
-    return (
-      <ListHeader>
-        {transactionsData.length > 0 && (
-          <Section
-            label="Danh sách thanh toán"
-            margin={false}
-            className="pt-2"
-          />
-        )}
-      </ListHeader>
-    )
-  }, [transactionsData.length])
+  const groupTransactionsByDate = (
+    transactions: TransactionType[]
+  ): GroupedTransaction[] => {
+    const grouped: Record<string, TransactionType[]> = {}
+
+    transactions.forEach((transaction) => {
+      const dateKey = formatDate(transaction.createdAt)
+
+      if (!grouped[dateKey]) {
+        grouped[dateKey] = []
+      }
+
+      grouped[dateKey].push(transaction)
+    })
+
+    return Object.keys(grouped).map((date) => ({
+      date,
+      transactions: grouped[date]
+    }))
+  }
+
+  const groupedTransactions = useMemo(() => {
+    return groupTransactionsByDate(transactionsData)
+  }, [transactionsData])
+
+  const FlatListHeader = () => (
+    <ListHeader>
+      {transactionsData.length > 0 && (
+        <Section label="Lịch sử thanh toán" margin={false} className="pt-2" />
+      )}
+    </ListHeader>
+  )
 
   if (transactionsData.length === 0 && isLoading) {
     return <LoadingScreen />
@@ -94,12 +120,12 @@ function UserTransactionsScreen() {
 
   return (
     <Container>
-      <Header back label="Lịch sử thanh toán" />
+      <Header back label="Thanh toán" />
 
       <Content className="mt-2">
         <FlatList
-          data={transactionsData || []}
-          keyExtractor={(item, index) => `${item.transactionId}-${index}`}
+          data={groupedTransactions}
+          keyExtractor={(item) => item.date}
           onRefresh={onRefresh}
           refreshing={isRefreshing}
           showsVerticalScrollIndicator={false}
@@ -110,15 +136,22 @@ function UserTransactionsScreen() {
           onEndReached={onEndReached}
           onEndReachedThreshold={0.5}
           ListHeaderComponent={FlatListHeader}
-          renderItem={({ item }) => (
-            <TransactionCard
-              type={TransactionTypeEnum.Fee}
-              datetime={item.createdAt}
-              description={item.description}
-              amount={item.amount}
-              showStatus
-              status={item.status}
-            />
+          renderItem={({ item }: { item: GroupedTransaction }) => (
+            <>
+              <Section label={`${item.date}`} margin={false} />
+
+              <VStack gap={12}>
+                {item.transactions.map((transaction, index) => (
+                  <TransactionCard
+                    key={`${transaction.transactionId}-${index}`}
+                    type={TransactionTypeEnum.Fee}
+                    description={transaction.description}
+                    amount={transaction.amount}
+                    status={transaction.status}
+                  />
+                ))}
+              </VStack>
+            </>
           )}
           ListFooterComponent={
             hasMore ? (
