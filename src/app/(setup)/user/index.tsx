@@ -284,6 +284,17 @@ function SetupUserScreen() {
         })
         return
       }
+
+      if (
+        goalType === GoalTypeEnum.Maintenance &&
+        Math.abs(weightGoal - weight) > 2
+      ) {
+        setError("weightGoal", {
+          type: "manual",
+          message: "Mục tiêu duy trì cân nặng nên gần với cân nặng hiện tại"
+        })
+        return
+      }
     }
 
     Object.keys(data).forEach((key) => {
@@ -370,6 +381,7 @@ function SetupUserScreen() {
         // )
 
         await addAllergies(userAllergiesData.allergies)
+
         await Promise.all([
           new Promise((resolve, reject) =>
             // @ts-ignore
