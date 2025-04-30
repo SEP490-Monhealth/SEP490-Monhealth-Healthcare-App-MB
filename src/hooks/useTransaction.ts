@@ -178,28 +178,3 @@ export const useCreateSubscriptionTransaction = () => {
     }
   })
 }
-
-export const useCompleteTransaction = () => {
-  const queryClient = useQueryClient()
-  const handleError = useError()
-  const { showModal } = useModal()
-
-  return useMutation<string, Error, { orderCode: string }>({
-    mutationFn: async ({ orderCode }) => {
-      try {
-        return await completeTransaction(orderCode, showModal)
-      } catch (error) {
-        handleError(error)
-        throw error
-      }
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [MonQueryKey.Transaction.UserTransactions]
-      })
-      queryClient.invalidateQueries({
-        queryKey: [MonQueryKey.Subscription.UserSubscriptions]
-      })
-    }
-  })
-}
