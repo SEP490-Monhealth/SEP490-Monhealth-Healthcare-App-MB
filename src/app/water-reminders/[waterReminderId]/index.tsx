@@ -41,15 +41,14 @@ function WaterReminderDetailsScreen() {
 
   const { mutate: updateWaterReminder } = useUpdateWaterReminder()
 
-  const { data: waterReminderData, isLoading } =
-    useGetWaterReminderById(waterReminderId)
+  const { data: waterReminderData } = useGetWaterReminderById(waterReminderId)
 
   const [time, setTime] = useState(new Date())
 
   const {
     control,
-    handleSubmit,
     setValue,
+    handleSubmit,
     formState: { errors }
   } = useForm<UpdateWaterReminderType>({
     resolver: zodResolver(updateWaterReminderSchema)
@@ -64,8 +63,6 @@ function WaterReminderDetailsScreen() {
       setTime(convertDate(waterReminderData.time))
     }
   }, [waterReminderData, setValue])
-
-  if (!waterReminderData || isLoading) <LoadingScreen />
 
   const handleTimeChange = (
     _event: DateTimePickerEvent,
@@ -93,6 +90,11 @@ function WaterReminderDetailsScreen() {
       }
     )
   }
+
+  if (!waterReminderData) {
+    return <LoadingScreen />
+  }
+
   return (
     <Container dismissKeyboard>
       <Header back label="Cập nhật nhắc nhở" />
@@ -104,6 +106,8 @@ function WaterReminderDetailsScreen() {
             mode="time"
             display="spinner"
             onChange={handleTimeChange}
+            minimumDate={new Date(new Date().setHours(0, 0, 0))}
+            maximumDate={new Date(new Date().setHours(23, 59, 59))}
           />
         </VStack>
 

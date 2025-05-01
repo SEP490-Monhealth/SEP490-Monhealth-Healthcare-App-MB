@@ -38,7 +38,7 @@ function WaterReminderCreateScreen() {
 
   const { mutate: addWaterReminder } = useCreateWaterReminder()
 
-  const [time, setTime] = useState(new Date())
+  const [time, setTime] = useState<Date>(new Date())
 
   const {
     control,
@@ -70,10 +70,10 @@ function WaterReminderCreateScreen() {
     }
   }
 
-  const onSubmit = (newWaterReminderData: CreateWaterReminderType) => {
+  const onSubmit = (newData: CreateWaterReminderType) => {
     Keyboard.dismiss()
 
-    const finalData = { ...newWaterReminderData, userId }
+    const finalData = { ...newData, userId }
 
     // console.log(JSON.stringify(finalData, null, 2))
 
@@ -95,6 +95,8 @@ function WaterReminderCreateScreen() {
             mode="time"
             display="spinner"
             onChange={handleTimeChange}
+            minimumDate={new Date(new Date().setHours(0, 0, 0))}
+            maximumDate={new Date(new Date().setHours(23, 59, 59))}
           />
         </VStack>
 

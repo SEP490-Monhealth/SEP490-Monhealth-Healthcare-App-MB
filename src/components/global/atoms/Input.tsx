@@ -30,7 +30,6 @@ type InputProps = Omit<TextInputProps, "value"> & {
   numberOfLines?: number
   isSecure?: boolean
   onToggleSecure?: () => void
-  alignRight?: boolean
   startIcon?: React.ReactNode
   endIcon?: React.ReactNode
   alwaysShowEndIcon?: boolean
@@ -52,7 +51,6 @@ export const Input: React.FC<InputProps> = ({
   numberOfLines = 1,
   isSecure = false,
   onToggleSecure,
-  alignRight = false,
   startIcon,
   endIcon,
   alwaysShowEndIcon = false,
@@ -122,8 +120,8 @@ export const Input: React.FC<InputProps> = ({
           onChangeText={onChangeText}
           multiline={isMultiline}
           numberOfLines={isMultiline ? numberOfLines : 1}
+          textAlign="left"
           textAlignVertical={isMultiline ? "top" : "center"}
-          textAlign={alignRight ? "right" : "left"}
           blurOnSubmit={false}
           onFocus={handleFocus}
           onBlur={handleBlur}

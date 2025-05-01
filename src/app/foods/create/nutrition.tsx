@@ -58,29 +58,22 @@ function FoodNutrition({ control, errors }: FoodNutritionProps) {
       name={name}
       control={control}
       render={({ field: { onChange, value } }) => {
-        const [inputValue, setInputValue] = useState(value?.toString() || "")
-
-        const handleChangeText = (text: string) => {
-          const normalizedText = text.replace(",", ".")
-          setInputValue(normalizedText)
-
-          if (/^\d*\.?\d*$/.test(normalizedText)) {
-            const parsedValue = parseFloat(normalizedText)
-            if (!isNaN(parsedValue)) {
-              onChange(parsedValue)
-            } else {
-              onChange(null)
-            }
-          }
-        }
-
         return (
           <Input
-            value={inputValue}
+            value={value ? value.toString() : ""}
             placeholder={placeholder}
-            onChangeText={handleChangeText}
+            onChangeText={(text) => {
+              const formattedText = text.replace(",", ".")
+              if (/^\d*\.?\d*$/.test(formattedText) || formattedText === "") {
+                onChange(formattedText)
+              }
+            }}
             keyboardType="numeric"
-            label={label}
+            startIcon={
+              <Text className="font-tregular text-base text-primary">
+                {label}
+              </Text>
+            }
             endIcon={
               <Text className="font-tregular text-sm text-accent">{unit}</Text>
             }
