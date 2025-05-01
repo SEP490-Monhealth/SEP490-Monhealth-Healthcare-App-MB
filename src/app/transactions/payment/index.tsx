@@ -52,6 +52,8 @@ function TransactionPaymentScreen() {
 
   const [showDialog, setShowDialog] = useState<boolean>(false)
   const [countdown, setCountdown] = useState<number>(5)
+  const [expireTime, setExpireTime] = useState<number>(15 * 60)
+  const [shouldNavigateBack, setShouldNavigateBack] = useState<boolean>(false)
 
   const { data: transactionData, isLoading: isTransactionDataLoading } =
     useGetTransactionById(transactionId)
@@ -88,6 +90,33 @@ function TransactionPaymentScreen() {
 
     return () => clearInterval(countdownTimer)
   }, [showDialog, router])
+
+  useEffect(() => {
+    const qrTimer = setInterval(() => {
+      setExpireTime((prev) => {
+        if (prev <= 1) {
+          clearInterval(qrTimer)
+          setShouldNavigateBack(true)
+          return 0
+        }
+        return prev - 1
+      })
+    }, 1000)
+
+    return () => clearInterval(qrTimer)
+  }, [])
+
+  useEffect(() => {
+    if (shouldNavigateBack) {
+      router.back()
+    }
+  }, [shouldNavigateBack, router])
+
+  const formatQRTimeRemaining = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60)
+    const remainingSeconds = seconds % 60
+    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`
+  }
 
   const invalidateRelatedQueries = async () => {
     const updatedUser = await whoIAm()
@@ -127,13 +156,17 @@ function TransactionPaymentScreen() {
         <Content className="mt-2">
           <Section label="QR Code" margin={false} />
 
-          <Card className="items-center py-12">
+          <Card className="items-center pb-4 pt-8">
             <QRCode
               value={qrCode}
               size={280}
               logo={{ uri: QR_LOGO }}
               logoSize={40}
             />
+
+            <Text className="mt-4 font-tmedium text-base text-destructive">
+              Mã QR hết hạn sau: {formatQRTimeRemaining(expireTime)}
+            </Text>
           </Card>
 
           <Section label="Chi tiết giao dịch" />

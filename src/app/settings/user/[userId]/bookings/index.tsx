@@ -6,7 +6,7 @@ import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
 
-import { Container, Content, Modal } from "@/components/global/atoms"
+import { Container, Content } from "@/components/global/atoms"
 import {
   BookingCard,
   ErrorDisplay,
@@ -16,7 +16,6 @@ import {
 import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
-import { BookingStatusEnum } from "@/constants/enum/Booking"
 
 import { useGetBookingsByUserId } from "@/hooks/useBooking"
 
@@ -30,10 +29,6 @@ function BookingsUserScreen() {
   const [page, setPage] = useState<number>(1)
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
-
-  const [modalType, setModalType] = useState<"cancel" | "report">("cancel")
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
-  const [selectedBooking, setSelectedBooking] = useState<string | null>(null)
 
   const limit = 10
 
@@ -81,36 +76,6 @@ function BookingsUserScreen() {
     router.push(`/bookings/${bookingId}`)
   }
 
-  const handleCancel = (bookingId: string) => {
-    setSelectedBooking(bookingId)
-    setModalType("cancel")
-    setIsModalVisible(true)
-  }
-
-  const handleReview = (bookingId: string) => {
-    router.push(`/bookings/${bookingId}/review`)
-  }
-
-  const handleReport = (bookingId: string) => {
-    setSelectedBooking(bookingId)
-    setModalType("report")
-    setIsModalVisible(true)
-  }
-
-  const handleConfirmAction = () => {
-    if (!selectedBooking) return
-
-    if (modalType === "cancel") {
-      setIsModalVisible(false)
-      router.push(`/bookings/${selectedBooking}/cancel`)
-    } else if (modalType === "report") {
-      setIsModalVisible(false)
-      router.push(`/bookings/${selectedBooking}/report/create`)
-    }
-
-    setSelectedBooking(null)
-  }
-
   const FlatListHeader = useMemo(() => {
     return (
       <ListHeader>
@@ -126,80 +91,61 @@ function BookingsUserScreen() {
   }
 
   return (
-    <>
-      <Container>
-        <Header back label="Lịch hẹn" />
+    <Container>
+      <Header back label="Lịch hẹn" />
 
-        <Content className="mt-2">
-          <FlatList
-            data={bookingsData || []}
-            keyExtractor={(item, index) => `${item.bookingId}-${index}`}
-            onRefresh={onRefresh}
-            refreshing={isRefreshing}
-            showsVerticalScrollIndicator={false}
-            stickyHeaderIndices={[0]}
-            initialNumToRender={10}
-            maxToRenderPerBatch={5}
-            windowSize={5}
-            onEndReached={onEndReached}
-            onEndReachedThreshold={0.5}
-            ListHeaderComponent={FlatListHeader}
-            renderItem={({ item }) => (
-              <BookingCard
-                key={item.bookingId}
-                variant="member"
-                name={item.consultant.fullName}
-                date={item.date}
-                startTime={item.startTime}
-                endTime={item.endTime}
-                notes={item.notes}
-                cancellationReason={item.cancellationReason}
-                isReviewed={item.isReviewed}
-                rating={item.review.rating}
-                comment={item.review.comment}
-                status={item.status}
-                onPress={() => handleViewBooking(item.bookingId)}
-                onCancelPress={() => handleCancel(item.bookingId)}
-                onReviewPress={() => handleReview(item.bookingId)}
-                onReportPress={() => handleReport(item.bookingId)}
-              />
-            )}
-            ListFooterComponent={
-              hasMore ? (
-                <ListFooter>
-                  <ActivityIndicator color={COLORS.primary} />
-                </ListFooter>
-              ) : (
-                <ListFooter />
-              )
-            }
-            ListEmptyComponent={
-              <ErrorDisplay
-                imageSource={require("../../../../../../public/images/monhealth-no-data-image.png")}
-                title="Không có dữ liệu"
-                description="Không tìm thấy có lịch hẹn nào ở đây!"
-                marginTop={24}
-              />
-            }
-            ItemSeparatorComponent={() => <View className="h-3" />}
-          />
-        </Content>
-      </Container>
-
-      <Modal
-        isVisible={isModalVisible}
-        onClose={() => setIsModalVisible(false)}
-        title={modalType === "cancel" ? "Hủy lịch hẹn" : "Báo cáo lịch hẹn"}
-        description={
-          modalType === "cancel"
-            ? "Bạn có chắc chắn muốn hủy lịch hẹn này không?"
-            : "Bạn có chắc chắn muốn báo cáo lịch hẹn không?"
-        }
-        confirmText="Đồng ý"
-        cancelText="Hủy"
-        onConfirm={handleConfirmAction}
-      />
-    </>
+      <Content className="mt-2">
+        <FlatList
+          data={bookingsData || []}
+          keyExtractor={(item, index) => `${item.bookingId}-${index}`}
+          onRefresh={onRefresh}
+          refreshing={isRefreshing}
+          showsVerticalScrollIndicator={false}
+          stickyHeaderIndices={[0]}
+          initialNumToRender={10}
+          maxToRenderPerBatch={5}
+          windowSize={5}
+          onEndReached={onEndReached}
+          onEndReachedThreshold={0.5}
+          ListHeaderComponent={FlatListHeader}
+          renderItem={({ item }) => (
+            <BookingCard
+              key={item.bookingId}
+              variant="member"
+              name={item.consultant.fullName}
+              date={item.date}
+              startTime={item.startTime}
+              endTime={item.endTime}
+              notes={item.notes}
+              cancellationReason={item.cancellationReason}
+              isReviewed={item.isReviewed}
+              rating={item.review.rating}
+              comment={item.review.comment}
+              status={item.status}
+              onPress={() => handleViewBooking(item.bookingId)}
+            />
+          )}
+          ListFooterComponent={
+            hasMore ? (
+              <ListFooter>
+                <ActivityIndicator color={COLORS.primary} />
+              </ListFooter>
+            ) : (
+              <ListFooter />
+            )
+          }
+          ListEmptyComponent={
+            <ErrorDisplay
+              imageSource={require("../../../../../../public/images/monhealth-no-data-image.png")}
+              title="Không có dữ liệu"
+              description="Không tìm thấy có lịch hẹn nào ở đây!"
+              marginTop={24}
+            />
+          }
+          ItemSeparatorComponent={() => <View className="h-3" />}
+        />
+      </Content>
+    </Container>
   )
 }
 
