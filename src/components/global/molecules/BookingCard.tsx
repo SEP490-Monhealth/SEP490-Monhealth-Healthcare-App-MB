@@ -13,7 +13,7 @@ import {
 
 import { formatDate } from "@/utils/formatters"
 
-import { Badge, Button, Card, CardHeader, HStack, VStack } from "../atoms"
+import { Badge, Card, CardHeader, HStack, VStack } from "../atoms"
 import { MeetingCard } from "./MeetingCard"
 
 const formatTime = (time: string): string => {
@@ -34,13 +34,9 @@ interface BookingCardProps {
   isReviewed?: boolean
   rating?: number
   comment?: string
-  status: BookingStatusEnum
   cancellationReason?: string
   onPress?: () => void
-  onCompletePress?: () => void
-  onCancelPress?: () => void
-  onReviewPress?: () => void
-  onReportPress?: () => void
+  status: BookingStatusEnum
 }
 
 export const BookingCard = ({
@@ -54,44 +50,10 @@ export const BookingCard = ({
   isReviewed,
   rating,
   comment,
-  status,
   cancellationReason,
-  onPress,
-  onCompletePress,
-  onCancelPress,
-  onReviewPress,
-  onReportPress
+  status,
+  onPress
 }: BookingCardProps) => {
-  const today = new Date()
-  const bookingDate = new Date(date)
-
-  const isBookingEnded = () => {
-    if (
-      bookingDate.getDate() < today.getDate() ||
-      bookingDate.getMonth() < today.getMonth() ||
-      bookingDate.getFullYear() < today.getFullYear()
-    ) {
-      return true
-    }
-
-    if (
-      bookingDate.getDate() === today.getDate() &&
-      bookingDate.getMonth() === today.getMonth() &&
-      bookingDate.getFullYear() === today.getFullYear()
-    ) {
-      const [endHour, endMinute] = endTime.split(":").map(Number)
-      const currentHour = today.getHours()
-      const currentMinute = today.getMinutes()
-
-      return (
-        currentHour > endHour ||
-        (currentHour === endHour && currentMinute >= endMinute)
-      )
-    }
-
-    return false
-  }
-
   const { label: bookingStatusLabel, color: bookingStatusColor } =
     getBookingStatusMeta(status)
 
@@ -177,78 +139,6 @@ export const BookingCard = ({
 
             <Text className="font-tmedium text-sm text-accent">{comment}</Text>
           </View>
-        )}
-
-        {variant === "member" && status === BookingStatusEnum.Booked && (
-          <Button
-            variant="danger"
-            size="sm"
-            onPress={onCancelPress}
-            className="flex-1"
-          >
-            Hủy
-          </Button>
-        )}
-
-        {variant === "member" &&
-          status === BookingStatusEnum.Completed &&
-          !isReviewed && (
-            <HStack gap={16}>
-              <Button
-                disabled={
-                  status === (BookingStatusEnum.Reported as BookingStatusEnum)
-                }
-                variant="danger"
-                size="sm"
-                onPress={onReportPress}
-                className="flex-1"
-              >
-                Báo cáo
-              </Button>
-
-              <Button size="sm" onPress={onReviewPress} className="flex-1">
-                Đánh giá
-              </Button>
-            </HStack>
-          )}
-
-        {/* {variant === "consultant" && status === BookingStatusEnum.Pending && (
-          <HStack gap={16}>
-            <Button
-              variant="danger"
-              size="sm"
-              onPress={onCancelPress}
-              className="flex-1"
-            >
-              Hủy
-            </Button>
-
-            <Button size="sm" onPress={onConfirmPress} className="flex-1">
-              Xác nhận
-            </Button>
-          </HStack>
-        )} */}
-
-        {variant === "consultant" && status === BookingStatusEnum.Booked && (
-          <Button
-            variant="primary"
-            size="sm"
-            onPress={onCompletePress}
-            className="flex-1"
-          >
-            Hoàn thành
-          </Button>
-        )}
-
-        {variant === "consultant" && status === BookingStatusEnum.Cancelled && (
-          <Button
-            variant="danger"
-            size="sm"
-            onPress={onCompletePress}
-            className="flex-1"
-          >
-            Đã hủy
-          </Button>
         )}
       </VStack>
     </Card>

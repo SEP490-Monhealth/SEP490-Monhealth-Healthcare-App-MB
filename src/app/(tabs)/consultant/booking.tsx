@@ -2,14 +2,13 @@ import React, { useState } from "react"
 
 import { RefreshControl, ScrollView } from "react-native"
 
-import { useLocalSearchParams, useRouter } from "expo-router"
+import { useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
 
 import {
   Container,
   Content,
-  Modal,
   Tabs,
   TabsContent,
   TabsList,
@@ -38,10 +37,7 @@ function BookingsScreen() {
   } = useGetBookingsByConsultantId(consultantId, 1)
 
   const [activeTab, setActiveTab] = useState<string>("booked")
-  const [modalType, setModalType] = useState<"cancel" | "complete">("cancel")
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
-  const [selectedBooking, setSelectedBooking] = useState<string | null>(null)
-  const [refreshing, setRefreshing] = useState<boolean>(false)
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
 
   const tabStatusMap: Record<string, BookingStatusEnum> = {
     booked: BookingStatusEnum.Booked,
@@ -57,35 +53,10 @@ function BookingsScreen() {
     setActiveTab(tab)
   }
 
-  const handleCancel = (bookingId: string) => {
-    setSelectedBooking(bookingId)
-    setModalType("cancel")
-    setIsModalVisible(true)
-  }
-
-  const handleComplete = (bookingId: string) => {
-    setSelectedBooking(bookingId)
-    setModalType("complete")
-    setIsModalVisible(true)
-  }
-
-  const handleConfirmAction = () => {
-    if (selectedBooking) {
-      setIsModalVisible(false)
-
-      if (modalType === "cancel") {
-        router.push(`/bookings/${selectedBooking}/cancel`)
-      } else if (modalType === "complete") {
-        router.push(`/bookings/${selectedBooking}/complete`)
-      }
-    }
-    setSelectedBooking(null)
-  }
-
   const onRefresh = async () => {
-    setRefreshing(true)
+    setIsRefreshing(true)
     await refetch()
-    setRefreshing(false)
+    setIsRefreshing(false)
   }
 
   const handleViewBooking = (bookingId: string) => {
@@ -97,91 +68,70 @@ function BookingsScreen() {
   }
 
   return (
-    <>
-      <Container>
-        <Header label="Lịch hẹn" />
+    <Container>
+      <Header label="Lịch hẹn" />
 
-        <Content>
-          <ScrollView
-            className="flex-1"
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-          >
-            <Tabs defaultValue={activeTab} contentMarginTop={12}>
-              <TabsList center>
-                <TabsTrigger value="booked" onChange={handleTabChange}>
-                  Đã đặt
-                </TabsTrigger>
+      <Content>
+        <ScrollView
+          className="flex-1"
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+          }
+        >
+          <Tabs defaultValue={activeTab} contentMarginTop={12}>
+            <TabsList center>
+              <TabsTrigger value="booked" onChange={handleTabChange}>
+                Đã đặt
+              </TabsTrigger>
 
-                <TabsTrigger value="completed" onChange={handleTabChange}>
-                  Hoàn thành
-                </TabsTrigger>
+              <TabsTrigger value="completed" onChange={handleTabChange}>
+                Hoàn thành
+              </TabsTrigger>
 
-                <TabsTrigger value="cancelled" onChange={handleTabChange}>
-                  Đã hủy
-                </TabsTrigger>
-              </TabsList>
+              <TabsTrigger value="cancelled" onChange={handleTabChange}>
+                Đã hủy
+              </TabsTrigger>
+            </TabsList>
 
-              <TabsContent value={activeTab}>
-                {filteredBookingsData && filteredBookingsData.length > 0 ? (
-                  <VStack gap={12}>
-                    {filteredBookingsData?.map((booking) => (
-                      <BookingCard
-                        key={booking.bookingId}
-                        variant="consultant"
-                        name={
-                          consultantId
-                            ? booking.member.fullName
-                            : booking.consultant.fullName
-                        }
-                        date={booking.date}
-                        startTime={booking.startTime}
-                        endTime={booking.endTime}
-                        notes={booking.notes}
-                        isReviewed={booking.isReviewed}
-                        rating={booking.reviews?.rating}
-                        comment={booking.reviews?.comment}
-                        status={booking.status}
-                        cancellationReason={booking.cancellationReason}
-                        onPress={() => handleViewBooking(booking.bookingId)}
-                        onCancelPress={() => handleCancel(booking.bookingId)}
-                        onCompletePress={() =>
-                          handleComplete(booking.bookingId)
-                        }
-                      />
-                    ))}
-                  </VStack>
-                ) : (
-                  <ErrorDisplay
-                    imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
-                    title="Không có lịch hẹn"
-                    description="Không tìm thấy có lịch hẹn nào ở đây!"
-                    marginTop={24}
-                  />
-                )}
-              </TabsContent>
-            </Tabs>
-          </ScrollView>
-        </Content>
-      </Container>
-
-      <Modal
-        isVisible={isModalVisible}
-        onClose={() => setIsModalVisible(false)}
-        title={modalType === "cancel" ? "Hủy lịch hẹn" : "Hoàn thành lịch hẹn"}
-        description={
-          modalType === "cancel"
-            ? "Bạn có chắc chắn muốn hủy lịch hẹn này không?"
-            : "Bạn có chắc chắn muốn hoàn thành lịch hẹn này không?"
-        }
-        confirmText="Đồng ý"
-        cancelText="Hủy"
-        onConfirm={handleConfirmAction}
-      />
-    </>
+            <TabsContent value={activeTab}>
+              {filteredBookingsData && filteredBookingsData.length > 0 ? (
+                <VStack gap={12}>
+                  {filteredBookingsData?.map((booking) => (
+                    <BookingCard
+                      key={booking.bookingId}
+                      variant="consultant"
+                      name={
+                        consultantId
+                          ? booking.member.fullName
+                          : booking.consultant.fullName
+                      }
+                      date={booking.date}
+                      startTime={booking.startTime}
+                      endTime={booking.endTime}
+                      notes={booking.notes}
+                      isReviewed={booking.isReviewed}
+                      rating={booking.reviews?.rating}
+                      comment={booking.reviews?.comment}
+                      status={booking.status}
+                      cancellationReason={booking.cancellationReason}
+                      onPress={() => handleViewBooking(booking.bookingId)}
+                    />
+                  ))}
+                </VStack>
+              ) : (
+                <ErrorDisplay
+                  imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
+                  title="Không có lịch hẹn"
+                  description="Không tìm thấy có lịch hẹn nào ở đây!"
+                  marginTop={24}
+                />
+              )}
+            </TabsContent>
+          </Tabs>
+        </ScrollView>
+      </Content>
+    </Container>
   )
 }
 

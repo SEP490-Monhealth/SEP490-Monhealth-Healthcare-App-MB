@@ -70,17 +70,16 @@ function BookingsScreen() {
   const { data: consultantData, isLoading: isConsultantLoading } =
     useGetConsultantById(consultantId)
 
-  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 
   const bookingItems = [
     {
-      icon: <Calendar variant="Bold" size={20} color={COLORS.primary} />,
+      icon: <Calendar variant="Bold" size="20" color={COLORS.primary} />,
       label: "Ngày",
       value: formatDate(storedDate)
     },
     {
-      icon: <Clock variant="Bold" size={20} color={COLORS.primary} />,
+      icon: <Clock variant="Bold" size="20" color={COLORS.primary} />,
       label: "Thời gian",
       value: `${formatTime(startTime)} - ${formatTime(endTime)}`
     }
@@ -104,22 +103,14 @@ function BookingsScreen() {
 
   const onSubmit = async (data: CreateBookingType) => {
     Keyboard.dismiss()
-    setIsLoading(true)
 
-    try {
-      // console.log("Final Data:", JSON.stringify(data, null, 2))
+    // console.log("Final Data:", JSON.stringify(data, null, 2))
 
-      await createBooking(data, {
-        onSuccess: () => {
-          router.replace(`/settings/user/${userId}/bookings`)
-        }
-      })
-    } catch (error) {
-      console.error("Error creating booking:", error)
-    } finally {
-      setIsLoading(false)
-      setIsModalVisible(false)
-    }
+    await createBooking(data, {
+      onSuccess: () => {
+        router.replace(`/settings/user/${userId}/bookings`)
+      }
+    })
   }
 
   const handleOpenModal = () => {
@@ -136,7 +127,7 @@ function BookingsScreen() {
     }, 50)
   }
 
-  if (isConsultantLoading || !consultantData) return <LoadingScreen />
+  if (!consultantData || isConsultantLoading) return <LoadingScreen />
 
   return (
     <>
@@ -231,12 +222,11 @@ function BookingsScreen() {
                 </Text>
 
                 <Button
-                  loading={isLoading}
-                  disabled={isLoading || isSubmitting}
+                  loading={isSubmitting}
                   onPress={handleOpenModal}
                   className="mt-8"
                 >
-                  {!isLoading && "Đặt lịch hẹn"}
+                  {!isSubmitting && "Đặt lịch hẹn"}
                 </Button>
               </View>
             </ScrollView>
