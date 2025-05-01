@@ -103,7 +103,7 @@ const BankUpdateScreen = () => {
                   <Input
                     value={value}
                     label="Tên tài khoản"
-                    placeholder="VD: Nguyễn Văn A"
+                    placeholder="VD: NGUYEN VAN A"
                     defaultValue=""
                     onChangeText={onChange}
                     canClearText
@@ -119,7 +119,7 @@ const BankUpdateScreen = () => {
                   <Input
                     value={value}
                     label="Số tài khoản"
-                    placeholder="VD: 34588239012"
+                    defaultValue="VD: 0123456789"
                     onChangeText={onChange}
                     canClearText
                     errorMessage={errors.number?.message}

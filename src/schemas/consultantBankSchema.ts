@@ -22,7 +22,10 @@ export const consultantBankSchema = z.object({
     .string()
     .nonempty({ message: "Tên tài khoản không được để trống" })
     .min(3, { message: "Tên tài khoản phải có ít nhất 3 ký tự" })
-    .max(50, { message: "Tên tài khoản không được quá 50 ký tự" }),
+    .max(50, { message: "Tên tài khoản không được quá 50 ký tự" })
+    .regex(/^[A-Z0-9\s]+$/, {
+      message: "Tên tài khoản chỉ được chứa chữ hoa và số"
+    }),
 
   isDefault: z.boolean(),
   status: z.boolean(),

@@ -75,7 +75,7 @@ function BankInformation({
             <Input
               value={value}
               label="Tên tài khoản"
-              placeholder="VD: Nguyễn Văn A"
+              placeholder="VD: NGUYEN VAN A"
               onChangeText={onChange}
               canClearText
               errorMessage={errors.name?.message}
@@ -90,7 +90,7 @@ function BankInformation({
             <Input
               value={value}
               label="Số tài khoản"
-              placeholder="VD: 435645776"
+              defaultValue="VD: 0123456789"
               onChangeText={onChange}
               canClearText
               errorMessage={errors.number?.message}

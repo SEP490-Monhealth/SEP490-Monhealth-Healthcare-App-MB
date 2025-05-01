@@ -93,13 +93,8 @@ export const BookingTab = ({
 
   const onRefresh = async () => {
     setIsRefreshing(true)
-    try {
-      await refetch()
-    } catch (error) {
-      console.error("Error refreshing data:", error)
-    } finally {
-      setIsRefreshing(false)
-    }
+    await refetch()
+    setIsRefreshing(false)
   }
   const handleSelectMonth = (month: string) => {
     setSelectedMonth(month)

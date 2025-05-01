@@ -66,7 +66,7 @@ function ForgotPasswordScreen() {
                   <Input
                     value={value}
                     label="Số điện thoại"
-                    placeholder="VD: 0963122758"
+                    placeholder="VD: 0987654321"
                     onChangeText={onChange}
                     keyboardType="phone-pad"
                     startIcon={

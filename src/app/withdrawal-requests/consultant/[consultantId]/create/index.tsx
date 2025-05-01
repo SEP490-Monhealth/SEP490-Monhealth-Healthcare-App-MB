@@ -1,6 +1,13 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useMemo, useRef, useState } from "react"
 
-import { Keyboard, Text, View } from "react-native"
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Text,
+  View
+} from "react-native"
 
 import { useLocalSearchParams, useRouter } from "expo-router"
 
@@ -10,8 +17,10 @@ import { Controller, useForm } from "react-hook-form"
 
 import {
   Button,
+  Chip,
   Container,
   Content,
+  HStack,
   Input,
   Modal,
   Select,
@@ -21,6 +30,7 @@ import { BankCard } from "@/components/global/molecules"
 import { Header } from "@/components/global/organisms"
 
 import { useGetConsultantBanksByConsultantId } from "@/hooks/useConsultantBank"
+import { useGetWalletByConsultantId } from "@/hooks/useWallet"
 import { useCreateWithdrawalRequest } from "@/hooks/useWithdrawalRequest"
 
 import {
@@ -30,11 +40,13 @@ import {
 
 import { useWithdrawalRequestStore } from "@/stores/withdrawalRequestStore"
 
-import { formatCurrency } from "@/utils/formatters"
+import { formatCurrency, formatCurrencyWithoutSymbol } from "@/utils/formatters"
 
 function WithdrawalRequestCreateScreen() {
   const router = useRouter()
   const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
+
+  const scrollViewRef = useRef<ScrollView>(null)
 
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -45,14 +57,24 @@ function WithdrawalRequestCreateScreen() {
     name,
     shortName,
     logoUrl,
-    updateField,
-    resetWithdrawalRequest: reset
+    updateField
   } = useWithdrawalRequestStore()
 
-  const { data: consultantBanksData, isLoading: isLoadingBanks } =
+  const { mutate: addWithdrawalRequest } = useCreateWithdrawalRequest()
+
+  const { data: walletData } = useGetWalletByConsultantId(consultantId)
+  const { data: consultantBanksData } =
     useGetConsultantBanksByConsultantId(consultantId)
 
-  const { mutate: addWithdrawalRequest } = useCreateWithdrawalRequest()
+  const availableBalance = walletData?.balance || 0
+  const defaultConsultantBank = consultantBanksData?.find(
+    (bank) => bank.isDefault === true
+  )
+
+  const quickAmountOptions = useMemo(() => {
+    const baseOptions = [100000, 200000, 500000, 1000000]
+    return baseOptions.filter((amount) => amount <= availableBalance)
+  }, [availableBalance])
 
   const {
     control,
@@ -65,29 +87,29 @@ function WithdrawalRequestCreateScreen() {
 
   useEffect(() => {
     setValue("consultantId", consultantId)
-    setValue("consultantBankId", consultantBankId)
-  }, [consultantId, consultantBankId, setValue])
+    setValue(
+      "consultantBankId",
+      consultantBankId || defaultConsultantBank?.consultantBankId || ""
+    )
+  }, [consultantId, consultantBankId, defaultConsultantBank, setValue])
 
   useEffect(() => {
-    if (!isLoadingBanks) {
-      setIsLoading(false)
+    setIsLoading(false)
 
-      if (consultantBanksData?.length === 0) {
-        setIsModalVisible(true)
-      } else if (consultantBanksData?.length === 1) {
-        updateField("accountNumber", consultantBanksData[0].number)
-        setValue("consultantBankId", consultantBanksData[0].consultantBankId)
-
-        updateField("name", consultantBanksData[0].bank.name)
-        updateField("shortName", consultantBanksData[0].bank.shortName)
-        updateField("logoUrl", consultantBanksData[0].bank.logoUrl)
-      }
+    if (consultantBanksData?.length === 0) {
+      setIsModalVisible(true)
+    } else if (defaultConsultantBank && !consultantBankId) {
+      setValue("consultantBankId", defaultConsultantBank.consultantBankId)
+      updateField("consultantBankId", defaultConsultantBank.consultantBankId)
+      updateField("accountNumber", defaultConsultantBank.number)
+      updateField("name", defaultConsultantBank.bank.name)
+      updateField("shortName", defaultConsultantBank.bank.shortName)
+      updateField("logoUrl", defaultConsultantBank.bank.logoUrl)
     }
   }, [
-    isLoadingBanks,
     consultantBanksData,
-    consultantId,
     consultantBankId,
+    defaultConsultantBank,
     updateField,
     setValue
   ])
@@ -101,7 +123,6 @@ function WithdrawalRequestCreateScreen() {
 
     addWithdrawalRequest(finalData, {
       onSuccess: () => {
-        reset()
         router.back()
       }
     })
@@ -120,7 +141,13 @@ function WithdrawalRequestCreateScreen() {
     router.push(`/banks/consultant/${consultantId}`)
   }
 
-  if (isLoading || isLoadingBanks) {
+  const scrollToInput = () => {
+    setTimeout(() => {
+      scrollViewRef.current?.scrollToEnd({ animated: true })
+    }, 50)
+  }
+
+  if (!walletData || !consultantBanksData || isLoading) {
     return <LoadingScreen />
   }
 
@@ -129,78 +156,107 @@ function WithdrawalRequestCreateScreen() {
       <Container dismissKeyboard>
         <Header back label="Tạo yêu cầu" />
 
-        <Content className="mt-2">
-          <VStack gap={32}>
-            <VStack gap={12}>
-              <View>
-                <Text className="mb-1 ml-1 font-tregular text-base">
-                  Ngân hàng
-                </Text>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={{ flex: 1 }}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 20 : 20}
+        >
+          <Content className="mt-2">
+            <ScrollView
+              ref={scrollViewRef}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{ paddingBottom: 60 }}
+            >
+              <VStack gap={32}>
+                <VStack gap={12}>
+                  <View>
+                    <Text className="mb-1 ml-1 font-tregular text-base">
+                      Ngân hàng
+                    </Text>
 
-                {accountNumber && (
-                  <BankCard
-                    name={name}
-                    shortName={shortName}
-                    logoUrl={logoUrl}
+                    {accountNumber && (
+                      <BankCard
+                        name={name}
+                        shortName={shortName}
+                        logoUrl={logoUrl}
+                      />
+                    )}
+                  </View>
+
+                  <Text className="font-tregular text-sm text-accent">
+                    Số dư khả dụng: {formatCurrency(availableBalance)}
+                  </Text>
+
+                  <Select
+                    label="Số tài khoản"
+                    defaultValue="VD: 1234567890"
+                    value={accountNumber || ""}
+                    errorMessage={errors.consultantBankId?.message}
+                    onPress={handleViewConsultantBanks}
                   />
-                )}
-              </View>
 
-              <Text className="font-tregular text-sm text-accent">
-                Số dư khả dụng: {formatCurrency(200000)}
-              </Text>
-
-              <Select
-                label="Số tài khoản"
-                defaultValue="VD: 2003150599"
-                value={accountNumber || ""}
-                errorMessage={errors.consultantBankId?.message}
-                onPress={handleViewConsultantBanks}
-              />
-
-              <Controller
-                name="description"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <Input
-                    value={value}
-                    label="Mô tả"
-                    placeholder="VD: Rút tiền hàng tháng"
-                    onChangeText={onChange}
-                    canClearText
-                    errorMessage={errors.description?.message}
+                  <Controller
+                    name="description"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Input
+                        value={value}
+                        label="Mô tả"
+                        placeholder="VD: Rút tiền hàng tháng"
+                        onChangeText={onChange}
+                        canClearText
+                        errorMessage={errors.description?.message}
+                        onFocus={scrollToInput}
+                      />
+                    )}
                   />
-                )}
-              />
 
-              <Controller
-                name="amount"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <Input
-                    value={value ? value.toString() : ""}
-                    label="Số tiền"
-                    placeholder="VD: 50.000"
-                    onChangeText={(text) => onChange(parseFloat(text) || 0)}
-                    keyboardType="numeric"
-                    endIcon={
-                      <Text className="font-tregular text-sm text-accent">
-                        VND
-                      </Text>
-                    }
-                    canClearText
-                    alwaysShowEndIcon
-                    errorMessage={errors.amount?.message}
+                  <Controller
+                    name="amount"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <VStack gap={12}>
+                        <Input
+                          value={value ? value.toString() : ""}
+                          label="Số tiền"
+                          placeholder="VD: 50.000"
+                          onChangeText={(text) =>
+                            onChange(parseFloat(text) || 0)
+                          }
+                          keyboardType="numeric"
+                          endIcon={
+                            <Text className="font-tregular text-sm text-accent">
+                              VND
+                            </Text>
+                          }
+                          canClearText
+                          alwaysShowEndIcon
+                          errorMessage={errors.amount?.message}
+                          onFocus={scrollToInput}
+                        />
+
+                        <HStack gap={8} className="flex-wrap">
+                          {quickAmountOptions.map((amount) => (
+                            <Chip
+                              key={amount}
+                              label={formatCurrencyWithoutSymbol(amount)}
+                              selected={value === amount}
+                              onPress={() => onChange(amount)}
+                            />
+                          ))}
+                        </HStack>
+                      </VStack>
+                    )}
                   />
-                )}
-              />
-            </VStack>
+                </VStack>
 
-            <Button loading={isLoading} onPress={handleSubmit(onSubmit)}>
-              {!isLoading && "Tạo yêu cầu"}
-            </Button>
-          </VStack>
-        </Content>
+                <Button loading={isLoading} onPress={handleSubmit(onSubmit)}>
+                  {!isLoading && "Tạo yêu cầu"}
+                </Button>
+              </VStack>
+            </ScrollView>
+          </Content>
+        </KeyboardAvoidingView>
       </Container>
 
       <Modal

@@ -12,6 +12,14 @@ export const formatCurrency = (value: number): string => {
   })
 }
 
+export const formatCurrencyWithoutSymbol = (value: number): string => {
+  return value.toLocaleString("vi-VN", {
+    style: "decimal",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  })
+}
+
 /**
  * Chuyển đổi giá trị thành phần trăm.
  * @param value Giá trị cần chuyển đổi.
