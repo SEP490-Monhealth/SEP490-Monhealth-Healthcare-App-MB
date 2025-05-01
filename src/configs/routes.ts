@@ -1,6 +1,7 @@
 import {
   Award,
   Calendar2,
+  Car,
   ClipboardTick,
   Command,
   DirectNormal,
@@ -79,9 +80,9 @@ export const userProfileRoutes: RouteType[] = [
 
 export const userAboutRoutes: RouteType[] = [
   // {
-  //   route: "/transactions/payment",
-  //   label: "Giới thiệu ứng dụng",
-  //   icon: I3Dcube
+  //   route: "/settings/freedriver",
+  //   label: "FreeDriver",
+  //   icon: Car
   // },
   {
     route: "/settings/app",
