@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 
 import { Text } from "react-native"
 import QRCode from "react-native-qrcode-svg"
@@ -35,6 +35,12 @@ import { whoIAm } from "@/services/authService"
 
 import { formatCurrency, formatDateTime } from "@/utils/formatters"
 
+const formatQRTimeRemaining = (seconds: number) => {
+  const minutes = Math.floor(seconds / 60)
+  const remainingSeconds = seconds % 60
+  return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`
+}
+
 const QR_LOGO =
   "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Monhealth%2FSEP490%20-%20Monhealth%20-%20Logo.png?alt=media&token=4a00b1c9-6f2c-4cfe-8868-94ed554ff3d0"
 
@@ -53,12 +59,25 @@ function TransactionPaymentScreen() {
   const [showDialog, setShowDialog] = useState<boolean>(false)
   const [countdown, setCountdown] = useState<number>(5)
   const [expireTime, setExpireTime] = useState<number>(15 * 60)
-  const [shouldNavigateBack, setShouldNavigateBack] = useState<boolean>(false)
+
+  const isMounted = useRef(true)
+
+  const safeNavigateBack = useCallback(() => {
+    if (isMounted.current) {
+      router.back()
+    }
+  }, [router])
 
   const { data: transactionData, isLoading: isTransactionDataLoading } =
     useGetTransactionById(transactionId)
   const { data: transactionStatus, isLoading: isTransactionStatusLoading } =
     useGetTransactionStatusById(transactionId)
+
+  useEffect(() => {
+    return () => {
+      isMounted.current = false
+    }
+  }, [])
 
   useEffect(() => {
     const checkTransactionStatus = async () => {
@@ -67,7 +86,9 @@ function TransactionPaymentScreen() {
         userId
       ) {
         await invalidateRelatedQueries()
-        setShowDialog(true)
+        if (isMounted.current) {
+          setShowDialog(true)
+        }
       }
     }
 
@@ -81,7 +102,7 @@ function TransactionPaymentScreen() {
       setCountdown((prev) => {
         if (prev <= 1) {
           clearInterval(countdownTimer)
-          router.back()
+          setTimeout(safeNavigateBack, 0)
           return 0
         }
         return prev - 1
@@ -89,14 +110,14 @@ function TransactionPaymentScreen() {
     }, 1000)
 
     return () => clearInterval(countdownTimer)
-  }, [showDialog, router])
+  }, [showDialog, safeNavigateBack])
 
   useEffect(() => {
     const qrTimer = setInterval(() => {
       setExpireTime((prev) => {
         if (prev <= 1) {
           clearInterval(qrTimer)
-          setShouldNavigateBack(true)
+          setTimeout(safeNavigateBack, 0)
           return 0
         }
         return prev - 1
@@ -104,32 +125,31 @@ function TransactionPaymentScreen() {
     }, 1000)
 
     return () => clearInterval(qrTimer)
-  }, [])
-
-  useEffect(() => {
-    if (shouldNavigateBack) {
-      router.back()
-    }
-  }, [shouldNavigateBack, router])
-
-  const formatQRTimeRemaining = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60)
-    const remainingSeconds = seconds % 60
-    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`
-  }
+  }, [safeNavigateBack])
 
   const invalidateRelatedQueries = async () => {
-    const updatedUser = await whoIAm()
-    setUser(updatedUser)
+    try {
+      const updatedUser = await whoIAm()
+      if (isMounted.current) {
+        setUser(updatedUser)
+      }
 
-    queryClient.invalidateQueries({
-      queryKey: [
-        MonQueryKey.Transaction.UserTransactions,
-        MonQueryKey.Subscription.UserSubscriptions,
-        MonQueryKey.Subscription.RemainingBookings
-      ]
-    })
+      queryClient.invalidateQueries({
+        queryKey: [
+          MonQueryKey.Transaction.UserTransactions,
+          MonQueryKey.Subscription.UserSubscriptions,
+          MonQueryKey.Subscription.RemainingBookings
+        ]
+      })
+    } catch (error) {
+      console.error("Error invalidating queries:", error)
+    }
   }
+
+  const handleModalClose = useCallback(() => {
+    setShowDialog(false)
+    setTimeout(safeNavigateBack, 0)
+  }, [safeNavigateBack])
 
   if (
     !transactionData ||
@@ -145,8 +165,6 @@ function TransactionPaymentScreen() {
   )
 
   const truncatedTransactionId = `#${transactionData.transactionId.substring(0, 8)}...`
-
-  // console.log(transactionData)
 
   return (
     <>
@@ -236,10 +254,7 @@ function TransactionPaymentScreen() {
         title="Thanh toán thành công"
         description={`Tự động quay lại sau ${countdown} giây`}
         showConfirm={false}
-        onClose={() => {
-          setShowDialog(false)
-          router.back()
-        }}
+        onClose={handleModalClose}
       />
     </>
   )
