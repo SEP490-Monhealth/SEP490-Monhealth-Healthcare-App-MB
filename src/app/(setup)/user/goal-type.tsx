@@ -1,5 +1,6 @@
 import React, { useEffect } from "react"
 
+import { Feather } from "@expo/vector-icons"
 import {
   Control,
   FieldValues,
@@ -53,30 +54,27 @@ function SetupGoalType({ control, setValue }: SetupGoalTypeProps) {
 
   return (
     <VStack gap={12}>
-      {DATA.GOALS.map((goal) => {
-        const Icon = goal.icon
-
-        return (
-          <Chip
-            key={goal.label}
-            size="lg"
-            border
-            borderWidth={2}
-            label={goal.label}
-            description={goal.description}
-            icon={
-              <Icon
-                size={28}
-                color={
-                  field.value === goal.value ? COLORS.primary : COLORS.accent
-                }
-              />
-            }
-            selected={field.value === goal.value}
-            onPress={() => handleSelectGoal(goal.value)}
-          />
-        )
-      })}
+      {DATA.GOALS.map((goal) => (
+        <Chip
+          key={goal.label}
+          size="lg"
+          border
+          borderWidth={2}
+          label={goal.label}
+          description={goal.description}
+          icon={
+            <Feather
+              name={goal.icon as keyof typeof Feather.glyphMap}
+              size={24}
+              color={
+                field.value === goal.value ? COLORS.primary : COLORS.accent
+              }
+            />
+          }
+          selected={field.value === goal.value}
+          onPress={() => handleSelectGoal(goal.value)}
+        />
+      ))}
     </VStack>
   )
 }

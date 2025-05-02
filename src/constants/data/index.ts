@@ -9,7 +9,6 @@ import {
   Man,
   Woman
 } from "iconsax-react-native"
-import { Scale, TrendingDown, TrendingUp } from "lucide-react-native"
 
 import { DishTypeEnum, MealTypeEnum } from "../enum/Food"
 import { GenderEnum } from "../enum/Gender"
@@ -102,19 +101,19 @@ export const DATA = {
       label: "Giảm cân",
       description: "Mục tiêu giảm cân và duy trì vóc dáng",
       value: GoalTypeEnum.WeightLoss,
-      icon: TrendingDown
+      icon: "trending-down"
     },
     {
       label: "Duy trì cân nặng",
       description: "Mục tiêu duy trì cân nặng hiện tại",
       value: GoalTypeEnum.Maintenance,
-      icon: Scale
+      icon: "activity"
     },
     {
       label: "Tăng cân",
       description: "Mục tiêu tăng cân và cải thiện cơ thể",
       value: GoalTypeEnum.WeightGain,
-      icon: TrendingUp
+      icon: "trending-up"
     }
     // {
     //   label: "Tăng cơ",
