@@ -9,7 +9,6 @@ import { userDetailSchema } from "./userSchema"
 const reportSchema = z.object({
   reportId: uuidSchema,
   bookingId: uuidSchema,
-
   userId: uuidSchema,
   consultantId: uuidSchema,
 

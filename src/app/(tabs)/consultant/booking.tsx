@@ -81,7 +81,7 @@ function BookingsScreen() {
           }
         >
           <Tabs defaultValue={activeTab} contentMarginTop={12}>
-            <TabsList center>
+            <TabsList scrollable>
               <TabsTrigger value="booked" onChange={handleTabChange}>
                 Đã đặt
               </TabsTrigger>

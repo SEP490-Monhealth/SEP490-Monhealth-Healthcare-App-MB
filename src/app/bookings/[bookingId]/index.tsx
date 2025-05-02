@@ -209,13 +209,10 @@ const BookingDetailsScreen = () => {
 
   const handleConfirmAction = () => {
     if (modalType === "cancel") {
-      // console.log("Cancel booking")
       router.push(`/bookings/${bookingId}/cancel`)
     } else if (modalType === "complete") {
-      // console.log("Complete booking")
       router.push(`/bookings/${bookingId}/complete`)
     } else if (modalType === "review") {
-      // console.log("Review booking")
       router.push(`/bookings/${bookingId}/review`)
     }
 
@@ -246,15 +243,14 @@ const BookingDetailsScreen = () => {
   const canReviewBooking = () => {
     return (
       userId === bookingData.userId &&
-      bookingData.status != BookingStatusEnum.Booked &&
-      bookingData.status != BookingStatusEnum.Cancelled
+      bookingData.status === BookingStatusEnum.Completed
     )
   }
 
   const canReportBooking = () => {
     return (
       userId === bookingData.userId &&
-      bookingData.status != BookingStatusEnum.Booked
+      bookingData.status !== BookingStatusEnum.Booked
     )
   }
 
@@ -265,18 +261,18 @@ const BookingDetailsScreen = () => {
           back
           label="Lịch hẹn"
           action={
-            canReportBooking()
+            bookingData.status !== BookingStatusEnum.Booked
               ? {
-                  icon: <Flag size={22} color={COLORS.primary} />,
-                  href:
-                    bookingData.status === BookingStatusEnum.Reported
+                  icon: (
+                    <Flag variant="Bold" size={20} color={COLORS.primary} />
+                  ),
+                  href: canReportBooking()
+                    ? bookingData.status === BookingStatusEnum.Reported
                       ? `/bookings/${bookingId}/report`
                       : `/bookings/${bookingId}/report/create`
+                    : `/bookings/${bookingId}/report`
                 }
-              : {
-                  icon: <Flag size={22} color={COLORS.primary} />,
-                  href: `/bookings/${bookingId}/report`
-                }
+              : undefined
           }
         />
 

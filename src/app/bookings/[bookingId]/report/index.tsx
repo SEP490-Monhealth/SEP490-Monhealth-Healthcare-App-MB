@@ -80,8 +80,8 @@ function ReportDetailsScreen() {
     <Container>
       <Header back label="Báo cáo" />
 
-      <ScrollArea>
-        <Content className="pt-2">
+      <Content className="mt-2">
+        <ScrollArea>
           <HStack className="justify-between">
             <Text className="font-tbold text-xl text-primary">
               Trạng thái báo cáo
@@ -189,8 +189,8 @@ function ReportDetailsScreen() {
               ))}
             </View>
           </View>
-        </Content>
-      </ScrollArea>
+        </ScrollArea>
+      </Content>
     </Container>
   )
 }
