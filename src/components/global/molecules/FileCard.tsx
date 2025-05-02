@@ -2,8 +2,8 @@ import React from "react"
 
 import { Text, TouchableOpacity, View } from "react-native"
 
+import { Feather } from "@expo/vector-icons"
 import { DocumentText } from "iconsax-react-native"
-import { ChevronRight } from "lucide-react-native"
 
 import { COLORS } from "@/constants/color"
 
@@ -42,7 +42,7 @@ export const FileCard = ({ fileUrl, onPress }: FileCardProps) => {
         <Text className="font-tmedium text-base text-primary">{fileName}</Text>
       </View>
 
-      <ChevronRight size={20} color={COLORS.primary} />
+      <Feather name="chevron-right" size={20} color={COLORS.primary} />
     </Card>
   )
 }

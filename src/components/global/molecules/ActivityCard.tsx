@@ -2,7 +2,7 @@ import React from "react"
 
 import { Image, Text, TouchableOpacity } from "react-native"
 
-import { ChevronRight } from "lucide-react-native"
+import { Feather } from "@expo/vector-icons"
 
 import { COLORS } from "@/constants/color"
 
@@ -61,7 +61,7 @@ export const ActivityCard = ({
         </HStack>
 
         {isDefault ? (
-          <ChevronRight size={20} color={COLORS.primary} />
+          <Feather name="chevron-right" size={20} color={COLORS.primary} />
         ) : (
           <Checkbox checked={isCompleted} onCheckChange={onCheckboxChange} />
         )}

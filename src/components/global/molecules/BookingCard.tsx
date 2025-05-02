@@ -2,8 +2,8 @@ import React from "react"
 
 import { Linking, Text, View } from "react-native"
 
+import { Feather } from "@expo/vector-icons"
 import { Calendar2, Timer1 } from "iconsax-react-native"
-import { Star } from "lucide-react-native"
 
 import { COLORS } from "@/constants/color"
 import {
@@ -124,7 +124,8 @@ export const BookingCard = ({
 
                   if (rating >= starValue) {
                     return (
-                      <Star
+                      <Feather
+                        name="star"
                         key={index}
                         size={14}
                         fill={COLORS.PRIMARY.lemon}

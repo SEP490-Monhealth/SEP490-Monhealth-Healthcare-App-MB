@@ -9,7 +9,7 @@ import {
   View
 } from "react-native"
 
-import { X } from "lucide-react-native"
+import { Feather } from "@expo/vector-icons"
 
 import { ErrorText } from "./Typography"
 
@@ -143,7 +143,7 @@ export const Input: React.FC<InputProps> = ({
             className="flex items-center justify-center"
           >
             <View className="z-10 px-2 py-4">
-              <X size={12} color="#cbd5e1" />
+              <Feather name="x" size={12} color="#cbd5e1" />
             </View>
             <View className="absolute rounded-full bg-muted p-3" />
           </TouchableOpacity>

@@ -4,7 +4,7 @@ import { Text, TouchableOpacity, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
-import { ChevronRight } from "lucide-react-native"
+import { Feather } from "@expo/vector-icons"
 
 import { COLORS } from "@/constants/color"
 
@@ -58,7 +58,10 @@ export const ListItem = ({
       {endIcon ? (
         <View>{endIcon}</View>
       ) : (
-        !action && more && <ChevronRight size={20} color={COLORS.secondary} />
+        !action &&
+        more && (
+          <Feather name="chevron-right" size={20} color={COLORS.secondary} />
+        )
       )}
     </TouchableOpacity>
   )

@@ -3,8 +3,8 @@ import React from "react"
 import { Text, TouchableOpacity, View } from "react-native"
 import { SvgUri } from "react-native-svg"
 
+import { Feather } from "@expo/vector-icons"
 import { Add } from "iconsax-react-native"
-import { Check } from "lucide-react-native"
 
 import { COLORS } from "@/constants/color"
 
@@ -59,7 +59,12 @@ export const BankCard = ({
             size="sm"
             icon={
               isSelected ? (
-                <Check size={16} strokeWidth={2.5} color={COLORS.primary} />
+                <Feather
+                  name="check"
+                  size={16}
+                  strokeWidth={2.5}
+                  color={COLORS.primary}
+                />
               ) : (
                 <Add size={24} color={COLORS.primary} />
               )

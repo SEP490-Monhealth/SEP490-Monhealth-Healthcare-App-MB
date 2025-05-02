@@ -4,7 +4,7 @@ import { FlatList, Text, TouchableOpacity, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
-import { ChevronLeft, ChevronRight } from "lucide-react-native"
+import { Feather } from "@expo/vector-icons"
 
 import { COLORS } from "@/constants/color"
 
@@ -128,14 +128,14 @@ export const Calendar = ({ initialDate }: CalendarProps) => {
             className="p-2"
             onPress={handlePrevMonth}
           >
-            <ChevronLeft size={24} color={COLORS.primary} />
+            <Feather name="chevron-left" size={24} color={COLORS.primary} />
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.8}
             className="p-2"
             onPress={handleNextMonth}
           >
-            <ChevronRight size={24} color={COLORS.primary} />
+            <Feather name="chevron-right" size={24} color={COLORS.primary} />
           </TouchableOpacity>
         </HStack>
       </HStack>

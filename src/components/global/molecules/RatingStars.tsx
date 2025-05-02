@@ -2,7 +2,7 @@ import React from "react"
 
 import { Text } from "react-native"
 
-import { Star, StarHalf } from "lucide-react-native"
+import { Fontisto } from "@expo/vector-icons"
 
 import { COLORS } from "@/constants/color"
 
@@ -31,8 +31,9 @@ export const RatingStars = ({
 
               if (rating >= starValue) {
                 return (
-                  <Star
+                  <Fontisto
                     key={index}
+                    name="star"
                     size={14}
                     fill={COLORS.PRIMARY.lemon}
                     color={COLORS.PRIMARY.lemon}
@@ -40,8 +41,9 @@ export const RatingStars = ({
                 )
               } else if (rating >= starValue - 0.5) {
                 return (
-                  <StarHalf
+                  <Fontisto
                     key={index}
+                    name="star-half"
                     size={14}
                     fill={COLORS.PRIMARY.lemon}
                     color={COLORS.PRIMARY.lemon}

@@ -12,8 +12,8 @@ import {
 import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
+import { Feather } from "@expo/vector-icons"
 import { Calendar, Clock, Zoom } from "iconsax-react-native"
-import { Star } from "lucide-react-native"
 
 import {
   Badge,
@@ -24,7 +24,6 @@ import {
   HStack,
   Input,
   Modal,
-  ScrollArea,
   VStack
 } from "@/components/global/atoms"
 import { BookingItem, RatingStars } from "@/components/global/molecules"
@@ -55,18 +54,18 @@ const formatTime = (time: string) => {
 const BookingDetailsScreen = () => {
   const router = useRouter()
   const { bookingId } = useLocalSearchParams<{ bookingId: string }>()
+
   const { user } = useAuth()
   const userId = user?.userId
+
   const today = new Date()
 
-  // State
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
   const [modalType, setModalType] = useState<
     "cancel" | "complete" | "review" | "report" | null
   >(null)
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
 
-  // Data fetching
   const { data: bookingData, refetch } = useGetBookingById(bookingId)
   const { data: consultantData } = useGetConsultantById(
     bookingData?.consultantId
@@ -76,7 +75,6 @@ const BookingDetailsScreen = () => {
     bookingData?.consultantId
   )
 
-  // Loading state
   if (!bookingData || !consultantData) {
     return <LoadingScreen />
   }
@@ -84,7 +82,6 @@ const BookingDetailsScreen = () => {
   const bookingsCount = bookingsData?.length || 0
   const bookingDate = new Date(bookingData.date)
 
-  // Check if booking has ended
   const isBookingEnded = () => {
     if (
       bookingDate.getDate() < today.getDate() ||
@@ -112,7 +109,6 @@ const BookingDetailsScreen = () => {
     return false
   }
 
-  // Booking details
   const bookingItems = [
     {
       icon: <Calendar variant="Bold" size={20} color={COLORS.primary} />,
@@ -133,7 +129,6 @@ const BookingDetailsScreen = () => {
     }
   ]
 
-  // Modal configuration
   const getModalConfig = () => {
     switch (modalType) {
       case "cancel":
@@ -149,13 +144,12 @@ const BookingDetailsScreen = () => {
       case "review":
         return {
           title: "Đánh giá lịch hẹn",
-          description: "Hãy đánh giá trải nghiệm của bạn cho lịch hẹn này"
+          description: "Bạn có chắc chắn muốn đánh giá lịch hẹn này không?"
         }
       case "report":
         return {
           title: "Báo cáo lịch hẹn",
-          description:
-            "Vui lòng cho chúng tôi biết lý do bạn báo cáo lịch hẹn này"
+          description: "Bạn có chắc chắn muốn báo cáo lịch hẹn này không?"
         }
       default:
         return {
@@ -167,7 +161,6 @@ const BookingDetailsScreen = () => {
 
   const modalConfig = getModalConfig()
 
-  // Render review stars
   const renderReviewStars = () => {
     const rating = bookingData.review?.rating
 
@@ -179,8 +172,9 @@ const BookingDetailsScreen = () => {
 
             if (rating >= starValue) {
               return (
-                <Star
+                <Feather
                   key={index}
+                  name="star"
                   size={14}
                   fill={COLORS.PRIMARY.lemon}
                   color={COLORS.PRIMARY.lemon}
@@ -194,11 +188,9 @@ const BookingDetailsScreen = () => {
     )
   }
 
-  // Booking status
   const { label: bookingStatusLabel, color: bookingStatusColor } =
     getBookingStatusMeta(bookingData.status)
 
-  // Event handlers
   const handleCancel = () => {
     setModalType("cancel")
     setIsModalVisible(true)
@@ -221,17 +213,17 @@ const BookingDetailsScreen = () => {
 
   const handleConfirmAction = () => {
     if (modalType === "cancel") {
-      console.log("Cancel booking")
-      // router.push(`/bookings/${bookingId}/cancel`)
+      // console.log("Cancel booking")
+      router.push(`/bookings/${bookingId}/cancel`)
     } else if (modalType === "complete") {
-      console.log("Complete booking")
-      // router.push(`/bookings/${bookingId}/complete`)
+      // console.log("Complete booking")
+      router.push(`/bookings/${bookingId}/complete`)
     } else if (modalType === "review") {
-      console.log("Review booking")
-      // router.push(`/bookings/${bookingId}/review`)
+      // console.log("Review booking")
+      router.push(`/bookings/${bookingId}/review`)
     } else if (modalType === "report") {
-      console.log("Report booking")
-      // router.push(`/bookings/${bookingId}/report`)
+      // console.log("Report booking")
+      router.push(`/bookings/${bookingId}/report`)
     }
 
     setIsModalVisible(false)
@@ -244,26 +236,23 @@ const BookingDetailsScreen = () => {
     setIsRefreshing(false)
   }
 
-  // Check if user can perform actions based on booking status and time
   const canCancelBooking = () => {
     return (
       userId === bookingData.userId &&
-      bookingData.status === BookingStatusEnum.Booked &&
-      !isBookingEnded()
+      bookingData.status === BookingStatusEnum.Booked
     )
   }
 
   const canCompleteBooking = () => {
     return (
       userId !== bookingData.userId &&
-      bookingData.status === BookingStatusEnum.Booked &&
-      isBookingEnded()
+      bookingData.status === BookingStatusEnum.Booked
     )
   }
 
   const canReviewOrReportBooking = () => {
     return (
-      userId !== bookingData.userId &&
+      userId === bookingData.userId &&
       bookingData.status === BookingStatusEnum.Completed
     )
   }
@@ -473,33 +462,28 @@ const BookingDetailsScreen = () => {
                 )}
 
               {canCompleteBooking() && (
-                <Button onPress={handleComplete} className="flex-1">
-                  Hoàn thành
+                <Button
+                  disabled={
+                    isBookingEnded() ||
+                    bookingData.status === BookingStatusEnum.Completed
+                  }
+                  onPress={handleComplete}
+                  className="flex-1"
+                >
+                  {bookingData.status === BookingStatusEnum.Completed
+                    ? "Đã hoàn thành"
+                    : "Hoàn thành"}
                 </Button>
               )}
 
               {canReviewOrReportBooking() && (
-                <HStack gap={12}>
-                  <Button
-                    disabled={
-                      bookingData.status ===
-                      (BookingStatusEnum.Reported as BookingStatusEnum)
-                    }
-                    variant="danger"
-                    onPress={handleReport}
-                    className="flex-1"
-                  >
-                    Báo cáo
-                  </Button>
-
-                  <Button
-                    onPress={handleReview}
-                    className="flex-1"
-                    disabled={bookingData.isReviewed}
-                  >
-                    {bookingData.isReviewed ? "Đã đánh giá" : "Đánh giá"}
-                  </Button>
-                </HStack>
+                <Button
+                  onPress={handleReview}
+                  className="flex-1"
+                  disabled={bookingData.isReviewed}
+                >
+                  {bookingData.isReviewed ? "Đã đánh giá" : "Đánh giá"}
+                </Button>
               )}
             </View>
           </Content>

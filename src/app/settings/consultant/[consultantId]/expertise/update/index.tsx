@@ -14,12 +14,12 @@ import {
 import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
+import { Feather } from "@expo/vector-icons"
 import { zodResolver } from "@hookform/resolvers/zod"
 import DateTimePicker, {
   DateTimePickerEvent
 } from "@react-native-community/datetimepicker"
 import { GalleryAdd } from "iconsax-react-native"
-import { X } from "lucide-react-native"
 import { Controller, useForm } from "react-hook-form"
 
 import {
@@ -330,7 +330,11 @@ function ExpertiseUpdateScreen() {
                             }
                             className="absolute right-2 top-2 rounded-full bg-border p-1"
                           >
-                            <X size={14} color={COLORS.primary} />
+                            <Feather
+                              name="x"
+                              size={14}
+                              color={COLORS.primary}
+                            />
                           </TouchableOpacity>
                         )}
                       </View>

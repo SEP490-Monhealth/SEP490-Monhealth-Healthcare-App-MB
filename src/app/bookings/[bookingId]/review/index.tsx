@@ -14,8 +14,8 @@ import {
 import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
+import { Feather } from "@expo/vector-icons"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Star } from "lucide-react-native"
 import { Controller, useForm } from "react-hook-form"
 
 import {
@@ -181,7 +181,8 @@ function BookingReviewScreen() {
                             activeOpacity={0.8}
                             onPress={() => handleRating(star)}
                           >
-                            <Star
+                            <Feather
+                              name="star"
                               size={24}
                               fill={
                                 star <= ratingNumber

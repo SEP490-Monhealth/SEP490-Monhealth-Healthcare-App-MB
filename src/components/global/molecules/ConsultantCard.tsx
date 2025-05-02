@@ -2,7 +2,7 @@ import React from "react"
 
 import { Image, Text, TouchableOpacity, View } from "react-native"
 
-import { ChevronRight } from "lucide-react-native"
+import { Feather } from "@expo/vector-icons"
 
 import { Card, CardHeader, HStack, VStack } from "@/components/global/atoms"
 
@@ -66,7 +66,7 @@ export const ConsultantCard = ({
         </VStack>
       </HStack>
 
-      <ChevronRight size={20} color={COLORS.primary} />
+      <Feather name="chevron-right" size={20} color={COLORS.primary} />
     </Card>
   )
 }

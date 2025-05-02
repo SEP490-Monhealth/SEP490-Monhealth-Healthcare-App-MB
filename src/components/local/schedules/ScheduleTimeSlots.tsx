@@ -2,7 +2,7 @@ import { memo } from "react"
 
 import { Text, TouchableOpacity, View } from "react-native"
 
-import { X } from "lucide-react-native"
+import { Feather } from "@expo/vector-icons"
 
 import { HStack, VStack } from "@/components/global/atoms"
 
@@ -37,7 +37,12 @@ const TimeSlotButton = ({ timeSlot, onDeletePress }: TimeSlotButtonProps) => {
           {formatTime(timeSlot.startTime)} - {formatTime(timeSlot.endTime)}
         </Text>
 
-        <X size="18" color={COLORS.accent} onPress={onDeletePress} />
+        <Feather
+          name="x"
+          size={18}
+          color={COLORS.accent}
+          onPress={onDeletePress}
+        />
       </HStack>
     </TouchableOpacity>
   )

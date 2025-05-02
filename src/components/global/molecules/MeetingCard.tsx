@@ -2,7 +2,7 @@ import React from "react"
 
 import { Image, Text, TouchableOpacity, View } from "react-native"
 
-import { ChevronRight } from "lucide-react-native"
+import { Feather } from "@expo/vector-icons"
 
 import { COLORS } from "@/constants/color"
 
@@ -39,7 +39,7 @@ export const MeetingCard = ({ meetingUrl, onPress }: MeetingCardProps) => {
         </Text>
       </View>
 
-      <ChevronRight size={20} color={COLORS.primary} />
+      <Feather name="chevron-right" size={20} color={COLORS.primary} />
     </TouchableOpacity>
   )
 }

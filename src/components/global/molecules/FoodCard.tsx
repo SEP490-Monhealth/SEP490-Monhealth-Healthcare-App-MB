@@ -2,7 +2,7 @@ import React from "react"
 
 import { Text } from "react-native"
 
-import { Check, MoreHorizontal, Plus } from "lucide-react-native"
+import { Feather } from "@expo/vector-icons"
 
 import { COLORS } from "@/constants/color"
 
@@ -86,9 +86,19 @@ export const FoodCard = ({
             size="sm"
             icon={
               isAdded ? (
-                <Check size={16} strokeWidth={2.5} color={COLORS.primary} />
+                <Feather
+                  name="check"
+                  size={16}
+                  strokeWidth={2.5}
+                  color={COLORS.primary}
+                />
               ) : (
-                <Plus size={18} strokeWidth={2.3} color={COLORS.secondary} />
+                <Feather
+                  name="plus"
+                  size={18}
+                  strokeWidth={2.3}
+                  color={COLORS.secondary}
+                />
               )
             }
             onPress={onAddPress}
@@ -104,7 +114,13 @@ export const FoodCard = ({
         ) : variant === "more" ? (
           <IconButton
             size="sm"
-            icon={<MoreHorizontal size={20} color={COLORS.primary} />}
+            icon={
+              <Feather
+                name="more-horizontal"
+                size={20}
+                color={COLORS.primary}
+              />
+            }
             onPress={onMorePress}
           />
         ) : null}

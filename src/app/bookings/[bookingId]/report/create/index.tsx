@@ -14,9 +14,9 @@ import * as ImagePicker from "expo-image-picker"
 import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { storage } from "@/configs/firebase"
+import { Feather } from "@expo/vector-icons"
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
 import { Camera, Gallery, GalleryAdd } from "iconsax-react-native"
-import { X } from "lucide-react-native"
 
 import {
   Button,
@@ -294,7 +294,7 @@ const ReportCreateScreen = () => {
               className="absolute right-2 top-2 rounded-full bg-border p-1"
               onPress={() => removeImage(index)}
             >
-              <X size={14} color={COLORS.primary} />
+              <Feather name="x" size={14} color={COLORS.primary} />
             </TouchableOpacity>
           </View>
         ))}

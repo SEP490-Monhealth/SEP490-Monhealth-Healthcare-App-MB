@@ -13,9 +13,9 @@ import { Swipeable } from "react-native-gesture-handler"
 import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingOverlay, LoadingScreen } from "@/app/loading"
+import { Feather } from "@expo/vector-icons"
 import { useIsFetching, useIsMutating } from "@tanstack/react-query"
 import { Add, Minus, Trash } from "iconsax-react-native"
-import { MoreHorizontal } from "lucide-react-native"
 
 import {
   Container,
@@ -92,7 +92,7 @@ const RenderRightActions = React.memo(({ onPress }: any) => {
       onPress={onPress}
       className="h-full w-20 items-center justify-center rounded-2xl border border-border bg-primary"
     >
-      <MoreHorizontal size={24} color="white" />
+      <Feather name="more-horizontal" size={24} color="white" />
     </TouchableOpacity>
   )
 })

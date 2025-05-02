@@ -2,7 +2,7 @@ import React from "react"
 
 import { Image, Text, TouchableOpacity, View } from "react-native"
 
-import { ChevronRight } from "lucide-react-native"
+import { Feather } from "@expo/vector-icons"
 
 import { COLORS } from "@/constants/color"
 import { MealTypeEnum } from "@/constants/enum/Food"
@@ -70,7 +70,9 @@ export const MealCard = ({
         </Text>
       </View>
 
-      {!showProgress && <ChevronRight size={20} color={COLORS.primary} />}
+      {!showProgress && (
+        <Feather name="chevron-right" size={20} color={COLORS.primary} />
+      )}
     </Card>
   )
 }

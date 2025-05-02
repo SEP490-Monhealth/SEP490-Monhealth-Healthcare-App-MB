@@ -90,7 +90,7 @@ function BankInformation({
             <Input
               value={value}
               label="Số tài khoản"
-              defaultValue="VD: 0123456789"
+              placeholder="VD: 0123456789"
               onChangeText={onChange}
               canClearText
               errorMessage={errors.number?.message}

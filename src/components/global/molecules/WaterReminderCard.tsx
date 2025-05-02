@@ -2,7 +2,7 @@ import React from "react"
 
 import { Image, Text, TouchableOpacity } from "react-native"
 
-import { MoreHorizontal } from "lucide-react-native"
+import { Feather } from "@expo/vector-icons"
 
 import { COLORS } from "@/constants/color"
 
@@ -89,7 +89,13 @@ export const WaterReminderCard = ({
         ) : (
           <IconButton
             size="sm"
-            icon={<MoreHorizontal size={20} color={COLORS.primary} />}
+            icon={
+              <Feather
+                name="more-horizontal"
+                size={20}
+                color={COLORS.primary}
+              />
+            }
             onPress={onMorePress}
           />
         )}

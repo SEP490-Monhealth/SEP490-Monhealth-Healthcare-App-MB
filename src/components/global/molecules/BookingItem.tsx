@@ -2,7 +2,7 @@ import React from "react"
 
 import { Text, TouchableOpacity, View } from "react-native"
 
-import { ChevronRight } from "lucide-react-native"
+import { Feather } from "@expo/vector-icons"
 
 import { HStack } from "@/components/global/atoms"
 
@@ -32,7 +32,9 @@ export const BookingItem = ({
         <Text className="font-tmedium text-base text-primary">{value}</Text>
       </View>
 
-      {showMore && <ChevronRight size={20} color={COLORS.primary} />}
+      {showMore && (
+        <Feather name="chevron-right" size={20} color={COLORS.primary} />
+      )}
     </HStack>
   </TouchableOpacity>
 )

@@ -3,7 +3,7 @@ import React from "react"
 import { Text } from "react-native"
 import { View } from "react-native"
 
-import { ChevronRight } from "lucide-react-native"
+import { Feather } from "@expo/vector-icons"
 
 import { COLORS } from "@/constants/color"
 
@@ -42,7 +42,7 @@ export const ExerciseCard = ({
           </Text>
         </View>
 
-        <ChevronRight size={20} color={COLORS.primary} />
+        <Feather name="chevron-right" size={20} color={COLORS.primary} />
       </HStack>
     </Card>
   )

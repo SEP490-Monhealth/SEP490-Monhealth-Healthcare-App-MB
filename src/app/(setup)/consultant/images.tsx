@@ -8,8 +8,8 @@ import {
   View
 } from "react-native"
 
+import { Feather } from "@expo/vector-icons"
 import { Gallery } from "iconsax-react-native"
-import { X } from "lucide-react-native"
 
 import { Card, ErrorText, VStack } from "@/components/global/atoms"
 
@@ -88,7 +88,7 @@ function SetupImage({ setValue, errors, openUploadSheet }: SetupImageProps) {
                   }
                   className="absolute right-2 top-2 rounded-full bg-border p-1"
                 >
-                  <X size={14} color={COLORS.primary} />
+                  <Feather name="x" size={14} color={COLORS.primary} />
                 </TouchableOpacity>
               )}
             </View>

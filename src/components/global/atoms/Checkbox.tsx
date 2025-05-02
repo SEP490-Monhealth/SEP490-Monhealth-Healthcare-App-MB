@@ -2,7 +2,7 @@ import React from "react"
 
 import { TouchableOpacity } from "react-native"
 
-import { Circle, CircleCheck } from "lucide-react-native"
+import { Feather } from "@expo/vector-icons"
 
 interface CheckboxProps {
   checked?: boolean
@@ -16,9 +16,14 @@ export const Checkbox = ({ checked = false, onCheckChange }: CheckboxProps) => {
       onPress={() => onCheckChange?.(!checked)}
     >
       {checked ? (
-        <CircleCheck size={20} strokeWidth={2.5} color="#16a34a" />
+        <Feather
+          name="check-circle"
+          size={20}
+          strokeWidth={2.5}
+          color="#16a34a"
+        />
       ) : (
-        <Circle size={20} strokeWidth={2.5} color="#16a34a" />
+        <Feather name="circle" size={20} strokeWidth={2.5} color="#16a34a" />
       )}
     </TouchableOpacity>
   )
