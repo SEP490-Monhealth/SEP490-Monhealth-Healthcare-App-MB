@@ -32,12 +32,24 @@ configureReanimatedLogger({
   level: ReanimatedLogLevel.warn
 })
 
+// Notifications.setNotificationHandler({
+//   handleNotification: async () => ({
+//     shouldShowAlert: true,
+//     shouldPlaySound: true,
+//     shouldSetBadge: true
+//   })
+// })
+
 Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: true
-  })
+  handleNotification: async () => {
+    return {
+      shouldShowAlert: true,
+      shouldShowBanner: true,
+      shouldShowList: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true
+    }
+  }
 })
 
 function AppLayout() {

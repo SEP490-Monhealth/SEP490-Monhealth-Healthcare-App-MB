@@ -42,7 +42,8 @@ function BookingsScreen() {
   const tabStatusMap: Record<string, BookingStatusEnum> = {
     booked: BookingStatusEnum.Booked,
     completed: BookingStatusEnum.Completed,
-    cancelled: BookingStatusEnum.Cancelled
+    cancelled: BookingStatusEnum.Cancelled,
+    reported: BookingStatusEnum.Reported
   }
 
   const filteredBookingsData = bookingsData?.bookings?.filter(
@@ -91,6 +92,10 @@ function BookingsScreen() {
 
               <TabsTrigger value="cancelled" onChange={handleTabChange}>
                 Đã hủy
+              </TabsTrigger>
+
+              <TabsTrigger value="reported" onChange={handleTabChange}>
+                Báo cáo
               </TabsTrigger>
             </TabsList>
 

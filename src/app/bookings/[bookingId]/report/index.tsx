@@ -15,6 +15,7 @@ import {
   ScrollArea,
   VStack
 } from "@/components/global/atoms"
+import { ErrorDisplay } from "@/components/global/molecules"
 import { Header, Section } from "@/components/global/organisms"
 
 import { getReportStatusMeta } from "@/constants/enum/Report"
@@ -47,19 +48,33 @@ function ReportDetailsScreen() {
 
   // console.log(JSON.stringify(currentReport, null, 2))
 
-  if (
-    !bookingData ||
-    !reportData ||
-    reportData.length === 0 ||
-    !consultantData
-  ) {
+  if (!bookingData || !reportData || !consultantData) {
     return <LoadingScreen />
+  }
+
+  if (reportData.length === 0) {
+    return (
+      <Container>
+        <Header back label="Báo cáo" />
+
+        <ErrorDisplay
+          imageSource={require("../../../../../public/images/monhealth-no-data-image.png")}
+          title="Không có dữ liệu"
+          description="Không tìm thấy báo cáo nào ở đây"
+          marginTop={24}
+        />
+      </Container>
+    )
   }
 
   const currentReport = reportData[0]
 
   const { label: reportStatusLabel, color: reportStatusColor } =
     getReportStatusMeta(currentReport?.status)
+
+  const canViewConsultant = () => {
+    return userId === currentReport.userId
+  }
 
   return (
     <Container>
@@ -88,7 +103,6 @@ function ReportDetailsScreen() {
                   : "Người đặt lịch"
               }
             />
-
             {userId === bookingData.userId ? (
               <HStack center gap={20}>
                 {bookingData.consultant.avatarUrl ? (
