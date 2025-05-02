@@ -4,8 +4,8 @@ import { z } from "zod"
 export enum BookingStatusEnum {
   Booked,
   Completed,
-  Reported,
-  Cancelled
+  Cancelled,
+  Reported
 }
 
 export const BookingStatusSchemaEnum = z.nativeEnum(BookingStatusEnum)
@@ -19,12 +19,12 @@ export const bookingStatusMap: Record<BookingStatusEnum, EnumMeta> = {
     label: "Đã hoàn thành",
     color: "#3b82f6"
   },
-  [BookingStatusEnum.Reported]: {
-    label: "Đã báo cáo",
-    color: "#ef4444"
-  },
   [BookingStatusEnum.Cancelled]: {
     label: "Đã hủy",
+    color: "#ef4444"
+  },
+  [BookingStatusEnum.Reported]: {
+    label: "Đã báo cáo",
     color: "#ef4444"
   }
 }

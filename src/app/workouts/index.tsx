@@ -45,8 +45,6 @@ function WorkoutsScreen() {
   const { user } = useAuth()
   const userSubscription = user?.subscription
 
-  console.log(userSubscription)
-
   const [workoutsData, setWorkoutsData] = useState<WorkoutType[]>([])
   const [page, setPage] = useState<number>(1)
   const [hasMore, setHasMore] = useState<boolean>(true)

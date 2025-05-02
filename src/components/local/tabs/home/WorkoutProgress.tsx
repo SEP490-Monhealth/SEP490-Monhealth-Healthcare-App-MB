@@ -31,11 +31,9 @@ export const WorkoutProgress = ({
       className="relative items-center justify-center"
       style={{ width: 240, height: 240 }}
     >
-      {workoutsData.map((workout, index) => {
+      {workoutsData.map((item, index) => {
         const progress =
-          workout.targetValue > 0
-            ? (workout.value / workout.targetValue) * 100
-            : 0
+          item.targetValue > 0 ? (item.value / item.targetValue) * 100 : 0
 
         return (
           <View key={index} className="absolute items-center">
@@ -43,7 +41,7 @@ export const WorkoutProgress = ({
               size={240 - index * 34}
               width={7}
               fill={progress}
-              tintColor={getWorkoutColor(workout.label)}
+              tintColor={getWorkoutColor(item.label)}
             />
           </View>
         )

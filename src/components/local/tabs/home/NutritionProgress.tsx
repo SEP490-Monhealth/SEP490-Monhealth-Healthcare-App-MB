@@ -31,11 +31,9 @@ export const NutritionProgress = ({
       className="relative items-center justify-center"
       style={{ width: 240, height: 240 }}
     >
-      {nutritionData.map((nutrient, index) => {
+      {nutritionData.map((item, index) => {
         const progress =
-          nutrient.targetValue > 0
-            ? (nutrient.value / nutrient.targetValue) * 100
-            : 0
+          item.targetValue > 0 ? (item.value / item.targetValue) * 100 : 0
 
         return (
           <View key={index} className="absolute items-center">
@@ -43,7 +41,7 @@ export const NutritionProgress = ({
               size={240 - index * 30}
               width={6}
               fill={progress}
-              tintColor={getNutritionColor(nutrient.label)}
+              tintColor={getNutritionColor(item.label)}
             />
           </View>
         )

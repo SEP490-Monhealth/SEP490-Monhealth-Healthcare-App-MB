@@ -4,6 +4,8 @@ import { TouchableOpacity } from "react-native"
 
 import { Feather } from "@expo/vector-icons"
 
+import { COLORS } from "@/constants/color"
+
 interface CheckboxProps {
   checked?: boolean
   onCheckChange?: (checked: boolean) => void
@@ -20,10 +22,15 @@ export const Checkbox = ({ checked = false, onCheckChange }: CheckboxProps) => {
           name="check-circle"
           size={20}
           strokeWidth={2.5}
-          color="#16a34a"
+          color={COLORS.primary}
         />
       ) : (
-        <Feather name="circle" size={20} strokeWidth={2.5} color="#16a34a" />
+        <Feather
+          name="circle"
+          size={20}
+          strokeWidth={2.5}
+          color={COLORS.primary}
+        />
       )}
     </TouchableOpacity>
   )

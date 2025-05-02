@@ -14,7 +14,7 @@ import { COLORS } from "@/constants/color"
 import { GoalTypeEnum, getGoalTypeMeta } from "@/constants/enum/Goal"
 
 import { useUpdateActivityStatus } from "@/hooks/useActivity"
-import { useGetGoalsByUserId, useGetWorkoutGoal } from "@/hooks/useGoal"
+import { useGetGoalsByUserId } from "@/hooks/useGoal"
 import { useGetDailyActivityByUserId } from "@/hooks/useTracker"
 
 import { formatDateY, toFixed } from "@/utils/formatters"
@@ -34,8 +34,8 @@ export const ActivityTab = ({ userId, onOverlayLoading }: ActivityTabProps) => {
 
   const { mutate: updateActivityStatus } = useUpdateActivityStatus()
 
-  const { data: dailyActivityData } = useGetDailyActivityByUserId(userId, today)
   const { data: goalData } = useGetGoalsByUserId(userId)
+  const { data: dailyActivityData } = useGetDailyActivityByUserId(userId, today)
 
   const currentGoalData = goalData?.[0]
 
@@ -108,7 +108,6 @@ export const ActivityTab = ({ userId, onOverlayLoading }: ActivityTabProps) => {
   ]
 
   const handleCompleteActivity = (activityId: string) => {
-    console.log(activityId)
     updateActivityStatus(activityId)
   }
 
