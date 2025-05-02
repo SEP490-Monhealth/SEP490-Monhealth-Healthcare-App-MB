@@ -81,6 +81,9 @@ export const useCreateReport = () => {
           MonQueryKey.Booking.Booking
         ]
       })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Booking.Booking]
+      })
     }
   })
 }
