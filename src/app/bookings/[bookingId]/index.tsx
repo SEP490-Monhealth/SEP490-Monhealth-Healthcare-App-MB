@@ -12,7 +12,7 @@ import {
 import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
-import { Calendar, Clock, Zoom } from "iconsax-react-native"
+import { Calendar, Clock, Flag, Zoom } from "iconsax-react-native"
 import { Star } from "lucide-react-native"
 
 import {
@@ -75,6 +75,8 @@ const BookingDetailsScreen = () => {
     bookingData?.userId,
     bookingData?.consultantId
   )
+
+  console.log("hehe", JSON.stringify(bookingData,null,2));
 
   // Loading state
   if (!bookingData || !consultantData) {
@@ -225,13 +227,10 @@ const BookingDetailsScreen = () => {
       // router.push(`/bookings/${bookingId}/cancel`)
     } else if (modalType === "complete") {
       console.log("Complete booking")
-      // router.push(`/bookings/${bookingId}/complete`)
+      router.push(`/bookings/${bookingId}/complete`)
     } else if (modalType === "review") {
       console.log("Review booking")
-      // router.push(`/bookings/${bookingId}/review`)
-    } else if (modalType === "report") {
-      console.log("Report booking")
-      // router.push(`/bookings/${bookingId}/report`)
+      router.push(`/bookings/${bookingId}/review`)
     }
 
     setIsModalVisible(false)
@@ -256,14 +255,14 @@ const BookingDetailsScreen = () => {
   const canCompleteBooking = () => {
     return (
       userId !== bookingData.userId &&
-      bookingData.status === BookingStatusEnum.Booked &&
-      isBookingEnded()
+      bookingData.status === BookingStatusEnum.Booked
+      //  isBookingEnded()
     )
   }
 
   const canReviewOrReportBooking = () => {
     return (
-      userId !== bookingData.userId &&
+      userId === bookingData.userId &&
       bookingData.status === BookingStatusEnum.Completed
     )
   }
@@ -271,7 +270,21 @@ const BookingDetailsScreen = () => {
   return (
     <>
       <Container>
-        <Header back label="Lịch hẹn" />
+        <Header
+          back
+          label="Lịch hẹn"
+          action={
+            canReviewOrReportBooking()
+              ? {
+                  icon: <Flag size={22} color={COLORS.primary} />,
+                  href:
+                    bookingData.status === BookingStatusEnum.Reported
+                      ? `/bookings/${bookingId}/report`
+                      : `/bookings/${bookingId}/report/create`
+                }
+              : undefined
+          }
+        />
 
         <ScrollView
           className="flex-1"
@@ -479,27 +492,13 @@ const BookingDetailsScreen = () => {
               )}
 
               {canReviewOrReportBooking() && (
-                <HStack gap={12}>
-                  <Button
-                    disabled={
-                      bookingData.status ===
-                      (BookingStatusEnum.Reported as BookingStatusEnum)
-                    }
-                    variant="danger"
-                    onPress={handleReport}
-                    className="flex-1"
-                  >
-                    Báo cáo
-                  </Button>
-
-                  <Button
-                    onPress={handleReview}
-                    className="flex-1"
-                    disabled={bookingData.isReviewed}
-                  >
-                    {bookingData.isReviewed ? "Đã đánh giá" : "Đánh giá"}
-                  </Button>
-                </HStack>
+                <Button
+                  onPress={handleReview}
+                  className="flex-1"
+                  disabled={bookingData.isReviewed}
+                >
+                  {bookingData.isReviewed ? "Đã đánh giá" : "Đánh giá"}
+                </Button>
               )}
             </View>
           </Content>
