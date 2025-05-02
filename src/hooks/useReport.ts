@@ -80,9 +80,7 @@ export const useCreateReport = () => {
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Booking.UserConsultantBookings]
       })
-      queryClient.invalidateQueries({
-        queryKey: [MonQueryKey.Booking.Booking]
-      })
+      queryClient.invalidateQueries({ queryKey: [MonQueryKey.Booking.Booking] })
     }
   })
 }

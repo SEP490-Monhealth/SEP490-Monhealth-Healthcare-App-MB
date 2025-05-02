@@ -10,6 +10,9 @@ const reportSchema = z.object({
   reportId: uuidSchema,
   bookingId: uuidSchema,
 
+  userId: uuidSchema,
+  consultantId: uuidSchema,
+
   member: userDetailSchema,
   consultant: userDetailSchema,
 

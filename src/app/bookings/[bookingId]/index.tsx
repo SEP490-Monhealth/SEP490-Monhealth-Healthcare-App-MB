@@ -12,8 +12,8 @@ import {
 import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
-import { Feather } from "@expo/vector-icons"
-import { Calendar, Clock, Zoom } from "iconsax-react-native"
+import { Fontisto } from "@expo/vector-icons"
+import { Calendar, Clock, Flag, Zoom } from "iconsax-react-native"
 
 import {
   Badge,
@@ -57,6 +57,7 @@ const BookingDetailsScreen = () => {
 
   const { user } = useAuth()
   const userId = user?.userId
+  const consultantId = user?.consultantId
 
   const today = new Date()
 
@@ -172,9 +173,9 @@ const BookingDetailsScreen = () => {
 
             if (rating >= starValue) {
               return (
-                <Feather
-                  key={index}
+                <Fontisto
                   name="star"
+                  key={index}
                   size={14}
                   fill={COLORS.PRIMARY.lemon}
                   color={COLORS.PRIMARY.lemon}
@@ -206,11 +207,6 @@ const BookingDetailsScreen = () => {
     setIsModalVisible(true)
   }
 
-  const handleReport = () => {
-    setModalType("report")
-    setIsModalVisible(true)
-  }
-
   const handleConfirmAction = () => {
     if (modalType === "cancel") {
       // console.log("Cancel booking")
@@ -221,9 +217,6 @@ const BookingDetailsScreen = () => {
     } else if (modalType === "review") {
       // console.log("Review booking")
       router.push(`/bookings/${bookingId}/review`)
-    } else if (modalType === "report") {
-      // console.log("Report booking")
-      router.push(`/bookings/${bookingId}/report`)
     }
 
     setIsModalVisible(false)
@@ -250,17 +243,42 @@ const BookingDetailsScreen = () => {
     )
   }
 
-  const canReviewOrReportBooking = () => {
+  const canReviewBooking = () => {
     return (
       userId === bookingData.userId &&
-      bookingData.status === BookingStatusEnum.Completed
+      bookingData.status != BookingStatusEnum.Booked &&
+      bookingData.status != BookingStatusEnum.Cancelled
+    )
+  }
+
+  const canReportBooking = () => {
+    return (
+      userId === bookingData.userId &&
+      bookingData.status != BookingStatusEnum.Booked
     )
   }
 
   return (
     <>
       <Container>
-        <Header back label="Lịch hẹn" />
+        <Header
+          back
+          label="Lịch hẹn"
+          action={
+            canReportBooking()
+              ? {
+                  icon: <Flag size={22} color={COLORS.primary} />,
+                  href:
+                    bookingData.status === BookingStatusEnum.Reported
+                      ? `/bookings/${bookingId}/report`
+                      : `/bookings/${bookingId}/report/create`
+                }
+              : {
+                  icon: <Flag size={22} color={COLORS.primary} />,
+                  href: `/bookings/${bookingId}/report`
+                }
+          }
+        />
 
         <ScrollView
           className="flex-1"
@@ -409,7 +427,7 @@ const BookingDetailsScreen = () => {
               <Section label="Hình ảnh" />
 
               <View className="flex-row flex-wrap gap-2">
-                {bookingData.status === BookingStatusEnum.Completed &&
+                {bookingData.status != BookingStatusEnum.Booked &&
                 bookingData.evidenceUrls &&
                 bookingData.evidenceUrls.length > 0 ? (
                   bookingData.evidenceUrls.map((uri, index) => (
@@ -476,7 +494,7 @@ const BookingDetailsScreen = () => {
                 </Button>
               )}
 
-              {canReviewOrReportBooking() && (
+              {canReviewBooking() && (
                 <Button
                   onPress={handleReview}
                   className="flex-1"
