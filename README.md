@@ -1,13 +1,13 @@
-# 🌱 MonHealth - Ứng dụng chăm sóc sức khỏe toàn diện
+# 🌱 Monhealth - Ứng dụng chăm sóc sức khỏe toàn diện
 
 <div align="center">
-  <img src="https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Monhealth%2Ftests%2F29.jpg?alt=media&token=b73e8c97-8545-4ed7-ace1-97b92de428e3" alt="MonHealth Home Meal Tab Screen" />
+  <img src="https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Monhealth%2Ftests%2F29.jpg?alt=media&token=b73e8c97-8545-4ed7-ace1-97b92de428e3" alt="Monhealth Home Meal Tab Screen" />
   <p><i>Theo dõi sức khỏe của bạn mọi lúc, mọi nơi</i></p>
 </div>
 
 ## 📱 Tổng quan
 
-**MonHealth** là ứng dụng di động hiện đại giúp người dùng quản lý sức khỏe toàn diện trong cuộc sống hàng ngày. Được phát triển bằng React Native và Expo, ứng dụng mang đến trải nghiệm mượt mà, nhanh chóng trên cả nền tảng iOS và Android.
+**Monhealth** là ứng dụng di động hiện đại giúp người dùng quản lý sức khỏe toàn diện trong cuộc sống hàng ngày. Được phát triển bằng React Native và Expo, ứng dụng mang đến trải nghiệm mượt mà, nhanh chóng trên cả nền tảng iOS và Android.
 
 ## ✨ Tính năng chính
 
@@ -199,5 +199,5 @@ Nếu bạn có bất kỳ câu hỏi hoặc đề xuất nào, vui lòng liên 
 ---
 
 <div align="center">
-  <p>© 2025 MonHealth. Mọi quyền được bảo lưu.</p>
+  <p>© 2025 Monhealth. Mọi quyền được bảo lưu.</p>
 </div>
