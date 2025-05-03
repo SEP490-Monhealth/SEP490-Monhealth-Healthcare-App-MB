@@ -30,25 +30,29 @@ function BookingsScreen() {
   const { user } = useAuth()
   const consultantId = user?.consultantId
 
+  const [activeTab, setActiveTab] = useState<string>("booked")
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
+
   const {
     data: bookingsData,
     isLoading,
     refetch
   } = useGetBookingsByConsultantId(consultantId, 1)
 
-  const [activeTab, setActiveTab] = useState<string>("booked")
-  const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
+  const tabStatusMap: Record<string, BookingStatusEnum | BookingStatusEnum[]> =
+    {
+      booked: BookingStatusEnum.Booked,
+      completed: [BookingStatusEnum.Completed, BookingStatusEnum.Reported],
+      cancelled: BookingStatusEnum.Cancelled
+    }
 
-  const tabStatusMap: Record<string, BookingStatusEnum> = {
-    booked: BookingStatusEnum.Booked,
-    completed: BookingStatusEnum.Completed,
-    cancelled: BookingStatusEnum.Cancelled,
-    reported: BookingStatusEnum.Reported
-  }
-
-  const filteredBookingsData = bookingsData?.bookings?.filter(
-    (booking) => booking.status === tabStatusMap[activeTab]
-  )
+  const filteredBookingsData = bookingsData?.bookings?.filter((booking) => {
+    const statusFilter = tabStatusMap[activeTab]
+    if (Array.isArray(statusFilter)) {
+      return statusFilter.includes(booking.status)
+    }
+    return booking.status === statusFilter
+  })
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab)
@@ -81,21 +85,17 @@ function BookingsScreen() {
           }
         >
           <Tabs defaultValue={activeTab} contentMarginTop={12}>
-            <TabsList scrollable>
+            <TabsList center>
               <TabsTrigger value="booked" onChange={handleTabChange}>
                 Đã đặt
               </TabsTrigger>
 
               <TabsTrigger value="completed" onChange={handleTabChange}>
-                Hoàn thành
+                Đã hoàn thành
               </TabsTrigger>
 
               <TabsTrigger value="cancelled" onChange={handleTabChange}>
                 Đã hủy
-              </TabsTrigger>
-
-              <TabsTrigger value="reported" onChange={handleTabChange}>
-                Báo cáo
               </TabsTrigger>
             </TabsList>
 

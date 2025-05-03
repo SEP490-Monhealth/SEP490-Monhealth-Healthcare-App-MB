@@ -8,7 +8,6 @@ const messageSchema = z.object({
   chatId: uuidSchema,
   senderId: uuidSchema,
 
-  senderName: userSchema.shape.fullName,
   avatarUrl: userSchema.shape.avatarUrl.optional(),
 
   content: z.string(),
