@@ -57,7 +57,6 @@ const BookingDetailsScreen = () => {
 
   const { user } = useAuth()
   const userId = user?.userId
-  const consultantId = user?.consultantId
 
   const today = new Date()
 
@@ -170,19 +169,15 @@ const BookingDetailsScreen = () => {
         {Array.from({ length: 5 })
           .map((_, index) => {
             const starValue = index + 1
-
-            if (rating >= starValue) {
-              return (
-                <Fontisto
-                  name="star"
-                  key={index}
-                  size={14}
-                  fill={COLORS.PRIMARY.lemon}
-                  color={COLORS.PRIMARY.lemon}
-                />
-              )
-            }
-            return null
+            return starValue <= rating ? (
+              <Fontisto
+                name="star"
+                key={index}
+                size={14}
+                fill={COLORS.PRIMARY.lemon}
+                color={COLORS.PRIMARY.lemon}
+              />
+            ) : null
           })
           .filter(Boolean)}
       </HStack>
@@ -243,7 +238,8 @@ const BookingDetailsScreen = () => {
   const canReviewBooking = () => {
     return (
       userId === bookingData.userId &&
-      bookingData.status === BookingStatusEnum.Completed
+      bookingData.status === BookingStatusEnum.Completed &&
+      !bookingData.isReviewed
     )
   }
 
@@ -383,7 +379,7 @@ const BookingDetailsScreen = () => {
                       icon={item.icon}
                       label={item.label}
                       value={item.value}
-                      showMore={isLast}
+                      showMore={isLast && Boolean(bookingData.meetingUrl)}
                       onPress={
                         isLast && bookingData.meetingUrl
                           ? () => Linking.openURL(bookingData.meetingUrl!)
@@ -400,7 +396,7 @@ const BookingDetailsScreen = () => {
 
               <Input
                 disabled
-                value={bookingData.notes}
+                value={bookingData.notes || ""}
                 isMultiline
                 numberOfLines={6}
               />
@@ -423,7 +419,7 @@ const BookingDetailsScreen = () => {
               <Section label="Hình ảnh" />
 
               <View className="flex-row flex-wrap gap-2">
-                {bookingData.status != BookingStatusEnum.Booked &&
+                {bookingData.status !== BookingStatusEnum.Booked &&
                 bookingData.evidenceUrls &&
                 bookingData.evidenceUrls.length > 0 ? (
                   bookingData.evidenceUrls.map((uri, index) => (
@@ -459,30 +455,20 @@ const BookingDetailsScreen = () => {
 
             <View className="mt-8">
               {canCancelBooking() && (
-                <Button
-                  variant="danger"
-                  onPress={handleCancel}
-                  className="flex-1"
-                >
-                  Hủy
+                <Button variant="danger" onPress={handleCancel}>
+                  {bookingData.status === BookingStatusEnum.Cancelled
+                    ? "Đã hủy"
+                    : "Hủy"}
                 </Button>
               )}
-
-              {userId === bookingData.userId &&
-                bookingData.status === BookingStatusEnum.Cancelled && (
-                  <Button disabled variant="danger" className="flex-1">
-                    Đã hủy
-                  </Button>
-                )}
 
               {canCompleteBooking() && (
                 <Button
                   disabled={
-                    isBookingEnded() ||
+                    !isBookingEnded() ||
                     bookingData.status === BookingStatusEnum.Completed
                   }
                   onPress={handleComplete}
-                  className="flex-1"
                 >
                   {bookingData.status === BookingStatusEnum.Completed
                     ? "Đã hoàn thành"
@@ -493,7 +479,6 @@ const BookingDetailsScreen = () => {
               {canReviewBooking() && (
                 <Button
                   onPress={handleReview}
-                  className="flex-1"
                   disabled={bookingData.isReviewed}
                 >
                   {bookingData.isReviewed ? "Đã đánh giá" : "Đánh giá"}
