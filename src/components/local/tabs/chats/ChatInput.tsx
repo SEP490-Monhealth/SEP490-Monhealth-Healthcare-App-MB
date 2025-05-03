@@ -32,15 +32,11 @@ export const ChatInput = ({
 
       <TouchableOpacity
         activeOpacity={0.8}
-        disabled={isDisabled}
+        disabled={isDisabled || isAITyping}
         onPress={onSubmit}
-        className={`flex h-12 w-12 items-center justify-center rounded-full ${isAITyping ? "bg-destructive" : "bg-primary"}`}
+        className="flex h-12 w-12 items-center justify-center rounded-full bg-primary"
       >
-        {isAITyping ? (
-          <Pause variant="Bold" size="20" color="white" />
-        ) : (
-          <Send2 variant="Bold" size="20" color="white" />
-        )}
+        <Send2 variant="Bold" size={20} color="white" />
       </TouchableOpacity>
     </HStack>
   )
