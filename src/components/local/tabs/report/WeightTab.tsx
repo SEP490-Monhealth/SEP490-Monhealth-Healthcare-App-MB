@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from "react"
 
 import { Text, View } from "react-native"
 
+import { LoadingScreen } from "@/app/loading"
 import { useIsFetching, useIsMutating } from "@tanstack/react-query"
 
 import { HStack, VStack } from "@/components/global/atoms"
@@ -14,29 +15,29 @@ import { toFixed } from "@/utils/formatters"
 
 import { LineChart } from "./LineChart"
 
-const weightsData = [
-  { date: "2025-01-01", weight: 75.5, height: 170 },
-  { date: "2025-01-08", weight: 74.8, height: 170 },
-  { date: "2025-01-15", weight: 73.2, height: 170 },
-  { date: "2025-01-22", weight: 73.9, height: 170 },
-  { date: "2025-01-29", weight: 72.6, height: 170 },
-  { date: "2025-02-05", weight: 71.8, height: 170 },
-  { date: "2025-02-12", weight: 71.3, height: 170 }
-]
+const formatDateToYYYYMMDD = (dateString: string) => {
+  const date = new Date(dateString)
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, "0")
+  const day = String(date.getDate()).padStart(2, "0")
+  return `${year}-${month}-${day}`
+}
 
-const formattedDateRangeLabel = (
-  startDate: string,
-  endDate: string
-): string => {
-  const [startYear, startMonth, startDay] = startDate.split("-").map(Number)
-  const [endYear, endMonth, endDay] = endDate.split("-").map(Number)
+const formattedDateRangeLabel = (startDate: string, endDate: string) => {
+  const formattedStartDate = formatDateToYYYYMMDD(startDate)
+  const formattedEndDate = formatDateToYYYYMMDD(endDate)
+
+  const [startYear, startMonth, startDay] = formattedStartDate
+    .split("-")
+    .map(Number)
+  const [endYear, endMonth, endDay] = formattedEndDate.split("-").map(Number)
 
   const startDayString = startDay.toString()
   const startMonthString = startMonth.toString()
   const endDayString = endDay.toString()
   const endMonthString = endMonth.toString()
 
-  if (startDate === endDate) {
+  if (formattedStartDate === formattedEndDate) {
     return `${startDayString} tháng ${startMonthString} ${startYear}`
   }
 
@@ -47,8 +48,9 @@ const formattedDateRangeLabel = (
   return `${startDayString} tháng ${startMonthString} ${startYear} - ${endDayString} tháng ${endMonthString} ${endYear}`
 }
 
-const formatDateToLabel = (dateString: string): string => {
-  const parts = dateString.split("-")
+const formatDateToLabel = (dateString: string) => {
+  const formattedDate = formatDateToYYYYMMDD(dateString)
+  const parts = formattedDate.split("-")
   return `${parts[2]}/${parts[1]}`
 }
 
@@ -63,20 +65,29 @@ export const WeightTab = ({ userId, onOverlayLoading }: WeightTabProps) => {
   const isFetching = useIsFetching()
   const isMutating = useIsMutating()
 
-  useEffect(() => {
-    onOverlayLoading(isFetching > 0 || isMutating > 0)
-  }, [isFetching, isMutating, onOverlayLoading])
+  const processedWeeklyWeights = useMemo(() => {
+    if (!weeklyWeightsData) return []
+    return weeklyWeightsData.map((item) => ({
+      ...item,
+      date: formatDateToYYYYMMDD(item.date)
+    }))
+  }, [weeklyWeightsData])
 
   const recentWeightData = useMemo(() => {
-    const dataLength = weightsData.length
+    if (processedWeeklyWeights.length === 0) return []
+    const dataLength = processedWeeklyWeights.length
     return dataLength <= 6
-      ? [...weightsData]
-      : weightsData.slice(dataLength - 6)
-  }, [])
+      ? [...processedWeeklyWeights]
+      : processedWeeklyWeights.slice(dataLength - 6)
+  }, [processedWeeklyWeights])
 
-  const selectedDate = recentWeightData[recentWeightData.length - 1].date
+  const selectedDate = useMemo(() => {
+    if (recentWeightData.length === 0) return ""
+    return recentWeightData[recentWeightData.length - 1].date
+  }, [recentWeightData])
 
   const dateRangeLabel = useMemo(() => {
+    if (recentWeightData.length === 0) return ""
     const startDate = recentWeightData[0].date
     const endDate = recentWeightData[recentWeightData.length - 1].date
     return formattedDateRangeLabel(startDate, endDate)
@@ -86,7 +97,18 @@ export const WeightTab = ({ userId, onOverlayLoading }: WeightTabProps) => {
     return recentWeightData.map((data) => formatDateToLabel(data.date))
   }, [recentWeightData])
 
-  const currentWeight = recentWeightData[recentWeightData.length - 1].weight
+  const currentWeight = useMemo(() => {
+    if (recentWeightData.length === 0) return 0
+    return recentWeightData[recentWeightData.length - 1].weight
+  }, [recentWeightData])
+
+  useEffect(() => {
+    onOverlayLoading(isFetching > 0 || isMutating > 0)
+  }, [isFetching, isMutating, onOverlayLoading])
+
+  if (!weeklyWeightsData) {
+    return <LoadingScreen />
+  }
 
   return (
     <View className="mt-4">
@@ -116,13 +138,12 @@ export const WeightTab = ({ userId, onOverlayLoading }: WeightTabProps) => {
       <Section label="Lịch sử cân nặng" />
 
       <VStack gap={12}>
-        {weightsData.map((weight, index) => (
+        {processedWeeklyWeights.map((weight, index) => (
           <WeightCard
             key={index}
             date={weight.date}
             weight={weight.weight}
             height={weight.height}
-            onPress={() => {}}
           />
         ))}
       </VStack>

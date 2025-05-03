@@ -16,10 +16,9 @@ const formatTime = (timestamp: string): string => {
 interface MessageCardProps {
   messageId?: string
   sender?: boolean
-  senderName: string
+  avatarUrl?: string
   message: string
   timestamp: string
-  avatarUrl?: string
   isSelected?: boolean
   onPress?: () => void
 }
@@ -27,10 +26,9 @@ interface MessageCardProps {
 export const MessageCard = ({
   messageId,
   sender = false,
-  senderName,
+  avatarUrl,
   message,
   timestamp,
-  avatarUrl,
   isSelected = false,
   onPress
 }: MessageCardProps) => {

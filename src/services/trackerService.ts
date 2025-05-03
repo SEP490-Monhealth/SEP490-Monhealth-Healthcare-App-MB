@@ -111,7 +111,7 @@ export const getWeeklyWeightByUserId = async (
   userId: string | undefined
 ): Promise<WeeklyWeightType[]> => {
   try {
-    const response = await monAPI.get(`/trackers/user/${userId}/weight/weekly`)
+    const response = await monAPI.get(`/trackers/user/${userId}/weights/weekly`)
 
     const { success, message, data } = response.data
 

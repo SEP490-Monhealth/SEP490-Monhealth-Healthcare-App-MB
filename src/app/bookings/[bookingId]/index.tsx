@@ -257,6 +257,7 @@ const BookingDetailsScreen = () => {
           back
           label="Lịch hẹn"
           action={
+            userId === bookingData.userId &&
             bookingData.status !== BookingStatusEnum.Booked
               ? {
                   icon: (

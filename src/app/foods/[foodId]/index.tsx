@@ -72,9 +72,7 @@ function FoodDetailsScreen() {
 
   const { mutate: addMeal } = useCreateMeal()
 
-  const { userAllergies, savedFoods, toggleSavedFood } = useStorage()
-
-  const isSaved = savedFoods.some((saved) => saved.foodId === foodId)
+  const { userAllergies } = useStorage()
 
   const [selectedMeal, setSelectedMeal] = useState(getMealType("vi"))
 

@@ -194,17 +194,25 @@ function ChatDetailsScreen() {
   }) => {
     const currentSender = item.senderId
     const nextMessage = messages?.[index - 1]
+    const isSender = currentSender === senderId
     const showAvatar = !nextMessage || nextMessage.senderId !== currentSender
+
+    const messageAvatarUrl = isSender
+      ? consultantId
+        ? chatData?.consultant.avatarUrl
+        : chatData?.member.avatarUrl
+      : consultantId
+        ? chatData?.member.avatarUrl
+        : chatData?.consultant.avatarUrl
 
     return (
       <MessageCard
         key={item.messageId}
         messageId={item.messageId}
-        sender={currentSender === senderId}
-        senderName={item.senderName}
+        sender={isSender}
+        avatarUrl={!isSender && showAvatar ? messageAvatarUrl : undefined}
         message={item.content}
         timestamp={item.createdAt}
-        avatarUrl={showAvatar ? item.avatarUrl : undefined}
         isSelected={selectedMessage === item.messageId}
         onPress={() => handlePressMessage(item.messageId)}
       />

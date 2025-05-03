@@ -10,20 +10,17 @@ interface WeightCardProps {
   date: string
   weight: number
   height: number
-  onPress: () => void
 }
 
 export const WeightCard = ({
   date,
   weight = 0,
-  height = 0,
-  onPress
+  height = 0
 }: WeightCardProps) => {
   return (
-    <Card onPress={onPress} className="flex-row items-center justify-between">
+    <Card className="flex-row items-center justify-between">
       <TouchableOpacity
         activeOpacity={1}
-        onPress={onPress}
         className="mr-4 h-12 w-12 items-center justify-center rounded-full bg-muted"
       >
         <Image
