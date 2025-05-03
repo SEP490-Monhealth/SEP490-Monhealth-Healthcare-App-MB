@@ -37,6 +37,7 @@ import { DATA } from "@/constants/data"
 import { MealTypeEnum } from "@/constants/enum/Food"
 
 import { useAuth } from "@/contexts/AuthContext"
+import { useSearch } from "@/contexts/SearchContext"
 import { useStorage } from "@/contexts/StorageContext"
 
 import { useGetFoodById } from "@/hooks/useFood"
@@ -63,19 +64,19 @@ function FoodDetailsScreen() {
   // console.log("food detail screen", selectedDate)
 
   const { user } = useAuth()
-  const userId = user?.userId
+  const userId = user?.userId || ""
 
   const today = formatDateY(new Date())
 
   const MealSheetRef = useRef<SheetRefProps>(null)
   const PortionSheetRef = useRef<SheetRefProps>(null)
 
+  const { userAllergies } = useStorage()
+  const { trackMealFood } = useSearch()
+
   const { mutate: addMeal } = useCreateMeal()
 
-  const { userAllergies } = useStorage()
-
   const [selectedMeal, setSelectedMeal] = useState(getMealType("vi"))
-
   const [selectedPortion, setSelectedPortion] = useState<string>("g")
   const [quantity, setQuantity] = useState<string>("100")
   const [portionSheetHeight, setPortionSheetHeight] = useState<number>(320)
@@ -191,6 +192,10 @@ function FoodDetailsScreen() {
           unit: portionUnit
         }
       ]
+    }
+
+    if (userId) {
+      trackMealFood({ userId, foodId: foodId, name: foodData?.name })
     }
 
     const totalCalories = dailyMealData?.nutrition?.calories || 0

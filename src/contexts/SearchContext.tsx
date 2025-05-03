@@ -43,7 +43,7 @@ export interface SearchContextType {
   trackMealFood: (food: {
     userId: string
     foodId: string
-    name: string
+    name: string | undefined
   }) => Promise<void>
   getFrequentFoods: (userId: string) => FoodFrequency[]
 
