@@ -1,4 +1,6 @@
-import { Text, View } from "react-native"
+import { Text, TouchableOpacity, View } from "react-native"
+
+import { useRouter } from "expo-router"
 
 import { ChatMonAIType } from "@/types/mon-ai"
 
@@ -9,11 +11,13 @@ interface MessageContentProps {
 }
 
 export const MessageContent = ({ content }: MessageContentProps) => {
+  const router = useRouter()
+
   if (content.isHealthOrFitness === false) {
     return (
       <VStack gap={8}>
         {content.generalAdvice && (
-          <Text className="font-tregular text-base text-primary">
+          <Text className="font-tregular text-base text-primary underline">
             {content.generalAdvice}
           </Text>
         )}
@@ -21,11 +25,15 @@ export const MessageContent = ({ content }: MessageContentProps) => {
     )
   }
 
+  const handleViewFood = (foodId: string) => {
+    router.push(`/foods/${foodId}`)
+  }
+
   return (
     <VStack gap={8}>
       {/* Summary */}
       {content.summaryConversation && (
-        <Text className="font-tregular text-base text-primary">
+        <Text className="font-tregular text-base text-primary underline">
           {content.summaryConversation}
         </Text>
       )}
@@ -50,12 +58,15 @@ export const MessageContent = ({ content }: MessageContentProps) => {
                     Bữa sáng:
                   </Text>
                   {content.mealPlan.meal.breakfast.items.map((item) => (
-                    <Text
+                    <TouchableOpacity
                       key={item.foodId}
-                      className="font-tregular text-base text-primary"
+                      activeOpacity={0.8}
+                      onPress={() => handleViewFood(item.foodId)}
                     >
-                      • {item.name} ({item.portion.size})
-                    </Text>
+                      <Text className="font-tregular text-base text-primary underline">
+                        • {item.name} ({item.portion.size})
+                      </Text>
+                    </TouchableOpacity>
                   ))}
                 </View>
               )}
@@ -67,12 +78,15 @@ export const MessageContent = ({ content }: MessageContentProps) => {
                     Bữa trưa:
                   </Text>
                   {content.mealPlan.meal.lunch.items.map((item) => (
-                    <Text
+                    <TouchableOpacity
                       key={item.foodId}
-                      className="font-tregular text-base text-primary"
+                      activeOpacity={0.8}
+                      onPress={() => handleViewFood(item.foodId)}
                     >
-                      • {item.name} ({item.portion.size})
-                    </Text>
+                      <Text className="font-tregular text-base text-primary underline">
+                        • {item.name} ({item.portion.size})
+                      </Text>
+                    </TouchableOpacity>
                   ))}
                 </View>
               )}
@@ -84,12 +98,15 @@ export const MessageContent = ({ content }: MessageContentProps) => {
                     Bữa tối:
                   </Text>
                   {content.mealPlan.meal.dinner.items.map((item) => (
-                    <Text
+                    <TouchableOpacity
                       key={item.foodId}
-                      className="font-tregular text-base text-primary"
+                      activeOpacity={0.8}
+                      onPress={() => handleViewFood(item.foodId)}
                     >
-                      • {item.name} ({item.portion.size})
-                    </Text>
+                      <Text className="font-tregular text-base text-primary underline">
+                        • {item.name} ({item.portion.size})
+                      </Text>
+                    </TouchableOpacity>
                   ))}
                 </View>
               )}
@@ -101,12 +118,15 @@ export const MessageContent = ({ content }: MessageContentProps) => {
                     Bữa phụ:
                   </Text>
                   {content.mealPlan.meal.snack.items.map((item) => (
-                    <Text
+                    <TouchableOpacity
                       key={item.foodId}
-                      className="font-tregular text-base text-primary"
+                      activeOpacity={0.8}
+                      onPress={() => handleViewFood(item.foodId)}
                     >
-                      • {item.name} ({item.portion.size})
-                    </Text>
+                      <Text className="font-tregular text-base text-primary underline">
+                        • {item.name} ({item.portion.size})
+                      </Text>
+                    </TouchableOpacity>
                   ))}
                 </View>
               )}

@@ -99,16 +99,14 @@ function ChatScreen() {
   const FlatListHeader = useMemo(() => {
     return (
       <ListHeader>
-        {checkSubscription && (
-          <View className="pt-4">
-            <ChatCard
-              fullName="MonAI"
-              avatarUrl={require("../../../../public/images/avatars/mon-ai/mon-ai-avatar.jpg")}
-              lastMessage="Chào bạn! Tôi là MonAI, trợ lý ảo của bạn. Tôi có thể giúp gì cho bạn?"
-              onPress={handleChatMonAI}
-            />
-          </View>
-        )}
+        <View className="pt-4">
+          <ChatCard
+            fullName="MonAI"
+            avatarUrl={require("../../../../public/images/avatars/mon-ai/mon-ai-avatar.jpg")}
+            lastMessage="Chào bạn! Tôi là MonAI, trợ lý ảo của bạn. Tôi có thể giúp gì cho bạn?"
+            onPress={handleChatMonAI}
+          />
+        </View>
 
         <Section label="Lịch sử tin nhắn" />
       </ListHeader>
