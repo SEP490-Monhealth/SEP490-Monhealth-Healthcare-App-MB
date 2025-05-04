@@ -368,7 +368,7 @@ const BookingDetailsScreen = () => {
             </View>
 
             <View>
-              <Section label="Chi tiết lịch hẹn" />
+              <Section label="Chi tiết" />
 
               <Card>
                 {bookingItems.map((item, index) => {
@@ -466,7 +466,7 @@ const BookingDetailsScreen = () => {
               {canCompleteBooking() && (
                 <Button
                   disabled={
-                    !isBookingEnded() ||
+                    // !isBookingEnded() ||
                     bookingData.status === BookingStatusEnum.Completed
                   }
                   onPress={handleComplete}

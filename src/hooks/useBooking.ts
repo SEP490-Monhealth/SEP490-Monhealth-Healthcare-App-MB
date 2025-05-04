@@ -135,12 +135,17 @@ export const useCreateBooking = () => {
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Booking.UserConsultantBookings]
       })
-      queryClient.invalidateQueries({ queryKey: [MonQueryKey.Booking.Booking] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Subscription.UserSubscriptions]
+      })
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Subscription.RemainingBookings]
       })
       queryClient.invalidateQueries({
-        queryKey: [MonQueryKey.Subscription.UserSubscriptions]
+        queryKey: [MonQueryKey.Consultant.Consultants]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Consultant.Consultant]
       })
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Schedule.Schedules]
@@ -180,7 +185,12 @@ export const useCompleteBooking = () => {
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Booking.Booking]
       })
-      queryClient.invalidateQueries({ queryKey: [MonQueryKey.Booking.Booking] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Consultant.Consultants]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Consultant.Consultant]
+      })
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Tracker.MonthlyBookings]
       })
@@ -216,12 +226,20 @@ export const useCancelBooking = () => {
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Booking.UserConsultantBookings]
       })
-      queryClient.invalidateQueries({ queryKey: [MonQueryKey.Booking.Booking] })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Booking.Booking]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Subscription.UserSubscriptions]
+      })
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Subscription.RemainingBookings]
       })
       queryClient.invalidateQueries({
-        queryKey: [MonQueryKey.Subscription.UserSubscriptions]
+        queryKey: [MonQueryKey.Consultant.Consultants]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Consultant.Consultant]
       })
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Schedule.Schedules]
