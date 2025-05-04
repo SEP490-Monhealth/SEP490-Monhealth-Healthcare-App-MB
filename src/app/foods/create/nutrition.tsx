@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 
 import { KeyboardAvoidingView, Platform, Text, View } from "react-native"
 

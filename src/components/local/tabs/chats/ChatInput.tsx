@@ -1,6 +1,6 @@
 import { TouchableOpacity, View } from "react-native"
 
-import { Pause, Send2 } from "iconsax-react-native"
+import { Send2 } from "iconsax-react-native"
 
 import { HStack, Input } from "@/components/global/atoms"
 

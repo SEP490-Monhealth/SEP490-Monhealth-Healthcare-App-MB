@@ -17,7 +17,7 @@ export const MessageContent = ({ content }: MessageContentProps) => {
     return (
       <VStack gap={8}>
         {content.generalAdvice && (
-          <Text className="font-tregular text-base text-primary underline">
+          <Text className="font-tregular text-base text-primary">
             {content.generalAdvice}
           </Text>
         )}
@@ -33,7 +33,7 @@ export const MessageContent = ({ content }: MessageContentProps) => {
     <VStack gap={8}>
       {/* Summary */}
       {content.summaryConversation && (
-        <Text className="font-tregular text-base text-primary underline">
+        <Text className="font-tregular text-base text-primary">
           {content.summaryConversation}
         </Text>
       )}

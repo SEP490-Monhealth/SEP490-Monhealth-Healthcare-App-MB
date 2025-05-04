@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react"
 
-import { Text, View } from "react-native"
+import { Text, TouchableOpacity, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
+import { Feather } from "@expo/vector-icons"
 import { useIsFetching, useIsMutating } from "@tanstack/react-query"
 
 import { HStack, VStack } from "@/components/global/atoms"
 import { MealCard } from "@/components/global/molecules"
 import { Section } from "@/components/global/organisms"
 
+import { COLORS } from "@/constants/color"
 import { MealTypeEnum } from "@/constants/enum/Food"
 
 import { useGetNutritionGoal } from "@/hooks/useGoal"
@@ -48,7 +50,7 @@ export const MealTab = ({ userId, onOverlayLoading }: MealTabProps) => {
 
   const { data: weeklyMealData } = useGetWeeklyMealByUserId(
     userId,
-    formattedDate
+    selectedDate
   )
   const { data: dailyMealData } = useGetDailyMealByUserId(userId, selectedDate)
   const { data: nutritionGoalData } = useGetNutritionGoal(userId)
@@ -63,7 +65,7 @@ export const MealTab = ({ userId, onOverlayLoading }: MealTabProps) => {
     onOverlayLoading(isFetching > 0 || isMutating > 0)
   }, [isFetching, isMutating, onOverlayLoading])
 
-  const reportDate = getWeekRange(formattedDate)
+  const reportDate = getWeekRange(selectedDate)
   const mealsData = dailyMealData?.items || []
 
   const caloriesData = weeklyMealData?.map((item) => item.calories)
@@ -147,6 +149,18 @@ export const MealTab = ({ userId, onOverlayLoading }: MealTabProps) => {
     return (existingMeal || defaultMeal) as typeof defaultMeal
   })
 
+  const handlePrevWeek = () => {
+    const newDate = new Date(selectedDate)
+    newDate.setDate(newDate.getDate() - 7)
+    setSelectedDate(newDate.toISOString().split("T")[0])
+  }
+
+  const handleNextWeek = () => {
+    const newDate = new Date(selectedDate)
+    newDate.setDate(newDate.getDate() + 7)
+    setSelectedDate(newDate.toISOString().split("T")[0])
+  }
+
   const handleViewMeal = (mealId: string) => {
     router.push({
       pathname: `/meals/${mealId}`,
@@ -176,11 +190,21 @@ export const MealTab = ({ userId, onOverlayLoading }: MealTabProps) => {
               {toFixed(totalCalories ?? 0, 0)}
             </Text>
             <Text className="mb-1 font-tmedium text-base text-secondary">
-              kcal
+              tổng kcal
             </Text>
           </HStack>
 
-          <Text className="font-tmedium text-primary">{reportDate}</Text>
+          <HStack center>
+            <TouchableOpacity activeOpacity={0.8} onPress={handlePrevWeek}>
+              <Feather name="chevron-left" size={16} color={COLORS.primary} />
+            </TouchableOpacity>
+
+            <Text className="font-tmedium text-primary">{reportDate}</Text>
+
+            <TouchableOpacity activeOpacity={0.8} onPress={handleNextWeek}>
+              <Feather name="chevron-right" size={16} color={COLORS.primary} />
+            </TouchableOpacity>
+          </HStack>
         </HStack>
       </VStack>
 

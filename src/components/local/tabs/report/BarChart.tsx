@@ -115,7 +115,28 @@ export const BarChart = ({
   const minBarHeight = 2
   const dynamicPadding = screenWidth * 0.16
 
-  const maxDataValue = Math.max(...data.map((item) => item.calories), 1)
+  const generatePlaceholderData = () => {
+    const today = new Date(selectedDate)
+    const startOfWeek = new Date(today)
+    startOfWeek.setDate(
+      today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1)
+    )
+
+    return Array(labels.length)
+      .fill(0)
+      .map((_, index) => {
+        const date = new Date(startOfWeek)
+        date.setDate(startOfWeek.getDate() + index)
+        return {
+          calories: 0,
+          date: date.toISOString()
+        }
+      })
+  }
+
+  const chartData = data.length > 0 ? data : generatePlaceholderData()
+
+  const maxDataValue = Math.max(...chartData.map((item) => item.calories), 1)
   let step = 100
   if (maxDataValue >= 600) step = 200
   if (maxDataValue >= 2000) step = 500
@@ -176,9 +197,9 @@ export const BarChart = ({
         )
       })}
 
-      {data.map((item, index) => {
+      {chartData.map((item, index) => {
         const x = index * (barWidth + spacing) + dynamicPadding
-        const dateString = item.date.split("T")[0]
+        const dateString = item.date ? item.date.split("T")[0] : selectedDate
         const isSelected = dateString === selectedDate
 
         return (

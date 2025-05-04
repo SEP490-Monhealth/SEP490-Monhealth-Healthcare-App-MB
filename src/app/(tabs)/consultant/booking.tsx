@@ -115,11 +115,11 @@ function BookingsScreen() {
                       startTime={booking.startTime}
                       endTime={booking.endTime}
                       notes={booking.notes}
+                      cancellationReason={booking.cancellationReason}
                       isReviewed={booking.isReviewed}
                       rating={booking.reviews?.rating}
                       comment={booking.reviews?.comment}
                       status={booking.status}
-                      cancellationReason={booking.cancellationReason}
                       onPress={() => handleViewBooking(booking.bookingId)}
                     />
                   ))}

@@ -13,7 +13,6 @@ import {
 } from "@/schemas/transactionSchema"
 
 import {
-  completeTransaction,
   createBookingTransaction,
   createSubscriptionTransaction,
   getTransactionById,

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react"
+import React, { useCallback, useRef, useState } from "react"
 
 import {
   RefreshControl,
@@ -28,7 +28,6 @@ import {
   Container,
   Content,
   HStack,
-  ScrollArea,
   Sheet,
   SheetRefProps,
   SheetSelect,
