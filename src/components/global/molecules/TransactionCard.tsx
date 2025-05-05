@@ -11,7 +11,7 @@ import {
 
 import { formatCurrency } from "@/utils/formatters"
 
-import { Card } from "../atoms"
+import { Card, HStack } from "../atoms"
 
 interface TransactionCardProps {
   type: TransactionTypeEnum
@@ -29,8 +29,6 @@ export const TransactionCard = ({
   const { label: transactionTypeLabel, icon: transactionTypeIcon } =
     getTransactionTypeMeta(type)
   const { label: transactionStatusLabel } = getTransactionStatusMeta(status)
-
-  // console.log(time)
 
   const isPositiveTransaction = [
     TransactionTypeEnum.Earning,
@@ -53,20 +51,22 @@ export const TransactionCard = ({
         />
       </TouchableOpacity>
 
-      <View className="flex-1">
-        <Text className="font-tmedium text-base text-primary">
+      <View className="flex-1 flex-col">
+        <HStack center className="justify-between">
+          <Text className="font-tmedium text-base text-primary">
+            {isPositiveTransaction ? "+" : "-"}
+            {formatCurrency(amount)}
+          </Text>
+
+          <Text className="font-tmedium text-sm text-accent">
+            {transactionStatusLabel}
+          </Text>
+        </HStack>
+
+        <Text className="font-tregular text-sm text-accent">
           {description ? description : transactionTypeLabel}
         </Text>
-
-        <Text className="font-tmedium text-sm text-accent">
-          {isPositiveTransaction ? "+" : "-"}
-          {formatCurrency(amount)}
-        </Text>
       </View>
-
-      <Text className="font-tregular text-sm text-accent">
-        {transactionStatusLabel}
-      </Text>
     </Card>
   )
 }

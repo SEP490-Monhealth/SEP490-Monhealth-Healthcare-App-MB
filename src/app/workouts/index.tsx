@@ -126,7 +126,7 @@ function WorkoutsScreen() {
           onSelectType={setSelectedType}
         />
 
-        <Section label="Danh sách bài tập" />
+        <Section label="Danh sách bộ bài tập" />
       </ListHeader>
     )
   }, [typesData, selectedType])

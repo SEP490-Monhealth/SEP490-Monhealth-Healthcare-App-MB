@@ -215,7 +215,6 @@ function BanksScreen() {
                 <WithdrawalRequestCard
                   description={item.description}
                   amount={item.amount}
-                  time={item.createdAt}
                   status={item.status}
                 />
               )}

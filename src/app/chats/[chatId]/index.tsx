@@ -344,7 +344,7 @@ function ChatDetailsScreen() {
             onPress={handleSendMessage}
             className="flex h-12 w-12 items-center justify-center rounded-full bg-primary"
           >
-            <Send2 variant="Bold" size="20" color="white" />
+            <Send2 variant="Bold" size={20} color="white" />
           </TouchableOpacity>
         </HStack>
       </KeyboardAvoidingView>

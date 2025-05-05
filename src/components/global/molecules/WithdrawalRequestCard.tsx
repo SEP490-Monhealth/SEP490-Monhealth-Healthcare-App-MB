@@ -9,30 +9,11 @@ import {
 
 import { formatCurrency } from "@/utils/formatters"
 
-import { Card } from "../atoms"
-
-const formatDateTime = (isoString: string) => {
-  if (!isoString) return { date: "", time: "" }
-
-  const dateObj = new Date(isoString)
-
-  const localDateObj = new Date(dateObj.getTime() + 7 * 60 * 60 * 1000)
-
-  const utcDate = localDateObj.toISOString().split("T")[0]
-  const utcTime = localDateObj.toISOString().split("T")[1].slice(0, 5)
-
-  const [year, month, day] = utcDate.split("-")
-  const formattedDate = `${day}/${month}/${year}`
-
-  const formattedTime = utcTime.replace(":", "h")
-
-  return { date: formattedDate, time: formattedTime }
-}
+import { Card, HStack } from "../atoms"
 
 interface WithdrawalRequestCardProps {
   description: string
   amount: number
-  time?: string
   reason?: string | null
   status: WithdrawalRequestStatusEnum
   onPress?: () => void
@@ -41,15 +22,12 @@ interface WithdrawalRequestCardProps {
 export const WithdrawalRequestCard = ({
   description,
   amount,
-  time,
   reason,
   status,
   onPress
 }: WithdrawalRequestCardProps) => {
   const { label: withdrawalRequestStatusLabel } =
     getWithdrawalRequestStatusMeta(status)
-
-  const { date, time: timestamp } = formatDateTime(time || "")
 
   return (
     <Card className="flex-col gap-2" onPress={onPress}>
@@ -64,19 +42,21 @@ export const WithdrawalRequestCard = ({
           />
         </TouchableOpacity>
 
-        <View className="flex-1">
-          <Text className="font-tmedium text-base text-primary">
-            {description}
-          </Text>
+        <View className="flex-1 flex-col">
+          <HStack center className="justify-between">
+            <Text className="font-tmedium text-base text-primary">
+              {formatCurrency(amount)}
+            </Text>
+
+            <Text className="font-tregular text-sm text-accent">
+              {withdrawalRequestStatusLabel}
+            </Text>
+          </HStack>
 
           <Text className="font-tmedium text-sm text-accent">
-            {time ? `${date} • ${timestamp}` : formatCurrency(amount)}
+            {description}
           </Text>
         </View>
-
-        <Text className="font-tregular text-sm text-accent">
-          {withdrawalRequestStatusLabel}
-        </Text>
       </View>
 
       {reason && (

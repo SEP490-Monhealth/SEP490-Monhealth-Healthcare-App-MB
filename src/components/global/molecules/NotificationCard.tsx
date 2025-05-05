@@ -48,7 +48,7 @@ export const NotificationCard = ({
               {title}
             </Text>
 
-            <Text className="mr-1 font-tregular text-sm text-secondary">
+            <Text className="font-tregular text-sm text-secondary">
               {formatTimeAgo(timestamp)}
             </Text>
           </HStack>

@@ -13,7 +13,7 @@ import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
 import { Fontisto } from "@expo/vector-icons"
-import { Calendar, Clock, Flag, Zoom } from "iconsax-react-native"
+import { Calendar, Clock, Flag, SearchStatus, Zoom } from "iconsax-react-native"
 
 import {
   Badge,
@@ -109,7 +109,15 @@ const BookingDetailsScreen = () => {
     return false
   }
 
+  const { label: bookingStatusLabel, color: bookingStatusColor } =
+    getBookingStatusMeta(bookingData.status)
+
   const bookingItems = [
+    {
+      icon: <SearchStatus variant="Bold" size={20} color={COLORS.primary} />,
+      label: "Trạng thái",
+      value: bookingStatusLabel
+    },
     {
       icon: <Calendar variant="Bold" size={20} color={COLORS.primary} />,
       label: "Ngày",
@@ -183,9 +191,6 @@ const BookingDetailsScreen = () => {
       </HStack>
     )
   }
-
-  const { label: bookingStatusLabel, color: bookingStatusColor } =
-    getBookingStatusMeta(bookingData.status)
 
   const handleCancel = () => {
     setModalType("cancel")
@@ -281,19 +286,6 @@ const BookingDetailsScreen = () => {
           }
         >
           <Content className="mt-2 pb-4">
-            <HStack className="justify-between">
-              <Text className="font-tbold text-xl text-primary">
-                Trạng thái lịch hẹn
-              </Text>
-
-              <Badge
-                label={bookingStatusLabel}
-                background={bookingStatusColor}
-                color="#fff"
-                rounded
-              />
-            </HStack>
-
             <View>
               <Section
                 label={
@@ -301,6 +293,7 @@ const BookingDetailsScreen = () => {
                     ? "Chuyên viên tư vấn"
                     : "Người đặt lịch"
                 }
+                margin={false}
               />
 
               {userId === bookingData.userId ? (
@@ -411,7 +404,7 @@ const BookingDetailsScreen = () => {
                   disabled
                   value={bookingData.cancellationReason}
                   isMultiline
-                  numberOfLines={2}
+                  numberOfLines={6}
                 />
               </View>
             )}
@@ -466,7 +459,7 @@ const BookingDetailsScreen = () => {
               {canCompleteBooking() && (
                 <Button
                   disabled={
-                    // !isBookingEnded() ||
+                    !isBookingEnded() ||
                     bookingData.status === BookingStatusEnum.Completed
                   }
                   onPress={handleComplete}

@@ -80,7 +80,7 @@ function BookingsUserScreen() {
     return (
       <ListHeader>
         {bookingsData.length > 0 && (
-          <Section label="Danh sách lịch hẹn" margin={false} className="pt-2" />
+          <Section label="Lịch sử lịch hẹn" margin={false} className="pt-2" />
         )}
       </ListHeader>
     )

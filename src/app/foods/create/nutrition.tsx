@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 
 import { KeyboardAvoidingView, Platform, Text, View } from "react-native"
 
@@ -58,22 +58,29 @@ function FoodNutrition({ control, errors }: FoodNutritionProps) {
       name={name}
       control={control}
       render={({ field: { onChange, value } }) => {
+        const [inputValue, setInputValue] = useState(value?.toString() || "")
+
+        const handleChangeText = (text: string) => {
+          const normalizedText = text.replace(",", ".")
+          setInputValue(normalizedText)
+
+          if (/^\d*\.?\d*$/.test(normalizedText)) {
+            const parsedValue = parseFloat(normalizedText)
+            if (!isNaN(parsedValue)) {
+              onChange(parsedValue)
+            } else {
+              onChange(null)
+            }
+          }
+        }
+
         return (
           <Input
             value={value ? value.toString() : ""}
+            label={label}
             placeholder={placeholder}
-            onChangeText={(text) => {
-              const formattedText = text.replace(",", ".")
-              if (/^\d*\.?\d*$/.test(formattedText) || formattedText === "") {
-                onChange(formattedText)
-              }
-            }}
+            onChangeText={handleChangeText}
             keyboardType="numeric"
-            startIcon={
-              <Text className="font-tregular text-base text-primary">
-                {label}
-              </Text>
-            }
             endIcon={
               <Text className="font-tregular text-sm text-accent">{unit}</Text>
             }

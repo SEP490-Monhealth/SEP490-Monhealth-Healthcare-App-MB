@@ -197,6 +197,7 @@ export const SpendingTab = ({
       renderItem={({ item }) => (
         <TransactionCard
           type={item.type}
+          description={item.description}
           amount={item.amount}
           status={item.status}
         />
