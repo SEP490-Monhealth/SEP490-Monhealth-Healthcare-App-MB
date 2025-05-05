@@ -46,8 +46,6 @@ function ReportDetailsScreen() {
     bookingData?.consultantId
   )
 
-  // console.log(JSON.stringify(currentReport, null, 2))
-
   if (!bookingData || !reportData || !consultantData) {
     return <LoadingScreen />
   }
@@ -71,10 +69,6 @@ function ReportDetailsScreen() {
 
   const { label: reportStatusLabel, color: reportStatusColor } =
     getReportStatusMeta(currentReport?.status)
-
-  const canViewConsultant = () => {
-    return userId === currentReport.userId
-  }
 
   return (
     <Container>

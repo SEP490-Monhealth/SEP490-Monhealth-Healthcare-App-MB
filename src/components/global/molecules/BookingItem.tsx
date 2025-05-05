@@ -12,6 +12,7 @@ interface BookingItemProps {
   icon: React.ReactNode
   label: string
   value: string | number
+  isLast?: boolean
   showMore?: boolean
   onPress?: () => void
 }
@@ -20,11 +21,15 @@ export const BookingItem = ({
   icon,
   label,
   value,
+  isLast = false,
   showMore = false,
   onPress
 }: BookingItemProps) => (
   <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
-    <HStack gap={16} className="items-center border-b border-border py-3">
+    <HStack
+      gap={16}
+      className={`items-center py-2 ${isLast ? "" : "border-b border-border"}`}
+    >
       <View>{icon}</View>
 
       <View className="flex-1 gap-1">

@@ -184,14 +184,19 @@ function BookingsScreen() {
                   <Section label="Chi tiết" />
 
                   <Card className="py-2">
-                    {bookingItems.map((item, index) => (
-                      <BookingItem
-                        key={index}
-                        icon={item.icon}
-                        label={item.label}
-                        value={item.value}
-                      />
-                    ))}
+                    {bookingItems.map((item, index) => {
+                      const isLast = index === bookingItems.length - 1
+
+                      return (
+                        <BookingItem
+                          key={index}
+                          icon={item.icon}
+                          label={item.label}
+                          value={item.value}
+                          isLast={isLast}
+                        />
+                      )
+                    })}
                   </Card>
                 </View>
 

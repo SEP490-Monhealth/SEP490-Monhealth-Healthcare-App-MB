@@ -16,7 +16,6 @@ import { Fontisto } from "@expo/vector-icons"
 import { Calendar, Clock, Flag, SearchStatus, Zoom } from "iconsax-react-native"
 
 import {
-  Badge,
   Button,
   Card,
   Container,
@@ -251,7 +250,8 @@ const BookingDetailsScreen = () => {
   const canReportBooking = () => {
     return (
       userId === bookingData.userId &&
-      bookingData.status !== BookingStatusEnum.Booked
+      (bookingData.status === BookingStatusEnum.Completed ||
+        bookingData.status === BookingStatusEnum.Reported)
     )
   }
 
@@ -262,17 +262,15 @@ const BookingDetailsScreen = () => {
           back
           label="Lịch hẹn"
           action={
-            userId === bookingData.userId &&
-            bookingData.status !== BookingStatusEnum.Booked
+            canReportBooking()
               ? {
                   icon: (
                     <Flag variant="Bold" size={20} color={COLORS.primary} />
                   ),
-                  href: canReportBooking()
-                    ? bookingData.status === BookingStatusEnum.Reported
+                  href:
+                    bookingData.status === BookingStatusEnum.Reported
                       ? `/bookings/${bookingId}/report`
                       : `/bookings/${bookingId}/report/create`
-                    : `/bookings/${bookingId}/report`
                 }
               : undefined
           }
@@ -373,6 +371,7 @@ const BookingDetailsScreen = () => {
                       icon={item.icon}
                       label={item.label}
                       value={item.value}
+                      isLast={isLast}
                       showMore={isLast && Boolean(bookingData.meetingUrl)}
                       onPress={
                         isLast && bookingData.meetingUrl
