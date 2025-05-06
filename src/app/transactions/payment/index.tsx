@@ -135,11 +135,19 @@ function TransactionPaymentScreen() {
       }
 
       queryClient.invalidateQueries({
-        queryKey: [
-          MonQueryKey.Transaction.UserTransactions,
-          MonQueryKey.Subscription.UserSubscriptions,
-          MonQueryKey.Subscription.RemainingBookings
-        ]
+        queryKey: [MonQueryKey.Meal.DailyMeal]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Tracker.WeeklyMeal]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Transaction.UserTransactions]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Subscription.UserSubscriptions]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Subscription.RemainingBookings]
       })
     } catch (error) {
       console.error("Error invalidating queries:", error)

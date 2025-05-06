@@ -458,7 +458,7 @@ const BookingDetailsScreen = () => {
               {canCompleteBooking() && (
                 <Button
                   disabled={
-                    !isBookingEnded() ||
+                    // !isBookingEnded() ||
                     bookingData.status === BookingStatusEnum.Completed
                   }
                   onPress={handleComplete}

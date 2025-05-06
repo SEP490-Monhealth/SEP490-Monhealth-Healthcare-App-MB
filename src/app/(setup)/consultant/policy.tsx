@@ -16,18 +16,17 @@ import {
 import { Header } from "@/components/global/organisms"
 
 function SetupPolicy() {
-  const [isRead, setIsRead] = useState<boolean>(false)
   const router = useRouter()
 
-  const onChange = () => {
+  const [isRead, setIsRead] = useState<boolean>(false)
+
+  const onReadChange = () => {
     setIsRead(!isRead)
   }
 
   const handleSetup = () => {
     router.replace("/(setup)/consultant")
   }
-
-  console.log("hehe", isRead)
 
   return (
     <Container>
@@ -151,9 +150,9 @@ function SetupPolicy() {
               </Text>
             </VStack>
 
-            <TouchableOpacity activeOpacity={1} onPress={onChange}>
+            <TouchableOpacity activeOpacity={1} onPress={onReadChange}>
               <HStack center gap={12}>
-                <Checkbox checked={isRead} onCheckChange={onChange} />
+                <Checkbox checked={isRead} onCheckChange={onReadChange} />
                 <Text className="font-tregular text-base text-primary">
                   Tôi đã đọc, hiểu và đồng ý tuân thủ các{" "}
                   <Text className="font-tbold">chính sách hoạt động</Text> của
