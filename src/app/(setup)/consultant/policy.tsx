@@ -1,24 +1,33 @@
-import React from "react"
+import React, { useState } from "react"
 
-import { Text } from "react-native"
+import { Text, TouchableOpacity } from "react-native"
 
 import { useRouter } from "expo-router"
 
 import {
   Button,
+  Checkbox,
   Container,
   Content,
+  HStack,
   ScrollArea,
   VStack
 } from "@/components/global/atoms"
 import { Header } from "@/components/global/organisms"
 
 function SetupPolicy() {
+  const [isRead, setIsRead] = useState<boolean>(false)
   const router = useRouter()
+
+  const onChange = () => {
+    setIsRead(!isRead)
+  }
 
   const handleSetup = () => {
     router.replace("/(setup)/consultant")
   }
+
+  console.log("hehe", isRead)
 
   return (
     <Container>
@@ -141,11 +150,25 @@ function SetupPolicy() {
                 được giải quyết.
               </Text>
             </VStack>
+
+            <TouchableOpacity onPress={onChange} className="mt-2">
+              <HStack className="flex-row items-center gap-4">
+                <Checkbox checked={isRead} onCheckChange={onChange} />
+                <Text className="font-tbold text-lg text-primary">
+                  Đã đọc và đồng ý với các chính sách.
+                </Text>
+              </HStack>
+            </TouchableOpacity>
           </VStack>
         </ScrollArea>
       </Content>
 
-      <Button size="lg" onPress={handleSetup} className="mb-4">
+      <Button
+        disabled={!isRead}
+        size="lg"
+        onPress={handleSetup}
+        className="mb-4"
+      >
         Xác nhận
       </Button>
     </Container>

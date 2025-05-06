@@ -4,7 +4,7 @@ import { ActivityIndicator, Keyboard, Text } from "react-native"
 import { TouchableWithoutFeedback } from "react-native"
 import { SafeAreaView } from "react-native"
 
-import { useLocalSearchParams } from "expo-router"
+import { router, useLocalSearchParams } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
 
@@ -25,7 +25,7 @@ import { WorkoutTypeEnum } from "@/constants/enum/Workout"
 
 import { useAuth } from "@/contexts/AuthContext"
 
-import { useCreateActivity } from "@/hooks/useActivity"
+import { useCreateActivity, useUpdateActivityStatus } from "@/hooks/useActivity"
 import {
   useGetExerciseById,
   useGetExercisesByWorkoutId
@@ -38,16 +38,23 @@ function WorkoutDetailsScreen() {
   const { user } = useAuth()
   const userId = user?.userId
 
-  const { workoutId } = useLocalSearchParams() as { workoutId: string }
+  const { workoutId, action, activityId, isCompleted } =
+    useLocalSearchParams() as {
+      workoutId: string
+      action: string
+      activityId: string
+      isCompleted: string
+    }
 
   const SheetRef = useRef<SheetRefProps>(null)
 
-  const [isWarmup, setIsWarmup] = useState<boolean>(true)
+  const [isWarmup] = useState<boolean>(true)
   const [selectedExercise, setSelectedExercise] = useState<string | undefined>(
     ""
   )
 
   const { mutate: addActivity } = useCreateActivity()
+  const { mutate: updateActivityStatus } = useUpdateActivityStatus()
 
   const { data: workoutData, isLoading: isWorkoutLoading } =
     useGetWorkoutById(workoutId)
@@ -68,6 +75,16 @@ function WorkoutDetailsScreen() {
     openSheet()
   }
 
+  const handleCompleteActivity = async () => {
+    if (!activityId) return
+
+    await updateActivityStatus(activityId, {
+      onSuccess: () => {
+        router.back()
+      }
+    })
+  }
+
   const handleAddWorkout = async () => {
     if (!userId) {
       return
@@ -75,7 +92,11 @@ function WorkoutDetailsScreen() {
 
     const newData = { userId, workoutId }
 
-    await addActivity(newData)
+    await addActivity(newData, {
+      onSuccess: () => {
+        router.back()
+      }
+    })
   }
 
   if (!workoutData || isWorkoutLoading || !exercisesData || isExercisesLoading)
@@ -96,9 +117,19 @@ function WorkoutDetailsScreen() {
                   {workoutData?.description}
                 </Text>
 
-                <Button onPress={handleAddWorkout} className="mt-6">
-                  Thêm vào hoạt động
-                </Button>
+                {action === "viewDetail" ? (
+                  <Button
+                    disabled={isCompleted == "true"}
+                    onPress={handleCompleteActivity}
+                    className="mt-6"
+                  >
+                    Hoàn thành
+                  </Button>
+                ) : (
+                  <Button onPress={handleAddWorkout} className="mt-6">
+                    Thêm vào hoạt động
+                  </Button>
+                )}
 
                 {workoutData.type === WorkoutTypeEnum.Workout && (
                   <Section

@@ -115,8 +115,19 @@ export const ActivityTab = ({ userId, onOverlayLoading }: ActivityTabProps) => {
     router.push("/workouts")
   }
 
-  const handleViewWorkout = (workoutId: string) => {
-    router.push(`/workouts/${workoutId}`)
+  const handleViewWorkout = (
+    workoutId: string,
+    activity: string,
+    complete: boolean
+  ) => {
+    router.push({
+      pathname: `/workouts/${workoutId}`,
+      params: {
+        action: "viewDetail",
+        activityId: activity,
+        isCompleted: complete ? "true" : "false"
+      }
+    })
   }
 
   return (
@@ -176,7 +187,11 @@ export const ActivityTab = ({ userId, onOverlayLoading }: ActivityTabProps) => {
             onPress={() =>
               "isDefault" in item
                 ? handleViewWorkouts()
-                : handleViewWorkout(item.workoutId)
+                : handleViewWorkout(
+                    item.workoutId,
+                    item.activityId,
+                    item.isCompleted
+                  )
             }
             onCheckboxChange={() =>
               "isDefault" in item
