@@ -1,10 +1,14 @@
 import React, { useRef, useState } from "react"
 
-import { ActivityIndicator, Keyboard, Text } from "react-native"
-import { TouchableWithoutFeedback } from "react-native"
-import { SafeAreaView } from "react-native"
+import {
+  ActivityIndicator,
+  Keyboard,
+  SafeAreaView,
+  Text,
+  TouchableWithoutFeedback
+} from "react-native"
 
-import { router, useLocalSearchParams } from "expo-router"
+import { useLocalSearchParams } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
 
@@ -23,9 +27,10 @@ import { Header, Section } from "@/components/global/organisms"
 import { COLORS } from "@/constants/color"
 import { WorkoutTypeEnum } from "@/constants/enum/Workout"
 
-import { useAuth } from "@/contexts/AuthContext"
-
-import { useCreateActivity } from "@/hooks/useActivity"
+import {
+  useGetActivityById,
+  useUpdateActivityStatus
+} from "@/hooks/useActivity"
 import {
   useGetExerciseById,
   useGetExercisesByWorkoutId
@@ -34,26 +39,24 @@ import { useGetWorkoutById } from "@/hooks/useWorkout"
 
 import { toFixed } from "@/utils/formatters"
 
-function WorkoutDetailsScreen() {
-  const { user } = useAuth()
-  const userId = user?.userId
-
-  const { workoutId } = useLocalSearchParams() as {
-    workoutId: string
+function ActivityDetailsScreen() {
+  const { activityId } = useLocalSearchParams() as {
+    activityId: string
   }
-
-  const SheetRef = useRef<SheetRefProps>(null)
-
   const [selectedExercise, setSelectedExercise] = useState<string | undefined>(
     ""
   )
 
-  const { mutate: addActivity } = useCreateActivity()
+  const SheetRef = useRef<SheetRefProps>(null)
 
-  const { data: workoutData, isLoading: isWorkoutLoading } =
-    useGetWorkoutById(workoutId)
+  const { data: activityData, isLoading: isActivityLoading } =
+    useGetActivityById(activityId)
+  const { mutate: updateActivityStatus } = useUpdateActivityStatus()
+  const { data: workoutData, isLoading: isWorkoutLoading } = useGetWorkoutById(
+    activityData?.workoutId
+  )
   const { data: exercisesData, isLoading: isExercisesLoading } =
-    useGetExercisesByWorkoutId(workoutId)
+    useGetExercisesByWorkoutId(activityData?.workoutId)
   const { data: exerciseData, isLoading: isExerciseLoading } =
     useGetExerciseById(selectedExercise)
 
@@ -69,28 +72,26 @@ function WorkoutDetailsScreen() {
     openSheet()
   }
 
-  const handleAddWorkout = async () => {
-    if (!userId) {
-      return
-    }
-
-    const newData = { userId, workoutId }
-
-    await addActivity(newData, {
-      onSuccess: () => {
-        router.back()
-      }
-    })
+  const handleCompleteActivity = async () => {
+    if (!activityId) return
+    await updateActivityStatus(activityId)
   }
 
-  if (!workoutData || isWorkoutLoading || !exercisesData || isExercisesLoading)
+  if (
+    !activityData ||
+    isActivityLoading ||
+    !workoutData ||
+    isWorkoutLoading ||
+    !exercisesData ||
+    isExercisesLoading
+  )
     return <LoadingScreen />
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView className="flex-1 bg-background">
         <Container>
-          <Header back label={workoutData?.name} />
+          <Header back label="Hoạt động" />
 
           <Content className="mt-2">
             <ScrollArea className="flex-1">
@@ -101,8 +102,12 @@ function WorkoutDetailsScreen() {
                   {workoutData?.description}
                 </Text>
 
-                <Button onPress={handleAddWorkout} className="mt-6">
-                  Thêm vào hoạt động
+                <Button
+                  disabled={activityData.isCompleted}
+                  onPress={handleCompleteActivity}
+                  className="mt-6"
+                >
+                  Hoàn thành
                 </Button>
 
                 {workoutData.type === WorkoutTypeEnum.Workout && (
@@ -167,4 +172,4 @@ function WorkoutDetailsScreen() {
   )
 }
 
-export default WorkoutDetailsScreen
+export default ActivityDetailsScreen
