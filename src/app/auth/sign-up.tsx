@@ -181,7 +181,7 @@ function SignUpScreen() {
                       label="Email"
                       placeholder="VD: nguyenvana@gmail.com"
                       onChangeText={onChange}
-                      keyboardType="email-address"
+                      keyboardType="default"
                       startIcon={
                         <Sms variant="Bold" size={20} color={COLORS.primary} />
                       }

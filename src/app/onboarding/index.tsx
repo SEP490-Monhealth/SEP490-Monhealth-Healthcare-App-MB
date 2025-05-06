@@ -31,7 +31,7 @@ const onboardingData: Record<string, OnboardingType[]> = {
       image: require("../../../public/images/monhealth-onboarding-2.png")
     },
     {
-      title: "Gợi ý bài tập và theo dõi lượng calo đốt",
+      title: "Danh sách bộ bài tập và theo dõi lượng calo đốt",
       description:
         "Ứng dụng giúp lập kế hoạch luyện tập và theo dõi lượng calo đốt",
       image: require("../../../public/images/monhealth-onboarding-3.png")

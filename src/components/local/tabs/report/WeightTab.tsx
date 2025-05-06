@@ -2,7 +2,6 @@ import React, { useEffect, useMemo } from "react"
 
 import { Text, View } from "react-native"
 
-import { LoadingScreen } from "@/app/loading"
 import { useIsFetching, useIsMutating } from "@tanstack/react-query"
 
 import { HStack, VStack } from "@/components/global/atoms"
@@ -105,10 +104,6 @@ export const WeightTab = ({ userId, onOverlayLoading }: WeightTabProps) => {
   useEffect(() => {
     onOverlayLoading(isFetching > 0 || isMutating > 0)
   }, [isFetching, isMutating, onOverlayLoading])
-
-  if (!weeklyWeightsData) {
-    return <LoadingScreen />
-  }
 
   return (
     <View className="mt-4">

@@ -87,7 +87,7 @@ export const ReviewCard = ({
                 })
                 .filter(Boolean)}
               <Text className="font-tmedium text-sm text-accent">
-                {`(${rating.toFixed(1)})`}
+                {`(${rating.toFixed()})`}
               </Text>
             </HStack>
           </View>

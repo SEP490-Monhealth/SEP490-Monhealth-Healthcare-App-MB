@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { Text, TouchableOpacity } from "react-native"
+import { Text, TouchableOpacity, View } from "react-native"
 
 import { useRouter } from "expo-router"
 
@@ -35,7 +35,7 @@ function SetupPolicy() {
 
       <Content className="mt-2">
         <ScrollArea>
-          <VStack gap={12} className="pb-12">
+          <VStack gap={12}>
             <VStack>
               <Text className="font-tbold text-lg text-primary">
                 Quyền lợi của bạn
@@ -151,11 +151,13 @@ function SetupPolicy() {
               </Text>
             </VStack>
 
-            <TouchableOpacity onPress={onChange} className="mt-2">
-              <HStack className="flex-row items-center gap-4">
+            <TouchableOpacity activeOpacity={1} onPress={onChange}>
+              <HStack center gap={12}>
                 <Checkbox checked={isRead} onCheckChange={onChange} />
-                <Text className="font-tbold text-lg text-primary">
-                  Đã đọc và đồng ý với các chính sách.
+                <Text className="font-tregular text-base text-primary">
+                  Tôi đã đọc, hiểu và đồng ý tuân thủ các{" "}
+                  <Text className="font-tbold">chính sách hoạt động</Text> của
+                  ứng dụng.
                 </Text>
               </HStack>
             </TouchableOpacity>
@@ -163,14 +165,16 @@ function SetupPolicy() {
         </ScrollArea>
       </Content>
 
-      <Button
-        disabled={!isRead}
-        size="lg"
-        onPress={handleSetup}
-        className="mb-4"
-      >
-        Xác nhận
-      </Button>
+      <View className="pt-4">
+        <Button
+          disabled={!isRead}
+          size="lg"
+          onPress={handleSetup}
+          className="mb-4"
+        >
+          Xác nhận
+        </Button>
+      </View>
     </Container>
   )
 }

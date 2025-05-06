@@ -24,7 +24,7 @@ export const TimeSlotSelector = ({
   status,
   onPress,
   date,
-  bufferMinutes = 60
+  bufferMinutes = 20
 }: TimeSlotSelectorProps) => {
   const isBooked = status === ScheduleTimeSlotStatusEnum.Booked
   const isDisabled = status === ScheduleTimeSlotStatusEnum.Unavailable

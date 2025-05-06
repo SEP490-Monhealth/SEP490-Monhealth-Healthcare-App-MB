@@ -2,7 +2,7 @@ import React from "react"
 
 import { Text, View } from "react-native"
 
-import { Feather } from "@expo/vector-icons"
+import { Fontisto } from "@expo/vector-icons"
 
 import { HStack, Progress, VStack } from "@/components/global/atoms"
 import { Section } from "@/components/global/organisms"
@@ -40,7 +40,7 @@ export const ReviewOverview = ({
                 {stars}
               </Text>
 
-              <Feather
+              <Fontisto
                 name="star"
                 size={14}
                 fill={COLORS.PRIMARY.lemon}

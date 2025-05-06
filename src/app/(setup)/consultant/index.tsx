@@ -349,7 +349,7 @@ function SetupConsultantScreen() {
             onBackPress={handleBack}
           />
 
-          <Content className="mt-2 pb-24">
+          <Content className="mt-2 pb-28">
             <StepHeader
               title={currentStepData.title}
               description={currentStepData.description}
