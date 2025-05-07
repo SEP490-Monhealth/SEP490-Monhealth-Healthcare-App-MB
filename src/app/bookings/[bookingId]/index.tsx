@@ -80,6 +80,11 @@ const BookingDetailsScreen = () => {
 
   const bookingsCount = bookingsData?.length || 0
   const bookingDate = new Date(bookingData.date)
+  const isClient = userId === bookingData.userId
+  const isConsultant = !isClient
+  const isBookingCompleted = bookingData.status === BookingStatusEnum.Completed
+  const isBookingReported = bookingData.status === BookingStatusEnum.Reported
+  const isBookingBooked = bookingData.status === BookingStatusEnum.Booked
 
   const isBookingEnded = () => {
     if (
@@ -206,6 +211,11 @@ const BookingDetailsScreen = () => {
     setIsModalVisible(true)
   }
 
+  const handleReport = () => {
+    setModalType("report")
+    setIsModalVisible(true)
+  }
+
   const handleConfirmAction = () => {
     if (modalType === "cancel") {
       router.push(`/bookings/${bookingId}/cancel`)
@@ -213,6 +223,8 @@ const BookingDetailsScreen = () => {
       router.push(`/bookings/${bookingId}/complete`)
     } else if (modalType === "review") {
       router.push(`/bookings/${bookingId}/review`)
+    } else if (modalType === "report") {
+      router.push(`/bookings/${bookingId}/report`)
     }
 
     setIsModalVisible(false)
@@ -226,34 +238,40 @@ const BookingDetailsScreen = () => {
   }
 
   const canCancelBooking = () => {
-    return (
-      userId === bookingData.userId &&
-      bookingData.status === BookingStatusEnum.Booked
-    )
+    return isClient && isBookingBooked
   }
 
   const canCompleteBooking = () => {
-    return (
-      userId !== bookingData.userId &&
-      bookingData.status === BookingStatusEnum.Booked
-    )
+    return isConsultant && isBookingBooked
   }
 
   const canReviewBooking = () => {
-    return (
-      userId === bookingData.userId &&
-      bookingData.status === BookingStatusEnum.Completed &&
-      !bookingData.isReviewed
-    )
+    return isClient && isBookingCompleted && !bookingData.isReviewed
   }
 
-  const canReportBooking = () => {
-    return (
-      userId === bookingData.userId &&
-      (bookingData.status === BookingStatusEnum.Completed ||
-        bookingData.status === BookingStatusEnum.Reported)
-    )
+  const getReportAction = () => {
+    const reportIcon = <Flag variant="Bold" size={20} color={COLORS.primary} />
+
+    if (isBookingReported) {
+      return {
+        icon: reportIcon,
+        href: `/bookings/${bookingId}/report`,
+        viewOnly: true
+      }
+    }
+
+    if (isClient && isBookingCompleted) {
+      return {
+        icon: reportIcon,
+        href: `/bookings/${bookingId}/report/create`,
+        viewOnly: false
+      }
+    }
+
+    return undefined
   }
+
+  const reportAction = getReportAction()
 
   return (
     <>
@@ -261,17 +279,12 @@ const BookingDetailsScreen = () => {
         <Header
           back
           label="Lịch hẹn"
-          action={
-            canReportBooking()
-              ? {
-                  icon: (
-                    <Flag variant="Bold" size={20} color={COLORS.primary} />
-                  ),
-                  href:
-                    bookingData.status === BookingStatusEnum.Reported
-                      ? `/bookings/${bookingId}/report`
-                      : `/bookings/${bookingId}/report/create`
-                }
+          action={reportAction}
+          onActionPress={
+            reportAction
+              ? reportAction.viewOnly
+                ? () => router.push(reportAction.href)
+                : handleReport
               : undefined
           }
         />
@@ -286,15 +299,11 @@ const BookingDetailsScreen = () => {
           <Content className="mt-2 pb-4">
             <View>
               <Section
-                label={
-                  userId === bookingData.userId
-                    ? "Chuyên viên tư vấn"
-                    : "Người đặt lịch"
-                }
+                label={isClient ? "Chuyên viên tư vấn" : "Người đặt lịch"}
                 margin={false}
               />
 
-              {userId === bookingData.userId ? (
+              {isClient ? (
                 <HStack center gap={20}>
                   {consultantData.avatarUrl ? (
                     <Image
@@ -441,7 +450,7 @@ const BookingDetailsScreen = () => {
                   disabled
                   value={bookingData.review?.comment || ""}
                   isMultiline
-                  numberOfLines={4}
+                  numberOfLines={6}
                 />
               </View>
             )}
