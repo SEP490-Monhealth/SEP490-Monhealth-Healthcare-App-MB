@@ -22,8 +22,8 @@ const withdrawalRequestSchema = z.object({
   }),
 
   consultantBank: z.object({
-    accountNumber: consultantBankSchema.shape.number,
-    accountName: consultantBankSchema.shape.name
+    number: consultantBankSchema.shape.number,
+    name: consultantBankSchema.shape.name
   }),
 
   bank: z.object({

@@ -79,10 +79,7 @@ function UpdateWithdrawalRequestScreen() {
     if (withdrawalRequestData) {
       updateField("consultantBankId", withdrawalRequestData.consultantBankId)
 
-      updateField(
-        "accountNumber",
-        withdrawalRequestData.consultantBank.accountNumber
-      )
+      updateField("accountNumber", withdrawalRequestData.consultantBank.number)
 
       updateField("name", withdrawalRequestData.bank.name)
       updateField("shortName", withdrawalRequestData.bank.shortName)
@@ -152,8 +149,7 @@ function UpdateWithdrawalRequestScreen() {
               label="Số tài khoản"
               defaultValue="VD: 2003150599"
               value={
-                accountNumber ||
-                withdrawalRequestData?.consultantBank.accountNumber
+                accountNumber || withdrawalRequestData?.consultantBank.number
               }
               errorMessage={errors.consultantBankId?.message}
               onPress={handleViewConsultantBanks}
