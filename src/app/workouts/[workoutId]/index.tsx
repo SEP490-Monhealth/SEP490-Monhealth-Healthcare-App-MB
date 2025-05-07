@@ -4,7 +4,7 @@ import { ActivityIndicator, Keyboard, Text } from "react-native"
 import { TouchableWithoutFeedback } from "react-native"
 import { SafeAreaView } from "react-native"
 
-import { router, useLocalSearchParams } from "expo-router"
+import { useLocalSearchParams } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
 
@@ -38,12 +38,11 @@ function WorkoutDetailsScreen() {
   const { user } = useAuth()
   const userId = user?.userId
 
-  const { workoutId } = useLocalSearchParams() as {
-    workoutId: string
-  }
+  const { workoutId } = useLocalSearchParams<{ workoutId: string }>()
 
   const SheetRef = useRef<SheetRefProps>(null)
 
+  const [isWarmup, setIsWarmup] = useState<boolean>(true)
   const [selectedExercise, setSelectedExercise] = useState<string | undefined>(
     ""
   )
@@ -76,11 +75,7 @@ function WorkoutDetailsScreen() {
 
     const newData = { userId, workoutId }
 
-    await addActivity(newData, {
-      onSuccess: () => {
-        router.back()
-      }
-    })
+    await addActivity(newData)
   }
 
   if (!workoutData || isWorkoutLoading || !exercisesData || isExercisesLoading)
@@ -109,20 +104,24 @@ function WorkoutDetailsScreen() {
                   <Section
                     label="Khởi động"
                     description={`${toFixed(exercisesData.warmupDuration)} phút / ${warmupRounds} vòng`}
+                    // action={
+                    //   <Toggle value={isWarmup} onValueChange={setIsWarmup} />
+                    // }
                   />
                 )}
 
                 <VStack gap={12}>
-                  {exercisesData?.warmup.map((exercise, index) => (
-                    <ExerciseCard
-                      key={`${exercise.exerciseId}-${index}`}
-                      name={exercise.name}
-                      duration={exercise.duration}
-                      reps={exercise.reps}
-                      calories={exercise.caloriesPerMinute}
-                      onPress={() => handleViewExercise(exercise.exerciseId)}
-                    />
-                  ))}
+                  {isWarmup &&
+                    exercisesData?.warmup.map((exercise, index) => (
+                      <ExerciseCard
+                        key={`${exercise.exerciseId}-${index}`}
+                        name={exercise.name}
+                        duration={exercise.duration}
+                        reps={exercise.reps}
+                        calories={exercise.caloriesPerMinute}
+                        onPress={() => handleViewExercise(exercise.exerciseId)}
+                      />
+                    ))}
 
                   <Section
                     label="Bài tập"

@@ -1,5 +1,5 @@
 export const appConfig = {
-  baseUrl: "https://fa15-116-109-22-72.ngrok-free.app",
+  baseUrl: "https://monhealth-api.persiehomeserver.com",
   apiVersion: "api/v1",
   name: "MonAPI",
   version: "1.0.0",

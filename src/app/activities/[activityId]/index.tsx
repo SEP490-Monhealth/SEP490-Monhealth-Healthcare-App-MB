@@ -40,18 +40,18 @@ import { useGetWorkoutById } from "@/hooks/useWorkout"
 import { toFixed } from "@/utils/formatters"
 
 function ActivityDetailsScreen() {
-  const { activityId } = useLocalSearchParams() as {
-    activityId: string
-  }
+  const { activityId } = useLocalSearchParams<{ activityId: string }>()
+
+  const SheetRef = useRef<SheetRefProps>(null)
+
   const [selectedExercise, setSelectedExercise] = useState<string | undefined>(
     ""
   )
 
-  const SheetRef = useRef<SheetRefProps>(null)
+  const { mutate: updateActivityStatus } = useUpdateActivityStatus()
 
   const { data: activityData, isLoading: isActivityLoading } =
     useGetActivityById(activityId)
-  const { mutate: updateActivityStatus } = useUpdateActivityStatus()
   const { data: workoutData, isLoading: isWorkoutLoading } = useGetWorkoutById(
     activityData?.workoutId
   )
