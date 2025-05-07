@@ -128,9 +128,9 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
       (item) => item.userId === search.userId
     )
 
-    if (userSearches.length > 6) {
+    if (userSearches.length > 4) {
       const lastUserItemIndex = updatedSearches.findIndex(
-        (item, index) => item.userId === search.userId && index >= 6
+        (item, index) => item.userId === search.userId && index >= 4
       )
 
       if (lastUserItemIndex !== -1) {
@@ -163,7 +163,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
 
   const trackMealFood = async (food: {
     foodId: string
-    name: string
+    name: string | undefined
     userId: string
   }) => {
     let updatedFrequency = [...foodFrequency]
@@ -179,7 +179,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
     } else {
       updatedFrequency.push({
         foodId: food.foodId,
-        name: food.name,
+        name: food.name || "",
         count: 1,
         userId: food.userId
       })

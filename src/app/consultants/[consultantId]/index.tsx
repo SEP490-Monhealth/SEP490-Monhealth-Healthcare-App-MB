@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 
 import { Image, Text, View } from "react-native"
 
@@ -51,7 +51,12 @@ function ConsultantDetailsScreen() {
   const { user } = useAuth()
   const userId = user?.userId
 
-  const { date: storedDate, startTime, endTime } = useBookingStore()
+  const {
+    date: storedDate,
+    startTime,
+    endTime,
+    updateConsultant
+  } = useBookingStore()
 
   const { mutate: createChat } = useCreateChat()
   const { mutate: createBookingTransaction } = useCreateBookingTransaction()
@@ -68,6 +73,12 @@ function ConsultantDetailsScreen() {
   const [isTimeModalVisible, setIsTimeModalVisible] = useState<boolean>(false)
   const [isNoBookingsLeftModalVisible, setIsNoBookingsLeftModalVisible] =
     useState<boolean>(false)
+
+  useEffect(() => {
+    if (consultantId) {
+      updateConsultant(consultantId)
+    }
+  }, [consultantId, updateConsultant])
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab)

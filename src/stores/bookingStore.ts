@@ -8,6 +8,7 @@ interface BookingStore {
   notes: string
 
   updateField: (field: string, value: any) => void
+  updateConsultant: (consultantId: string) => void
   reset: () => void
 }
 
@@ -22,6 +23,14 @@ export const useBookingStore = create<BookingStore>((set) => ({
     set((state) => ({
       ...state,
       [field]: value
+    })),
+
+  updateConsultant: (consultantId) =>
+    set((state) => ({
+      ...state,
+      consultantId,
+      startTime: "",
+      endTime: ""
     })),
 
   reset: () =>
