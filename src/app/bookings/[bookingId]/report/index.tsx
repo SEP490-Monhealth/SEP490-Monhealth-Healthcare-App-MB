@@ -5,19 +5,20 @@ import { Image, Text, View } from "react-native"
 import { useLocalSearchParams } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
+import { CloseSquare, SearchStatus } from "iconsax-react-native"
 
 import {
-  Badge,
+  Card,
   Container,
   Content,
   HStack,
-  Input,
   ScrollArea,
   VStack
 } from "@/components/global/atoms"
-import { ErrorDisplay } from "@/components/global/molecules"
+import { BookingItem, ErrorDisplay } from "@/components/global/molecules"
 import { Header, Section } from "@/components/global/organisms"
 
+import { COLORS } from "@/constants/color"
 import { getReportStatusMeta } from "@/constants/enum/Report"
 
 import { useAuth } from "@/contexts/AuthContext"
@@ -67,8 +68,22 @@ function ReportDetailsScreen() {
 
   const currentReport = reportData[0]
 
-  const { label: reportStatusLabel, color: reportStatusColor } =
-    getReportStatusMeta(currentReport?.status)
+  const { label: reportStatusLabel } = getReportStatusMeta(
+    currentReport?.status
+  )
+
+  const reportItems = [
+    {
+      icon: <SearchStatus variant="Bold" size={20} color={COLORS.primary} />,
+      label: "Trạng thái",
+      value: reportStatusLabel
+    },
+    {
+      icon: <CloseSquare variant="Bold" size={20} color={COLORS.primary} />,
+      label: "Lý do",
+      value: currentReport?.reason
+    }
+  ]
 
   return (
     <Container>
@@ -76,19 +91,6 @@ function ReportDetailsScreen() {
 
       <Content className="mt-2">
         <ScrollArea>
-          <HStack className="justify-between">
-            <Text className="font-tbold text-xl text-primary">
-              Trạng thái báo cáo
-            </Text>
-
-            <Badge
-              label={reportStatusLabel}
-              background={reportStatusColor}
-              color="#fff"
-              rounded
-            />
-          </HStack>
-
           <View>
             <Section
               label={
@@ -96,7 +98,9 @@ function ReportDetailsScreen() {
                   ? "Chuyên viên tư vấn"
                   : "Người đặt lịch"
               }
+              margin={false}
             />
+
             {userId === bookingData.userId ? (
               <HStack center gap={20}>
                 {bookingData.consultant.avatarUrl ? (
@@ -118,9 +122,9 @@ function ReportDetailsScreen() {
                   </Text>
 
                   <Text className="font-tmedium text-base text-accent">
+                    {formatDate(bookingData.date)},{" "}
                     {formatTime(bookingData.startTime)} -{" "}
-                    {formatTime(bookingData.endTime)},{" "}
-                    {formatDate(bookingData.date)}
+                    {formatTime(bookingData.endTime)}
                   </Text>
                 </VStack>
               </HStack>
@@ -145,9 +149,9 @@ function ReportDetailsScreen() {
                   </Text>
 
                   <Text className="font-tmedium text-base text-accent">
+                    {formatDate(bookingData.date)},{" "}
                     {formatTime(bookingData.startTime)} -{" "}
-                    {formatTime(bookingData.endTime)},{" "}
-                    {formatDate(bookingData.date)}
+                    {formatTime(bookingData.endTime)}
                   </Text>
                 </VStack>
               </HStack>
@@ -155,17 +159,23 @@ function ReportDetailsScreen() {
           </View>
 
           <View>
-            <Section label="Lý do" />
+            <Section label="Chi tiết" />
 
-            {currentReport?.reason.startsWith("Khác") ? (
-              <Input
-                value={currentReport?.reason}
-                isMultiline
-                numberOfLines={6}
-              />
-            ) : (
-              <Input disabled value={currentReport?.reason} />
-            )}
+            <Card>
+              {reportItems.map((item, index) => {
+                const isLast = index === reportItems.length - 1
+
+                return (
+                  <BookingItem
+                    key={index}
+                    icon={item.icon}
+                    label={item.label}
+                    value={item.value}
+                    isLast={isLast}
+                  />
+                )
+              })}
+            </Card>
           </View>
 
           <View>

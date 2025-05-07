@@ -15,7 +15,10 @@ import { GoalTypeEnum, getGoalTypeMeta } from "@/constants/enum/Goal"
 
 import { useUpdateActivityStatus } from "@/hooks/useActivity"
 import { useGetGoalsByUserId } from "@/hooks/useGoal"
-import { useGetDailyActivityByUserId } from "@/hooks/useTracker"
+import {
+  useGetDailyActivityByUserId,
+  useGetDailyMealByUserId
+} from "@/hooks/useTracker"
 
 import { formatDateY, toFixed } from "@/utils/formatters"
 
@@ -35,6 +38,7 @@ export const ActivityTab = ({ userId, onOverlayLoading }: ActivityTabProps) => {
   const { mutate: updateActivityStatus } = useUpdateActivityStatus()
 
   const { data: goalData } = useGetGoalsByUserId(userId)
+  const { data: dailyMealData } = useGetDailyMealByUserId(userId, today)
   const { data: dailyActivityData } = useGetDailyActivityByUserId(userId, today)
 
   const currentGoalData = goalData?.[0]
@@ -97,7 +101,7 @@ export const ActivityTab = ({ userId, onOverlayLoading }: ActivityTabProps) => {
   const workoutsData = [
     {
       label: "Đã nạp",
-      value: toFixed(dailyActivityData?.totalCaloriesIntake ?? 0, 0) || 0,
+      value: toFixed(dailyMealData?.nutrition.calories ?? 0, 0) || 0,
       targetValue: toFixed(currentGoalData?.caloriesGoal ?? 0, 0)
     },
     {
