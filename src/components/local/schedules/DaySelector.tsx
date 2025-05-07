@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef } from "react"
+import React, { memo, useEffect, useMemo, useRef } from "react"
 
 import { Text, TouchableOpacity } from "react-native"
 
@@ -10,24 +10,20 @@ import { RecurringDayEnum, ScheduleTypeEnum } from "@/constants/enum/Schedule"
 import { ScheduleType } from "@/schemas/scheduleSchema"
 
 interface DayButtonProps {
-  day: { shortLabel: string; value: RecurringDayEnum }
+  day: { shortLabel: string; value: RecurringDayEnum; isNextWeek?: boolean }
   isSelected: boolean
   scheduleType: ScheduleTypeEnum
   onPress: () => void
+  date?: Date
 }
 
 const DayButton = ({
   day,
   isSelected,
   scheduleType,
-  onPress
+  onPress,
+  date
 }: DayButtonProps) => {
-  const today = new Date()
-  const currentDay = today.getDay()
-  const diff = (day.value - currentDay + 7) % 7
-  const targetDate = new Date(today)
-  targetDate.setDate(today.getDate() + diff)
-
   return (
     <TouchableOpacity
       activeOpacity={0.8}
@@ -44,13 +40,13 @@ const DayButton = ({
         {day.shortLabel}
       </Text>
 
-      {scheduleType === ScheduleTypeEnum.OneTime && (
+      {scheduleType === ScheduleTypeEnum.OneTime && date && (
         <Text
           className={`font-tmedium text-lg ${
             isSelected ? "text-white" : "text-primary"
           }`}
         >
-          {targetDate.getDate()}
+          {date.getDate()}
         </Text>
       )}
     </TouchableOpacity>
@@ -75,8 +71,20 @@ export const DaySelector = ({
   setSelectedDays
 }: DaySelectorProps) => {
   const processedInitially = useRef(false)
+  const previousScheduleType = useRef<ScheduleTypeEnum | null>(null)
 
   useEffect(() => {
+    if (
+      previousScheduleType.current !== null &&
+      previousScheduleType.current !== scheduleType &&
+      setSelectedDays
+    ) {
+      setSelectedDays([])
+      processedInitially.current = false
+    }
+
+    previousScheduleType.current = scheduleType
+
     if (
       !processedInitially.current &&
       existingSchedules?.length &&
@@ -104,17 +112,64 @@ export const DaySelector = ({
 
       processedInitially.current = true
     }
+  }, [scheduleType, existingSchedules, setSelectedDays])
+
+  const displayDaysWithDates = useMemo(() => {
+    if (scheduleType === ScheduleTypeEnum.Recurring) {
+      return {
+        days: DATA.DAY_OF_WEEK,
+        dates: null
+      }
+    } else {
+      const now = new Date()
+      const currentHour = now.getHours()
+
+      const startDate = new Date(now)
+      if (currentHour >= 18) {
+        startDate.setDate(startDate.getDate() + 1)
+      }
+
+      const startDayOfWeek = startDate.getDay()
+
+      const days = []
+      const dates = []
+
+      for (let i = 0; i < 7; i++) {
+        const dayIndex = (startDayOfWeek + i) % 7
+        const targetDate = new Date(startDate)
+        targetDate.setDate(startDate.getDate() + i)
+
+        const day = DATA.DAY_OF_WEEK.find((d) => d.value === dayIndex)
+        if (day) {
+          days.push({
+            ...day,
+            isNextWeek: i > 7 - startDayOfWeek
+          })
+          dates.push(targetDate)
+        }
+      }
+
+      return {
+        days,
+        dates
+      }
+    }
   }, [scheduleType])
 
   return (
     <HStack gap={8}>
-      {DATA.DAY_OF_WEEK.map((day) => (
+      {displayDaysWithDates.days?.map((day, index) => (
         <MemoizedDayButton
           key={day.value}
           day={day}
           isSelected={selectedDays.includes(day.value)}
           scheduleType={scheduleType}
           onPress={() => toggleDay(day.value)}
+          date={
+            displayDaysWithDates.dates
+              ? displayDaysWithDates.dates[index]
+              : undefined
+          }
         />
       ))}
     </HStack>

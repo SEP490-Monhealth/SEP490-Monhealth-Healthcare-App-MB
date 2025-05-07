@@ -8,7 +8,7 @@ import {
 } from "react-native"
 import { Keyboard } from "react-native"
 
-import { router, useLocalSearchParams } from "expo-router"
+import { useLocalSearchParams, useRouter } from "expo-router"
 
 import { LoadingScreen } from "@/app/loading"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -51,6 +51,7 @@ interface SelectedTimeSlots {
 }
 
 function ScheduleCreateScreen() {
+  const router = useRouter()
   const { consultantId } = useLocalSearchParams<{ consultantId: string }>()
 
   const SheetRef = useRef<SheetRefProps>(null)
@@ -59,35 +60,18 @@ function ScheduleCreateScreen() {
   const now = new Date()
   now.setUTCHours(now.getUTCHours() + 7)
 
-  const today = new Date()
-  const weekdayNumber = today.getDay()
-  const mappedDay = weekdayNumber
-
   const [scheduleType, setScheduleType] = useState<ScheduleTypeEnum>(
     ScheduleTypeEnum.OneTime
   )
-  const [selectedDays, setSelectedDays] = useState<RecurringDayEnum[]>([
-    mappedDay
-  ])
+  const [selectedDays, setSelectedDays] = useState<RecurringDayEnum[]>([])
   const [selectedTimeSlots, setSelectedTimeSlots] = useState<
     SelectedTimeSlots[]
-  >([{ dayOfWeek: mappedDay, timeSlots: [] }])
+  >([])
 
   const [selectedDay, setSelectedDay] = useState<RecurringDayEnum | null>(null)
   const [selectedTime, setSelectedTime] = useState<Date>(new Date())
   const [duration, setDuration] = useState<number>(0)
   const [errorMessage, setErrorMessage] = useState<string>("")
-
-  const [previousData, setPreviousData] = useState({
-    [ScheduleTypeEnum.OneTime]: {
-      days: selectedDays,
-      timeSlots: selectedTimeSlots
-    },
-    [ScheduleTypeEnum.Recurring]: {
-      days: selectedDays,
-      timeSlots: selectedTimeSlots
-    }
-  })
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -98,8 +82,6 @@ function ScheduleCreateScreen() {
 
   const { data: schedulesData, isLoading: isSchedulesLoading } =
     useGetSchedulesByConsultantId(consultantId, scheduleType)
-
-  // console.log(JSON.stringify(schedulesData, null, 2))
 
   const {
     setValue,
@@ -119,35 +101,20 @@ function ScheduleCreateScreen() {
       ? ScheduleTypeEnum.Recurring
       : ScheduleTypeEnum.OneTime
 
-    setPreviousData((prev) => ({
-      ...prev,
-      [scheduleType]: { days: selectedDays, timeSlots: selectedTimeSlots }
-    }))
-
     setScheduleType(newType)
     setValue("type", newType)
 
-    const updatedDays = previousData[newType].days
-    const updatedTimeSlots = previousData[newType].timeSlots
+    if (newType === ScheduleTypeEnum.Recurring) {
+      setSelectedDays([])
+      setSelectedTimeSlots([])
 
-    setSelectedDays(updatedDays)
-    setSelectedTimeSlots(updatedTimeSlots)
+      setValue("schedules", [])
+    } else {
+      setSelectedDays([])
+      setSelectedTimeSlots([])
 
-    const schedules = updatedDays.map((day) => {
-      const dayTimeSlot = updatedTimeSlots.find(
-        (slot) => slot.dayOfWeek === day
-      )
-      return {
-        recurringDay: newType === ScheduleTypeEnum.Recurring ? day : null,
-        specificDate:
-          newType === ScheduleTypeEnum.OneTime
-            ? new Date().toISOString().split("T")[0]
-            : null,
-        timeSlots: dayTimeSlot?.timeSlots || []
-      }
-    })
-
-    setValue("schedules", schedules)
+      setValue("schedules", [])
+    }
   }
 
   const sortDays = (days: RecurringDayEnum[]) => {
@@ -377,8 +344,6 @@ function ScheduleCreateScreen() {
     (slot) => slot.timeSlots.length > 0
   )
 
-  // console.log(errors)
-
   if (
     !scheduleTimeSlotsData ||
     isScheduleTimeSlotsLoading ||
@@ -397,18 +362,27 @@ function ScheduleCreateScreen() {
           <Content className="mt-2 pb-4">
             <ScrollArea className="flex-1">
               <VStack className="pb-24">
-                <Section
-                  label="Lặp lại"
-                  margin={false}
-                  action={
-                    <Toggle
-                      value={scheduleType === ScheduleTypeEnum.Recurring}
-                      onValueChange={handleScheduleTypeChange}
-                    />
-                  }
-                />
+                <View>
+                  <Section
+                    label="Lặp lại"
+                    margin={false}
+                    action={
+                      <Toggle
+                        value={scheduleType === ScheduleTypeEnum.Recurring}
+                        onValueChange={handleScheduleTypeChange}
+                      />
+                    }
+                  />
 
-                <Section label="Chọn ngày" margin={false} />
+                  <Text className="text-justify font-tregular text-base text-secondary">
+                    Bật tùy chọn này nếu bạn muốn lịch trình được lặp lại hàng
+                    tuần. Khi tắt, lịch trình sẽ chỉ diễn ra một lần duy nhất
+                    vào ngày được chọn. Lịch trình lặp lại sẽ tự động tạo các
+                    buổi hẹn mới vào cùng thời điểm mỗi tuần.
+                  </Text>
+                </View>
+
+                <Section label="Chọn ngày" />
 
                 <DaySelector
                   selectedDays={selectedDays}
@@ -433,10 +407,11 @@ function ScheduleCreateScreen() {
 
             <Button
               loading={isLoading}
+              disabled={!hasSelectedTimeSlots}
               onPress={handleSubmit(onSubmit)}
               className="absolute bottom-4 w-full"
             >
-              Hoàn thành
+              Tạo lịch trình
             </Button>
           </Content>
         </Container>
@@ -470,11 +445,7 @@ function ScheduleCreateScreen() {
               maximumDate={setHoursAndMinutes(new Date(), 18, 0)}
             />
 
-            <Button
-              disabled={!hasSelectedTimeSlots}
-              onPress={handleConfirmTime}
-              className="w-full"
-            >
+            <Button onPress={handleConfirmTime} className="w-full">
               Xác nhận
             </Button>
           </VStack>
