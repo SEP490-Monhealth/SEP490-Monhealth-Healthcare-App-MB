@@ -24,6 +24,7 @@ import { useAuth } from "@/contexts/AuthContext"
 function ReportScreen() {
   const { user } = useAuth()
   const userId = user?.userId
+  const userSubscription = user?.subscription
 
   const [activeTab, setActiveTab] = useState<string>("meal")
   const [overlayLoading, setOverlayLoading] = useState<boolean>(false)
@@ -54,31 +55,38 @@ function ReportScreen() {
 
       <ScrollArea>
         <Content className="pb-12">
-          <Tabs defaultValue={activeTab} contentMarginTop={8}>
-            <TabsList gap={32}>
-              <TabsTrigger value="meal" onChange={handleTabChange}>
-                Bữa ăn
-              </TabsTrigger>
+          {userSubscription !== "Gói Cơ Bản" ? (
+            <Tabs defaultValue={activeTab} contentMarginTop={8}>
+              <TabsList gap={32}>
+                <TabsTrigger value="meal" onChange={handleTabChange}>
+                  Bữa ăn
+                </TabsTrigger>
 
-              <TabsTrigger value="weight" onChange={handleTabChange}>
-                Cân nặng
-              </TabsTrigger>
-            </TabsList>
+                <TabsTrigger value="weight" onChange={handleTabChange}>
+                  Cân nặng
+                </TabsTrigger>
+              </TabsList>
 
-            <TabsContent value="meal">
-              <MealTab
-                userId={userId}
-                onOverlayLoading={handleOverlayLoading}
-              />
-            </TabsContent>
+              <TabsContent value="meal">
+                <MealTab
+                  userId={userId}
+                  onOverlayLoading={handleOverlayLoading}
+                />
+              </TabsContent>
 
-            <TabsContent value="weight">
-              <WeightTab
-                userId={userId}
-                onOverlayLoading={handleOverlayLoading}
-              />
-            </TabsContent>
-          </Tabs>
+              <TabsContent value="weight">
+                <WeightTab
+                  userId={userId}
+                  onOverlayLoading={handleOverlayLoading}
+                />
+              </TabsContent>
+            </Tabs>
+          ) : (
+            <WeightTab
+              userId={userId}
+              onOverlayLoading={handleOverlayLoading}
+            />
+          )}
         </Content>
       </ScrollArea>
     </Container>

@@ -41,10 +41,10 @@ function ChatMonAIScreen() {
   const [messages, setMessages] = useState<MessageType[]>([])
   const [isAITyping, setIsAITyping] = useState<boolean>(false)
   const [hasStarted, setHasStarted] = useState<boolean>(false)
-  const [newMessage, setNewMessage] = useState<string>(
-    "Tôi muốn tăng cân nhanh chóng, bạn có thể giúp tôi không?"
-  )
-  // const [newMessage, setNewMessage] = useState<string>("")
+  // const [newMessage, setNewMessage] = useState<string>(
+  //   "Tôi muốn tăng cân nhanh chóng, bạn có thể giúp tôi không?"
+  // )
+  const [newMessage, setNewMessage] = useState<string>("")
 
   const { mutate: chatMonAI } = useCreateChatMonAI()
 
