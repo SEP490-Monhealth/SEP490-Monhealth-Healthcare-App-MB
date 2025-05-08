@@ -88,8 +88,8 @@ function FoodUserScreen() {
 
   const limit = 10
 
-  const { mutate: deleteFoodUser } = useDeleteFood()
   const { mutate: addMeal } = useCreateMeal()
+  const { mutate: deleteFood } = useDeleteFood()
 
   const { data, isLoading, refetch } = useGetFoodsByUserId(userId, page, limit)
   const { data: nutritionGoalData } = useGetNutritionGoal(userId)
@@ -214,7 +214,7 @@ function FoodUserScreen() {
   const handleConfirmDelete = () => {
     if (selectedFood) {
       setIsVisible(false)
-      deleteFoodUser(selectedFood)
+      deleteFood(selectedFood)
     }
     setSelectedFood(null)
   }

@@ -147,7 +147,7 @@ function FoodCreateScreen() {
         }
       }
 
-      console.log("Final Form Data:", JSON.stringify(finalData, null, 2))
+      // console.log("Final Form Data:", JSON.stringify(finalData, null, 2))
 
       createFood(finalData, {
         onSuccess: () => {
