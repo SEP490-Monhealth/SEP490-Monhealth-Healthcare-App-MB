@@ -80,7 +80,7 @@ function SetupPolicy() {
               <Text className="text-justify font-tregular text-base text-secondary">
                 Bạn sẽ nhận được phần trăm từ mỗi lần{" "}
                 <Text className="font-tbold">
-                  người dùng hoàn thành lịch hẹn (Hiện tại: 200.000đ/lịch hẹn).
+                  người dùng hoàn thành lịch hẹn (Hiện tại: 200.000₫/lịch hẹn).
                 </Text>{" "}
                 Tỷ lệ phần trăm này sẽ được tính toán dựa trên các điều khoản
                 của hệ thống và sẽ được thông báo cụ thể khi bạn tham gia hệ

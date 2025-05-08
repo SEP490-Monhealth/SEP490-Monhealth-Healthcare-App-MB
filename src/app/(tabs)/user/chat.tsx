@@ -18,7 +18,6 @@ import {
 import { Header, Section } from "@/components/global/organisms"
 
 import { COLORS } from "@/constants/color"
-import { sampleSubscriptionsData } from "@/constants/data/subscriptions"
 
 import { useAuth } from "@/contexts/AuthContext"
 
@@ -34,7 +33,7 @@ function ChatScreen() {
   const userId = user?.userId
   const userSubscription = user?.subscription
 
-  const checkSubscription = userSubscription !== sampleSubscriptionsData[0].name
+  const checkSubscription = userSubscription === "Gói Cao Cấp"
 
   const [chatsData, setChatsData] = useState<ChatType[]>([])
   const [page, setPage] = useState<number>(1)

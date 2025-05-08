@@ -110,9 +110,9 @@ function ChatDetailsScreen() {
         })
       })
 
-      connection.on("ErrorOccurred", (errorMessage: string) => {
-        console.error("🚨 Error from server:", errorMessage)
-      })
+      // connection.on("ErrorOccurred", (errorMessage: string) => {
+      //   console.error("🚨 Error from server:", errorMessage)
+      // })
 
       try {
         await connection.start()
@@ -121,7 +121,7 @@ function ChatDetailsScreen() {
         await connection.invoke("JoinChat", chatId)
         setChatHubConnection(connection)
       } catch (error) {
-        console.error("❌ Error starting connection:", error)
+        // console.error("❌ Error starting connection:", error)
         setConnectionStatus(false)
         setIsLoadingMessages(false)
       }
@@ -170,7 +170,7 @@ function ChatDetailsScreen() {
 
         setNewMessage("")
       } catch (error) {
-        console.error("Error sending message:", error)
+        // console.error("Error sending message:", error)
       }
     }
   }
@@ -210,6 +210,9 @@ function ChatDetailsScreen() {
         key={item.messageId}
         messageId={item.messageId}
         sender={isSender}
+        name={
+          isSender ? chatData?.consultant.fullName : chatData?.member.fullName
+        }
         avatarUrl={!isSender && showAvatar ? messageAvatarUrl : undefined}
         message={item.content}
         timestamp={item.createdAt}
