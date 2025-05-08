@@ -92,7 +92,8 @@ export const portionFoodSchema = foodSchema.pick({
 })
 
 export const nutritionFoodSchema = foodSchema.pick({
-  nutrition: true
+  nutrition: true,
+  referenceUrl: true
 })
 
 export const updateFoodSchema = foodSchema.pick({
