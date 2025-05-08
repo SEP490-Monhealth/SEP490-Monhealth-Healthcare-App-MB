@@ -239,7 +239,11 @@ function FoodsScreen() {
     if (userId) clearSearchFoodHistory(userId)
   }
 
-  const handleViewUserFoods = () => router.push("/foods/user")
+  const handleViewUserFoods = () =>
+    router.push({
+      pathname: "/foods/user",
+      params: { mealType: mealTypeParsed.toString() || "", date: selectedDate }
+    })
 
   const handleViewFood = (foodId: string, foodName: string) => {
     if (userId) addSearchFoodHistory({ userId, foodId, name: foodName })

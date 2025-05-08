@@ -9,6 +9,7 @@ import { CreateFoodType, FoodType } from "@/schemas/foodSchema"
 
 import {
   createFood,
+  deleteFood,
   getAllFoods,
   getFoodById,
   getFoodSuggestions,
@@ -150,6 +151,28 @@ export const useCreateFood = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [MonQueryKey.Food.Foods] })
       queryClient.invalidateQueries({ queryKey: [MonQueryKey.Food.UserFoods] })
+    }
+  })
+}
+
+export const useDeleteFood = () => {
+  const queryClient = useQueryClient()
+  const handleError = useError()
+  const { showModal } = useModal()
+
+  return useMutation<string, Error, string>({
+    mutationFn: async (foodId) => {
+      try {
+        return await deleteFood(foodId, showModal)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Food.UserFoods]
+      })
     }
   })
 }
