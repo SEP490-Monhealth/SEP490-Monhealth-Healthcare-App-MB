@@ -5,7 +5,11 @@ import { MonQueryKey } from "@/constants/query"
 import { useError } from "@/contexts/ErrorContext"
 import { useModal } from "@/contexts/ModalContext"
 
-import { BookingType, CreateBookingType } from "@/schemas/bookingSchema"
+import {
+  BookingType,
+  CreateBookingType,
+  UpdateBookingType
+} from "@/schemas/bookingSchema"
 
 import {
   cancelBooking,
@@ -14,7 +18,8 @@ import {
   getBookingById,
   getBookingsByConsultantId,
   getBookingsByUserId,
-  getBookingsByUserIdAndConsultantId
+  getBookingsByUserIdAndConsultantId,
+  updateBooking
 } from "@/services/bookingService"
 
 interface BookingResponse {
@@ -149,6 +154,41 @@ export const useCreateBooking = () => {
       })
       queryClient.invalidateQueries({
         queryKey: [MonQueryKey.Schedule.Schedules]
+      })
+    }
+  })
+}
+
+export const useUpdateBooking = () => {
+  const queryClient = useQueryClient()
+  const handleError = useError()
+  const { showModal } = useModal()
+
+  return useMutation<
+    string,
+    Error,
+    { bookingId: string | undefined; updatedData: UpdateBookingType }
+  >({
+    mutationFn: async ({ bookingId, updatedData }) => {
+      try {
+        return await updateBooking(bookingId, updatedData, showModal)
+      } catch (error) {
+        handleError(error)
+        throw error
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Booking.UserBookings]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Booking.ConsultantBookings]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Booking.UserConsultantBookings]
+      })
+      queryClient.invalidateQueries({
+        queryKey: [MonQueryKey.Booking.Booking]
       })
     }
   })

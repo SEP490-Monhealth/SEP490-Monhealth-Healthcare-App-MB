@@ -61,7 +61,6 @@ const bookingSchema = z.object({
   cancellationReason: z.string().optional(),
 
   isReviewed: z.boolean(),
-
   reviews: reviewDetailSchema.optional(),
 
   status: BookingStatusSchemaEnum,
@@ -87,6 +86,10 @@ export const createBookingSchema = bookingSchema.pick({
   notes: true
 })
 
+export const updateBookingSchema = bookingSchema.pick({
+  notes: true
+})
+
 export const cancelBookingSchema = z.object({
   cancellationReason: z
     .string()
@@ -102,4 +105,5 @@ export const cancelBookingSchema = z.object({
 
 export type BookingType = z.infer<typeof bookingSchema>
 export type CreateBookingType = z.infer<typeof createBookingSchema>
+export type UpdateBookingType = z.infer<typeof updateBookingSchema>
 export type CancelBookingType = z.infer<typeof cancelBookingSchema>

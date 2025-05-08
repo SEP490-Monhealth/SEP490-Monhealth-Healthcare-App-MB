@@ -61,7 +61,7 @@ const BookingDetailsScreen = () => {
 
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
   const [modalType, setModalType] = useState<
-    "cancel" | "complete" | "review" | "report" | null
+    "update" | "cancel" | "complete" | "review" | "report" | null
   >(null)
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
 
@@ -143,6 +143,11 @@ const BookingDetailsScreen = () => {
 
   const getModalConfig = () => {
     switch (modalType) {
+      case "update":
+        return {
+          title: "Cập nhật lịch hẹn",
+          description: "Bạn có chắc chắn muốn cập nhật lịch hẹn này không?"
+        }
       case "cancel":
         return {
           title: "Hủy lịch hẹn",
@@ -217,7 +222,9 @@ const BookingDetailsScreen = () => {
   }
 
   const handleConfirmAction = () => {
-    if (modalType === "cancel") {
+    if (modalType === "update") {
+      router.push(`/bookings/${bookingId}/update`)
+    } else if (modalType === "cancel") {
       router.push(`/bookings/${bookingId}/cancel`)
     } else if (modalType === "complete") {
       router.push(`/bookings/${bookingId}/complete`)
@@ -235,6 +242,11 @@ const BookingDetailsScreen = () => {
     setIsRefreshing(true)
     await refetch()
     setIsRefreshing(false)
+  }
+
+  const handleUpdate = () => {
+    setModalType("update")
+    setIsModalVisible(true)
   }
 
   const canCancelBooking = () => {
@@ -394,7 +406,11 @@ const BookingDetailsScreen = () => {
             </View>
 
             <View>
-              <Section label="Ghi chú" />
+              <Section
+                label="Ghi chú"
+                actionText="Cập nhật"
+                onPress={handleUpdate}
+              />
 
               <Input
                 disabled

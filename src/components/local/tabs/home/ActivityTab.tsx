@@ -101,7 +101,7 @@ export const ActivityTab = ({ userId, onOverlayLoading }: ActivityTabProps) => {
   const workoutsData = [
     {
       label: "Đã nạp",
-      value: toFixed(dailyMealData?.nutrition.calories ?? 0, 0) || 0,
+      value: toFixed(dailyMealData?.nutrition?.calories ?? 0, 0) || 0,
       targetValue: toFixed(currentGoalData?.caloriesGoal ?? 0, 0)
     },
     {

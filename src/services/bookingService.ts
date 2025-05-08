@@ -1,6 +1,10 @@
 import monAPI from "@/lib/monAPI"
 
-import { BookingType, CreateBookingType } from "@/schemas/bookingSchema"
+import {
+  BookingType,
+  CreateBookingType,
+  UpdateBookingType
+} from "@/schemas/bookingSchema"
 
 interface BookingResponse {
   bookings: BookingType[]
@@ -104,6 +108,30 @@ export const createBooking = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.post(`/bookings`, newData)
+    const { success, message } = response.data
+
+    if (!success) {
+      showModal(message)
+      throw { isCustomError: true, message: message }
+    }
+
+    showModal(message)
+    console.log(message)
+    return message
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.message
+    showModal(errorMessage)
+    throw { isCustomError: true, message: errorMessage }
+  }
+}
+
+export const updateBooking = async (
+  bookingId: string | undefined,
+  updatedData: UpdateBookingType,
+  showModal: (message: string) => void
+): Promise<string> => {
+  try {
+    const response = await monAPI.put(`/bookings/${bookingId}`, updatedData)
     const { success, message } = response.data
 
     if (!success) {
