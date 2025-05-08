@@ -67,10 +67,7 @@ export const handleConsultantRouting = async (
     if (consultantData) {
       router.replace("/(tabs)/consultant/dashboard")
     } else {
-      router.replace({
-        pathname: "/onboarding",
-        params: { role: "Consultant" }
-      })
+      router.replace("/(setup)/consultant/policy")
     }
     return
   }
@@ -80,10 +77,7 @@ export const handleConsultantRouting = async (
   if (consultantData) {
     router.replace("/(tabs)/consultant/dashboard")
   } else {
-    router.replace({
-      pathname: "/onboarding",
-      params: { role: "Consultant" }
-    })
+    router.replace("/(setup)/consultant/policy")
   }
 }
 

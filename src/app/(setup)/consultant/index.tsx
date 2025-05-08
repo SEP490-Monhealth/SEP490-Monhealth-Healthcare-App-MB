@@ -87,7 +87,8 @@ function SetupConsultantScreen() {
     expiryDate,
     issuedBy,
     imageUrls,
-    updateField
+    updateField,
+    reset
   } = useConsultantStore()
 
   const formData: Record<string, any> = {
@@ -323,6 +324,7 @@ function SetupConsultantScreen() {
             pathname: "/(setup)/completed",
             params: { type: "consultant" }
           })
+          reset()
         }
       })
     } catch (error) {
@@ -420,7 +422,7 @@ function SetupConsultantScreen() {
 
         <Modal
           isVisible={isModalVisible}
-          title="Hoàn tất"
+          title="Hoàn thành"
           description="Thông tin của bạn đang được xác nhận. Vui lòng chờ thông báo từ hệ thống"
           cancelText="Hủy"
           confirmText="Đồng ý"

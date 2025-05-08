@@ -76,7 +76,8 @@ function SetupUserScreen() {
     caloriesRatio,
     // categories,
     allergies,
-    updateField
+    updateField,
+    reset
   } = useSetupStore()
 
   const [currentStep, setCurrentStep] = useState<number>(1)
@@ -400,6 +401,7 @@ function SetupUserScreen() {
         ])
 
         router.replace("/(setup)/user/summary")
+        reset()
       } catch (error) {
         console.error("Error during setup submission:", error)
       } finally {
