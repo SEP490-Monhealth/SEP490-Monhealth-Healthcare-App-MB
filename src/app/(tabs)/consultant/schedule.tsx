@@ -15,9 +15,12 @@ import {
 import { ErrorDisplay, ScheduleCard } from "@/components/global/molecules"
 import { Header, Section } from "@/components/global/organisms"
 
+import { VerificationStatus } from "@/constants/enum/Consultant"
+
 import { useAuth } from "@/contexts/AuthContext"
 
 import { useGetBookingsByConsultantId } from "@/hooks/useBooking"
+import { useGetConsultantById } from "@/hooks/useConsultant"
 import { useGetSchedulesByConsultantId } from "@/hooks/useSchedule"
 
 function SchedulesScreen() {
@@ -25,25 +28,17 @@ function SchedulesScreen() {
   const { selectedDate: routeSelectedDate } = useLocalSearchParams<{
     selectedDate?: string
   }>()
-
   const { user } = useAuth()
   const consultantId = user?.consultantId
 
   const now = new Date()
-
-  const { data: schedulesData, isLoading: isSchedulesLoading } =
-    useGetSchedulesByConsultantId(consultantId)
-
   const [selectedDate, setSelectedDate] = useState<string | null>(
     routeSelectedDate || now.toISOString()
   )
 
-  useEffect(() => {
-    if (routeSelectedDate) {
-      setSelectedDate(routeSelectedDate)
-    }
-  }, [routeSelectedDate])
-
+  const { data: consultantData } = useGetConsultantById(consultantId)
+  const { data: schedulesData, isLoading: isSchedulesLoading } =
+    useGetSchedulesByConsultantId(consultantId)
   const { data: bookingsData, isLoading: isBookingsLoading } =
     useGetBookingsByConsultantId(
       consultantId,
@@ -52,9 +47,13 @@ function SchedulesScreen() {
       selectedDate || now.toISOString()
     )
 
-  const handleDateSelect = (date: string) => {
-    setSelectedDate(date)
-  }
+  useEffect(() => {
+    if (routeSelectedDate) {
+      setSelectedDate(routeSelectedDate)
+    }
+  }, [routeSelectedDate])
+
+  const handleDateSelect = (date: string) => setSelectedDate(date)
 
   const handleViewCalendar = () => {
     router.push({
@@ -77,11 +76,26 @@ function SchedulesScreen() {
 
   const hasSetupSchedule = schedulesData && schedulesData.length > 0
 
+  if (consultantData?.verificationStatus === VerificationStatus.Pending) {
+    return (
+      <Container>
+        <Header label="Lịch trình" />
+        <Content className="mt-2">
+          <ErrorDisplay
+            imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
+            title="Chưa xác thực tài khoản"
+            description="Tài khoản của bạn đang trong quá trình xác thực. Vui lòng quay lại sau."
+            marginTop={24}
+          />
+        </Content>
+      </Container>
+    )
+  }
+
   if (!hasSetupSchedule) {
     return (
       <Container>
         <Header label="Lịch trình" />
-
         <Content className="mt-2">
           <ErrorDisplay
             imageSource={require("../../../../public/images/monhealth-no-data-image.png")}
@@ -89,7 +103,6 @@ function SchedulesScreen() {
             description="Bạn cần thiết lập lịch trình để nhận đặt lịch hẹn từ khách hàng."
             marginTop={24}
           />
-
           <Button onPress={handleCreateSchedule} className="mt-12">
             Thiết lập lịch
           </Button>
@@ -98,7 +111,7 @@ function SchedulesScreen() {
     )
   }
 
-  if (!bookingsData || isBookingsLoading) {
+  if (!consultantData || !bookingsData || isBookingsLoading) {
     return <LoadingScreen />
   }
 

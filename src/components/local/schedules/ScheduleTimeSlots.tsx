@@ -7,7 +7,7 @@ import { Feather } from "@expo/vector-icons"
 import { HStack, VStack } from "@/components/global/atoms"
 
 import { COLORS } from "@/constants/color"
-import { RecurringDayEnum, ScheduleTypeEnum } from "@/constants/enum/Schedule"
+import { ScheduleTypeEnum } from "@/constants/enum/Schedule"
 
 import { useDeleteScheduleTimeSlot } from "@/hooks/useSchedule"
 
@@ -78,7 +78,7 @@ const DayTimeSlots = ({
   const { mutate: deleteScheduleTimeSlot } = useDeleteScheduleTimeSlot()
 
   const scheduleForDay = scheduleData.find(
-    (schedule) => schedule.recurringDay === (day as RecurringDayEnum)
+    (schedule) => schedule.recurringDay === day
   )
 
   const timeSlotsForDay = scheduleForDay?.timeSlots || []
@@ -92,7 +92,7 @@ const DayTimeSlots = ({
     >
       <View className="items-center" style={{ width: 64 }}>
         <Text className="font-tmedium text-base text-primary">
-          {day === 0 ? "Hôm nay" : getDayLabel(day)}
+          {getDayLabel(day)}
         </Text>
         <Text className="text-tregular text-center text-sm text-secondary">
           {timeSlotsCount} khung giờ
@@ -144,17 +144,10 @@ export const ScheduleTimeSlots = ({
 
   if (scheduleType === ScheduleTypeEnum.Recurring) {
     const daysWithData = data.map((schedule) => schedule.recurringDay as number)
-    const allDays = [0, 1, 2, 3, 4, 5, 6].filter(
-      (day) => day === 0 || daysWithData.includes(day)
-    )
-
-    if (allDays.length === 0) {
-      return <View className="h-8" />
-    }
 
     return (
       <VStack gap={8}>
-        {allDays.map((day) => (
+        {daysWithData.map((day) => (
           <MemoizedDayTimeSlots
             key={`recurring-${day}`}
             scheduleData={data}
