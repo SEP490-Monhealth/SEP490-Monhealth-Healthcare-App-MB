@@ -102,12 +102,8 @@ function ActivityDetailsScreen() {
                   {workoutData?.description}
                 </Text>
 
-                <Button
-                  disabled={activityData.isCompleted}
-                  onPress={handleCompleteActivity}
-                  className="mt-6"
-                >
-                  Hoàn thành
+                <Button onPress={handleCompleteActivity} className="mt-6">
+                  {activityData.isCompleted ? "Đã hoàn thành" : "Hoàn thành"}
                 </Button>
 
                 {workoutData.type === WorkoutTypeEnum.Workout && (

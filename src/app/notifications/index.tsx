@@ -83,13 +83,13 @@ function NotificationsScreen() {
     setIsRefreshing(false)
   }
 
-  const handleMarkAsRead = (
-    notificationId: string,
-    actionUrl: string | undefined
-  ) => {
+  const handleMarkAsRead = (notificationId: string, actionUrl?: string) => {
     // console.log(notificationId)
     markAsRead({ notificationId })
-    // router.push(actionUrl)
+
+    if (actionUrl) {
+      router.push(actionUrl)
+    }
   }
 
   const FlatListHeader = useMemo(() => {
