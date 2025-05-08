@@ -127,3 +127,27 @@ export const createFood = async (
     throw { isCustomError: true, message: errorMessage }
   }
 }
+
+export const deleteFood = async (
+  foodId: string,
+  showModal: (message: string) => void
+): Promise<string> => {
+  try {
+    const response = await monAPI.delete(`/foods/${foodId}`)
+
+    const { success, message } = response.data
+
+    if (!success) {
+      showModal(message)
+      throw { isCustomError: true, message: message }
+    }
+
+    showModal(message)
+    console.log(message)
+    return message
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.message
+    showModal(errorMessage)
+    throw { isCustomError: true, message: errorMessage }
+  }
+}
