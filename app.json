@@ -1,49 +1,52 @@
 {
   "expo": {
-    "owner": "vanhuutoan27",
     "name": "monhealth",
     "slug": "monhealth",
-    "scheme": "monhealth",
     "version": "1.0.0",
+    "scheme": "monhealth",
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./public/assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-dev-launcher",
+        {
+          "launchMode": "most-recent"
+        }
+      ],
+      "expo-web-browser"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "tsconfigPaths": true
+    },
     "orientation": "portrait",
-    "icon": "./public/assets/monhealth-splash.png",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "icon": "./public/assets/icon.png",
+    "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./public/assets/monhealth-splash.png",
+      "image": "./public/assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.vanhuutoan27.monhealth"
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./public/assets/monhealth-splash.png",
+        "foregroundImage": "./public/assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.vanhuutoan27.monhealth"
     },
-    "web": {
-      "bundler": "metro",
-      "favicon": "./public/assets/monhealth-splash.png"
-    },
-    "plugins": ["expo-router"],
-    "updates": {
-      "fallbackToCacheTimeout": 0,
-      "url": "https://u.expo.dev/d10a089c-848d-4b64-98ac-1097860ed7ce"
-    },
     "extra": {
-      "router": {
-        "origin": false
-      },
+      "router": {},
       "eas": {
-        "projectId": "d10a089c-848d-4b64-98ac-1097860ed7ce"
+        "projectId": "69c859ab-3e54-4e1f-a3eb-d2545f9abce2"
       }
-    },
-    "runtimeVersion": {
-      "policy": "appVersion"
     }
   }
 }

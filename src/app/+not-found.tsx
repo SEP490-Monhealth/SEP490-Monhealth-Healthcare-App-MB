@@ -1,46 +1,19 @@
-import React from "react"
-
+import { Link, Stack } from "expo-router"
 import { View } from "react-native"
 
-import { useRouter } from "expo-router"
+import { Text } from "@/components/nativewindui/Text"
 
-import { Button, Container } from "@/components/global/atoms"
-import { ErrorDisplay } from "@/components/global/molecules"
-
-import { useAuth } from "@/contexts/AuthContext"
-
-function NotFoundScreen() {
-  const router = useRouter()
-
-  const { user } = useAuth()
-
-  const handleBack = () => {
-    if (router.canGoBack()) {
-      router.back()
-    } else {
-      if (user) {
-        router.push("/")
-      } else {
-        router.push("/auth/sign-in")
-      }
-    }
-  }
-
+export default function NotFoundScreen() {
   return (
-    <Container>
-      <View className="flex-1 justify-center">
-        <ErrorDisplay
-          imageSource={require("../../public/images/monhealth-not-found-image.png")}
-          title="Không tìm thấy trang"
-          description="Trang bạn đang tìm không tồn tại. Hãy kiểm tra lại đường dẫn!"
-        />
-      </View>
+    <>
+      <Stack.Screen options={{ title: "Oops!" }} />
+      <View className="flex-1 items-center justify-center bg-background p-5">
+        <Text variant="largeTitle">{"This screen doesn't exist."}</Text>
 
-      <Button size="lg" onPress={handleBack} className="mb-4">
-        Quay lại
-      </Button>
-    </Container>
+        <Link href="/" className="m-4 py-4">
+          <Text>Go to home screen!</Text>
+        </Link>
+      </View>
+    </>
   )
 }
-
-export default NotFoundScreen

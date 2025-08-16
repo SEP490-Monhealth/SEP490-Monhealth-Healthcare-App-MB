@@ -1,63 +1,67 @@
+const { hairlineWidth, platformSelect } = require("nativewind/theme")
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/**/*.{js,jsx,ts,tsx}"],
+  // NOTE: Update this to include the paths to all of your component files.
+  darkMode: "class", // Enable manual toggling of dark mode
+  content: ["./app/**/*.{js,jsx,ts,tsx}", "./components/**/*.{js,jsx,ts,tsx}"],
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
       colors: {
-        background: "#F8FAFC", // Slate 50
-        foreground: "#0F172A", // Slate 900
-        card: {
-          DEFAULT: "#FFF" // White
-        },
+        border: withOpacity("border"),
+        input: withOpacity("input"),
+        ring: withOpacity("ring"),
+        background: withOpacity("background"),
+        foreground: withOpacity("foreground"),
         primary: {
-          DEFAULT: "#334155", // Slate 700
-          foreground: "#F8FAFC" // Slate 50
+          DEFAULT: withOpacity("primary"),
+          foreground: withOpacity("primary-foreground")
         },
         secondary: {
-          DEFAULT: "#64748B" // Slate 500
-        },
-        muted: {
-          DEFAULT: "#F1F5F9", // Slate 100
-          foreground: "#475569" // Slate 600
-        },
-        accent: {
-          DEFAULT: "#94A3B8", // Slate 400
-          foreground: "#334155" // Slate 700
-        },
-        border: {
-          DEFAULT: "#E2E8F0" // Slate 200
+          DEFAULT: withOpacity("secondary"),
+          foreground: withOpacity("secondary-foreground")
         },
         destructive: {
-          DEFAULT: "#EF4444", // Red 500
-          foreground: "#FEE2E2" // Red 100
+          DEFAULT: withOpacity("destructive"),
+          foreground: withOpacity("destructive-foreground")
         },
-        bmi: {
-          underweight: "#3B82F6", // Blue 500
-          normal: "#22C55E", // Green 500
-          overweight: "#EAB308", // Yellow 500
-          obese: "#EF4444" // Red 500
+        muted: {
+          DEFAULT: withOpacity("muted"),
+          foreground: withOpacity("muted-foreground")
         },
-        nutrition: {
-          protein: "#EAB308", // Yellow 500
-          carbs: "#A855F7", // Purple 500
-          fat: "#EF4444", // Red 500
-          fiber: "#F97316", // Orange 500
-          sugar: "#60A5FA" // Blue 400
+        accent: {
+          DEFAULT: withOpacity("accent"),
+          foreground: withOpacity("accent-foreground")
+        },
+        popover: {
+          DEFAULT: withOpacity("popover"),
+          foreground: withOpacity("popover-foreground")
+        },
+        card: {
+          DEFAULT: withOpacity("card"),
+          foreground: withOpacity("card-foreground")
         }
       },
-      fontFamily: {
-        tregular: ["TikTokText-Regular", "sans-serif"],
-        tmedium: ["TikTokText-Medium", "sans-serif"],
-        tbold: ["TikTokText-Bold", "sans-serif"],
-
-        dregular: ["TikTokDisplay-Regular", "sans-serif"],
-        dmedium: ["TikTokDisplay-Medium", "sans-serif"],
-        dbold: ["TikTokDisplay-Bold", "sans-serif"],
-
-        pregular: ["Pacifico-Regular", "sans-serif"]
+      borderWidth: {
+        hairline: hairlineWidth()
       }
     }
   },
   plugins: []
+}
+
+function withOpacity(variableName) {
+  return ({ opacityValue }) => {
+    if (opacityValue !== undefined) {
+      return platformSelect({
+        ios: `rgb(var(--${variableName}) / ${opacityValue})`,
+        android: `rgb(var(--android-${variableName}) / ${opacityValue})`
+      })
+    }
+    return platformSelect({
+      ios: `rgb(var(--${variableName}))`,
+      android: `rgb(var(--android-${variableName}))`
+    })
+  }
 }

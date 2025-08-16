@@ -1,103 +1,85 @@
-import React, { useEffect, useState } from "react"
-
-import { GestureHandlerRootView } from "react-native-gesture-handler"
-import {
-  ReanimatedLogLevel,
-  configureReanimatedLogger
-} from "react-native-reanimated"
-import { SafeAreaProvider } from "react-native-safe-area-context"
-
-import { useFonts } from "expo-font"
-import * as Notifications from "expo-notifications"
-import { SplashScreen, Stack } from "expo-router"
+import { ActionSheetProvider } from "@expo/react-native-action-sheet"
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
+import { ThemeProvider as NavThemeProvider } from "@react-navigation/native"
+import { Icon } from "@roninoss/icons"
+import "expo-dev-client"
+import { Link, Stack } from "expo-router"
 import { StatusBar } from "expo-status-bar"
+import { Pressable, View } from "react-native"
+import { GestureHandlerRootView } from "react-native-gesture-handler"
 
-import { setupNotifications } from "@/configs/notification"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { ThemeToggle } from "@/components/ui/ThemeToggle"
 
-import { AuthProvider } from "@/providers/AuthProvider"
-import { ErrorProvider } from "@/providers/ErrorProvider"
-import { ModalProvider } from "@/providers/ModalProvider"
-import { SearchProvider } from "@/providers/SearchProvider"
-import { StorageProvider } from "@/providers/StorageProvider"
+import { cn } from "@/lib/cn"
+import { useColorScheme, useInitialAndroidBarSync } from "@/lib/useColorScheme"
+import { NAV_THEME } from "@/theme"
 
-import { MonFonts } from "@/styles/typography"
+import "../styles/global.css"
 
-import "../styles/globals.css"
+export {
+  // Catch any errors thrown by the Layout component.
+  ErrorBoundary
+} from "expo-router"
 
-SplashScreen.preventAutoHideAsync()
-
-configureReanimatedLogger({
-  strict: false,
-  level: ReanimatedLogLevel.warn
-})
-
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowBanner: true,
-    shouldShowList: true,
-    shouldPlaySound: true,
-    shouldSetBadge: true
-  })
-})
-
-function AppLayout() {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: 1,
-        refetchOnWindowFocus: false
-      }
-    }
-  })
-
-  const [expoPushToken, setExpoPushToken] = useState<string>("")
-  const [fontsLoaded, fontError] = useFonts(MonFonts)
-
-  // console.log(expoPushToken)
-
-  useEffect(() => {
-    if (fontError) {
-      console.error("Lỗi khi tải font:", fontError)
-    } else if (fontsLoaded) {
-      SplashScreen.hideAsync()
-    }
-  }, [fontsLoaded, fontError])
-
-  useEffect(() => {
-    const unsubscribeNotifications = setupNotifications(setExpoPushToken)
-
-    return () => {
-      if (unsubscribeNotifications) {
-        unsubscribeNotifications()
-      }
-    }
-  }, [])
-
-  if (!fontsLoaded) {
-    return null
-  }
+export default function RootLayout() {
+  useInitialAndroidBarSync()
+  const { colorScheme, isDarkColorScheme } = useColorScheme()
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ModalProvider>
-        <ErrorProvider>
-          <AuthProvider>
-            <StorageProvider>
-              <SearchProvider>
-                <GestureHandlerRootView style={{ flex: 1 }}>
-                  <SafeAreaProvider>
-                    <Stack screenOptions={{ headerShown: false }} />
-                    <StatusBar style="auto" backgroundColor="#fff" />
-                  </SafeAreaProvider>
-                </GestureHandlerRootView>
-              </SearchProvider>
-            </StorageProvider>
-          </AuthProvider>
-        </ErrorProvider>
-      </ModalProvider>
-    </QueryClientProvider>
+    <>
+      <StatusBar
+        key={`root-status-bar-${isDarkColorScheme ? "light" : "dark"}`}
+        style={isDarkColorScheme ? "light" : "dark"}
+      />
+      {/* WRAP YOUR APP WITH ANY ADDITIONAL PROVIDERS HERE */}
+      {/* <ExampleProvider> */}
+
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <BottomSheetModalProvider>
+          <ActionSheetProvider>
+            <NavThemeProvider value={NAV_THEME[colorScheme]}>
+              <Stack screenOptions={SCREEN_OPTIONS}>
+                <Stack.Screen name="index" options={INDEX_OPTIONS} />
+                <Stack.Screen name="modal" options={MODAL_OPTIONS} />
+              </Stack>
+            </NavThemeProvider>
+          </ActionSheetProvider>
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
+
+      {/* </ExampleProvider> */}
+    </>
   )
 }
 
-export default AppLayout
+const SCREEN_OPTIONS = {
+  animation: "ios_from_right" // for android
+} as const
+
+const INDEX_OPTIONS = {
+  headerLargeTitle: true,
+  title: "NativeWindUI",
+  headerRight: () => <SettingsIcon />
+} as const
+
+function SettingsIcon() {
+  const { colors } = useColorScheme()
+  return (
+    <Link href="/modal" asChild>
+      <Pressable className="opacity-80">
+        {({ pressed }) => (
+          <View className={cn(pressed ? "opacity-50" : "opacity-90")}>
+            <Icon name="cog-outline" color={colors.foreground} />
+          </View>
+        )}
+      </Pressable>
+    </Link>
+  )
+}
+
+const MODAL_OPTIONS = {
+  presentation: "modal",
+  animation: "fade_from_bottom", // for android
+  title: "Settings",
+  headerRight: () => <ThemeToggle />
+} as const
