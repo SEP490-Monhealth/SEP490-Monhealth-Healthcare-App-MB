@@ -9,11 +9,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        background: withOpacity("background"),
+        foreground: withOpacity("foreground"),
         border: withOpacity("border"),
         input: withOpacity("input"),
         ring: withOpacity("ring"),
-        background: withOpacity("background"),
-        foreground: withOpacity("foreground"),
         primary: {
           DEFAULT: withOpacity("primary"),
           foreground: withOpacity("primary-foreground")

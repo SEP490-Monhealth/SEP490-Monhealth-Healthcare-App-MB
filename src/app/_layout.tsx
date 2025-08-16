@@ -1,3 +1,5 @@
+import { Pressable, View } from "react-native"
+
 import { ActionSheetProvider } from "@expo/react-native-action-sheet"
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 import { ThemeProvider as NavThemeProvider } from "@react-navigation/native"
@@ -5,16 +7,16 @@ import { Icon } from "@roninoss/icons"
 import "expo-dev-client"
 import { Link, Stack } from "expo-router"
 import { StatusBar } from "expo-status-bar"
-import { Pressable, View } from "react-native"
 import { GestureHandlerRootView } from "react-native-gesture-handler"
 
 import { ThemeToggle } from "@/components/ui/ThemeToggle"
 
 import { cn } from "@/lib/cn"
 import { useColorScheme, useInitialAndroidBarSync } from "@/lib/useColorScheme"
+
 import { NAV_THEME } from "@/theme"
 
-import "../styles/global.css"
+import "../styles/globals.css"
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -23,6 +25,7 @@ export {
 
 export default function RootLayout() {
   useInitialAndroidBarSync()
+
   const { colorScheme, isDarkColorScheme } = useColorScheme()
 
   return (
