@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-import { uuidSchema } from "./commonValidation"
+import { auditSchema, uuidSchema } from "./commonValidation"
 
 const nutritionSchema = z
   .object({
@@ -9,44 +9,41 @@ const nutritionSchema = z
 
     calories: z
       .number()
-      .min(0, "Lượng calo không được âm")
-      .max(900, "Lượng calo trên 100g không được vượt quá 900 kcal")
+      .nonnegative({ error: "Lượng calo không được âm" })
+      .max(900, { error: "Lượng calo trên 100g không được vượt quá 900 kcal" })
       .default(0),
     protein: z
       .number()
-      .min(0, "Lượng protein không được âm")
-      .max(100, "Lượng protein trên 100g không được vượt quá 100g")
+      .nonnegative({ error: "Lượng protein không được âm" })
+      .max(100, { error: "Lượng protein trên 100g không được vượt quá 100g" })
       .default(0),
     carbs: z
       .number()
-      .min(0, "Lượng carbs không được âm")
-      .max(100, "Lượng carbs trên 100g không được vượt quá 100g")
+      .nonnegative({ error: "Lượng carbs không được âm" })
+      .max(100, { error: "Lượng carbs trên 100g không được vượt quá 100g" })
       .default(0),
     fat: z
       .number()
-      .min(0, "Lượng chất béo không được âm")
-      .max(100, "Lượng chất béo trên 100g không được vượt quá 100g")
+      .nonnegative({ error: "Lượng chất béo không được âm" })
+      .max(100, { error: "Lượng chất béo trên 100g không được vượt quá 100g" })
       .default(0),
     fiber: z
       .number()
-      .min(0, "Lượng chất xơ không được âm")
-      .max(50, "Lượng chất xơ trên 100g không được vượt quá 50g")
+      .nonnegative({ error: "Lượng chất xơ không được âm" })
+      .max(50, { error: "Lượng chất xơ trên 100g không được vượt quá 50g" })
       .default(0),
     sugar: z
       .number()
-      .min(0, "Lượng đường không được âm")
-      .max(100, "Lượng đường trên 100g không được vượt quá 100g")
+      .nonnegative({ error: "Lượng đường không được âm" })
+      .max(100, { error: "Lượng đường trên 100g không được vượt quá 100g" })
       .default(0),
     sodium: z
       .number()
-      .min(0, "Lượng natri không được âm")
-      .max(10000, "Lượng natri trên 100g không được vượt quá 10000mg")
+      .nonnegative({ error: "Lượng natri không được âm" })
+      .max(10000, { error: "Lượng natri trên 100g không được vượt quá 10000mg" })
       .default(0),
 
-    createdAt: z.date(),
-    createdBy: z.string(),
-    updatedAt: z.date(),
-    updatedBy: z.string()
+    ...auditSchema.shape
   })
   .refine(
     (data) => {
@@ -54,7 +51,7 @@ const nutritionSchema = z
       return total <= 100
     },
     {
-      message: "Tổng protein, carbs và chất béo không được vượt quá 100g",
+      error: "Tổng protein, carbs và chất béo không được vượt quá 100g",
       path: ["fat"]
     }
   )
