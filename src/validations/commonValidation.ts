@@ -8,6 +8,6 @@ export const timestampSchema = z.object({
 })
 
 export const auditSchema = timestampSchema.extend({
-  createdBy: z.string().uuid({ error: "Người tạo không hợp lệ" }),
-  updatedBy: z.string().uuid({ error: "Người cập nhật không hợp lệ" })
+  createdBy: z.uuid({ error: "Người tạo không hợp lệ" }),
+  updatedBy: z.uuid({ error: "Người cập nhật không hợp lệ" })
 })

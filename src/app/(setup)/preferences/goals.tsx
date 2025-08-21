@@ -1,11 +1,11 @@
 import { Text, View } from "react-native"
 
-function LoginScreen() {
+function GoalsScreen() {
   return (
     <View>
-      <Text>LoginScreen</Text>
+      <Text>GoalsScreen</Text>
     </View>
   )
 }
 
-export default LoginScreen
+export default GoalsScreen
